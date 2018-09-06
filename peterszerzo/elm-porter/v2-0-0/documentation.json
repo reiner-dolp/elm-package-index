@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Porter",
+    "comment": " Port message manager to emulate a request-response style communication through ports, a'la `Http.send ResponseHandler request`.\n\n\n# Configuration\n\n@docs Config\n\n\n# The setup\n\n@docs Model, Msg, init, update, subscriptions\n\n\n# Send messages\n\n@docs Request\n@docs request, andThen, send\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Porter configuration, containing:\n\n  - ports\n  - message encoders/decoders.\n  - the message that porter will use for its internal communications\n\n",
+        "args": [
+          "req",
+          "res",
+          "msg"
+        ],
+        "type": "Porter.Internals.Config req res msg"
+      },
+      {
+        "name": "Msg",
+        "comment": " Module messages.\n",
+        "args": [
+          "req",
+          "res",
+          "msg"
+        ],
+        "type": "Porter.Internals.Msg req res msg"
+      },
+      {
+        "name": "Request",
+        "comment": " Opaque type of a 'request'. Use the `request` function to create one,\nchain them using `andThen` and finally send it using `send`.\n",
+        "args": [
+          "req",
+          "res"
+        ],
+        "type": "Porter.Internals.Request req res"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Porter model, used to keep track of response handlers.\n",
+        "args": [
+          "req",
+          "res",
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chains two Porter requests together:\nRun a second one right away when the first returns using its result in the request.\n",
+        "type": "(res -> Porter.Request req res) -> Porter.Request req res -> Porter.Request req res"
+      },
+      {
+        "name": "init",
+        "comment": " Initialize model.\n",
+        "type": "Porter.Model req res msg"
+      },
+      {
+        "name": "request",
+        "comment": " Starts a request that can be sent at a later time using `send`,\nand that can be combined using `andThen`.\n",
+        "type": "req -> Porter.Request req res"
+      },
+      {
+        "name": "send",
+        "comment": " Sends a request earlier started using `request`.\n",
+        "type": "Porter.Config req res msg -> (res -> msg) -> Porter.Request req res -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "subscriptions",
+        "comment": " Subscribe to messages from ports.\n",
+        "type": "Porter.Config req res msg -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "update",
+        "comment": " Update port model based on local messages. Returns a new port model and a local command that must be mapped to the parent message.\n",
+        "type": "Porter.Config req res msg -> Porter.Msg req res msg -> Porter.Model req res msg -> ( Porter.Model req res msg, Platform.Cmd.Cmd msg )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "name": "OpenIDConnect",
+    "comment": " An OpenID Connect implementation\n\n\n## Responses\n\n@docs Token, ParseErr, parse\n\n\n## Requests\n\n@docs authorize, newAuth, withScope, withState\n\n\n## Use\n\n@docs use\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "ParseErr",
+        "comment": " Error returned by parsing functions\n",
+        "args": [],
+        "cases": [
+          [
+            "NoToken",
+            []
+          ],
+          [
+            "Error",
+            [
+              "String"
+            ]
+          ],
+          [
+            "OAuthErr",
+            [
+              "OpenIDConnect.Err"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Token",
+        "comment": " Token holder\n",
+        "args": [
+          "data"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "authorize",
+        "comment": " Build a Cmd that will redirect to the identity provider\n",
+        "type": "OpenIDConnect.Authorization -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "newAuth",
+        "comment": " Creates a Authorization\n",
+        "type": "String -> String -> String -> OpenIDConnect.Authorization"
+      },
+      {
+        "name": "parse",
+        "comment": " Extracts a Token from a location\n",
+        "type": "Json.Decode.Decoder data -> Navigation.Location -> Result.Result OpenIDConnect.ParseErr (OpenIDConnect.Token data)"
+      },
+      {
+        "name": "use",
+        "comment": " Use a token to authenticate a request.\n",
+        "type": "OpenIDConnect.Token data -> List Http.Header -> List Http.Header"
+      },
+      {
+        "name": "withScope",
+        "comment": " Add a custom scope to a Authorization\n",
+        "type": "List String -> OpenIDConnect.Authorization -> OpenIDConnect.Authorization"
+      },
+      {
+        "name": "withState",
+        "comment": " Add a custom state to a Authorization\n",
+        "type": "String -> OpenIDConnect.Authorization -> OpenIDConnect.Authorization"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenIDConnect.Decode",
+    "comment": " Provide decoders for the most common JWT attributes\n\n@docs expDecoder, subDecoder\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "expDecoder",
+        "comment": " Decode the 'exp' attribute\n",
+        "type": "Json.Decode.Decoder Int"
+      },
+      {
+        "name": "subDecoder",
+        "comment": " Decode the 'sub' attribute\n",
+        "type": "Json.Decode.Decoder String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

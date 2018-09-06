@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Engage.Http",
+    "comment": " Helpers for working with DNN Web API\r\n\r\n\r\n# Types\r\n\r\n@docs Config\r\n\r\n\r\n# Http Verbs\r\n\r\n@docs get, post, patch, put, delete\r\n\r\n\r\n# Helper functions\r\n\r\n@docs getErrorMessage\r\n\r\n\r\n# Decode/Encoder\r\n\r\n@docs configDecoder, serverErrorDecoder, multipleServerErrorDecoder, nullDecoder\r\n\r\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Configuration type\r\n\r\n  - `baseUrl` the base URL for Http request\r\n  - `headers`: `list of the header for Http request\r\n\r\n",
+        "args": [],
+        "type": "{ baseUrl : String, headers : List Http.Header }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "configDecoder",
+        "comment": " Json decoder for `Config`\r\n",
+        "type": "Json.Decode.Decoder Engage.Http.Config"
+      },
+      {
+        "name": "delete",
+        "comment": " Http DELETE\r\n",
+        "type": "Engage.Http.Config -> { methodName : String, value : Json.Encode.Value } -> Task.Task Basics.Never (RemoteData.WebData String)"
+      },
+      {
+        "name": "get",
+        "comment": " Http GET\r\n",
+        "type": "Engage.Http.Config -> Json.Decode.Decoder success -> { methodName : String , queryStringParams : List ( String, String ) } -> Task.Task Basics.Never (RemoteData.WebData success)"
+      },
+      {
+        "name": "getErrorMessage",
+        "comment": " Get the localized error message from the `Http.Error`\r\n",
+        "type": "{ a | localization : Engage.Localization.Localization } -> Http.Error -> String"
+      },
+      {
+        "name": "multipleServerErrorDecoder",
+        "comment": " Json decoder for multiple server error messages, localized.\r\n",
+        "type": "{ a | localization : Engage.Localization.Localization } -> Json.Decode.Decoder String"
+      },
+      {
+        "name": "nullDecoder",
+        "comment": " Null decoder. Useful for when the server doesn't return any value.\r\n",
+        "type": "Json.Decode.Decoder ()"
+      },
+      {
+        "name": "patch",
+        "comment": " Http PATCH\r\n",
+        "type": "Engage.Http.Config -> Json.Decode.Decoder success -> { methodName : String, value : Json.Encode.Value } -> Task.Task Basics.Never (RemoteData.WebData success)"
+      },
+      {
+        "name": "post",
+        "comment": " Http POST\r\n",
+        "type": "Engage.Http.Config -> Json.Decode.Decoder success -> { methodName : String, value : Json.Encode.Value } -> Task.Task Basics.Never (RemoteData.WebData success)"
+      },
+      {
+        "name": "put",
+        "comment": " Http PUT\r\n",
+        "type": "Engage.Http.Config -> Json.Decode.Decoder success -> { methodName : String, value : Json.Encode.Value } -> Task.Task Basics.Never (RemoteData.WebData success)"
+      },
+      {
+        "name": "serverErrorDecoder",
+        "comment": " Json decoder for server error, localized.\r\n",
+        "type": "{ a | localization : Engage.Localization.Localization } -> Json.Decode.Decoder String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

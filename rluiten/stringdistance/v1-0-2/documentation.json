@@ -1,0 +1,26 @@
+[
+  {
+    "name": "StringDistance",
+    "comment": " A library to calculate a metric indicating the string distance between two strings.\r\n\r\nThis library was extracted from the Elm implementation of mailcheck http://package.elm-lang.org/packages/rluiten/mailcheck/latest.\r\n\r\nThe `lcs` and `lcsLimit` functions are more general and support more than just\r\nChar as list elements.\r\n\r\n\r\n## Functions\r\n\r\n@docs sift3Distance\r\n@docs lcs\r\n@docs lcsLimit\r\n\r\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lcs",
+        "comment": " Longest Common Subsequence\r\n\r\nThis is a simple implementation and would benefit from memoization if\r\nperformance is a problem. It does not limit look ahead\r\nwhich can be very costly see lcsLimit for a limited look ahead version.\r\n\r\nWarning this gets very slow very quickly with increases in list lengths even\r\n17 character lists can cause things to bog down.\r\n\r\nThis implementation is based on http://rosettacode.org/wiki/Longest_common_subsequence#Haskell\r\n\r\n```elm\r\n    lcs [\"a\", \"b\", \"c\"] [\"b\", \"c\", \"d\"] == [\"b\", \"c\"]\r\n```\r\n\r\n ",
+        "type": "List a -> List a -> List a"
+      },
+      {
+        "name": "lcsLimit",
+        "comment": " Return function which returns lcs with limited look ahead.\r\n\r\nWarning maxLookAhead quickly makes the returned function costly stay\r\nbelow 8 if you want responsiveness.\r\n\r\n```elm\r\n    lcsLimit 5 [\"a\", \"b\", \"c\"] [\"b\", \"c\", \"d\"] == [\"b\", \"c\"]\r\n```\r\n\r\n",
+        "type": "Int -> List a -> List a -> List a"
+      },
+      {
+        "name": "sift3Distance",
+        "comment": " Calculate sift3 string distance between candidate strings.\r\n\r\n```elm\r\n    sift3Distance \"\" \"abc\" == 3.0\r\n    sift3Distance \"ab\" \"\" == 2.0\r\n    sift3Distance \"abc\" \"abc\" == 0\r\n    sift3Distance \"abc\" \"ab\"  == 0.5\r\n```\r\n\r\n",
+        "type": "String -> String -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  }
+]

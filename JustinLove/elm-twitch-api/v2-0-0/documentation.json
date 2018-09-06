@@ -1,0 +1,310 @@
+[
+  {
+    "name": "Twitch.Kraken",
+    "comment": " Helpers for sending Http requests to the Twitch Kraken (\"V5\") endpoints.\n\n# Send a Request\n@docs send\n\n# Header Helpers\nUseful if you need to make your own Http call with additional headers.\n@docs twitchHeaders, authHeaders\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "authHeaders",
+        "comment": " Creates the oauth header, given an oauth token.\n",
+        "type": "Maybe.Maybe String -> List Http.Header"
+      },
+      {
+        "name": "send",
+        "comment": " Send a basic request to the Twitch Kraken (\"V5\") endpoints. Lightweight wrapper around Http, so you can go back to basics if something else is needed. Auth is a token received from an oauth loop.\n\n    fetchCommunityByNameUrl : String -> String\n    fetchCommunityByNameUrl login =\n      \"https://api.twitch.tv/kraken/communities?name=\" ++ name\n\n    fetchCommunityByName : String -> Cmd Msg\n    fetchCommunityByName name =\n      Twitch.Kraken.send <|\n        { clientId = TwitchId.clientId\n        , auth = Nothing\n        , decoder = Twitch.Kraken.Decode.community\n        , tagger = Community\n        , url = (fetchCommunityByNameUrl login)\n        }\n",
+        "type": "{ clientId : String , auth : Maybe.Maybe String , decoder : Json.Decode.Decoder a , tagger : Result.Result Http.Error a -> msg , url : String } -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "twitchHeaders",
+        "comment": " Creates the client-id and outh headers.\n\n    Twitch.Kraken.twitchHeaders clientId auth\n",
+        "type": "String -> Maybe.Maybe String -> List Http.Header"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Twitch.Helix",
+    "comment": " Helpers for sending Http requests to the Twitch Helix (\"new Twitch API\") endpoints.\n\n# Send a Request\n@docs send\n\n# Header Helpers\nUseful if you need to make your own Http call with additional headers.\n@docs twitchHeaders, authHeaders\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "authHeaders",
+        "comment": " Creates the oauth header, given an oauth token.\n",
+        "type": "Maybe.Maybe String -> List Http.Header"
+      },
+      {
+        "name": "send",
+        "comment": " Send a basic request to the Twitch Helix (\"new Twitch API\") endpoints. Lightweight wrapper around Http, so you can go back to basics if something else is needed. Auth is a token received from an oauth loop.\n\n    fetchUserByNameUrl : String -> String\n    fetchUserByNameUrl login =\n      \"https://api.twitch.tv/helix/users?login=\" ++ login\n\n    fetchUserByName : String -> Cmd Msg\n    fetchUserByName login =\n      Twitch.Helix.send <|\n        { clientId = TwitchId.clientId\n        , auth = Nothing\n        , decoder = Twitch.Helix.Decode.users\n        , tagger = User\n        , url = (fetchUserByNameUrl login)\n        }\n",
+        "type": "{ clientId : String , auth : Maybe.Maybe String , decoder : Json.Decode.Decoder a , tagger : Result.Result Http.Error a -> msg , url : String } -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "twitchHeaders",
+        "comment": " Creates the client-id and outh headers.\n\n    Twitch.Helix.twitchHeaders clientId auth\n",
+        "type": "String -> Maybe.Maybe String -> List Http.Header"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Twitch.Helix.Decode",
+    "comment": " Decoders for the Helix API.\n\n# Users\n@docs User, users\n\n# Follows\n@docs Follow, follows\n\n# Streams\n@docs Stream, streams\n\n# Games\n@docs Game, games\n\n# Videos\n@docs Video, VideoType, Viewable, videos\n\n# Clips\n@docs Clip, clips\n\n# OAuth tokens\n@docs Token, token\n\n# Sample data\n@docs sampleToken, sampleUser, sampleStream, sampleGame, sampleFollow, sampleVideo, sampleClip\n",
+    "aliases": [
+      {
+        "name": "Clip",
+        "comment": " Record for a decoded clip.\n",
+        "args": [],
+        "type": "{ id : String , url : String , embedUrl : String , broadcasterId : String , creatorId : String , videoId : String , gameId : String , language : String , title : String , viewCount : Int , createdAt : Time.Time , thumbnailUrl : String }"
+      },
+      {
+        "name": "Follow",
+        "comment": " Record for a decoded follow\n",
+        "args": [],
+        "type": "{ from_id : String, to_id : String }"
+      },
+      {
+        "name": "Game",
+        "comment": " Record for decoded Game\n",
+        "args": [],
+        "type": "{ id : String, name : String, boxArtUrl : String }"
+      },
+      {
+        "name": "Stream",
+        "comment": " Record for decoded Streams data\n",
+        "args": [],
+        "type": "{ channelId : String , userId : String , gameId : String , communityIds : List String , title : String , viewerCount : Int , startedAt : Time.Time , language : String , thumbnailUrl : String }"
+      },
+      {
+        "name": "Token",
+        "comment": " Record for decoded OAuth tokens\n",
+        "args": [],
+        "type": "{ sub : String, iss : String, aud : String, exp : Int, iat : Int }"
+      },
+      {
+        "name": "User",
+        "comment": " Record for decoded users.\n",
+        "args": [],
+        "type": "{ id : String , login : String , displayName : String , userType : String , broadcasterType : String , description : String , profileImageUrl : String , offlineImageUrl : String , viewCount : Int , email : Maybe.Maybe String }"
+      },
+      {
+        "name": "Video",
+        "comment": " Record for decoded videos. viewable, video_type, and duration are lightly interpreted.\n",
+        "args": [],
+        "type": "{ id : String , userId : String , title : String , description : String , createdAt : Time.Time , publishedAt : Time.Time , url : String , thumbnailUrl : String , viewable : Twitch.Helix.Decode.Viewable , viewCount : Int , language : String , videoType : Twitch.Helix.Decode.VideoType , duration : Time.Time }"
+      }
+    ],
+    "types": [
+      {
+        "name": "VideoType",
+        "comment": " Enumerated type for video_type attribute, does include an escape hatch in case other types are added in the future.\n",
+        "args": [],
+        "cases": [
+          [
+            "Upload",
+            []
+          ],
+          [
+            "Archive",
+            []
+          ],
+          [
+            "Highlight",
+            []
+          ],
+          [
+            "Other",
+            [
+              "String"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Viewable",
+        "comment": " Enumerted type for the viewable status\n",
+        "args": [],
+        "cases": [
+          [
+            "Public",
+            []
+          ],
+          [
+            "Private",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "clips",
+        "comment": " Json Decoder for clips.\n",
+        "type": "Json.Decode.Decoder (List Twitch.Helix.Decode.Clip)"
+      },
+      {
+        "name": "follows",
+        "comment": " Json Decoder for follows\n",
+        "type": "Json.Decode.Decoder (List Twitch.Helix.Decode.Follow)"
+      },
+      {
+        "name": "games",
+        "comment": " Json Decoder for games\n",
+        "type": "Json.Decode.Decoder (List Twitch.Helix.Decode.Game)"
+      },
+      {
+        "name": "sampleClip",
+        "comment": " Sample data for a clip.\n",
+        "type": "String"
+      },
+      {
+        "name": "sampleFollow",
+        "comment": " Sample data for follows\n",
+        "type": "String"
+      },
+      {
+        "name": "sampleGame",
+        "comment": " Sample data for games\n",
+        "type": "String"
+      },
+      {
+        "name": "sampleStream",
+        "comment": " Sample data for streams\n",
+        "type": "String"
+      },
+      {
+        "name": "sampleToken",
+        "comment": " Sample OAuth token.\n",
+        "type": "String"
+      },
+      {
+        "name": "sampleUser",
+        "comment": " Sample data for a user\n",
+        "type": "String"
+      },
+      {
+        "name": "sampleVideo",
+        "comment": " Sample data for a video\n",
+        "type": "String"
+      },
+      {
+        "name": "streams",
+        "comment": " Json Decoder from streams\n",
+        "type": "Json.Decode.Decoder (List Twitch.Helix.Decode.Stream)"
+      },
+      {
+        "name": "token",
+        "comment": " Json Decoder for OAuth tokens.\n\n    userId = token\n      |> Maybe.andThen (Result.toMaybe << Jwt.decodeToken Twitch.Helix.Decode.token)\n      |> Maybe.map .sub\n",
+        "type": "Json.Decode.Decoder Twitch.Helix.Decode.Token"
+      },
+      {
+        "name": "users",
+        "comment": " Json Decoder for users\n",
+        "type": "Json.Decode.Decoder (List Twitch.Helix.Decode.User)"
+      },
+      {
+        "name": "videos",
+        "comment": " Json Decoder for videos\n",
+        "type": "Json.Decode.Decoder (List Twitch.Helix.Decode.Video)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Twitch.ClipsV2.Decode",
+    "comment": " Decoders for the Clips API at `clips.twitch.tv/api/v2/clips/` Note that this is an unofficial API, requests should be made with Http.send rather than Twitch.Helix.send.\n\n@docs Clip, clip, sampleClip\n",
+    "aliases": [
+      {
+        "name": "Clip",
+        "comment": " Record for decoded clip data.\n",
+        "args": [],
+        "type": "{ broadcasterChannelUrl : String , broadcasterDisplayName : String , broadcasterId : String , broadcasterLogin : String , broadcasterLogo : String , broadcastId : String , curatorChannelUrl : String , curatorDisplayName : String , curatorId : String , curatorLogin : String , curatorLogo : String , previewImage : String , thumbnails : Dict.Dict String String , communities : List String , createdAt : Time.Time , title : String , language : String , infoUrl : String , statusUrl : String , editUrl : String , vodId : Maybe.Maybe String , vodUrl : Maybe.Maybe String , vodOffset : Maybe.Maybe Int , vodPreviewImageUrl : Maybe.Maybe String , embedUrl : String , embedHtml : String , viewUrl : String , id : String , slug : String , duration : Float , views : Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "clip",
+        "comment": " Decoder for a single clip\n",
+        "type": "Json.Decode.Decoder Twitch.ClipsV2.Decode.Clip"
+      },
+      {
+        "name": "sampleClip",
+        "comment": " Sample data\n",
+        "type": "String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Twitch.Tmi.Decode",
+    "comment": " Decoders for the TMI API at `tmi.twitch.tv/hosts` Note that this is an unofficial API, requests should be made with Http.send rather than Twitch.Helix.send. Furthermore, TMI does not provide cross-origin headers, so a cross-origin proxy may be required.\n\n\n@docs Host, hosts, sampleHost\n",
+    "aliases": [
+      {
+        "name": "Host",
+        "comment": " Record for decoded host data\n",
+        "args": [],
+        "type": "{ hostId : String , targetId : String , hostLogin : String , targetLogin : String , hostDisplayName : String , targetDisplayName : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "hosts",
+        "comment": " Json decoder for hosts\n",
+        "type": "Json.Decode.Decoder (List Twitch.Tmi.Decode.Host)"
+      },
+      {
+        "name": "sampleHost",
+        "comment": " sample data for bootstrapping and testing\n",
+        "type": "String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Twitch.Kraken.Decode",
+    "comment": " Decoders for the Kraken API.\n\n# Users\n@docs Community, community\n\n# Sample data\n@docs sampleCommunity\n",
+    "aliases": [
+      {
+        "name": "Community",
+        "comment": " Record for decoded community.\n",
+        "args": [],
+        "type": "{ id : String , avatarImageUrl : String , coverImageUrl : String , description : String , descriptionHtml : String , language : String , name : String , ownerId : String , rules : String , summary : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "community",
+        "comment": " Json Decoder for a community\n",
+        "type": "Json.Decode.Decoder Twitch.Kraken.Decode.Community"
+      },
+      {
+        "name": "sampleCommunity",
+        "comment": " Sample data for a community.\n",
+        "type": "String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Twitch.Template",
+    "comment": " Helpers for filling in image and url templates received from API responses.\n\n@docs imageTemplateUrl, imagePercentTemplateUrl\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "imagePercentTemplateUrl",
+        "comment": " Fills in templates with %{width} and %{height}.\n\n    Twitch.Template.imagePercentTemplateUrl 320 180 video.thumbnailUrl\n",
+        "type": "Int -> Int -> String -> String"
+      },
+      {
+        "name": "imageTemplateUrl",
+        "comment": " Fills in templates with {width} and {height}.\n\n    Twitch.Template.imageTemplateUrl 168 95 stream.thumbnailUrl\n",
+        "type": "Int -> Int -> String -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

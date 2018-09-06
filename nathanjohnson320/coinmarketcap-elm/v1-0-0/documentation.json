@@ -1,0 +1,74 @@
+[
+  {
+    "name": "CoinMarketCap.Request",
+    "comment": " Handles HTTP requests to coinmarketcap\n\n@docs getCryptos\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "getCryptos",
+        "comment": " Gets a list of all crypto currencies\n",
+        "type": "Platform.Cmd.Cmd CoinMarketCap.Msg.Msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "CoinMarketCap.Msg",
+    "comment": " Msgs related to HTTP calls\n\n@docs Msg\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Msg",
+        "comment": " Msgs for each HTTP response from coinmarketcap\n",
+        "args": [],
+        "cases": [
+          [
+            "ReceiveCryptos",
+            [
+              "Result.Result Http.Error (List CoinMarketCap.Models.Crypto)"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "CoinMarketCap.Models",
+    "comment": " Contains model definitions for the response from the coinmarket cap api\n\n# Models\n@docs Crypto, emptyCrypto\n\n# JSON\n@docs decodeCrypto, decodeCryptos, encodeCrypto\n",
+    "aliases": [
+      {
+        "name": "Crypto",
+        "comment": " A single record for a cryptocurrency\n",
+        "args": [],
+        "type": "{ id : String , name : String , symbol : String , rank : String , price_usd : Maybe.Maybe String , price_btc : Maybe.Maybe String , volume_24h_usd : Maybe.Maybe String , market_cap_usd : Maybe.Maybe String , available_supply : Maybe.Maybe String , total_supply : Maybe.Maybe String , max_supply : Maybe.Maybe String , percent_change_1h : Maybe.Maybe String , percent_change_24h : Maybe.Maybe String , percent_change_7d : Maybe.Maybe String , last_updated : Maybe.Maybe String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decodeCrypto",
+        "comment": " Decodes JSON string into Crypto record\n",
+        "type": "Json.Decode.Decoder CoinMarketCap.Models.Crypto"
+      },
+      {
+        "name": "decodeCryptos",
+        "comment": " Decodes a list of Crypto from JSON\n",
+        "type": "Json.Decode.Decoder (List CoinMarketCap.Models.Crypto)"
+      },
+      {
+        "name": "emptyCrypto",
+        "comment": " Returns an empty crypto record\n",
+        "type": "CoinMarketCap.Models.Crypto"
+      },
+      {
+        "name": "encodeCrypto",
+        "comment": " Encode a single Crypto record into JSON\n",
+        "type": "CoinMarketCap.Models.Crypto -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

@@ -1,0 +1,1050 @@
+[
+  {
+    "name": "Element.Input",
+    "comment": "\n\n\n## Inputs\n\n@docs button, Button\n\n@docs checkbox, Checkbox\n\n@docs text, Text, Placeholder, placeholder, username, newPassword, currentPassword, email, search\n\n@docs multiline, spellcheckedMultiline\n\n@docs radio, radioRow, Radio, Option, option\n\n@docs select, Select, Menu, menuAbove, menuBelow\n\n\n## Labels and Notices\n\n@docs Label, labelAbove, labelBelow, labelLeft, labelRight\n\n@docs Notice, warningAbove, warningBelow, warningLeft, warningRight\n\n@docs errorAbove, errorBelow, errorLeft, errorRight\n\n",
+    "aliases": [
+      {
+        "name": "Button",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "{ onPress : Maybe.Maybe msg, label : Element.Element msg }"
+      },
+      {
+        "name": "Checkbox",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "{ onChange : Maybe.Maybe (Bool -> msg) , icon : Maybe.Maybe (Element.Element msg) , checked : Bool , label : Element.Input.Label msg , notice : Maybe.Maybe (Element.Input.Notice msg) }"
+      },
+      {
+        "name": "Radio",
+        "comment": " ",
+        "args": [
+          "option",
+          "msg"
+        ],
+        "type": "{ onChange : Maybe.Maybe (option -> msg) , options : List (Element.Input.Option option msg) , selected : Maybe.Maybe option , label : Element.Input.Label msg , notice : Maybe.Maybe (Element.Input.Notice msg) }"
+      },
+      {
+        "name": "Select",
+        "comment": " ",
+        "args": [
+          "option",
+          "msg"
+        ],
+        "type": "{ onChange : Maybe.Maybe (option -> msg) , selected : Maybe.Maybe option , menu : Element.Input.Menu option msg , placeholder : Maybe.Maybe (Element.Element msg) , label : Element.Input.Label msg , notice : Maybe.Maybe (Element.Input.Notice msg) }"
+      },
+      {
+        "name": "Text",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "{ onChange : Maybe.Maybe (String -> msg) , text : String , placeholder : Maybe.Maybe (Element.Input.Placeholder msg) , label : Element.Input.Label msg , notice : Maybe.Maybe (Element.Input.Notice msg) }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Label",
+        "comment": " Every input has a required `label`.\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Menu",
+        "comment": " ",
+        "args": [
+          "option",
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Notice",
+        "comment": " As well, for every input except buttons, you can optionally add a warning or an error.\n\nThe proper accessibility markup is applied in both cases so that screen readers can see the error state.\n\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Option",
+        "comment": " Add choices to your radio and select menus.\n",
+        "args": [
+          "value",
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Placeholder",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "button",
+        "comment": " A standard button.\n\nThe `onPress` handler will be fired either `onClick` or when the element is focused and the enter key has been pressed.\n\n    import Element.Input as Input\n\n    Input.button []\n        { onPress = Just ClickMsg\n        , label = text \"My Button\"\n        }\n\n`onPress` takes a `Maybe msg`. If you provide the value `Nothing`, then the button will be disabled.\n\n",
+        "type": "List (Element.Attribute msg) -> Element.Input.Button msg -> Element.Element msg"
+      },
+      {
+        "name": "checkbox",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Checkbox msg -> Element.Element msg"
+      },
+      {
+        "name": "currentPassword",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "email",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "errorAbove",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      },
+      {
+        "name": "errorBelow",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      },
+      {
+        "name": "errorLeft",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      },
+      {
+        "name": "errorRight",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      },
+      {
+        "name": "labelAbove",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Label msg"
+      },
+      {
+        "name": "labelBelow",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Label msg"
+      },
+      {
+        "name": "labelLeft",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Label msg"
+      },
+      {
+        "name": "labelRight",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Label msg"
+      },
+      {
+        "name": "menuAbove",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List (Element.Input.Option option msg) -> Element.Input.Menu option msg"
+      },
+      {
+        "name": "menuBelow",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List (Element.Input.Option option msg) -> Element.Input.Menu option msg"
+      },
+      {
+        "name": "multiline",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "newPassword",
+        "comment": " A password input that allows the browser to autofill.\n\nIt's `newPassword` instead of just `password` because it gives the browser a hint on what type of password input it is.\n\n",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "option",
+        "comment": " ",
+        "type": "value -> Element.Element msg -> Element.Input.Option value msg"
+      },
+      {
+        "name": "placeholder",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Placeholder msg"
+      },
+      {
+        "name": "radio",
+        "comment": "\n\n    Input.radio\n        [ padding 10\n        , spacing 20\n        ]\n        { onChange = Just ChooseLunch\n        , selected = Just model.lunch\n        , label = Input.labelAbove (text \"Lunch\")\n        , options =\n            [ Input.styledChoice Burrito <|\n                \\selected ->\n                    Element.row\n                        [ spacing 5 ]\n                        [ el None [] <|\n                            if selected then\n                                text \":D\"\n                            else\n                                text \":(\"\n                        , text \"burrito\"\n                        ]\n            , Input.option Taco (text \"Taco!\")\n            , Input.option Gyro (text \"Gyro\")\n            ]\n        }\n\n",
+        "type": "List (Element.Attribute msg) -> Element.Input.Radio option msg -> Element.Element msg"
+      },
+      {
+        "name": "radioRow",
+        "comment": " Same as radio, but displayed as a row\n",
+        "type": "List (Element.Attribute msg) -> Element.Input.Radio option msg -> Element.Element msg"
+      },
+      {
+        "name": "search",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "select",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Select option msg -> Element.Element msg"
+      },
+      {
+        "name": "spellcheckedMultiline",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "text",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "username",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Input.Text msg -> Element.Element msg"
+      },
+      {
+        "name": "warningAbove",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      },
+      {
+        "name": "warningBelow",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      },
+      {
+        "name": "warningLeft",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      },
+      {
+        "name": "warningRight",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Input.Notice msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Area",
+    "comment": "\n\n\n# Area Annotations\n\nThis module is meant to make accessibility easy! They're sign posts that accessibility software like screen readers can use to navigate your app.\n\nAll you have to do is add them to elements in your app where you see fit.\n\nHere's an example of annotating your navigation area:\n\n    import Element.Area as Area\n\n    myNavigation =\n        Element.row [ Area.navigation ]\n            [-- ..your navigation links\n            ]\n\n@docs mainContent, navigation, heading\n\n@docs announce, announceUrgently, aside, footer\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "announce",
+        "comment": " Screen readers will announce when changes to this element are made.\n",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "announceUrgently",
+        "comment": " Screen readers will announce changes to this element and potentially interrupt any other announcement.\n",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "aside",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "footer",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "heading",
+        "comment": " This will mark an element as `h1`, `h2`, etc where possible.\n\nThough it's also smart enough to not conflict with existing nodes.\n\nSo, this code\n\n    link [ Area.heading 1 ]\n        { url = \"http://fruits.com\"\n        , label = text \"Best site ever\"\n        }\n\nwill generate\n\n    <a href=\"http://fruits.com\">\n        <h1>Best site ever</h1>\n    </a>\n\n",
+        "type": "Int -> Element.Attribute msg"
+      },
+      {
+        "name": "mainContent",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "navigation",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Events",
+    "comment": "\n\n\n# Mouse Events\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseMove\n\n\n# Focus Events\n\n@docs onFocus, onLoseFocus\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "onClick",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onDoubleClick",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onFocus",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onLoseFocus",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseDown",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseEnter",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseLeave",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseMove",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseUp",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Keyed",
+    "comment": "\n\n@docs el, column, row\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "column",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
+      },
+      {
+        "name": "el",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> ( String, Element.Element msg ) -> Element.Element msg"
+      },
+      {
+        "name": "row",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element",
+    "comment": "\n\n\n## Basic Elements\n\n@docs Element, Attribute, empty, text, el\n\n\n## Rows and Columns\n\nRows and columns are the most common layouts.\n\n@docs row, column\n\n\n## Text Layout\n\nText needs it's own layout primitives.\n\n@docs paragraph, textColumn\n\n\n## Data Table\n\n@docs Table, Column, table\n\n@docs IndexedTable, IndexedColumn, indexedTable\n\n\n## Rendering\n\n@docs layout, layoutWith, Option, forceHover, noHover, focusStyle, FocusStyle\n\n\n# Links and Images\n\n@docs Link, link, newTabLink, download, downloadAs\n\n@docs image, decorativeImage\n\n\n# Attributes\n\n@docs Attribute, hidden, description, pointer\n\n\n## Width and Height\n\n@docs width, height, Length, px, shrink, fill, fillPortion\n\n\n## Padding and Spacing\n\nThere's no concept of margin in `style-elements`, instead we have padding and spacing.\n\nPadding is what you'd expect, the distance between the outer edge and the content, and spacing is the space between children.\n\nSo, if we have the following row, with some padding and spacing.\n\n    Element.row [ padding 10, spacing 7 ]\n        [ Element.el [] empty\n        , Element.el [] empty\n        , Element.el [] empty\n        ]\n\nHere's what we can expect.\n\n<img src=\"https://mdgriffith.gitbooks.io/style-elements/content/assets/spacing-400.png\" alt=\"Three boxes spaced 7 pixels apart.  There's a 10 pixel distance from the edge of the parent to the boxes.\" />\n\n@docs padding, paddingXY, paddingEach\n\n@docs spacing, spacingXY, spaceEvenly\n\n\n## Alignment\n\nAlignment can be used to align an `Element` within another `Element`.\n\n    Element.el [ center, alignTop ] (text \"I'm centered and aligned top!\")\n\nIf alignment is set on elements in a layout such as `row`, then the element will push the other elements in that direction. Here's an example.\n\n    Element.row []\n        [ Element.el [] Element.empty\n        , Element.el [ alignLeft ] Element.empty\n        , Element.el [ center ] Element.empty\n        , Element.el [ alignRight ] Element.empty\n        ]\n\nwill result in a layout like\n\n    |-|-| |-| |-|\n\nWhere there are two elements on the left, one in the center, and on on the right.\n\n@docs center, centerY, alignLeft, alignRight, alignTop, alignBottom\n\n\n## Nearby Elements\n\nIt can be nice to position an element relative to another element, _without\n\nLet's say we want a dropdown menu. Essentially we want to say: _put this element below this other element, but don't affect the layout when you do_.\n\n    Elemenet.row []\n        [ Element.el\n            [ Element.below True (Element.text \"I'm below!\")\n            ]\n            (Element.text \"I'm normal!\")\n        ]\n\nThis will result in\n\n    |- I'm normal! -|\n       I'm below\n\nWhere `\"I'm Below\"` doesn't change the size of `Element.row`.\n\nThis is very useful for things like dropdown menus or tooltips.\n\n@docs above, below, onRight, onLeft, inFront, behind\n\n\n## Adjustment\n\n@docs moveRight, moveUp, moveLeft, moveDown, rotate, scale, mouseOverScale\n\n\n## Clipping and Scrollbars\n\nClip the content if it overflows.\n\n@docs clip, clipX, clipY\n\nIf these are present, the element will add a scrollbar if necessary.\n\n@docs scrollbars, scrollbarY, scrollbarX\n\n\n## Mapping\n\n@docs map, mapAttribute\n\n\n## Compatibility\n\n@docs html, attribute\n\n",
+    "aliases": [
+      {
+        "name": "Attribute",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "Column",
+        "comment": " ",
+        "args": [
+          "record",
+          "msg"
+        ],
+        "type": "{ header : Element.Element msg , view : record -> Element.Element msg }"
+      },
+      {
+        "name": "Element",
+        "comment": " The basic building block of your layout. Here we create a\n\n    import Background\n    import Element\n\n    view =\n        Element.el [] (Element.text \"Hello!\")\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "Internal.Model.Element msg"
+      },
+      {
+        "name": "FocusStyle",
+        "comment": " ",
+        "args": [],
+        "type": "{ borderColor : Maybe.Maybe Color.Color , backgroundColor : Maybe.Maybe Color.Color , shadow : Maybe.Maybe { color : Color.Color , offset : ( Int, Int ) , blur : Int , size : Int } }"
+      },
+      {
+        "name": "IndexedColumn",
+        "comment": " ",
+        "args": [
+          "record",
+          "msg"
+        ],
+        "type": "{ header : Element.Element msg , view : Int -> record -> Element.Element msg }"
+      },
+      {
+        "name": "IndexedTable",
+        "comment": " ",
+        "args": [
+          "records",
+          "msg"
+        ],
+        "type": "{ data : List records , columns : List (Element.IndexedColumn records msg) }"
+      },
+      {
+        "name": "Length",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Model.Length"
+      },
+      {
+        "name": "Link",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "{ url : String, label : Element.Element msg }"
+      },
+      {
+        "name": "Option",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Model.Option"
+      },
+      {
+        "name": "Table",
+        "comment": " ",
+        "args": [
+          "records",
+          "msg"
+        ],
+        "type": "{ data : List records, columns : List (Element.Column records msg) }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "above",
+        "comment": " `above` takes a `Bool` first so that you can easily toggle showing and hiding the element.\n",
+        "type": "Bool -> Element.Element msg -> Element.Attribute msg"
+      },
+      {
+        "name": "alignBottom",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "alignLeft",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "alignRight",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "alignTop",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "attribute",
+        "comment": " ",
+        "type": "Html.Attribute msg -> Element.Attribute msg"
+      },
+      {
+        "name": "behind",
+        "comment": " ",
+        "type": "Bool -> Element.Element msg -> Element.Attribute msg"
+      },
+      {
+        "name": "below",
+        "comment": " ",
+        "type": "Bool -> Element.Element msg -> Element.Attribute msg"
+      },
+      {
+        "name": "center",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "centerY",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "clip",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "clipX",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "clipY",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "column",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List (Element.Element msg) -> Element.Element msg"
+      },
+      {
+        "name": "decorativeImage",
+        "comment": " If an image is purely decorative, you can skip the caption.\n",
+        "type": "List (Element.Attribute msg) -> { src : String } -> Element.Element msg"
+      },
+      {
+        "name": "description",
+        "comment": " ",
+        "type": "String -> Element.Attribute msg"
+      },
+      {
+        "name": "download",
+        "comment": " A link to download a file.\n",
+        "type": "List (Element.Attribute msg) -> Element.Link msg -> Element.Element msg"
+      },
+      {
+        "name": "downloadAs",
+        "comment": " A link to download a file, but you can specify the filename.\n",
+        "type": "List (Element.Attribute msg) -> { label : Element.Element msg, filename : String, url : String } -> Element.Element msg"
+      },
+      {
+        "name": "el",
+        "comment": " The basic building block of your layout.\n\n    import Color exposing (blue, darkBlue)\n    import Element exposing (Element)\n    import Element.Background as Background\n    import Element.Border as Border\n\n    myElement : Element msg\n    myElement =\n        Element.el\n            [ Background.color blue\n            , Border.color darkBlue\n            ]\n            (Element.text \"You've made a stylish element!\")\n\n",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Element.Element msg"
+      },
+      {
+        "name": "empty",
+        "comment": " Nothing to see here!\n",
+        "type": "Element.Element msg"
+      },
+      {
+        "name": "fill",
+        "comment": " Fill the available space. The available space will be split evenly between elements that have `width fill`.\n",
+        "type": "Element.Length"
+      },
+      {
+        "name": "fillPortion",
+        "comment": " Sometimes you may not want to split available space evenly. In this case you can use `fillPortion` to define which elements should have what portion of the available space.\n\nSo, two elements, one with `width (fillPortion 2)` and one with `width (fillPortion 3)`. The first would get 2 portions of the available space, while the second would get 3.\n\nAlso: `fill == fillPortion 1`\n\n",
+        "type": "Int -> Element.Length"
+      },
+      {
+        "name": "focusStyle",
+        "comment": " ",
+        "type": "Element.FocusStyle -> Element.Option"
+      },
+      {
+        "name": "forceHover",
+        "comment": " Any `hover` styles, aka attributes with `mouseOver` in the name, will be always turned on.\n\nThis is useful for when you're targeting a platform that has no mouse, such as mobile.\n\n",
+        "type": "Element.Option"
+      },
+      {
+        "name": "height",
+        "comment": " ",
+        "type": "Element.Length -> Element.Attribute msg"
+      },
+      {
+        "name": "hidden",
+        "comment": " ",
+        "type": "Bool -> Element.Attribute msg"
+      },
+      {
+        "name": "html",
+        "comment": " ",
+        "type": "Html.Html msg -> Element.Element msg"
+      },
+      {
+        "name": "image",
+        "comment": " Both a source and a description are required for images. The description is used to describe the image to screen readers.\n",
+        "type": "List (Element.Attribute msg) -> { src : String, description : String } -> Element.Element msg"
+      },
+      {
+        "name": "inFront",
+        "comment": " ",
+        "type": "Bool -> Element.Element msg -> Element.Attribute msg"
+      },
+      {
+        "name": "indexedTable",
+        "comment": " Same as `Element.table` except the `view` for each column will also receive the row index as well as the record.\n",
+        "type": "List (Element.Attribute msg) -> Element.IndexedTable data msg -> Element.Element msg"
+      },
+      {
+        "name": "layout",
+        "comment": " This is your top level node where you can turn `Element` into `Html`.\n",
+        "type": "List (Element.Attribute msg) -> Element.Element msg -> Html.Html msg"
+      },
+      {
+        "name": "layoutWith",
+        "comment": " ",
+        "type": "{ options : List Element.Option } -> List (Element.Attribute msg) -> Element.Element msg -> Html.Html msg"
+      },
+      {
+        "name": "link",
+        "comment": "\n\n    link []\n        { url = \"google.com\"\n        , label = text \"My Link to Google\"\n        }\n\n",
+        "type": "List (Element.Attribute msg) -> Element.Link msg -> Element.Element msg"
+      },
+      {
+        "name": "map",
+        "comment": " ",
+        "type": "(msg -> msg1) -> Element.Element msg -> Element.Element msg1"
+      },
+      {
+        "name": "mapAttribute",
+        "comment": " ",
+        "type": "(msg -> msg1) -> Element.Attribute msg -> Element.Attribute msg1"
+      },
+      {
+        "name": "mouseOverScale",
+        "comment": " ",
+        "type": "Float -> Element.Attribute msg"
+      },
+      {
+        "name": "moveDown",
+        "comment": " ",
+        "type": "Float -> Element.Attribute msg"
+      },
+      {
+        "name": "moveLeft",
+        "comment": " ",
+        "type": "Float -> Element.Attribute msg"
+      },
+      {
+        "name": "moveRight",
+        "comment": " ",
+        "type": "Float -> Element.Attribute msg"
+      },
+      {
+        "name": "moveUp",
+        "comment": " ",
+        "type": "Float -> Element.Attribute msg"
+      },
+      {
+        "name": "newTabLink",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> Element.Link msg -> Element.Element msg"
+      },
+      {
+        "name": "noHover",
+        "comment": " Disable all `mouseOver` styles.\n",
+        "type": "Element.Option"
+      },
+      {
+        "name": "onLeft",
+        "comment": " ",
+        "type": "Bool -> Element.Element msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onRight",
+        "comment": " ",
+        "type": "Bool -> Element.Element msg -> Element.Attribute msg"
+      },
+      {
+        "name": "padding",
+        "comment": " ",
+        "type": "Int -> Element.Attribute msg"
+      },
+      {
+        "name": "paddingEach",
+        "comment": " ",
+        "type": "{ bottom : Int, left : Int, right : Int, top : Int } -> Element.Attribute msg"
+      },
+      {
+        "name": "paddingXY",
+        "comment": " Set horizontal and vertical padding.\n",
+        "type": "Int -> Int -> Element.Attribute msg"
+      },
+      {
+        "name": "paragraph",
+        "comment": " A paragraph will layout all children as wrapped, inline elements.\n\n    import Element\n    import Element.Font as Font\n\n    Element.paragraph []\n        [ text \"lots of text ....\"\n        , el [ Font.bold ] (text \"this is bold\")\n        , text \"lots of text ....\"\n        ]\n\nThis is really useful when you want to markup text by having some parts be bold, or some be links, or whatever you so desire.\n\nAlso, if a child element has `alignLeft` or `alignRight`, then it will be moved to that side and the text will flow around it, (ah yes, `float` behavior).\n\nThis makes it particularly easy to do something like a [dropped capital](https://en.wikipedia.org/wiki/Initial).\n\n    import Element\n    import Element.Font as Font\n\n    Element.paragraph []\n        [ el\n            [ alignLeft\n            , padding 5\n            , Font.lineHeight 1\n            ]\n            (text \"S\")\n        , text \"lots of text ....\"\n        ]\n\nWhich will look something like\n\n<img src=\"https://mdgriffith.gitbooks.io/style-elements/content/assets/Screen%20Shot%202017-08-25%20at%209.41.52%20PM.png\" />\n\n",
+        "type": "List (Element.Attribute msg) -> List (Element.Element msg) -> Element.Element msg"
+      },
+      {
+        "name": "pointer",
+        "comment": " Set the cursor to the pointer hand.\n",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "px",
+        "comment": " ",
+        "type": "Int -> Element.Length"
+      },
+      {
+        "name": "rotate",
+        "comment": " ",
+        "type": "Float -> Element.Attribute msg"
+      },
+      {
+        "name": "row",
+        "comment": " If you want a row of elements, use `row`!\n",
+        "type": "List (Element.Attribute msg) -> List (Element.Element msg) -> Element.Element msg"
+      },
+      {
+        "name": "scale",
+        "comment": " ",
+        "type": "Float -> Element.Attribute msg"
+      },
+      {
+        "name": "scrollbarX",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "scrollbarY",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "scrollbars",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "shrink",
+        "comment": " ",
+        "type": "Element.Length"
+      },
+      {
+        "name": "spaceEvenly",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "spacing",
+        "comment": " ",
+        "type": "Int -> Element.Attribute msg"
+      },
+      {
+        "name": "spacingXY",
+        "comment": " In the majority of cases you'll just need to use `spacing`, which will work as intended.\n\nHowever for some layouts, like `textColumn`, you may want to set a different spacing for the x axis compared to the y axis.\n\n",
+        "type": "Int -> Int -> Element.Attribute msg"
+      },
+      {
+        "name": "table",
+        "comment": " Show some tabular data.\n\nStart with a list of records and specify how each column should be rendered.\n\nSo, if we have a list of `persons`:\n\n    type alias Person =\n        { firstName : String\n        , lastName : String\n        }\n\n    persons : List Person\n    persons =\n        [ { firstName = \"David\"\n          , lastName = \"Bowie\"\n          }\n        , { firstName = \"Florence\"\n          , lastName = \"Welch\"\n          }\n        ]\n\nWe could render it using\n\n    Element.table []\n        { data = persons\n        , columns =\n            [ { header = Element.text \"First Name\"\n              , view =\n                    (\\person ->\n                        Element.text person.firstName\n                    )\n              }\n            , { header = Element.text \"Last Name\"\n              , view =\n                     (\\person ->\n                        Element.text person.lastName\n                     )\n              }\n            ]\n        }\n\n**Note:** Sometimes you might not have a list of records directly in your model. In this case it can be really nice to write a function that transforms some part of your model into a list of records before feeding it into `Element.table`.\n\n",
+        "type": "List (Element.Attribute msg) -> Element.Table data msg -> Element.Element msg"
+      },
+      {
+        "name": "text",
+        "comment": " Create some plain text.\n\n    text \"Hello, you stylish developer!\"\n\n**Note** text does not wrap by default. In order to get text to wrap, check out `paragraph`!\n\n",
+        "type": "String -> Element.Element msg"
+      },
+      {
+        "name": "textColumn",
+        "comment": " Now that we have a paragraph, we need someway to attach a bunch of paragraph's together.\n\nTo do that we can use a `textColumn`.\n\nThe main difference between a `column` and a `textColumn` is that `textColumn` will flow the text around elements that have `alignRight` or `alignLeft`, just like we just saw with paragraph.\n\nIn the following example, we have a `textColumn` where one child has `alignLeft`.\n\n    Elment.textColumn [ spacing 10, padding 10 ]\n        [ paragraph [] [ text \"lots of text ....\" ]\n        , el [ alignLeft ] empty\n        , paragraph [] [ text \"lots of text ....\" ]\n        ]\n\nWhich will result in something like:\n\n<img src=\"https://mdgriffith.gitbooks.io/style-elements/content/assets/Screen%20Shot%202017-08-25%20at%208.42.39%20PM.png\" />\n\n",
+        "type": "List (Element.Attribute msg) -> List (Element.Element msg) -> Element.Element msg"
+      },
+      {
+        "name": "width",
+        "comment": " ",
+        "type": "Element.Length -> Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Font",
+    "comment": "\n\n\n# Style your fonts!\n\n    import Color exposing (blue)\n    import Element\n    import Element.Font as Font\n\n    view =\n        Element.el\n            [ Font.color blue\n            , Font.size 18\n            , Font.lineHeight 1.3 -- line height is given as a ratio of Font.size.\n            , Font.family\n                [ Font.typeface \"Open Sans\"\n                , Font.sansSerif\n                ]\n            ]\n            (Element.text \"Woohoo, I'm stylish text\")\n\n**Note**: `Font.color`, `Font.size`, `Font.family`, and `Font.lineHeight` are all inherited, meaning you can set them at the top of your view and all subsequent nodes will have that value.\n\n@docs color, mouseOverColor, size, lineHeight\n\n\n## Typefaces\n\n@docs family, Font, typeface, serif, sansSerif, monospace\n\n@docs external\n\n`Font.external` can be used to import font files. Let's say you found a neat font on <http://fonts.google.com>:\n\n    import Element\n    import Element.Font as Font\n\n    view =\n        Element.el\n            [ Font.family\n                [ Font.external\n                    { name = \"Roboto\"\n                    , url = \"https://fonts.googleapis.com/css?family=Roboto\"\n                    }\n                , Font.sansSerif\n                ]\n            ]\n            (Element.text \"Woohoo, I'm stylish text\")\n\n\n## Alignment and Spacing\n\n@docs alignLeft, alignRight, center, justify, letterSpacing, wordSpacing\n\n\n## Font Styles\n\n@docs underline, strike, italic, bold, light, weight\n\n\n## Shadows\n\n@docs glow, shadow\n\n",
+    "aliases": [
+      {
+        "name": "Font",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Model.Font"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "alignLeft",
+        "comment": " Align the font to the left.\n",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "alignRight",
+        "comment": " Align the font to the right.\n",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "bold",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "center",
+        "comment": " Center align the font.\n",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "color",
+        "comment": " ",
+        "type": "Color.Color -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "external",
+        "comment": " ",
+        "type": "{ url : String, name : String } -> Element.Font.Font"
+      },
+      {
+        "name": "family",
+        "comment": "\n\n    import Element\n    import Element.Font as Font\n\n    myElement =\n        Element.el\n            [ Font.family\n                [ Font.typeface \"Helvetica\"\n                , Font.sansSerif\n                ]\n            ]\n            (text \"\")\n\n",
+        "type": "List Element.Font.Font -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "glow",
+        "comment": " A glow is just a simplified shadow\n",
+        "type": "Color.Color -> Float -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "italic",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "justify",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "letterSpacing",
+        "comment": " In `px`.\n",
+        "type": "Float -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "light",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "lineHeight",
+        "comment": " This is the only unitless value in the library that isn't `px`.\n\nIt's given as a _proportion_ of the `Font.size`.\n\nThis means the final lineHeight in px is:\n\n      Font.size * Font.lineHeight == lineHeightInPx\n\n",
+        "type": "Float -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "monospace",
+        "comment": " ",
+        "type": "Element.Font.Font"
+      },
+      {
+        "name": "mouseOverColor",
+        "comment": " ",
+        "type": "Color.Color -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "sansSerif",
+        "comment": " ",
+        "type": "Element.Font.Font"
+      },
+      {
+        "name": "serif",
+        "comment": " ",
+        "type": "Element.Font.Font"
+      },
+      {
+        "name": "shadow",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "size",
+        "comment": " Font sizes are always given as `px`.\n",
+        "type": "Int -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "strike",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "typeface",
+        "comment": " ",
+        "type": "String -> Element.Font.Font"
+      },
+      {
+        "name": "underline",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "weight",
+        "comment": " ",
+        "type": "Int -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "wordSpacing",
+        "comment": " In `px`.\n",
+        "type": "Float -> Internal.Model.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Lazy",
+    "comment": " Same as `Html.lazy`. In case you're unfamiliar, here's a note from the `Html` library!\n\n    Since all Elm functions are pure we have a guarantee that the same input\n    will always result in the same output. This module gives us tools to be lazy\n    about building `Html` that utilize this fact.\n\n    Rather than immediately applying functions to their arguments, the `lazy`\n    functions just bundle the function and arguments up for later. When diffing\n    the old and new virtual DOM, it checks to see if all the arguments are equal\n    by reference. If so, it skips calling the function!\n\n    This is a really cheap test and often makes things a lot faster, but definitely\n    benchmark to be sure!\n\n@docs lazy\n\n_Note:_ For now only `lazy` that covers one argument can be provided. In `0.19` this will change!\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " ",
+        "type": "(a -> Internal.Model.Element msg) -> a -> Internal.Model.Element msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Background",
+    "comment": "\n\n@docs color, mouseOverColor, gradient\n\n@docs image, fittedImage, tiled, tiledX, tiledY\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "color",
+        "comment": " ",
+        "type": "Color.Color -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "fittedImage",
+        "comment": " Scale the image to fit the size of the element while maintaining proportions and cropping the overflow.\n",
+        "type": "String -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "gradient",
+        "comment": " A linear gradient.\n\nFirst you need to specify what direction the gradient is going by providing an angle in radians. `0` is up and `pi` is down.\n\nThe colors will be evenly spaced.\n\n",
+        "type": "Float -> List Color.Color -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "image",
+        "comment": " A background image that keeps it's natural width and height.\n",
+        "type": "String -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "mouseOverColor",
+        "comment": " The background will change to this color when the mouse is over it.\n",
+        "type": "Color.Color -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "tiled",
+        "comment": " Tile an image in the x and y axes.\n",
+        "type": "String -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "tiledX",
+        "comment": " Tile an image in the x axis.\n",
+        "type": "String -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "tiledY",
+        "comment": " Tile an image in the y axis.\n",
+        "type": "String -> Internal.Model.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Border",
+    "comment": " Border Properties\n\n@docs color, mouseOverColor\n\n\n# Border Widths\n\n@docs width, widthXY, widthEach\n\n\n# Border Styles\n\n@docs solid, dashed, dotted\n\n\n# Rounded Border\n\n@docs rounded, roundEach\n\n@docs glow, innerGlow, shadow, innerShadow\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "color",
+        "comment": " ",
+        "type": "Color.Color -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "dashed",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "dotted",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "glow",
+        "comment": " A simple glow by specifying the color and size.\n",
+        "type": "Color.Color -> Float -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "innerGlow",
+        "comment": " ",
+        "type": "Color.Color -> Float -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "innerShadow",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "mouseOverColor",
+        "comment": " ",
+        "type": "Color.Color -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "roundEach",
+        "comment": " ",
+        "type": "{ topLeft : Int , topRight : Int , bottomLeft : Int , bottomRight : Int } -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "rounded",
+        "comment": " Round all corners.\n",
+        "type": "Int -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "shadow",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ) , blur : Float , size : Float , color : Color.Color } -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "solid",
+        "comment": " ",
+        "type": "Internal.Model.Attribute msg"
+      },
+      {
+        "name": "width",
+        "comment": " ",
+        "type": "Int -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "widthEach",
+        "comment": " ",
+        "type": "{ bottom : Int, left : Int, right : Int, top : Int } -> Internal.Model.Attribute msg"
+      },
+      {
+        "name": "widthXY",
+        "comment": " Set horizontal and vertical borders.\n",
+        "type": "Int -> Int -> Internal.Model.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

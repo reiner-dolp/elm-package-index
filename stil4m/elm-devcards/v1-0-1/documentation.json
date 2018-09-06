@@ -1,0 +1,100 @@
+[
+  {
+    "name": "Devcard",
+    "comment": "\n\n\n# Devcard\n\n@docs BasicConfig, Config, Devcard, basicDevcard, devcard, staticDevcard\n\n",
+    "aliases": [
+      {
+        "name": "BasicConfig",
+        "comment": " ",
+        "args": [
+          "model",
+          "msg",
+          "context"
+        ],
+        "type": "{ model : model , update : msg -> model -> model , view : context -> model -> Html.Html msg }"
+      },
+      {
+        "name": "Config",
+        "comment": " ",
+        "args": [
+          "model",
+          "msg",
+          "context"
+        ],
+        "type": "{ model : context -> ( model, Platform.Cmd.Cmd msg ) , update : msg -> model -> ( model, Platform.Cmd.Cmd msg ) , view : context -> model -> Html.Html msg , subscriptions : model -> Platform.Sub.Sub msg }"
+      },
+      {
+        "name": "Devcard",
+        "comment": " ",
+        "args": [
+          "model",
+          "msg",
+          "context"
+        ],
+        "type": "Platform.Program Devcard.Flags (Devcard.Model model msg context) (Devcard.Msg msg context)"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "basicDevcard",
+        "comment": " ",
+        "type": "Devcard.Context.CardContext context -> Devcard.BasicConfig model msg context -> Devcard.Devcard model msg context"
+      },
+      {
+        "name": "devcard",
+        "comment": " ",
+        "type": "Devcard.Context.CardContext context -> Devcard.Config model msg context -> Devcard.Devcard model msg context"
+      },
+      {
+        "name": "staticDevcard",
+        "comment": " ",
+        "type": "Devcard.Context.CardContext context -> (context -> Html.Html Basics.Never) -> Devcard.Devcard () Basics.Never context"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Devcard.Context",
+    "comment": "\n\n\n# Devcard.Context\n\n@docs CardContext, initialize, view, none, static, dynamic\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "CardContext",
+        "comment": " ",
+        "args": [
+          "c"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "dynamic",
+        "comment": " ",
+        "type": "(Random.Seed -> c) -> (c -> Html.Html c) -> Devcard.Context.CardContext c"
+      },
+      {
+        "name": "initialize",
+        "comment": " ",
+        "type": "Devcard.Context.CardContext c -> Random.Seed -> c"
+      },
+      {
+        "name": "none",
+        "comment": " ",
+        "type": "Devcard.Context.CardContext ()"
+      },
+      {
+        "name": "static",
+        "comment": " ",
+        "type": "c -> Devcard.Context.CardContext c"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Devcard.Context.CardContext c -> c -> Html.Html c"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

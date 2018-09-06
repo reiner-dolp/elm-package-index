@@ -1,0 +1,326 @@
+[
+  {
+    "name": "Midi.Parse",
+    "comment": " Module for parsing MIDI files\n\n\n# API Reference\n\n@docs normalise, file, event\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "event",
+        "comment": " Parse a MIDI event\n",
+        "type": "String -> Result.Result String Midi.Types.MidiEvent"
+      },
+      {
+        "name": "file",
+        "comment": " entry point - Parse a normalised MIDI file image\n",
+        "type": "String -> Result.Result String Midi.Types.MidiRecording"
+      },
+      {
+        "name": "normalise",
+        "comment": " Normalise the input before we parse by masking off all but the least\nsignificant 8 bits. We assume the string contains only bytes so this\nshould be a no-op.\n",
+        "type": "String -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Midi.Generate",
+    "comment": " Module for encoding MIDI types as \"binary\"\n\n\n# API Reference\n\n@docs event, recording\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "event",
+        "comment": " Generate a MIDI event\n",
+        "type": "Midi.Types.MidiEvent -> List Midi.Types.Byte"
+      },
+      {
+        "name": "recording",
+        "comment": " Generate a MIDI recording\n",
+        "type": "Midi.Types.MidiRecording -> List Midi.Types.Byte"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Midi.Types",
+    "comment": " Type Definition of a MIDI recording\n\n\n# Data Types\n\n@docs Track, MidiEvent, MidiMessage, TracksType, MidiRecording, Byte, Channel\n\n@docs Note, Velocity, SysExFlavour, Ticks\n\n\n# Functions\n\n@docs eox, validRecording\n\n",
+    "aliases": [
+      {
+        "name": "Byte",
+        "comment": " just a hint that we're really interested in the bytes\nin some MidiEvent constructors that return Lists\n",
+        "args": [],
+        "type": "Int"
+      },
+      {
+        "name": "Channel",
+        "comment": " Midi Channel\n",
+        "args": [],
+        "type": "Int"
+      },
+      {
+        "name": "MidiMessage",
+        "comment": " Midi Message\n",
+        "args": [],
+        "type": "( Midi.Types.Ticks, Midi.Types.MidiEvent )"
+      },
+      {
+        "name": "Note",
+        "comment": " Midi Note\n",
+        "args": [],
+        "type": "Int"
+      },
+      {
+        "name": "Ticks",
+        "comment": " Midi Tick\n\nelapsed time\n\n",
+        "args": [],
+        "type": "Int"
+      },
+      {
+        "name": "Track",
+        "comment": " Midi Track\n",
+        "args": [],
+        "type": "List Midi.Types.MidiMessage"
+      },
+      {
+        "name": "Velocity",
+        "comment": " Midi Velocity (\nvolume\n",
+        "args": [],
+        "type": "Int"
+      }
+    ],
+    "types": [
+      {
+        "name": "MidiEvent",
+        "comment": " Midi Event\n\nNote that RunningStatus messages are not included within MidiEvent\nbecause the parser translates them to the underlying channel messages\n\n",
+        "args": [],
+        "cases": [
+          [
+            "SequenceNumber",
+            [
+              "Int"
+            ]
+          ],
+          [
+            "Text",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Copyright",
+            [
+              "String"
+            ]
+          ],
+          [
+            "TrackName",
+            [
+              "String"
+            ]
+          ],
+          [
+            "InstrumentName",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Lyrics",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Marker",
+            [
+              "String"
+            ]
+          ],
+          [
+            "CuePoint",
+            [
+              "String"
+            ]
+          ],
+          [
+            "ChannelPrefix",
+            [
+              "Int"
+            ]
+          ],
+          [
+            "Tempo",
+            [
+              "Int"
+            ]
+          ],
+          [
+            "SMPTEOffset",
+            [
+              "Int",
+              "Int",
+              "Int",
+              "Int",
+              "Int"
+            ]
+          ],
+          [
+            "TimeSignature",
+            [
+              "Int",
+              "Int",
+              "Int",
+              "Int"
+            ]
+          ],
+          [
+            "KeySignature",
+            [
+              "Int",
+              "Int"
+            ]
+          ],
+          [
+            "SequencerSpecific",
+            [
+              "List Midi.Types.Byte"
+            ]
+          ],
+          [
+            "SysEx",
+            [
+              "Midi.Types.SysExFlavour",
+              "List Midi.Types.Byte"
+            ]
+          ],
+          [
+            "Unspecified",
+            [
+              "Int",
+              "List Midi.Types.Byte"
+            ]
+          ],
+          [
+            "NoteOn",
+            [
+              "Midi.Types.Channel",
+              "Midi.Types.Note",
+              "Midi.Types.Velocity"
+            ]
+          ],
+          [
+            "NoteOff",
+            [
+              "Midi.Types.Channel",
+              "Midi.Types.Note",
+              "Midi.Types.Velocity"
+            ]
+          ],
+          [
+            "NoteAfterTouch",
+            [
+              "Midi.Types.Channel",
+              "Midi.Types.Note",
+              "Midi.Types.Velocity"
+            ]
+          ],
+          [
+            "ControlChange",
+            [
+              "Midi.Types.Channel",
+              "Int",
+              "Int"
+            ]
+          ],
+          [
+            "ProgramChange",
+            [
+              "Midi.Types.Channel",
+              "Int"
+            ]
+          ],
+          [
+            "ChannelAfterTouch",
+            [
+              "Midi.Types.Channel",
+              "Midi.Types.Velocity"
+            ]
+          ],
+          [
+            "PitchBend",
+            [
+              "Midi.Types.Channel",
+              "Int"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "MidiRecording",
+        "comment": " Midi Recording\n",
+        "args": [],
+        "cases": [
+          [
+            "SingleTrack",
+            [
+              "Int",
+              "Midi.Types.Track"
+            ]
+          ],
+          [
+            "MultipleTracks",
+            [
+              "Midi.Types.TracksType",
+              "Int",
+              "List Midi.Types.Track"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "SysExFlavour",
+        "comment": " SysExFlavour\n\nDiscriminate between two different forms of SysExEvrnt as characterised by the\nlead-in byte, See <https://www.csie.ntu.edu.tw/~r92092/ref/midi/#sysex_event>.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "F0",
+            []
+          ],
+          [
+            "F7",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "TracksType",
+        "comment": " Discriminate between the types of tracks in a recording.\nAre they played simultaneously or independently.\n",
+        "args": [],
+        "cases": [
+          [
+            "Simultaneous",
+            []
+          ],
+          [
+            "Independent",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "eox",
+        "comment": " Constants\n",
+        "type": "Int"
+      },
+      {
+        "name": "validRecording",
+        "comment": " Helpers\n",
+        "type": "Midi.Types.MidiRecording -> Bool"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

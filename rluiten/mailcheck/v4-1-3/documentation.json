@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Mailcheck",
+    "comment": " A library that suggests a correct domain when a user miss spells an email address.\r\nThis is a port of this javascript library https://github.com/mailcheck/mailcheck\r\n\r\n## Basic Usage\r\n\r\n```elm\r\n    Mailcheck.suggest 'test@gnail.com'\r\n      == Just (\"test\", \"gmail.com\", \"test@gmail.com\")\r\n```\r\n\r\n```elm\r\n    Mailcheck.suggest 'test@gsnail.com'\r\n      == Nothing\r\n```\r\n\r\n# Create\r\n@docs suggest\r\n@docs suggestWith\r\n\r\n# Utility\r\n@docs encodeEmail\r\n@docs splitEmail\r\n@docs mailParts\r\n@docs MailParts\r\n@docs findClosestDomain\r\n\r\n# Default domain lists used by suggest\r\n@docs defaultDomains\r\n@docs defaultTopLevelDomains\r\n@docs defaultSecondLevelDomains\r\n\r\n",
+    "aliases": [
+      {
+        "name": "MailParts",
+        "comment": " Record type alias for mailparts. ",
+        "args": [],
+        "type": "{ topLevelDomain : String , secondLevelDomain : String , domain : String , address : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultDomains",
+        "comment": " default list of domains used in suggest ",
+        "type": "List String"
+      },
+      {
+        "name": "defaultSecondLevelDomains",
+        "comment": " default list of second level domains used in suggest ",
+        "type": "List String"
+      },
+      {
+        "name": "defaultTopLevelDomains",
+        "comment": " default list of top level domains used in suggest ",
+        "type": "List String"
+      },
+      {
+        "name": "encodeEmail",
+        "comment": " Encode the email address to prevent XSS but leave in valid\r\ncharacters, following this official spec:\r\nhttp://en.wikipedia.org/wiki/Email_address#Syntax\r\n\r\nThis is exported to test it.\r\n\r\nencodeURI() will not encode: ~!@#$&*()=:/,;?+'\r\nElm's Http.uriEncode actually calls encodeURIComponent\r\n\r\nencodeURIComponent() escapes all characters except the\r\nfollowing: alphabetic, decimal digits, - _ . ! ~ * ' ( )\r\n\r\nExtra rules were added since Elm provides encodeURIComponent() functionality.\r\n\r\n```elm\r\n    (encodeEmail \"<hello>@domain.com\") == \"%3Chello%3E@domain.com\"\r\n```\r\n\r\n",
+        "type": "String -> String"
+      },
+      {
+        "name": "findClosestDomain",
+        "comment": " Find closest domain in given list of domains and threshold using default distance.\r\n\r\n```elm\r\n    findClosestDomain \"test@gmail.co\" slds tlds\r\n```\r\n\r\nis equivalent to\r\n\r\n```elm\r\n    findClosestDomainWith sift3Distance topLevelThreshold \"test@gmail.co\" slds tlds\r\n```\r\n",
+        "type": "String -> List String -> Maybe.Maybe String"
+      },
+      {
+        "name": "mailParts",
+        "comment": " Split an email address up into components.\r\n\r\n```elm\r\n    (mailParts \"user\") == Nothing\r\n    (mailParts \"user@\") == Nothing\r\n    (mailParts \"user@moo.com\") ==\r\n      Just\r\n      ( { topLevelDomain = \"user\"\r\n        , secondLevelDomain = \"moo.com\"\r\n        , domain = \"moo\"\r\n        , address = \"com\"\r\n        }\r\n      )\r\n    (mailParts \"user@moo.co.uk\") ==\r\n      Just\r\n      ( { topLevelDomain = \"user\"\r\n        , secondLevelDomain = \"moo.com.uk\"\r\n        , domain = \"moo\"\r\n        , address = \"co.uk\"\r\n        }\r\n      )\r\n```\r\n",
+        "type": "String -> Maybe.Maybe Mailcheck.MailParts"
+      },
+      {
+        "name": "splitEmail",
+        "comment": " Split an email address up into components.\r\n\r\nThis function has been retained to make it a Minor version change not a Major\r\nand now converts the output of mailparts to this form.\r\n\r\n```elm\r\n    (spitEmail \"user\") == Nothing\r\n    (mailParts \"user\") == Nothing\r\n    (spitEmail \"user@\") == Nothing\r\n    (mailParts \"user@\") == Nothing\r\n    (spitEmail \"user@moo.com\") == Just(\"user\", \"moo.com\", \"moo\", \"com\")\r\n    (spitEmail \"user@moo.co.uk\") == Just(\"user\", \"moo.com.uk\", \"moo\", \"co.uk\")\r\n```\r\n",
+        "type": "String -> Maybe.Maybe ( String, String, String, String )"
+      },
+      {
+        "name": "suggest",
+        "comment": " Suggest a domain which may assist a user with a possible error\r\nin a candidate email address. This version uses the default internal lists\r\nof domains.\r\n\r\n```elm\r\n    suggest 'test@gmail.co'\r\n```\r\n\r\nis equivalent to\r\n\r\n```elm\r\n    suggestWith defaultDomains defaultSecondLevelDomains defaultTopLevelDomains 'test@gmail.co'\r\n```\r\n\r\nexample\r\n\r\n```elm\r\n    (suggest \"user@gmil.com\")\r\n      == Just (\"user\", \"gmail.com\", \"user@gmail.com\")\r\n```\r\n\r\nResult is Maybe (address, domain, secondLevelDomain, topLevelDomain)\r\n\r\n",
+        "type": "String -> Maybe.Maybe ( String, String, String )"
+      },
+      {
+        "name": "suggestWith",
+        "comment": " Suggest with passed in domain lists.\r\n\r\n* domains is list of known valid domains\r\n* top level domains is allowed to be empty\r\n* second level domains is allowed to be empty\r\n\r\n",
+        "type": "List String -> List String -> List String -> String -> Maybe.Maybe ( String, String, String )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

@@ -1,0 +1,81 @@
+[
+  {
+    "name": "PortsDriver",
+    "comment": " This is an Elm package - npm package combo designed to be used to simplify\nsome of the ports code usage.\n\n\n# Types\n\n@docs Config, ID\n\n\n# Html.Event Helper\n\n@docs onFileChange\n\n\n# Commands without reply\n\nThese are the commands that will not produce a reply.\n\n@docs log, setTitle, updateCss, send\n\n\n# Commands with reply\n\nThese are the commands that will cause a reply to be sent back to Elm.\n\n@docs readAsText, readAsDataURL\n\n\n# Subscriptions\n\nDecoders for the subscriptions.\n\n@docs inputDecoder, receiveFileAsText, receiveFileAsDataURL, subscriptions\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " The `Config` record contains the output port, the input port a function handle\nunknown input port messages. This record is needed for all the functions.\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ output : Json.Encode.Value -> Platform.Cmd.Cmd msg , input : (Json.Encode.Value -> msg) -> Platform.Sub.Sub msg , fail : String -> msg }"
+      },
+      {
+        "name": "ID",
+        "comment": " An alias to make the type signatures more explicit\n",
+        "args": [],
+        "type": "String"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "inputDecoder",
+        "comment": " Generic input decoder. Receives the tag of the message and a decoder for the\npayload of the message. Returns a decoder that can be used with `subscriptions`.\n",
+        "type": "String -> Json.Decode.Decoder msg -> Json.Decode.Decoder msg"
+      },
+      {
+        "name": "log",
+        "comment": " Logs the provided `String` to the Console.\n",
+        "type": "PortsDriver.Config msg -> String -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "onFileChange",
+        "comment": " A helper for the FileReader part of the driver.\n",
+        "type": "msg -> Html.Attribute msg"
+      },
+      {
+        "name": "readAsDataURL",
+        "comment": " sends a read command for the node with the provided ID. The contents are\nread as a dataURL.\n",
+        "type": "PortsDriver.Config msg -> PortsDriver.ID -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "readAsText",
+        "comment": " sends a read command for the node with the provided ID. The contents are\nread as text.\n",
+        "type": "PortsDriver.Config msg -> PortsDriver.ID -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "receiveFileAsDataURL",
+        "comment": " Decoder for the file reader `readAsDataURL` command replay. The message creator\nreceives the `ID` of the input node, the `filename` and the contents of the file\nas a `String`.\n",
+        "type": "(PortsDriver.ID -> String -> String -> msg) -> Json.Decode.Decoder msg"
+      },
+      {
+        "name": "receiveFileAsText",
+        "comment": " Decoder for the file reader `readAsText` command replay. The message creator\nreceives the `ID` of the input node, the `filename` and the contents of the file\nas a `String`.\n",
+        "type": "(PortsDriver.ID -> String -> String -> msg) -> Json.Decode.Decoder msg"
+      },
+      {
+        "name": "send",
+        "comment": " Generic function for sending messages to JavaScript.\n",
+        "type": "PortsDriver.Config msg -> String -> Json.Encode.Value -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "setTitle",
+        "comment": " Sets the provided `String` as the title of the page.\n",
+        "type": "PortsDriver.Config msg -> String -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "subscriptions",
+        "comment": " The main subscription. Receives a list of decoders for the messages received\nfrom the input port.\n",
+        "type": "PortsDriver.Config msg -> List (Json.Decode.Decoder msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "updateCss",
+        "comment": " Updates the head node with a style node containing the value provided as a\n`String`.\n",
+        "type": "PortsDriver.Config msg -> String -> Platform.Cmd.Cmd msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

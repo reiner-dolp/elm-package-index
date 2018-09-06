@@ -1,0 +1,161 @@
+[
+  {
+    "name": "Gallery",
+    "comment": "\n\n\n# View\n\n@docs view\n\n\n# Configuration\n\n@docs Config\n@docs config\n\n\n## Dimensions\n\n@docs Length\n@docs px\n@docs pct\n@docs rem\n@docs em\n@docs vw\n@docs vh\n\n\n# State\n\n@docs init\n@docs update\n\n\n## Definitions\n\n@docs State\n@docs Msg\n@docs SlideCount\n\n\n# Controls\n\n@docs Controls\n\n\n# Navigation\n\n@docs index\n@docs next\n@docs previous\n@docs current\n\n",
+    "aliases": [
+      {
+        "name": "SlideCount",
+        "comment": " Total number of slides\n",
+        "args": [],
+        "type": "Int"
+      }
+    ],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " ",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Controls",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Arrows",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "Length",
+        "comment": " ",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Msg",
+        "comment": " A message type for the gallery to update.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "State",
+        "comment": " Tracks index, mouse and touch movements\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "config",
+        "comment": "\n\n     Gallery.config\n        { id = \"image-gallery\"\n        , transition = Time.second * 0.5\n        , width = Gallery.px 800\n        , height = Gallery.px 400\n        }\n\n",
+        "type": "{ id : String , transition : Time.Time , width : Gallery.Length , height : Gallery.Length } -> Gallery.Config"
+      },
+      {
+        "name": "current",
+        "comment": " Get current index\n",
+        "type": "Gallery.State -> Int"
+      },
+      {
+        "name": "em",
+        "comment": " ",
+        "type": "Float -> Gallery.Length"
+      },
+      {
+        "name": "index",
+        "comment": " Go to slide at index\n\n    { model | gallery = Gallery.index 10 model.gallery }\n\n",
+        "type": "Int -> Gallery.State -> Gallery.State"
+      },
+      {
+        "name": "init",
+        "comment": " Initialize a gallery state\n",
+        "type": "Gallery.SlideCount -> Gallery.State"
+      },
+      {
+        "name": "next",
+        "comment": " Go to next slide\n\n    { model | gallery = Gallery.next model.gallery }\n\n",
+        "type": "Gallery.State -> Gallery.State"
+      },
+      {
+        "name": "pct",
+        "comment": " ",
+        "type": "Float -> Gallery.Length"
+      },
+      {
+        "name": "previous",
+        "comment": " Go to previous slide\n\n    { model | gallery = Gallery.previous model.gallery }\n\n",
+        "type": "Gallery.State -> Gallery.State"
+      },
+      {
+        "name": "px",
+        "comment": " ",
+        "type": "Float -> Gallery.Length"
+      },
+      {
+        "name": "rem",
+        "comment": " ",
+        "type": "Float -> Gallery.Length"
+      },
+      {
+        "name": "update",
+        "comment": " ",
+        "type": "Gallery.Msg -> Gallery.State -> Gallery.State"
+      },
+      {
+        "name": "vh",
+        "comment": " ",
+        "type": "Float -> Gallery.Length"
+      },
+      {
+        "name": "view",
+        "comment": "\n\n    Gallery.view config model.gallery [] slides\n\n",
+        "type": "Gallery.Config -> Gallery.State -> List Gallery.Controls -> List ( String, Html.Html Gallery.Msg ) -> Html.Html Gallery.Msg"
+      },
+      {
+        "name": "vw",
+        "comment": " ",
+        "type": "Float -> Gallery.Length"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Gallery.Image",
+    "comment": "\n\n\n# Image slide\n\n@docs slide\n\n\n## Definitions\n\n@docs Size\n@docs Url\n\n",
+    "aliases": [
+      {
+        "name": "Url",
+        "comment": " Image url\n",
+        "args": [],
+        "type": "String"
+      }
+    ],
+    "types": [
+      {
+        "name": "Size",
+        "comment": " How the image is displayed within it's container, same as CSS background-size\n",
+        "args": [],
+        "cases": [
+          [
+            "Cover",
+            []
+          ],
+          [
+            "Contain",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "slide",
+        "comment": " Create an image slide that either fits or covers the gallery container\n",
+        "type": "Gallery.Image.Url -> Gallery.Image.Size -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

@@ -1,0 +1,217 @@
+[
+  {
+    "name": "ElmTextSearch",
+    "comment": " A full text indexer written in Elm language inspired by lunr.js.\r\n\r\nA useful article about lunr.js\r\nhttps://www.new-bamboo.co.uk/blog/2013/02/26/full-text-search-in-your-browser/\r\n\r\n## Create Index\r\n@docs new\r\n@docs newWith\r\n\r\n## Modify Index\r\n@docs add\r\n@docs addDocs\r\n@docs remove\r\n@docs update\r\n@docs addOrUpdate\r\n\r\n## Query Index\r\n@docs search\r\n\r\n## Types\r\n@docs Index\r\n@docs Config\r\n@docs SimpleConfig\r\n\r\n## Save and Load an Index\r\n\r\n* You can save an index using [`ElmTextSearch.Json.Encoder.encoder`](ElmTextSearch.Json.Encoder#encoder)\r\n* You can load a saved index using\r\n  [`ElmTextSearch.Json.Decoder.decoder`](ElmTextSearch.Json.Decoder#decoder)\r\n  to produce a [`Index.Model.CodecIndexRecord`](Index.Model#CodecIndexRecord).\r\n* You can save a [`Index.Model.CodecIndexRecord`](Index.Model#CodecIndexRecord)\r\n  using [`ElmTextSearch.Json.Encoder.codecIndexRecordEncoder`](ElmTextSearch.Json.Encoder#codecIndexRecordEncoder)\r\n* ** Modifying an index outside of ElmTextSearch using the Decoder and Encoder directly\r\nmay cause it to not work correctly loaded into ElmTextSearch. **\r\n\r\n@docs storeToValue\r\n@docs storeToString\r\n@docs fromString\r\n@docs fromValue\r\n@docs fromStringWith\r\n@docs fromValueWith\r\n\r\nCopyright (c) 2016 Robin Luiten\r\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " A Config is required to create an Index. ",
+        "args": [
+          "doc"
+        ],
+        "type": "Index.Model.Config doc"
+      },
+      {
+        "name": "Index",
+        "comment": " An Index holds the data to be able search for added documents.\r\n",
+        "args": [
+          "doc"
+        ],
+        "type": "Index.Index doc"
+      },
+      {
+        "name": "SimpleConfig",
+        "comment": " A SimpleConfig is the least amount of configuration data\r\nrequired to create an Index.\r\n",
+        "args": [
+          "doc"
+        ],
+        "type": "{ ref : doc -> String , fields : List ( doc -> String, Float ) , listFields : List ( doc -> List String, Float ) }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "add",
+        "comment": " Add a document to an index.\r\n\r\nStarting with the ElmTextSearch.new example above this adds a document.\r\n```\r\naddDocToIndexExample :\r\n  Result String (ElmTextSearch.Index ExampleDocType)\r\naddDocToIndexExample =\r\n  ElmTextSearch.add\r\n    { cid = \"id1\"\r\n    , title = \"First Title\"\r\n    , author = \"Some Author\"\r\n    , body = \"Words in this example document with explanations.\"\r\n    }\r\n    createNewWithIndexExample\r\n```\r\n\r\nConditions that cause a result Err with message.\r\n* Error document ref is empty.\r\n* Error after tokenisation there are no terms to index.\r\n* Error adding document that allready exists.\r\n",
+        "type": "doc -> ElmTextSearch.Index doc -> Result.Result String (ElmTextSearch.Index doc)"
+      },
+      {
+        "name": "addDocs",
+        "comment": " Add multiple documents. Tries to add all docs and collects errors..\r\nIt does not stop adding at first error encountered.\r\n\r\nThe result part List (Int, String) is the list of document index\r\nand the error string message result of adding.\r\nReturns the index unchanged if all documents error when added.\r\nReturns the updated index after adding the documents.\r\n",
+        "type": "List doc -> ElmTextSearch.Index doc -> ( ElmTextSearch.Index doc, List ( Int, String ) )"
+      },
+      {
+        "name": "addOrUpdate",
+        "comment": " Add or Update a document in an index.\r\nThis removes the document first if it is allready in index then adds it.\r\n",
+        "type": "doc -> ElmTextSearch.Index doc -> Result.Result String (ElmTextSearch.Index doc)"
+      },
+      {
+        "name": "fromString",
+        "comment": " Create an Index from a String which has a stored Index in it and the\r\nsupplied basic configurations.\r\n\r\nSee [`ElmTextSearch.fromStringWith`](ElmTextSearch#fromStringWith) for possible Err results.\r\n",
+        "type": "ElmTextSearch.SimpleConfig doc -> String -> Result.Result String (ElmTextSearch.Index doc)"
+      },
+      {
+        "name": "fromStringWith",
+        "comment": " Create an Index from a String which has a stored Index in it.\r\n\r\nIf none of the indexVersion in the list of Config match the index\r\ntype being loaded it will return an Err.\r\n\r\nThe list of configurations wil be searched for a matching indexType\r\nso you should provide configs for all types you may be trying to load.\r\nNo more than the config that matches is required though.\r\n\r\nIf the none of the supplied Config match the loaded Index then it\r\nwill try if the index being loaded matches the default version if so\r\nit will still load the index.\r\n\r\nThe following Err results may be returned.\r\n* \"Error cannot load Index. Tried to load index of type \\\"__IndexTest Type -\\\". It is not in supported index configurations.\"\r\n * It contains the loaded version index type which comes from input.\r\n* \"Error cannot load Index. Version supported is 1.0.0. Version tried to load is 1.0.1.\"\r\n * It includes both expected and loaded versions which may vary.\r\n",
+        "type": "List (ElmTextSearch.Config doc) -> String -> Result.Result String (ElmTextSearch.Index doc)"
+      },
+      {
+        "name": "fromValue",
+        "comment": " Create an Index from a Value which has a stored Index in it.\r\n\r\nSee [`ElmTextSearch.fromStringWith`](ElmTextSearch#fromStringWith) for possible Err results.\r\n",
+        "type": "ElmTextSearch.SimpleConfig doc -> Json.Decode.Value -> Result.Result String (ElmTextSearch.Index doc)"
+      },
+      {
+        "name": "fromValueWith",
+        "comment": " Create an Index from a String which has a stored Index in it.\r\n\r\nIf none of the indexVersion in the list of SimpleConfig match the index\r\nbeing decoded it will return an Err.\r\n\r\nSee [`ElmTextSearch.fromStringWith`](ElmTextSearch#fromStringWith) for possible Err results.\r\n",
+        "type": "List (ElmTextSearch.Config doc) -> Json.Decode.Value -> Result.Result String (ElmTextSearch.Index doc)"
+      },
+      {
+        "name": "new",
+        "comment": " Create new index.\r\n\r\nExample\r\n```\r\nimport ElmTextSearch\r\n\r\n\r\n{-| Example document type. -}\r\ntype alias ExampleDocType =\r\n  { cid : String\r\n  , title : String\r\n  , author : String\r\n  , body : String\r\n  }\r\n\r\n\r\n{-| Create an index with default configuration.\r\nSee ElmTextSearch.SimpleConfig documentation for parameter information.\r\n-}\r\ncreateNewIndexExample : ElmTextSearch.Index ExampleDocType\r\ncreateNewIndexExample =\r\n  ElmTextSearch.new\r\n    { ref = .cid\r\n    , fields =\r\n        [ ( .title, 5.0 )\r\n        , ( .body, 1.0 )\r\n        ]\r\n    , listFields = []\r\n    }\r\n```\r\n\r\nThe `SimpleConfig` parameter to new is\r\n* ref\r\n * The unique document reference will be extracted from each\r\n   document using `.cid`.\r\n* fields\r\n * The following fields will be indexed from each document\r\n  * `.title`\r\n  * `.body`\r\n * When searching the index any word matches found in the\r\n   `.title` field (boost value 5.0) raise the document match score\r\n   more than if found in the `.body` field (boost value 1.0).\r\n  * The document match score determines the order of the list\r\n    of matching documents returned.\r\n",
+        "type": "ElmTextSearch.SimpleConfig doc -> ElmTextSearch.Index doc"
+      },
+      {
+        "name": "newWith",
+        "comment": " Create new index with additional configuration.\r\n\r\nExample.\r\n```\r\nimport ElmTextSearch\r\nimport Index.Defaults\r\nimport StopWordFilter\r\n\r\n\r\ntype alias ExampleDocType =\r\n  { cid : String\r\n  , title : String\r\n  , author : String\r\n  , body : String\r\n  }\r\n\r\n\r\ncreateMyStopWordFilter =\r\n  StopWordFilter.createFilterFuncWith\r\n    [ \"explanations\" ]\r\n\r\n\r\ncreateNewWithIndexExample : ElmTextSearch.Index ExampleDocType\r\ncreateNewWithIndexExample =\r\n  ElmTextSearch.newWith\r\n    { indexType = \"ElmTextSearch - Customized Stop Words v1\"\r\n    , ref = .cid\r\n    , fields =\r\n        [ ( .title, 5.0 )\r\n        , ( .body, 1.0 )\r\n        ]\r\n    , listFields = []\r\n    , transformFactories = Index.Defaults.defaultTransformFactories\r\n    , filterFactories = [ createMyStopWordFilter ]\r\n    }\r\n```\r\n",
+        "type": "ElmTextSearch.Config doc -> ElmTextSearch.Index doc"
+      },
+      {
+        "name": "remove",
+        "comment": " Remove a document from an index.\r\n\r\nStarting with the ElmTextSearch.new example above this removes a document.\r\n```\r\nremoveDocFromIndexExample =\r\n  ElmTextSearch.remove\r\n    { cid = \"123\"\r\n    , title = \"Examples of a Banana\"\r\n    , author = \"Sally Apples\"\r\n    , body = \"Sally writes words about a banana.\"\r\n    }\r\n    createNewIndexExample\r\n```\r\n\r\nConditions that cause a result Err with message.\r\n* Error document has an empty unique id (ref).\r\n* Error document is not in index.\r\n",
+        "type": "doc -> ElmTextSearch.Index doc -> Result.Result String (ElmTextSearch.Index doc)"
+      },
+      {
+        "name": "search",
+        "comment": " Search an index with query.\r\n\r\nTokens are extracted from the query string and passed through the\r\nsame processing used when indexing documents.\r\n\r\nEach token is expanded, so that the term \"he\" might be expanded to \"hello\"\r\nand \"help\" if those terms were already included in the document index.\r\n\r\nMultiple tokens are allowed and will lead to an AND based query.\r\n\r\nThe following example runs a search for documents containing both \"apple\" and \"banana\".\r\n\r\n```\r\nsearchResult =\r\n  Index.search \"Apple banana\" createNewIndexExample\r\n```\r\n\r\nResults are a list of matching document reference identifiers with\r\nthere similarity to query score, ordered by score descending, so the\r\nbest matches are earliest in the list.\r\n\r\nAn index is returned from search as well. This is because the data model may\r\nbe updated to improve performance for later searches.\r\n\r\nAdding or removing a new document will cause some of the internal caching\r\nto be reset.\r\n\r\nConditions that cause a result Err with message.\r\n* Error there are no documents in index to search.\r\n* Error query is empty.\r\n* Error after tokenisation there are no terms to search for.\r\n\r\n",
+        "type": "String -> ElmTextSearch.Index doc -> Result.Result String ( ElmTextSearch.Index doc, List ( String, Float ) )"
+      },
+      {
+        "name": "storeToString",
+        "comment": " Store an index to a String.\r\n\r\nYou can also use [`ElmTextSearch.Json.Encoder`](ElmTextSearch.Json.Encoder).\r\n",
+        "type": "ElmTextSearch.Index doc -> String"
+      },
+      {
+        "name": "storeToValue",
+        "comment": " Store an index to a Value.\r\n\r\nYou can also use [`ElmTextSearch.Json.Encoder`](ElmTextSearch.Json.Encoder).\r\n",
+        "type": "ElmTextSearch.Index doc -> Json.Encode.Value"
+      },
+      {
+        "name": "update",
+        "comment": " Update a document in an index.\r\n\r\nStarting with the ElmTextSearch.new example above this updates a document.\r\n```\r\n  updatedIndex =\r\n    ElmTextSearch.update\r\n      { cid = \"123\"\r\n      , title = \"Examples of a Bananas in every day life.\"\r\n      , author = \"Sally Apples\"\r\n      , body = \"Sally writes more words about a banana.\"\r\n      }\r\n      createNewIndexExample\r\n```\r\n\r\nConditions that cause an error result are those for\r\n[`ElmTextSearch.remove`](ElmTextSearch#remove) and\r\n[`ElmTextSearch.add`](ElmTextSearch#add).\r\n",
+        "type": "doc -> ElmTextSearch.Index doc -> Result.Result String (ElmTextSearch.Index doc)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmTextSearch.Json.Encoder",
+    "comment": " Encoder for Index.\r\n\r\n@docs encoder\r\n@docs codecIndexRecordEncoder\r\n\r\nCopyright (c) 2016 Robin Luiten\r\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "codecIndexRecordEncoder",
+        "comment": " Encode CodecIndexRecord. ",
+        "type": "Index.Model.CodecIndexRecord -> Json.Encode.Value"
+      },
+      {
+        "name": "encoder",
+        "comment": " Encoder for Index a.\r\n\r\nOnly encoding fields required to recreate a working index.\r\n\r\nThe following fields are not saved as they are restored via\r\nthe provided Config on fromString.\r\n* ref\r\n* fields\r\n* transformFactories\r\n* filterFactories\r\n\r\nThe following fields are not saved because they are an\r\nacceleration model, decoder needs to set it on fromString.\r\n* corpusTokensIndex\r\n\r\nThe following fields are not saved because they are caches\r\nand are cached as operationg requires\r\n* transforms\r\n* filters\r\n* idfCache\r\n\r\nDo not need an (a -> Encode.Value) because a is a document\r\ntype and that is never encoded from an Index.\r\n",
+        "type": "Index.Model.Index doc -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Index.Defaults",
+    "comment": " Defaults for indexes and configurations.\r\n\r\n## Index Storage Engine Version and Type\r\n@docs indexVersion\r\n@docs elmTextSearchIndexType\r\n\r\n\r\n## Built in Transforms and Filters\r\n@docs defaultTransformFactories\r\n@docs defaultFilterFactories\r\n@docs defaultTokenTrimmerFuncCreator\r\n@docs defaultStemmerFuncCreator\r\n@docs defaultStopWordFilterFuncCreator\r\n\r\n\r\n## Config type adapters\r\n@docs getDefaultIndexConfig\r\n\r\nCopyright (c) 2016 Robin Luiten\r\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultFilterFactories",
+        "comment": " Index default filter factories. ",
+        "type": "List (Index.Model.FilterFactory doc)"
+      },
+      {
+        "name": "defaultStemmerFuncCreator",
+        "comment": " The default token stemmer transform function creator. ",
+        "type": "Index.Model.TransformFactory doc"
+      },
+      {
+        "name": "defaultStopWordFilterFuncCreator",
+        "comment": " The default stop word filter function creator. ",
+        "type": "Index.Model.FilterFactory doc"
+      },
+      {
+        "name": "defaultTokenTrimmerFuncCreator",
+        "comment": " The default token trimmer transform function creator.\r\nNormally applied first in transform functions.\r\n",
+        "type": "Index.Model.TransformFactory doc"
+      },
+      {
+        "name": "defaultTransformFactories",
+        "comment": " Index default transform factories. ",
+        "type": "List (Index.Model.TransformFactory doc)"
+      },
+      {
+        "name": "elmTextSearchIndexType",
+        "comment": " The type of index defaults to using.\r\n\r\nIt defines the default token transforms and filters.\r\n",
+        "type": "String"
+      },
+      {
+        "name": "getDefaultIndexConfig",
+        "comment": " Convert Index.Model.SimpleConfig to Index.Model.Config\r\n\r\nFilling in default values for fields not in SimpleConfig\r\n\r\nThis is the definition of the default index configuration.\r\n",
+        "type": "Index.Model.SimpleConfig doc -> Index.Model.Config doc"
+      },
+      {
+        "name": "indexVersion",
+        "comment": " The version of index, for loading a saved index.\r\n\r\nThis is not the same as package version.\r\n\r\nThis needs to change if the encoded format changes. Be careful of updates to\r\nTrie package, if Trie encoding format changes this version needs to change as\r\nwell.\r\n",
+        "type": "String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "StopWordFilter",
+    "comment": " StopWordFilter is an English language stop word list filter, any words\r\ncontained in the list are not stored in the index.\r\n\r\nThis is intended to be used in the ElmTextSearch token processing pipeline.\r\n\r\n### Things to know about stop word lists.\r\n* Input tokens to create stop word filters should be full words, if you\r\ndont know the transform steps for index or if you use the list with different\r\nsets of transforms.\r\n* If you know the exact transform process of your Index you can prerun the\r\ntransform process to generate your word list, which in theory might\r\nmake it a little more efficient.\r\n* It is more efficient to merge all your stop words into a single\r\nstop word filter.\r\n\r\n## create default stop word filter func\r\n@docs createDefaultFilterFunc\r\n\r\n## A default stop word english filter list\r\n@docs stopEnglishWordList\r\n\r\n## Create a custom stop word filter list\r\n@docs createFilterFuncWith\r\n@docs createFilterFunc\r\n\r\nCopyright (c) 2016 Robin Luiten\r\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "createDefaultFilterFunc",
+        "comment": " Default english stop word filter suitable for ElmTextSearch.\r\n",
+        "type": "Index.Model.FilterFactory doc"
+      },
+      {
+        "name": "createFilterFunc",
+        "comment": " Create stop word filter for provided list of tokens suitable for ElmTextSearch.\r\n\r\n** This creates a stop world filter purely from your own word list, understand\r\nwhat you are doing and consequences if you use this. **\r\n\r\nThe FilterFunc created returns True to allow words into index.\r\nSo words found in the stopWordList return False\r\n",
+        "type": "List String -> Index.Model.FilterFactory doc"
+      },
+      {
+        "name": "createFilterFuncWith",
+        "comment": " Create stop word list filter suitable for ElmTextSearch, this versions\r\nextends the default word list with the extra words provided.\r\n",
+        "type": "List String -> Index.Model.FilterFactory doc"
+      },
+      {
+        "name": "stopEnglishWordList",
+        "comment": " Default english stop word list to create filter.\r\n",
+        "type": "List String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmTextSearch.Json.Decoder",
+    "comment": " Decoder for Index.\r\n\r\nIt decodes to a CodecIndexRecord.\r\n\r\n@docs decoder\r\n\r\nCopyright (c) 2016 Robin Luiten\r\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "decoder",
+        "comment": " CodecIndexRecord decoder. ",
+        "type": "Json.Decode.Decoder Index.Model.CodecIndexRecord"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]
