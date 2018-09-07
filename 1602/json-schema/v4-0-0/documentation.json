@@ -1,34 +1,5 @@
 [
   {
-    "name": "Json.Schema",
-    "comment": "\nThis library provides bunch of utility methods to work with JSON values using\nschemas defined in [JSON Schema](http://json-schema.org/) format.\n\nCurrently it allows to construct schemata ([draft-6](https://github.com/json-schema-org/json-schema-spec/blob/draft-06/schema.json)), validate values and generate random\nvalues based on schema (very experimental feature).\nIt supports local references, but doesn't support remote references.\n\n# Decode schema\n\nUse `fromValue` or `fromString` methods if you receive schema from external source. If you want to construct schema from elm code you might want to use `Json.Schema.Builder`, or low-level API using definitions from `Json.Schema.Definitions`\n\n@docs fromValue, fromString\n\n# Validation\n\n@docs validateValue, validateAt\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "fromString",
-        "comment": " Construct JSON Schema from string\n",
-        "type": "String -> Result.Result String Json.Schema.Definitions.Schema"
-      },
-      {
-        "name": "fromValue",
-        "comment": " Construct JSON Schema from JSON value\n",
-        "type": "Json.Decode.Value -> Result.Result String Json.Schema.Definitions.Schema"
-      },
-      {
-        "name": "validateAt",
-        "comment": " Validate value using subschema identified by URI.\n",
-        "type": "Json.Schema.Validation.ValidationOptions -> Json.Decode.Value -> Json.Schema.Definitions.Schema -> String -> Result.Result (List Json.Schema.Validation.Error) Json.Decode.Value"
-      },
-      {
-        "name": "validateValue",
-        "comment": " Validate value against JSON Schema. Returns Result with updated value in case if validationOptions require so.\n\n    schema\n        |> Json.Schema.validateValue { applyDefaults = True } value\n",
-        "type": "Json.Schema.Validation.ValidationOptions -> Json.Decode.Value -> Json.Schema.Definitions.Schema -> Result.Result (List Json.Schema.Validation.Error) Json.Decode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Json.Schema.Random",
     "comment": "\nGenerate random values based on JSON Schema.\n\nExperimental module.\n\n# Generator\n\n@docs value, valueAt\n\n# Settings\n\n@docs GeneratorSettings, defaultSettings\n\n",
     "aliases": [
@@ -55,6 +26,35 @@
         "name": "valueAt",
         "comment": "\nRandom value generator at path.\n",
         "type": "Json.Schema.Random.GeneratorSettings -> Json.Schema.Definitions.Schema -> String -> Random.Generator Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Json.Schema",
+    "comment": "\nThis library provides bunch of utility methods to work with JSON values using\nschemas defined in [JSON Schema](http://json-schema.org/) format.\n\nCurrently it allows to construct schemata ([draft-6](https://github.com/json-schema-org/json-schema-spec/blob/draft-06/schema.json)), validate values and generate random\nvalues based on schema (very experimental feature).\nIt supports local references, but doesn't support remote references.\n\n# Decode schema\n\nUse `fromValue` or `fromString` methods if you receive schema from external source. If you want to construct schema from elm code you might want to use `Json.Schema.Builder`, or low-level API using definitions from `Json.Schema.Definitions`\n\n@docs fromValue, fromString\n\n# Validation\n\n@docs validateValue, validateAt\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fromString",
+        "comment": " Construct JSON Schema from string\n",
+        "type": "String -> Result.Result String Json.Schema.Definitions.Schema"
+      },
+      {
+        "name": "fromValue",
+        "comment": " Construct JSON Schema from JSON value\n",
+        "type": "Json.Decode.Value -> Result.Result String Json.Schema.Definitions.Schema"
+      },
+      {
+        "name": "validateAt",
+        "comment": " Validate value using subschema identified by URI.\n",
+        "type": "Json.Schema.Validation.ValidationOptions -> Json.Decode.Value -> Json.Schema.Definitions.Schema -> String -> Result.Result (List Json.Schema.Validation.Error) Json.Decode.Value"
+      },
+      {
+        "name": "validateValue",
+        "comment": " Validate value against JSON Schema. Returns Result with updated value in case if validationOptions require so.\n\n    schema\n        |> Json.Schema.validateValue { applyDefaults = True } value\n",
+        "type": "Json.Schema.Validation.ValidationOptions -> Json.Decode.Value -> Json.Schema.Definitions.Schema -> Result.Result (List Json.Schema.Validation.Error) Json.Decode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -102,6 +102,45 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Exts.Tuple",
+    "comment": " Extensions for tuples.\n\n@docs indexedPair\n@docs both\n@docs pair\n@docs fork\n@docs onFirst\n@docs onSecond\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "both",
+        "comment": " Update both components of a pair with a single function.\n",
+        "type": "(a -> b) -> ( a, a ) -> ( b, b )"
+      },
+      {
+        "name": "fork",
+        "comment": " Generate a pair from a single value and a left & right function.\n",
+        "type": "(a -> b) -> (a -> c) -> a -> ( b, c )"
+      },
+      {
+        "name": "indexedPair",
+        "comment": " Turn a items into a key-value pair.\n\n  See also `Exts.Dict.indexBy` and `Exts.Dict.groupBy`.\n",
+        "type": "(a -> b) -> a -> ( b, a )"
+      },
+      {
+        "name": "onFirst",
+        "comment": " Apply a function that considers both elements of a pair and changes the first.\n",
+        "type": "(a -> b -> c) -> ( a, b ) -> ( c, b )"
+      },
+      {
+        "name": "onSecond",
+        "comment": " Apply a function that considers both elements of a pair and changes the second.\n",
+        "type": "(a -> b -> c) -> ( a, b ) -> ( a, c )"
+      },
+      {
+        "name": "pair",
+        "comment": " Update both components of a pair with two functions.\n",
+        "type": "(a -> b) -> (x -> y) -> ( a, x ) -> ( b, y )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Exts.Validation",
     "comment": " Simple tools for validation. See also [Richard Feldman's elm-validate](http://package.elm-lang.org/packages/rtfeldman/elm-validate/latest).\n\n@docs Validator\n@docs apply\n@docs (|:)\n@docs required\n@docs notBlank\n@docs matches\n@docs email\n@docs emailRegex\n",
     "aliases": [
@@ -157,40 +196,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Tuple",
-    "comment": " Extensions for tuples.\n\n@docs indexedPair\n@docs both\n@docs pair\n@docs fork\n@docs onFirst\n@docs onSecond\n\n",
+    "name": "Exts.Int",
+    "comment": " Extensions to the core `Int` library.\n\n@docs floorBy\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "both",
-        "comment": " Update both components of a pair with a single function.\n",
-        "type": "(a -> b) -> ( a, a ) -> ( b, b )"
-      },
-      {
-        "name": "fork",
-        "comment": " Generate a pair from a single value and a left & right function.\n",
-        "type": "(a -> b) -> (a -> c) -> a -> ( b, c )"
-      },
-      {
-        "name": "indexedPair",
-        "comment": " Turn a items into a key-value pair.\n\n  See also `Exts.Dict.indexBy` and `Exts.Dict.groupBy`.\n",
-        "type": "(a -> b) -> a -> ( b, a )"
-      },
-      {
-        "name": "onFirst",
-        "comment": " Apply a function that considers both elements of a pair and changes the first.\n",
-        "type": "(a -> b -> c) -> ( a, b ) -> ( c, b )"
-      },
-      {
-        "name": "onSecond",
-        "comment": " Apply a function that considers both elements of a pair and changes the second.\n",
-        "type": "(a -> b -> c) -> ( a, b ) -> ( a, c )"
-      },
-      {
-        "name": "pair",
-        "comment": " Update both components of a pair with two functions.\n",
-        "type": "(a -> b) -> (x -> y) -> ( a, x ) -> ( b, y )"
+        "name": "floorBy",
+        "comment": " Round an int down to the nearest multiple of a factor.\n\n    floorBy  2 143 => Just 142\n    floorBy 50 143 => Just 100\n    floorBy  0 143 => Nothing\n",
+        "type": "Int -> Int -> Maybe.Maybe Int"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -215,68 +229,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Html.Table",
-    "comment": " Helpers for simple data tables. Define how a list of items can be\nrendered as a table. The definition is a `List` of `(column-title,\ncolumn-value-accessor)` pairs.\n\n  I find this approach works well for simple tables, but breaks down\n  as soon as you need much customisation. Use it to get you started\n  quickly, but be ready to rewrite when this 80% case no longer suits.\n\n@docs CellDef\n@docs TableDef\n@docs simpleTable\n@docs simpleTableRow\n@docs titleGroup\n@docs valueGroup\n",
-    "aliases": [
-      {
-        "name": "CellDef",
-        "comment": " A table definition looks something like:\n\n    [(text \"Name\", .name >> text)\n    ,(text \"Name\", .age >> toString >> text)]\n\n",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "( Html.Html msg, a -> Html.Html msg )"
-      },
-      {
-        "name": "TableDef",
-        "comment": " ",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "List (Exts.Html.Table.CellDef a msg)"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "simpleTable",
-        "comment": " Given a table definition, render a list of elements as HTML.\n",
-        "type": "Exts.Html.Table.TableDef a msg -> List a -> Html.Html msg"
-      },
-      {
-        "name": "simpleTableRow",
-        "comment": " Given a table definition, render an element to a <tr> tag. This is\nlower-level. Usually you will want `simpleTable` instead.\n",
-        "type": "Exts.Html.Table.TableDef a msg -> a -> Html.Html msg"
-      },
-      {
-        "name": "titleGroup",
-        "comment": " titleGroup and valueGroup are used to create columns that stack multiple pairs. For example:\n\n    [(titleGroup [\"Latitude\", \"Longitude\"]\n     ,valueGroup [.location >> .lat >> toString >> text\n                 ,.location >> .lng >> toString >> text])\n\n",
-        "type": "List String -> Html.Html msg"
-      },
-      {
-        "name": "valueGroup",
-        "comment": " ",
-        "type": "List (a -> Html.Html msg) -> a -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Int",
-    "comment": " Extensions to the core `Int` library.\n\n@docs floorBy\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "floorBy",
-        "comment": " Round an int down to the nearest multiple of a factor.\n\n    floorBy  2 143 => Just 142\n    floorBy 50 143 => Just 100\n    floorBy  0 143 => Nothing\n",
-        "type": "Int -> Int -> Maybe.Maybe Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.Http",
     "comment": " Extensions to the `Http` library.\n\n@docs cgiParameters\n@docs formBody\n",
     "aliases": [],
@@ -291,6 +243,74 @@
         "name": "formBody",
         "comment": " Put some key-value pairs in the body of your `Request`. This will automatically\nadd the `Content-Type: application/x-www-form-urlencoded` header.\n",
         "type": "List ( String, String ) -> Http.Body"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Json.Decode",
+    "comment": " Extensions to the core `Json.Decode` library.\n\n@docs stringIgnoringBlanks\n@docs decodeTime\n@docs decodeDate\n@docs parseWith\n@docs customDecoder\n@docs set\n@docs exactlyOne\n@docs decodeEmptyObject\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "customDecoder",
+        "comment": " Combine a primitive decoder and a parser to make a more sophisticated decoder.\n",
+        "type": "Json.Decode.Decoder a -> (a -> Result.Result String b) -> Json.Decode.Decoder b"
+      },
+      {
+        "name": "decodeDate",
+        "comment": " Decode a Date from a string, using the same format as the core\nfunction `Date.fromString`.\n",
+        "type": "Json.Decode.Decoder Date.Date"
+      },
+      {
+        "name": "decodeEmptyObject",
+        "comment": " Decode the empty object as the value given, and fail otherwise.\n",
+        "type": "a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "decodeTime",
+        "comment": " Decode a Date from seconds-since-the-epoch.\n",
+        "type": "Json.Decode.Decoder Date.Date"
+      },
+      {
+        "name": "exactlyOne",
+        "comment": " Expects a list where *exactly* one element will succeed with the given decoder.\n",
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "parseWith",
+        "comment": " DEPRECATED: Use customDecoder instead.\n\nLift a function that parses things, returning a `Result`, into the world of decoders.\n\nIf you're looking for the pre-0.18 function `customDecoder`, you can\nuse something like this instead:\n\n``` elm\ndecodeUUID : Decoder UUID\ndecodeUUID =\n    string\n        |> andThen (parseWith UUID.fromString)\n```\n",
+        "type": "(a -> Result.Result String b) -> a -> Json.Decode.Decoder b"
+      },
+      {
+        "name": "set",
+        "comment": " Decode a JSON array of things directly into a `Set`.\n",
+        "type": "Json.Decode.Decoder comparable -> Json.Decode.Decoder (Set.Set comparable)"
+      },
+      {
+        "name": "stringIgnoringBlanks",
+        "comment": " A decoder like `(maybe string)`, except an empty or whitespace string is treated as `Nothing`.\n\nUseful for dirty data-models.\n",
+        "type": "Json.Decode.Decoder (Maybe.Maybe String)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.LatLng",
+    "comment": " Calculations between points on the earth.\n\n@docs distanceBetween, bearingTo\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bearingTo",
+        "comment": " Calculate the heading you'd need to travel on to get from point a to point b.\n",
+        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
+      },
+      {
+        "name": "distanceBetween",
+        "comment": " Calculate the distance in kilometers between two points.\n\n  Note that this assumes the earth is spherical, which is not true, but may be true enough for your purposes.\n",
+        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -360,108 +380,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Set",
-    "comment": " Extensions to the core `Set` library.\n\n@docs select\n@docs uniqueItems\n@docs toggle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "select",
-        "comment": " Pull any items from a list where (f x) is in the given set.\n",
-        "type": "(a -> comparable) -> Set.Set comparable -> List a -> List a"
-      },
-      {
-        "name": "toggle",
-        "comment": " If x is a member of the set, remove it. Otherwise, add it.\n",
-        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "uniqueItems",
-        "comment": " Dive into a `List` to get a set of values.\n\n  For example, pulling a `Set` of countries from a `List` of users.\n",
-        "type": "(a -> Maybe.Maybe comparable) -> List a -> Set.Set comparable"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Json.Decode",
-    "comment": " Extensions to the core `Json.Decode` library.\n\n@docs stringIgnoringBlanks\n@docs decodeTime\n@docs decodeDate\n@docs parseWith\n@docs customDecoder\n@docs set\n@docs exactlyOne\n@docs decodeEmptyObject\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "customDecoder",
-        "comment": " Combine a primitive decoder and a parser to make a more sophisticated decoder.\n",
-        "type": "Json.Decode.Decoder a -> (a -> Result.Result String b) -> Json.Decode.Decoder b"
-      },
-      {
-        "name": "decodeDate",
-        "comment": " Decode a Date from a string, using the same format as the core\nfunction `Date.fromString`.\n",
-        "type": "Json.Decode.Decoder Date.Date"
-      },
-      {
-        "name": "decodeEmptyObject",
-        "comment": " Decode the empty object as the value given, and fail otherwise.\n",
-        "type": "a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "decodeTime",
-        "comment": " Decode a Date from seconds-since-the-epoch.\n",
-        "type": "Json.Decode.Decoder Date.Date"
-      },
-      {
-        "name": "exactlyOne",
-        "comment": " Expects a list where *exactly* one element will succeed with the given decoder.\n",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "parseWith",
-        "comment": " DEPRECATED: Use customDecoder instead.\n\nLift a function that parses things, returning a `Result`, into the world of decoders.\n\nIf you're looking for the pre-0.18 function `customDecoder`, you can\nuse something like this instead:\n\n``` elm\ndecodeUUID : Decoder UUID\ndecodeUUID =\n    string\n        |> andThen (parseWith UUID.fromString)\n```\n",
-        "type": "(a -> Result.Result String b) -> a -> Json.Decode.Decoder b"
-      },
-      {
-        "name": "set",
-        "comment": " Decode a JSON array of things directly into a `Set`.\n",
-        "type": "Json.Decode.Decoder comparable -> Json.Decode.Decoder (Set.Set comparable)"
-      },
-      {
-        "name": "stringIgnoringBlanks",
-        "comment": " A decoder like `(maybe string)`, except an empty or whitespace string is treated as `Nothing`.\n\nUseful for dirty data-models.\n",
-        "type": "Json.Decode.Decoder (Maybe.Maybe String)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Basics",
-    "comment": " Extensions to the core `Basics` library.\n\n@docs on\n@docs compareBy\n@docs maxBy\n@docs minBy\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "compareBy",
-        "comment": " Like `Basics.compare`, with a custom function. For example:\n\n``` elm\ncompareBy Date.toTime earlyDate laterDate\n--> LT\n```\n",
-        "type": "(a -> comparable) -> a -> a -> Basics.Order"
-      },
-      {
-        "name": "maxBy",
-        "comment": " Like `Basics.max`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nmaxBy Date.toTime earlyDate laterDate\n--> laterDate\n```\n",
-        "type": "(a -> comparable) -> a -> a -> a"
-      },
-      {
-        "name": "minBy",
-        "comment": " Like `Basics.min`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nminBy Date.toTime earlyDate laterDate\n--> earlyDate\n```\n",
-        "type": "(a -> comparable) -> a -> a -> a"
-      },
-      {
-        "name": "on",
-        "comment": " Run a function on two inputs, before doing something with the\nresult. Can be useful for things like sorts. For example, `compare\n(List.length a) (List.length b)` can be written `on List.length\ncompare`.\n\nSee also `compareBy`.\n",
-        "type": "(a -> b) -> (b -> b -> c) -> a -> a -> c"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.Result",
     "comment": " Extensions to the core `Result` library.\n\n@docs mapBoth\n@docs isOk\n@docs isErr\n@docs fromOk\n@docs fromErr\n@docs mappend\n@docs either\n",
     "aliases": [],
@@ -506,20 +424,92 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.LatLng",
-    "comment": " Calculations between points on the earth.\n\n@docs distanceBetween, bearingTo\n",
+    "name": "Exts.Html.Table",
+    "comment": " Helpers for simple data tables. Define how a list of items can be\nrendered as a table. The definition is a `List` of `(column-title,\ncolumn-value-accessor)` pairs.\n\n  I find this approach works well for simple tables, but breaks down\n  as soon as you need much customisation. Use it to get you started\n  quickly, but be ready to rewrite when this 80% case no longer suits.\n\n@docs CellDef\n@docs TableDef\n@docs simpleTable\n@docs simpleTableRow\n@docs titleGroup\n@docs valueGroup\n",
+    "aliases": [
+      {
+        "name": "CellDef",
+        "comment": " A table definition looks something like:\n\n    [(text \"Name\", .name >> text)\n    ,(text \"Name\", .age >> toString >> text)]\n\n",
+        "args": [
+          "a",
+          "msg"
+        ],
+        "type": "( Html.Html msg, a -> Html.Html msg )"
+      },
+      {
+        "name": "TableDef",
+        "comment": " ",
+        "args": [
+          "a",
+          "msg"
+        ],
+        "type": "List (Exts.Html.Table.CellDef a msg)"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "simpleTable",
+        "comment": " Given a table definition, render a list of elements as HTML.\n",
+        "type": "Exts.Html.Table.TableDef a msg -> List a -> Html.Html msg"
+      },
+      {
+        "name": "simpleTableRow",
+        "comment": " Given a table definition, render an element to a <tr> tag. This is\nlower-level. Usually you will want `simpleTable` instead.\n",
+        "type": "Exts.Html.Table.TableDef a msg -> a -> Html.Html msg"
+      },
+      {
+        "name": "titleGroup",
+        "comment": " titleGroup and valueGroup are used to create columns that stack multiple pairs. For example:\n\n    [(titleGroup [\"Latitude\", \"Longitude\"]\n     ,valueGroup [.location >> .lat >> toString >> text\n                 ,.location >> .lng >> toString >> text])\n\n",
+        "type": "List String -> Html.Html msg"
+      },
+      {
+        "name": "valueGroup",
+        "comment": " ",
+        "type": "List (a -> Html.Html msg) -> a -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.String",
+    "comment": " Extensions to the core `String` library.\n\n@docs removePrefix\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "bearingTo",
-        "comment": " Calculate the heading you'd need to travel on to get from point a to point b.\n",
-        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
+        "name": "removePrefix",
+        "comment": " Strip a leading string from a `String`.\n",
+        "type": "String -> String -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Json.Encode",
+    "comment": " Extensions to the core `Json.Encode` library.\n\n@docs set\n@docs dict\n@docs tuple2\n@docs maybe\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Encode a `Dict` to a JSON array .\n",
+        "type": "(comparable -> Json.Encode.Value) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
       },
       {
-        "name": "distanceBetween",
-        "comment": " Calculate the distance in kilometers between two points.\n\n  Note that this assumes the earth is spherical, which is not true, but may be true enough for your purposes.\n",
-        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
+        "name": "maybe",
+        "comment": " Encode a `Maybe` value, encoding `Nothing` as `null`.\n",
+        "type": "(a -> Json.Encode.Value) -> Maybe.Maybe a -> Json.Encode.Value"
+      },
+      {
+        "name": "set",
+        "comment": " Encode a `Set` to a JSON array .\n",
+        "type": "(comparable -> Json.Encode.Value) -> Set.Set comparable -> Json.Encode.Value"
+      },
+      {
+        "name": "tuple2",
+        "comment": " Encode a pair to a JSON array .\n",
+        "type": "(a -> Json.Encode.Value) -> (b -> Json.Encode.Value) -> ( a, b ) -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -638,68 +628,35 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Json.Encode",
-    "comment": " Extensions to the core `Json.Encode` library.\n\n@docs set\n@docs dict\n@docs tuple2\n@docs maybe\n",
+    "name": "Exts.Html.Attributes",
+    "comment": " Extensions to the `Html.Attributes` library.\n\n@docs defaultValue\n@docs defaultString\n@docs defaultInt\n@docs defaultFloat\n@docs styleList\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "dict",
-        "comment": " Encode a `Dict` to a JSON array .\n",
-        "type": "(comparable -> Json.Encode.Value) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
+        "name": "defaultFloat",
+        "comment": " Convenience version of `defaultValue`, for `Float`s.\n",
+        "type": "Float -> Html.Attribute msg"
       },
       {
-        "name": "maybe",
-        "comment": " Encode a `Maybe` value, encoding `Nothing` as `null`.\n",
-        "type": "(a -> Json.Encode.Value) -> Maybe.Maybe a -> Json.Encode.Value"
+        "name": "defaultInt",
+        "comment": " Convenience version of `defaultValue`, for `Int`s.\n",
+        "type": "Int -> Html.Attribute msg"
       },
       {
-        "name": "set",
-        "comment": " Encode a `Set` to a JSON array .\n",
-        "type": "(comparable -> Json.Encode.Value) -> Set.Set comparable -> Json.Encode.Value"
+        "name": "defaultString",
+        "comment": " Convenience version of `defaultValue`, for `String`s.\n",
+        "type": "String -> Html.Attribute msg"
       },
       {
-        "name": "tuple2",
-        "comment": " Encode a pair to a JSON array .\n",
-        "type": "(a -> Json.Encode.Value) -> (b -> Json.Encode.Value) -> ( a, b ) -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.String",
-    "comment": " Extensions to the core `String` library.\n\n@docs removePrefix\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "removePrefix",
-        "comment": " Strip a leading string from a `String`.\n",
-        "type": "String -> String -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Date",
-    "comment": " Extensions to the core `Date` library.\n\n@docs toISOString\n@docs toRFC3339\n@docs monthNumber\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "monthNumber",
-        "comment": " Extract the month of a given date as an `Int`. January is 1.\n",
-        "type": "Date.Date -> Int"
+        "name": "defaultValue",
+        "comment": " Set a default value for an input field.\n",
+        "type": "Json.Encode.Value -> Html.Attribute msg"
       },
       {
-        "name": "toISOString",
-        "comment": " Format a `Date` as an ISO-standard string.\n",
-        "type": "Date.Date -> String"
-      },
-      {
-        "name": "toRFC3339",
-        "comment": " Format a `Date` as an RFC-3339 standard string\n\n  This is useful for passing a `Date` as a value to an HTML input. (See [the W3 spec](https://www.w3.org/TR/html-markup/input.date.html#input.date.attrs.value) for details.)\n",
-        "type": "Date.Date -> String"
+        "name": "styleList",
+        "comment": " This function makes it easier to specify a conditional set of styles.\n   This the style-equivalent of elm-html's classList.\n",
+        "type": "List ( String, String, Bool ) -> Html.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -714,6 +671,30 @@
         "name": "roundTo",
         "comment": " Round a `Float` to a given number of decimal places.\n",
         "type": "Int -> Float -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Set",
+    "comment": " Extensions to the core `Set` library.\n\n@docs select\n@docs uniqueItems\n@docs toggle\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "select",
+        "comment": " Pull any items from a list where (f x) is in the given set.\n",
+        "type": "(a -> comparable) -> Set.Set comparable -> List a -> List a"
+      },
+      {
+        "name": "toggle",
+        "comment": " If x is a member of the set, remove it. Otherwise, add it.\n",
+        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "uniqueItems",
+        "comment": " Dive into a `List` to get a set of values.\n\n  For example, pulling a `Set` of countries from a `List` of users.\n",
+        "type": "(a -> Maybe.Maybe comparable) -> List a -> Set.Set comparable"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1832,35 +1813,30 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Html.Attributes",
-    "comment": " Extensions to the `Html.Attributes` library.\n\n@docs defaultValue\n@docs defaultString\n@docs defaultInt\n@docs defaultFloat\n@docs styleList\n",
+    "name": "Exts.Array",
+    "comment": " Extensions to the core `Array` library.\n\n@docs update\n@docs delete\n@docs unzip\n@docs singleton\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "defaultFloat",
-        "comment": " Convenience version of `defaultValue`, for `Float`s.\n",
-        "type": "Float -> Html.Attribute msg"
+        "name": "delete",
+        "comment": " 'Delete' the entry at position `n`.\nindex is out of range, the array is unaltered.\n",
+        "type": "Int -> Array.Array a -> Array.Array a"
       },
       {
-        "name": "defaultInt",
-        "comment": " Convenience version of `defaultValue`, for `Int`s.\n",
-        "type": "Int -> Html.Attribute msg"
+        "name": "singleton",
+        "comment": " Wrap a single item into an `Array`.\n",
+        "type": "a -> Array.Array a"
       },
       {
-        "name": "defaultString",
-        "comment": " Convenience version of `defaultValue`, for `String`s.\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "unzip",
+        "comment": " Split an array of pairs into a pair of arrays.\n\nThe same as the core `List.unzip`.\n",
+        "type": "Array.Array ( a, b ) -> ( Array.Array a, Array.Array b )"
       },
       {
-        "name": "defaultValue",
-        "comment": " Set a default value for an input field.\n",
-        "type": "Json.Encode.Value -> Html.Attribute msg"
-      },
-      {
-        "name": "styleList",
-        "comment": " This function makes it easier to specify a conditional set of styles.\n   This the style-equivalent of elm-html's classList.\n",
-        "type": "List ( String, String, Bool ) -> Html.Attribute msg"
+        "name": "update",
+        "comment": " 'Update' the entry at position `n`, by applying `f` to it. If the\nindex is out of range, the array is unaltered.\n",
+        "type": "Int -> (a -> a) -> Array.Array a -> Array.Array a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1913,30 +1889,54 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Array",
-    "comment": " Extensions to the core `Array` library.\n\n@docs update\n@docs delete\n@docs unzip\n@docs singleton\n",
+    "name": "Exts.Basics",
+    "comment": " Extensions to the core `Basics` library.\n\n@docs on\n@docs compareBy\n@docs maxBy\n@docs minBy\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "delete",
-        "comment": " 'Delete' the entry at position `n`.\nindex is out of range, the array is unaltered.\n",
-        "type": "Int -> Array.Array a -> Array.Array a"
+        "name": "compareBy",
+        "comment": " Like `Basics.compare`, with a custom function. For example:\n\n``` elm\ncompareBy Date.toTime earlyDate laterDate\n--> LT\n```\n",
+        "type": "(a -> comparable) -> a -> a -> Basics.Order"
       },
       {
-        "name": "singleton",
-        "comment": " Wrap a single item into an `Array`.\n",
-        "type": "a -> Array.Array a"
+        "name": "maxBy",
+        "comment": " Like `Basics.max`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nmaxBy Date.toTime earlyDate laterDate\n--> laterDate\n```\n",
+        "type": "(a -> comparable) -> a -> a -> a"
       },
       {
-        "name": "unzip",
-        "comment": " Split an array of pairs into a pair of arrays.\n\nThe same as the core `List.unzip`.\n",
-        "type": "Array.Array ( a, b ) -> ( Array.Array a, Array.Array b )"
+        "name": "minBy",
+        "comment": " Like `Basics.min`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nminBy Date.toTime earlyDate laterDate\n--> earlyDate\n```\n",
+        "type": "(a -> comparable) -> a -> a -> a"
       },
       {
-        "name": "update",
-        "comment": " 'Update' the entry at position `n`, by applying `f` to it. If the\nindex is out of range, the array is unaltered.\n",
-        "type": "Int -> (a -> a) -> Array.Array a -> Array.Array a"
+        "name": "on",
+        "comment": " Run a function on two inputs, before doing something with the\nresult. Can be useful for things like sorts. For example, `compare\n(List.length a) (List.length b)` can be written `on List.length\ncompare`.\n\nSee also `compareBy`.\n",
+        "type": "(a -> b) -> (b -> b -> c) -> a -> a -> c"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Date",
+    "comment": " Extensions to the core `Date` library.\n\n@docs toISOString\n@docs toRFC3339\n@docs monthNumber\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "monthNumber",
+        "comment": " Extract the month of a given date as an `Int`. January is 1.\n",
+        "type": "Date.Date -> Int"
+      },
+      {
+        "name": "toISOString",
+        "comment": " Format a `Date` as an ISO-standard string.\n",
+        "type": "Date.Date -> String"
+      },
+      {
+        "name": "toRFC3339",
+        "comment": " Format a `Date` as an RFC-3339 standard string\n\n  This is useful for passing a `Date` as a value to an HTML input. (See [the W3 spec](https://www.w3.org/TR/html-markup/input.date.html#input.date.attrs.value) for details.)\n",
+        "type": "Date.Date -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

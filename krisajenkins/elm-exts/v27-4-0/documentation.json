@@ -1093,49 +1093,35 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Html.Table",
-    "comment": " Helpers for simple data tables. Define how a list of items can be\nrendered as a table. The definition is a `List` of `(column-title,\ncolumn-value-accessor)` pairs.\n\n  I find this approach works well for simple tables, but breaks down\n  as soon as you need much customisation. Use it to get you started\n  quickly, but be ready to rewrite when this 80% case no longer suits.\n\n@docs CellDef\n@docs TableDef\n@docs simpleTable\n@docs simpleTableRow\n@docs titleGroup\n@docs valueGroup\n",
-    "aliases": [
-      {
-        "name": "CellDef",
-        "comment": " A table definition looks something like:\n\n    [(text \"Name\", .name >> text)\n    ,(text \"Name\", .age >> toString >> text)]\n\n",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "( Html.Html msg, a -> Html.Html msg )"
-      },
-      {
-        "name": "TableDef",
-        "comment": " ",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "List (Exts.Html.Table.CellDef a msg)"
-      }
-    ],
+    "name": "Exts.Html.Attributes",
+    "comment": " Extensions to the `Html.Attributes` library.\n\n@docs defaultValue\n@docs defaultString\n@docs defaultInt\n@docs defaultFloat\n@docs styleList\n",
+    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "simpleTable",
-        "comment": " Given a table definition, render a list of elements as HTML.\n",
-        "type": "Exts.Html.Table.TableDef a msg -> List a -> Html.Html msg"
+        "name": "defaultFloat",
+        "comment": " Convenience version of `defaultValue`, for `Float`s.\n",
+        "type": "Float -> Html.Attribute msg"
       },
       {
-        "name": "simpleTableRow",
-        "comment": " Given a table definition, render an element to a <tr> tag. This is\nlower-level. Usually you will want `simpleTable` instead.\n",
-        "type": "Exts.Html.Table.TableDef a msg -> a -> Html.Html msg"
+        "name": "defaultInt",
+        "comment": " Convenience version of `defaultValue`, for `Int`s.\n",
+        "type": "Int -> Html.Attribute msg"
       },
       {
-        "name": "titleGroup",
-        "comment": " titleGroup and valueGroup are used to create columns that stack multiple pairs. For example:\n\n    [(titleGroup [\"Latitude\", \"Longitude\"]\n     ,valueGroup [.location >> .lat >> toString >> text\n                 ,.location >> .lng >> toString >> text])\n\n",
-        "type": "List String -> Html.Html msg"
+        "name": "defaultString",
+        "comment": " Convenience version of `defaultValue`, for `String`s.\n",
+        "type": "String -> Html.Attribute msg"
       },
       {
-        "name": "valueGroup",
-        "comment": " ",
-        "type": "List (a -> Html.Html msg) -> a -> Html.Html msg"
+        "name": "defaultValue",
+        "comment": " Set a default value for an input field.\n",
+        "type": "Json.Encode.Value -> Html.Attribute msg"
+      },
+      {
+        "name": "styleList",
+        "comment": " This function makes it easier to specify a conditional set of styles.\n   This the style-equivalent of elm-html's classList.\n",
+        "type": "List ( String, String, Bool ) -> Html.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1254,35 +1240,49 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Html.Attributes",
-    "comment": " Extensions to the `Html.Attributes` library.\n\n@docs defaultValue\n@docs defaultString\n@docs defaultInt\n@docs defaultFloat\n@docs styleList\n",
-    "aliases": [],
+    "name": "Exts.Html.Table",
+    "comment": " Helpers for simple data tables. Define how a list of items can be\nrendered as a table. The definition is a `List` of `(column-title,\ncolumn-value-accessor)` pairs.\n\n  I find this approach works well for simple tables, but breaks down\n  as soon as you need much customisation. Use it to get you started\n  quickly, but be ready to rewrite when this 80% case no longer suits.\n\n@docs CellDef\n@docs TableDef\n@docs simpleTable\n@docs simpleTableRow\n@docs titleGroup\n@docs valueGroup\n",
+    "aliases": [
+      {
+        "name": "CellDef",
+        "comment": " A table definition looks something like:\n\n    [(text \"Name\", .name >> text)\n    ,(text \"Name\", .age >> toString >> text)]\n\n",
+        "args": [
+          "a",
+          "msg"
+        ],
+        "type": "( Html.Html msg, a -> Html.Html msg )"
+      },
+      {
+        "name": "TableDef",
+        "comment": " ",
+        "args": [
+          "a",
+          "msg"
+        ],
+        "type": "List (Exts.Html.Table.CellDef a msg)"
+      }
+    ],
     "types": [],
     "values": [
       {
-        "name": "defaultFloat",
-        "comment": " Convenience version of `defaultValue`, for `Float`s.\n",
-        "type": "Float -> Html.Attribute msg"
+        "name": "simpleTable",
+        "comment": " Given a table definition, render a list of elements as HTML.\n",
+        "type": "Exts.Html.Table.TableDef a msg -> List a -> Html.Html msg"
       },
       {
-        "name": "defaultInt",
-        "comment": " Convenience version of `defaultValue`, for `Int`s.\n",
-        "type": "Int -> Html.Attribute msg"
+        "name": "simpleTableRow",
+        "comment": " Given a table definition, render an element to a <tr> tag. This is\nlower-level. Usually you will want `simpleTable` instead.\n",
+        "type": "Exts.Html.Table.TableDef a msg -> a -> Html.Html msg"
       },
       {
-        "name": "defaultString",
-        "comment": " Convenience version of `defaultValue`, for `String`s.\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "titleGroup",
+        "comment": " titleGroup and valueGroup are used to create columns that stack multiple pairs. For example:\n\n    [(titleGroup [\"Latitude\", \"Longitude\"]\n     ,valueGroup [.location >> .lat >> toString >> text\n                 ,.location >> .lng >> toString >> text])\n\n",
+        "type": "List String -> Html.Html msg"
       },
       {
-        "name": "defaultValue",
-        "comment": " Set a default value for an input field.\n",
-        "type": "Json.Encode.Value -> Html.Attribute msg"
-      },
-      {
-        "name": "styleList",
-        "comment": " This function makes it easier to specify a conditional set of styles.\n   This the style-equivalent of elm-html's classList.\n",
-        "type": "List ( String, String, Bool ) -> Html.Attribute msg"
+        "name": "valueGroup",
+        "comment": " ",
+        "type": "List (a -> Html.Html msg) -> a -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1418,6 +1418,30 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Exts.Set",
+    "comment": " Extensions to the core `Set` library.\n\n@docs select\n@docs uniqueItems\n@docs toggle\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "select",
+        "comment": " Pull any items from a list where (f x) is in the given set.\n",
+        "type": "(a -> comparable) -> Set.Set comparable -> List a -> List a"
+      },
+      {
+        "name": "toggle",
+        "comment": " If x is a member of the set, remove it. Otherwise, add it.\n",
+        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "uniqueItems",
+        "comment": " Dive into a `List` to get a set of values.\n\n  For example, pulling a `Set` of countries from a `List` of users.\n",
+        "type": "(a -> Maybe.Maybe comparable) -> List a -> Set.Set comparable"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Exts.List",
     "comment": " Extensions to the core `List` library.\n\n@docs chunk\n@docs mergeBy\n@docs singleton\n@docs maybeSingleton\n@docs firstMatch\n@docs rest\n@docs unique\n@docs exactlyOne\n@docs maximumBy\n@docs minimumBy\n@docs unfold\n",
     "aliases": [],
@@ -1511,30 +1535,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Set",
-    "comment": " Extensions to the core `Set` library.\n\n@docs select\n@docs uniqueItems\n@docs toggle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "select",
-        "comment": " Pull any items from a list where (f x) is in the given set.\n",
-        "type": "(a -> comparable) -> Set.Set comparable -> List a -> List a"
-      },
-      {
-        "name": "toggle",
-        "comment": " If x is a member of the set, remove it. Otherwise, add it.\n",
-        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "uniqueItems",
-        "comment": " Dive into a `List` to get a set of values.\n\n  For example, pulling a `Set` of countries from a `List` of users.\n",
-        "type": "(a -> Maybe.Maybe comparable) -> List a -> Set.Set comparable"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.Dict",
     "comment": " Extensions to the core `Dict` library.\n\n@docs indexBy\n@docs groupBy\n@docs frequency\n@docs getWithDefault\n@docs foldToList\n@docs updateDict\n\n",
     "aliases": [],
@@ -1569,35 +1569,6 @@
         "name": "updateDict",
         "comment": " Apply an Elm update function - `Model -> (Model, Cmd Msg)` - to a `Dict` entry, if present.\n\nIt's quite common in Elm to want to run a model-update function, over\nsome dictionary of models, but only if that model is available.\n\nThis function makes it more convenient to reach inside a `Dict` and\napply an update. If the data is not there, the `Dict` is returned\nunchanged with a `Cmd.none`.\n\n",
         "type": "(a -> ( a, Platform.Cmd.Cmd cmd )) -> comparable -> Dict.Dict comparable a -> ( Dict.Dict comparable a, Platform.Cmd.Cmd cmd )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Array",
-    "comment": " Extensions to the core `Array` library.\n\n@docs update\n@docs delete\n@docs unzip\n@docs singleton\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "delete",
-        "comment": " 'Delete' the entry at position `n`.\nindex is out of range, the array is unaltered.\n",
-        "type": "Int -> Array.Array a -> Array.Array a"
-      },
-      {
-        "name": "singleton",
-        "comment": " Wrap a single item into an `Array`.\n",
-        "type": "a -> Array.Array a"
-      },
-      {
-        "name": "unzip",
-        "comment": " Split an array of pairs into a pair of arrays.\n\nThe same as the core `List.unzip`.\n",
-        "type": "Array.Array ( a, b ) -> ( Array.Array a, Array.Array b )"
-      },
-      {
-        "name": "update",
-        "comment": " 'Update' the entry at position `n`, by applying `f` to it. If the\nindex is out of range, the array is unaltered.\n",
-        "type": "Int -> (a -> a) -> Array.Array a -> Array.Array a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1667,45 +1638,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Tuple",
-    "comment": " Extensions for tuples.\n\n@docs indexedPair\n@docs both\n@docs pair\n@docs fork\n@docs onFirst\n@docs onSecond\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "both",
-        "comment": " Update both components of a pair with a single function.\n",
-        "type": "(a -> b) -> ( a, a ) -> ( b, b )"
-      },
-      {
-        "name": "fork",
-        "comment": " Generate a pair from a single value and a left & right function.\n",
-        "type": "(a -> b) -> (a -> c) -> a -> ( b, c )"
-      },
-      {
-        "name": "indexedPair",
-        "comment": " Turn a items into a key-value pair.\n\n  See also `Exts.Dict.indexBy` and `Exts.Dict.groupBy`.\n",
-        "type": "(a -> b) -> a -> ( b, a )"
-      },
-      {
-        "name": "onFirst",
-        "comment": " Apply a function that considers both elements of a pair and changes the first.\n",
-        "type": "(a -> b -> c) -> ( a, b ) -> ( c, b )"
-      },
-      {
-        "name": "onSecond",
-        "comment": " Apply a function that considers both elements of a pair and changes the second.\n",
-        "type": "(a -> b -> c) -> ( a, b ) -> ( a, c )"
-      },
-      {
-        "name": "pair",
-        "comment": " Update both components of a pair with two functions.\n",
-        "type": "(a -> b) -> (x -> y) -> ( a, x ) -> ( b, y )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.String",
     "comment": " Extensions to the core `String` library.\n\n@docs removePrefix\n\n",
     "aliases": [],
@@ -1715,6 +1647,98 @@
         "name": "removePrefix",
         "comment": " Strip a leading string from a `String`.\n",
         "type": "String -> String -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Result",
+    "comment": " Extensions to the core `Result` library.\n\n@docs mapBoth\n@docs isOk\n@docs isErr\n@docs fromOk\n@docs fromErr\n@docs mappend\n@docs either\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "either",
+        "comment": " Collapse a `Result` down to a single value of a single type.\n\nExample:\n\n``` elm\n  case result of\n    Err err -> errorView err\n    Ok value -> okView value\n```\n\n...is equivalent to:\n\n``` elm\n  either errorView okView result\n```\n",
+        "type": "(e -> c) -> (a -> c) -> Result.Result e a -> c"
+      },
+      {
+        "name": "fromErr",
+        "comment": " ",
+        "type": "Result.Result e a -> Maybe.Maybe e"
+      },
+      {
+        "name": "fromOk",
+        "comment": " Convert a `Result` to a `Maybe`.\n",
+        "type": "Result.Result e a -> Maybe.Maybe a"
+      },
+      {
+        "name": "isErr",
+        "comment": " ",
+        "type": "Result.Result e a -> Bool"
+      },
+      {
+        "name": "isOk",
+        "comment": " Boolean checks for success/failure.\n",
+        "type": "Result.Result e a -> Bool"
+      },
+      {
+        "name": "mapBoth",
+        "comment": " Apply functions to both sides of a `Result`, transforming the error and ok types.\n",
+        "type": "(e -> f) -> (a -> b) -> Result.Result e a -> Result.Result f b"
+      },
+      {
+        "name": "mappend",
+        "comment": " Monoidal append - join two Results together as though they were one.\n",
+        "type": "Result.Result e a -> Result.Result e b -> Result.Result e ( a, b )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Array",
+    "comment": " Extensions to the core `Array` library.\n\n@docs update\n@docs delete\n@docs unzip\n@docs singleton\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "delete",
+        "comment": " 'Delete' the entry at position `n`.\nindex is out of range, the array is unaltered.\n",
+        "type": "Int -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "singleton",
+        "comment": " Wrap a single item into an `Array`.\n",
+        "type": "a -> Array.Array a"
+      },
+      {
+        "name": "unzip",
+        "comment": " Split an array of pairs into a pair of arrays.\n\nThe same as the core `List.unzip`.\n",
+        "type": "Array.Array ( a, b ) -> ( Array.Array a, Array.Array b )"
+      },
+      {
+        "name": "update",
+        "comment": " 'Update' the entry at position `n`, by applying `f` to it. If the\nindex is out of range, the array is unaltered.\n",
+        "type": "Int -> (a -> a) -> Array.Array a -> Array.Array a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Function",
+    "comment": " Extensions so generic they just operate on functions.\n\n@docs (>>>)\n@docs (<<<)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "<<<",
+        "comment": " Right-to-left composition of functions that rely on an environment.\n",
+        "type": "(env -> b -> c) -> (env -> a -> b) -> env -> a -> c"
+      },
+      {
+        "name": ">>>",
+        "comment": " Left-to-right composition of functions that rely on an environment.\n\nExample:\n\n    quux (bar (foo model x) model) model\n\nBecomes:\n\n    (foo >>> bar >>> quux) model x\n\nThe operator `>>>` mirrors Haskell's Control.Arrow, because really\nthis is an arrow specialised to Reader.\n",
+        "type": "(env -> a -> b) -> (env -> b -> c) -> env -> a -> c"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1775,130 +1799,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Delta",
-    "comment": " A system for tracking players that enter and leave a stage, a-la D3.\n\nImplementation detail: This code is hampered by the lack of Elm's type classes. Note the following:\n1. Performance may degrade badly as the number of elements increases.\n2. It is up to you to ensure (a) implments Eq correctly.\n\n@docs Delta\n@docs empty\n@docs generation\n",
-    "aliases": [
-      {
-        "name": "Delta",
-        "comment": " A data-structure that maintains the difference list of entering, continuing and leaving players.\n",
-        "args": [
-          "a"
-        ],
-        "type": "{ entering : List a, continuing : List a, leaving : List a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "empty",
-        "comment": " A default starting state for Deltas.\n",
-        "type": "Exts.Delta.Delta a"
-      },
-      {
-        "name": "generation",
-        "comment": " Update the delta by inspecting a list of players.\n",
-        "type": "List a -> Exts.Delta.Delta a -> Exts.Delta.Delta a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.LatLng",
-    "comment": " Calculations between points on the earth.\n\n@docs distanceBetween, bearingTo\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bearingTo",
-        "comment": " Calculate the heading you'd need to travel on to get from point a to point b.\n",
-        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
-      },
-      {
-        "name": "distanceBetween",
-        "comment": " Calculate the distance in kilometers between two points.\n\n  Note that this assumes the earth is spherical, which is not true, but may be true enough for your purposes.\n",
-        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Function",
-    "comment": " Extensions so generic they just operate on functions.\n\n@docs (>>>)\n@docs (<<<)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "<<<",
-        "comment": " Right-to-left composition of functions that rely on an environment.\n",
-        "type": "(env -> b -> c) -> (env -> a -> b) -> env -> a -> c"
-      },
-      {
-        "name": ">>>",
-        "comment": " Left-to-right composition of functions that rely on an environment.\n\nExample:\n\n    quux (bar (foo model x) model) model\n\nBecomes:\n\n    (foo >>> bar >>> quux) model x\n\nThe operator `>>>` mirrors Haskell's Control.Arrow, because really\nthis is an arrow specialised to Reader.\n",
-        "type": "(env -> a -> b) -> (env -> b -> c) -> env -> a -> c"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Result",
-    "comment": " Extensions to the core `Result` library.\n\n@docs mapBoth\n@docs isOk\n@docs isErr\n@docs fromOk\n@docs fromErr\n@docs mappend\n@docs either\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "either",
-        "comment": " Collapse a `Result` down to a single value of a single type.\n\nExample:\n\n``` elm\n  case result of\n    Err err -> errorView err\n    Ok value -> okView value\n```\n\n...is equivalent to:\n\n``` elm\n  either errorView okView result\n```\n",
-        "type": "(e -> c) -> (a -> c) -> Result.Result e a -> c"
-      },
-      {
-        "name": "fromErr",
-        "comment": " ",
-        "type": "Result.Result e a -> Maybe.Maybe e"
-      },
-      {
-        "name": "fromOk",
-        "comment": " Convert a `Result` to a `Maybe`.\n",
-        "type": "Result.Result e a -> Maybe.Maybe a"
-      },
-      {
-        "name": "isErr",
-        "comment": " ",
-        "type": "Result.Result e a -> Bool"
-      },
-      {
-        "name": "isOk",
-        "comment": " Boolean checks for success/failure.\n",
-        "type": "Result.Result e a -> Bool"
-      },
-      {
-        "name": "mapBoth",
-        "comment": " Apply functions to both sides of a `Result`, transforming the error and ok types.\n",
-        "type": "(e -> f) -> (a -> b) -> Result.Result e a -> Result.Result f b"
-      },
-      {
-        "name": "mappend",
-        "comment": " Monoidal append - join two Results together as though they were one.\n",
-        "type": "Result.Result e a -> Result.Result e b -> Result.Result e ( a, b )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Int",
-    "comment": " Extensions to the core `Int` library.\n\n@docs floorBy\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "floorBy",
-        "comment": " Round an int down to the nearest multiple of a factor.\n\n    floorBy  2 143 => Just 142\n    floorBy 50 143 => Just 100\n    floorBy  0 143 => Nothing\n",
-        "type": "Int -> Int -> Maybe.Maybe Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.Basics",
     "comment": " Extensions to the core `Basics` library.\n\n@docs on\n@docs compareBy\n@docs maxBy\n@docs minBy\n\n",
     "aliases": [],
@@ -1928,6 +1828,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Exts.LatLng",
+    "comment": " Calculations between points on the earth.\n\n@docs distanceBetween, bearingTo\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bearingTo",
+        "comment": " Calculate the heading you'd need to travel on to get from point a to point b.\n",
+        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
+      },
+      {
+        "name": "distanceBetween",
+        "comment": " Calculate the distance in kilometers between two points.\n\n  Note that this assumes the earth is spherical, which is not true, but may be true enough for your purposes.\n",
+        "type": "{ a | latitude : Float, longitude : Float } -> { b | latitude : Float, longitude : Float } -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Exts.Float",
     "comment": " Extensions to the core `Float` library.\n\n@docs roundTo\n",
     "aliases": [],
@@ -1937,6 +1856,87 @@
         "name": "roundTo",
         "comment": " Round a `Float` to a given number of decimal places.\n",
         "type": "Int -> Float -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Tuple",
+    "comment": " Extensions for tuples.\n\n@docs indexedPair\n@docs both\n@docs pair\n@docs fork\n@docs onFirst\n@docs onSecond\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "both",
+        "comment": " Update both components of a pair with a single function.\n",
+        "type": "(a -> b) -> ( a, a ) -> ( b, b )"
+      },
+      {
+        "name": "fork",
+        "comment": " Generate a pair from a single value and a left & right function.\n",
+        "type": "(a -> b) -> (a -> c) -> a -> ( b, c )"
+      },
+      {
+        "name": "indexedPair",
+        "comment": " Turn a items into a key-value pair.\n\n  See also `Exts.Dict.indexBy` and `Exts.Dict.groupBy`.\n",
+        "type": "(a -> b) -> a -> ( b, a )"
+      },
+      {
+        "name": "onFirst",
+        "comment": " Apply a function that considers both elements of a pair and changes the first.\n",
+        "type": "(a -> b -> c) -> ( a, b ) -> ( c, b )"
+      },
+      {
+        "name": "onSecond",
+        "comment": " Apply a function that considers both elements of a pair and changes the second.\n",
+        "type": "(a -> b -> c) -> ( a, b ) -> ( a, c )"
+      },
+      {
+        "name": "pair",
+        "comment": " Update both components of a pair with two functions.\n",
+        "type": "(a -> b) -> (x -> y) -> ( a, x ) -> ( b, y )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Int",
+    "comment": " Extensions to the core `Int` library.\n\n@docs floorBy\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "floorBy",
+        "comment": " Round an int down to the nearest multiple of a factor.\n\n    floorBy  2 143 => Just 142\n    floorBy 50 143 => Just 100\n    floorBy  0 143 => Nothing\n",
+        "type": "Int -> Int -> Maybe.Maybe Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Delta",
+    "comment": " A system for tracking players that enter and leave a stage, a-la D3.\n\nImplementation detail: This code is hampered by the lack of Elm's type classes. Note the following:\n1. Performance may degrade badly as the number of elements increases.\n2. It is up to you to ensure (a) implments Eq correctly.\n\n@docs Delta\n@docs empty\n@docs generation\n",
+    "aliases": [
+      {
+        "name": "Delta",
+        "comment": " A data-structure that maintains the difference list of entering, continuing and leaving players.\n",
+        "args": [
+          "a"
+        ],
+        "type": "{ entering : List a, continuing : List a, leaving : List a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "empty",
+        "comment": " A default starting state for Deltas.\n",
+        "type": "Exts.Delta.Delta a"
+      },
+      {
+        "name": "generation",
+        "comment": " Update the delta by inspecting a list of players.\n",
+        "type": "List a -> Exts.Delta.Delta a -> Exts.Delta.Delta a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

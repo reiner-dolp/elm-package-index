@@ -252,6 +252,225 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "TypedSvg.Filters.Attributes",
+    "comment": " Attributes of SVG filter elements\n\n\n# Attributes\n\n@docs azimuth, baseFrequency, bias, colorInterpolationFilters, colorMatrixType,colorMatrixValues, compositeOperator, diffuseConstant, divisor, edgeMode,elevation, filterRes, filterUnits, floodColor, floodOpacity, funcType, in2,in_, k1, k2, k3, k4, kernelMatrix, kernelUnitLength, limitingConeAngle,mode, morphologyOperator, numOctaves, order, pointsAtX, pointsAtY,pointsAtZ, preserveAlpha, radius, result, scale, seed, surfaceScale,targetX, targetY, turbulenceType, z\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "azimuth",
+        "comment": " The azimuth attribute represents the direction angle of the light source on\nthe XY plane (clockwise), in degrees from the x axis.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.distantLight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/azimuth>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "baseFrequency",
+        "comment": " The baseFrequency attribute represents the frequency parameter for the noise\nfunction of the `Filters.turbulence` primitive. The first number represents\na base frequency in the X direction and the second value represents a base\nfrequency in the Y direction.\n\nNegative values are forbidden.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/baseFrequency>\n\n",
+        "type": "number -> number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "bias",
+        "comment": " The bias attribute shifts the range of a filter. After applying the\nkernelMatrix of the `Filters.convolveMatrix` element to the input image to\nyield a number and applying the divisor attribute, the bias attribute is\nadded to each component. This allows representation of values that would\notherwise be clamped to 0 or 1.\n\nIf bias is not specified, then the effect is as if a value of 0 were\nspecified.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/bias>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "colorInterpolationFilters",
+        "comment": " The `colorInterpolationFilters` attribute specifies the color space for\nimaging operations performed via filter effects.\n\nNote that `colorInterpolationFilters` has a different initial value than\n`colorInterpolation`. `colorInterpolationFilters` has an initial value of\nlinearRGB, whereas color-interpolation has an initial value of sRGB. Thus,\nin the default case, filter effects operations occur in the linearRGB\ncolor space, whereas all other color interpolations occur by default in the\nsRGB color space.\n\nAs a presentation attribute, it also can be used as a property directly\ninside a CSS stylesheet.\n\nUsed by Elements: Filters.blend, Filters.colorMatrix,\nFilters.componentTransfer, Filters.composite, Filters.convolveMatrix,\nFilters.diffuseLighting, Filters.displacementMap, Filters.gaussianBlur,\nFilters.morphology, Filters.offset, Filters.specularLighting,\nFilters.tile\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation-filters>\n\n",
+        "type": "TypedSvg.Types.ColorInterpolation -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "colorMatrixType",
+        "comment": " Indicates the type of matrix operation. The keyword matrix indicates that a\nfull 5x4 matrix of values will be provided. The other keywords represent\nconvenience shortcuts to allow commonly used color operations to be\nperformed without specifying a complete matrix.\n\nUsed by Elements: Filters.colorMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/type_>\n\n",
+        "type": "TypedSvg.Types.ColorMatrixType -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "colorMatrixValues",
+        "comment": " Contents of `colorMatrixValues` depends on the value of the attribute\n`type`.\n\nUsed by Elements: Filters.colorMatrix\n\nNOTE: this is called `values` in `elm-lang/svg` but is different here\nin order to differentiate from animationValues.\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/values>\n\n",
+        "type": "String -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "compositeOperator",
+        "comment": " `compositeOperator` defines the compositing operation that is to be performed\nin the `Filters.composite` element\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator>\n\n",
+        "type": "TypedSvg.Types.CompositeOperator -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "diffuseConstant",
+        "comment": " The `diffuseConstant` attribute represant the kd value in the Phong lighting\nmodel. In SVG, this can be any non-negative number.\n\nIf the attribute is not specified, then the effect is as if a value of 1\nwere specified.\n\nUsed by Elements: Filters.diffuseLighting\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/diffuseConstant>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "divisor",
+        "comment": " After applying the `kernelMatrix` of the `Filters.convolveMatrix` element to\nthe input image to yield a number, that number is divided by the value given to\nthe divisor attribute to yield the final destination color value. A divisor\nthat is the sum of all the matrix values tends to have an evening effect on\nthe overall color intensity of the result.\n\nThe default value is the sum of all values in kernelMatrix, with the\nexception that if the sum is zero, then the divisor is set to 1.\n\nIt is an error to specify a divisor of zero.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/divisor>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "edgeMode",
+        "comment": " The edgeMode attribute determines how to extend the input image as necessary\nwith color values so that the matrix operations can be applied when the\nkernel is positioned at or near the edge of the input image.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/edgeMode>\n\n",
+        "type": "TypedSvg.Types.EdgeMode -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "elevation",
+        "comment": " The elevation attribute represents the direction angle for a light source\nfrom the XY plane towards the Z axis, in degrees. Note the positive Z-axis\npoints towards the viewer of the content.\n\nUsed by Elements: Filters.distantLight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/elevation>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "filterRes",
+        "comment": " A `filter` element can define a region to which a given filter effect\napplies and can provide a resolution for any intermediate continuous tone\nimages used to process any raster-based filter primitives.\n\nNOTE: Obsolete.\n\nUsed by Elements: Filters.filter\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filterRes>\n\n",
+        "type": "number -> number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "filterUnits",
+        "comment": " The `filterUnits` attribute defines the coordinate system for attributes\n`x`, `y`, `width` and `height`.\n\nUsed by Elements: Filters.filter\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filterUnits>\n\n",
+        "type": "TypedSvg.Types.CoordinateSystem -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "floodColor",
+        "comment": " The `floodColor` attribute indicates what color to use to flood the current\nfilter primitive subregion defined through the `Filters.flood` element. The\nkeyword currentColor and ICC colors can be specified in the same manner as\nwithin a `paint` specification for the fill and stroke attributes.\n\nAs a presentation attribute, it also can be used as a property directly\ninside a CSS stylesheet.\n\nUsed by Elements: Filters.flood\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-color>\n\n",
+        "type": "TypedSvg.Types.FloodColor -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "floodOpacity",
+        "comment": " The `floodOpacity` attribute indicates the opacity value to use across the\ncurrent filter primitive subregion defined through the `Filters.flood` element.\n\nUsed by Elements: Filters.flood\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-opacity>\n\n",
+        "type": "TypedSvg.Types.Opacity -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "funcType",
+        "comment": " Indicates the type of component transfer function.\n\nUsed by Elements: Filters.funcR, Filters.funcG, Filters.funcA, Filters.funcB\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/type_>\n\n",
+        "type": "TypedSvg.Types.FuncType -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "in2",
+        "comment": " The `in2` attribute identifies the second input for the given filter\nprimitive. It works exactly like the in attribute.\n\nUsed by Elements: Filters.blend, Filters.colorMatrix,\nFilters.componentTransfer, Filters.composite, Filters.convolveMatrix,\nFilters.diffuseLighting, Filters.displacementMap, Filters.gaussianBlur,\nFilters.morphology, Filters.offset, Filters.specularLighting,\nFilters.tile\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/in2>\n\n",
+        "type": "TypedSvg.Types.InValue -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "in_",
+        "comment": " The `in_` attribute identifies input for the given filter primitive.\n\nTakes type InValue, which can be one of 6 constants, or a reference\n\nIf no value is provided and this is the first filter primitive, then this\nfilter primitive will use `InSourceGraphic` as its input.\n\nIf no value is provided and this is a subsequent filter primitive, then this\nfilter primitive will use the result from the previous filter primitive as\nits input.\n\nUsed by Elements: Filters.blend, Filters.colorMatrix,\nFilters.componentTransfer, Filters.composite, Filters.convolveMatrix,\nFilters.diffuseLighting, Filters.displacementMap, Filters.gaussianBlur,\nFilters.morphology, Filters.offset, Filters.specularLighting,\nFilters.tile\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/in>\n\n",
+        "type": "TypedSvg.Types.InValue -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "k1",
+        "comment": " The k1 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k1>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "k2",
+        "comment": " The k2 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k2>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "k3",
+        "comment": " The k3 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k3>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "k4",
+        "comment": " The k4 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k4>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "kernelMatrix",
+        "comment": " The `order` attribute defines the list of numbers that makes up the kernel\nmatrix for the `Filters.convolveMatrix` element.\n\nThe number of entries in the list must be equal to `orderX` x `orderY`, as\ndefined in the `order` attribute.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/kernelMatrix>\n\n",
+        "type": "List number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "kernelUnitLength",
+        "comment": " The `kernelUnitLength` attribute has two meaning based on the context it's\nused:\n\n  - For lighting filter primitives, it indicates the intended distance in\n    current filter units (i.e., units as determined by the value of attribute\n    primitiveUnits) for `dx` and `dy`, respectively, in the surface normal\n    calculation formulas.\n\n  - For the `feConvolveMatrix` primitive, it indicates the intended distance\n    in current filter units (i.e., units as determined by the value of\n    attribute primitiveUnits) between successive columns and rows,\n    respectively, in the kernelMatrix.\n\nUsed by Elements: Filters.convolveMatrix, Filters.diffuseLighting,\nFilters.specularLighting\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/kernelUnitLength>\n\n",
+        "type": "number -> number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "limitingConeAngle",
+        "comment": " The limitingConeAngle attribute represents the angle in degrees between\nthe spot light axis (i.e. the axis between the light source and the point\nto which it is pointing at) and the spot light cone. So it defines a\nlimiting cone which restricts the region where the light is projected.\nNo light is projected outside the cone.\n\nIf no value is specified, then no limiting cone will be applied.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/limitingConeAngle>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "mode",
+        "comment": " The `mode` attribute defines the blending mode on the `Filters.blend` filter\nprimitive.\n\nUsed by Elements: Filters.blend\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/mode>\n\n",
+        "type": "TypedSvg.Types.Mode -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "morphologyOperator",
+        "comment": " `morphologyOperator` defines the compositing operation that is to be performed\nin the `feMorphology` element\n\nUsed by Elements: Filters.morphology\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator>\n\n",
+        "type": "TypedSvg.Types.MorphologyOperator -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "numOctaves",
+        "comment": " The `numOctaves` parameter for the noise function of the\n`Filters.turbulence` primitive.\n\nIf the attribute is not specified, then the effect is as if a value of 1\nwere specified.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/>\n\n",
+        "type": "Int -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "order",
+        "comment": " The order attribute indicates the size of the matrix to be used by an\n`Filters.convolveMatrix` element.\n\nThe values provided must be integers greater than zero. The first number,\n`orderX`, indicates the number of columns in the matrix. The second number,\n`orderY`, indicates the number of rows in the matrix.\n\nA typical value is order=\"3\". It is recommended that only small values\n(e.g., 3) be used; higher values may result in very high CPU overhead and\nusually do not produce results that justify the impact on performance.\n\nIf the attribute is not specified, the effect is as if a value of 3 were\nspecified.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/order>\n\n",
+        "type": "number -> number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "pointsAtX",
+        "comment": " The `pointsAtX` attribute represent the X location in the coordinate system\nestablished by attribute primitiveUnits on the `filter` element of the point\nat which the light source is pointing.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointsAtX>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "pointsAtY",
+        "comment": " The `pointsAtY` attribute represent the Y location in the coordinate system\nestablished by attribute primitiveUnits on the `filter` element of the point\nat which the light source is pointing.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointsAtY>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "pointsAtZ",
+        "comment": " The `pointsAtZ` attribute represents the Z location in the coordinate system\nestablished by attribute primitiveUnits on the `filter` element of the point\nat which the light source is pointing.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointsAtZ>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "preserveAlpha",
+        "comment": " The `preserveAlpha` attribute indicates how an `feConvolveMatrix` element\nhandles alpha transparency.\n\nA value of false indicates that the convolution matrix will apply to all\nchannels, including the alpha channel. This is the default value.\n\nA value of true indicates that the convolution matrix will only apply to the\ncolor channels.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAlpha>\n\n",
+        "type": "Bool -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "radius",
+        "comment": " The `radius` attribute represent the radius for the operation on a given\n`feMorphology` filter primitive. The values are in the coordinate system\nestablished by the `primitiveUnits` attribute on the `filter` element.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.morphology\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/radius>\n\n",
+        "type": "number -> number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "result",
+        "comment": " The `result` attribute defines the assigned name for this filter primitive.\nIf supplied, then graphics that result from processing this filter primitive\ncan be referenced by an in attribute on a subsequent filter primitive within\nthe same `filter` element.\n\nIf no value is provided, the output will only be available for re-use as the\nimplicit input into the next filter primitive if that filter primitive\nprovides no value for its in attribute.\n\nUsed by Elements: feBlend, feColorMatrix, feComponentTransfer, feComposite,\nfeConvolveMatrix, feDiffuseLighting, feDisplacementMap, feDropShadow,\nfeFlood,feFuncA, feFuncB, feFuncG, feFuncR,feGaussianBlur, feImage,\nfeMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting,\nfeTile, feTurbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/result>\n\n",
+        "type": "String -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "scale",
+        "comment": " The `scale` attribute define the displacement scale factor to be used on a\n`Filters.displacementMap` filter primitive. The amount is expressed in the\ncoordinate system established by the `primitiveUnits` attribute on the\n`filter` element.\n\nWhen the value of this attribute is 0, this operation has no effect on the\nsource image.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.displacementMap\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/scale>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "seed",
+        "comment": " The seed attribute represents the starting number for the pseudo random\nnumber generator of the `Filters.turbulence` primitive.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/seed>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "surfaceScale",
+        "comment": " The `surfaceScale` attribute represents the height of the surface for a\nlight filter primitive.\n\nIf the attribute is not specified, then the effect is as if a value of 1\nwere specified.\n\nUsed by Elements: Filters.diffuseLighting, Filters.specularLighting\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/surfaceScale>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "targetX",
+        "comment": " The `targetX` attribute determines the positioning in X of the convolution\nmatrix relative to a given target pixel in the input image. The leftmost\ncolumn of the matrix is column number zero. The value must be such that:\n\n    0 <= targetX < orderX\n\nBy default, the convolution matrix is centered in X over each pixel of the\ninput image (i.e., targetX = floor ( orderX / 2 )).\n\nUsed by Elements: convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/targetX>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "targetY",
+        "comment": " The targetY attribute determines the positioning in Y of the convolution\nmatrix relative to a given target pixel in the input image. The topmost\nrow of the matrix is row number zero. The value must be such that:\n\n    0 <= targetY < orderY\n\nBy default, the convolution matrix is centered in Y over each pixel of the\ninput image (i.e., targetY = floor ( orderY / 2 )).\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/targetY>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "turbulenceType",
+        "comment": " Indicates whether the filter primitive should perform a noise or turbulence\nfunction.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/type_>\n\n",
+        "type": "TypedSvg.Types.TurbulenceType -> TypedSvg.Core.Attribute msg"
+      },
+      {
+        "name": "z",
+        "comment": " The `z` attribute difines the location along the Z-axis for a light source\nin the coordinate system established by the primitiveUnits attribute on the\n`filter` element, assuming that, in the initial coordinate system, the\npositive Z-axis comes out towards the person viewing the content and\nassuming that one unit along the Z-axis equals on unit in X and Z.\n\nIf the attribute is not specified, then the effect is as if a value of 0 were specified.\n\nUsed by Elements: Filters.pointlight, Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/z>\n\n",
+        "type": "number -> TypedSvg.Core.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "TypedSvg.Filters",
     "comment": " SVG Filter Elements\n\n    Typical usage:\n\n        import TypedSvg.Filters as Fe\n        import TypedSvg.Filters.Attributes exposing (..)\n\n        Fe.filter []\n            [ Fe.blend [in InSourceGraphic, in2 InFillPaint, mode ModeMultiply] []\n            ]\n\n@docs blend, colorMatrix, componentTransfer, composite,convolveMatrix, diffuseLighting, displacementMap, flood, funcA,funcB, funcG, funcR, gaussianBlur, image, merge, mergeNode,morphology, offset, specularLighting, tile, turbulence\n\n\n# Light source elements\n\n@docs distantLight, pointLight, spotLight\n\n",
     "aliases": [],
@@ -1465,220 +1684,110 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "TypedSvg.Filters.Attributes",
-    "comment": " Attributes of SVG filter elements\n\n\n# Attributes\n\n@docs azimuth, baseFrequency, bias, colorInterpolationFilters, colorMatrixType,colorMatrixValues, compositeOperator, diffuseConstant, divisor, edgeMode,elevation, filterRes, filterUnits, floodColor, floodOpacity, funcType, in2,in_, k1, k2, k3, k4, kernelMatrix, kernelUnitLength, limitingConeAngle,mode, morphologyOperator, numOctaves, order, pointsAtX, pointsAtY,pointsAtZ, preserveAlpha, radius, result, scale, seed, surfaceScale,targetX, targetY, turbulenceType, z\n\n",
+    "name": "TypedSvg.Events",
+    "comment": "\n\n\n# Animation event attributes\n\n@docs onBegin, onEnd, onRepeat\n\n\n# Document event attributes\n\n@docs onAbort, onError, onResize, onScroll, onLoad, onUnload, onZoom\n\n\n# Graphical event attributes\n\n@docs onActivate, onClick, onFocusIn, onFocusOut, onMouseDown, onMouseMove,onMouseOut, onMouseOver, onMouseUp\n\n\n# Custom Events\n\n@docs on\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "azimuth",
-        "comment": " The azimuth attribute represents the direction angle of the light source on\nthe XY plane (clockwise), in degrees from the x axis.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.distantLight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/azimuth>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
+        "name": "on",
+        "comment": " Create a custom event listener.\nimport Json.Decode as Json\nonClick : msg -> Attribute msg\nonClick msg =\non \"click\" (Json.succeed msg)\n\nYou first specify the name of the event in the same format as with JavaScript’s\n`addEventListener`. Next you give a JSON decoder, which lets you pull\ninformation out of the event object. If the decoder succeeds, it will produce\na message and route it to your `update` function.\n\n",
+        "type": "String -> Json.Decode.Decoder msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "baseFrequency",
-        "comment": " The baseFrequency attribute represents the frequency parameter for the noise\nfunction of the `Filters.turbulence` primitive. The first number represents\na base frequency in the X direction and the second value represents a base\nfrequency in the Y direction.\n\nNegative values are forbidden.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/baseFrequency>\n\n",
-        "type": "number -> number -> TypedSvg.Core.Attribute msg"
+        "name": "onAbort",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "bias",
-        "comment": " The bias attribute shifts the range of a filter. After applying the\nkernelMatrix of the `Filters.convolveMatrix` element to the input image to\nyield a number and applying the divisor attribute, the bias attribute is\nadded to each component. This allows representation of values that would\notherwise be clamped to 0 or 1.\n\nIf bias is not specified, then the effect is as if a value of 0 were\nspecified.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/bias>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
+        "name": "onActivate",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "colorInterpolationFilters",
-        "comment": " The `colorInterpolationFilters` attribute specifies the color space for\nimaging operations performed via filter effects.\n\nNote that `colorInterpolationFilters` has a different initial value than\n`colorInterpolation`. `colorInterpolationFilters` has an initial value of\nlinearRGB, whereas color-interpolation has an initial value of sRGB. Thus,\nin the default case, filter effects operations occur in the linearRGB\ncolor space, whereas all other color interpolations occur by default in the\nsRGB color space.\n\nAs a presentation attribute, it also can be used as a property directly\ninside a CSS stylesheet.\n\nUsed by Elements: Filters.blend, Filters.colorMatrix,\nFilters.componentTransfer, Filters.composite, Filters.convolveMatrix,\nFilters.diffuseLighting, Filters.displacementMap, Filters.gaussianBlur,\nFilters.morphology, Filters.offset, Filters.specularLighting,\nFilters.tile\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation-filters>\n\n",
-        "type": "TypedSvg.Types.ColorInterpolation -> TypedSvg.Core.Attribute msg"
+        "name": "onBegin",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "colorMatrixType",
-        "comment": " Indicates the type of matrix operation. The keyword matrix indicates that a\nfull 5x4 matrix of values will be provided. The other keywords represent\nconvenience shortcuts to allow commonly used color operations to be\nperformed without specifying a complete matrix.\n\nUsed by Elements: Filters.colorMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/type_>\n\n",
-        "type": "TypedSvg.Types.ColorMatrixType -> TypedSvg.Core.Attribute msg"
+        "name": "onClick",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "colorMatrixValues",
-        "comment": " Contents of `colorMatrixValues` depends on the value of the attribute\n`type`.\n\nUsed by Elements: Filters.colorMatrix\n\nNOTE: this is called `values` in `elm-lang/svg` but is different here\nin order to differentiate from animationValues.\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/values>\n\n",
-        "type": "String -> TypedSvg.Core.Attribute msg"
+        "name": "onEnd",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "compositeOperator",
-        "comment": " `compositeOperator` defines the compositing operation that is to be performed\nin the `Filters.composite` element\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator>\n\n",
-        "type": "TypedSvg.Types.CompositeOperator -> TypedSvg.Core.Attribute msg"
+        "name": "onError",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "diffuseConstant",
-        "comment": " The `diffuseConstant` attribute represant the kd value in the Phong lighting\nmodel. In SVG, this can be any non-negative number.\n\nIf the attribute is not specified, then the effect is as if a value of 1\nwere specified.\n\nUsed by Elements: Filters.diffuseLighting\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/diffuseConstant>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
+        "name": "onFocusIn",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "divisor",
-        "comment": " After applying the `kernelMatrix` of the `Filters.convolveMatrix` element to\nthe input image to yield a number, that number is divided by the value given to\nthe divisor attribute to yield the final destination color value. A divisor\nthat is the sum of all the matrix values tends to have an evening effect on\nthe overall color intensity of the result.\n\nThe default value is the sum of all values in kernelMatrix, with the\nexception that if the sum is zero, then the divisor is set to 1.\n\nIt is an error to specify a divisor of zero.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/divisor>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
+        "name": "onFocusOut",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "edgeMode",
-        "comment": " The edgeMode attribute determines how to extend the input image as necessary\nwith color values so that the matrix operations can be applied when the\nkernel is positioned at or near the edge of the input image.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/edgeMode>\n\n",
-        "type": "TypedSvg.Types.EdgeMode -> TypedSvg.Core.Attribute msg"
+        "name": "onLoad",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "elevation",
-        "comment": " The elevation attribute represents the direction angle for a light source\nfrom the XY plane towards the Z axis, in degrees. Note the positive Z-axis\npoints towards the viewer of the content.\n\nUsed by Elements: Filters.distantLight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/elevation>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
+        "name": "onMouseDown",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "filterRes",
-        "comment": " A `filter` element can define a region to which a given filter effect\napplies and can provide a resolution for any intermediate continuous tone\nimages used to process any raster-based filter primitives.\n\nNOTE: Obsolete.\n\nUsed by Elements: Filters.filter\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filterRes>\n\n",
-        "type": "number -> number -> TypedSvg.Core.Attribute msg"
+        "name": "onMouseMove",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "filterUnits",
-        "comment": " The `filterUnits` attribute defines the coordinate system for attributes\n`x`, `y`, `width` and `height`.\n\nUsed by Elements: Filters.filter\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filterUnits>\n\n",
-        "type": "TypedSvg.Types.CoordinateSystem -> TypedSvg.Core.Attribute msg"
+        "name": "onMouseOut",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "floodColor",
-        "comment": " The `floodColor` attribute indicates what color to use to flood the current\nfilter primitive subregion defined through the `Filters.flood` element. The\nkeyword currentColor and ICC colors can be specified in the same manner as\nwithin a `paint` specification for the fill and stroke attributes.\n\nAs a presentation attribute, it also can be used as a property directly\ninside a CSS stylesheet.\n\nUsed by Elements: Filters.flood\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-color>\n\n",
-        "type": "TypedSvg.Types.FloodColor -> TypedSvg.Core.Attribute msg"
+        "name": "onMouseOver",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "floodOpacity",
-        "comment": " The `floodOpacity` attribute indicates the opacity value to use across the\ncurrent filter primitive subregion defined through the `Filters.flood` element.\n\nUsed by Elements: Filters.flood\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-opacity>\n\n",
-        "type": "TypedSvg.Types.Opacity -> TypedSvg.Core.Attribute msg"
+        "name": "onMouseUp",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "funcType",
-        "comment": " Indicates the type of component transfer function.\n\nUsed by Elements: Filters.funcR, Filters.funcG, Filters.funcA, Filters.funcB\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/type_>\n\n",
-        "type": "TypedSvg.Types.FuncType -> TypedSvg.Core.Attribute msg"
+        "name": "onRepeat",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "in2",
-        "comment": " The `in2` attribute identifies the second input for the given filter\nprimitive. It works exactly like the in attribute.\n\nUsed by Elements: Filters.blend, Filters.colorMatrix,\nFilters.componentTransfer, Filters.composite, Filters.convolveMatrix,\nFilters.diffuseLighting, Filters.displacementMap, Filters.gaussianBlur,\nFilters.morphology, Filters.offset, Filters.specularLighting,\nFilters.tile\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/in2>\n\n",
-        "type": "TypedSvg.Types.InValue -> TypedSvg.Core.Attribute msg"
+        "name": "onResize",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "in_",
-        "comment": " The `in_` attribute identifies input for the given filter primitive.\n\nTakes type InValue, which can be one of 6 constants, or a reference\n\nIf no value is provided and this is the first filter primitive, then this\nfilter primitive will use `InSourceGraphic` as its input.\n\nIf no value is provided and this is a subsequent filter primitive, then this\nfilter primitive will use the result from the previous filter primitive as\nits input.\n\nUsed by Elements: Filters.blend, Filters.colorMatrix,\nFilters.componentTransfer, Filters.composite, Filters.convolveMatrix,\nFilters.diffuseLighting, Filters.displacementMap, Filters.gaussianBlur,\nFilters.morphology, Filters.offset, Filters.specularLighting,\nFilters.tile\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/in>\n\n",
-        "type": "TypedSvg.Types.InValue -> TypedSvg.Core.Attribute msg"
+        "name": "onScroll",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "k1",
-        "comment": " The k1 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k1>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
+        "name": "onUnload",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       },
       {
-        "name": "k2",
-        "comment": " The k2 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k2>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "k3",
-        "comment": " The k3 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k3>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "k4",
-        "comment": " The k4 attribute defines one of the values to be used within the arithmetic\noperation of the `Filters.composite` filter primitive.\n\nIf this attribute is not set, its default value is 0.\n\nUsed by Elements: Filters.composite\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/k4>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "kernelMatrix",
-        "comment": " The `order` attribute defines the list of numbers that makes up the kernel\nmatrix for the `Filters.convolveMatrix` element.\n\nThe number of entries in the list must be equal to `orderX` x `orderY`, as\ndefined in the `order` attribute.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/kernelMatrix>\n\n",
-        "type": "List number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "kernelUnitLength",
-        "comment": " The `kernelUnitLength` attribute has two meaning based on the context it's\nused:\n\n  - For lighting filter primitives, it indicates the intended distance in\n    current filter units (i.e., units as determined by the value of attribute\n    primitiveUnits) for `dx` and `dy`, respectively, in the surface normal\n    calculation formulas.\n\n  - For the `feConvolveMatrix` primitive, it indicates the intended distance\n    in current filter units (i.e., units as determined by the value of\n    attribute primitiveUnits) between successive columns and rows,\n    respectively, in the kernelMatrix.\n\nUsed by Elements: Filters.convolveMatrix, Filters.diffuseLighting,\nFilters.specularLighting\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/kernelUnitLength>\n\n",
-        "type": "number -> number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "limitingConeAngle",
-        "comment": " The limitingConeAngle attribute represents the angle in degrees between\nthe spot light axis (i.e. the axis between the light source and the point\nto which it is pointing at) and the spot light cone. So it defines a\nlimiting cone which restricts the region where the light is projected.\nNo light is projected outside the cone.\n\nIf no value is specified, then no limiting cone will be applied.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/limitingConeAngle>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "mode",
-        "comment": " The `mode` attribute defines the blending mode on the `Filters.blend` filter\nprimitive.\n\nUsed by Elements: Filters.blend\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/mode>\n\n",
-        "type": "TypedSvg.Types.Mode -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "morphologyOperator",
-        "comment": " `morphologyOperator` defines the compositing operation that is to be performed\nin the `feMorphology` element\n\nUsed by Elements: Filters.morphology\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator>\n\n",
-        "type": "TypedSvg.Types.MorphologyOperator -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "numOctaves",
-        "comment": " The `numOctaves` parameter for the noise function of the\n`Filters.turbulence` primitive.\n\nIf the attribute is not specified, then the effect is as if a value of 1\nwere specified.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/>\n\n",
-        "type": "Int -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "order",
-        "comment": " The order attribute indicates the size of the matrix to be used by an\n`Filters.convolveMatrix` element.\n\nThe values provided must be integers greater than zero. The first number,\n`orderX`, indicates the number of columns in the matrix. The second number,\n`orderY`, indicates the number of rows in the matrix.\n\nA typical value is order=\"3\". It is recommended that only small values\n(e.g., 3) be used; higher values may result in very high CPU overhead and\nusually do not produce results that justify the impact on performance.\n\nIf the attribute is not specified, the effect is as if a value of 3 were\nspecified.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/order>\n\n",
-        "type": "number -> number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "pointsAtX",
-        "comment": " The `pointsAtX` attribute represent the X location in the coordinate system\nestablished by attribute primitiveUnits on the `filter` element of the point\nat which the light source is pointing.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointsAtX>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "pointsAtY",
-        "comment": " The `pointsAtY` attribute represent the Y location in the coordinate system\nestablished by attribute primitiveUnits on the `filter` element of the point\nat which the light source is pointing.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointsAtY>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "pointsAtZ",
-        "comment": " The `pointsAtZ` attribute represents the Z location in the coordinate system\nestablished by attribute primitiveUnits on the `filter` element of the point\nat which the light source is pointing.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointsAtZ>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "preserveAlpha",
-        "comment": " The `preserveAlpha` attribute indicates how an `feConvolveMatrix` element\nhandles alpha transparency.\n\nA value of false indicates that the convolution matrix will apply to all\nchannels, including the alpha channel. This is the default value.\n\nA value of true indicates that the convolution matrix will only apply to the\ncolor channels.\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAlpha>\n\n",
-        "type": "Bool -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "radius",
-        "comment": " The `radius` attribute represent the radius for the operation on a given\n`feMorphology` filter primitive. The values are in the coordinate system\nestablished by the `primitiveUnits` attribute on the `filter` element.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.morphology\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/radius>\n\n",
-        "type": "number -> number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "result",
-        "comment": " The `result` attribute defines the assigned name for this filter primitive.\nIf supplied, then graphics that result from processing this filter primitive\ncan be referenced by an in attribute on a subsequent filter primitive within\nthe same `filter` element.\n\nIf no value is provided, the output will only be available for re-use as the\nimplicit input into the next filter primitive if that filter primitive\nprovides no value for its in attribute.\n\nUsed by Elements: feBlend, feColorMatrix, feComponentTransfer, feComposite,\nfeConvolveMatrix, feDiffuseLighting, feDisplacementMap, feDropShadow,\nfeFlood,feFuncA, feFuncB, feFuncG, feFuncR,feGaussianBlur, feImage,\nfeMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting,\nfeTile, feTurbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/result>\n\n",
-        "type": "String -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "scale",
-        "comment": " The `scale` attribute define the displacement scale factor to be used on a\n`Filters.displacementMap` filter primitive. The amount is expressed in the\ncoordinate system established by the `primitiveUnits` attribute on the\n`filter` element.\n\nWhen the value of this attribute is 0, this operation has no effect on the\nsource image.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.displacementMap\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/scale>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "seed",
-        "comment": " The seed attribute represents the starting number for the pseudo random\nnumber generator of the `Filters.turbulence` primitive.\n\nIf the attribute is not specified, then the effect is as if a value of 0\nwere specified.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/seed>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "surfaceScale",
-        "comment": " The `surfaceScale` attribute represents the height of the surface for a\nlight filter primitive.\n\nIf the attribute is not specified, then the effect is as if a value of 1\nwere specified.\n\nUsed by Elements: Filters.diffuseLighting, Filters.specularLighting\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/surfaceScale>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "targetX",
-        "comment": " The `targetX` attribute determines the positioning in X of the convolution\nmatrix relative to a given target pixel in the input image. The leftmost\ncolumn of the matrix is column number zero. The value must be such that:\n\n    0 <= targetX < orderX\n\nBy default, the convolution matrix is centered in X over each pixel of the\ninput image (i.e., targetX = floor ( orderX / 2 )).\n\nUsed by Elements: convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/targetX>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "targetY",
-        "comment": " The targetY attribute determines the positioning in Y of the convolution\nmatrix relative to a given target pixel in the input image. The topmost\nrow of the matrix is row number zero. The value must be such that:\n\n    0 <= targetY < orderY\n\nBy default, the convolution matrix is centered in Y over each pixel of the\ninput image (i.e., targetY = floor ( orderY / 2 )).\n\nUsed by Elements: Filters.convolveMatrix\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/targetY>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "turbulenceType",
-        "comment": " Indicates whether the filter primitive should perform a noise or turbulence\nfunction.\n\nUsed by Elements: Filters.turbulence\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/type_>\n\n",
-        "type": "TypedSvg.Types.TurbulenceType -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "z",
-        "comment": " The `z` attribute difines the location along the Z-axis for a light source\nin the coordinate system established by the primitiveUnits attribute on the\n`filter` element, assuming that, in the initial coordinate system, the\npositive Z-axis comes out towards the person viewing the content and\nassuming that one unit along the Z-axis equals on unit in X and Z.\n\nIf the attribute is not specified, then the effect is as if a value of 0 were specified.\n\nUsed by Elements: Filters.pointlight, Filters.spotlight\n\nSee: <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/z>\n\n",
-        "type": "number -> TypedSvg.Core.Attribute msg"
+        "name": "onZoom",
+        "comment": " ",
+        "type": "msg -> TypedSvg.Core.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1908,115 +2017,6 @@
         "name": "view",
         "comment": " ",
         "type": "List (TypedSvg.Core.Attribute msg) -> List (TypedSvg.Core.Svg msg) -> TypedSvg.Core.Svg msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "TypedSvg.Events",
-    "comment": "\n\n\n# Animation event attributes\n\n@docs onBegin, onEnd, onRepeat\n\n\n# Document event attributes\n\n@docs onAbort, onError, onResize, onScroll, onLoad, onUnload, onZoom\n\n\n# Graphical event attributes\n\n@docs onActivate, onClick, onFocusIn, onFocusOut, onMouseDown, onMouseMove,onMouseOut, onMouseOver, onMouseUp\n\n\n# Custom Events\n\n@docs on\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "on",
-        "comment": " Create a custom event listener.\nimport Json.Decode as Json\nonClick : msg -> Attribute msg\nonClick msg =\non \"click\" (Json.succeed msg)\n\nYou first specify the name of the event in the same format as with JavaScript’s\n`addEventListener`. Next you give a JSON decoder, which lets you pull\ninformation out of the event object. If the decoder succeeds, it will produce\na message and route it to your `update` function.\n\n",
-        "type": "String -> Json.Decode.Decoder msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onAbort",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onActivate",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onBegin",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onClick",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onEnd",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onError",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onFocusIn",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onFocusOut",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onLoad",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onMouseDown",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onMouseMove",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onMouseOut",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onMouseOver",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onMouseUp",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onRepeat",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onResize",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onScroll",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onUnload",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
-      },
-      {
-        "name": "onZoom",
-        "comment": " ",
-        "type": "msg -> TypedSvg.Core.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -116,25 +116,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Task",
-    "comment": " Extensions to the core `Process` library.\n\n@docs delay\n@docs asCmd\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "asCmd",
-        "comment": " Turn a `Task` into a `Cmd` which returns a `Result`.\n",
-        "type": "Task.Task e a -> Platform.Cmd.Cmd (Result.Result e a)"
-      },
-      {
-        "name": "delay",
-        "comment": " Delay running the `Task` for a given `Time`.\n\nThis is just the example given in `Task.sleep` wrapped up, because it's o useful.\n",
-        "type": "Time.Time -> Task.Task e a -> Task.Task e a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.Basics",
     "comment": " Extensions to the core `Basics` library.\n\n@docs compareBy\n@docs maxBy\n@docs minBy\n\n",
     "aliases": [],
@@ -154,6 +135,20 @@
         "name": "minBy",
         "comment": " Like `Basics.min`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nminBy Date.toTime earlyDate laterDate\n--> earlyDate\n```\n",
         "type": "(a -> comparable) -> a -> a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.String",
+    "comment": " Extensions to the core `String` library.\n\n@docs removePrefix\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "removePrefix",
+        "comment": " Strip a leading string from a `String`.\n",
+        "type": "String -> String -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -207,53 +202,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.String",
-    "comment": " Extensions to the core `String` library.\n\n@docs removePrefix\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "removePrefix",
-        "comment": " Strip a leading string from a `String`.\n",
-        "type": "String -> String -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Function",
-    "comment": " Extensions so generic they just operate on functions.\n\n@docs (>>>)\n@docs (<<<)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "<<<",
-        "comment": " Right-to-left composition of functions that rely on an environment.\n",
-        "type": "(env -> b -> c) -> (env -> a -> b) -> env -> a -> c"
-      },
-      {
-        "name": ">>>",
-        "comment": " Left-to-right composition of functions that rely on an environment.\n\nExample:\n\n    quux (bar (foo model x) model) model\n\nBecomes:\n\n    (foo >>> bar >>> quux) model x\n\nThe operator `>>>` mirrors Haskell's Control.Arrow, because really\nthis is an arrow specialised to Reader.\n",
-        "type": "(env -> a -> b) -> (env -> b -> c) -> env -> a -> c"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Int",
-    "comment": " Extensions to the core `Int` library.\n\n@docs floorBy\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "floorBy",
-        "comment": " Round an int down to the nearest multiple of a factor.\n\n    floorBy  2 143 => Just 142\n    floorBy 50 143 => Just 100\n    floorBy  0 143 => Nothing\n",
-        "type": "Int -> Int -> Maybe.Maybe Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.Set",
     "comment": " Extensions to the core `Set` library.\n\n@docs select\n@docs uniqueItems\n@docs toggle\n\n",
     "aliases": [],
@@ -278,65 +226,40 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Maybe",
-    "comment": " Extensions to the core `Maybe` library.\n\n@docs isJust\n@docs isNothing\n@docs maybe\n@docs mappend\n@docs catMaybes\n@docs join\n@docs maybeDefault\n@docs matches\n@docs validate\n@docs when\n@docs oneOf\n",
+    "name": "Exts.Result",
+    "comment": " Extensions to the core `Result` library.\n\n@docs mapBoth\n@docs isOk\n@docs isErr\n@docs fromOk\n@docs fromErr\n@docs mappend\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "catMaybes",
-        "comment": " Extract all the `Just` values from a List of Maybes.\n",
-        "type": "List (Maybe.Maybe a) -> List a"
-      },
-      {
-        "name": "isJust",
-        "comment": " Boolean checks.\n",
-        "type": "Maybe.Maybe a -> Bool"
-      },
-      {
-        "name": "isNothing",
+        "name": "fromErr",
         "comment": " ",
-        "type": "Maybe.Maybe a -> Bool"
+        "type": "Result.Result e a -> Maybe.Maybe e"
       },
       {
-        "name": "join",
-        "comment": " Join together two `Maybe` values using the supplied function. If\neither value is `Nothing`, the result is `Nothing`.\n",
-        "type": "(a -> b -> c) -> Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe c"
+        "name": "fromOk",
+        "comment": " Convert a `Result` to a `Maybe`.\n",
+        "type": "Result.Result e a -> Maybe.Maybe a"
+      },
+      {
+        "name": "isErr",
+        "comment": " ",
+        "type": "Result.Result e a -> Bool"
+      },
+      {
+        "name": "isOk",
+        "comment": " Boolean checks for success/failure.\n",
+        "type": "Result.Result e a -> Bool"
+      },
+      {
+        "name": "mapBoth",
+        "comment": " Apply functions to both sides of a `Result`, transforming the error and ok types.\n",
+        "type": "(e -> f) -> (a -> b) -> Result.Result e a -> Result.Result f b"
       },
       {
         "name": "mappend",
-        "comment": " Join two `Maybe`s together as though they were one.\n",
-        "type": "Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe ( a, b )"
-      },
-      {
-        "name": "matches",
-        "comment": " Check the if value in the `Maybe` matches a predicate. If it does, pass it through, if not, return nothing.\n\n    matches isEven (Just 2) => Just 2\n    matches isEven (Just 3) => Nothing\n    matches isEven Nothing => Nothing\n",
-        "type": "(a -> Bool) -> Maybe.Maybe a -> Maybe.Maybe a"
-      },
-      {
-        "name": "maybe",
-        "comment": " Apply a function to a value, returning the default if the value is `Nothing`.\n",
-        "type": "b -> (a -> b) -> Maybe.Maybe a -> b"
-      },
-      {
-        "name": "maybeDefault",
-        "comment": " If `x` is a `Just _` value, return it, otherwise return `Just default`.\n",
-        "type": "a -> Maybe.Maybe a -> Maybe.Maybe a"
-      },
-      {
-        "name": "oneOf",
-        "comment": " Return the first non-`Nothing` entry in the list.\n",
-        "type": "List (Maybe.Maybe a) -> Maybe.Maybe a"
-      },
-      {
-        "name": "validate",
-        "comment": " Validate a value against a predicate, returning a `Maybe`.\n\n    validate isEven 2 => Just 2\n    validate isEven 3 => Nothing\n",
-        "type": "(a -> Bool) -> a -> Maybe.Maybe a"
-      },
-      {
-        "name": "when",
-        "comment": " When `test` returns true, return `Just value`, otherwise return `Nothing`.\n",
-        "type": "Bool -> a -> Maybe.Maybe a"
+        "comment": " Monoidal append - join two Results together as though they were one.\n",
+        "type": "Result.Result e a -> Result.Result e b -> Result.Result e ( a, b )"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -414,45 +337,6 @@
         "name": "stringIgnoringBlanks",
         "comment": " A decoder like `(maybe string)`, except an empty or whitespace string is treated as `Nothing`.\n\nUseful for dirty data-models.\n",
         "type": "Json.Decode.Decoder (Maybe.Maybe String)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Result",
-    "comment": " Extensions to the core `Result` library.\n\n@docs mapBoth\n@docs isOk\n@docs isErr\n@docs fromOk\n@docs fromErr\n@docs mappend\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "fromErr",
-        "comment": " ",
-        "type": "Result.Result e a -> Maybe.Maybe e"
-      },
-      {
-        "name": "fromOk",
-        "comment": " Convert a `Result` to a `Maybe`.\n",
-        "type": "Result.Result e a -> Maybe.Maybe a"
-      },
-      {
-        "name": "isErr",
-        "comment": " ",
-        "type": "Result.Result e a -> Bool"
-      },
-      {
-        "name": "isOk",
-        "comment": " Boolean checks for success/failure.\n",
-        "type": "Result.Result e a -> Bool"
-      },
-      {
-        "name": "mapBoth",
-        "comment": " Apply functions to both sides of a `Result`, transforming the error and ok types.\n",
-        "type": "(e -> f) -> (a -> b) -> Result.Result e a -> Result.Result f b"
-      },
-      {
-        "name": "mappend",
-        "comment": " Monoidal append - join two Results together as though they were one.\n",
-        "type": "Result.Result e a -> Result.Result e b -> Result.Result e ( a, b )"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1532,118 +1416,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Delta",
-    "comment": " A system for tracking players that enter and leave a stage, a-la D3.\n\nImplementation detail: This code is hampered by the lack of Elm's type classes. Note the following:\n1. Performance may degrade badly as the number of elements increases.\n2. It is up to you to ensure (a) implments Eq correctly.\n\n@docs Delta\n@docs empty\n@docs generation\n",
-    "aliases": [
-      {
-        "name": "Delta",
-        "comment": " A data-structure that maintains the difference list of entering, continuing and leaving players.\n",
-        "args": [
-          "a"
-        ],
-        "type": "{ entering : List a, continuing : List a, leaving : List a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "empty",
-        "comment": " A default starting state for Deltas.\n",
-        "type": "Exts.Delta.Delta a"
-      },
-      {
-        "name": "generation",
-        "comment": " Update the delta by inspecting a list of players.\n",
-        "type": "List a -> Exts.Delta.Delta a -> Exts.Delta.Delta a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Validation",
-    "comment": " Simple tools for validation. See also [Richard Feldman's elm-validate](http://package.elm-lang.org/packages/rtfeldman/elm-validate/latest).\n\n@docs Validator\n@docs apply\n@docs (|:)\n@docs required\n@docs notBlank\n@docs matches\n@docs email\n@docs emailRegex\n",
-    "aliases": [
-      {
-        "name": "Validator",
-        "comment": " A validator is a function that takes a possibly-invalid form, and\neither returns an error message, or a form that is definitely valid. For example:\n\n    type alias Form =\n      { message : Maybe String\n      , email : Maybe String\n      , firstName : Maybe String\n      , age : Maybe Int\n      }\n\n    type alias ValidForm =\n      { message : String\n      , email : String\n      , firstName : String\n      , age : Int\n      }\n\n    validateForm : Form -> Result String ValidForm\n    validateForm form =\n      Ok ValidForm\n        |: notBlank \"Message is required and may not be blank.\" form.message\n        |: email \"Email is required and may not be blank.\" form.email\n        |: matches (caseInsensitive (regex \"^[a-z]+$\")) \"First name may only contain letters.\" form.firstName\n        |: required \"Age is required\" form.age\n\nAn error message is typically a `String`, but may be any type you choose.\n",
-        "args": [
-          "e",
-          "a",
-          "b"
-        ],
-        "type": "Maybe.Maybe a -> Result.Result e b"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "apply",
-        "comment": " Chain validators together.\n\n(Hat tip to CircuitHub, who inspired the syntax and guided the code with their [elm-json-extra](http://package.elm-lang.org/packages/circuithub/elm-json-extra/latest) library.)\n",
-        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
-      },
-      {
-        "name": "email",
-        "comment": " A basic email regex. This is incredibly simplistic, but is\nincluded for convenience.\n\nRemember that the only real way to validate an email address is to\nsend something to it and get a reply.\n",
-        "type": "e -> Exts.Validation.Validator e String String"
-      },
-      {
-        "name": "emailRegex",
-        "comment": " ",
-        "type": "Regex.Regex"
-      },
-      {
-        "name": "matches",
-        "comment": " A field that must match the given regex.\n",
-        "type": "Regex.Regex -> e -> Exts.Validation.Validator e String String"
-      },
-      {
-        "name": "notBlank",
-        "comment": " A field that might be `Nothing`, but is only valid if it is a non-empty `String`.\n",
-        "type": "e -> Exts.Validation.Validator e String String"
-      },
-      {
-        "name": "required",
-        "comment": " A field that might be `Nothing`, but is only valid if it is `Just a`.\n",
-        "type": "e -> Exts.Validation.Validator e a a"
-      },
-      {
-        "name": "|:",
-        "comment": " Convenient synonym for `apply`.\n",
-        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Html.Attributes",
-    "comment": " Extensions to the `Html.Attributes` library.\n\n@docs defaultValue\n@docs defaultString\n@docs defaultInt\n@docs defaultFloat\n@docs styleList\n",
+    "name": "Exts.Int",
+    "comment": " Extensions to the core `Int` library.\n\n@docs floorBy\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "defaultFloat",
-        "comment": " Convenience version of `defaultValue`, for `Float`s.\n",
-        "type": "Float -> Html.Attribute msg"
-      },
-      {
-        "name": "defaultInt",
-        "comment": " Convenience version of `defaultValue`, for `Int`s.\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "defaultString",
-        "comment": " Convenience version of `defaultValue`, for `String`s.\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "defaultValue",
-        "comment": " Set a default value for an input field.\n",
-        "type": "Json.Encode.Value -> Html.Attribute msg"
-      },
-      {
-        "name": "styleList",
-        "comment": " This function makes it easier to specify a conditional set of styles.\n   This the style-equivalent of elm-html's classList.\n",
-        "type": "List ( String, String, Bool ) -> Html.Attribute msg"
+        "name": "floorBy",
+        "comment": " Round an int down to the nearest multiple of a factor.\n\n    floorBy  2 143 => Just 142\n    floorBy 50 143 => Just 100\n    floorBy  0 143 => Nothing\n",
+        "type": "Int -> Int -> Maybe.Maybe Int"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1811,15 +1592,139 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Float",
-    "comment": " Extensions to the core `Float` library.\n\n@docs roundTo\n",
+    "name": "Exts.Validation",
+    "comment": " Simple tools for validation. See also [Richard Feldman's elm-validate](http://package.elm-lang.org/packages/rtfeldman/elm-validate/latest).\n\n@docs Validator\n@docs apply\n@docs (|:)\n@docs required\n@docs notBlank\n@docs matches\n@docs email\n@docs emailRegex\n",
+    "aliases": [
+      {
+        "name": "Validator",
+        "comment": " A validator is a function that takes a possibly-invalid form, and\neither returns an error message, or a form that is definitely valid. For example:\n\n    type alias Form =\n      { message : Maybe String\n      , email : Maybe String\n      , firstName : Maybe String\n      , age : Maybe Int\n      }\n\n    type alias ValidForm =\n      { message : String\n      , email : String\n      , firstName : String\n      , age : Int\n      }\n\n    validateForm : Form -> Result String ValidForm\n    validateForm form =\n      Ok ValidForm\n        |: notBlank \"Message is required and may not be blank.\" form.message\n        |: email \"Email is required and may not be blank.\" form.email\n        |: matches (caseInsensitive (regex \"^[a-z]+$\")) \"First name may only contain letters.\" form.firstName\n        |: required \"Age is required\" form.age\n\nAn error message is typically a `String`, but may be any type you choose.\n",
+        "args": [
+          "e",
+          "a",
+          "b"
+        ],
+        "type": "Maybe.Maybe a -> Result.Result e b"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "apply",
+        "comment": " Chain validators together.\n\n(Hat tip to CircuitHub, who inspired the syntax and guided the code with their [elm-json-extra](http://package.elm-lang.org/packages/circuithub/elm-json-extra/latest) library.)\n",
+        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
+      },
+      {
+        "name": "email",
+        "comment": " A basic email regex. This is incredibly simplistic, but is\nincluded for convenience.\n\nRemember that the only real way to validate an email address is to\nsend something to it and get a reply.\n",
+        "type": "e -> Exts.Validation.Validator e String String"
+      },
+      {
+        "name": "emailRegex",
+        "comment": " ",
+        "type": "Regex.Regex"
+      },
+      {
+        "name": "matches",
+        "comment": " A field that must match the given regex.\n",
+        "type": "Regex.Regex -> e -> Exts.Validation.Validator e String String"
+      },
+      {
+        "name": "notBlank",
+        "comment": " A field that might be `Nothing`, but is only valid if it is a non-empty `String`.\n",
+        "type": "e -> Exts.Validation.Validator e String String"
+      },
+      {
+        "name": "required",
+        "comment": " A field that might be `Nothing`, but is only valid if it is `Just a`.\n",
+        "type": "e -> Exts.Validation.Validator e a a"
+      },
+      {
+        "name": "|:",
+        "comment": " Convenient synonym for `apply`.\n",
+        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Task",
+    "comment": " Extensions to the core `Process` library.\n\n@docs delay\n@docs asCmd\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "roundTo",
-        "comment": " Round a `Float` to a given number of decimal places.\n",
-        "type": "Int -> Float -> Float"
+        "name": "asCmd",
+        "comment": " Turn a `Task` into a `Cmd` which returns a `Result`.\n",
+        "type": "Task.Task e a -> Platform.Cmd.Cmd (Result.Result e a)"
+      },
+      {
+        "name": "delay",
+        "comment": " Delay running the `Task` for a given `Time`.\n\nThis is just the example given in `Task.sleep` wrapped up, because it's o useful.\n",
+        "type": "Time.Time -> Task.Task e a -> Task.Task e a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Maybe",
+    "comment": " Extensions to the core `Maybe` library.\n\n@docs isJust\n@docs isNothing\n@docs maybe\n@docs mappend\n@docs catMaybes\n@docs join\n@docs maybeDefault\n@docs matches\n@docs validate\n@docs when\n@docs oneOf\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "catMaybes",
+        "comment": " Extract all the `Just` values from a List of Maybes.\n",
+        "type": "List (Maybe.Maybe a) -> List a"
+      },
+      {
+        "name": "isJust",
+        "comment": " Boolean checks.\n",
+        "type": "Maybe.Maybe a -> Bool"
+      },
+      {
+        "name": "isNothing",
+        "comment": " ",
+        "type": "Maybe.Maybe a -> Bool"
+      },
+      {
+        "name": "join",
+        "comment": " Join together two `Maybe` values using the supplied function. If\neither value is `Nothing`, the result is `Nothing`.\n",
+        "type": "(a -> b -> c) -> Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe c"
+      },
+      {
+        "name": "mappend",
+        "comment": " Join two `Maybe`s together as though they were one.\n",
+        "type": "Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe ( a, b )"
+      },
+      {
+        "name": "matches",
+        "comment": " Check the if value in the `Maybe` matches a predicate. If it does, pass it through, if not, return nothing.\n\n    matches isEven (Just 2) => Just 2\n    matches isEven (Just 3) => Nothing\n    matches isEven Nothing => Nothing\n",
+        "type": "(a -> Bool) -> Maybe.Maybe a -> Maybe.Maybe a"
+      },
+      {
+        "name": "maybe",
+        "comment": " Apply a function to a value, returning the default if the value is `Nothing`.\n",
+        "type": "b -> (a -> b) -> Maybe.Maybe a -> b"
+      },
+      {
+        "name": "maybeDefault",
+        "comment": " If `x` is a `Just _` value, return it, otherwise return `Just default`.\n",
+        "type": "a -> Maybe.Maybe a -> Maybe.Maybe a"
+      },
+      {
+        "name": "oneOf",
+        "comment": " Return the first non-`Nothing` entry in the list.\n",
+        "type": "List (Maybe.Maybe a) -> Maybe.Maybe a"
+      },
+      {
+        "name": "validate",
+        "comment": " Validate a value against a predicate, returning a `Maybe`.\n\n    validate isEven 2 => Just 2\n    validate isEven 3 => Nothing\n",
+        "type": "(a -> Bool) -> a -> Maybe.Maybe a"
+      },
+      {
+        "name": "when",
+        "comment": " When `test` returns true, return `Just value`, otherwise return `Nothing`.\n",
+        "type": "Bool -> a -> Maybe.Maybe a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1888,6 +1793,101 @@
         "name": "update",
         "comment": " 'Update' the entry at position `n`, by applying `f` to it. If the\nindex is out of range, the array is unaltered.\n",
         "type": "Int -> (a -> a) -> Array.Array a -> Array.Array a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Function",
+    "comment": " Extensions so generic they just operate on functions.\n\n@docs (>>>)\n@docs (<<<)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "<<<",
+        "comment": " Right-to-left composition of functions that rely on an environment.\n",
+        "type": "(env -> b -> c) -> (env -> a -> b) -> env -> a -> c"
+      },
+      {
+        "name": ">>>",
+        "comment": " Left-to-right composition of functions that rely on an environment.\n\nExample:\n\n    quux (bar (foo model x) model) model\n\nBecomes:\n\n    (foo >>> bar >>> quux) model x\n\nThe operator `>>>` mirrors Haskell's Control.Arrow, because really\nthis is an arrow specialised to Reader.\n",
+        "type": "(env -> a -> b) -> (env -> b -> c) -> env -> a -> c"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Delta",
+    "comment": " A system for tracking players that enter and leave a stage, a-la D3.\n\nImplementation detail: This code is hampered by the lack of Elm's type classes. Note the following:\n1. Performance may degrade badly as the number of elements increases.\n2. It is up to you to ensure (a) implments Eq correctly.\n\n@docs Delta\n@docs empty\n@docs generation\n",
+    "aliases": [
+      {
+        "name": "Delta",
+        "comment": " A data-structure that maintains the difference list of entering, continuing and leaving players.\n",
+        "args": [
+          "a"
+        ],
+        "type": "{ entering : List a, continuing : List a, leaving : List a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "empty",
+        "comment": " A default starting state for Deltas.\n",
+        "type": "Exts.Delta.Delta a"
+      },
+      {
+        "name": "generation",
+        "comment": " Update the delta by inspecting a list of players.\n",
+        "type": "List a -> Exts.Delta.Delta a -> Exts.Delta.Delta a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Float",
+    "comment": " Extensions to the core `Float` library.\n\n@docs roundTo\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "roundTo",
+        "comment": " Round a `Float` to a given number of decimal places.\n",
+        "type": "Int -> Float -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Html.Attributes",
+    "comment": " Extensions to the `Html.Attributes` library.\n\n@docs defaultValue\n@docs defaultString\n@docs defaultInt\n@docs defaultFloat\n@docs styleList\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultFloat",
+        "comment": " Convenience version of `defaultValue`, for `Float`s.\n",
+        "type": "Float -> Html.Attribute msg"
+      },
+      {
+        "name": "defaultInt",
+        "comment": " Convenience version of `defaultValue`, for `Int`s.\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "defaultString",
+        "comment": " Convenience version of `defaultValue`, for `String`s.\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "defaultValue",
+        "comment": " Set a default value for an input field.\n",
+        "type": "Json.Encode.Value -> Html.Attribute msg"
+      },
+      {
+        "name": "styleList",
+        "comment": " This function makes it easier to specify a conditional set of styles.\n   This the style-equivalent of elm-html's classList.\n",
+        "type": "List ( String, String, Bool ) -> Html.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

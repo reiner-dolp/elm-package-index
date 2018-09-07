@@ -116,25 +116,63 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Json.Encode",
-    "comment": " Extensions to the core `Json.Encode` library.\n\n@docs set\n@docs dict\n@docs tuple2\n",
+    "name": "Exts.String",
+    "comment": " Extensions to the core `String` library.\n\n@docs removePrefix\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "dict",
-        "comment": " Encode a `Dict` to a JSON array .\n",
-        "type": "(comparable -> Json.Encode.Value) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
+        "name": "removePrefix",
+        "comment": " Strip a leading string from a `String`.\n",
+        "type": "String -> String -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Html.Table",
+    "comment": " Helpers for simple data tables. Define how a list of items can be\nrendered as a table. The definition is a `List` of `(column-title,\ncolumn-value-accessor)` pairs.\n\n  I find this approach works well for simple tables, but breaks down\n  as soon as you need much customisation. Use it to get you started\n  quickly, but be ready to rewrite when this 80% case no longer suits.\n\n@docs CellDef\n@docs TableDef\n@docs simpleTable\n@docs simpleTableRow\n@docs titleGroup\n@docs valueGroup\n",
+    "aliases": [
+      {
+        "name": "CellDef",
+        "comment": " A table definition looks something like:\n\n    [(text \"Name\", .name >> text)\n    ,(text \"Name\", .age >> toString >> text)]\n\n",
+        "args": [
+          "a",
+          "msg"
+        ],
+        "type": "( Html.Html msg, a -> Html.Html msg )"
       },
       {
-        "name": "set",
-        "comment": " Encode a `Set` to a JSON array .\n",
-        "type": "(comparable -> Json.Encode.Value) -> Set.Set comparable -> Json.Encode.Value"
+        "name": "TableDef",
+        "comment": " ",
+        "args": [
+          "a",
+          "msg"
+        ],
+        "type": "List (Exts.Html.Table.CellDef a msg)"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "simpleTable",
+        "comment": " Given a table definition, render a list of elements as HTML.\n",
+        "type": "Exts.Html.Table.TableDef a msg -> List a -> Html.Html msg"
       },
       {
-        "name": "tuple2",
-        "comment": " Encode a pair to a JSON array .\n",
-        "type": "(a -> Json.Encode.Value) -> (b -> Json.Encode.Value) -> ( a, b ) -> Json.Encode.Value"
+        "name": "simpleTableRow",
+        "comment": " Given a table definition, render an element to a <tr> tag. This is\nlower-level. Usually you will want `simpleTable` instead.\n",
+        "type": "Exts.Html.Table.TableDef a msg -> a -> Html.Html msg"
+      },
+      {
+        "name": "titleGroup",
+        "comment": " titleGroup and valueGroup are used to create columns that stack multiple pairs. For example:\n\n    [(titleGroup [\"Latitude\", \"Longitude\"]\n     ,valueGroup [.location >> .lat >> toString >> text\n                 ,.location >> .lng >> toString >> text])\n\n",
+        "type": "List String -> Html.Html msg"
+      },
+      {
+        "name": "valueGroup",
+        "comment": " ",
+        "type": "List (a -> Html.Html msg) -> a -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -149,6 +187,44 @@
         "name": "floorBy",
         "comment": " Round an int down to the nearest multiple of a factor.\n\n    floorBy  2 143 => Just 142\n    floorBy 50 143 => Just 100\n    floorBy  0 143 => Nothing\n",
         "type": "Int -> Int -> Maybe.Maybe Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Task",
+    "comment": " Extensions to the core `Process` library.\n\n@docs delay\n@docs asCmd\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "asCmd",
+        "comment": " Turn a `Task` into a `Cmd` which returns a `Result`.\n",
+        "type": "Task.Task e a -> Platform.Cmd.Cmd (Result.Result e a)"
+      },
+      {
+        "name": "delay",
+        "comment": " Delay running the `Task` for a given `Time`.\n\nThis is just the example given in `Task.sleep` wrapped up, because it's o useful.\n",
+        "type": "Time.Time -> Task.Task e a -> Task.Task e a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Function",
+    "comment": " Extensions so generic they just operate on functions.\n\n@docs (>>>)\n@docs (<<<)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "<<<",
+        "comment": " Right-to-left composition of functions that rely on an environment.\n",
+        "type": "(env -> b -> c) -> (env -> a -> b) -> env -> a -> c"
+      },
+      {
+        "name": ">>>",
+        "comment": " Left-to-right composition of functions that rely on an environment.\n\nExample:\n\n    quux (bar (foo model x) model) model\n\nBecomes:\n\n    (foo >>> bar >>> quux) model x\n\nThe operator `>>>` mirrors Haskell's Control.Arrow, because really\nthis is an arrow specialised to Reader.\n",
+        "type": "(env -> a -> b) -> (env -> b -> c) -> env -> a -> c"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -178,6 +254,82 @@
         "name": "stringIgnoringBlanks",
         "comment": " A decoder like `(maybe string)`, except an empty or whitespace string is treated as `Nothing`.\n\nUseful for dirty data-models.\n",
         "type": "Json.Decode.Decoder (Maybe.Maybe String)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Basics",
+    "comment": " Extensions to the core `Basics` library.\n\n@docs compareBy\n@docs maxBy\n@docs minBy\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "compareBy",
+        "comment": " Like `Basics.compare`, with a custom function. For example:\n\n``` elm\ncompareBy Date.toTime earlyDate laterDate\n--> LT\n```\n",
+        "type": "(a -> comparable) -> a -> a -> Basics.Order"
+      },
+      {
+        "name": "maxBy",
+        "comment": " Like `Basics.max`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nmaxBy Date.toTime earlyDate laterDate\n--> laterDate\n```\n",
+        "type": "(a -> comparable) -> a -> a -> a"
+      },
+      {
+        "name": "minBy",
+        "comment": " Like `Basics.min`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nminBy Date.toTime earlyDate laterDate\n--> earlyDate\n```\n",
+        "type": "(a -> comparable) -> a -> a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Date",
+    "comment": " Extensions to the core `Date` library.\n\n@docs toISOString\n@docs toRFC3339\n@docs monthNumber\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "monthNumber",
+        "comment": " Extract the month of a given date as an `Int`. January is 1.\n",
+        "type": "Date.Date -> Int"
+      },
+      {
+        "name": "toISOString",
+        "comment": " Format a `Date` as an ISO-standard string.\n",
+        "type": "Date.Date -> String"
+      },
+      {
+        "name": "toRFC3339",
+        "comment": " Format a `Date` as an RFC-3339 standard string\n\n  This is useful for passing a `Date` as a value to an HTML input. (See [the W3 spec](https://www.w3.org/TR/html-markup/input.date.html#input.date.attrs.value) for details.)\n",
+        "type": "Date.Date -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Delta",
+    "comment": " A system for tracking players that enter and leave a stage, a-la D3.\n\nImplementation detail: This code is hampered by the lack of Elm's type classes. Note the following:\n1. Performance may degrade badly as the number of elements increases.\n2. It is up to you to ensure (a) implments Eq correctly.\n\n@docs Delta\n@docs empty\n@docs generation\n",
+    "aliases": [
+      {
+        "name": "Delta",
+        "comment": " A data-structure that maintains the difference list of entering, continuing and leaving players.\n",
+        "args": [
+          "a"
+        ],
+        "type": "{ entering : List a, continuing : List a, leaving : List a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "empty",
+        "comment": " A default starting state for Deltas.\n",
+        "type": "Exts.Delta.Delta a"
+      },
+      {
+        "name": "generation",
+        "comment": " Update the delta by inspecting a list of players.\n",
+        "type": "List a -> Exts.Delta.Delta a -> Exts.Delta.Delta a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -222,44 +374,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Date",
-    "comment": " Extensions to the core `Date` library.\n\n@docs toISOString\n@docs toRFC3339\n@docs monthNumber\n",
+    "name": "Exts.Json.Encode",
+    "comment": " Extensions to the core `Json.Encode` library.\n\n@docs set\n@docs dict\n@docs tuple2\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "monthNumber",
-        "comment": " Extract the month of a given date as an `Int`. January is 1.\n",
-        "type": "Date.Date -> Int"
+        "name": "dict",
+        "comment": " Encode a `Dict` to a JSON array .\n",
+        "type": "(comparable -> Json.Encode.Value) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
       },
       {
-        "name": "toISOString",
-        "comment": " Format a `Date` as an ISO-standard string.\n",
-        "type": "Date.Date -> String"
+        "name": "set",
+        "comment": " Encode a `Set` to a JSON array .\n",
+        "type": "(comparable -> Json.Encode.Value) -> Set.Set comparable -> Json.Encode.Value"
       },
       {
-        "name": "toRFC3339",
-        "comment": " Format a `Date` as an RFC-3339 standard string\n\n  This is useful for passing a `Date` as a value to an HTML input. (See [the W3 spec](https://www.w3.org/TR/html-markup/input.date.html#input.date.attrs.value) for details.)\n",
-        "type": "Date.Date -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Task",
-    "comment": " Extensions to the core `Process` library.\n\n@docs delay\n@docs asCmd\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "asCmd",
-        "comment": " Turn a `Task` into a `Cmd` which returns a `Result`.\n",
-        "type": "Task.Task e a -> Platform.Cmd.Cmd (Result.Result e a)"
-      },
-      {
-        "name": "delay",
-        "comment": " Delay running the `Task` for a given `Time`.\n\nThis is just the example given in `Task.sleep` wrapped up, because it's o useful.\n",
-        "type": "Time.Time -> Task.Task e a -> Task.Task e a"
+        "name": "tuple2",
+        "comment": " Encode a pair to a JSON array .\n",
+        "type": "(a -> Json.Encode.Value) -> (b -> Json.Encode.Value) -> ( a, b ) -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -284,6 +417,70 @@
         "name": "uniqueItems",
         "comment": " Dive into a `List` to get a set of values.\n\n  For example, pulling a `Set` of countries from a `List` of users.\n",
         "type": "(a -> Maybe.Maybe comparable) -> List a -> Set.Set comparable"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Exts.Maybe",
+    "comment": " Extensions to the core `Maybe` library.\n\n@docs isJust\n@docs isNothing\n@docs maybe\n@docs mappend\n@docs catMaybes\n@docs join\n@docs maybeDefault\n@docs matches\n@docs validate\n@docs when\n@docs oneOf\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "catMaybes",
+        "comment": " Extract all the `Just` values from a List of Maybes.\n",
+        "type": "List (Maybe.Maybe a) -> List a"
+      },
+      {
+        "name": "isJust",
+        "comment": " Boolean checks.\n",
+        "type": "Maybe.Maybe a -> Bool"
+      },
+      {
+        "name": "isNothing",
+        "comment": " ",
+        "type": "Maybe.Maybe a -> Bool"
+      },
+      {
+        "name": "join",
+        "comment": " Join together two `Maybe` values using the supplied function. If\neither value is `Nothing`, the result is `Nothing`.\n",
+        "type": "(a -> b -> c) -> Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe c"
+      },
+      {
+        "name": "mappend",
+        "comment": " Join two `Maybe`s together as though they were one.\n",
+        "type": "Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe ( a, b )"
+      },
+      {
+        "name": "matches",
+        "comment": " Check the if value in the `Maybe` matches a predicate. If it does, pass it through, if not, return nothing.\n\n    matches isEven (Just 2) => Just 2\n    matches isEven (Just 3) => Nothing\n    matches isEven Nothing => Nothing\n",
+        "type": "(a -> Bool) -> Maybe.Maybe a -> Maybe.Maybe a"
+      },
+      {
+        "name": "maybe",
+        "comment": " Apply a function to a value, returning the default if the value is `Nothing`.\n",
+        "type": "b -> (a -> b) -> Maybe.Maybe a -> b"
+      },
+      {
+        "name": "maybeDefault",
+        "comment": " If `x` is a `Just _` value, return it, otherwise return `Just default`.\n",
+        "type": "a -> Maybe.Maybe a -> Maybe.Maybe a"
+      },
+      {
+        "name": "oneOf",
+        "comment": " Return the first non-`Nothing` entry in the list.\n",
+        "type": "List (Maybe.Maybe a) -> Maybe.Maybe a"
+      },
+      {
+        "name": "validate",
+        "comment": " Validate a value against a predicate, returning a `Maybe`.\n\n    validate isEven 2 => Just 2\n    validate isEven 3 => Nothing\n",
+        "type": "(a -> Bool) -> a -> Maybe.Maybe a"
+      },
+      {
+        "name": "when",
+        "comment": " When `test` returns true, return `Just value`, otherwise return `Nothing`.\n",
+        "type": "Bool -> a -> Maybe.Maybe a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -333,61 +530,6 @@
         "name": "pair",
         "comment": " Update both components of a pair with two functions.\n",
         "type": "(a -> b) -> (x -> y) -> ( a, x ) -> ( b, y )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Validation",
-    "comment": " Simple tools for validation. See also [Richard Feldman's elm-validate](http://package.elm-lang.org/packages/rtfeldman/elm-validate/latest).\n\n@docs Validator\n@docs apply\n@docs (|:)\n@docs required\n@docs notBlank\n@docs matches\n@docs email\n@docs emailRegex\n",
-    "aliases": [
-      {
-        "name": "Validator",
-        "comment": " A validator is a function that takes a possibly-invalid form, and\neither returns an error message, or a form that is definitely valid. For example:\n\n    type alias Form =\n      { message : Maybe String\n      , email : Maybe String\n      , firstName : Maybe String\n      , age : Maybe Int\n      }\n\n    type alias ValidForm =\n      { message : String\n      , email : String\n      , firstName : String\n      , age : Int\n      }\n\n    validateForm : Form -> Result String ValidForm\n    validateForm form =\n      Ok ValidForm\n        |: notBlank \"Message is required and may not be blank.\" form.message\n        |: email \"Email is required and may not be blank.\" form.email\n        |: matches (caseInsensitive (regex \"^[a-z]+$\")) \"First name may only contain letters.\" form.firstName\n        |: required \"Age is required\" form.age\n\nAn error message is typically a `String`, but may be any type you choose.\n",
-        "args": [
-          "e",
-          "a",
-          "b"
-        ],
-        "type": "Maybe.Maybe a -> Result.Result e b"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "apply",
-        "comment": " Chain validators together.\n\n(Hat tip to CircuitHub, who inspired the syntax and guided the code with their [elm-json-extra](http://package.elm-lang.org/packages/circuithub/elm-json-extra/latest) library.)\n",
-        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
-      },
-      {
-        "name": "email",
-        "comment": " A basic email regex. This is incredibly simplistic, but is\nincluded for convenience.\n\nRemember that the only real way to validate an email address is to\nsend something to it and get a reply.\n",
-        "type": "e -> Exts.Validation.Validator e String String"
-      },
-      {
-        "name": "emailRegex",
-        "comment": " ",
-        "type": "Regex.Regex"
-      },
-      {
-        "name": "matches",
-        "comment": " A field that must match the given regex.\n",
-        "type": "Regex.Regex -> e -> Exts.Validation.Validator e String String"
-      },
-      {
-        "name": "notBlank",
-        "comment": " A field that might be `Nothing`, but is only valid if it is a non-empty `String`.\n",
-        "type": "e -> Exts.Validation.Validator e String String"
-      },
-      {
-        "name": "required",
-        "comment": " A field that might be `Nothing`, but is only valid if it is `Just a`.\n",
-        "type": "e -> Exts.Validation.Validator e a a"
-      },
-      {
-        "name": "|:",
-        "comment": " Convenient synonym for `apply`.\n",
-        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -506,79 +648,56 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Maybe",
-    "comment": " Extensions to the core `Maybe` library.\n\n@docs isJust\n@docs isNothing\n@docs maybe\n@docs mappend\n@docs catMaybes\n@docs join\n@docs maybeDefault\n@docs matches\n@docs validate\n@docs when\n@docs oneOf\n",
-    "aliases": [],
+    "name": "Exts.Validation",
+    "comment": " Simple tools for validation. See also [Richard Feldman's elm-validate](http://package.elm-lang.org/packages/rtfeldman/elm-validate/latest).\n\n@docs Validator\n@docs apply\n@docs (|:)\n@docs required\n@docs notBlank\n@docs matches\n@docs email\n@docs emailRegex\n",
+    "aliases": [
+      {
+        "name": "Validator",
+        "comment": " A validator is a function that takes a possibly-invalid form, and\neither returns an error message, or a form that is definitely valid. For example:\n\n    type alias Form =\n      { message : Maybe String\n      , email : Maybe String\n      , firstName : Maybe String\n      , age : Maybe Int\n      }\n\n    type alias ValidForm =\n      { message : String\n      , email : String\n      , firstName : String\n      , age : Int\n      }\n\n    validateForm : Form -> Result String ValidForm\n    validateForm form =\n      Ok ValidForm\n        |: notBlank \"Message is required and may not be blank.\" form.message\n        |: email \"Email is required and may not be blank.\" form.email\n        |: matches (caseInsensitive (regex \"^[a-z]+$\")) \"First name may only contain letters.\" form.firstName\n        |: required \"Age is required\" form.age\n\nAn error message is typically a `String`, but may be any type you choose.\n",
+        "args": [
+          "e",
+          "a",
+          "b"
+        ],
+        "type": "Maybe.Maybe a -> Result.Result e b"
+      }
+    ],
     "types": [],
     "values": [
       {
-        "name": "catMaybes",
-        "comment": " Extract all the `Just` values from a List of Maybes.\n",
-        "type": "List (Maybe.Maybe a) -> List a"
+        "name": "apply",
+        "comment": " Chain validators together.\n\n(Hat tip to CircuitHub, who inspired the syntax and guided the code with their [elm-json-extra](http://package.elm-lang.org/packages/circuithub/elm-json-extra/latest) library.)\n",
+        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
       },
       {
-        "name": "isJust",
-        "comment": " Boolean checks.\n",
-        "type": "Maybe.Maybe a -> Bool"
+        "name": "email",
+        "comment": " A basic email regex. This is incredibly simplistic, but is\nincluded for convenience.\n\nRemember that the only real way to validate an email address is to\nsend something to it and get a reply.\n",
+        "type": "e -> Exts.Validation.Validator e String String"
       },
       {
-        "name": "isNothing",
+        "name": "emailRegex",
         "comment": " ",
-        "type": "Maybe.Maybe a -> Bool"
-      },
-      {
-        "name": "join",
-        "comment": " Join together two `Maybe` values using the supplied function. If\neither value is `Nothing`, the result is `Nothing`.\n",
-        "type": "(a -> b -> c) -> Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe c"
-      },
-      {
-        "name": "mappend",
-        "comment": " Join two `Maybe`s together as though they were one.\n",
-        "type": "Maybe.Maybe a -> Maybe.Maybe b -> Maybe.Maybe ( a, b )"
+        "type": "Regex.Regex"
       },
       {
         "name": "matches",
-        "comment": " Check the if value in the `Maybe` matches a predicate. If it does, pass it through, if not, return nothing.\n\n    matches isEven (Just 2) => Just 2\n    matches isEven (Just 3) => Nothing\n    matches isEven Nothing => Nothing\n",
-        "type": "(a -> Bool) -> Maybe.Maybe a -> Maybe.Maybe a"
+        "comment": " A field that must match the given regex.\n",
+        "type": "Regex.Regex -> e -> Exts.Validation.Validator e String String"
       },
       {
-        "name": "maybe",
-        "comment": " Apply a function to a value, returning the default if the value is `Nothing`.\n",
-        "type": "b -> (a -> b) -> Maybe.Maybe a -> b"
+        "name": "notBlank",
+        "comment": " A field that might be `Nothing`, but is only valid if it is a non-empty `String`.\n",
+        "type": "e -> Exts.Validation.Validator e String String"
       },
       {
-        "name": "maybeDefault",
-        "comment": " If `x` is a `Just _` value, return it, otherwise return `Just default`.\n",
-        "type": "a -> Maybe.Maybe a -> Maybe.Maybe a"
+        "name": "required",
+        "comment": " A field that might be `Nothing`, but is only valid if it is `Just a`.\n",
+        "type": "e -> Exts.Validation.Validator e a a"
       },
       {
-        "name": "oneOf",
-        "comment": " Return the first non-`Nothing` entry in the list.\n",
-        "type": "List (Maybe.Maybe a) -> Maybe.Maybe a"
-      },
-      {
-        "name": "validate",
-        "comment": " Validate a value against a predicate, returning a `Maybe`.\n\n    validate isEven 2 => Just 2\n    validate isEven 3 => Nothing\n",
-        "type": "(a -> Bool) -> a -> Maybe.Maybe a"
-      },
-      {
-        "name": "when",
-        "comment": " When `test` returns true, return `Just value`, otherwise return `Nothing`.\n",
-        "type": "Bool -> a -> Maybe.Maybe a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.String",
-    "comment": " Extensions to the core `String` library.\n\n@docs removePrefix\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "removePrefix",
-        "comment": " Strip a leading string from a `String`.\n",
-        "type": "String -> String -> String"
+        "name": "|:",
+        "comment": " Convenient synonym for `apply`.\n",
+        "type": "Result.Result e (a -> b) -> Result.Result e a -> Result.Result e b"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1658,68 +1777,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Function",
-    "comment": " Extensions so generic they just operate on functions.\n\n@docs (>>>)\n@docs (<<<)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "<<<",
-        "comment": " Right-to-left composition of functions that rely on an environment.\n",
-        "type": "(env -> b -> c) -> (env -> a -> b) -> env -> a -> c"
-      },
-      {
-        "name": ">>>",
-        "comment": " Left-to-right composition of functions that rely on an environment.\n\nExample:\n\n    quux (bar (foo model x) model) model\n\nBecomes:\n\n    (foo >>> bar >>> quux) model x\n\nThe operator `>>>` mirrors Haskell's Control.Arrow, because really\nthis is an arrow specialised to Reader.\n",
-        "type": "(env -> a -> b) -> (env -> b -> c) -> env -> a -> c"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Float",
-    "comment": " Extensions to the core `Float` library.\n\n@docs roundTo\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "roundTo",
-        "comment": " Round a `Float` to a given number of decimal places.\n",
-        "type": "Int -> Float -> Float"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Array",
-    "comment": " Extensions to the core `Array` library.\n\n@docs update\n@docs delete\n@docs unzip\n@docs singleton\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "delete",
-        "comment": " 'Delete' the entry at position `n`.\nindex is out of range, the array is unaltered.\n",
-        "type": "Int -> Array.Array a -> Array.Array a"
-      },
-      {
-        "name": "singleton",
-        "comment": " Wrap a single item into an `Array`.\n",
-        "type": "a -> Array.Array a"
-      },
-      {
-        "name": "unzip",
-        "comment": " Split an array of pairs into a pair of arrays.\n\nThe same as the core `List.unzip`.\n",
-        "type": "Array.Array ( a, b ) -> ( Array.Array a, Array.Array b )"
-      },
-      {
-        "name": "update",
-        "comment": " 'Update' the entry at position `n`, by applying `f` to it. If the\nindex is out of range, the array is unaltered.\n",
-        "type": "Int -> (a -> a) -> Array.Array a -> Array.Array a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Exts.Html.Attributes",
     "comment": " Extensions to the `Html.Attributes` library.\n\n@docs defaultValue\n@docs defaultString\n@docs defaultInt\n@docs defaultFloat\n@docs styleList\n",
     "aliases": [],
@@ -1749,34 +1806,6 @@
         "name": "styleList",
         "comment": " This function makes it easier to specify a conditional set of styles.\n   This the style-equivalent of elm-html's classList.\n",
         "type": "List ( String, String, Bool ) -> Html.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Exts.Delta",
-    "comment": " A system for tracking players that enter and leave a stage, a-la D3.\n\nImplementation detail: This code is hampered by the lack of Elm's type classes. Note the following:\n1. Performance may degrade badly as the number of elements increases.\n2. It is up to you to ensure (a) implments Eq correctly.\n\n@docs Delta\n@docs empty\n@docs generation\n",
-    "aliases": [
-      {
-        "name": "Delta",
-        "comment": " A data-structure that maintains the difference list of entering, continuing and leaving players.\n",
-        "args": [
-          "a"
-        ],
-        "type": "{ entering : List a, continuing : List a, leaving : List a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "empty",
-        "comment": " A default starting state for Deltas.\n",
-        "type": "Exts.Delta.Delta a"
-      },
-      {
-        "name": "generation",
-        "comment": " Update the delta by inspecting a list of players.\n",
-        "type": "List a -> Exts.Delta.Delta a -> Exts.Delta.Delta a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1821,73 +1850,44 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Html.Table",
-    "comment": " Helpers for simple data tables. Define how a list of items can be\nrendered as a table. The definition is a `List` of `(column-title,\ncolumn-value-accessor)` pairs.\n\n  I find this approach works well for simple tables, but breaks down\n  as soon as you need much customisation. Use it to get you started\n  quickly, but be ready to rewrite when this 80% case no longer suits.\n\n@docs CellDef\n@docs TableDef\n@docs simpleTable\n@docs simpleTableRow\n@docs titleGroup\n@docs valueGroup\n",
-    "aliases": [
-      {
-        "name": "CellDef",
-        "comment": " A table definition looks something like:\n\n    [(text \"Name\", .name >> text)\n    ,(text \"Name\", .age >> toString >> text)]\n\n",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "( Html.Html msg, a -> Html.Html msg )"
-      },
-      {
-        "name": "TableDef",
-        "comment": " ",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "List (Exts.Html.Table.CellDef a msg)"
-      }
-    ],
+    "name": "Exts.Array",
+    "comment": " Extensions to the core `Array` library.\n\n@docs update\n@docs delete\n@docs unzip\n@docs singleton\n",
+    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "simpleTable",
-        "comment": " Given a table definition, render a list of elements as HTML.\n",
-        "type": "Exts.Html.Table.TableDef a msg -> List a -> Html.Html msg"
+        "name": "delete",
+        "comment": " 'Delete' the entry at position `n`.\nindex is out of range, the array is unaltered.\n",
+        "type": "Int -> Array.Array a -> Array.Array a"
       },
       {
-        "name": "simpleTableRow",
-        "comment": " Given a table definition, render an element to a <tr> tag. This is\nlower-level. Usually you will want `simpleTable` instead.\n",
-        "type": "Exts.Html.Table.TableDef a msg -> a -> Html.Html msg"
+        "name": "singleton",
+        "comment": " Wrap a single item into an `Array`.\n",
+        "type": "a -> Array.Array a"
       },
       {
-        "name": "titleGroup",
-        "comment": " titleGroup and valueGroup are used to create columns that stack multiple pairs. For example:\n\n    [(titleGroup [\"Latitude\", \"Longitude\"]\n     ,valueGroup [.location >> .lat >> toString >> text\n                 ,.location >> .lng >> toString >> text])\n\n",
-        "type": "List String -> Html.Html msg"
+        "name": "unzip",
+        "comment": " Split an array of pairs into a pair of arrays.\n\nThe same as the core `List.unzip`.\n",
+        "type": "Array.Array ( a, b ) -> ( Array.Array a, Array.Array b )"
       },
       {
-        "name": "valueGroup",
-        "comment": " ",
-        "type": "List (a -> Html.Html msg) -> a -> Html.Html msg"
+        "name": "update",
+        "comment": " 'Update' the entry at position `n`, by applying `f` to it. If the\nindex is out of range, the array is unaltered.\n",
+        "type": "Int -> (a -> a) -> Array.Array a -> Array.Array a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Exts.Basics",
-    "comment": " Extensions to the core `Basics` library.\n\n@docs compareBy\n@docs maxBy\n@docs minBy\n\n",
+    "name": "Exts.Float",
+    "comment": " Extensions to the core `Float` library.\n\n@docs roundTo\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "compareBy",
-        "comment": " Like `Basics.compare`, with a custom function. For example:\n\n``` elm\ncompareBy Date.toTime earlyDate laterDate\n--> LT\n```\n",
-        "type": "(a -> comparable) -> a -> a -> Basics.Order"
-      },
-      {
-        "name": "maxBy",
-        "comment": " Like `Basics.max`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nmaxBy Date.toTime earlyDate laterDate\n--> laterDate\n```\n",
-        "type": "(a -> comparable) -> a -> a -> a"
-      },
-      {
-        "name": "minBy",
-        "comment": " Like `Basics.min`, but it works on non-comparable types by taking a custom function. For example:\n\n``` elm\nminBy Date.toTime earlyDate laterDate\n--> earlyDate\n```\n",
-        "type": "(a -> comparable) -> a -> a -> a"
+        "name": "roundTo",
+        "comment": " Round a `Float` to a given number of decimal places.\n",
+        "type": "Int -> Float -> Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"
