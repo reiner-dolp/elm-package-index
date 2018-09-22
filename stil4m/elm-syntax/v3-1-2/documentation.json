@@ -71,20 +71,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Elm.Json.Decode",
-    "comment": "\n\n\n# Elm.Json.Decode\n\nDecoding Elm Code from Json\n\n@docs decode\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "decode",
-        "comment": " Decode a file stored in Json\n",
-        "type": "Json.Decode.Decoder Elm.Internal.RawFile.RawFile"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Elm.Json.Encode",
     "comment": "\n\n\n# Elm.Json.Encode\n\nEncoding Elm Code to Json\n\n@docs encode\n\n",
     "aliases": [],
@@ -94,6 +80,20 @@
         "name": "encode",
         "comment": " Encode a file to a value\n",
         "type": "Elm.Internal.RawFile.RawFile -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Elm.Json.Decode",
+    "comment": "\n\n\n# Elm.Json.Decode\n\nDecoding Elm Code from Json\n\n@docs decode\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "decode",
+        "comment": " Decode a file stored in Json\n",
+        "type": "Json.Decode.Decoder Elm.Internal.RawFile.RawFile"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -286,6 +286,42 @@
         ]
       }
     ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Elm.Syntax.TypeAlias",
+    "comment": " Type Alias Syntax\n\n\n# Types\n\n@docs TypeAlias\n\n",
+    "aliases": [
+      {
+        "name": "TypeAlias",
+        "comment": " Definition for a type alias\n",
+        "args": [],
+        "type": "{ documentation : Maybe.Maybe Elm.Syntax.Documentation.Documentation , name : String , generics : List String , typeAnnotation : Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation }"
+      }
+    ],
+    "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Elm.Syntax.Type",
+    "comment": " Type Syntax\n\n\n# Types\n\n@docs Type, ValueConstructor\n\n",
+    "aliases": [
+      {
+        "name": "Type",
+        "comment": " Syntax for a type\n",
+        "args": [],
+        "type": "{ name : String , generics : List String , constructors : List Elm.Syntax.Type.ValueConstructor }"
+      },
+      {
+        "name": "ValueConstructor",
+        "comment": " Syntax for a type value constructor\n",
+        "args": [],
+        "type": "{ name : String , arguments : List (Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation) , range : Elm.Syntax.Range.Range }"
+      }
+    ],
+    "types": [],
     "values": [],
     "generated-with-elm-version": "0.18.0"
   },
@@ -600,38 +636,75 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Elm.Syntax.TypeAlias",
-    "comment": " Type Alias Syntax\n\n\n# Types\n\n@docs TypeAlias\n\n",
+    "name": "Elm.Syntax.TypeAnnotation",
+    "comment": " Type Annotation Syntax\n\n\n# Types\n\n@docs TypeAnnotation, RecordDefinition, RecordField\n\n",
     "aliases": [
       {
-        "name": "TypeAlias",
-        "comment": " Definition for a type alias\n",
+        "name": "RecordDefinition",
+        "comment": " List of fields for a record\n",
         "args": [],
-        "type": "{ documentation : Maybe.Maybe Elm.Syntax.Documentation.Documentation , name : String , generics : List String , typeAnnotation : Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation }"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Elm.Syntax.Type",
-    "comment": " Type Syntax\n\n\n# Types\n\n@docs Type, ValueConstructor\n\n",
-    "aliases": [
-      {
-        "name": "Type",
-        "comment": " Syntax for a type\n",
-        "args": [],
-        "type": "{ name : String , generics : List String , constructors : List Elm.Syntax.Type.ValueConstructor }"
+        "type": "List Elm.Syntax.TypeAnnotation.RecordField"
       },
       {
-        "name": "ValueConstructor",
-        "comment": " Syntax for a type value constructor\n",
+        "name": "RecordField",
+        "comment": " Single field of a record. A name and its type\n",
         "args": [],
-        "type": "{ name : String , arguments : List (Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation) , range : Elm.Syntax.Range.Range }"
+        "type": "( String , Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation )"
       }
     ],
-    "types": [],
+    "types": [
+      {
+        "name": "TypeAnnotation",
+        "comment": " Union type for different type aliases\n",
+        "args": [],
+        "cases": [
+          [
+            "GenericType",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Typed",
+            [
+              "Elm.Syntax.Base.ModuleName",
+              "String",
+              "List (Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation)"
+            ]
+          ],
+          [
+            "Unit",
+            []
+          ],
+          [
+            "Tupled",
+            [
+              "List (Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation)"
+            ]
+          ],
+          [
+            "Record",
+            [
+              "Elm.Syntax.TypeAnnotation.RecordDefinition"
+            ]
+          ],
+          [
+            "GenericRecord",
+            [
+              "String",
+              "Elm.Syntax.TypeAnnotation.RecordDefinition"
+            ]
+          ],
+          [
+            "FunctionTypeAnnotation",
+            [
+              "Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation",
+              "Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation"
+            ]
+          ]
+        ]
+      }
+    ],
     "values": [],
     "generated-with-elm-version": "0.18.0"
   },
@@ -835,79 +908,6 @@
         "type": "Elm.Syntax.Ranged.Ranged Elm.Syntax.Exposing.TopLevelExpose -> Elm.Syntax.Range.Range"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Elm.Syntax.TypeAnnotation",
-    "comment": " Type Annotation Syntax\n\n\n# Types\n\n@docs TypeAnnotation, RecordDefinition, RecordField\n\n",
-    "aliases": [
-      {
-        "name": "RecordDefinition",
-        "comment": " List of fields for a record\n",
-        "args": [],
-        "type": "List Elm.Syntax.TypeAnnotation.RecordField"
-      },
-      {
-        "name": "RecordField",
-        "comment": " Single field of a record. A name and its type\n",
-        "args": [],
-        "type": "( String , Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation )"
-      }
-    ],
-    "types": [
-      {
-        "name": "TypeAnnotation",
-        "comment": " Union type for different type aliases\n",
-        "args": [],
-        "cases": [
-          [
-            "GenericType",
-            [
-              "String"
-            ]
-          ],
-          [
-            "Typed",
-            [
-              "Elm.Syntax.Base.ModuleName",
-              "String",
-              "List (Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation)"
-            ]
-          ],
-          [
-            "Unit",
-            []
-          ],
-          [
-            "Tupled",
-            [
-              "List (Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation)"
-            ]
-          ],
-          [
-            "Record",
-            [
-              "Elm.Syntax.TypeAnnotation.RecordDefinition"
-            ]
-          ],
-          [
-            "GenericRecord",
-            [
-              "String",
-              "Elm.Syntax.TypeAnnotation.RecordDefinition"
-            ]
-          ],
-          [
-            "FunctionTypeAnnotation",
-            [
-              "Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation",
-              "Elm.Syntax.Ranged.Ranged Elm.Syntax.TypeAnnotation.TypeAnnotation"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {

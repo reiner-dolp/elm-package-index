@@ -173,213 +173,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Polyline3d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Polyline3d/icon.svg\" alt=\"Polyline3d\" width=\"160\">\n\nA `Polyline3d` represents a sequence of vertices in 3D connected by line\nsegments. This module contains a variety of polyline-related functionality, such\nas\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\n@docs Polyline3d\n\n\n# Constructors\n\n@docs fromVertices, on\n\n\n# Properties\n\n@docs vertices, segments, length, boundingBox\n\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n",
-    "aliases": [
-      {
-        "name": "Polyline3d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.Polyline3d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline3d.boundingBox examplePolyline\n    --> Just\n    -->     (BoundingBox3d.fromExtrema\n    -->         { minX = 0\n    -->         , maxX = 1\n    -->         , minY = 0\n    -->         , maxY = 2\n    -->         , minZ = 0\n    -->         , maxZ = 3\n    -->         }\n    -->     )\n\n",
-        "type": "Polyline3d.Polyline3d -> Maybe.Maybe BoundingBox3d.BoundingBox3d"
-      },
-      {
-        "name": "fromVertices",
-        "comment": " Construct a polyline from its vertices:\n\n    examplePolyline =\n        Polyline3d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0, 0 )\n            , Point2d.fromCoordinates ( 1, 2, 0 )\n            , Point2d.fromCoordinates ( 1, 2, 3 )\n            ]\n\n",
-        "type": "List Point3d.Point3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline3d.length examplePolyline\n    --> 6\n\n",
-        "type": "Polyline3d.Polyline3d -> Float"
-      },
-      {
-        "name": "mapVertices",
-        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `mapVertices`; for example,\n\n    Polyline3d.mirrorAcross plane\n\nis equivalent to\n\n    Polyline3d.mapVertices (Point3d.mirrorAcross plane)\n\n",
-        "type": "(Point3d.Point3d -> Point3d.Point3d) -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a polyline across the given plane.\n\n    Polyline3d.mirrorAcross Plane3d.xz examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, -2, 0 )\n    -->     , Point3d.fromCoordinates ( 1, -2, 3 )\n    -->     ]\n\n",
-        "type": "Plane3d.Plane3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "on",
-        "comment": " Construct a 3D polyline lying _on_ a sketch plane by providing a 2D polyline\nspecified in XY coordinates _within_ the sketch plane.\n\n    Polyline3d.on SketchPlane3d.yz <|\n        Polyline2d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0 )\n            , Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            ]\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 0, 2, 1 )\n    -->     ]\n\n",
-        "type": "SketchPlane3d.SketchPlane3d -> Polyline2d.Polyline2d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    Polyline3d.placeIn localFrame examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     ]\n\n",
-        "type": "Frame3d.Frame3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a polyline into a given sketch plane. Conceptually, this finds the\n[orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the polyline onto the plane and then expresses the projected polyline in 2D\nsketch coordinates.\n\n    Polyline3d.projectInto Plane3d.xy examplePolyline\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     ]\n\n",
-        "type": "SketchPlane3d.SketchPlane3d -> Polyline3d.Polyline3d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a polyline onto a plane. This will flatten the polyline.\n\n    Polyline3d.projectOnto Plane3d.xz examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 3 )\n    -->     ]\n\n",
-        "type": "Plane3d.Plane3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    Polyline3d.relativeTo localFrame examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( -1, -2, -3 )\n    -->     , Point3d.fromCoordinates ( 0, -2, -3 )\n    -->     , Point3d.fromCoordinates ( 0, 0, -3 )\n    -->     , Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     ]\n\n",
-        "type": "Frame3d.Frame3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a polyline around the given axis by the given angle (in radians).\n\n    examplePolyline\n        |> Polyline3d.rotateAround Axis3d.z (degrees 90)\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 1, 0 )\n    -->     , Point3d.fromCoordinates ( -2, 1, 0 )\n    -->     , Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     ]\n\n",
-        "type": "Axis3d.Axis3d -> Float -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a polyline about the given center point by the given scale.\n\n    point =\n        Point3d.fromCoordinates ( 1, 0, 0 )\n\n    Polyline3d.scaleAbout point 2 examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( -1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 4, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 4, 6 )\n    -->     ]\n\n",
-        "type": "Point3d.Point3d -> Float -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "segments",
-        "comment": " Get the individual segments of a polyline.\n\n    Polyline3d.segments examplePolyline\n    --> [ LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     )\n    --> , LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 0 )\n    -->     )\n    --> , LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 2, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     )\n    --> ]\n\n",
-        "type": "Polyline3d.Polyline3d -> List LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 1, 2, 3 )\n\n    Polyline3d.translateBy displacement examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     ]\n\n",
-        "type": "Vector3d.Vector3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate a polyline in a given direction by a given distance;\n\n    Polyline3d.translateIn direction distance\n\nis equivalent to\n\n    Polyline3d.translateBy\n        (Vector3d.withLength distance direction)\n\n",
-        "type": "Direction3d.Direction3d -> Float -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a polyline.\n\n    Polyline3d.vertices examplePolyline\n    --> [ Point3d.fromCoordinates ( 0, 0, 0 )\n    --> , Point3d.fromCoordinates ( 1, 0, 0 )\n    --> , Point3d.fromCoordinates ( 1, 2, 0 )\n    --> , Point3d.fromCoordinates ( 1, 2, 3 )\n    --> ]\n\n",
-        "type": "Polyline3d.Polyline3d -> List Point3d.Point3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Triangle3d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Triangle3d/icon.svg\" alt=\"Triangle3d\" width=\"160\">\n\nA `Triangle3d` represents a triangle in 3D space, and is defined by its three\nvertices. This module contains triangle-related functionality such as:\n\n  - Finding the area and centroid of triangles\n  - Scaling, rotating, translating, mirroring and projecting triangles\n  - Converting triangles between different coordinate systems\n\n@docs Triangle3d\n\n\n# Constructors\n\n@docs fromVertices, on\n\n\n# Properties\n\n@docs vertices, edges, centroid, area, normalDirection, boundingBox, circumcircle\n\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n",
-    "aliases": [
-      {
-        "name": "Triangle3d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.Triangle3d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of a triangle. This value is always positive.\n\n    Triangle3d.area exampleTriangle\n    --> 1.5811\n\n",
-        "type": "Triangle3d.Triangle3d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle3d.boundingBox exampleTriangle\n    --> BoundingBox3d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 2\n    -->     , minY = 0\n    -->     , maxY = 1\n    -->     , minZ = 0\n    -->     , maxZ = 3\n    -->     }\n\n",
-        "type": "Triangle3d.Triangle3d -> BoundingBox3d.BoundingBox3d"
-      },
-      {
-        "name": "centroid",
-        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle3d.centroid exampleTriangle\n    --> Point3d.fromCoordinates ( 1.6667, 0.6667, 1 )\n\n",
-        "type": "Triangle3d.Triangle3d -> Point3d.Point3d"
-      },
-      {
-        "name": "circumcircle",
-        "comment": " Attempt to find the circumcircle of a triangle, a circle that passes through\neach of the triangle's vertices;\n\n    Triangle3d.circumcircle triangle\n\nis equivalent to\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices triangle\n\n    Circle3d.throughPoints p1 p2 p3\n\nIf the triangle is degenerate (its three vertices are collinear), returns\n`Nothing`.\n\n",
-        "type": "Triangle3d.Triangle3d -> Maybe.Maybe Circle3d.Circle3d"
-      },
-      {
-        "name": "edges",
-        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle3d.edges exampleTriangle\n\n\n    --> e1 =\n    -->     LineSegment3d.fromEndpoints\n    -->         ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->         , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->         )\n    -->\n    --> e2 =\n    -->     LineSegment3d.fromEndpoints\n    -->         ( Point3d.fromCoordinates ( 2, 0, 0 )\n    -->         , Point3d.fromCoordinates ( 2, 1, 3 )\n    -->         )\n    -->\n    --> e3 =\n    -->     LineSegment3d.fromEndpoints\n    -->         ( Point3d.fromCoordinates ( 2, 1, 3 )\n    -->         , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->         )\n\n",
-        "type": "Triangle3d.Triangle3d -> ( LineSegment3d.LineSegment3d , LineSegment3d.LineSegment3d , LineSegment3d.LineSegment3d )"
-      },
-      {
-        "name": "fromVertices",
-        "comment": " Construct a triangle from its three vertices:\n\n    exampleTriangle =\n        Triangle3d.fromVertices\n            ( Point3d.fromCoordinates ( 1, 0, 0 )\n            , Point3d.fromCoordinates ( 2, 0, 0 )\n            , Point3d.fromCoordinates ( 2, 1, 3 )\n            )\n\n",
-        "type": "( Point3d.Point3d, Point3d.Point3d, Point3d.Point3d ) -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "mapVertices",
-        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `mapVertices`; for example,\n\n    Triangle3d.projectOnto plane\n\nis equivalent to\n\n    Triangle3d.mapVertices (Point3d.projectOnto plane)\n\n",
-        "type": "(Point3d.Point3d -> Point3d.Point3d) -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a triangle across a given plane.\n\n    Triangle3d.mirrorAcross Plane3d.yz exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( -1, 0, 0 )\n    -->     ( Point3d.fromCoordinates ( -2, 0, 0 )\n    -->     ( Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     )\n\n",
-        "type": "Plane3d.Plane3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "normalDirection",
-        "comment": " Attempt to find the normal direction to a triangle. The resulting direction\nwill be oriented such that the triangle vertices are in counterclockwise order\naround it according to the right-hand rule. If the triangle is degenerate (its\nthree vertices are collinear), returns `Nothing`.\n\n    Triangle3d.normalDirection exampleTriangle\n    --> Just\n    -->     (Direction3d.fromAzimuthAndElevation\n    -->         (degrees -90)\n    -->         (degrees 18.43)\n    -->     )\n\n",
-        "type": "Triangle3d.Triangle3d -> Maybe.Maybe Direction3d.Direction3d"
-      },
-      {
-        "name": "on",
-        "comment": " Construct a 3D triangle lying _on_ a sketch plane by providing a 2D triangle\nspecified in XY coordinates _within_ the sketch plane.\n\n    Triangle3d.on SketchPlane3d.xz <|\n        Triangle2d.fromVertices\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            , Point2d.fromCoordinates ( 1, 3 )\n            )\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 1, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 3 )\n    -->     )\n\n",
-        "type": "SketchPlane3d.SketchPlane3d -> Triangle2d.Triangle2d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 2, 1, 3 ))\n\n    Triangle3d.placeIn localFrame exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 3, 1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, 1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, 2, 6 )\n    -->     )\n\n",
-        "type": "Frame3d.Frame3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a triangle into a given sketch plane. Conceptually, this finds the\n[orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the triangle onto the plane and then expresses the projected triangle in 2D\nsketch coordinates.\n\n    Triangle3d.projectInto SketchPlane3d.xy exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 1 )\n    -->     )\n\n    Triangle3d.projectInto SketchPlane3d.zx exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 0, 1 )\n    -->     , Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 3, 2 )\n    -->     )\n\n",
-        "type": "SketchPlane3d.SketchPlane3d -> Triangle3d.Triangle3d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a triangle onto a plane.\n\n    Triangle3d.projectOnto Plane3d.xy exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 0 )\n    -->     )\n\n    Triangle3d.projectOnto Plane3d.xz exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 3 )\n    -->     )\n\n",
-        "type": "Plane3d.Plane3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 2, 1, 3 ))\n\n    Triangle3d.relativeTo localFrame exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( -1, -1, -3 )\n    -->     , Point3d.fromCoordinates ( 0, -1, -3 )\n    -->     , Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     )\n\n",
-        "type": "Frame3d.Frame3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a triangle around a given axis by a given angle (in radians).\n\n    exampleTriangle\n        |> Triangle3d.rotateAround Axis3d.z (degrees 90)\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 0, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 2, 0 )\n    -->     , Point3d.fromCoordinates ( -1, 2, 3 )\n    -->     )\n\n",
-        "type": "Axis3d.Axis3d -> Float -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle3d.scaleAbout Point3d.origin 2 exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 4, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 4, 2, 6 )\n    -->     )\n\n",
-        "type": "Point3d.Point3d -> Float -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 2, -1, 3 )\n\n    Triangle3d.translateBy displacement exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 3, -1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, -1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, 0, 6 )\n    -->     )\n\n",
-        "type": "Vector3d.Vector3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate a triangle in a given direction by a given distance;\n\n    Triangle3d.translateIn direction distance\n\nis equivalent to\n\n    Triangle3d.translateBy\n        (Vector3d.withLength distance direction)\n\n",
-        "type": "Direction3d.Direction3d -> Float -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices exampleTriangle\n\n\n    --> p1 = Point3d.fromCoordinates ( 1, 0, 0 )\n    --> p2 = Point3d.fromCoordinates ( 2, 0, 0 )\n    --> p3 = Point3d.fromCoordinates ( 2, 1, 3 )\n\n",
-        "type": "Triangle3d.Triangle3d -> ( Point3d.Point3d, Point3d.Point3d, Point3d.Point3d )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "CubicSpline3d",
     "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/CubicSpline3d/icon.svg\" alt=\"CubicSpline3d\" width=\"160\">\n\nA `CubicSpline3d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 3D defined by a start point, end point and two control points. This module\ncontains functionality for\n\n  - Constructing splines\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline3d\n\n\n# Constructors\n\n@docs with, fromEndpoints, on, fromQuadraticSpline\n\n\n# Properties\n\n@docs startPoint, endPoint, startControlPoint, endControlPoint, startDerivative, endDerivative, boundingBox\n\n\n# Evaluation\n\n@docs pointOn, pointsAt\n@docs Nondegenerate, nondegenerate, fromNondegenerate\n@docs tangentDirection, tangentDirectionsAt, sample, samplesAt\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n\n# Arc length parameterization\n\n@docs ArcLengthParameterized, arcLengthParameterized, arcLength, pointAlong, tangentDirectionAlong, sampleAlong\n\n\n## Low level\n\nAn `ArcLengthParameterized` value is a combination of an\n[`ArcLengthParameterization`](Geometry-ArcLengthParameterization) and an\nunderlying `CubicSpline3d`. If you need to do something fancy, you can extract\nthese two values separately.\n\n@docs arcLengthParameterization, fromArcLengthParameterized\n\n\n# Differentiation\n\nYou are unlikely to need to use these functions directly, but they are useful if\nyou are writing low-level geometric algorithms.\n\n@docs firstDerivative, firstDerivativesAt, secondDerivative, secondDerivativesAt, thirdDerivative, maxSecondDerivativeMagnitude\n\n",
     "aliases": [
@@ -629,6 +422,213 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Triangle3d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Triangle3d/icon.svg\" alt=\"Triangle3d\" width=\"160\">\n\nA `Triangle3d` represents a triangle in 3D space, and is defined by its three\nvertices. This module contains triangle-related functionality such as:\n\n  - Finding the area and centroid of triangles\n  - Scaling, rotating, translating, mirroring and projecting triangles\n  - Converting triangles between different coordinate systems\n\n@docs Triangle3d\n\n\n# Constructors\n\n@docs fromVertices, on\n\n\n# Properties\n\n@docs vertices, edges, centroid, area, normalDirection, boundingBox, circumcircle\n\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n",
+    "aliases": [
+      {
+        "name": "Triangle3d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.Triangle3d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a triangle. This value is always positive.\n\n    Triangle3d.area exampleTriangle\n    --> 1.5811\n\n",
+        "type": "Triangle3d.Triangle3d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle3d.boundingBox exampleTriangle\n    --> BoundingBox3d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 2\n    -->     , minY = 0\n    -->     , maxY = 1\n    -->     , minZ = 0\n    -->     , maxZ = 3\n    -->     }\n\n",
+        "type": "Triangle3d.Triangle3d -> BoundingBox3d.BoundingBox3d"
+      },
+      {
+        "name": "centroid",
+        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle3d.centroid exampleTriangle\n    --> Point3d.fromCoordinates ( 1.6667, 0.6667, 1 )\n\n",
+        "type": "Triangle3d.Triangle3d -> Point3d.Point3d"
+      },
+      {
+        "name": "circumcircle",
+        "comment": " Attempt to find the circumcircle of a triangle, a circle that passes through\neach of the triangle's vertices;\n\n    Triangle3d.circumcircle triangle\n\nis equivalent to\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices triangle\n\n    Circle3d.throughPoints p1 p2 p3\n\nIf the triangle is degenerate (its three vertices are collinear), returns\n`Nothing`.\n\n",
+        "type": "Triangle3d.Triangle3d -> Maybe.Maybe Circle3d.Circle3d"
+      },
+      {
+        "name": "edges",
+        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle3d.edges exampleTriangle\n\n\n    --> e1 =\n    -->     LineSegment3d.fromEndpoints\n    -->         ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->         , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->         )\n    -->\n    --> e2 =\n    -->     LineSegment3d.fromEndpoints\n    -->         ( Point3d.fromCoordinates ( 2, 0, 0 )\n    -->         , Point3d.fromCoordinates ( 2, 1, 3 )\n    -->         )\n    -->\n    --> e3 =\n    -->     LineSegment3d.fromEndpoints\n    -->         ( Point3d.fromCoordinates ( 2, 1, 3 )\n    -->         , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->         )\n\n",
+        "type": "Triangle3d.Triangle3d -> ( LineSegment3d.LineSegment3d , LineSegment3d.LineSegment3d , LineSegment3d.LineSegment3d )"
+      },
+      {
+        "name": "fromVertices",
+        "comment": " Construct a triangle from its three vertices:\n\n    exampleTriangle =\n        Triangle3d.fromVertices\n            ( Point3d.fromCoordinates ( 1, 0, 0 )\n            , Point3d.fromCoordinates ( 2, 0, 0 )\n            , Point3d.fromCoordinates ( 2, 1, 3 )\n            )\n\n",
+        "type": "( Point3d.Point3d, Point3d.Point3d, Point3d.Point3d ) -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "mapVertices",
+        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `mapVertices`; for example,\n\n    Triangle3d.projectOnto plane\n\nis equivalent to\n\n    Triangle3d.mapVertices (Point3d.projectOnto plane)\n\n",
+        "type": "(Point3d.Point3d -> Point3d.Point3d) -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a triangle across a given plane.\n\n    Triangle3d.mirrorAcross Plane3d.yz exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( -1, 0, 0 )\n    -->     ( Point3d.fromCoordinates ( -2, 0, 0 )\n    -->     ( Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     )\n\n",
+        "type": "Plane3d.Plane3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "normalDirection",
+        "comment": " Attempt to find the normal direction to a triangle. The resulting direction\nwill be oriented such that the triangle vertices are in counterclockwise order\naround it according to the right-hand rule. If the triangle is degenerate (its\nthree vertices are collinear), returns `Nothing`.\n\n    Triangle3d.normalDirection exampleTriangle\n    --> Just\n    -->     (Direction3d.fromAzimuthAndElevation\n    -->         (degrees -90)\n    -->         (degrees 18.43)\n    -->     )\n\n",
+        "type": "Triangle3d.Triangle3d -> Maybe.Maybe Direction3d.Direction3d"
+      },
+      {
+        "name": "on",
+        "comment": " Construct a 3D triangle lying _on_ a sketch plane by providing a 2D triangle\nspecified in XY coordinates _within_ the sketch plane.\n\n    Triangle3d.on SketchPlane3d.xz <|\n        Triangle2d.fromVertices\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            , Point2d.fromCoordinates ( 1, 3 )\n            )\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 1, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 3 )\n    -->     )\n\n",
+        "type": "SketchPlane3d.SketchPlane3d -> Triangle2d.Triangle2d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 2, 1, 3 ))\n\n    Triangle3d.placeIn localFrame exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 3, 1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, 1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, 2, 6 )\n    -->     )\n\n",
+        "type": "Frame3d.Frame3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a triangle into a given sketch plane. Conceptually, this finds the\n[orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the triangle onto the plane and then expresses the projected triangle in 2D\nsketch coordinates.\n\n    Triangle3d.projectInto SketchPlane3d.xy exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 1 )\n    -->     )\n\n    Triangle3d.projectInto SketchPlane3d.zx exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 0, 1 )\n    -->     , Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 3, 2 )\n    -->     )\n\n",
+        "type": "SketchPlane3d.SketchPlane3d -> Triangle3d.Triangle3d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a triangle onto a plane.\n\n    Triangle3d.projectOnto Plane3d.xy exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 0 )\n    -->     )\n\n    Triangle3d.projectOnto Plane3d.xz exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 3 )\n    -->     )\n\n",
+        "type": "Plane3d.Plane3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 2, 1, 3 ))\n\n    Triangle3d.relativeTo localFrame exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( -1, -1, -3 )\n    -->     , Point3d.fromCoordinates ( 0, -1, -3 )\n    -->     , Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     )\n\n",
+        "type": "Frame3d.Frame3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a triangle around a given axis by a given angle (in radians).\n\n    exampleTriangle\n        |> Triangle3d.rotateAround Axis3d.z (degrees 90)\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 0, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 2, 0 )\n    -->     , Point3d.fromCoordinates ( -1, 2, 3 )\n    -->     )\n\n",
+        "type": "Axis3d.Axis3d -> Float -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle3d.scaleAbout Point3d.origin 2 exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 4, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 4, 2, 6 )\n    -->     )\n\n",
+        "type": "Point3d.Point3d -> Float -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 2, -1, 3 )\n\n    Triangle3d.translateBy displacement exampleTriangle\n    --> Triangle3d.fromVertices\n    -->     ( Point3d.fromCoordinates ( 3, -1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, -1, 3 )\n    -->     , Point3d.fromCoordinates ( 4, 0, 6 )\n    -->     )\n\n",
+        "type": "Vector3d.Vector3d -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate a triangle in a given direction by a given distance;\n\n    Triangle3d.translateIn direction distance\n\nis equivalent to\n\n    Triangle3d.translateBy\n        (Vector3d.withLength distance direction)\n\n",
+        "type": "Direction3d.Direction3d -> Float -> Triangle3d.Triangle3d -> Triangle3d.Triangle3d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices exampleTriangle\n\n\n    --> p1 = Point3d.fromCoordinates ( 1, 0, 0 )\n    --> p2 = Point3d.fromCoordinates ( 2, 0, 0 )\n    --> p3 = Point3d.fromCoordinates ( 2, 1, 3 )\n\n",
+        "type": "Triangle3d.Triangle3d -> ( Point3d.Point3d, Point3d.Point3d, Point3d.Point3d )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Polyline3d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Polyline3d/icon.svg\" alt=\"Polyline3d\" width=\"160\">\n\nA `Polyline3d` represents a sequence of vertices in 3D connected by line\nsegments. This module contains a variety of polyline-related functionality, such\nas\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\n@docs Polyline3d\n\n\n# Constructors\n\n@docs fromVertices, on\n\n\n# Properties\n\n@docs vertices, segments, length, boundingBox\n\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n",
+    "aliases": [
+      {
+        "name": "Polyline3d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.Polyline3d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline3d.boundingBox examplePolyline\n    --> Just\n    -->     (BoundingBox3d.fromExtrema\n    -->         { minX = 0\n    -->         , maxX = 1\n    -->         , minY = 0\n    -->         , maxY = 2\n    -->         , minZ = 0\n    -->         , maxZ = 3\n    -->         }\n    -->     )\n\n",
+        "type": "Polyline3d.Polyline3d -> Maybe.Maybe BoundingBox3d.BoundingBox3d"
+      },
+      {
+        "name": "fromVertices",
+        "comment": " Construct a polyline from its vertices:\n\n    examplePolyline =\n        Polyline3d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0, 0 )\n            , Point2d.fromCoordinates ( 1, 2, 0 )\n            , Point2d.fromCoordinates ( 1, 2, 3 )\n            ]\n\n",
+        "type": "List Point3d.Point3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline3d.length examplePolyline\n    --> 6\n\n",
+        "type": "Polyline3d.Polyline3d -> Float"
+      },
+      {
+        "name": "mapVertices",
+        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `mapVertices`; for example,\n\n    Polyline3d.mirrorAcross plane\n\nis equivalent to\n\n    Polyline3d.mapVertices (Point3d.mirrorAcross plane)\n\n",
+        "type": "(Point3d.Point3d -> Point3d.Point3d) -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a polyline across the given plane.\n\n    Polyline3d.mirrorAcross Plane3d.xz examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, -2, 0 )\n    -->     , Point3d.fromCoordinates ( 1, -2, 3 )\n    -->     ]\n\n",
+        "type": "Plane3d.Plane3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "on",
+        "comment": " Construct a 3D polyline lying _on_ a sketch plane by providing a 2D polyline\nspecified in XY coordinates _within_ the sketch plane.\n\n    Polyline3d.on SketchPlane3d.yz <|\n        Polyline2d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0 )\n            , Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            ]\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 0, 2, 1 )\n    -->     ]\n\n",
+        "type": "SketchPlane3d.SketchPlane3d -> Polyline2d.Polyline2d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    Polyline3d.placeIn localFrame examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     ]\n\n",
+        "type": "Frame3d.Frame3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a polyline into a given sketch plane. Conceptually, this finds the\n[orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the polyline onto the plane and then expresses the projected polyline in 2D\nsketch coordinates.\n\n    Polyline3d.projectInto Plane3d.xy examplePolyline\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     ]\n\n",
+        "type": "SketchPlane3d.SketchPlane3d -> Polyline3d.Polyline3d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a polyline onto a plane. This will flatten the polyline.\n\n    Polyline3d.projectOnto Plane3d.xz examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 3 )\n    -->     ]\n\n",
+        "type": "Plane3d.Plane3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    Polyline3d.relativeTo localFrame examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( -1, -2, -3 )\n    -->     , Point3d.fromCoordinates ( 0, -2, -3 )\n    -->     , Point3d.fromCoordinates ( 0, 0, -3 )\n    -->     , Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     ]\n\n",
+        "type": "Frame3d.Frame3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a polyline around the given axis by the given angle (in radians).\n\n    examplePolyline\n        |> Polyline3d.rotateAround Axis3d.z (degrees 90)\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 0, 1, 0 )\n    -->     , Point3d.fromCoordinates ( -2, 1, 0 )\n    -->     , Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     ]\n\n",
+        "type": "Axis3d.Axis3d -> Float -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a polyline about the given center point by the given scale.\n\n    point =\n        Point3d.fromCoordinates ( 1, 0, 0 )\n\n    Polyline3d.scaleAbout point 2 examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( -1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 4, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 4, 6 )\n    -->     ]\n\n",
+        "type": "Point3d.Point3d -> Float -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "segments",
+        "comment": " Get the individual segments of a polyline.\n\n    Polyline3d.segments examplePolyline\n    --> [ LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     )\n    --> , LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 0 )\n    -->     )\n    --> , LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 2, 0 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     )\n    --> ]\n\n",
+        "type": "Polyline3d.Polyline3d -> List LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 1, 2, 3 )\n\n    Polyline3d.translateBy displacement examplePolyline\n    --> Polyline3d.fromVertices\n    -->     [ Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 3 )\n    -->     , Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     ]\n\n",
+        "type": "Vector3d.Vector3d -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate a polyline in a given direction by a given distance;\n\n    Polyline3d.translateIn direction distance\n\nis equivalent to\n\n    Polyline3d.translateBy\n        (Vector3d.withLength distance direction)\n\n",
+        "type": "Direction3d.Direction3d -> Float -> Polyline3d.Polyline3d -> Polyline3d.Polyline3d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a polyline.\n\n    Polyline3d.vertices examplePolyline\n    --> [ Point3d.fromCoordinates ( 0, 0, 0 )\n    --> , Point3d.fromCoordinates ( 1, 0, 0 )\n    --> , Point3d.fromCoordinates ( 1, 2, 0 )\n    --> , Point3d.fromCoordinates ( 1, 2, 3 )\n    --> ]\n\n",
+        "type": "Polyline3d.Polyline3d -> List Point3d.Point3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Sphere3d",
     "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Sphere3d/icon.svg\" alt=\"Sphere3d\" width=\"160\">\n\nA `Sphere3d` is defined by its center point and radius. This module contains\nfunctionality for:\n\n  - Constructing spheres through points\n  - Scaling, rotating and translating spheres\n  - Extracting sphere properties like center point and volume\n\n@docs Sphere3d\n\n\n# Constants\n\n@docs unit\n\n\n# Constructors\n\n@docs withRadius, throughPoints\n\n\n# Properties\n\n@docs centerPoint, radius, diameter, volume, surfaceArea, circumference, boundingBox\n\n\n# Queries\n\n@docs contains\n\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, projectInto\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
     "aliases": [
@@ -740,152 +740,6 @@
         "name": "withRadius",
         "comment": " Construct a sphere from its radius and center point:\n\n    exampleSphere =\n        Sphere3d.withRadius 3\n            (Point3d.fromCoordinates ( 1, 2, 1 ))\n\nIf you pass a negative radius, the absolute value will be used.\n\n",
         "type": "Float -> Point3d.Point3d -> Sphere3d.Sphere3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "LineSegment3d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/LineSegment3d/icon.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment3d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along, on\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, perpendicularDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n",
-    "aliases": [
-      {
-        "name": "LineSegment3d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.LineSegment3d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "along",
-        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment3d.along Axis3d.x 3 5\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 3, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 0 )\n    -->     )\n\n    LineSegment3d.along Axis3d.y 2 -4\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 0 )\n    -->     , Point3d.fromCoordinates ( 0, -4, 0 )\n    -->     )\n\n",
-        "type": "Axis3d.Axis3d -> Float -> Float -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a line segment.\n\n    LineSegment3d.boundingBox exampleLineSegment\n    --> BoundingBox3d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 4\n    -->     , minY = 2\n    -->     , maxY = 5\n    -->     , minZ = 3\n    -->     , maxZ = 6\n    -->     }\n\n",
-        "type": "LineSegment3d.LineSegment3d -> BoundingBox3d.BoundingBox3d"
-      },
-      {
-        "name": "direction",
-        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment3d.direction exampleLineSegment\n    --> Just\n    -->     (Direction3d.fromAzimuthAndElevation\n    -->         (degrees 45)\n    -->         (degrees 35.26)\n    -->     )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Maybe.Maybe Direction3d.Direction3d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a line segment.\n\n    LineSegment3d.endPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 4, 5, 6 )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Point3d.Point3d"
-      },
-      {
-        "name": "endpoints",
-        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment3d.endpoints lineSegment\n\n",
-        "type": "LineSegment3d.LineSegment3d -> ( Point3d.Point3d, Point3d.Point3d )"
-      },
-      {
-        "name": "from",
-        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment3d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment3d.fromEndpoints ( firstPoint, secondPoint )\n\n",
-        "type": "Point3d.Point3d -> Point3d.Point3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "fromEndpoints",
-        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment3d.fromEndpoints\n            ( Point3d.fromCoordinates ( 1, 2, 3 )\n            , Point3d.fromCoordinates ( 4, 5, 6 )\n            )\n\n",
-        "type": "( Point3d.Point3d, Point3d.Point3d ) -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "interpolate",
-        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment3d.interpolate exampleLineSegment (1 / 3)\n    --> Point3d.fromCoordinates ( 2, 4, 5 )\n\n    LineSegment3d.interpolate exampleLineSegment (-1 / 3)\n    --> Point3d.fromCoordinates ( 0, 1, 2 )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Float -> Point3d.Point3d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the length of a line segment.\n\n    LineSegment3d.length exampleLineSegment\n    --> 5.1962\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Float"
-      },
-      {
-        "name": "mapEndpoints",
-        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment3d.projectOnto plane\n\nis equivalent to\n\n    LineSegment3d.mapEndpoints (Point3d.projectOnto plane)\n\n",
-        "type": "(Point3d.Point3d -> Point3d.Point3d) -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "midpoint",
-        "comment": " Get the midpoint of a line segment.\n\n    LineSegment3d.midpoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 2.5, 3.5, 4.5 )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Point3d.Point3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a line segment across a plane.\n\n    exampleLineSegment\n        |> LineSegment3d.mirrorAcross Plane3d.xy\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 2, -3 )\n    -->     , Point3d.fromCoordinates ( 4, 5, -6 )\n    -->     )\n\n",
-        "type": "Plane3d.Plane3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "on",
-        "comment": " Construct a 3D line segment lying _on_ a sketch plane by providing a 2D line\nsegment specified in XY coordinates _within_ the sketch plane.\n\n    LineSegment3d.on SketchPlane3d.yz <|\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 1, 2 )\n    -->     , Point3d.fromCoordinates ( 0, 3, 4 )\n    -->     )\n\n",
-        "type": "SketchPlane3d.SketchPlane3d -> LineSegment2d.LineSegment2d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "perpendicularDirection",
-        "comment": " Get an arbitrary direction perpendicular to a line segment. If the line\nsegment has zero length, returns `Nothing`.\n\n    LineSegment3d.perpendicularDirection exampleLineSegment\n    --> Just\n    -->     (Direction3d.fromAzimuthAndElevation\n    -->         (degrees -90)\n    -->         (degrees 45)\n    -->     )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Maybe.Maybe Direction3d.Direction3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.placeIn localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
-        "type": "Frame3d.Frame3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a line segment into a given sketch plane. Conceptually, this finds\nthe [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the line segment onto the plane and then expresses the projected line segment\nin 2D sketch coordinates.\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.xy\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 5 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.yz\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 6 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.zx\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 6, 4 )\n    -->     )\n\n",
-        "type": "SketchPlane3d.SketchPlane3d -> LineSegment3d.LineSegment3d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a line segment onto a plane.\n\n    LineSegment3d.projectOnto Plane3d.yz exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 0, 5, 6 )\n    -->     )\n\n",
-        "type": "Plane3d.Plane3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.relativeTo localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n\n",
-        "type": "Frame3d.Frame3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment3d.reverse exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a line segment around a given axis by a given angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment3d.rotateAround Axis3d.z (degrees 90)\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     , Point3d.fromCoordinates ( -5, 4, 6 )\n    -->     )\n\n",
-        "type": "Axis3d.Axis3d -> Float -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point3d.fromCoordinates ( 1, 1, 1 )\n\n    LineSegment3d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 3, 5 )\n    -->     , Point3d.fromCoordinates ( 7, 9, 11 )\n    -->     )\n\n",
-        "type": "Point3d.Point3d -> Float -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment3d.squaredLength exampleLineSegment\n    --> 27\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Float"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a line segment.\n\n    LineSegment3d.startPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 1, 2, 3 )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Point3d.Point3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 1, 2, 3 )\n\n    exampleLineSegment\n        |> LineSegment3d.translateBy displacement\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
-        "type": "Vector3d.Vector3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate a line segment in a given direction by a given distance;\n\n    LineSegment3d.translateIn direction distance\n\nis equivalent to\n\n    LineSegment3d.translateBy\n        (Vector3d.withLength distance direction)\n\n",
-        "type": "Direction3d.Direction3d -> Float -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "vector",
-        "comment": " Get the vector from a line segment's start point to its end point.\n\n    LineSegment3d.vector exampleLineSegment\n    --> Vector3d.fromComponents ( 2, 2, 2 )\n\n",
-        "type": "LineSegment3d.LineSegment3d -> Vector3d.Vector3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1105,6 +959,152 @@
         "name": "with",
         "comment": " Construct a spline from its start point, control point and end point:\n\n    exampleSpline =\n        QuadraticSpline3d.with\n            { startPoint =\n                Point3d.fromCoordinates ( 1, 1, 1 )\n            , controlPoint =\n                Point3d.fromCoordinates ( 3, 2, 1 )\n            , endPoint =\n                Point3d.fromCoordinates ( 3, 3, 3 )\n            }\n\n",
         "type": "{ startPoint : Point3d.Point3d , controlPoint : Point3d.Point3d , endPoint : Point3d.Point3d } -> QuadraticSpline3d.QuadraticSpline3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "LineSegment3d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/LineSegment3d/icon.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment3d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along, on\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, perpendicularDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n",
+    "aliases": [
+      {
+        "name": "LineSegment3d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.LineSegment3d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "along",
+        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment3d.along Axis3d.x 3 5\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 3, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 0 )\n    -->     )\n\n    LineSegment3d.along Axis3d.y 2 -4\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 0 )\n    -->     , Point3d.fromCoordinates ( 0, -4, 0 )\n    -->     )\n\n",
+        "type": "Axis3d.Axis3d -> Float -> Float -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a line segment.\n\n    LineSegment3d.boundingBox exampleLineSegment\n    --> BoundingBox3d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 4\n    -->     , minY = 2\n    -->     , maxY = 5\n    -->     , minZ = 3\n    -->     , maxZ = 6\n    -->     }\n\n",
+        "type": "LineSegment3d.LineSegment3d -> BoundingBox3d.BoundingBox3d"
+      },
+      {
+        "name": "direction",
+        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment3d.direction exampleLineSegment\n    --> Just\n    -->     (Direction3d.fromAzimuthAndElevation\n    -->         (degrees 45)\n    -->         (degrees 35.26)\n    -->     )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Maybe.Maybe Direction3d.Direction3d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a line segment.\n\n    LineSegment3d.endPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 4, 5, 6 )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Point3d.Point3d"
+      },
+      {
+        "name": "endpoints",
+        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment3d.endpoints lineSegment\n\n",
+        "type": "LineSegment3d.LineSegment3d -> ( Point3d.Point3d, Point3d.Point3d )"
+      },
+      {
+        "name": "from",
+        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment3d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment3d.fromEndpoints ( firstPoint, secondPoint )\n\n",
+        "type": "Point3d.Point3d -> Point3d.Point3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "fromEndpoints",
+        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment3d.fromEndpoints\n            ( Point3d.fromCoordinates ( 1, 2, 3 )\n            , Point3d.fromCoordinates ( 4, 5, 6 )\n            )\n\n",
+        "type": "( Point3d.Point3d, Point3d.Point3d ) -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "interpolate",
+        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment3d.interpolate exampleLineSegment (1 / 3)\n    --> Point3d.fromCoordinates ( 2, 4, 5 )\n\n    LineSegment3d.interpolate exampleLineSegment (-1 / 3)\n    --> Point3d.fromCoordinates ( 0, 1, 2 )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Float -> Point3d.Point3d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the length of a line segment.\n\n    LineSegment3d.length exampleLineSegment\n    --> 5.1962\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Float"
+      },
+      {
+        "name": "mapEndpoints",
+        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment3d.projectOnto plane\n\nis equivalent to\n\n    LineSegment3d.mapEndpoints (Point3d.projectOnto plane)\n\n",
+        "type": "(Point3d.Point3d -> Point3d.Point3d) -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "midpoint",
+        "comment": " Get the midpoint of a line segment.\n\n    LineSegment3d.midpoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 2.5, 3.5, 4.5 )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Point3d.Point3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a line segment across a plane.\n\n    exampleLineSegment\n        |> LineSegment3d.mirrorAcross Plane3d.xy\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 2, -3 )\n    -->     , Point3d.fromCoordinates ( 4, 5, -6 )\n    -->     )\n\n",
+        "type": "Plane3d.Plane3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "on",
+        "comment": " Construct a 3D line segment lying _on_ a sketch plane by providing a 2D line\nsegment specified in XY coordinates _within_ the sketch plane.\n\n    LineSegment3d.on SketchPlane3d.yz <|\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 1, 2 )\n    -->     , Point3d.fromCoordinates ( 0, 3, 4 )\n    -->     )\n\n",
+        "type": "SketchPlane3d.SketchPlane3d -> LineSegment2d.LineSegment2d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "perpendicularDirection",
+        "comment": " Get an arbitrary direction perpendicular to a line segment. If the line\nsegment has zero length, returns `Nothing`.\n\n    LineSegment3d.perpendicularDirection exampleLineSegment\n    --> Just\n    -->     (Direction3d.fromAzimuthAndElevation\n    -->         (degrees -90)\n    -->         (degrees 45)\n    -->     )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Maybe.Maybe Direction3d.Direction3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.placeIn localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
+        "type": "Frame3d.Frame3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a line segment into a given sketch plane. Conceptually, this finds\nthe [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the line segment onto the plane and then expresses the projected line segment\nin 2D sketch coordinates.\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.xy\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 5 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.yz\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 6 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.zx\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 6, 4 )\n    -->     )\n\n",
+        "type": "SketchPlane3d.SketchPlane3d -> LineSegment3d.LineSegment3d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a line segment onto a plane.\n\n    LineSegment3d.projectOnto Plane3d.yz exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 0, 5, 6 )\n    -->     )\n\n",
+        "type": "Plane3d.Plane3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.relativeTo localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n\n",
+        "type": "Frame3d.Frame3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment3d.reverse exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a line segment around a given axis by a given angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment3d.rotateAround Axis3d.z (degrees 90)\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     , Point3d.fromCoordinates ( -5, 4, 6 )\n    -->     )\n\n",
+        "type": "Axis3d.Axis3d -> Float -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point3d.fromCoordinates ( 1, 1, 1 )\n\n    LineSegment3d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 3, 5 )\n    -->     , Point3d.fromCoordinates ( 7, 9, 11 )\n    -->     )\n\n",
+        "type": "Point3d.Point3d -> Float -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "squaredLength",
+        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment3d.squaredLength exampleLineSegment\n    --> 27\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Float"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a line segment.\n\n    LineSegment3d.startPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 1, 2, 3 )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Point3d.Point3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 1, 2, 3 )\n\n    exampleLineSegment\n        |> LineSegment3d.translateBy displacement\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
+        "type": "Vector3d.Vector3d -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate a line segment in a given direction by a given distance;\n\n    LineSegment3d.translateIn direction distance\n\nis equivalent to\n\n    LineSegment3d.translateBy\n        (Vector3d.withLength distance direction)\n\n",
+        "type": "Direction3d.Direction3d -> Float -> LineSegment3d.LineSegment3d -> LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "vector",
+        "comment": " Get the vector from a line segment's start point to its end point.\n\n    LineSegment3d.vector exampleLineSegment\n    --> Vector3d.fromComponents ( 2, 2, 2 )\n\n",
+        "type": "LineSegment3d.LineSegment3d -> Vector3d.Vector3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"

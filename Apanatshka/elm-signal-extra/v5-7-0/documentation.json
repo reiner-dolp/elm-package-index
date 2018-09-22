@@ -180,35 +180,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Signal.Fun",
-    "comment": " Some utility functions for signals of functions. The question is:\nWhy are you dealing with signals of functions? Are you sure you want\nthis? It can be used to harm testability and separation of concerns,\nwhich are endangered species and it's illegal to harm them! So please be\ncareful.\n\n@docs scan, premap, postmap, bimap\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bimap",
-        "comment": " Compose the given functions before and after every function that\ncomes through the signal respectively.\n",
-        "type": "(a -> b) -> (c -> d) -> Signal.Fun.SF b c -> Signal.Fun.SF a d"
-      },
-      {
-        "name": "postmap",
-        "comment": " Compose the given function after every function that comes through\nthe signal.\n",
-        "type": "(c -> d) -> Signal.Fun.SF b c -> Signal.Fun.SF b d"
-      },
-      {
-        "name": "premap",
-        "comment": " Compose the given function before every function that comes through\nthe signal.\n",
-        "type": "(a -> b) -> Signal.Fun.SF b c -> Signal.Fun.SF a c"
-      },
-      {
-        "name": "scan",
-        "comment": " Takes a starting value for a state; applies each new function coming\nin to calculate the new state. \n",
-        "type": "a -> Signal.Fun.SF a a -> Signal.Signal a"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Signal.Extra",
     "comment": " Utility functions that aren't in the `Signal` module from\n`elm-lang/core`.\n\n# Mapping\n@docs (<~), (~), (~>), andMap\n\n# Zipping and unzipping\nFor those too lazy to write a record or union type.\n@docs zip, zip3, zip4, unzip, unzip3, unzip4\n\n# Stateful\n@docs foldp', foldps, foldps', runBuffer, runBuffer', deltas, delayRound\n\n# Switching\n@docs switchWhen,switchSample\n\n# Filters\n@docs keepIf,keepWhen,sampleWhen,keepThen,keepWhenI,filter,filterFold\n\n# Combining\n@docs fairMerge, mergeMany, combine, mapMany, applyMany, passiveMap2, withPassive\n",
     "aliases": [],
@@ -386,6 +357,35 @@
         "type": "Signal.Signal a -> (a -> b) -> Signal.Signal b",
         "associativity": "left",
         "precedence": 4
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Signal.Fun",
+    "comment": " Some utility functions for signals of functions. The question is:\nWhy are you dealing with signals of functions? Are you sure you want\nthis? It can be used to harm testability and separation of concerns,\nwhich are endangered species and it's illegal to harm them! So please be\ncareful.\n\n@docs scan, premap, postmap, bimap\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bimap",
+        "comment": " Compose the given functions before and after every function that\ncomes through the signal respectively.\n",
+        "type": "(a -> b) -> (c -> d) -> Signal.Fun.SF b c -> Signal.Fun.SF a d"
+      },
+      {
+        "name": "postmap",
+        "comment": " Compose the given function after every function that comes through\nthe signal.\n",
+        "type": "(c -> d) -> Signal.Fun.SF b c -> Signal.Fun.SF b d"
+      },
+      {
+        "name": "premap",
+        "comment": " Compose the given function before every function that comes through\nthe signal.\n",
+        "type": "(a -> b) -> Signal.Fun.SF b c -> Signal.Fun.SF a c"
+      },
+      {
+        "name": "scan",
+        "comment": " Takes a starting value for a state; applies each new function coming\nin to calculate the new state. \n",
+        "type": "a -> Signal.Fun.SF a a -> Signal.Signal a"
       }
     ],
     "generated-with-elm-version": "0.16.0"

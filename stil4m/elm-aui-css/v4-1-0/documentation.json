@@ -1,5 +1,51 @@
 [
   {
+    "name": "Aui.PaginationBar",
+    "comment": " Functions to present AUI pagination bar (navigation).\n\n# Presentation\n\n@docs paginationBar\n\n# Config\n\n@docs Config, baseConfig, prev, next, first, last\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " Opaque type for PaginationBar configuration\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "baseConfig",
+        "comment": " Default configuration for pagination bar\n",
+        "type": "Aui.PaginationBar.Config"
+      },
+      {
+        "name": "first",
+        "comment": " Function to change the text presented for the first item in the pagination bar\n\n    baseConfig |> last \"Beginning\"\n",
+        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
+      },
+      {
+        "name": "last",
+        "comment": " Function to change the text presented for the last item in the pagination bar\n\n    baseConfig |> last \"End\"\n",
+        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
+      },
+      {
+        "name": "next",
+        "comment": " Function to change the text presented for the next item in the pagination bar\n\n    baseConfig |> next \"Continue\"\n",
+        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
+      },
+      {
+        "name": "paginationBar",
+        "comment": " Present a pagination bar providing it a configuration object, a message map, spacing, the total and the current. For example:\n\n    paginationBar config GoToPage 1 100 42\n\nThis will present a bar with the current page set to 42.\nWhen another page is clicked, a message is produced and mapped to `GoToPage` which has to be of the type `(Int -> a)`.\nThe spacing indicates the amount of number presented prior and after the current number before presenting an ellipsis.\n",
+        "type": "Aui.PaginationBar.Config -> (Int -> a) -> Int -> Int -> Int -> Html.Html a"
+      },
+      {
+        "name": "prev",
+        "comment": " Function to change the text presented for the previous item in the pagination bar\n\n    baseConfig |> prev \"Back\"\n",
+        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Aui.Dropdown",
     "comment": " Functions to present AUI buttons and groups.\n\n\n# Alignment\n\n@docs Alignment, leftAlignment, rightAlignment\n\n# Types\n\n@docs Config\n\n# Model\n\n@docs Model, Msg, initialModel, open, close\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs dropdown, dropdownSection\n\n# Utility\n\n@docs baseConfig, withAlignment, withStyle\n",
     "aliases": [
@@ -92,52 +138,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Aui.PaginationBar",
-    "comment": " Functions to present AUI pagination bar (navigation).\n\n# Presentation\n\n@docs paginationBar\n\n# Config\n\n@docs Config, baseConfig, prev, next, first, last\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " Opaque type for PaginationBar configuration\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "baseConfig",
-        "comment": " Default configuration for pagination bar\n",
-        "type": "Aui.PaginationBar.Config"
-      },
-      {
-        "name": "first",
-        "comment": " Function to change the text presented for the first item in the pagination bar\n\n    baseConfig |> last \"Beginning\"\n",
-        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
-      },
-      {
-        "name": "last",
-        "comment": " Function to change the text presented for the last item in the pagination bar\n\n    baseConfig |> last \"End\"\n",
-        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
-      },
-      {
-        "name": "next",
-        "comment": " Function to change the text presented for the next item in the pagination bar\n\n    baseConfig |> next \"Continue\"\n",
-        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
-      },
-      {
-        "name": "paginationBar",
-        "comment": " Present a pagination bar providing it a configuration object, a message map, spacing, the total and the current. For example:\n\n    paginationBar config GoToPage 1 100 42\n\nThis will present a bar with the current page set to 42.\nWhen another page is clicked, a message is produced and mapped to `GoToPage` which has to be of the type `(Int -> a)`.\nThe spacing indicates the amount of number presented prior and after the current number before presenting an ellipsis.\n",
-        "type": "Aui.PaginationBar.Config -> (Int -> a) -> Int -> Int -> Int -> Html.Html a"
-      },
-      {
-        "name": "prev",
-        "comment": " Function to change the text presented for the previous item in the pagination bar\n\n    baseConfig |> prev \"Back\"\n",
-        "type": "String -> Aui.PaginationBar.Config -> Aui.PaginationBar.Config"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Aui.Select",
     "comment": " Functions to present AUI select.\n\n# Type\n\n@docs Msg, Config\n\n# Model\n\n@docs Model, initialModel\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs singleSelect\n\n# Config\n\n@docs Config, baseConfig, withPlaceholder, withZIndex\n\n",
     "aliases": [
@@ -192,44 +192,6 @@
         "name": "withZIndex",
         "comment": " Change backdrop z index of select\n",
         "type": "Int -> Aui.Select.Config -> Aui.Select.Config"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.ProgressTracker",
-    "comment": " Functions to present AUI progress tracker.\n\n\n# Presentation\n\n@docs progressTracker, invertedProgressTracker\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "invertedProgressTracker",
-        "comment": " Create an inverted progress tracker with items and a given active index.\n",
-        "type": "List String -> Int -> Html.Html a"
-      },
-      {
-        "name": "progressTracker",
-        "comment": " Create a progress tracker with items and a given active index (zero based).\n\n    progressTracker [\"Step 1\", \"Step 2\", \"Step 3\"] 1\n",
-        "type": "List String -> Int -> Html.Html a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.ProgressIndicator",
-    "comment": " Functions to present AUI progress indicator.\n\n\n# Presentation\n\n@docs progressIndicator, activeProgressIndicator\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "activeProgressIndicator",
-        "comment": " Create a progress indicator that represents an active loading state.\n",
-        "type": "Html.Html a"
-      },
-      {
-        "name": "progressIndicator",
-        "comment": " Create a progress indicator with a value between 0.0 and 1.0.\n",
-        "type": "Float -> Html.Html a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -319,181 +281,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Aui.Lozenge",
-    "comment": " Functions to present AUI lozenges.\n\n# Presentation\n\n@docs lozenge\n\n# Types\n\n@docs Type, generic, success, error, current, complete, moved\n\n# Presense\n\n@docs Presense, normal,subtle\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Presense",
-        "comment": " Presense style for a lozenge\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Type",
-        "comment": " Types for a lozenge\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "complete",
-        "comment": " Comlete type for lozenge\n",
-        "type": "Aui.Lozenge.Type"
-      },
-      {
-        "name": "current",
-        "comment": " Current type for lozenge\n",
-        "type": "Aui.Lozenge.Type"
-      },
-      {
-        "name": "error",
-        "comment": " Error type for lozenge\n",
-        "type": "Aui.Lozenge.Type"
-      },
-      {
-        "name": "generic",
-        "comment": " Generic type for lozenge\n",
-        "type": "Aui.Lozenge.Type"
-      },
-      {
-        "name": "lozenge",
-        "comment": " Create a lozenge with presense and type\n",
-        "type": "Aui.Lozenge.Presense -> Aui.Lozenge.Type -> List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "moved",
-        "comment": " Moved type for lozenge\n",
-        "type": "Aui.Lozenge.Type"
-      },
-      {
-        "name": "normal",
-        "comment": " Normal presence\n",
-        "type": "Aui.Lozenge.Presense"
-      },
-      {
-        "name": "subtle",
-        "comment": " Subtle presence\n",
-        "type": "Aui.Lozenge.Presense"
-      },
-      {
-        "name": "success",
-        "comment": " Success type for lozenge\n",
-        "type": "Aui.Lozenge.Type"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Buttons",
-    "comment": " Functions to present AUI buttons and groups.\n\n\n# Style\n\n@docs Style, primaryStyle, normalStyle, subtleStyle, lightStyle, linkStyle\n\n# Config\n\n@docs Config, baseConfig, disable, withStyle, withHref, withAction, withActive, withAdditionalClass, forceAnchor\n\n# Config\n\n# Presentation\n\n@docs button, buttonGroup\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " Configuration type for presenting a button.\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Style",
-        "comment": " Different styles available for a button.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "baseConfig",
-        "comment": " A configuration with sane defaults (no style, no anchor, enable, ect.).\n",
-        "type": "Aui.Buttons.Config a"
-      },
-      {
-        "name": "button",
-        "comment": " Render an AUI button.\n\n    button (baseConfig |> withStyle Primary |> withHref \"http://elm-lang.org/\")\n        ButtonClicked\n        [ text \"Click me!\"]\n",
-        "type": "Aui.Buttons.Config a -> List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "buttonGroup",
-        "comment": " Button container that will add the correct classes to make a button group.\n\n    buttonGroup\n        [ button config Clicked1 [text \"First\"]\n        , button config Clicked2 [text \"Second\"]\n        , button config Clicked3 [text \"Third\"]\n        ]\n",
-        "type": "List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "disable",
-        "comment": " Add the disabled state to a button.\n\n    baseConfig |> disable\n",
-        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "forceAnchor",
-        "comment": " Forces the anchor tag to be used instead of the default button tag (only if no href is specified).\n\n    baseConfig |> forceAnchor\n",
-        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "lightStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "linkStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "normalStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "primaryStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "subtleStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "withAction",
-        "comment": " Add an action to the buttons configuration.\n\n    baseConfig |> withAction MyAction\n",
-        "type": "a -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withActive",
-        "comment": " Make a button active or not active.\n\n    baseConfig |> withActive True\n",
-        "type": "Bool -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withAdditionalClass",
-        "comment": " Add additional classes to the button\n\n    baseConfig |> additionalClass \"my-button\"\n",
-        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withHref",
-        "comment": " Add a href to the buttons configuration.\n\n    baseConfig |> withHref \"http://elm-lang.org/\"\n",
-        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withStyle",
-        "comment": " Add a button style to the configuration.\n\n    baseConfig |> withStyle Subtle\n",
-        "type": "Aui.Buttons.Style -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Badges",
-    "comment": " Functions to present AUI badges.\n\n\n# Presentation\n\n@docs badge\n",
+    "name": "Aui.Toggle",
+    "comment": " Functions to present AUI toggle.\n\n# Presentation\n\n@docs toggle\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "badge",
-        "comment": " Present a badge with a given content\n\n    badge \"Hello world!\"\n",
-        "type": "String -> Html.Html msg"
+        "name": "toggle",
+        "comment": " Create a toggle with if it is enabled, a message and its state.\n\n    toggle isEnabled\n        ToggleClicked\n        isOn\n",
+        "type": "Bool -> (Bool -> a) -> Bool -> Html.Html a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -560,34 +356,6 @@
         "name": "withMoreText",
         "comment": " Set more text for configuration\n",
         "type": "String -> Aui.Expander.Config a -> Aui.Expander.Config a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Toggle",
-    "comment": " Functions to present AUI toggle.\n\n# Presentation\n\n@docs toggle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toggle",
-        "comment": " Create a toggle with if it is enabled, a message and its state.\n\n    toggle isEnabled\n        ToggleClicked\n        isOn\n",
-        "type": "Bool -> (Bool -> a) -> Bool -> Html.Html a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Backdrop",
-    "comment": " Functions to create a backdrop that is needed for several AUI Components.\n\n# Presentation\n\n@docs backdrop\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "backdrop",
-        "comment": " Present a backdrop with a click handler.\n\n    backdrop 1000 ClickedBackdrop True\n",
-        "type": "Int -> a -> Bool -> Html.Html a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1814,6 +1582,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Aui.ProgressIndicator",
+    "comment": " Functions to present AUI progress indicator.\n\n\n# Presentation\n\n@docs progressIndicator, activeProgressIndicator\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "activeProgressIndicator",
+        "comment": " Create a progress indicator that represents an active loading state.\n",
+        "type": "Html.Html a"
+      },
+      {
+        "name": "progressIndicator",
+        "comment": " Create a progress indicator with a value between 0.0 and 1.0.\n",
+        "type": "Float -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Aui.Avatars",
     "comment": " Functions to present AUI avatars.\n\n\n# Types\n\n@docs Config\n\n# Presentation\n\n@docs avatar\n\n# Utiltity\n\n@docs config, xsmall, small, medium, large, xlarge, xxlarge, xxxlarge, project\n",
     "aliases": [],
@@ -1880,6 +1667,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Aui.ProgressTracker",
+    "comment": " Functions to present AUI progress tracker.\n\n\n# Presentation\n\n@docs progressTracker, invertedProgressTracker\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "invertedProgressTracker",
+        "comment": " Create an inverted progress tracker with items and a given active index.\n",
+        "type": "List String -> Int -> Html.Html a"
+      },
+      {
+        "name": "progressTracker",
+        "comment": " Create a progress tracker with items and a given active index (zero based).\n\n    progressTracker [\"Step 1\", \"Step 2\", \"Step 3\"] 1\n",
+        "type": "List String -> Int -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Aui.Messages",
     "comment": " Functions to present AUI messages.\n\n\n# Presentation\n\n@docs message, closableMessage\n\n# Types\n\n@docs Type, generic, error, warning, success, info, hint\n\n\n",
     "aliases": [],
@@ -1936,6 +1742,105 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Aui.Buttons",
+    "comment": " Functions to present AUI buttons and groups.\n\n\n# Style\n\n@docs Style, primaryStyle, normalStyle, subtleStyle, lightStyle, linkStyle\n\n# Config\n\n@docs Config, baseConfig, disable, withStyle, withHref, withAction, withActive, withAdditionalClass, forceAnchor\n\n# Config\n\n# Presentation\n\n@docs button, buttonGroup\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " Configuration type for presenting a button.\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Style",
+        "comment": " Different styles available for a button.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "baseConfig",
+        "comment": " A configuration with sane defaults (no style, no anchor, enable, ect.).\n",
+        "type": "Aui.Buttons.Config a"
+      },
+      {
+        "name": "button",
+        "comment": " Render an AUI button.\n\n    button (baseConfig |> withStyle Primary |> withHref \"http://elm-lang.org/\")\n        ButtonClicked\n        [ text \"Click me!\"]\n",
+        "type": "Aui.Buttons.Config a -> List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "buttonGroup",
+        "comment": " Button container that will add the correct classes to make a button group.\n\n    buttonGroup\n        [ button config Clicked1 [text \"First\"]\n        , button config Clicked2 [text \"Second\"]\n        , button config Clicked3 [text \"Third\"]\n        ]\n",
+        "type": "List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "disable",
+        "comment": " Add the disabled state to a button.\n\n    baseConfig |> disable\n",
+        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "forceAnchor",
+        "comment": " Forces the anchor tag to be used instead of the default button tag (only if no href is specified).\n\n    baseConfig |> forceAnchor\n",
+        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "lightStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "linkStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "normalStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "primaryStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "subtleStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "withAction",
+        "comment": " Add an action to the buttons configuration.\n\n    baseConfig |> withAction MyAction\n",
+        "type": "a -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withActive",
+        "comment": " Make a button active or not active.\n\n    baseConfig |> withActive True\n",
+        "type": "Bool -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withAdditionalClass",
+        "comment": " Add additional classes to the button\n\n    baseConfig |> additionalClass \"my-button\"\n",
+        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withHref",
+        "comment": " Add a href to the buttons configuration.\n\n    baseConfig |> withHref \"http://elm-lang.org/\"\n",
+        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withStyle",
+        "comment": " Add a button style to the configuration.\n\n    baseConfig |> withStyle Subtle\n",
+        "type": "Aui.Buttons.Style -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Aui.Labels",
     "comment": " Functions to present AUI labels.\n\n\n# Presentation\n\n@docs label\n\n# Actions\n\n@docs Action, navigate, trigger\n# Types\n\n@docs Config\n\n# Utility\n\n@docs baseConfig, onClick, onRemove\n",
     "aliases": [],
@@ -1987,6 +1892,101 @@
         "name": "trigger",
         "comment": " Action to trigger an action on click\n",
         "type": "a -> Aui.Labels.Action a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Badges",
+    "comment": " Functions to present AUI badges.\n\n\n# Presentation\n\n@docs badge\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "badge",
+        "comment": " Present a badge with a given content\n\n    badge \"Hello world!\"\n",
+        "type": "String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Backdrop",
+    "comment": " Functions to create a backdrop that is needed for several AUI Components.\n\n# Presentation\n\n@docs backdrop\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "backdrop",
+        "comment": " Present a backdrop with a click handler.\n\n    backdrop 1000 ClickedBackdrop True\n",
+        "type": "Int -> a -> Bool -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Lozenge",
+    "comment": " Functions to present AUI lozenges.\n\n# Presentation\n\n@docs lozenge\n\n# Types\n\n@docs Type, generic, success, error, current, complete, moved\n\n# Presense\n\n@docs Presense, normal,subtle\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Presense",
+        "comment": " Presense style for a lozenge\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Type",
+        "comment": " Types for a lozenge\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "complete",
+        "comment": " Comlete type for lozenge\n",
+        "type": "Aui.Lozenge.Type"
+      },
+      {
+        "name": "current",
+        "comment": " Current type for lozenge\n",
+        "type": "Aui.Lozenge.Type"
+      },
+      {
+        "name": "error",
+        "comment": " Error type for lozenge\n",
+        "type": "Aui.Lozenge.Type"
+      },
+      {
+        "name": "generic",
+        "comment": " Generic type for lozenge\n",
+        "type": "Aui.Lozenge.Type"
+      },
+      {
+        "name": "lozenge",
+        "comment": " Create a lozenge with presense and type\n",
+        "type": "Aui.Lozenge.Presense -> Aui.Lozenge.Type -> List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "moved",
+        "comment": " Moved type for lozenge\n",
+        "type": "Aui.Lozenge.Type"
+      },
+      {
+        "name": "normal",
+        "comment": " Normal presence\n",
+        "type": "Aui.Lozenge.Presense"
+      },
+      {
+        "name": "subtle",
+        "comment": " Subtle presence\n",
+        "type": "Aui.Lozenge.Presense"
+      },
+      {
+        "name": "success",
+        "comment": " Success type for lozenge\n",
+        "type": "Aui.Lozenge.Type"
       }
     ],
     "generated-with-elm-version": "0.18.0"

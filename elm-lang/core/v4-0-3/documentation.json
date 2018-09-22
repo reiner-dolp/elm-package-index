@@ -1,5 +1,36 @@
 [
   {
+    "name": "Process",
+    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
+    "aliases": [
+      {
+        "name": "Id",
+        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
+        "args": [],
+        "type": "Platform.ProcessId"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "kill",
+        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
+        "type": "Process.Id -> Task.Task x ()"
+      },
+      {
+        "name": "sleep",
+        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
+        "type": "Time.Time -> Task.Task x ()"
+      },
+      {
+        "name": "spawn",
+        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1 `Task.andThen` \\_ -> spawn task2\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
+        "type": "Task.Task x a -> Task.Task y Process.Id"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Random",
     "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nIt may be helpful to [read about JSON decoders][json] because they work very\nsimilarly.\n\n[json]: https://evancz.gitbooks.io/an-introduction-to-elm/content/interop/json.html\n\n> *Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Generate Values\n@docs generate\n\n# Generate Values Manually\n@docs step, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
     "aliases": [],
@@ -99,37 +130,6 @@
         "name": "step",
         "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `step` we need to provide a\nseed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `step` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed1 ==> (31, seed2)\n    -- step (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n",
         "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Process",
-    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
-    "aliases": [
-      {
-        "name": "Id",
-        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
-        "args": [],
-        "type": "Platform.ProcessId"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "kill",
-        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
-        "type": "Process.Id -> Task.Task x ()"
-      },
-      {
-        "name": "sleep",
-        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
-        "type": "Time.Time -> Task.Task x ()"
-      },
-      {
-        "name": "spawn",
-        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1 `Task.andThen` \\_ -> spawn task2\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
-        "type": "Task.Task x a -> Task.Task y Process.Id"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -296,175 +296,6 @@
         "name": "year",
         "comment": " Extract the year of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `1990`.\n",
         "type": "Date.Date -> Int"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Time",
-    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
-    "aliases": [
-      {
-        "name": "Time",
-        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "every",
-        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
-        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "hour",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "inHours",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMilliseconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMinutes",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inSeconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "millisecond",
-        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
-        "type": "Time.Time"
-      },
-      {
-        "name": "minute",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "now",
-        "comment": " Get the `Time` at the moment when this task is run.\n",
-        "type": "Task.Task x Time.Time"
-      },
-      {
-        "name": "second",
-        "comment": "",
-        "type": "Time.Time"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Set",
-    "comment": " A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Sets\n@docs Set\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs isEmpty, member, size\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Set",
-        "comment": " Represents a set of unique values. So `(Set Int)` is a set of integers and\n`(Set String)` is a set of strings.\n",
-        "args": [
-          "t"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "diff",
-        "comment": " Get the difference between the first set and the second. Keeps values\nthat do not appear in the second set.\n",
-        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "empty",
-        "comment": " Create an empty set.\n",
-        "type": "Set.Set a"
-      },
-      {
-        "name": "filter",
-        "comment": " Create a new set consisting only of elements which satisfy a predicate.\n",
-        "type": "(comparable -> Bool) -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "foldl",
-        "comment": " Fold over the values in a set, in order from lowest to highest.\n",
-        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
-      },
-      {
-        "name": "foldr",
-        "comment": " Fold over the values in a set, in order from highest to lowest.\n",
-        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
-      },
-      {
-        "name": "fromList",
-        "comment": " Convert a list into a set, removing any duplicates.\n",
-        "type": "List comparable -> Set.Set comparable"
-      },
-      {
-        "name": "insert",
-        "comment": " Insert a value into a set.\n",
-        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "intersect",
-        "comment": " Get the intersection of two sets. Keeps values that appear in both sets.\n",
-        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "isEmpty",
-        "comment": " Determine if a set is empty.\n",
-        "type": "Set.Set a -> Bool"
-      },
-      {
-        "name": "map",
-        "comment": " Map a function onto a set, creating a new set with no duplicates.\n",
-        "type": "(comparable -> comparable') -> Set.Set comparable -> Set.Set comparable'"
-      },
-      {
-        "name": "member",
-        "comment": " Determine if a value is in a set.\n",
-        "type": "comparable -> Set.Set comparable -> Bool"
-      },
-      {
-        "name": "partition",
-        "comment": " Create two new sets; the first consisting of elements which satisfy a\npredicate, the second consisting of elements which do not.\n",
-        "type": "(comparable -> Bool) -> Set.Set comparable -> ( Set.Set comparable, Set.Set comparable )"
-      },
-      {
-        "name": "remove",
-        "comment": " Remove a value from a set. If the value is not found, no changes are made.\n",
-        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "singleton",
-        "comment": " Create a set with one value.\n",
-        "type": "comparable -> Set.Set comparable"
-      },
-      {
-        "name": "size",
-        "comment": " Determine the number of elements in a set.\n",
-        "type": "Set.Set a -> Int"
-      },
-      {
-        "name": "toList",
-        "comment": " Convert a set into a list, sorted from lowest to highest.\n",
-        "type": "Set.Set comparable -> List comparable"
-      },
-      {
-        "name": "union",
-        "comment": " Get the union of two sets. Keep all values.\n",
-        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -680,6 +511,236 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
+    "name": "Set",
+    "comment": " A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Sets\n@docs Set\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs isEmpty, member, size\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Set",
+        "comment": " Represents a set of unique values. So `(Set Int)` is a set of integers and\n`(Set String)` is a set of strings.\n",
+        "args": [
+          "t"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "diff",
+        "comment": " Get the difference between the first set and the second. Keeps values\nthat do not appear in the second set.\n",
+        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "empty",
+        "comment": " Create an empty set.\n",
+        "type": "Set.Set a"
+      },
+      {
+        "name": "filter",
+        "comment": " Create a new set consisting only of elements which satisfy a predicate.\n",
+        "type": "(comparable -> Bool) -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "foldl",
+        "comment": " Fold over the values in a set, in order from lowest to highest.\n",
+        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
+      },
+      {
+        "name": "foldr",
+        "comment": " Fold over the values in a set, in order from highest to lowest.\n",
+        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
+      },
+      {
+        "name": "fromList",
+        "comment": " Convert a list into a set, removing any duplicates.\n",
+        "type": "List comparable -> Set.Set comparable"
+      },
+      {
+        "name": "insert",
+        "comment": " Insert a value into a set.\n",
+        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "intersect",
+        "comment": " Get the intersection of two sets. Keeps values that appear in both sets.\n",
+        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "isEmpty",
+        "comment": " Determine if a set is empty.\n",
+        "type": "Set.Set a -> Bool"
+      },
+      {
+        "name": "map",
+        "comment": " Map a function onto a set, creating a new set with no duplicates.\n",
+        "type": "(comparable -> comparable') -> Set.Set comparable -> Set.Set comparable'"
+      },
+      {
+        "name": "member",
+        "comment": " Determine if a value is in a set.\n",
+        "type": "comparable -> Set.Set comparable -> Bool"
+      },
+      {
+        "name": "partition",
+        "comment": " Create two new sets; the first consisting of elements which satisfy a\npredicate, the second consisting of elements which do not.\n",
+        "type": "(comparable -> Bool) -> Set.Set comparable -> ( Set.Set comparable, Set.Set comparable )"
+      },
+      {
+        "name": "remove",
+        "comment": " Remove a value from a set. If the value is not found, no changes are made.\n",
+        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "singleton",
+        "comment": " Create a set with one value.\n",
+        "type": "comparable -> Set.Set comparable"
+      },
+      {
+        "name": "size",
+        "comment": " Determine the number of elements in a set.\n",
+        "type": "Set.Set a -> Int"
+      },
+      {
+        "name": "toList",
+        "comment": " Convert a set into a list, sorted from lowest to highest.\n",
+        "type": "Set.Set comparable -> List comparable"
+      },
+      {
+        "name": "union",
+        "comment": " Get the union of two sets. Keep all values.\n",
+        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Time",
+    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
+    "aliases": [
+      {
+        "name": "Time",
+        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
+        "args": [],
+        "type": "Float"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "every",
+        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
+        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "hour",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "inHours",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMilliseconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMinutes",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inSeconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "millisecond",
+        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
+        "type": "Time.Time"
+      },
+      {
+        "name": "minute",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "now",
+        "comment": " Get the `Time` at the moment when this task is run.\n",
+        "type": "Task.Task x Time.Time"
+      },
+      {
+        "name": "second",
+        "comment": "",
+        "type": "Time.Time"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Json.Encode",
+    "comment": " Library for turning Elm values into Json values.\n\n# Encoding\n@docs encode, Value\n\n# Primitives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array\n\n# Objects\n@docs object\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Value",
+        "comment": " Represents a JavaScript value.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "array",
+        "comment": "",
+        "type": "Array.Array Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "bool",
+        "comment": "",
+        "type": "Bool -> Json.Encode.Value"
+      },
+      {
+        "name": "encode",
+        "comment": " Convert a `Value` into a prettified string. The first argument specifies\nthe amount of indentation in the resulting string.\n\n    person =\n        object\n          [ (\"name\", string \"Tom\")\n          , (\"age\", int 42)\n          ]\n\n    compact = encode 0 person\n    -- {\"name\":\"Tom\",\"age\":42}\n\n    readable = encode 4 person\n    -- {\n    --     \"name\": \"Tom\",\n    --     \"age\": 42\n    -- }\n",
+        "type": "Int -> Json.Encode.Value -> String"
+      },
+      {
+        "name": "float",
+        "comment": " Encode a Float. `Infinity` and `NaN` are encoded as `null`.\n",
+        "type": "Float -> Json.Encode.Value"
+      },
+      {
+        "name": "int",
+        "comment": "",
+        "type": "Int -> Json.Encode.Value"
+      },
+      {
+        "name": "list",
+        "comment": "",
+        "type": "List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "null",
+        "comment": "",
+        "type": "Json.Encode.Value"
+      },
+      {
+        "name": "object",
+        "comment": "",
+        "type": "List ( String, Json.Encode.Value ) -> Json.Encode.Value"
+      },
+      {
+        "name": "string",
+        "comment": "",
+        "type": "String -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Dict",
     "comment": " A dictionary mapping unique keys to values. The keys can be any comparable\ntype. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or\nlists of comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Dictionaries\n@docs Dict\n\n# Build\n@docs empty, singleton, insert, update, remove\n\n# Query\n@docs isEmpty, member, get, size\n\n# Lists\n@docs keys, values, toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n# Combine\n@docs union, intersect, diff, merge\n\n",
     "aliases": [],
@@ -809,67 +870,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Json.Encode",
-    "comment": " Library for turning Elm values into Json values.\n\n# Encoding\n@docs encode, Value\n\n# Primitives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array\n\n# Objects\n@docs object\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Value",
-        "comment": " Represents a JavaScript value.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "array",
-        "comment": "",
-        "type": "Array.Array Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "bool",
-        "comment": "",
-        "type": "Bool -> Json.Encode.Value"
-      },
-      {
-        "name": "encode",
-        "comment": " Convert a `Value` into a prettified string. The first argument specifies\nthe amount of indentation in the resulting string.\n\n    person =\n        object\n          [ (\"name\", string \"Tom\")\n          , (\"age\", int 42)\n          ]\n\n    compact = encode 0 person\n    -- {\"name\":\"Tom\",\"age\":42}\n\n    readable = encode 4 person\n    -- {\n    --     \"name\": \"Tom\",\n    --     \"age\": 42\n    -- }\n",
-        "type": "Int -> Json.Encode.Value -> String"
-      },
-      {
-        "name": "float",
-        "comment": " Encode a Float. `Infinity` and `NaN` are encoded as `null`.\n",
-        "type": "Float -> Json.Encode.Value"
-      },
-      {
-        "name": "int",
-        "comment": "",
-        "type": "Int -> Json.Encode.Value"
-      },
-      {
-        "name": "list",
-        "comment": "",
-        "type": "List Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "null",
-        "comment": "",
-        "type": "Json.Encode.Value"
-      },
-      {
-        "name": "object",
-        "comment": "",
-        "type": "List ( String, Json.Encode.Value ) -> Json.Encode.Value"
-      },
-      {
-        "name": "string",
-        "comment": "",
-        "type": "String -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Task",
     "comment": " Tasks make it easy to describe asynchronous operations that may fail, like\nHTTP requests or writing to a database. For more information, see the [Elm\ndocumentation on Tasks](http://guide.elm-lang.org/error_handling/task.html).\n\n# Basics\n@docs Task, succeed, fail\n\n# Mapping\n@docs map, map2, map3, map4, map5, andMap\n\n# Chaining\n@docs andThen, sequence\n\n# Errors\n@docs onError, mapError, toMaybe, fromMaybe, toResult, fromResult\n\n# Commands\n@docs perform\n\n",
     "aliases": [
@@ -969,6 +969,114 @@
         "name": "toResult",
         "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Err` something and any success into `Ok` something.\n\n    toResult (fail \"file not found\") -- succeed (Err \"file not found\")\n    toResult (succeed 42)            -- succeed (Ok 42)\n\nThis means you can handle the error with the `Result` module instead.\n",
         "type": "Task.Task x a -> Task.Task never (Result.Result x a)"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Array",
+    "comment": " A library for fast immutable arrays. The elements in an array must have the\nsame type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast\nreads, updates, and appends.\n\n# Arrays\n@docs Array\n\n# Creating Arrays\n@docs empty, repeat, initialize, fromList\n\n# Basics\n@docs isEmpty, length, push, append\n\n# Get and Set\n@docs get, set\n\n# Taking Arrays Apart\n@docs slice, toList, toIndexedList\n\n# Mapping, Filtering, and Folding\n@docs map, indexedMap, filter, foldl, foldr\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Array",
+        "comment": " Representation of fast immutable arrays. You can create arrays of integers\n(`Array Int`) or strings (`Array String`) or any other type of value you can\ndream up.\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "append",
+        "comment": " Append two arrays to a new one.\n\n    append (repeat 2 42) (repeat 3 81) == fromList [42,42,81,81,81]\n",
+        "type": "Array.Array a -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "empty",
+        "comment": " Return an empty array.\n\n    length empty == 0\n",
+        "type": "Array.Array a"
+      },
+      {
+        "name": "filter",
+        "comment": " Keep only elements that satisfy the predicate:\n\n    filter isEven (fromList [1..6]) == (fromList [2,4,6])\n",
+        "type": "(a -> Bool) -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "foldl",
+        "comment": " Reduce an array from the left. Read `foldl` as &ldquo;fold from the left&rdquo;.\n\n    foldl (::) [] (fromList [1,2,3]) == [3,2,1]\n",
+        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
+      },
+      {
+        "name": "foldr",
+        "comment": " Reduce an array from the right. Read `foldr` as &ldquo;fold from the right&rdquo;.\n\n    foldr (+) 0 (repeat 3 5) == 15\n",
+        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
+      },
+      {
+        "name": "fromList",
+        "comment": " Create an array from a list.\n",
+        "type": "List a -> Array.Array a"
+      },
+      {
+        "name": "get",
+        "comment": " Return Just the element at the index or Nothing if the index is out of range.\n\n    get  0 (fromList [0,1,2]) == Just 0\n    get  2 (fromList [0,1,2]) == Just 2\n    get  5 (fromList [0,1,2]) == Nothing\n    get -1 (fromList [0,1,2]) == Nothing\n\n",
+        "type": "Int -> Array.Array a -> Maybe.Maybe a"
+      },
+      {
+        "name": "indexedMap",
+        "comment": " Apply a function on every element with its index as first argument.\n\n    indexedMap (*) (fromList [5,5,5]) == fromList [0,5,10]\n",
+        "type": "(Int -> a -> b) -> Array.Array a -> Array.Array b"
+      },
+      {
+        "name": "initialize",
+        "comment": " Initialize an array. `initialize n f` creates an array of length `n` with\nthe element at index `i` initialized to the result of `(f i)`.\n\n    initialize 4 identity    == fromList [0,1,2,3]\n    initialize 4 (\\n -> n*n) == fromList [0,1,4,9]\n    initialize 4 (always 0)  == fromList [0,0,0,0]\n",
+        "type": "Int -> (Int -> a) -> Array.Array a"
+      },
+      {
+        "name": "isEmpty",
+        "comment": " Determine if an array is empty.\n\n    isEmpty empty == True\n",
+        "type": "Array.Array a -> Bool"
+      },
+      {
+        "name": "length",
+        "comment": " Return the length of an array.\n\n    length (fromList [1,2,3]) == 3\n",
+        "type": "Array.Array a -> Int"
+      },
+      {
+        "name": "map",
+        "comment": " Apply a function on every element in an array.\n\n    map sqrt (fromList [1,4,9]) == fromList [1,2,3]\n",
+        "type": "(a -> b) -> Array.Array a -> Array.Array b"
+      },
+      {
+        "name": "push",
+        "comment": " Push an element to the end of an array.\n\n    push 3 (fromList [1,2]) == fromList [1,2,3]\n",
+        "type": "a -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "repeat",
+        "comment": " Creates an array with a given length, filled with a default element.\n\n    repeat 5 0     == fromList [0,0,0,0,0]\n    repeat 3 \"cat\" == fromList [\"cat\",\"cat\",\"cat\"]\n\nNotice that `repeat 3 x` is the same as `initialize 3 (always x)`.\n",
+        "type": "Int -> a -> Array.Array a"
+      },
+      {
+        "name": "set",
+        "comment": " Set the element at a particular index. Returns an updated array.\nIf the index is out of range, the array is unaltered.\n\n    set 1 7 (fromList [1,2,3]) == fromList [1,7,3]\n",
+        "type": "Int -> a -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "slice",
+        "comment": " Get a sub-section of an array: `(slice start end array)`. The `start` is a\nzero-based index where we will start our slice. The `end` is a zero-based index\nthat indicates the end of the slice. The slice extracts up to but not including\n`end`.\n\n    slice  0  3 (fromList [0,1,2,3,4]) == fromList [0,1,2]\n    slice  1  4 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n\nBoth the `start` and `end` indexes can be negative, indicating an offset from\nthe end of the array.\n\n    slice  1 -1 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n    slice -2  5 (fromList [0,1,2,3,4]) == fromList [3,4]\n\nThis makes it pretty easy to `pop` the last element off of an array: `slice 0 -1 array`\n",
+        "type": "Int -> Int -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "toIndexedList",
+        "comment": " Create an indexed list from an array. Each element of the array will be\npaired with its index.\n\n    toIndexedList (fromList [\"cat\",\"dog\"]) == [(0,\"cat\"), (1,\"dog\")]\n",
+        "type": "Array.Array a -> List ( Int, a )"
+      },
+      {
+        "name": "toList",
+        "comment": " Create a list of elements from an array.\n\n    toList (fromList [3,5,8]) == [3,5,8]\n",
+        "type": "Array.Array a -> List a"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1188,271 +1296,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Array",
-    "comment": " A library for fast immutable arrays. The elements in an array must have the\nsame type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast\nreads, updates, and appends.\n\n# Arrays\n@docs Array\n\n# Creating Arrays\n@docs empty, repeat, initialize, fromList\n\n# Basics\n@docs isEmpty, length, push, append\n\n# Get and Set\n@docs get, set\n\n# Taking Arrays Apart\n@docs slice, toList, toIndexedList\n\n# Mapping, Filtering, and Folding\n@docs map, indexedMap, filter, foldl, foldr\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Array",
-        "comment": " Representation of fast immutable arrays. You can create arrays of integers\n(`Array Int`) or strings (`Array String`) or any other type of value you can\ndream up.\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "append",
-        "comment": " Append two arrays to a new one.\n\n    append (repeat 2 42) (repeat 3 81) == fromList [42,42,81,81,81]\n",
-        "type": "Array.Array a -> Array.Array a -> Array.Array a"
-      },
-      {
-        "name": "empty",
-        "comment": " Return an empty array.\n\n    length empty == 0\n",
-        "type": "Array.Array a"
-      },
-      {
-        "name": "filter",
-        "comment": " Keep only elements that satisfy the predicate:\n\n    filter isEven (fromList [1..6]) == (fromList [2,4,6])\n",
-        "type": "(a -> Bool) -> Array.Array a -> Array.Array a"
-      },
-      {
-        "name": "foldl",
-        "comment": " Reduce an array from the left. Read `foldl` as &ldquo;fold from the left&rdquo;.\n\n    foldl (::) [] (fromList [1,2,3]) == [3,2,1]\n",
-        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
-      },
-      {
-        "name": "foldr",
-        "comment": " Reduce an array from the right. Read `foldr` as &ldquo;fold from the right&rdquo;.\n\n    foldr (+) 0 (repeat 3 5) == 15\n",
-        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
-      },
-      {
-        "name": "fromList",
-        "comment": " Create an array from a list.\n",
-        "type": "List a -> Array.Array a"
-      },
-      {
-        "name": "get",
-        "comment": " Return Just the element at the index or Nothing if the index is out of range.\n\n    get  0 (fromList [0,1,2]) == Just 0\n    get  2 (fromList [0,1,2]) == Just 2\n    get  5 (fromList [0,1,2]) == Nothing\n    get -1 (fromList [0,1,2]) == Nothing\n\n",
-        "type": "Int -> Array.Array a -> Maybe.Maybe a"
-      },
-      {
-        "name": "indexedMap",
-        "comment": " Apply a function on every element with its index as first argument.\n\n    indexedMap (*) (fromList [5,5,5]) == fromList [0,5,10]\n",
-        "type": "(Int -> a -> b) -> Array.Array a -> Array.Array b"
-      },
-      {
-        "name": "initialize",
-        "comment": " Initialize an array. `initialize n f` creates an array of length `n` with\nthe element at index `i` initialized to the result of `(f i)`.\n\n    initialize 4 identity    == fromList [0,1,2,3]\n    initialize 4 (\\n -> n*n) == fromList [0,1,4,9]\n    initialize 4 (always 0)  == fromList [0,0,0,0]\n",
-        "type": "Int -> (Int -> a) -> Array.Array a"
-      },
-      {
-        "name": "isEmpty",
-        "comment": " Determine if an array is empty.\n\n    isEmpty empty == True\n",
-        "type": "Array.Array a -> Bool"
-      },
-      {
-        "name": "length",
-        "comment": " Return the length of an array.\n\n    length (fromList [1,2,3]) == 3\n",
-        "type": "Array.Array a -> Int"
-      },
-      {
-        "name": "map",
-        "comment": " Apply a function on every element in an array.\n\n    map sqrt (fromList [1,4,9]) == fromList [1,2,3]\n",
-        "type": "(a -> b) -> Array.Array a -> Array.Array b"
-      },
-      {
-        "name": "push",
-        "comment": " Push an element to the end of an array.\n\n    push 3 (fromList [1,2]) == fromList [1,2,3]\n",
-        "type": "a -> Array.Array a -> Array.Array a"
-      },
-      {
-        "name": "repeat",
-        "comment": " Creates an array with a given length, filled with a default element.\n\n    repeat 5 0     == fromList [0,0,0,0,0]\n    repeat 3 \"cat\" == fromList [\"cat\",\"cat\",\"cat\"]\n\nNotice that `repeat 3 x` is the same as `initialize 3 (always x)`.\n",
-        "type": "Int -> a -> Array.Array a"
-      },
-      {
-        "name": "set",
-        "comment": " Set the element at a particular index. Returns an updated array.\nIf the index is out of range, the array is unaltered.\n\n    set 1 7 (fromList [1,2,3]) == fromList [1,7,3]\n",
-        "type": "Int -> a -> Array.Array a -> Array.Array a"
-      },
-      {
-        "name": "slice",
-        "comment": " Get a sub-section of an array: `(slice start end array)`. The `start` is a\nzero-based index where we will start our slice. The `end` is a zero-based index\nthat indicates the end of the slice. The slice extracts up to but not including\n`end`.\n\n    slice  0  3 (fromList [0,1,2,3,4]) == fromList [0,1,2]\n    slice  1  4 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n\nBoth the `start` and `end` indexes can be negative, indicating an offset from\nthe end of the array.\n\n    slice  1 -1 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n    slice -2  5 (fromList [0,1,2,3,4]) == fromList [3,4]\n\nThis makes it pretty easy to `pop` the last element off of an array: `slice 0 -1 array`\n",
-        "type": "Int -> Int -> Array.Array a -> Array.Array a"
-      },
-      {
-        "name": "toIndexedList",
-        "comment": " Create an indexed list from an array. Each element of the array will be\npaired with its index.\n\n    toIndexedList (fromList [\"cat\",\"dog\"]) == [(0,\"cat\"), (1,\"dog\")]\n",
-        "type": "Array.Array a -> List ( Int, a )"
-      },
-      {
-        "name": "toList",
-        "comment": " Create a list of elements from an array.\n\n    toList (fromList [3,5,8]) == [3,5,8]\n",
-        "type": "Array.Array a -> List a"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Result",
-    "comment": " A `Result` is the result of a computation that may fail. This is a great\nway to manage errors in Elm.\n\n# Type and Constructors\n@docs Result\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Chaining\n@docs andThen\n\n# Handling Errors\n@docs withDefault, toMaybe, fromMaybe, formatError\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Result",
-        "comment": " A `Result` is either `Ok` meaning the computation succeeded, or it is an\n`Err` meaning that there was some failure.\n",
-        "args": [
-          "error",
-          "value"
-        ],
-        "cases": [
-          [
-            "Ok",
-            [
-              "value"
-            ]
-          ],
-          [
-            "Err",
-            [
-              "error"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "andThen",
-        "comment": " Chain together a sequence of computations that may fail. It is helpful\nto see its definition:\n\n    andThen : Result e a -> (a -> Result e b) -> Result e b\n    andThen result callback =\n        case result of\n          Ok value -> callback value\n          Err msg -> Err msg\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`toInt : String -> Result String Int`) to parse\na month and make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Result String Int\n    toValidMonth month =\n        if month >= 1 && month <= 12\n            then Ok month\n            else Err \"months must be between 1 and 12\"\n\n    toMonth : String -> Result String Int\n    toMonth rawString =\n        toInt rawString `andThen` toValidMonth\n\n    -- toMonth \"4\" == Ok 4\n    -- toMonth \"9\" == Ok 9\n    -- toMonth \"a\" == Err \"cannot parse to an Int\"\n    -- toMonth \"0\" == Err \"months must be between 1 and 12\"\n\nThis allows us to come out of a chain of operations with quite a specific error\nmessage. It is often best to create a custom type that explicitly represents\nthe exact ways your computation may fail. This way it is easy to handle in your\ncode.\n",
-        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b"
-      },
-      {
-        "name": "formatError",
-        "comment": " Format the error value of a result. If the result is `Ok`, it stays exactly\nthe same, but if the result is an `Err` we will format the error. For example,\nsay the errors we get have too much information:\n\n    parseInt : String -> Result ParseError Int\n\n    type alias ParseError =\n        { message : String\n        , code : Int\n        , position : (Int,Int)\n        }\n\n    formatError .message (parseInt \"123\") == Ok 123\n    formatError .message (parseInt \"abc\") == Err \"char 'a' is not a number\"\n",
-        "type": "(error -> error') -> Result.Result error a -> Result.Result error' a"
-      },
-      {
-        "name": "fromMaybe",
-        "comment": " Convert from a simple `Maybe` to interact with some code that primarily\nuses `Results`.\n\n    parseInt : String -> Maybe Int\n\n    resultParseInt : String -> Result String Int\n    resultParseInt string =\n        fromMaybe (\"error parsing string: \" ++ toString string) (parseInt string)\n",
-        "type": "x -> Maybe.Maybe a -> Result.Result x a"
-      },
-      {
-        "name": "map",
-        "comment": " Apply a function to a result. If the result is `Ok`, it will be converted.\nIf the result is an `Err`, the same error value will propagate through.\n\n    map sqrt (Ok 4.0)          == Ok 2.0\n    map sqrt (Err \"bad input\") == Err \"bad input\"\n",
-        "type": "(a -> value) -> Result.Result x a -> Result.Result x value"
-      },
-      {
-        "name": "map2",
-        "comment": " Apply a function to two results, if both results are `Ok`. If not,\nthe first argument which is an `Err` will propagate through.\n\n    map2 (+) (String.toInt \"1\") (String.toInt \"2\") == Ok 3\n    map2 (+) (String.toInt \"1\") (String.toInt \"y\") == Err \"could not convert string 'y' to an Int\"\n    map2 (+) (String.toInt \"x\") (String.toInt \"y\") == Err \"could not convert string 'x' to an Int\"\n",
-        "type": "(a -> b -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x value"
-      },
-      {
-        "name": "map3",
-        "comment": "",
-        "type": "(a -> b -> c -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x value"
-      },
-      {
-        "name": "map4",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x value"
-      },
-      {
-        "name": "map5",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> e -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x e -> Result.Result x value"
-      },
-      {
-        "name": "toMaybe",
-        "comment": " Convert to a simpler `Maybe` if the actual error message is not needed or\nyou need to interact with some code that primarily uses maybes.\n\n    parseInt : String -> Result ParseError Int\n\n    maybeParseInt : String -> Maybe Int\n    maybeParseInt string =\n        toMaybe (parseInt string)\n",
-        "type": "Result.Result x a -> Maybe.Maybe a"
-      },
-      {
-        "name": "withDefault",
-        "comment": " If the result is `Ok` return the value, but if the result is an `Err` then\nreturn a given default value. The following examples try to parse integers.\n\n    Result.withDefault 0 (String.toInt \"123\") == 123\n    Result.withDefault 0 (String.toInt \"abc\") == 0\n",
-        "type": "a -> Result.Result x a -> a"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Regex",
-    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
-    "aliases": [
-      {
-        "name": "Match",
-        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
-        "args": [],
-        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
-      }
-    ],
-    "types": [
-      {
-        "name": "HowMany",
-        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
-        "args": [],
-        "cases": [
-          [
-            "All",
-            []
-          ],
-          [
-            "AtMost",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "Regex",
-        "comment": " A regular expression, describing a certain set of strings.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "caseInsensitive",
-        "comment": " Make a regex case insensitive ",
-        "type": "Regex.Regex -> Regex.Regex"
-      },
-      {
-        "name": "contains",
-        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
-        "type": "Regex.Regex -> String -> Bool"
-      },
-      {
-        "name": "escape",
-        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
-        "type": "String -> String"
-      },
-      {
-        "name": "find",
-        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
-      },
-      {
-        "name": "regex",
-        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
-        "type": "String -> Regex.Regex"
-      },
-      {
-        "name": "replace",
-        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
-        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
-      },
-      {
-        "name": "split",
-        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "List",
     "comment": " A library for manipulating lists of values. Every value in a\nlist must have the same type.\n\n# Basics\n@docs isEmpty, length, reverse, member\n\n# Sub-lists\n@docs head, tail, filter, take, drop\n\n# Putting Lists Together\n@docs repeat, (::), append, concat, intersperse\n\n# Taking Lists Apart\n@docs partition, unzip\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\nIf you can think of a legitimate use of `mapN` where `N` is 6 or more, please\nlet us know on [the list](https://groups.google.com/forum/#!forum/elm-discuss).\nThe current sentiment is that it is already quite error prone once you get to\n4 and possibly should be approached another way.\n\n# Special Maps\n@docs filterMap, concatMap, indexedMap\n\n# Folding\n@docs foldr, foldl\n\n# Special Folds\n@docs sum, product, maximum, minimum, all, any, scanl\n\n# Sorting\n@docs sort, sortBy, sortWith\n\n",
     "aliases": [],
@@ -1644,124 +1487,158 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform",
-    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
+    "name": "Result",
+    "comment": " A `Result` is the result of a computation that may fail. This is a great\nway to manage errors in Elm.\n\n# Type and Constructors\n@docs Result\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Chaining\n@docs andThen\n\n# Handling Errors\n@docs withDefault, toMaybe, fromMaybe, formatError\n",
     "aliases": [],
     "types": [
       {
-        "name": "ProcessId",
-        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Program",
-        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
+        "name": "Result",
+        "comment": " A `Result` is either `Ok` meaning the computation succeeded, or it is an\n`Err` meaning that there was some failure.\n",
         "args": [
-          "flags"
+          "error",
+          "value"
         ],
-        "cases": []
-      },
-      {
-        "name": "Router",
-        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
-        "args": [
-          "appMsg",
-          "selfMsg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Task",
-        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [
-          "err",
-          "ok"
-        ],
-        "cases": []
+        "cases": [
+          [
+            "Ok",
+            [
+              "value"
+            ]
+          ],
+          [
+            "Err",
+            [
+              "error"
+            ]
+          ]
+        ]
       }
     ],
     "values": [
       {
-        "name": "sendToApp",
-        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
-        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
+        "name": "andThen",
+        "comment": " Chain together a sequence of computations that may fail. It is helpful\nto see its definition:\n\n    andThen : Result e a -> (a -> Result e b) -> Result e b\n    andThen result callback =\n        case result of\n          Ok value -> callback value\n          Err msg -> Err msg\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`toInt : String -> Result String Int`) to parse\na month and make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Result String Int\n    toValidMonth month =\n        if month >= 1 && month <= 12\n            then Ok month\n            else Err \"months must be between 1 and 12\"\n\n    toMonth : String -> Result String Int\n    toMonth rawString =\n        toInt rawString `andThen` toValidMonth\n\n    -- toMonth \"4\" == Ok 4\n    -- toMonth \"9\" == Ok 9\n    -- toMonth \"a\" == Err \"cannot parse to an Int\"\n    -- toMonth \"0\" == Err \"months must be between 1 and 12\"\n\nThis allows us to come out of a chain of operations with quite a specific error\nmessage. It is often best to create a custom type that explicitly represents\nthe exact ways your computation may fail. This way it is easy to handle in your\ncode.\n",
+        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b"
       },
       {
-        "name": "sendToSelf",
-        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
-        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
+        "name": "formatError",
+        "comment": " Format the error value of a result. If the result is `Ok`, it stays exactly\nthe same, but if the result is an `Err` we will format the error. For example,\nsay the errors we get have too much information:\n\n    parseInt : String -> Result ParseError Int\n\n    type alias ParseError =\n        { message : String\n        , code : Int\n        , position : (Int,Int)\n        }\n\n    formatError .message (parseInt \"123\") == Ok 123\n    formatError .message (parseInt \"abc\") == Err \"char 'a' is not a number\"\n",
+        "type": "(error -> error') -> Result.Result error a -> Result.Result error' a"
+      },
+      {
+        "name": "fromMaybe",
+        "comment": " Convert from a simple `Maybe` to interact with some code that primarily\nuses `Results`.\n\n    parseInt : String -> Maybe Int\n\n    resultParseInt : String -> Result String Int\n    resultParseInt string =\n        fromMaybe (\"error parsing string: \" ++ toString string) (parseInt string)\n",
+        "type": "x -> Maybe.Maybe a -> Result.Result x a"
+      },
+      {
+        "name": "map",
+        "comment": " Apply a function to a result. If the result is `Ok`, it will be converted.\nIf the result is an `Err`, the same error value will propagate through.\n\n    map sqrt (Ok 4.0)          == Ok 2.0\n    map sqrt (Err \"bad input\") == Err \"bad input\"\n",
+        "type": "(a -> value) -> Result.Result x a -> Result.Result x value"
+      },
+      {
+        "name": "map2",
+        "comment": " Apply a function to two results, if both results are `Ok`. If not,\nthe first argument which is an `Err` will propagate through.\n\n    map2 (+) (String.toInt \"1\") (String.toInt \"2\") == Ok 3\n    map2 (+) (String.toInt \"1\") (String.toInt \"y\") == Err \"could not convert string 'y' to an Int\"\n    map2 (+) (String.toInt \"x\") (String.toInt \"y\") == Err \"could not convert string 'x' to an Int\"\n",
+        "type": "(a -> b -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x value"
+      },
+      {
+        "name": "map3",
+        "comment": "",
+        "type": "(a -> b -> c -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x value"
+      },
+      {
+        "name": "map4",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x value"
+      },
+      {
+        "name": "map5",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> e -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x e -> Result.Result x value"
+      },
+      {
+        "name": "toMaybe",
+        "comment": " Convert to a simpler `Maybe` if the actual error message is not needed or\nyou need to interact with some code that primarily uses maybes.\n\n    parseInt : String -> Result ParseError Int\n\n    maybeParseInt : String -> Maybe Int\n    maybeParseInt string =\n        toMaybe (parseInt string)\n",
+        "type": "Result.Result x a -> Maybe.Maybe a"
+      },
+      {
+        "name": "withDefault",
+        "comment": " If the result is `Ok` return the value, but if the result is an `Err` then\nreturn a given default value. The following examples try to parse integers.\n\n    Result.withDefault 0 (String.toInt \"123\") == 123\n    Result.withDefault 0 (String.toInt \"abc\") == 0\n",
+        "type": "a -> Result.Result x a -> a"
       }
     ],
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Char",
-    "comment": " Functions for working with characters. Character literals are enclosed in\n`'a'` pair of single quotes.\n\n# Classification\n@docs isUpper, isLower, isDigit, isOctDigit, isHexDigit\n\n# Conversion\n@docs toUpper, toLower, toLocaleUpper, toLocaleLower\n\n# Key Codes\n@docs KeyCode, toCode, fromCode\n\n",
+    "name": "Regex",
+    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
     "aliases": [
       {
-        "name": "KeyCode",
-        "comment": " Keyboard keys can be represented as integers. These are called *key codes*.\nYou can use [`toCode`](#toCode) and [`fromCode`](#fromCode) to convert between\nkey codes and characters.\n",
+        "name": "Match",
+        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
         "args": [],
-        "type": "Int"
+        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
       }
     ],
-    "types": [],
+    "types": [
+      {
+        "name": "HowMany",
+        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
+        "args": [],
+        "cases": [
+          [
+            "All",
+            []
+          ],
+          [
+            "AtMost",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Regex",
+        "comment": " A regular expression, describing a certain set of strings.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
     "values": [
       {
-        "name": "fromCode",
-        "comment": " Convert from key code. ",
-        "type": "Char.KeyCode -> Char"
+        "name": "caseInsensitive",
+        "comment": " Make a regex case insensitive ",
+        "type": "Regex.Regex -> Regex.Regex"
       },
       {
-        "name": "isDigit",
-        "comment": " True for ASCII digits `[0-9]`. ",
-        "type": "Char -> Bool"
+        "name": "contains",
+        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
+        "type": "Regex.Regex -> String -> Bool"
       },
       {
-        "name": "isHexDigit",
-        "comment": " True for ASCII hexadecimal digits `[0-9a-fA-F]`. ",
-        "type": "Char -> Bool"
+        "name": "escape",
+        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
+        "type": "String -> String"
       },
       {
-        "name": "isLower",
-        "comment": " True for lower case ASCII letters. ",
-        "type": "Char -> Bool"
+        "name": "find",
+        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
       },
       {
-        "name": "isOctDigit",
-        "comment": " True for ASCII octal digits `[0-7]`. ",
-        "type": "Char -> Bool"
+        "name": "regex",
+        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
+        "type": "String -> Regex.Regex"
       },
       {
-        "name": "isUpper",
-        "comment": " True for upper case ASCII letters. ",
-        "type": "Char -> Bool"
+        "name": "replace",
+        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
+        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
       },
       {
-        "name": "toCode",
-        "comment": " Convert to key code.\n",
-        "type": "Char -> Char.KeyCode"
-      },
-      {
-        "name": "toLocaleLower",
-        "comment": " Convert to lower case, according to any locale-specific case mappings. ",
-        "type": "Char -> Char"
-      },
-      {
-        "name": "toLocaleUpper",
-        "comment": " Convert to upper case, according to any locale-specific case mappings. ",
-        "type": "Char -> Char"
-      },
-      {
-        "name": "toLower",
-        "comment": " Convert to lower case. ",
-        "type": "Char -> Char"
-      },
-      {
-        "name": "toUpper",
-        "comment": " Convert to upper case. ",
-        "type": "Char -> Char"
+        "name": "split",
+        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -2004,6 +1881,173 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
+    "name": "Platform",
+    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "ProcessId",
+        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Program",
+        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
+        "args": [
+          "flags"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Router",
+        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
+        "args": [
+          "appMsg",
+          "selfMsg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Task",
+        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [
+          "err",
+          "ok"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "sendToApp",
+        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
+        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
+      },
+      {
+        "name": "sendToSelf",
+        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
+        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Char",
+    "comment": " Functions for working with characters. Character literals are enclosed in\n`'a'` pair of single quotes.\n\n# Classification\n@docs isUpper, isLower, isDigit, isOctDigit, isHexDigit\n\n# Conversion\n@docs toUpper, toLower, toLocaleUpper, toLocaleLower\n\n# Key Codes\n@docs KeyCode, toCode, fromCode\n\n",
+    "aliases": [
+      {
+        "name": "KeyCode",
+        "comment": " Keyboard keys can be represented as integers. These are called *key codes*.\nYou can use [`toCode`](#toCode) and [`fromCode`](#fromCode) to convert between\nkey codes and characters.\n",
+        "args": [],
+        "type": "Int"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "fromCode",
+        "comment": " Convert from key code. ",
+        "type": "Char.KeyCode -> Char"
+      },
+      {
+        "name": "isDigit",
+        "comment": " True for ASCII digits `[0-9]`. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isHexDigit",
+        "comment": " True for ASCII hexadecimal digits `[0-9a-fA-F]`. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isLower",
+        "comment": " True for lower case ASCII letters. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isOctDigit",
+        "comment": " True for ASCII octal digits `[0-7]`. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isUpper",
+        "comment": " True for upper case ASCII letters. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "toCode",
+        "comment": " Convert to key code.\n",
+        "type": "Char -> Char.KeyCode"
+      },
+      {
+        "name": "toLocaleLower",
+        "comment": " Convert to lower case, according to any locale-specific case mappings. ",
+        "type": "Char -> Char"
+      },
+      {
+        "name": "toLocaleUpper",
+        "comment": " Convert to upper case, according to any locale-specific case mappings. ",
+        "type": "Char -> Char"
+      },
+      {
+        "name": "toLower",
+        "comment": " Convert to lower case. ",
+        "type": "Char -> Char"
+      },
+      {
+        "name": "toUpper",
+        "comment": " Convert to upper case. ",
+        "type": "Char -> Char"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Bitwise",
+    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "and",
+        "comment": " Bitwise AND\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "complement",
+        "comment": " Flip each bit individually, often called bitwise NOT\n",
+        "type": "Int -> Int"
+      },
+      {
+        "name": "or",
+        "comment": " Bitwise OR\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftLeft",
+        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRight",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRightLogical",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "xor",
+        "comment": " Bitwise XOR\n",
+        "type": "Int -> Int -> Int"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Maybe",
     "comment": " This library fills a bunch of important niches in Elm. A `Maybe` can help\nyou with optional arguments, error handling, and records with optional fields.\n\n# Definition\n@docs Maybe\n\n# Common Helpers\n@docs withDefault, oneOf, map, map2, map3, map4, map5\n\n# Chaining Maybes\n@docs andThen\n\n",
     "aliases": [],
@@ -2073,69 +2117,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Bitwise",
-    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "and",
-        "comment": " Bitwise AND\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "complement",
-        "comment": " Flip each bit individually, often called bitwise NOT\n",
-        "type": "Int -> Int"
-      },
-      {
-        "name": "or",
-        "comment": " Bitwise OR\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftLeft",
-        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftRight",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftRightLogical",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "xor",
-        "comment": " Bitwise XOR\n",
-        "type": "Int -> Int -> Int"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Debug",
-    "comment": " This library is for investigating bugs or performance problems. It should\n*not* be used in production code.\n\n# Debugging\n@docs log, crash\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "crash",
-        "comment": " Crash the program with an error message. This is an uncatchable error,\nintended for code that is soon-to-be-implemented. For example, if you are\nworking with a large ADT and have partially completed a case expression, it may\nmake sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.crash \"TODO\"\n\nThe Elm compiler recognizes each `Debug.crash` and when you run into it at\nruntime, the error will point to the corresponding module name and line number.\nFor `case` expressions that ends with a wildcard pattern and a crash, it will\nalso show the value that snuck through. In our example, that'd be `Captain` or\n`Seagull`.\n\n**Use this if** you want to do some testing while you are partway through\nwriting a function.\n\n**Do not use this if** you want to do some typical try-catch exception handling.\nUse the [`Maybe`](Maybe) or [`Result`](Result) libraries instead.\n",
-        "type": "String -> a"
-      },
-      {
-        "name": "log",
-        "comment": " Log a tagged value on the developer console, and then return the value.\n\n    1 + log \"number\" 1        -- equals 2, logs \"number: 1\"\n    length (log \"start\" [])   -- equals 0, logs \"start: []\"\n\nNotice that `log` is not a pure function! It should *only* be used for\ninvestigating bugs or performance problems.\n",
-        "type": "String -> a -> a"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Platform.Sub",
     "comment": "\n\n@docs Sub, map, batch, none\n",
     "aliases": [],
@@ -2164,6 +2145,63 @@
         "name": "none",
         "comment": "",
         "type": "Platform.Sub.Sub msg"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Debug",
+    "comment": " This library is for investigating bugs or performance problems. It should\n*not* be used in production code.\n\n# Debugging\n@docs log, crash\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "crash",
+        "comment": " Crash the program with an error message. This is an uncatchable error,\nintended for code that is soon-to-be-implemented. For example, if you are\nworking with a large ADT and have partially completed a case expression, it may\nmake sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.crash \"TODO\"\n\nThe Elm compiler recognizes each `Debug.crash` and when you run into it at\nruntime, the error will point to the corresponding module name and line number.\nFor `case` expressions that ends with a wildcard pattern and a crash, it will\nalso show the value that snuck through. In our example, that'd be `Captain` or\n`Seagull`.\n\n**Use this if** you want to do some testing while you are partway through\nwriting a function.\n\n**Do not use this if** you want to do some typical try-catch exception handling.\nUse the [`Maybe`](Maybe) or [`Result`](Result) libraries instead.\n",
+        "type": "String -> a"
+      },
+      {
+        "name": "log",
+        "comment": " Log a tagged value on the developer console, and then return the value.\n\n    1 + log \"number\" 1        -- equals 2, logs \"number: 1\"\n    length (log \"start\" [])   -- equals 0, logs \"start: []\"\n\nNotice that `log` is not a pure function! It should *only* be used for\ninvestigating bugs or performance problems.\n",
+        "type": "String -> a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Platform.Cmd",
+    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Cmd",
+        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "!",
+        "comment": "",
+        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "map",
+        "comment": "",
+        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "none",
+        "comment": "",
+        "type": "Platform.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -2541,44 +2579,6 @@
         "type": "Bool -> Bool -> Bool",
         "associativity": "right",
         "precedence": 2
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Platform.Cmd",
-    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Cmd",
-        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "!",
-        "comment": "",
-        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.17.1"

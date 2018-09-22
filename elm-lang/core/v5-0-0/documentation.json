@@ -1,5 +1,36 @@
 [
   {
+    "name": "Process",
+    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
+    "aliases": [
+      {
+        "name": "Id",
+        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
+        "args": [],
+        "type": "Platform.ProcessId"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "kill",
+        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
+        "type": "Process.Id -> Task.Task x ()"
+      },
+      {
+        "name": "sleep",
+        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
+        "type": "Time.Time -> Task.Task x ()"
+      },
+      {
+        "name": "spawn",
+        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1\n      |> Task.andThen (\\_ -> spawn task2)\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
+        "type": "Task.Task x a -> Task.Task y Process.Id"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Random",
     "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nIt may be helpful to [read about JSON decoders][json] because they work very\nsimilarly.\n\n[json]: https://evancz.gitbooks.io/an-introduction-to-elm/content/interop/json.html\n\n> *Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Generate Values\n@docs generate\n\n# Generate Values Manually\n@docs step, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
     "aliases": [],
@@ -99,37 +130,6 @@
         "name": "step",
         "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `step` we need to provide a\nseed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `step` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed1 ==> (31, seed2)\n    -- step (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n",
         "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Process",
-    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
-    "aliases": [
-      {
-        "name": "Id",
-        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
-        "args": [],
-        "type": "Platform.ProcessId"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "kill",
-        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
-        "type": "Process.Id -> Task.Task x ()"
-      },
-      {
-        "name": "sleep",
-        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
-        "type": "Time.Time -> Task.Task x ()"
-      },
-      {
-        "name": "spawn",
-        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1\n      |> Task.andThen (\\_ -> spawn task2)\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
-        "type": "Task.Task x a -> Task.Task y Process.Id"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1966,6 +1966,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Debug",
+    "comment": " This library is for investigating bugs or performance problems. It should\n*not* be used in production code.\n\n# Debugging\n@docs log, crash\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "crash",
+        "comment": " Crash the program with an error message. This is an uncatchable error,\nintended for code that is soon-to-be-implemented. For example, if you are\nworking with a large ADT and have partially completed a case expression, it may\nmake sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.crash \"TODO\"\n\nThe Elm compiler recognizes each `Debug.crash` and when you run into it at\nruntime, the error will point to the corresponding module name and line number.\nFor `case` expressions that ends with a wildcard pattern and a crash, it will\nalso show the value that snuck through. In our example, that'd be `Captain` or\n`Seagull`.\n\n**Use this if** you want to do some testing while you are partway through\nwriting a function.\n\n**Do not use this if** you want to do some typical try-catch exception handling.\nUse the [`Maybe`](Maybe) or [`Result`](Result) libraries instead.\n",
+        "type": "String -> a"
+      },
+      {
+        "name": "log",
+        "comment": " Log a tagged value on the developer console, and then return the value.\n\n    1 + log \"number\" 1        -- equals 2, logs \"number: 1\"\n    length (log \"start\" [])   -- equals 0, logs \"start: []\"\n\nNotice that `log` is not a pure function! It should *only* be used for\ninvestigating bugs or performance problems.\n",
+        "type": "String -> a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Maybe",
     "comment": " This library fills a bunch of important niches in Elm. A `Maybe` can help\nyou with optional arguments, error handling, and records with optional fields.\n\n# Definition\n@docs Maybe\n\n# Common Helpers\n@docs withDefault, map, map2, map3, map4, map5\n\n# Chaining Maybes\n@docs andThen\n",
     "aliases": [],
@@ -2030,49 +2049,39 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Tuple",
-    "comment": " Some helpers for working with 2-tuples.\n\n**Note:** For larger chunks of data, it is best to switch to using records. So\ninstead of representing a 3D point as `(3,4,5)` and wondering why there are no\nhelper functions, represent it as `{ x = 3, y = 4, z = 5 }` and use all the\nbuilt-in syntax for records.\n\n@docs first, second, mapFirst, mapSecond\n\n",
+    "name": "Platform.Cmd",
+    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
     "aliases": [],
-    "types": [],
-    "values": [
+    "types": [
       {
-        "name": "first",
-        "comment": " Extract the first value from a tuple.\n\n    first (3, 4) == 3\n    first (\"john\", \"doe\") == \"john\"\n",
-        "type": "( a1, a2 ) -> a1"
-      },
-      {
-        "name": "mapFirst",
-        "comment": " Transform the first value in a tuple.\n\n    import String\n\n    mapFirst String.reverse (\"stressed\", 16) == (\"desserts\", 16)\n    mapFirst String.length  (\"stressed\", 16) == (8, 16)\n",
-        "type": "(a -> b) -> ( a, a2 ) -> ( b, a2 )"
-      },
-      {
-        "name": "mapSecond",
-        "comment": " Transform the second value in a tuple.\n\n    import String\n\n    mapSecond sqrt          (\"stressed\", 16) == (\"stressed\", 4)\n    mapSecond (\\x -> x + 1) (\"stressed\", 16) == (\"stressed\", 17)\n",
-        "type": "(a -> b) -> ( a1, a ) -> ( a1, b )"
-      },
-      {
-        "name": "second",
-        "comment": " Extract the second value from a tuple.\n\n    second (3, 4) == 4\n    second (\"john\", \"doe\") == \"doe\"\n",
-        "type": "( a1, a2 ) -> a2"
+        "name": "Cmd",
+        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Debug",
-    "comment": " This library is for investigating bugs or performance problems. It should\n*not* be used in production code.\n\n# Debugging\n@docs log, crash\n",
-    "aliases": [],
-    "types": [],
     "values": [
       {
-        "name": "crash",
-        "comment": " Crash the program with an error message. This is an uncatchable error,\nintended for code that is soon-to-be-implemented. For example, if you are\nworking with a large ADT and have partially completed a case expression, it may\nmake sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.crash \"TODO\"\n\nThe Elm compiler recognizes each `Debug.crash` and when you run into it at\nruntime, the error will point to the corresponding module name and line number.\nFor `case` expressions that ends with a wildcard pattern and a crash, it will\nalso show the value that snuck through. In our example, that'd be `Captain` or\n`Seagull`.\n\n**Use this if** you want to do some testing while you are partway through\nwriting a function.\n\n**Do not use this if** you want to do some typical try-catch exception handling.\nUse the [`Maybe`](Maybe) or [`Result`](Result) libraries instead.\n",
-        "type": "String -> a"
+        "name": "!",
+        "comment": "",
+        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
       },
       {
-        "name": "log",
-        "comment": " Log a tagged value on the developer console, and then return the value.\n\n    1 + log \"number\" 1        -- equals 2, logs \"number: 1\"\n    length (log \"start\" [])   -- equals 0, logs \"start: []\"\n\nNotice that `log` is not a pure function! It should *only* be used for\ninvestigating bugs or performance problems.\n",
-        "type": "String -> a -> a"
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "map",
+        "comment": "",
+        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "none",
+        "comment": "",
+        "type": "Platform.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2122,39 +2131,30 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Platform.Cmd",
-    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
+    "name": "Tuple",
+    "comment": " Some helpers for working with 2-tuples.\n\n**Note:** For larger chunks of data, it is best to switch to using records. So\ninstead of representing a 3D point as `(3,4,5)` and wondering why there are no\nhelper functions, represent it as `{ x = 3, y = 4, z = 5 }` and use all the\nbuilt-in syntax for records.\n\n@docs first, second, mapFirst, mapSecond\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "Cmd",
-        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "!",
-        "comment": "",
-        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
+        "name": "first",
+        "comment": " Extract the first value from a tuple.\n\n    first (3, 4) == 3\n    first (\"john\", \"doe\") == \"john\"\n",
+        "type": "( a1, a2 ) -> a1"
       },
       {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
+        "name": "mapFirst",
+        "comment": " Transform the first value in a tuple.\n\n    import String\n\n    mapFirst String.reverse (\"stressed\", 16) == (\"desserts\", 16)\n    mapFirst String.length  (\"stressed\", 16) == (8, 16)\n",
+        "type": "(a -> b) -> ( a, a2 ) -> ( b, a2 )"
       },
       {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+        "name": "mapSecond",
+        "comment": " Transform the second value in a tuple.\n\n    import String\n\n    mapSecond sqrt          (\"stressed\", 16) == (\"stressed\", 4)\n    mapSecond (\\x -> x + 1) (\"stressed\", 16) == (\"stressed\", 17)\n",
+        "type": "(a -> b) -> ( a1, a ) -> ( a1, b )"
       },
       {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Cmd.Cmd msg"
+        "name": "second",
+        "comment": " Extract the second value from a tuple.\n\n    second (3, 4) == 4\n    second (\"john\", \"doe\") == \"doe\"\n",
+        "type": "( a1, a2 ) -> a2"
       }
     ],
     "generated-with-elm-version": "0.18.0"

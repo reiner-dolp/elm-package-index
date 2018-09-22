@@ -1,36 +1,5 @@
 [
   {
-    "name": "Process",
-    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
-    "aliases": [
-      {
-        "name": "Id",
-        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
-        "args": [],
-        "type": "Platform.ProcessId"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "kill",
-        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
-        "type": "Process.Id -> Task.Task x ()"
-      },
-      {
-        "name": "sleep",
-        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
-        "type": "Time.Time -> Task.Task x ()"
-      },
-      {
-        "name": "spawn",
-        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1 `Task.andThen` \\_ -> spawn task2\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
-        "type": "Task.Task x a -> Task.Task y Process.Id"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Random",
     "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nIt may be helpful to [read about JSON decoders][json] because they work very\nsimilarly.\n\n[json]: https://evancz.gitbooks.io/an-introduction-to-elm/content/interop/json.html\n\n> *Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Generate Values\n@docs generate\n\n# Generate Values Manually\n@docs step, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
     "aliases": [],
@@ -130,6 +99,37 @@
         "name": "step",
         "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `step` we need to provide a\nseed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `step` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed1 ==> (31, seed2)\n    -- step (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n",
         "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Process",
+    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
+    "aliases": [
+      {
+        "name": "Id",
+        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
+        "args": [],
+        "type": "Platform.ProcessId"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "kill",
+        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
+        "type": "Process.Id -> Task.Task x ()"
+      },
+      {
+        "name": "sleep",
+        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
+        "type": "Time.Time -> Task.Task x ()"
+      },
+      {
+        "name": "spawn",
+        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1 `Task.andThen` \\_ -> spawn task2\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
+        "type": "Task.Task x a -> Task.Task y Process.Id"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -296,175 +296,6 @@
         "name": "year",
         "comment": " Extract the year of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `1990`.\n",
         "type": "Date.Date -> Int"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Set",
-    "comment": " A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Sets\n@docs Set\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs isEmpty, member, size\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Set",
-        "comment": " Represents a set of unique values. So `(Set Int)` is a set of integers and\n`(Set String)` is a set of strings.\n",
-        "args": [
-          "t"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "diff",
-        "comment": " Get the difference between the first set and the second. Keeps values\nthat do not appear in the second set.\n",
-        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "empty",
-        "comment": " Create an empty set.\n",
-        "type": "Set.Set a"
-      },
-      {
-        "name": "filter",
-        "comment": " Create a new set consisting only of elements which satisfy a predicate.\n",
-        "type": "(comparable -> Bool) -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "foldl",
-        "comment": " Fold over the values in a set, in order from lowest to highest.\n",
-        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
-      },
-      {
-        "name": "foldr",
-        "comment": " Fold over the values in a set, in order from highest to lowest.\n",
-        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
-      },
-      {
-        "name": "fromList",
-        "comment": " Convert a list into a set, removing any duplicates.\n",
-        "type": "List comparable -> Set.Set comparable"
-      },
-      {
-        "name": "insert",
-        "comment": " Insert a value into a set.\n",
-        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "intersect",
-        "comment": " Get the intersection of two sets. Keeps values that appear in both sets.\n",
-        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "isEmpty",
-        "comment": " Determine if a set is empty.\n",
-        "type": "Set.Set a -> Bool"
-      },
-      {
-        "name": "map",
-        "comment": " Map a function onto a set, creating a new set with no duplicates.\n",
-        "type": "(comparable -> comparable') -> Set.Set comparable -> Set.Set comparable'"
-      },
-      {
-        "name": "member",
-        "comment": " Determine if a value is in a set.\n",
-        "type": "comparable -> Set.Set comparable -> Bool"
-      },
-      {
-        "name": "partition",
-        "comment": " Create two new sets; the first consisting of elements which satisfy a\npredicate, the second consisting of elements which do not.\n",
-        "type": "(comparable -> Bool) -> Set.Set comparable -> ( Set.Set comparable, Set.Set comparable )"
-      },
-      {
-        "name": "remove",
-        "comment": " Remove a value from a set. If the value is not found, no changes are made.\n",
-        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
-      },
-      {
-        "name": "singleton",
-        "comment": " Create a set with one value.\n",
-        "type": "comparable -> Set.Set comparable"
-      },
-      {
-        "name": "size",
-        "comment": " Determine the number of elements in a set.\n",
-        "type": "Set.Set a -> Int"
-      },
-      {
-        "name": "toList",
-        "comment": " Convert a set into a list, sorted from lowest to highest.\n",
-        "type": "Set.Set comparable -> List comparable"
-      },
-      {
-        "name": "union",
-        "comment": " Get the union of two sets. Keep all values.\n",
-        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Time",
-    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
-    "aliases": [
-      {
-        "name": "Time",
-        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "every",
-        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
-        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "hour",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "inHours",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMilliseconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMinutes",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inSeconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "millisecond",
-        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
-        "type": "Time.Time"
-      },
-      {
-        "name": "minute",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "now",
-        "comment": " Get the `Time` at the moment when this task is run.\n",
-        "type": "Task.Task x Time.Time"
-      },
-      {
-        "name": "second",
-        "comment": "",
-        "type": "Time.Time"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -680,6 +511,175 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
+    "name": "Set",
+    "comment": " A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Sets\n@docs Set\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs isEmpty, member, size\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Set",
+        "comment": " Represents a set of unique values. So `(Set Int)` is a set of integers and\n`(Set String)` is a set of strings.\n",
+        "args": [
+          "t"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "diff",
+        "comment": " Get the difference between the first set and the second. Keeps values\nthat do not appear in the second set.\n",
+        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "empty",
+        "comment": " Create an empty set.\n",
+        "type": "Set.Set a"
+      },
+      {
+        "name": "filter",
+        "comment": " Create a new set consisting only of elements which satisfy a predicate.\n",
+        "type": "(comparable -> Bool) -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "foldl",
+        "comment": " Fold over the values in a set, in order from lowest to highest.\n",
+        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
+      },
+      {
+        "name": "foldr",
+        "comment": " Fold over the values in a set, in order from highest to lowest.\n",
+        "type": "(comparable -> b -> b) -> b -> Set.Set comparable -> b"
+      },
+      {
+        "name": "fromList",
+        "comment": " Convert a list into a set, removing any duplicates.\n",
+        "type": "List comparable -> Set.Set comparable"
+      },
+      {
+        "name": "insert",
+        "comment": " Insert a value into a set.\n",
+        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "intersect",
+        "comment": " Get the intersection of two sets. Keeps values that appear in both sets.\n",
+        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "isEmpty",
+        "comment": " Determine if a set is empty.\n",
+        "type": "Set.Set a -> Bool"
+      },
+      {
+        "name": "map",
+        "comment": " Map a function onto a set, creating a new set with no duplicates.\n",
+        "type": "(comparable -> comparable') -> Set.Set comparable -> Set.Set comparable'"
+      },
+      {
+        "name": "member",
+        "comment": " Determine if a value is in a set.\n",
+        "type": "comparable -> Set.Set comparable -> Bool"
+      },
+      {
+        "name": "partition",
+        "comment": " Create two new sets; the first consisting of elements which satisfy a\npredicate, the second consisting of elements which do not.\n",
+        "type": "(comparable -> Bool) -> Set.Set comparable -> ( Set.Set comparable, Set.Set comparable )"
+      },
+      {
+        "name": "remove",
+        "comment": " Remove a value from a set. If the value is not found, no changes are made.\n",
+        "type": "comparable -> Set.Set comparable -> Set.Set comparable"
+      },
+      {
+        "name": "singleton",
+        "comment": " Create a set with one value.\n",
+        "type": "comparable -> Set.Set comparable"
+      },
+      {
+        "name": "size",
+        "comment": " Determine the number of elements in a set.\n",
+        "type": "Set.Set a -> Int"
+      },
+      {
+        "name": "toList",
+        "comment": " Convert a set into a list, sorted from lowest to highest.\n",
+        "type": "Set.Set comparable -> List comparable"
+      },
+      {
+        "name": "union",
+        "comment": " Get the union of two sets. Keep all values.\n",
+        "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Time",
+    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
+    "aliases": [
+      {
+        "name": "Time",
+        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
+        "args": [],
+        "type": "Float"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "every",
+        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
+        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "hour",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "inHours",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMilliseconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMinutes",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inSeconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "millisecond",
+        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
+        "type": "Time.Time"
+      },
+      {
+        "name": "minute",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "now",
+        "comment": " Get the `Time` at the moment when this task is run.\n",
+        "type": "Task.Task x Time.Time"
+      },
+      {
+        "name": "second",
+        "comment": "",
+        "type": "Time.Time"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Dict",
     "comment": " A dictionary mapping unique keys to values. The keys can be any comparable\ntype. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or\nlists of comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Dictionaries\n@docs Dict\n\n# Build\n@docs empty, singleton, insert, update, remove\n\n# Query\n@docs isEmpty, member, get, size\n\n# Lists\n@docs keys, values, toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n# Combine\n@docs union, intersect, diff, merge\n\n",
     "aliases": [],
@@ -865,110 +865,6 @@
         "name": "string",
         "comment": "",
         "type": "String -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Task",
-    "comment": " Tasks make it easy to describe asynchronous operations that may fail, like\nHTTP requests or writing to a database. For more information, see the [Elm\ndocumentation on Tasks](http://guide.elm-lang.org/error_handling/task.html).\n\n# Basics\n@docs Task, succeed, fail\n\n# Mapping\n@docs map, map2, map3, map4, map5, andMap\n\n# Chaining\n@docs andThen, sequence\n\n# Errors\n@docs onError, mapError, toMaybe, fromMaybe, toResult, fromResult\n\n# Commands\n@docs perform\n\n",
-    "aliases": [
-      {
-        "name": "Task",
-        "comment": " Represents asynchronous effects that may fail. It is useful for stuff like\nHTTP.\n\nFor example, maybe we have a task with the type (`Task String User`). This means\nthat when we perform the task, it will either fail with a `String` message or\nsucceed with a `User`. So this could represent a task that is asking a server\nfor a certain user.\n",
-        "args": [
-          "err",
-          "ok"
-        ],
-        "type": "Platform.Task err ok"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "andMap",
-        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\nThis function makes it possible to chain tons of tasks together and pipe them\nall into a single function.\n\n    (f `map` task1 `andMap` task2 `andMap` task3) -- map3 f task1 task2 task3\n",
-        "type": "Task.Task x (a -> b) -> Task.Task x a -> Task.Task x b"
-      },
-      {
-        "name": "andThen",
-        "comment": " Chain together a task and a callback. The first task will run, and if it is\nsuccessful, you give the result to the callback resulting in another task. This\ntask then gets run.\n\n    succeed 2 `andThen` (\\n -> succeed (n + 2)) -- succeed 4\n\nThis is useful for chaining tasks together. Maybe you need to get a user from\nyour servers *and then* lookup their picture once you know their name.\n",
-        "type": "Task.Task x a -> (a -> Task.Task x b) -> Task.Task x b"
-      },
-      {
-        "name": "fail",
-        "comment": " A task that fails immediately when run.\n\n    fail \"file not found\" : Task String a\n",
-        "type": "x -> Task.Task x a"
-      },
-      {
-        "name": "fromMaybe",
-        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na maybe value like a task.\n\n    fromMaybe \"file not found\" Nothing   -- fail \"file not found\"\n    fromMaybe \"file not found\" (Just 42) -- succeed 42\n",
-        "type": "x -> Maybe.Maybe a -> Task.Task x a"
-      },
-      {
-        "name": "fromResult",
-        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na result like a task.\n\n    fromResult (Err \"file not found\") -- fail \"file not found\"\n    fromResult (Ok 42)                -- succeed 42\n",
-        "type": "Result.Result x a -> Task.Task x a"
-      },
-      {
-        "name": "map",
-        "comment": " Transform a task.\n\n    map sqrt (succeed 9) -- succeed 3\n",
-        "type": "(a -> b) -> Task.Task x a -> Task.Task x b"
-      },
-      {
-        "name": "map2",
-        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\n    map2 (+) (succeed 9) (succeed 3) -- succeed 12\n",
-        "type": "(a -> b -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x result"
-      },
-      {
-        "name": "map3",
-        "comment": "",
-        "type": "(a -> b -> c -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x result"
-      },
-      {
-        "name": "map4",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x result"
-      },
-      {
-        "name": "map5",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> e -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x e -> Task.Task x result"
-      },
-      {
-        "name": "mapError",
-        "comment": " Transform the error value. This can be useful if you need a bunch of error\ntypes to match up.\n\n    type Error = Http Http.Error | WebGL WebGL.Error\n\n    getResources : Task Error Resource\n    getResources =\n      sequence [ mapError Http serverTask, mapError WebGL textureTask ]\n",
-        "type": "(x -> y) -> Task.Task x a -> Task.Task y a"
-      },
-      {
-        "name": "onError",
-        "comment": " Recover from a failure in a task. If the given task fails, we use the\ncallback to recover.\n\n    fail \"file not found\" `onError` (\\msg -> succeed 42) -- succeed 42\n    succeed 9 `onError` (\\msg -> succeed 42)             -- succeed 9\n",
-        "type": "Task.Task x a -> (x -> Task.Task y a) -> Task.Task y a"
-      },
-      {
-        "name": "perform",
-        "comment": " Command the runtime system to perform a task. The most important argument\nis the `Task` which describes what you want to happen. But you also need to\nprovide functions to tag the two possible outcomes of the task. It can fail or\nsucceed, but either way, you need to have a message to feed back into your\napplication.\n",
-        "type": "(x -> msg) -> (a -> msg) -> Task.Task x a -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "sequence",
-        "comment": " Start with a list of tasks, and turn them into a single task that returns a\nlist. The tasks will be run in order one-by-one and if any task fails the whole\nsequence fails.\n\n    sequence [ succeed 1, succeed 2 ] -- succeed [ 1, 2 ]\n\nThis can be useful if you need to make a bunch of HTTP requests one-by-one.\n",
-        "type": "List (Task.Task x a) -> Task.Task x (List a)"
-      },
-      {
-        "name": "succeed",
-        "comment": " A task that succeeds immediately when run.\n\n    succeed 42    -- results in 42\n",
-        "type": "a -> Task.Task x a"
-      },
-      {
-        "name": "toMaybe",
-        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Nothing` and any success into `Just` something.\n\n    toMaybe (fail \"file not found\") -- succeed Nothing\n    toMaybe (succeed 42)            -- succeed (Just 42)\n\nThis means you can handle the error with the `Maybe` module instead.\n",
-        "type": "Task.Task x a -> Task.Task never (Maybe.Maybe a)"
-      },
-      {
-        "name": "toResult",
-        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Err` something and any success into `Ok` something.\n\n    toResult (fail \"file not found\") -- succeed (Err \"file not found\")\n    toResult (succeed 42)            -- succeed (Ok 42)\n\nThis means you can handle the error with the `Result` module instead.\n",
-        "type": "Task.Task x a -> Task.Task never (Result.Result x a)"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1183,6 +1079,110 @@
         "name": "words",
         "comment": " Break a string into words, splitting on chunks of whitespace.\n\n    words \"How are \\t you? \\n Good?\" == [\"How\",\"are\",\"you?\",\"Good?\"]\n",
         "type": "String -> List String"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Task",
+    "comment": " Tasks make it easy to describe asynchronous operations that may fail, like\nHTTP requests or writing to a database. For more information, see the [Elm\ndocumentation on Tasks](http://guide.elm-lang.org/error_handling/task.html).\n\n# Basics\n@docs Task, succeed, fail\n\n# Mapping\n@docs map, map2, map3, map4, map5, andMap\n\n# Chaining\n@docs andThen, sequence\n\n# Errors\n@docs onError, mapError, toMaybe, fromMaybe, toResult, fromResult\n\n# Commands\n@docs perform\n\n",
+    "aliases": [
+      {
+        "name": "Task",
+        "comment": " Represents asynchronous effects that may fail. It is useful for stuff like\nHTTP.\n\nFor example, maybe we have a task with the type (`Task String User`). This means\nthat when we perform the task, it will either fail with a `String` message or\nsucceed with a `User`. So this could represent a task that is asking a server\nfor a certain user.\n",
+        "args": [
+          "err",
+          "ok"
+        ],
+        "type": "Platform.Task err ok"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "andMap",
+        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\nThis function makes it possible to chain tons of tasks together and pipe them\nall into a single function.\n\n    (f `map` task1 `andMap` task2 `andMap` task3) -- map3 f task1 task2 task3\n",
+        "type": "Task.Task x (a -> b) -> Task.Task x a -> Task.Task x b"
+      },
+      {
+        "name": "andThen",
+        "comment": " Chain together a task and a callback. The first task will run, and if it is\nsuccessful, you give the result to the callback resulting in another task. This\ntask then gets run.\n\n    succeed 2 `andThen` (\\n -> succeed (n + 2)) -- succeed 4\n\nThis is useful for chaining tasks together. Maybe you need to get a user from\nyour servers *and then* lookup their picture once you know their name.\n",
+        "type": "Task.Task x a -> (a -> Task.Task x b) -> Task.Task x b"
+      },
+      {
+        "name": "fail",
+        "comment": " A task that fails immediately when run.\n\n    fail \"file not found\" : Task String a\n",
+        "type": "x -> Task.Task x a"
+      },
+      {
+        "name": "fromMaybe",
+        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na maybe value like a task.\n\n    fromMaybe \"file not found\" Nothing   -- fail \"file not found\"\n    fromMaybe \"file not found\" (Just 42) -- succeed 42\n",
+        "type": "x -> Maybe.Maybe a -> Task.Task x a"
+      },
+      {
+        "name": "fromResult",
+        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na result like a task.\n\n    fromResult (Err \"file not found\") -- fail \"file not found\"\n    fromResult (Ok 42)                -- succeed 42\n",
+        "type": "Result.Result x a -> Task.Task x a"
+      },
+      {
+        "name": "map",
+        "comment": " Transform a task.\n\n    map sqrt (succeed 9) -- succeed 3\n",
+        "type": "(a -> b) -> Task.Task x a -> Task.Task x b"
+      },
+      {
+        "name": "map2",
+        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\n    map2 (+) (succeed 9) (succeed 3) -- succeed 12\n",
+        "type": "(a -> b -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x result"
+      },
+      {
+        "name": "map3",
+        "comment": "",
+        "type": "(a -> b -> c -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x result"
+      },
+      {
+        "name": "map4",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x result"
+      },
+      {
+        "name": "map5",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> e -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x e -> Task.Task x result"
+      },
+      {
+        "name": "mapError",
+        "comment": " Transform the error value. This can be useful if you need a bunch of error\ntypes to match up.\n\n    type Error = Http Http.Error | WebGL WebGL.Error\n\n    getResources : Task Error Resource\n    getResources =\n      sequence [ mapError Http serverTask, mapError WebGL textureTask ]\n",
+        "type": "(x -> y) -> Task.Task x a -> Task.Task y a"
+      },
+      {
+        "name": "onError",
+        "comment": " Recover from a failure in a task. If the given task fails, we use the\ncallback to recover.\n\n    fail \"file not found\" `onError` (\\msg -> succeed 42) -- succeed 42\n    succeed 9 `onError` (\\msg -> succeed 42)             -- succeed 9\n",
+        "type": "Task.Task x a -> (x -> Task.Task y a) -> Task.Task y a"
+      },
+      {
+        "name": "perform",
+        "comment": " Command the runtime system to perform a task. The most important argument\nis the `Task` which describes what you want to happen. But you also need to\nprovide functions to tag the two possible outcomes of the task. It can fail or\nsucceed, but either way, you need to have a message to feed back into your\napplication.\n",
+        "type": "(x -> msg) -> (a -> msg) -> Task.Task x a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "sequence",
+        "comment": " Start with a list of tasks, and turn them into a single task that returns a\nlist. The tasks will be run in order one-by-one and if any task fails the whole\nsequence fails.\n\n    sequence [ succeed 1, succeed 2 ] -- succeed [ 1, 2 ]\n\nThis can be useful if you need to make a bunch of HTTP requests one-by-one.\n",
+        "type": "List (Task.Task x a) -> Task.Task x (List a)"
+      },
+      {
+        "name": "succeed",
+        "comment": " A task that succeeds immediately when run.\n\n    succeed 42    -- results in 42\n",
+        "type": "a -> Task.Task x a"
+      },
+      {
+        "name": "toMaybe",
+        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Nothing` and any success into `Just` something.\n\n    toMaybe (fail \"file not found\") -- succeed Nothing\n    toMaybe (succeed 42)            -- succeed (Just 42)\n\nThis means you can handle the error with the `Maybe` module instead.\n",
+        "type": "Task.Task x a -> Task.Task never (Maybe.Maybe a)"
+      },
+      {
+        "name": "toResult",
+        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Err` something and any success into `Ok` something.\n\n    toResult (fail \"file not found\") -- succeed (Err \"file not found\")\n    toResult (succeed 42)            -- succeed (Ok 42)\n\nThis means you can handle the error with the `Result` module instead.\n",
+        "type": "Task.Task x a -> Task.Task never (Result.Result x a)"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1644,58 +1644,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform",
-    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "ProcessId",
-        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Program",
-        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
-        "args": [
-          "flags"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Router",
-        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
-        "args": [
-          "appMsg",
-          "selfMsg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Task",
-        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [
-          "err",
-          "ok"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "sendToApp",
-        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
-        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
-      },
-      {
-        "name": "sendToSelf",
-        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
-        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Color",
     "comment": " Library for working with colors. Includes\n[RGB](https://en.wikipedia.org/wiki/RGB_color_model) and\n[HSL](http://en.wikipedia.org/wiki/HSL_and_HSV) creation, gradients, and\nbuilt-in names.\n\n# Colors\n@docs Color\n\n# Creation\n@docs rgb, rgba, hsl, hsla, greyscale, grayscale, complement\n\n# Gradients\n@docs Gradient, linear, radial\n\n# Extracting Colors\n@docs toRgb, toHsl\n\n# Built-in Colors\nThese colors come from the [Tango\npalette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines)\nwhich provides aesthetically reasonable defaults for colors. Each color also\ncomes with a light and dark version.\n\n### Standard\n@docs red, orange, yellow, green, blue, purple, brown\n\n### Light\n@docs lightRed, lightOrange, lightYellow, lightGreen, lightBlue, lightPurple, lightBrown\n\n### Dark\n@docs darkRed, darkOrange, darkYellow, darkGreen, darkBlue, darkPurple, darkBrown\n\n### Eight Shades of Grey\nThese colors are a compatible series of shades of grey, fitting nicely\nwith the Tango palette.\n@docs white, lightGrey, grey, darkGrey, lightCharcoal, charcoal, darkCharcoal, black\n\nThese are identical to the *grey* versions. It seems the spelling is regional, but\nthat has never helped me remember which one I should be writing.\n@docs lightGray, gray, darkGray\n\n",
     "aliases": [],
@@ -1933,6 +1881,58 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
+    "name": "Platform",
+    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "ProcessId",
+        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Program",
+        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
+        "args": [
+          "flags"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Router",
+        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
+        "args": [
+          "appMsg",
+          "selfMsg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Task",
+        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [
+          "err",
+          "ok"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "sendToApp",
+        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
+        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
+      },
+      {
+        "name": "sendToSelf",
+        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
+        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Char",
     "comment": " Functions for working with characters. Character literals are enclosed in\n`'a'` pair of single quotes.\n\n# Classification\n@docs isUpper, isLower, isDigit, isOctDigit, isHexDigit\n\n# Conversion\n@docs toUpper, toLower, toLocaleUpper, toLocaleLower\n\n# Key Codes\n@docs KeyCode, toCode, fromCode\n\n",
     "aliases": [
@@ -2073,44 +2073,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform.Cmd",
-    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Cmd",
-        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "!",
-        "comment": "",
-        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Cmd.Cmd msg"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Bitwise",
     "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
     "aliases": [],
@@ -2183,6 +2145,44 @@
         "name": "none",
         "comment": "",
         "type": "Platform.Sub.Sub msg"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Platform.Cmd",
+    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Cmd",
+        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "!",
+        "comment": "",
+        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "map",
+        "comment": "",
+        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "none",
+        "comment": "",
+        "type": "Platform.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.17.1"

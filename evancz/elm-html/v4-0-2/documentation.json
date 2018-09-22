@@ -1,29 +1,5 @@
 [
   {
-    "name": "Html.Lazy",
-    "comment": " Since all Elm functions are pure we have a guarantee that the same input\nwill always result in the same output. This module gives us tools to be lazy\nabout building `Html` that utilize this fact.\n\nRather than immediately applying functions to their arguments, the `lazy`\nfunctions just bundle the function and arguments up for later. When diffing\nthe old and new virtual DOM, it checks to see if all the arguments are equal.\nIf so, it skips calling the function!\n\nThis is a really cheap test and often makes things a lot faster, but definitely\nbenchmark to be sure!\n\n@docs lazy, lazy2, lazy3\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "lazy",
-        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
-        "type": "(a -> Html.Html) -> a -> Html.Html"
-      },
-      {
-        "name": "lazy2",
-        "comment": " Same as `lazy` but checks on two arguments.\n",
-        "type": "(a -> b -> Html.Html) -> a -> b -> Html.Html"
-      },
-      {
-        "name": "lazy3",
-        "comment": " Same as `lazy` but checks on three arguments.\n",
-        "type": "(a -> b -> c -> Html.Html) -> a -> b -> c -> Html.Html"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Html.Events",
     "comment": "\nIt is often helpful to create an [Union Type][] so you can have many different kinds\nof events as seen in the [TodoMVC][] example.\n\n[Union Type]: http://elm-lang.org/learn/Union-Types.elm\n[TodoMVC]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm\n\n# Focus Helpers\n@docs onBlur, onFocus, onSubmit\n\n# Keyboard Helpers\n@docs onKeyUp, onKeyDown, onKeyPress\n\n# Mouse Helpers\n@docs onClick, onDoubleClick, onMouseMove,\n      onMouseDown, onMouseUp,\n      onMouseEnter, onMouseLeave,\n      onMouseOver, onMouseOut\n\n# Custom Event Handlers\n@docs on, targetValue, targetChecked, keyCode,\n    onWithOptions, Options, defaultOptions\n",
     "aliases": [
@@ -140,6 +116,30 @@
         "name": "targetValue",
         "comment": " A `Json.Decoder` for grabbing `event.target.value` from the triggered\nevent. This is often useful for input event on text fields.\n\n    onInput : Signal.Address a -> (String -> a) -> Attribute\n    onInput address contentToValue =\n        on \"input\" targetValue (\\str -> Signal.message address (contentToValue str))\n",
         "type": "Json.Decode.Decoder String"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Html.Lazy",
+    "comment": " Since all Elm functions are pure we have a guarantee that the same input\nwill always result in the same output. This module gives us tools to be lazy\nabout building `Html` that utilize this fact.\n\nRather than immediately applying functions to their arguments, the `lazy`\nfunctions just bundle the function and arguments up for later. When diffing\nthe old and new virtual DOM, it checks to see if all the arguments are equal.\nIf so, it skips calling the function!\n\nThis is a really cheap test and often makes things a lot faster, but definitely\nbenchmark to be sure!\n\n@docs lazy, lazy2, lazy3\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
+        "type": "(a -> Html.Html) -> a -> Html.Html"
+      },
+      {
+        "name": "lazy2",
+        "comment": " Same as `lazy` but checks on two arguments.\n",
+        "type": "(a -> b -> Html.Html) -> a -> b -> Html.Html"
+      },
+      {
+        "name": "lazy3",
+        "comment": " Same as `lazy` but checks on three arguments.\n",
+        "type": "(a -> b -> c -> Html.Html) -> a -> b -> c -> Html.Html"
       }
     ],
     "generated-with-elm-version": "0.16.0"

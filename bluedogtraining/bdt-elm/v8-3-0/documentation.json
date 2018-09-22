@@ -392,133 +392,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.Select",
-    "comment": " This module is useful if you want to add a Select Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a Select.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySelect Select.Msg\n",
-        "args": [
-          "option"
-        ],
-        "type": "Form.Select.Internal.Msg option"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a Select.Model to your model.\n\n    type Title\n        = Mr\n        | Ms\n        | Dr\n\n    type alias MyModel =\n        { mySelect : Select.Model Title\n        }\n",
-        "args": [
-          "option"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the select in your update function, to set focus etc.\n",
-        "type": "Form.Select.View option -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialOption",
-        "comment": " Get the initial option of your select.\n",
-        "type": "Form.Select.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.Select.Model option -> Bool"
-      },
-      {
-        "name": "getIsOpen",
-        "comment": " Whether this select is currently open.\n",
-        "type": "Form.Select.Model option -> Bool"
-      },
-      {
-        "name": "getSelectedOption",
-        "comment": " Get the current option of your select. This is what you'd use to display the data somewhere outside of your select,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.Select.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "init",
-        "comment": " Add a Select.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { mySelect = Select.init [Mr, Ms, Dr]\n        }\n",
-        "type": "List option -> Form.Select.Model option"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your Select.Model.\n",
-        "type": "Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an Select.View into Html Select.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect\n                |> Select.render\n                |> Html.map UpdateMySelect\n            ]\n",
-        "type": "Form.Select.View option -> Html.Styled.Html (Form.Select.Internal.Msg option)"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your Select.Model.\n",
-        "type": "Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "setDefaultLabel",
-        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
-        "type": "String -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setInitialOption",
-        "comment": " Set the initial option of your Select.Model.\n",
-        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "setIsClearable",
-        "comment": " Set whether your select is clearable (x icon).\n",
-        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your select is in error mode (red border).\n",
-        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your select is locked (disabled).\n",
-        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setIsOptionDisabled",
-        "comment": " This function allows you to disable specific options.\n",
-        "type": "(option -> Bool) -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setSelectedOption",
-        "comment": " Change the option of your Select.Model.\n",
-        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "setToLabel",
-        "comment": " Set how your options are printed to the screen.\n",
-        "type": "(option -> String) -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        Select.update selectMsg mode.mySelect\n                in\n                    { model | mySelect = newSelect } ! [ cmd ]\n",
-        "type": "Form.Select.Internal.Msg option -> Form.Select.Model option -> ( Form.Select.Model option , Platform.Cmd.Cmd (Form.Select.Internal.Msg option) )"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an Select.Model into an Select.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.Select.Model option -> Form.Select.View option"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Form.Input",
     "comment": " This module is useful if you want to add an Input Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Type Setters\n@docs setTextType, setEmailType, setPasswordType, setTelType, setNumberType\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
     "aliases": [
@@ -652,114 +525,128 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.FloatInput",
-    "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue, setDecimal\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
+    "name": "Form.Select",
+    "comment": " This module is useful if you want to add a Select Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
     "aliases": [
       {
         "name": "Msg",
-        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
-        "args": [],
-        "type": "Form.FloatInput.Internal.Msg"
+        "comment": " Add a Select.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySelect Select.Msg\n",
+        "args": [
+          "option"
+        ],
+        "type": "Form.Select.Internal.Msg option"
       }
     ],
     "types": [
       {
         "name": "Model",
-        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
-        "args": [],
+        "comment": " Add a Select.Model to your model.\n\n    type Title\n        = Mr\n        | Ms\n        | Dr\n\n    type alias MyModel =\n        { mySelect : Select.Model Title\n        }\n",
+        "args": [
+          "option"
+        ],
         "cases": []
       }
     ],
     "values": [
       {
         "name": "getId",
-        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
-        "type": "Form.FloatInput.View -> Maybe.Maybe String"
+        "comment": " Useful if you need the id of the select in your update function, to set focus etc.\n",
+        "type": "Form.Select.View option -> Maybe.Maybe String"
       },
       {
-        "name": "getInitialValue",
-        "comment": " Get the initial value of your input.\n",
-        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
+        "name": "getInitialOption",
+        "comment": " Get the initial option of your select.\n",
+        "type": "Form.Select.Model option -> Maybe.Maybe option"
       },
       {
         "name": "getIsChanged",
-        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.FloatInput.Model -> Bool"
+        "comment": " Whether your select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.Select.Model option -> Bool"
       },
       {
-        "name": "getValue",
-        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
+        "name": "getIsOpen",
+        "comment": " Whether this select is currently open.\n",
+        "type": "Form.Select.Model option -> Bool"
+      },
+      {
+        "name": "getSelectedOption",
+        "comment": " Get the current option of your select. This is what you'd use to display the data somewhere outside of your select,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.Select.Model option -> Maybe.Maybe option"
       },
       {
         "name": "init",
-        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
-        "type": "Form.FloatInput.Model"
+        "comment": " Add a Select.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { mySelect = Select.init [Mr, Ms, Dr]\n        }\n",
+        "type": "List option -> Form.Select.Model option"
       },
       {
         "name": "reInitialise",
-        "comment": " ReInitialise your FloatInput.Model.\n",
-        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
+        "comment": " ReInitialise your Select.Model.\n",
+        "type": "Form.Select.Model option -> Form.Select.Model option"
       },
       {
         "name": "render",
-        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
-        "type": "Form.FloatInput.View -> Html.Styled.Html Form.FloatInput.Internal.Msg"
+        "comment": " Transforms an Select.View into Html Select.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect\n                |> Select.render\n                |> Html.map UpdateMySelect\n            ]\n",
+        "type": "Form.Select.View option -> Html.Styled.Html (Form.Select.Internal.Msg option)"
       },
       {
         "name": "reset",
-        "comment": " Reset your FloatInput.Model.\n",
-        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
+        "comment": " Reset your Select.Model.\n",
+        "type": "Form.Select.Model option -> Form.Select.Model option"
       },
       {
-        "name": "setDecimal",
-        "comment": " Change the number of decimal places of your FloatInput.Model.\n",
-        "type": "Int -> Form.FloatInput.Model -> Form.FloatInput.Model"
+        "name": "setDefaultLabel",
+        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
+        "type": "String -> Form.Select.View option -> Form.Select.View option"
       },
       {
         "name": "setId",
-        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
+        "comment": " Give your select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.Select.View option -> Form.Select.View option"
       },
       {
-        "name": "setInitialValue",
-        "comment": " Set the initial value of your FloatInput.Model.\n",
-        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
+        "name": "setInitialOption",
+        "comment": " Set the initial option of your Select.Model.\n",
+        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
+      },
+      {
+        "name": "setIsClearable",
+        "comment": " Set whether your select is clearable (x icon).\n",
+        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
       },
       {
         "name": "setIsError",
-        "comment": " Set whether your input is in error mode (red border).\n",
-        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
+        "comment": " Set whether your select is in error mode (red border).\n",
+        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
       },
       {
         "name": "setIsLocked",
-        "comment": " Set whether your input is locked (disabled).\n",
-        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
+        "comment": " Set whether your select is locked (disabled).\n",
+        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
       },
       {
-        "name": "setMaxLength",
-        "comment": " Set the max length for your input string.\n",
-        "type": "Int -> Form.FloatInput.View -> Form.FloatInput.View"
+        "name": "setIsOptionDisabled",
+        "comment": " This function allows you to disable specific options.\n",
+        "type": "(option -> Bool) -> Form.Select.View option -> Form.Select.View option"
       },
       {
-        "name": "setPlaceholder",
-        "comment": " Set a placeholder for your input.\n",
-        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
+        "name": "setSelectedOption",
+        "comment": " Change the option of your Select.Model.\n",
+        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
       },
       {
-        "name": "setValue",
-        "comment": " Change the value of your FloatInput.Model.\n",
-        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
+        "name": "setToLabel",
+        "comment": " Set how your options are printed to the screen.\n",
+        "type": "(option -> String) -> Form.Select.View option -> Form.Select.View option"
       },
       {
         "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
-        "type": "Form.FloatInput.Internal.Msg -> Form.FloatInput.Model -> Form.FloatInput.Model"
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        Select.update selectMsg mode.mySelect\n                in\n                    { model | mySelect = newSelect } ! [ cmd ]\n",
+        "type": "Form.Select.Internal.Msg option -> Form.Select.Model option -> ( Form.Select.Model option , Platform.Cmd.Cmd (Form.Select.Internal.Msg option) )"
       },
       {
         "name": "view",
-        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.FloatInput.Model -> Form.FloatInput.View"
+        "comment": " Transform an Select.Model into an Select.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.Select.Model option -> Form.Select.View option"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -868,6 +755,119 @@
         "name": "view",
         "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
         "type": "Form.IntInput.Model -> Form.IntInput.View"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.FloatInput",
+    "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue, setDecimal\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
+        "args": [],
+        "type": "Form.FloatInput.Internal.Msg"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
+        "type": "Form.FloatInput.View -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialValue",
+        "comment": " Get the initial value of your input.\n",
+        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.FloatInput.Model -> Bool"
+      },
+      {
+        "name": "getValue",
+        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
+      },
+      {
+        "name": "init",
+        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
+        "type": "Form.FloatInput.Model"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your FloatInput.Model.\n",
+        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
+        "type": "Form.FloatInput.View -> Html.Styled.Html Form.FloatInput.Internal.Msg"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your FloatInput.Model.\n",
+        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "setDecimal",
+        "comment": " Change the number of decimal places of your FloatInput.Model.\n",
+        "type": "Int -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setInitialValue",
+        "comment": " Set the initial value of your FloatInput.Model.\n",
+        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your input is in error mode (red border).\n",
+        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your input is locked (disabled).\n",
+        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setMaxLength",
+        "comment": " Set the max length for your input string.\n",
+        "type": "Int -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setPlaceholder",
+        "comment": " Set a placeholder for your input.\n",
+        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setValue",
+        "comment": " Change the value of your FloatInput.Model.\n",
+        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
+        "type": "Form.FloatInput.Internal.Msg -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.FloatInput.Model -> Form.FloatInput.View"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1262,54 +1262,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Resettable",
-    "comment": " This module is useful if you want to track changes to a value.\n\n# Definition\n@docs Resettable\n\n# Initialise and update\n@docs init, update, reset\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Resettable",
-        "comment": " Represent values that may be initial or updated. It can be useful if you have a\na save button that should be disabled if nothing on a form changed.\n\n    type alias MyProfileForm =\n        { firstName : Resettable String\n        , email : Resettable String\n        }\n\n    form =\n        { firstName = Resettable.init \"John Doe\"\n        , email = Resettable.init \"\"\n        }\n\n    shouldEnableSaveButton : Form -> Bool\n    shouldEnableSaveButton form =\n        Resettable.getIsChanged form.email || Resettable.getIsChanged form.password\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getInitialValue",
-        "comment": " Get the initial value.\n\n    getInitialValue (Initial \"Josh\")         -- \"Josh\"\n    getInitialValue (Updated \"Josh\" \"Joshua\") -- \"Josh\"\n",
-        "type": "Resettable.Resettable a -> a"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether a value changed.\n\n    getIsChanged (Initial \"Josh\")         -- False\n    getIsChanged (Updated \"Josh\" \"Joshua\") -- True\n\n    when checking a lot of values, it may be helpful to put them in a list:\n\n    -- if they all have the same type:\n    List.any getIsChanged [ Initial \"Josh\", Updated \"Josh\" \"Joshua\" ]   -- True\n\n    -- if they have different types\n    List.any ((==) True) [ getIsChanged (Initial \"Josh\"), getIsChanged (Initial 12) ]   -- False\n",
-        "type": "Resettable.Resettable a -> Bool"
-      },
-      {
-        "name": "getValue",
-        "comment": " Get the current value.\n\n    getValue (Initial \"Josh\")         -- \"Josh\"\n    getValue (Updated \"Josh\" \"Joshua\") -- \"Joshua\"\n",
-        "type": "Resettable.Resettable a -> a"
-      },
-      {
-        "name": "init",
-        "comment": " Initialise a value.\n\n    init \"Bob\"     -- Initial \"Bob\"\n",
-        "type": "a -> Resettable.Resettable a"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset to the initial value.\n\n    reset (Initial \"Josh\")         -- Initial \"Josh\"\n    reset (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
-        "type": "Resettable.Resettable a -> Resettable.Resettable a"
-      },
-      {
-        "name": "update",
-        "comment": " Updates a Resettable value.\n\n    -- update to new value\n    update \"Joshua\" (Initial \"Josh\")       -- Updated \"Josh\" \"Joshua\"\n    update \"Bob\" (Updated \"Josh\" \"Joshua\")  -- Updated \"Josh\" \"Bob\"\n\n    -- if the new value is the initial value or a changed value is set to it's initial value, keep the initial value\n    update \"Josh\" (Initial \"Josh\")         -- Initial \"Bob\"\n    update \"Josh\" (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
-        "type": "a -> Resettable.Resettable a -> Resettable.Resettable a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Icon",
     "comment": " Module for Icons, using SVG (not relying on external css or fonts)\n\n# Definition\n@docs Icon\n\n# Render icons\n@docs Icon, render\n\n",
     "aliases": [],
@@ -1382,15 +1334,77 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "EverySet.Bdt",
-    "comment": " EverySet Helpers\n\n# Toggle\n@docs toggle\n\n",
+    "name": "Resettable",
+    "comment": " This module is useful if you want to track changes to a value.\n\n# Definition\n@docs Resettable\n\n# Initialise and update\n@docs init, update, reset\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Resettable",
+        "comment": " Represent values that may be initial or updated. It can be useful if you have a\na save button that should be disabled if nothing on a form changed.\n\n    type alias MyProfileForm =\n        { firstName : Resettable String\n        , email : Resettable String\n        }\n\n    form =\n        { firstName = Resettable.init \"John Doe\"\n        , email = Resettable.init \"\"\n        }\n\n    shouldEnableSaveButton : Form -> Bool\n    shouldEnableSaveButton form =\n        Resettable.getIsChanged form.email || Resettable.getIsChanged form.password\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getInitialValue",
+        "comment": " Get the initial value.\n\n    getInitialValue (Initial \"Josh\")         -- \"Josh\"\n    getInitialValue (Updated \"Josh\" \"Joshua\") -- \"Josh\"\n",
+        "type": "Resettable.Resettable a -> a"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether a value changed.\n\n    getIsChanged (Initial \"Josh\")         -- False\n    getIsChanged (Updated \"Josh\" \"Joshua\") -- True\n\n    when checking a lot of values, it may be helpful to put them in a list:\n\n    -- if they all have the same type:\n    List.any getIsChanged [ Initial \"Josh\", Updated \"Josh\" \"Joshua\" ]   -- True\n\n    -- if they have different types\n    List.any ((==) True) [ getIsChanged (Initial \"Josh\"), getIsChanged (Initial 12) ]   -- False\n",
+        "type": "Resettable.Resettable a -> Bool"
+      },
+      {
+        "name": "getValue",
+        "comment": " Get the current value.\n\n    getValue (Initial \"Josh\")         -- \"Josh\"\n    getValue (Updated \"Josh\" \"Joshua\") -- \"Joshua\"\n",
+        "type": "Resettable.Resettable a -> a"
+      },
+      {
+        "name": "init",
+        "comment": " Initialise a value.\n\n    init \"Bob\"     -- Initial \"Bob\"\n",
+        "type": "a -> Resettable.Resettable a"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset to the initial value.\n\n    reset (Initial \"Josh\")         -- Initial \"Josh\"\n    reset (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
+        "type": "Resettable.Resettable a -> Resettable.Resettable a"
+      },
+      {
+        "name": "update",
+        "comment": " Updates a Resettable value.\n\n    -- update to new value\n    update \"Joshua\" (Initial \"Josh\")       -- Updated \"Josh\" \"Joshua\"\n    update \"Bob\" (Updated \"Josh\" \"Joshua\")  -- Updated \"Josh\" \"Bob\"\n\n    -- if the new value is the initial value or a changed value is set to it's initial value, keep the initial value\n    update \"Josh\" (Initial \"Josh\")         -- Initial \"Bob\"\n    update \"Josh\" (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
+        "type": "a -> Resettable.Resettable a -> Resettable.Resettable a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "StringFormatting",
+    "comment": " String Formatting Helpers\n\n# String Formatting Helpers\n@docs mobileNumber\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "toggle",
-        "comment": " Toggle an item in a set. Item is added if not existing, or removed if existing.\n",
-        "type": "a -> EverySet.EverySet a -> EverySet.EverySet a"
+        "name": "mobileNumber",
+        "comment": " Returns a string as `xxxx xxx xxx`\n",
+        "type": "String -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "List.Bdt",
+    "comment": " List Helpers\n\n# Grouping\n@docs groupWhile\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "groupWhile",
+        "comment": " Group while a condition holds true\n\n    [ { name = \"One\", date = Time.second * 1 |> Date.fromTime }\n    , { name = \"Two\", date = Time.second * 2 |> Date.fromTime }\n    , { name = \"Three\", date = Time.second * 1 |> Date.fromTime }\n    ]\n        |> List.sortWith (\\rec1 rec2 -> Date.order rec1.date rec2.date)\n        |> List.groupWhile (\\rec1 rec2 -> rec1.date == rec2.date)\n\n    Will result in:\n\n    [ Nonempty { name = \"One\", date = Time.second * 1 |> Date.fromTime } [ { name = \"Three\", date = Time.second * 1 |> Date.fromTime } ]\n    , Nonempty { name = \"Two\", date = Time.second * 2 |> Date.fromTime } []\n    ]\n\n    If we didn't sort, we would be getting, :\n\n    [ Nonempty { name = \"One\", number = 1 } []\n    , Nonempty { name = \"Two\", number = 2 } []\n    , Nonempty { name = \"Three\", number = 1 } []\n    ]\n\n",
+        "type": "(a -> a -> Bool) -> List a -> List (List.Nonempty.Nonempty a)"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1428,15 +1442,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "StringFormatting",
-    "comment": " String Formatting Helpers\n\n# String Formatting Helpers\n@docs mobileNumber\n\n",
+    "name": "EverySet.Bdt",
+    "comment": " EverySet Helpers\n\n# Toggle\n@docs toggle\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "mobileNumber",
-        "comment": " Returns a string as `xxxx xxx xxx`\n",
-        "type": "String -> String"
+        "name": "toggle",
+        "comment": " Toggle an item in a set. Item is added if not existing, or removed if existing.\n",
+        "type": "a -> EverySet.EverySet a -> EverySet.EverySet a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1454,20 +1468,6 @@
       }
     ],
     "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "List.Bdt",
-    "comment": " List Helpers\n\n# Grouping\n@docs groupWhile\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "groupWhile",
-        "comment": " Group while a condition holds true\n\n    [ { name = \"One\", date = Time.second * 1 |> Date.fromTime }\n    , { name = \"Two\", date = Time.second * 2 |> Date.fromTime }\n    , { name = \"Three\", date = Time.second * 1 |> Date.fromTime }\n    ]\n        |> List.sortWith (\\rec1 rec2 -> Date.order rec1.date rec2.date)\n        |> List.groupWhile (\\rec1 rec2 -> rec1.date == rec2.date)\n\n    Will result in:\n\n    [ Nonempty { name = \"One\", date = Time.second * 1 |> Date.fromTime } [ { name = \"Three\", date = Time.second * 1 |> Date.fromTime } ]\n    , Nonempty { name = \"Two\", date = Time.second * 2 |> Date.fromTime } []\n    ]\n\n    If we didn't sort, we would be getting, :\n\n    [ Nonempty { name = \"One\", number = 1 } []\n    , Nonempty { name = \"Two\", number = 2 } []\n    , Nonempty { name = \"Three\", number = 1 } []\n    ]\n\n",
-        "type": "(a -> a -> Bool) -> List a -> List (List.Nonempty.Nonempty a)"
-      }
-    ],
     "generated-with-elm-version": "0.18.0"
   },
   {

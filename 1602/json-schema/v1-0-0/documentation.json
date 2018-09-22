@@ -1,29 +1,5 @@
 [
   {
-    "name": "Json.Schema",
-    "comment": "\nThis library provides bunch of utility methods to work with JSON values using\nschemas defined in JSON Schema format.\n\nCurrently it allows to construct schemata (draft-6), validate values and generate random\nvalues based on schema (very experimental feature).\nIt supports local references, but doesn't support remote references.\n\n# Decode schema\n\nUse `fromValue` or `fromString` methods if you receive schema from external source. If you want to construct schema from elm code you might want to use `Json.Schema.Builder`, or low-level API using definitions from `Json.Schema.Definitions`\n\n@docs fromValue, fromString\n\n# Validation\n\n@docs validateValue\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "fromString",
-        "comment": " Construct JSON Schema from string\n",
-        "type": "String -> Result.Result String Json.Schema.Definitions.Schema"
-      },
-      {
-        "name": "fromValue",
-        "comment": " Construct JSON Schema from JSON value\n",
-        "type": "Json.Decode.Value -> Result.Result String Json.Schema.Definitions.Schema"
-      },
-      {
-        "name": "validateValue",
-        "comment": " Validate value against JSON Schema. Returns True Result if case if object is valid, or string error otherwise.\n",
-        "type": "Json.Decode.Value -> Json.Schema.Definitions.Schema -> Result.Result String Bool"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Json.Schema.Builder",
     "comment": " Convenience API to build a valid JSON schema\n\n# Definition\n@docs SchemaBuilder\n\n# Schema builder creation\n@docs buildSchema, boolSchema, toSchema, encode\n\n# Building up schema\n\n## Type\n\nJSON Schema spec allows type to be string or array of strings. There are three\ngroups of types produced: single types (e.g. `\"string\"`), nullable types (e.g. `[\"string\", \"null\"]`)\nand union types (e.g. `[\"string\", \"object\"]`)\n\n@docs withType, withNullableType, withUnionType\n\n## Meta\n\n@docs withTitle, withDescription, withDefault, withExamples, withDefinitions\n\n## JSON-Schema\n\n@docs withId, withRef\n\n## Numeric validations\n\nThe following validations are only applicable to numeric values and\nwill always succeed for any type other than `number` and `integer`\n\n@docs withMultipleOf, withMaximum, withMinimum, withExclusiveMaximum, withExclusiveMinimum\n\n## String validations\n\n@docs withMaxLength, withMinLength, withPattern, withFormat\n\n## Array validations\n\n@docs withItems, withItem, withAdditionalItems, withMaxItems, withMinItems, withUniqueItems, withContains\n\n## Object validations\n\n@docs withMaxProperties, withMinProperties, withRequired, withProperties, withPatternProperties, withAdditionalProperties, withSchemaDependency, withPropNamesDependency, withPropertyNames\n\n## Generic validations\n\n@docs withEnum, withConst, withAllOf, withAnyOf, withOneOf, withNot\n\n\n\n# Validation\n@docs validate\n\n",
     "aliases": [],
@@ -272,6 +248,30 @@
         "name": "withUniqueItems",
         "comment": "\n",
         "type": "Bool -> Json.Schema.Builder.SchemaBuilder -> Json.Schema.Builder.SchemaBuilder"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Json.Schema",
+    "comment": "\nThis library provides bunch of utility methods to work with JSON values using\nschemas defined in JSON Schema format.\n\nCurrently it allows to construct schemata (draft-6), validate values and generate random\nvalues based on schema (very experimental feature).\nIt supports local references, but doesn't support remote references.\n\n# Decode schema\n\nUse `fromValue` or `fromString` methods if you receive schema from external source. If you want to construct schema from elm code you might want to use `Json.Schema.Builder`, or low-level API using definitions from `Json.Schema.Definitions`\n\n@docs fromValue, fromString\n\n# Validation\n\n@docs validateValue\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fromString",
+        "comment": " Construct JSON Schema from string\n",
+        "type": "String -> Result.Result String Json.Schema.Definitions.Schema"
+      },
+      {
+        "name": "fromValue",
+        "comment": " Construct JSON Schema from JSON value\n",
+        "type": "Json.Decode.Value -> Result.Result String Json.Schema.Definitions.Schema"
+      },
+      {
+        "name": "validateValue",
+        "comment": " Validate value against JSON Schema. Returns True Result if case if object is valid, or string error otherwise.\n",
+        "type": "Json.Decode.Value -> Json.Schema.Definitions.Schema -> Result.Result String Bool"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -1,5 +1,29 @@
 [
   {
+    "name": "Tuple.Extra",
+    "comment": " useful functions for tuples\n\n\n## Functions\n\n@docs apply,mapEach,swap\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "apply",
+        "comment": " transforms a tuple into two arguments\n\n     apply (+) (1,2) == 3\n\n",
+        "type": "(a -> b -> c) -> ( a, b ) -> c"
+      },
+      {
+        "name": "mapEach",
+        "comment": " mapFirst and mapSecond combined\n\n    mapEach funA funB (a,b) == (Tuple.mapFirst funA << Tuple.mapSecond funB) (a,b)\n\n",
+        "type": "(a -> x) -> (b -> y) -> ( a, b ) -> ( x, y )"
+      },
+      {
+        "name": "swap",
+        "comment": " swaps the values of a tuple\n\n    swap (a,b) == (b,a)\n\n    swap (swap(a,b)) == (a,b)\n\n",
+        "type": "( a, b ) -> ( b, a )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Pair",
     "comment": " These functions where created for Tuples where both values have the same type, for example 2D-coordinates.\n\n\n## Definition\n\n@docs Pair\n\n\n## Functions\n\n@docs foldl, foldr, map, map2, toList, unzip, all,any\n\n",
     "aliases": [
@@ -53,30 +77,6 @@
         "name": "unzip",
         "comment": " unzips a pair. Useless until you need it ;)\n\n    unzip ((1,Nothing),(2,Just 1)) == ((1,2),(Nothing,Just 1))\n\n",
         "type": "Pair.Pair ( a, b ) -> ( Pair.Pair a, Pair.Pair b )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Tuple.Extra",
-    "comment": " useful functions for tuples\n\n\n## Functions\n\n@docs apply,mapEach,swap\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "apply",
-        "comment": " transforms a tuple into two arguments\n\n     apply (+) (1,2) == 3\n\n",
-        "type": "(a -> b -> c) -> ( a, b ) -> c"
-      },
-      {
-        "name": "mapEach",
-        "comment": " mapFirst and mapSecond combined\n\n    mapEach funA funB (a,b) == (Tuple.mapFirst funA << Tuple.mapSecond funB) (a,b)\n\n",
-        "type": "(a -> x) -> (b -> y) -> ( a, b ) -> ( x, y )"
-      },
-      {
-        "name": "swap",
-        "comment": " swaps the values of a tuple\n\n    swap (a,b) == (b,a)\n\n    swap (swap(a,b)) == (a,b)\n\n",
-        "type": "( a, b ) -> ( b, a )"
       }
     ],
     "generated-with-elm-version": "0.18.0"

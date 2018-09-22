@@ -1,64 +1,5 @@
 [
   {
-    "name": "Aui.Select",
-    "comment": " Functions to present AUI select.\n\n# Type\n\n@docs Msg, Config\n\n# Model\n\n@docs Model, initialModel\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs singleSelect\n\n# Config\n\n@docs Config, baseConfig, withPlaceholder, withZIndex\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": " Model for the select component.\n",
-        "args": [],
-        "type": "{ open : Bool , query : Maybe.Maybe String , items : List String , value : Maybe.Maybe String , identifier : String , highlighted : Maybe.Maybe String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " Configuration record to show a dropdown component.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Msg",
-        "comment": " Messages being sent by the select component\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "baseConfig",
-        "comment": " Create a base configuration for presenting a select.\n",
-        "type": "Aui.Select.Config"
-      },
-      {
-        "name": "initialModel",
-        "comment": " Initial model for a select.\n",
-        "type": "String -> List String -> ( Aui.Select.Model, Platform.Cmd.Cmd Aui.Select.Msg )"
-      },
-      {
-        "name": "singleSelect",
-        "comment": " Create a single select with a configuration and a model.\n",
-        "type": "Aui.Select.Config -> Aui.Select.Model -> Html.Html Aui.Select.Msg"
-      },
-      {
-        "name": "update",
-        "comment": " Update function for the select component. This should be called from within your update function when handling `Msg`\n",
-        "type": "Aui.Select.Msg -> Aui.Select.Model -> ( Aui.Select.Model, Platform.Cmd.Cmd Aui.Select.Msg )"
-      },
-      {
-        "name": "withPlaceholder",
-        "comment": " Change placeholder of select\n",
-        "type": "String -> Aui.Select.Config -> Aui.Select.Config"
-      },
-      {
-        "name": "withZIndex",
-        "comment": " Change backdrop z index of select\n",
-        "type": "Int -> Aui.Select.Config -> Aui.Select.Config"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Aui.Dropdown",
     "comment": " Functions to present AUI buttons and groups.\n\n\n# Alignment\n\n@docs Alignment, leftAlignment, rightAlignment\n\n# Types\n\n@docs Config\n\n# Model\n\n@docs Model, Msg, initialModel, open, close\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs dropdown, dropdownSection\n\n# Utility\n\n@docs baseConfig, withAlignment, withStyle\n",
     "aliases": [
@@ -151,6 +92,573 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Aui.Select",
+    "comment": " Functions to present AUI select.\n\n# Type\n\n@docs Msg, Config\n\n# Model\n\n@docs Model, initialModel\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs singleSelect\n\n# Config\n\n@docs Config, baseConfig, withPlaceholder, withZIndex\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " Model for the select component.\n",
+        "args": [],
+        "type": "{ open : Bool , query : Maybe.Maybe String , items : List String , value : Maybe.Maybe String , identifier : String , highlighted : Maybe.Maybe String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " Configuration record to show a dropdown component.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Msg",
+        "comment": " Messages being sent by the select component\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "baseConfig",
+        "comment": " Create a base configuration for presenting a select.\n",
+        "type": "Aui.Select.Config"
+      },
+      {
+        "name": "initialModel",
+        "comment": " Initial model for a select.\n",
+        "type": "String -> List String -> ( Aui.Select.Model, Platform.Cmd.Cmd Aui.Select.Msg )"
+      },
+      {
+        "name": "singleSelect",
+        "comment": " Create a single select with a configuration and a model.\n",
+        "type": "Aui.Select.Config -> Aui.Select.Model -> Html.Html Aui.Select.Msg"
+      },
+      {
+        "name": "update",
+        "comment": " Update function for the select component. This should be called from within your update function when handling `Msg`\n",
+        "type": "Aui.Select.Msg -> Aui.Select.Model -> ( Aui.Select.Model, Platform.Cmd.Cmd Aui.Select.Msg )"
+      },
+      {
+        "name": "withPlaceholder",
+        "comment": " Change placeholder of select\n",
+        "type": "String -> Aui.Select.Config -> Aui.Select.Config"
+      },
+      {
+        "name": "withZIndex",
+        "comment": " Change backdrop z index of select\n",
+        "type": "Int -> Aui.Select.Config -> Aui.Select.Config"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Tabs",
+    "comment": " Functions to present AUI tabs.\n\n# Types\n\n@docs Msg, Config\n\n# Model\n\n@docs Model, modelWithActive\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs tabs\n\n# ITems\n\n@docs Item, item\n\n\n# Config\n\n@docs Config, baseConfig, horizontal, vertical, withItems\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " Model for the tabs component.\n",
+        "args": [
+          "itemId"
+        ],
+        "type": "Maybe.Maybe itemId"
+      }
+    ],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " Configuration record to show a tabs component.\n",
+        "args": [
+          "a",
+          "itemId"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Item",
+        "comment": " Representation of a single tab.\n",
+        "args": [
+          "itemId"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Msg",
+        "comment": " Messages being sent by the tabs component\n",
+        "args": [
+          "itemId"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "baseConfig",
+        "comment": " Basic configuration for the tabs\n",
+        "type": "(Aui.Tabs.Msg itemId -> a) -> Aui.Tabs.Config a itemId"
+      },
+      {
+        "name": "horizontal",
+        "comment": " Make configuration have horizontal tabs\n",
+        "type": "Aui.Tabs.Config a itemId -> Aui.Tabs.Config a itemId"
+      },
+      {
+        "name": "item",
+        "comment": " Creates an item\n",
+        "type": "itemId -> String -> Aui.Tabs.Item itemId"
+      },
+      {
+        "name": "modelWithActive",
+        "comment": " Create a model with a active item\n",
+        "type": "itemId -> Aui.Tabs.Model itemId"
+      },
+      {
+        "name": "tabs",
+        "comment": " Create a tabs component with a given configuration, a mapper from itemId to tab content and a model\n",
+        "type": "Aui.Tabs.Config a itemId -> (itemId -> Html.Html a) -> Aui.Tabs.Model itemId -> Html.Html a"
+      },
+      {
+        "name": "update",
+        "comment": " Update function for the tabs component. This should be called from within your update function when handling `Msg`.\n",
+        "type": "Aui.Tabs.Msg itemId -> Aui.Tabs.Model itemId -> Aui.Tabs.Model itemId"
+      },
+      {
+        "name": "vertical",
+        "comment": " Make configuration have vertical tabs\n",
+        "type": "Aui.Tabs.Config a itemId -> Aui.Tabs.Config a itemId"
+      },
+      {
+        "name": "withItems",
+        "comment": " Set items for tab\n",
+        "type": "List (Aui.Tabs.Item itemId) -> Aui.Tabs.Config a itemId -> Aui.Tabs.Config a itemId"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Toggle",
+    "comment": " Functions to present AUI toggle.\n\n# Presentation\n\n@docs toggle\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toggle",
+        "comment": " Create a toggle with if it is enabled, a message and its state.\n\n    toggle isEnabled\n        ToggleClicked\n        isOn\n",
+        "type": "Bool -> (Bool -> a) -> Bool -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Buttons",
+    "comment": " Functions to present AUI buttons and groups.\n\n\n# Style\n\n@docs Style, primaryStyle, normalStyle, subtleStyle, lightStyle, linkStyle\n\n# Config\n\n@docs Config, baseConfig, disable, withStyle, withHref, withAction, withActive, withAdditionalClass, forceAnchor\n\n# Config\n\n# Presentation\n\n@docs button, buttonGroup\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " Configuration type for presenting a button.\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Style",
+        "comment": " Different styles available for a button.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "baseConfig",
+        "comment": " A configuration with sane defaults (no style, no anchor, enable, ect.).\n",
+        "type": "Aui.Buttons.Config a"
+      },
+      {
+        "name": "button",
+        "comment": " Render an AUI button.\n\n    button (baseConfig |> withStyle Primary |> withHref \"http://elm-lang.org/\")\n        ButtonClicked\n        [ text \"Click me!\"]\n",
+        "type": "Aui.Buttons.Config a -> List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "buttonGroup",
+        "comment": " Button container that will add the correct classes to make a button group.\n\n    buttonGroup\n        [ button config Clicked1 [text \"First\"]\n        , button config Clicked2 [text \"Second\"]\n        , button config Clicked3 [text \"Third\"]\n        ]\n",
+        "type": "List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "disable",
+        "comment": " Add the disabled state to a button.\n\n    baseConfig |> disable\n",
+        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "forceAnchor",
+        "comment": " Forces the anchor tag to be used instead of the default button tag (only if no href is specified).\n\n    baseConfig |> forceAnchor\n",
+        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "lightStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "linkStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "normalStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "primaryStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "subtleStyle",
+        "comment": " ",
+        "type": "Aui.Buttons.Style"
+      },
+      {
+        "name": "withAction",
+        "comment": " Add an action to the buttons configuration.\n\n    baseConfig |> withAction MyAction\n",
+        "type": "a -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withActive",
+        "comment": " Make a button active or not active.\n\n    baseConfig |> withActive True\n",
+        "type": "Bool -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withAdditionalClass",
+        "comment": " Add additional classes to the button\n\n    baseConfig |> additionalClass \"my-button\"\n",
+        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withHref",
+        "comment": " Add a href to the buttons configuration.\n\n    baseConfig |> withHref \"http://elm-lang.org/\"\n",
+        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      },
+      {
+        "name": "withStyle",
+        "comment": " Add a button style to the configuration.\n\n    baseConfig |> withStyle Subtle\n",
+        "type": "Aui.Buttons.Style -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Expander",
+    "comment": " Functions to present AUI expander.\n\n\n# Config\n\n@docs Config, withMinHeight, withMoreText, withLessText`\n\n# Model\n\n@docs Model, Msg, initialModel\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs expander\n\n# Utility\n\n@docs baseConfig\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " Model for the expander comonent.\n",
+        "args": [],
+        "type": "Bool"
+      }
+    ],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " Configuration record for presenting an expander.\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Msg",
+        "comment": " Messages being sent by the expander component.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "baseConfig",
+        "comment": " Create a default configuration with sane defaults to present an expander.\n",
+        "type": "(Aui.Expander.Msg -> a) -> Aui.Expander.Config a"
+      },
+      {
+        "name": "expander",
+        "comment": " Present a expander given a configuration, content and model.\n\n    view model =\n        expander (baseConfig ExpanderMsg)\n            \"Lorem ipsum...\"\n            model.expander\n",
+        "type": "Aui.Expander.Config a -> String -> Aui.Expander.Model -> Html.Html a"
+      },
+      {
+        "name": "initialModel",
+        "comment": " Default model for a expander component\n",
+        "type": "Aui.Expander.Model"
+      },
+      {
+        "name": "update",
+        "comment": " Update function for the expander component. This should be called from within your update function when handling `Msg`\n",
+        "type": "Aui.Expander.Msg -> Aui.Expander.Model -> Aui.Expander.Model"
+      },
+      {
+        "name": "withLessText",
+        "comment": " Set less text for configuration\n",
+        "type": "String -> Aui.Expander.Config a -> Aui.Expander.Config a"
+      },
+      {
+        "name": "withMinHeight",
+        "comment": " Set less text for configuration\n",
+        "type": "String -> Aui.Expander.Config a -> Aui.Expander.Config a"
+      },
+      {
+        "name": "withMoreText",
+        "comment": " Set more text for configuration\n",
+        "type": "String -> Aui.Expander.Config a -> Aui.Expander.Config a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Avatars",
+    "comment": " Functions to present AUI avatars.\n\n\n# Types\n\n@docs Config\n\n# Presentation\n\n@docs avatar\n\n# Utiltity\n\n@docs config, xsmall, small, medium, large, xlarge, xxlarge, xxxlarge, project\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Config",
+        "comment": " A type for rendering an avatar\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "avatar",
+        "comment": " Function to convert a configuration record and an source url to an HTML element\n\n    avatar {size = Large, project = False}\n        \"http://myimage.net\"\n",
+        "type": "Aui.Avatars.Config -> String -> Html.Html msg"
+      },
+      {
+        "name": "config",
+        "comment": " Default configuration for an avatar\n",
+        "type": "Aui.Avatars.Config"
+      },
+      {
+        "name": "large",
+        "comment": " Set the configuration to render a large avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      },
+      {
+        "name": "medium",
+        "comment": " Set the configuration to render a medium avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      },
+      {
+        "name": "project",
+        "comment": " Set the configuration to render as a project avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      },
+      {
+        "name": "small",
+        "comment": " Set the configuration to render a small avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      },
+      {
+        "name": "xlarge",
+        "comment": " Set the configuration to render a extra large avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      },
+      {
+        "name": "xsmall",
+        "comment": " Set the configuration to render an extra small avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      },
+      {
+        "name": "xxlarge",
+        "comment": " Set the configuration to render a extra-extra large avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      },
+      {
+        "name": "xxxlarge",
+        "comment": " Set the configuration to render a extra-extra-extra large avatar\n",
+        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Toolbar",
+    "comment": " Functions to present AUI toolbars.\n\n# Presentation\n\n@docs toolbar, toolbarPrimary, toolbarSecondary, toolbarGroup\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toolbar",
+        "comment": " Create a toolbar:\n\n    toolbar\n        [ toolbarPrimary\n            [ buttonGroup [ button baseConfig Edit [ text \"Edit\" ] ]\n            , buttonGroup\n                [ button baseConfig Assign [ text \"Assign\" ]\n                , button baseConfig AssignMe [ text \"Assign to me\" ]\n                ]\n            ]\n        , toolbarSecondary [ button baseConfig Configure [ icon Small Configure ] ]\n        ]\n",
+        "type": "List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "toolbarGroup",
+        "comment": " Create toolbar button group\n",
+        "type": "List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "toolbarPrimary",
+        "comment": " Create primary part of toolbar.\n",
+        "type": "List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "toolbarSecondary",
+        "comment": " Create secondary part of toolbar.\n",
+        "type": "List (Html.Html a) -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.ProgressIndicator",
+    "comment": " Functions to present AUI progress indicator.\n\n\n# Presentation\n\n@docs progressIndicator, activeProgressIndicator\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "activeProgressIndicator",
+        "comment": " Create a progress indicator that represents an active loading state.\n",
+        "type": "Html.Html a"
+      },
+      {
+        "name": "progressIndicator",
+        "comment": " Create a progress indicator with a value between 0.0 and 1.0.\n",
+        "type": "Float -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.ProgressTracker",
+    "comment": " Functions to present AUI progress tracker.\n\n\n# Presentation\n\n@docs progressTracker, invertedProgressTracker\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "invertedProgressTracker",
+        "comment": " Create an inverted progress tracker with items and a given active index.\n",
+        "type": "List String -> Int -> Html.Html a"
+      },
+      {
+        "name": "progressTracker",
+        "comment": " Create a progress tracker with items and a given active index (zero based).\n\n    progressTracker [\"Step 1\", \"Step 2\", \"Step 3\"] 1\n",
+        "type": "List String -> Int -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Labels",
+    "comment": " Functions to present AUI labels.\n\n\n# Presentation\n\n@docs label\n\n# Actions\n\n@docs Action, navigate, trigger\n# Types\n\n@docs Config\n\n# Utility\n\n@docs baseConfig, onClick, onRemove\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Action",
+        "comment": " Actions that can be bound to a label\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Config",
+        "comment": " Configuration to present a label.\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "baseConfig",
+        "comment": " Base configuration to show a label. No actions are bound by default.\n",
+        "type": "Aui.Labels.Config a"
+      },
+      {
+        "name": "label",
+        "comment": " Show a label with a given configuration and content .\n\n    label (baseConfig\n            |> withNavigate \"http://elm-lang.org/\"\n            |> withRemove RemovedLabel)\n        [ text \"Please remove or click me!\" ]\n",
+        "type": "Aui.Labels.Config a -> List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "navigate",
+        "comment": " Action to navigate to an url\n",
+        "type": "String -> Aui.Labels.Action a"
+      },
+      {
+        "name": "onClick",
+        "comment": " Bind action to click on label\n",
+        "type": "Aui.Labels.Action a -> Aui.Labels.Config a -> Aui.Labels.Config a"
+      },
+      {
+        "name": "onRemove",
+        "comment": " Allow the label to be removed triggering the given message.\n",
+        "type": "a -> Aui.Labels.Config a -> Aui.Labels.Config a"
+      },
+      {
+        "name": "trigger",
+        "comment": " Action to trigger an action on click\n",
+        "type": "a -> Aui.Labels.Action a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Aui.Messages",
+    "comment": " Functions to present AUI messages.\n\n\n# Presentation\n\n@docs message, closableMessage\n\n# Types\n\n@docs Type, generic, error, warning, success, info, hint\n\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Type",
+        "comment": " Different message types\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "closableMessage",
+        "comment": " Create a message dialog that has a close button and triggers a message.\n\n    closableMessage Warning\n        Closed\n        [ text \"Title\" ]\n        [ text \"There is a warning\" ]\n",
+        "type": "Aui.Messages.Type -> a -> List (Html.Html a) -> List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "error",
+        "comment": " Error type for message\n",
+        "type": "Aui.Messages.Type"
+      },
+      {
+        "name": "generic",
+        "comment": " Generic type for message\n",
+        "type": "Aui.Messages.Type"
+      },
+      {
+        "name": "hint",
+        "comment": " Hint type for message\n",
+        "type": "Aui.Messages.Type"
+      },
+      {
+        "name": "info",
+        "comment": " Info type for message\n",
+        "type": "Aui.Messages.Type"
+      },
+      {
+        "name": "message",
+        "comment": " Create a message.\n\n    message Warning\n        [ text \"Title\" ]\n        [ text \"There is a warning\" ]\n",
+        "type": "Aui.Messages.Type -> List (Html.Html a) -> List (Html.Html a) -> Html.Html a"
+      },
+      {
+        "name": "success",
+        "comment": " Success type for message\n",
+        "type": "Aui.Messages.Type"
+      },
+      {
+        "name": "warning",
+        "comment": " Warning type for message\n",
+        "type": "Aui.Messages.Type"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Aui.Lozenge",
     "comment": " Functions to present AUI lozenges.\n\n# Presentation\n\n@docs lozenge\n\n# Types\n\n@docs Type, generic, success, error, current, complete, moved\n\n# Presense\n\n@docs Presense, normal,subtle\n\n",
     "aliases": [],
@@ -213,82 +721,6 @@
         "name": "success",
         "comment": " Success type for lozenge\n",
         "type": "Aui.Lozenge.Type"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.ProgressTracker",
-    "comment": " Functions to present AUI progress tracker.\n\n\n# Presentation\n\n@docs progressTracker, invertedProgressTracker\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "invertedProgressTracker",
-        "comment": " Create an inverted progress tracker with items and a given active index.\n",
-        "type": "List String -> Int -> Html.Html a"
-      },
-      {
-        "name": "progressTracker",
-        "comment": " Create a progress tracker with items and a given active index (zero based).\n\n    progressTracker [\"Step 1\", \"Step 2\", \"Step 3\"] 1\n",
-        "type": "List String -> Int -> Html.Html a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Toolbar",
-    "comment": " Functions to present AUI toolbars.\n\n# Presentation\n\n@docs toolbar, toolbarPrimary, toolbarSecondary, toolbarGroup\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toolbar",
-        "comment": " Create a toolbar:\n\n    toolbar\n        [ toolbarPrimary\n            [ buttonGroup [ button baseConfig Edit [ text \"Edit\" ] ]\n            , buttonGroup\n                [ button baseConfig Assign [ text \"Assign\" ]\n                , button baseConfig AssignMe [ text \"Assign to me\" ]\n                ]\n            ]\n        , toolbarSecondary [ button baseConfig Configure [ icon Small Configure ] ]\n        ]\n",
-        "type": "List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "toolbarGroup",
-        "comment": " Create toolbar button group\n",
-        "type": "List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "toolbarPrimary",
-        "comment": " Create primary part of toolbar.\n",
-        "type": "List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "toolbarSecondary",
-        "comment": " Create secondary part of toolbar.\n",
-        "type": "List (Html.Html a) -> Html.Html a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Toggle",
-    "comment": " Functions to present AUI toggle.\n\n# Presentation\n\n@docs toggle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toggle",
-        "comment": " Create a toggle with if it is enabled, a message and its state.\n\n    toggle isEnabled\n        ToggleClicked\n        isOn\n",
-        "type": "Bool -> (Bool -> a) -> Bool -> Html.Html a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Badges",
-    "comment": " Functions to present AUI badges.\n\n\n# Presentation\n\n@docs badge\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "badge",
-        "comment": " Present a badge with a given content\n\n    badge \"Hello world!\"\n",
-        "type": "String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1486,231 +1918,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Aui.Expander",
-    "comment": " Functions to present AUI expander.\n\n\n# Config\n\n@docs Config, withMinHeight, withMoreText, withLessText`\n\n# Model\n\n@docs Model, Msg, initialModel\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs expander\n\n# Utility\n\n@docs baseConfig\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": " Model for the expander comonent.\n",
-        "args": [],
-        "type": "Bool"
-      }
-    ],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " Configuration record for presenting an expander.\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Msg",
-        "comment": " Messages being sent by the expander component.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "baseConfig",
-        "comment": " Create a default configuration with sane defaults to present an expander.\n",
-        "type": "(Aui.Expander.Msg -> a) -> Aui.Expander.Config a"
-      },
-      {
-        "name": "expander",
-        "comment": " Present a expander given a configuration, content and model.\n\n    view model =\n        expander (baseConfig ExpanderMsg)\n            \"Lorem ipsum...\"\n            model.expander\n",
-        "type": "Aui.Expander.Config a -> String -> Aui.Expander.Model -> Html.Html a"
-      },
-      {
-        "name": "initialModel",
-        "comment": " Default model for a expander component\n",
-        "type": "Aui.Expander.Model"
-      },
-      {
-        "name": "update",
-        "comment": " Update function for the expander component. This should be called from within your update function when handling `Msg`\n",
-        "type": "Aui.Expander.Msg -> Aui.Expander.Model -> Aui.Expander.Model"
-      },
-      {
-        "name": "withLessText",
-        "comment": " Set less text for configuration\n",
-        "type": "String -> Aui.Expander.Config a -> Aui.Expander.Config a"
-      },
-      {
-        "name": "withMinHeight",
-        "comment": " Set less text for configuration\n",
-        "type": "String -> Aui.Expander.Config a -> Aui.Expander.Config a"
-      },
-      {
-        "name": "withMoreText",
-        "comment": " Set more text for configuration\n",
-        "type": "String -> Aui.Expander.Config a -> Aui.Expander.Config a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Labels",
-    "comment": " Functions to present AUI labels.\n\n\n# Presentation\n\n@docs label\n\n# Actions\n\n@docs Action, navigate, trigger\n# Types\n\n@docs Config\n\n# Utility\n\n@docs baseConfig, onClick, onRemove\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Action",
-        "comment": " Actions that can be bound to a label\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Config",
-        "comment": " Configuration to present a label.\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "baseConfig",
-        "comment": " Base configuration to show a label. No actions are bound by default.\n",
-        "type": "Aui.Labels.Config a"
-      },
-      {
-        "name": "label",
-        "comment": " Show a label with a given configuration and content .\n\n    label (baseConfig\n            |> withNavigate \"http://elm-lang.org/\"\n            |> withRemove RemovedLabel)\n        [ text \"Please remove or click me!\" ]\n",
-        "type": "Aui.Labels.Config a -> List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "navigate",
-        "comment": " Action to navigate to an url\n",
-        "type": "String -> Aui.Labels.Action a"
-      },
-      {
-        "name": "onClick",
-        "comment": " Bind action to click on label\n",
-        "type": "Aui.Labels.Action a -> Aui.Labels.Config a -> Aui.Labels.Config a"
-      },
-      {
-        "name": "onRemove",
-        "comment": " Allow the label to be removed triggering the given message.\n",
-        "type": "a -> Aui.Labels.Config a -> Aui.Labels.Config a"
-      },
-      {
-        "name": "trigger",
-        "comment": " Action to trigger an action on click\n",
-        "type": "a -> Aui.Labels.Action a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.ProgressIndicator",
-    "comment": " Functions to present AUI progress indicator.\n\n\n# Presentation\n\n@docs progressIndicator, activeProgressIndicator\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "activeProgressIndicator",
-        "comment": " Create a progress indicator that represents an active loading state.\n",
-        "type": "Html.Html a"
-      },
-      {
-        "name": "progressIndicator",
-        "comment": " Create a progress indicator with a value between 0.0 and 1.0.\n",
-        "type": "Float -> Html.Html a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Tabs",
-    "comment": " Functions to present AUI tabs.\n\n# Types\n\n@docs Msg, Config\n\n# Model\n\n@docs Model, modelWithActive\n\n# Update\n\n@docs update\n\n# Presentation\n\n@docs tabs\n\n# ITems\n\n@docs Item, item\n\n\n# Config\n\n@docs Config, baseConfig, horizontal, vertical, withItems\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": " Model for the tabs component.\n",
-        "args": [
-          "itemId"
-        ],
-        "type": "Maybe.Maybe itemId"
-      }
-    ],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " Configuration record to show a tabs component.\n",
-        "args": [
-          "a",
-          "itemId"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Item",
-        "comment": " Representation of a single tab.\n",
-        "args": [
-          "itemId"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Msg",
-        "comment": " Messages being sent by the tabs component\n",
-        "args": [
-          "itemId"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "baseConfig",
-        "comment": " Basic configuration for the tabs\n",
-        "type": "(Aui.Tabs.Msg itemId -> a) -> Aui.Tabs.Config a itemId"
-      },
-      {
-        "name": "horizontal",
-        "comment": " Make configuration have horizontal tabs\n",
-        "type": "Aui.Tabs.Config a itemId -> Aui.Tabs.Config a itemId"
-      },
-      {
-        "name": "item",
-        "comment": " Creates an item\n",
-        "type": "itemId -> String -> Aui.Tabs.Item itemId"
-      },
-      {
-        "name": "modelWithActive",
-        "comment": " Create a model with a active item\n",
-        "type": "itemId -> Aui.Tabs.Model itemId"
-      },
-      {
-        "name": "tabs",
-        "comment": " Create a tabs component with a given configuration, a mapper from itemId to tab content and a model\n",
-        "type": "Aui.Tabs.Config a itemId -> (itemId -> Html.Html a) -> Aui.Tabs.Model itemId -> Html.Html a"
-      },
-      {
-        "name": "update",
-        "comment": " Update function for the tabs component. This should be called from within your update function when handling `Msg`.\n",
-        "type": "Aui.Tabs.Msg itemId -> Aui.Tabs.Model itemId -> Aui.Tabs.Model itemId"
-      },
-      {
-        "name": "vertical",
-        "comment": " Make configuration have vertical tabs\n",
-        "type": "Aui.Tabs.Config a itemId -> Aui.Tabs.Config a itemId"
-      },
-      {
-        "name": "withItems",
-        "comment": " Set items for tab\n",
-        "type": "List (Aui.Tabs.Item itemId) -> Aui.Tabs.Config a itemId -> Aui.Tabs.Config a itemId"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Aui.Backdrop",
     "comment": " Functions to create a backdrop that is needed for several AUI Components.\n\n# Presentation\n\n@docs backdrop\n",
     "aliases": [],
@@ -1725,222 +1932,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Aui.Buttons",
-    "comment": " Functions to present AUI buttons and groups.\n\n\n# Style\n\n@docs Style, primaryStyle, normalStyle, subtleStyle, lightStyle, linkStyle\n\n# Config\n\n@docs Config, baseConfig, disable, withStyle, withHref, withAction, withActive, withAdditionalClass, forceAnchor\n\n# Config\n\n# Presentation\n\n@docs button, buttonGroup\n\n",
+    "name": "Aui.Badges",
+    "comment": " Functions to present AUI badges.\n\n\n# Presentation\n\n@docs badge\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " Configuration type for presenting a button.\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Style",
-        "comment": " Different styles available for a button.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "baseConfig",
-        "comment": " A configuration with sane defaults (no style, no anchor, enable, ect.).\n",
-        "type": "Aui.Buttons.Config a"
-      },
-      {
-        "name": "button",
-        "comment": " Render an AUI button.\n\n    button (baseConfig |> withStyle Primary |> withHref \"http://elm-lang.org/\")\n        ButtonClicked\n        [ text \"Click me!\"]\n",
-        "type": "Aui.Buttons.Config a -> List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "buttonGroup",
-        "comment": " Button container that will add the correct classes to make a button group.\n\n    buttonGroup\n        [ button config Clicked1 [text \"First\"]\n        , button config Clicked2 [text \"Second\"]\n        , button config Clicked3 [text \"Third\"]\n        ]\n",
-        "type": "List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "disable",
-        "comment": " Add the disabled state to a button.\n\n    baseConfig |> disable\n",
-        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "forceAnchor",
-        "comment": " Forces the anchor tag to be used instead of the default button tag (only if no href is specified).\n\n    baseConfig |> forceAnchor\n",
-        "type": "Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "lightStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "linkStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "normalStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "primaryStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "subtleStyle",
-        "comment": " ",
-        "type": "Aui.Buttons.Style"
-      },
-      {
-        "name": "withAction",
-        "comment": " Add an action to the buttons configuration.\n\n    baseConfig |> withAction MyAction\n",
-        "type": "a -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withActive",
-        "comment": " Make a button active or not active.\n\n    baseConfig |> withActive True\n",
-        "type": "Bool -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withAdditionalClass",
-        "comment": " Add additional classes to the button\n\n    baseConfig |> additionalClass \"my-button\"\n",
-        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withHref",
-        "comment": " Add a href to the buttons configuration.\n\n    baseConfig |> withHref \"http://elm-lang.org/\"\n",
-        "type": "String -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      },
-      {
-        "name": "withStyle",
-        "comment": " Add a button style to the configuration.\n\n    baseConfig |> withStyle Subtle\n",
-        "type": "Aui.Buttons.Style -> Aui.Buttons.Config a -> Aui.Buttons.Config a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Avatars",
-    "comment": " Functions to present AUI avatars.\n\n\n# Types\n\n@docs Config\n\n# Presentation\n\n@docs avatar\n\n# Utiltity\n\n@docs config, xsmall, small, medium, large, xlarge, xxlarge, xxxlarge, project\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " A type for rendering an avatar\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "avatar",
-        "comment": " Function to convert a configuration record and an source url to an HTML element\n\n    avatar {size = Large, project = False}\n        \"http://myimage.net\"\n",
-        "type": "Aui.Avatars.Config -> String -> Html.Html msg"
-      },
-      {
-        "name": "config",
-        "comment": " Default configuration for an avatar\n",
-        "type": "Aui.Avatars.Config"
-      },
-      {
-        "name": "large",
-        "comment": " Set the configuration to render a large avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      },
-      {
-        "name": "medium",
-        "comment": " Set the configuration to render a medium avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      },
-      {
-        "name": "project",
-        "comment": " Set the configuration to render as a project avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      },
-      {
-        "name": "small",
-        "comment": " Set the configuration to render a small avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      },
-      {
-        "name": "xlarge",
-        "comment": " Set the configuration to render a extra large avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      },
-      {
-        "name": "xsmall",
-        "comment": " Set the configuration to render an extra small avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      },
-      {
-        "name": "xxlarge",
-        "comment": " Set the configuration to render a extra-extra large avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      },
-      {
-        "name": "xxxlarge",
-        "comment": " Set the configuration to render a extra-extra-extra large avatar\n",
-        "type": "Aui.Avatars.Config -> Aui.Avatars.Config"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Aui.Messages",
-    "comment": " Functions to present AUI messages.\n\n\n# Presentation\n\n@docs message, closableMessage\n\n# Types\n\n@docs Type, generic, error, warning, success, info, hint\n\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Type",
-        "comment": " Different message types\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "closableMessage",
-        "comment": " Create a message dialog that has a close button and triggers a message.\n\n    closableMessage Warning\n        Closed\n        [ text \"Title\" ]\n        [ text \"There is a warning\" ]\n",
-        "type": "Aui.Messages.Type -> a -> List (Html.Html a) -> List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "error",
-        "comment": " Error type for message\n",
-        "type": "Aui.Messages.Type"
-      },
-      {
-        "name": "generic",
-        "comment": " Generic type for message\n",
-        "type": "Aui.Messages.Type"
-      },
-      {
-        "name": "hint",
-        "comment": " Hint type for message\n",
-        "type": "Aui.Messages.Type"
-      },
-      {
-        "name": "info",
-        "comment": " Info type for message\n",
-        "type": "Aui.Messages.Type"
-      },
-      {
-        "name": "message",
-        "comment": " Create a message.\n\n    message Warning\n        [ text \"Title\" ]\n        [ text \"There is a warning\" ]\n",
-        "type": "Aui.Messages.Type -> List (Html.Html a) -> List (Html.Html a) -> Html.Html a"
-      },
-      {
-        "name": "success",
-        "comment": " Success type for message\n",
-        "type": "Aui.Messages.Type"
-      },
-      {
-        "name": "warning",
-        "comment": " Warning type for message\n",
-        "type": "Aui.Messages.Type"
+        "name": "badge",
+        "comment": " Present a badge with a given content\n\n    badge \"Hello world!\"\n",
+        "type": "String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

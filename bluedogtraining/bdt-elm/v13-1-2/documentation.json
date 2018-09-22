@@ -246,6 +246,133 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Form.SearchSelect",
+    "comment": " This module is useful if you want to add a Select Form element to your app,\nwith the options being searchable and coming from the backend.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a SearchSelect.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySearchSelect SearchSelect.Msg\n",
+        "args": [
+          "option"
+        ],
+        "type": "Form.SearchSelect.Internal.Msg option"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a SearchSelect.Model to your model.\n\n    type alias MyModel =\n        { mySearchSelect : SearchSelect.Model String\n        }\n",
+        "args": [
+          "option"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the search select in your update function, to set focus etc.\n",
+        "type": "Form.SearchSelect.View option -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialOption",
+        "comment": " Get the initial option of your search-select.\n",
+        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your search-select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.SearchSelect.Model option -> Bool"
+      },
+      {
+        "name": "getIsOpen",
+        "comment": " Whether this select is currently open.\n",
+        "type": "Form.SearchSelect.Model option -> Bool"
+      },
+      {
+        "name": "getSelectedOption",
+        "comment": " Get the current option of your search-select. This is what you'd use to display the data somewhere outside of your search-select,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
+      },
+      {
+        "name": "init",
+        "comment": " Init a SearchSelect.Model in your model.\n\n      myInitialModel : MyModel\n      myInitialModel =\n          { mySearchSelect = SearchSelect.init \"https://example.com/search\" Decode.string\n          }\n  ",
+        "type": "String -> Json.Decode.Decoder option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your SearchSelect.Model.\n",
+        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an SearchSelect.View into Html SearchSelect.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect\n                |> SearchSelect.render\n                |> Html.map UpdateMySearchSelect\n            ]\n",
+        "type": "Form.SearchSelect.View option -> Html.Styled.Html (Form.SearchSelect.Internal.Msg option)"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your SearchSelect.Model.\n",
+        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "setDefaultLabel",
+        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
+        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your search-select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setInitialOption",
+        "comment": " Set the initial option of your SearchSelect.Model.\n",
+        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "setIsClearable",
+        "comment": " Set whether your search-select is clearable (x icon).\n",
+        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your search-select is in error mode (red border).\n",
+        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your search-select is locked (disabled).\n",
+        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setIsOptionDisabled",
+        "comment": " This function allows you to disable specific options.\n",
+        "type": "(option -> Bool) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setSelectedOption",
+        "comment": " Change the option of your SearchSelect.Model.\n",
+        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "setToLabel",
+        "comment": " Set how your options are printed to the screen.\n",
+        "type": "(option -> String) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySearchSelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        SearchSelect.update selectMsg mode.mySearchSelect\n                in\n                    { model | mySearchSelect = newSelect } ! [ cmd ]\n",
+        "type": "Form.SearchSelect.Internal.Msg option -> Form.SearchSelect.Model option -> ( Form.SearchSelect.Model option , Platform.Cmd.Cmd (Form.SearchSelect.Internal.Msg option) )"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an SearchSelect.Model into an SearchSelect.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.View option"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Form.MultiSelect",
     "comment": " This module is useful if you want to add a MultiSelect Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOptions, setSelectedOptions, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOptions, getSelectedOptions, getId\n\n",
     "aliases": [
@@ -506,133 +633,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.SearchSelect",
-    "comment": " This module is useful if you want to add a Select Form element to your app,\nwith the options being searchable and coming from the backend.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a SearchSelect.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySearchSelect SearchSelect.Msg\n",
-        "args": [
-          "option"
-        ],
-        "type": "Form.SearchSelect.Internal.Msg option"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a SearchSelect.Model to your model.\n\n    type alias MyModel =\n        { mySearchSelect : SearchSelect.Model String\n        }\n",
-        "args": [
-          "option"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the search select in your update function, to set focus etc.\n",
-        "type": "Form.SearchSelect.View option -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialOption",
-        "comment": " Get the initial option of your search-select.\n",
-        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your search-select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.SearchSelect.Model option -> Bool"
-      },
-      {
-        "name": "getIsOpen",
-        "comment": " Whether this select is currently open.\n",
-        "type": "Form.SearchSelect.Model option -> Bool"
-      },
-      {
-        "name": "getSelectedOption",
-        "comment": " Get the current option of your search-select. This is what you'd use to display the data somewhere outside of your search-select,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "init",
-        "comment": " Init a SearchSelect.Model in your model.\n\n      myInitialModel : MyModel\n      myInitialModel =\n          { mySearchSelect = SearchSelect.init \"https://example.com/search\" Decode.string\n          }\n  ",
-        "type": "String -> Json.Decode.Decoder option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your SearchSelect.Model.\n",
-        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an SearchSelect.View into Html SearchSelect.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect\n                |> SearchSelect.render\n                |> Html.map UpdateMySearchSelect\n            ]\n",
-        "type": "Form.SearchSelect.View option -> Html.Styled.Html (Form.SearchSelect.Internal.Msg option)"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your SearchSelect.Model.\n",
-        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "setDefaultLabel",
-        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
-        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your search-select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setInitialOption",
-        "comment": " Set the initial option of your SearchSelect.Model.\n",
-        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "setIsClearable",
-        "comment": " Set whether your search-select is clearable (x icon).\n",
-        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your search-select is in error mode (red border).\n",
-        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your search-select is locked (disabled).\n",
-        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setIsOptionDisabled",
-        "comment": " This function allows you to disable specific options.\n",
-        "type": "(option -> Bool) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setSelectedOption",
-        "comment": " Change the option of your SearchSelect.Model.\n",
-        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "setToLabel",
-        "comment": " Set how your options are printed to the screen.\n",
-        "type": "(option -> String) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySearchSelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        SearchSelect.update selectMsg mode.mySearchSelect\n                in\n                    { model | mySearchSelect = newSelect } ! [ cmd ]\n",
-        "type": "Form.SearchSelect.Internal.Msg option -> Form.SearchSelect.Model option -> ( Form.SearchSelect.Model option , Platform.Cmd.Cmd (Form.SearchSelect.Internal.Msg option) )"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an SearchSelect.Model into an SearchSelect.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.View option"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Form.FloatInput",
     "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue, setDecimal\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
     "aliases": [
@@ -873,112 +873,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.DropZone",
-    "comment": " Module to add a file DropZone to your app\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setIsError, setIsLocked, setLabel\n\n# Getters\n@docs getIsChanged, getFiles, Files, OkFile, ErrFile\n\n",
-    "aliases": [
-      {
-        "name": "ErrFile",
-        "comment": " File that didn't import successfully\n",
-        "args": [],
-        "type": "{ lastModified : Time.Time , name : String , size : Int , mimeType : String , error : FileReader.Error }"
-      },
-      {
-        "name": "Files",
-        "comment": " List of files that imported properly and list of files that didn't\n",
-        "args": [],
-        "type": "{ ok : List Form.DropZone.OkFile, err : List Form.DropZone.ErrFile }"
-      },
-      {
-        "name": "OkFile",
-        "comment": " File that imported successfully\n",
-        "args": [],
-        "type": "{ lastModified : Time.Time , name : String , size : Int , mimeType : String , base64 : String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a DropZone.Model to your model.\n\n    type alias MyModel =\n        { myDropZone : DropZone.Model\n        }\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Msg",
-        "comment": " Add a DropZone.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyDropZone DropZone.Msg\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getFiles",
-        "comment": " Get the current value of your DropZone. This is what you'd use to display the data somewhere outside of your DropZone,\nor to send the files to the backend for example etc.\n",
-        "type": "Form.DropZone.Model -> Form.DropZone.Files"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your DropZone was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.DropZone.Model -> Bool"
-      },
-      {
-        "name": "init",
-        "comment": " Add a DropZone.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myDropZone = DropZone.init -- optionally pipe into State Setters\n        }\n",
-        "type": "Form.DropZone.Model"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your DropZone.Model.\n",
-        "type": "Form.DropZone.Model -> Form.DropZone.Model"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an DropZone.View into Html DropZone.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ DropZone.view model.myDropZone\n                |> DropZone.render\n                |> Html.map UpdateMyDropZone\n            ]\n",
-        "type": "Form.DropZone.View -> Html.Styled.Html Form.DropZone.Msg"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your DropZone.Model.\n",
-        "type": "Form.DropZone.Model -> Form.DropZone.Model"
-      },
-      {
-        "name": "setInitialValue",
-        "comment": " Set the initial files of your DropZone.Model.\n",
-        "type": "List FileReader.File -> Form.DropZone.Model -> Form.DropZone.Model"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your input is in error mode (red border).\n",
-        "type": "Bool -> Form.DropZone.View -> Form.DropZone.View"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your input is locked (disabled).\n",
-        "type": "Bool -> Form.DropZone.View -> Form.DropZone.View"
-      },
-      {
-        "name": "setLabel",
-        "comment": " Set the label for your DropZone.\n",
-        "type": "String -> Form.DropZone.View -> Form.DropZone.View"
-      },
-      {
-        "name": "setValue",
-        "comment": " Change the files of your DropZone.Model.\n",
-        "type": "List FileReader.File -> Form.DropZone.Model -> Form.DropZone.Model"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyDropZone dropZoneMsg ->\n                { model | myDropZone = DropZone.update dropZoneMsg model.myDropZone } ! []\n",
-        "type": "Form.DropZone.Msg -> Form.DropZone.Model -> Form.DropZone.Model"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an DropZone.Model into an DropZone.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ DropZone.view model.myDropZone -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.DropZone.Model -> Form.DropZone.View"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Card",
     "comment": " Module to create Cards with Headers, CardBlocks and Footers\n\n# Init\n@docs view, viewIf\n\n# Create blocks\n@docs header, body, footer, block, blockIf, maybeBlock, blockSizes\n\n# Render\n@docs render\n",
     "aliases": [],
@@ -1087,6 +981,112 @@
         "name": "viewIf",
         "comment": " Init a modal conditionally\n",
         "type": "Bool -> msg -> Modal.Config msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.DropZone",
+    "comment": " Module to add a file DropZone to your app\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setIsError, setIsLocked, setLabel\n\n# Getters\n@docs getIsChanged, getFiles, Files, OkFile, ErrFile\n\n",
+    "aliases": [
+      {
+        "name": "ErrFile",
+        "comment": " File that didn't import successfully\n",
+        "args": [],
+        "type": "{ lastModified : Time.Time , name : String , size : Int , mimeType : String , error : FileReader.Error }"
+      },
+      {
+        "name": "Files",
+        "comment": " List of files that imported properly and list of files that didn't\n",
+        "args": [],
+        "type": "{ ok : List Form.DropZone.OkFile, err : List Form.DropZone.ErrFile }"
+      },
+      {
+        "name": "OkFile",
+        "comment": " File that imported successfully\n",
+        "args": [],
+        "type": "{ lastModified : Time.Time , name : String , size : Int , mimeType : String , base64 : String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a DropZone.Model to your model.\n\n    type alias MyModel =\n        { myDropZone : DropZone.Model\n        }\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Msg",
+        "comment": " Add a DropZone.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyDropZone DropZone.Msg\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getFiles",
+        "comment": " Get the current value of your DropZone. This is what you'd use to display the data somewhere outside of your DropZone,\nor to send the files to the backend for example etc.\n",
+        "type": "Form.DropZone.Model -> Form.DropZone.Files"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your DropZone was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.DropZone.Model -> Bool"
+      },
+      {
+        "name": "init",
+        "comment": " Add a DropZone.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myDropZone = DropZone.init -- optionally pipe into State Setters\n        }\n",
+        "type": "Form.DropZone.Model"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your DropZone.Model.\n",
+        "type": "Form.DropZone.Model -> Form.DropZone.Model"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an DropZone.View into Html DropZone.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ DropZone.view model.myDropZone\n                |> DropZone.render\n                |> Html.map UpdateMyDropZone\n            ]\n",
+        "type": "Form.DropZone.View -> Html.Styled.Html Form.DropZone.Msg"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your DropZone.Model.\n",
+        "type": "Form.DropZone.Model -> Form.DropZone.Model"
+      },
+      {
+        "name": "setInitialValue",
+        "comment": " Set the initial files of your DropZone.Model.\n",
+        "type": "List FileReader.File -> Form.DropZone.Model -> Form.DropZone.Model"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your input is in error mode (red border).\n",
+        "type": "Bool -> Form.DropZone.View -> Form.DropZone.View"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your input is locked (disabled).\n",
+        "type": "Bool -> Form.DropZone.View -> Form.DropZone.View"
+      },
+      {
+        "name": "setLabel",
+        "comment": " Set the label for your DropZone.\n",
+        "type": "String -> Form.DropZone.View -> Form.DropZone.View"
+      },
+      {
+        "name": "setValue",
+        "comment": " Change the files of your DropZone.Model.\n",
+        "type": "List FileReader.File -> Form.DropZone.Model -> Form.DropZone.Model"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyDropZone dropZoneMsg ->\n                { model | myDropZone = DropZone.update dropZoneMsg model.myDropZone } ! []\n",
+        "type": "Form.DropZone.Msg -> Form.DropZone.Model -> Form.DropZone.Model"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an DropZone.Model into an DropZone.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ DropZone.view model.myDropZone -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.DropZone.Model -> Form.DropZone.View"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1499,6 +1499,54 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Resettable",
+    "comment": " This module is useful if you want to track changes to a value.\n\n# Definition\n@docs Resettable\n\n# Initialise and update\n@docs init, update, reset\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Resettable",
+        "comment": " Represent values that may be initial or updated. It can be useful if you have a\na save button that should be disabled if nothing on a form changed.\n\n    type alias MyProfileForm =\n        { firstName : Resettable String\n        , email : Resettable String\n        }\n\n    form =\n        { firstName = Resettable.init \"John Doe\"\n        , email = Resettable.init \"\"\n        }\n\n    shouldEnableSaveButton : Form -> Bool\n    shouldEnableSaveButton form =\n        Resettable.getIsChanged form.email || Resettable.getIsChanged form.password\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getInitialValue",
+        "comment": " Get the initial value.\n\n    getInitialValue (Initial \"Josh\")         -- \"Josh\"\n    getInitialValue (Updated \"Josh\" \"Joshua\") -- \"Josh\"\n",
+        "type": "Resettable.Resettable a -> a"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether a value changed.\n\n    getIsChanged (Initial \"Josh\")         -- False\n    getIsChanged (Updated \"Josh\" \"Joshua\") -- True\n\n    when checking a lot of values, it may be helpful to put them in a list:\n\n    -- if they all have the same type:\n    List.any getIsChanged [ Initial \"Josh\", Updated \"Josh\" \"Joshua\" ]   -- True\n\n    -- if they have different types\n    List.any ((==) True) [ getIsChanged (Initial \"Josh\"), getIsChanged (Initial 12) ]   -- False\n",
+        "type": "Resettable.Resettable a -> Bool"
+      },
+      {
+        "name": "getValue",
+        "comment": " Get the current value.\n\n    getValue (Initial \"Josh\")         -- \"Josh\"\n    getValue (Updated \"Josh\" \"Joshua\") -- \"Joshua\"\n",
+        "type": "Resettable.Resettable a -> a"
+      },
+      {
+        "name": "init",
+        "comment": " Initialise a value.\n\n    init \"Bob\"     -- Initial \"Bob\"\n",
+        "type": "a -> Resettable.Resettable a"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset to the initial value.\n\n    reset (Initial \"Josh\")         -- Initial \"Josh\"\n    reset (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
+        "type": "Resettable.Resettable a -> Resettable.Resettable a"
+      },
+      {
+        "name": "update",
+        "comment": " Updates a Resettable value.\n\n    -- update to new value\n    update \"Joshua\" (Initial \"Josh\")       -- Updated \"Josh\" \"Joshua\"\n    update \"Bob\" (Updated \"Josh\" \"Joshua\")  -- Updated \"Josh\" \"Bob\"\n\n    -- if the new value is the initial value or a changed value is set to it's initial value, keep the initial value\n    update \"Josh\" (Initial \"Josh\")         -- Initial \"Bob\"\n    update \"Josh\" (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
+        "type": "a -> Resettable.Resettable a -> Resettable.Resettable a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "StringFormatting",
     "comment": " String Formatting Helpers\n\n# String Formatting Helpers\n@docs mobileNumber\n\n",
     "aliases": [],
@@ -1510,6 +1558,21 @@
         "type": "String -> String"
       }
     ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "InfixPrecedence",
+    "comment": " This module is useful to allow multiple modules to declare their own (?) infix function.\n\nIt's sole purpose is to set `infix 0 ?`.\n\nSo if you have multiple (?) functions, simply import this module from each of them\n(as the same infix precedence can't be set more than once).\n\n# Definition\n@docs InfixPrecedence\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "InfixPrecedence",
+        "comment": " This type is ony here to satisfy elm packages. Can't be created or used.\n\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -1611,54 +1674,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Resettable",
-    "comment": " This module is useful if you want to track changes to a value.\n\n# Definition\n@docs Resettable\n\n# Initialise and update\n@docs init, update, reset\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Resettable",
-        "comment": " Represent values that may be initial or updated. It can be useful if you have a\na save button that should be disabled if nothing on a form changed.\n\n    type alias MyProfileForm =\n        { firstName : Resettable String\n        , email : Resettable String\n        }\n\n    form =\n        { firstName = Resettable.init \"John Doe\"\n        , email = Resettable.init \"\"\n        }\n\n    shouldEnableSaveButton : Form -> Bool\n    shouldEnableSaveButton form =\n        Resettable.getIsChanged form.email || Resettable.getIsChanged form.password\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getInitialValue",
-        "comment": " Get the initial value.\n\n    getInitialValue (Initial \"Josh\")         -- \"Josh\"\n    getInitialValue (Updated \"Josh\" \"Joshua\") -- \"Josh\"\n",
-        "type": "Resettable.Resettable a -> a"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether a value changed.\n\n    getIsChanged (Initial \"Josh\")         -- False\n    getIsChanged (Updated \"Josh\" \"Joshua\") -- True\n\n    when checking a lot of values, it may be helpful to put them in a list:\n\n    -- if they all have the same type:\n    List.any getIsChanged [ Initial \"Josh\", Updated \"Josh\" \"Joshua\" ]   -- True\n\n    -- if they have different types\n    List.any ((==) True) [ getIsChanged (Initial \"Josh\"), getIsChanged (Initial 12) ]   -- False\n",
-        "type": "Resettable.Resettable a -> Bool"
-      },
-      {
-        "name": "getValue",
-        "comment": " Get the current value.\n\n    getValue (Initial \"Josh\")         -- \"Josh\"\n    getValue (Updated \"Josh\" \"Joshua\") -- \"Joshua\"\n",
-        "type": "Resettable.Resettable a -> a"
-      },
-      {
-        "name": "init",
-        "comment": " Initialise a value.\n\n    init \"Bob\"     -- Initial \"Bob\"\n",
-        "type": "a -> Resettable.Resettable a"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset to the initial value.\n\n    reset (Initial \"Josh\")         -- Initial \"Josh\"\n    reset (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
-        "type": "Resettable.Resettable a -> Resettable.Resettable a"
-      },
-      {
-        "name": "update",
-        "comment": " Updates a Resettable value.\n\n    -- update to new value\n    update \"Joshua\" (Initial \"Josh\")       -- Updated \"Josh\" \"Joshua\"\n    update \"Bob\" (Updated \"Josh\" \"Joshua\")  -- Updated \"Josh\" \"Bob\"\n\n    -- if the new value is the initial value or a changed value is set to it's initial value, keep the initial value\n    update \"Josh\" (Initial \"Josh\")         -- Initial \"Bob\"\n    update \"Josh\" (Updated \"Josh\" \"Joshua\") -- Initial \"Josh\"\n",
-        "type": "a -> Resettable.Resettable a -> Resettable.Resettable a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "List.Nonempty.Bdt",
     "comment": " Nonempty Helpers\n\n# Decode a Nonempty\n@docs decoder\n\n",
     "aliases": [],
@@ -1668,81 +1683,6 @@
         "name": "decoder",
         "comment": " Nonempty decoder\n\n    type alias Student =\n        { firstName : String\n        , courses : Nonempty Course\n        }\n\n\n    decoder : Decoder Student\n    decoder =\n        Decode.decode Student\n            |> Decode.required \"firstName\" Decode.string\n            |> Decode.required \"courses\" (Nonempty.decoder courseDecoder)\n\n",
         "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (List.Nonempty.Nonempty a)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dom.Scroll.Bdt",
-    "comment": " Dom Scroll Helpers\n\n# String Formatting Helpers\n@docs HorizontalScroll, onHorizontalScroll, VerticalScroll, onVerticalScroll\n\n",
-    "aliases": [
-      {
-        "name": "HorizontalScroll",
-        "comment": " This record is emitted by onHorizontalScroll\n",
-        "args": [],
-        "type": "{ scrollWidth : Int, scrollLeft : Int, clientWidth : Int }"
-      },
-      {
-        "name": "VerticalScroll",
-        "comment": " This record is emitted by onHorizontalScroll\n",
-        "args": [],
-        "type": "{ scrollHeight : Int, scrollTop : Int, clientHeight : Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "onHorizontalScroll",
-        "comment": " Attach this event listener on DOM elements to be notified if it get's scrolled\n",
-        "type": "(Dom.Scroll.Bdt.HorizontalScroll -> msg) -> Html.Attribute msg"
-      },
-      {
-        "name": "onVerticalScroll",
-        "comment": " Attach this event listener on DOM elements to be notified if it get's scrolled\n",
-        "type": "(Dom.Scroll.Bdt.VerticalScroll -> msg) -> Html.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "InfixPrecedence",
-    "comment": " This module is useful to allow multiple modules to declare their own (?) infix function.\n\nIt's sole purpose is to set `infix 0 ?`.\n\nSo if you have multiple (?) functions, simply import this module from each of them\n(as the same infix precedence can't be set more than once).\n\n# Definition\n@docs InfixPrecedence\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "InfixPrecedence",
-        "comment": " This type is ony here to satisfy elm packages. Can't be created or used.\n\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "EverySet.Bdt",
-    "comment": " EverySet Helpers\n\n# Toggle\n@docs toggle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toggle",
-        "comment": " Toggle an item in a set. Item is added if not existing, or removed if existing.\n",
-        "type": "a -> EverySet.EverySet a -> EverySet.EverySet a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Basics.Bdt",
-    "comment": " Basics Helpers\n\n# Lifting\n@docs lift2\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "lift2",
-        "comment": " Lift things\n\n    List.sortWith (lift2 .date Date.order) list\n\n",
-        "type": "(a -> b) -> (b -> b -> c) -> a -> a -> c"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1883,6 +1823,66 @@
         "name": "toString",
         "comment": " Returns a string as dd/mm/yyyy\n",
         "type": "Date.Date -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "EverySet.Bdt",
+    "comment": " EverySet Helpers\n\n# Toggle\n@docs toggle\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toggle",
+        "comment": " Toggle an item in a set. Item is added if not existing, or removed if existing.\n",
+        "type": "a -> EverySet.EverySet a -> EverySet.EverySet a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Dom.Scroll.Bdt",
+    "comment": " Dom Scroll Helpers\n\n# String Formatting Helpers\n@docs HorizontalScroll, onHorizontalScroll, VerticalScroll, onVerticalScroll\n\n",
+    "aliases": [
+      {
+        "name": "HorizontalScroll",
+        "comment": " This record is emitted by onHorizontalScroll\n",
+        "args": [],
+        "type": "{ scrollWidth : Int, scrollLeft : Int, clientWidth : Int }"
+      },
+      {
+        "name": "VerticalScroll",
+        "comment": " This record is emitted by onHorizontalScroll\n",
+        "args": [],
+        "type": "{ scrollHeight : Int, scrollTop : Int, clientHeight : Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "onHorizontalScroll",
+        "comment": " Attach this event listener on DOM elements to be notified if it get's scrolled\n",
+        "type": "(Dom.Scroll.Bdt.HorizontalScroll -> msg) -> Html.Attribute msg"
+      },
+      {
+        "name": "onVerticalScroll",
+        "comment": " Attach this event listener on DOM elements to be notified if it get's scrolled\n",
+        "type": "(Dom.Scroll.Bdt.VerticalScroll -> msg) -> Html.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Basics.Bdt",
+    "comment": " Basics Helpers\n\n# Lifting\n@docs lift2\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lift2",
+        "comment": " Lift things\n\n    List.sortWith (lift2 .date Date.order) list\n\n",
+        "type": "(a -> b) -> (b -> b -> c) -> a -> a -> c"
       }
     ],
     "generated-with-elm-version": "0.18.0"
