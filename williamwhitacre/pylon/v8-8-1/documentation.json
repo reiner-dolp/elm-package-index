@@ -95,6 +95,70 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Pylon.DB.Legacy.Group",
+    "comment": " This is being kept in a seperate legacy module where it will not clutter things. Since a lot\nof code is based on it for now, it is being kept intact. Do not use this module if you are not already\nheavily invested in an existing project that uses these.\n\n@docs bindingGroupTo, dataRebasedBinding, dataSubBinding, forwardingGroupTo, groupDataSubscriber, groupRebasedBinding, groupRebasedDataSubscriber, groupSubBinding, groupSubscriber, orderGroupBy, sendingGroupTo\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bindingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConstruct a new incomplete group binding from a ElmFire Firebase location. ",
+        "type": "ElmFire.Location -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "dataRebasedBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding uses the key of the discovered item to get a child at a diffeent location than\nthat of the group binding. A good example would be a subscription that tracks a group of users,\nbut actually pulls data from a global profiles list. ",
+        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
+      },
+      {
+        "name": "dataSubBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nconcrete data. Note that if you are using the `groupDataSubscriber` convenience function, then this\nis already invoked internally, making the task of bindin a group of concrete records even easier. ",
+        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
+      },
+      {
+        "name": "forwardingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions with a transformation function for forwarding. If\nthis is not applied to the binding, no feedback will be recieved. ",
+        "type": "(List (Pylon.DB.Group.GroupFeedback subfeedback) -> List action) -> Signal.Address (List action) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "groupDataSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
+        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "groupRebasedBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding for nested groups. ",
+        "type": "ElmFire.Location -> ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
+      },
+      {
+        "name": "groupRebasedDataSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
+        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "groupSubBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nnested groups. ",
+        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
+      },
+      {
+        "name": "groupSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nThis is the old subscription primitive, and is quite a bit more limited. For testing purposes,\nit has been implemented in terms of `groupIntegrate` and `groupSubscription`. `groupIntegrate` is\nmuch more powerful, and takes a list of \"sourcing\" functions like `groupSubscription`. ",
+        "type": "(subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (subbinding -> subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (Pylon.DB.Legacy.Group.GroupBinding subfeedback -> String -> subbinding) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Group.Group subtype -> ( Pylon.DB.Group.Group subtype, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "orderGroupBy",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nGive an ordering for the group subscription's internal query. Note that this _will not order the\nresulting key-value dictionary_, but it is still useful because it will have an effect on which\nresults are produced by the Firebase API in the event that limiting is used, which is the case for\nmost practical applications. ",
+        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "sendingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions. If this is not applied to the binding, no feedback\nwill be recieved. ",
+        "type": "Signal.Address (List (Pylon.DB.Group.GroupFeedback subfeedback)) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Pylon.DB.Mirror",
     "comment": " A binding for ElmTextSearch and Pylon.DB.Group.\n\n# Types\n@docs Mirror\n\n# Construction\n@docs mirror\n\n# Getters\n@docs getRef, getChangedRef, refs, changedRefs, deltas, isEmpty, isChangedEmpty\n\n# Mirroring\n@docs each, refresh, resynch, attach, attachSynch, attachDelta, attachFilterSynch, attachFilterDelta\n\n# Dataflow\n@docs forward, forwardPast, filterForward, sort, filterSort, multiSort\n\n# Control\n@docs inject, commit\n\n# Group Binding\n@docs bindMirror, bindMirrorRaw, groupMirror, groupMirror, groupMirrorSynch, dataGroupMirror, dataGroupMirrorSynch\n\n",
     "aliases": [],
@@ -258,154 +322,6 @@
         "name": "sort",
         "comment": " Sort the documents in a mirror in to buckets. ",
         "type": "(String -> doctype -> String) -> Pylon.DB.Mirror.Mirror doctype -> Pylon.DB.Mirror.Mirror (Pylon.DB.Mirror.Mirror doctype) -> Pylon.DB.Mirror.Mirror (Pylon.DB.Mirror.Mirror doctype)"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Pylon.DB.Legacy.Group",
-    "comment": " This is being kept in a seperate legacy module where it will not clutter things. Since a lot\nof code is based on it for now, it is being kept intact. Do not use this module if you are not already\nheavily invested in an existing project that uses these.\n\n@docs bindingGroupTo, dataRebasedBinding, dataSubBinding, forwardingGroupTo, groupDataSubscriber, groupRebasedBinding, groupRebasedDataSubscriber, groupSubBinding, groupSubscriber, orderGroupBy, sendingGroupTo\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bindingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConstruct a new incomplete group binding from a ElmFire Firebase location. ",
-        "type": "ElmFire.Location -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "dataRebasedBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding uses the key of the discovered item to get a child at a diffeent location than\nthat of the group binding. A good example would be a subscription that tracks a group of users,\nbut actually pulls data from a global profiles list. ",
-        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
-      },
-      {
-        "name": "dataSubBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nconcrete data. Note that if you are using the `groupDataSubscriber` convenience function, then this\nis already invoked internally, making the task of bindin a group of concrete records even easier. ",
-        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
-      },
-      {
-        "name": "forwardingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions with a transformation function for forwarding. If\nthis is not applied to the binding, no feedback will be recieved. ",
-        "type": "(List (Pylon.DB.Group.GroupFeedback subfeedback) -> List action) -> Signal.Address (List action) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "groupDataSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
-        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "groupRebasedBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding for nested groups. ",
-        "type": "ElmFire.Location -> ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
-      },
-      {
-        "name": "groupRebasedDataSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
-        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "groupSubBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nnested groups. ",
-        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
-      },
-      {
-        "name": "groupSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nThis is the old subscription primitive, and is quite a bit more limited. For testing purposes,\nit has been implemented in terms of `groupIntegrate` and `groupSubscription`. `groupIntegrate` is\nmuch more powerful, and takes a list of \"sourcing\" functions like `groupSubscription`. ",
-        "type": "(subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (subbinding -> subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (Pylon.DB.Legacy.Group.GroupBinding subfeedback -> String -> subbinding) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Group.Group subtype -> ( Pylon.DB.Group.Group subtype, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "orderGroupBy",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nGive an ordering for the group subscription's internal query. Note that this _will not order the\nresulting key-value dictionary_, but it is still useful because it will have an effect on which\nresults are produced by the Firebase API in the event that limiting is used, which is the case for\nmost practical applications. ",
-        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "sendingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions. If this is not applied to the binding, no feedback\nwill be recieved. ",
-        "type": "Signal.Address (List (Pylon.DB.Group.GroupFeedback subfeedback)) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Pylon.DB.Meta",
-    "comment": " Subscribe to metadata about connectivity, timestamp offset, and authentication using the\nsame easy to understand pattern set forth in `Pylon.DB`.\n\n# Types\n@docs MetaFeedback, MetaBinding, MetaData\n\n# Special Server Metadata Binding\n@docs nilMetaData, metaBindingTo, metaSendingTo, metaForwardingTo, metaInputOne, metaInput, metaSubscribe\n\n# Getters\n@docs getTimestampOffset, getConnectionStatus, getAuthenticationStatus\n\n# Etc.\n@docs serverTimestampPlaceholder\n\n",
-    "aliases": [
-      {
-        "name": "MetaBinding",
-        "comment": " Server metadata binding. ",
-        "args": [],
-        "type": "{ address : Signal.Address (List Pylon.DB.Meta.MetaFeedback) , location : ElmFire.Location }"
-      },
-      {
-        "name": "MetaData",
-        "comment": " Server metadata record. ",
-        "args": [],
-        "type": "{ timeStampOffset : Pylon.Resource.Resource Pylon.DB.DBError Time.Time , isConnected : Pylon.Resource.Resource Pylon.DB.DBError Bool , authentication : Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication , subscriptions : Pylon.DB.Meta.MetaSubscriptions }"
-      }
-    ],
-    "types": [
-      {
-        "name": "MetaFeedback",
-        "comment": " Feedback for the the server metadata subscription. ",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getAuthenticationStatus",
-        "comment": " Get the resource representing the current authentication status to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication"
-      },
-      {
-        "name": "getConnectionStatus",
-        "comment": " Get the resource representing the current connection status to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Bool"
-      },
-      {
-        "name": "getTimestampOffset",
-        "comment": " Get the resource representing the current timestamp offset to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Time.Time"
-      },
-      {
-        "name": "metaBindingTo",
-        "comment": " Create a metadata binding for a firebase location. Should be the root location. ",
-        "type": "ElmFire.Location -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaForwardingTo",
-        "comment": " Add an address to a metadata binding with a forwarding function. ",
-        "type": "(List Pylon.DB.Meta.MetaFeedback -> List action) -> Signal.Address (List action) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaInput",
-        "comment": " Server metadata list update function. ",
-        "type": "List Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "metaInputOne",
-        "comment": " Server metadata single update function. ",
-        "type": "Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "metaSendingTo",
-        "comment": " Add an address to a metadata binding. Unless you do this, feedback will go to a hidden internal\ndrain. ",
-        "type": "Signal.Address (List Pylon.DB.Meta.MetaFeedback) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaSubscribe",
-        "comment": " Subscribe to the server metadata at your root Firebase location. ",
-        "type": "Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaData -> ( Pylon.DB.Meta.MetaData, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "nilMetaData",
-        "comment": " Empty metadata record. A metadata record should always be initialized to this. ",
-        "type": "Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "serverTimestampPlaceholder",
-        "comment": " A placeholder for encoding the server timestamp. ",
-        "type": "Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -661,6 +577,90 @@
         "name": "subscribe",
         "comment": " ",
         "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Tree.Tree subtype -> ( Pylon.DB.Tree.Tree subtype, List (Pylon.DB.DBTask never) )"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Pylon.DB.Meta",
+    "comment": " Subscribe to metadata about connectivity, timestamp offset, and authentication using the\nsame easy to understand pattern set forth in `Pylon.DB`.\n\n# Types\n@docs MetaFeedback, MetaBinding, MetaData\n\n# Special Server Metadata Binding\n@docs nilMetaData, metaBindingTo, metaSendingTo, metaForwardingTo, metaInputOne, metaInput, metaSubscribe\n\n# Getters\n@docs getTimestampOffset, getConnectionStatus, getAuthenticationStatus\n\n# Etc.\n@docs serverTimestampPlaceholder\n\n",
+    "aliases": [
+      {
+        "name": "MetaBinding",
+        "comment": " Server metadata binding. ",
+        "args": [],
+        "type": "{ address : Signal.Address (List Pylon.DB.Meta.MetaFeedback) , location : ElmFire.Location }"
+      },
+      {
+        "name": "MetaData",
+        "comment": " Server metadata record. ",
+        "args": [],
+        "type": "{ timeStampOffset : Pylon.Resource.Resource Pylon.DB.DBError Time.Time , isConnected : Pylon.Resource.Resource Pylon.DB.DBError Bool , authentication : Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication , subscriptions : Pylon.DB.Meta.MetaSubscriptions }"
+      }
+    ],
+    "types": [
+      {
+        "name": "MetaFeedback",
+        "comment": " Feedback for the the server metadata subscription. ",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getAuthenticationStatus",
+        "comment": " Get the resource representing the current authentication status to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication"
+      },
+      {
+        "name": "getConnectionStatus",
+        "comment": " Get the resource representing the current connection status to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Bool"
+      },
+      {
+        "name": "getTimestampOffset",
+        "comment": " Get the resource representing the current timestamp offset to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Time.Time"
+      },
+      {
+        "name": "metaBindingTo",
+        "comment": " Create a metadata binding for a firebase location. Should be the root location. ",
+        "type": "ElmFire.Location -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaForwardingTo",
+        "comment": " Add an address to a metadata binding with a forwarding function. ",
+        "type": "(List Pylon.DB.Meta.MetaFeedback -> List action) -> Signal.Address (List action) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaInput",
+        "comment": " Server metadata list update function. ",
+        "type": "List Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "metaInputOne",
+        "comment": " Server metadata single update function. ",
+        "type": "Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "metaSendingTo",
+        "comment": " Add an address to a metadata binding. Unless you do this, feedback will go to a hidden internal\ndrain. ",
+        "type": "Signal.Address (List Pylon.DB.Meta.MetaFeedback) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaSubscribe",
+        "comment": " Subscribe to the server metadata at your root Firebase location. ",
+        "type": "Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaData -> ( Pylon.DB.Meta.MetaData, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "nilMetaData",
+        "comment": " Empty metadata record. A metadata record should always be initialized to this. ",
+        "type": "Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "serverTimestampPlaceholder",
+        "comment": " A placeholder for encoding the server timestamp. ",
+        "type": "Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.16.0"

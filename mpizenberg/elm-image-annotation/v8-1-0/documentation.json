@@ -118,6 +118,118 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Annotation.Style",
+    "comment": " Styling the annotations.\n\n\n# Styling points\n\n@docs Point, pointDefault\n\n\n# Styling lines\n\n@docs Line, strokeDefault, strokeAttributes\n\n\n# Styling contents (fill)\n\n@docs Fill, fillDefault, fillAttribute\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Fill",
+        "comment": " Styling of a content (fill).\n\nA fill is either not visible, or of a given color.\nOpacity is set using the alpha channel of the color.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "NoFill",
+            []
+          ],
+          [
+            "Fill",
+            [
+              "Color.Color"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Line",
+        "comment": " Styling of a line.\n\nA line is either not visible,\nor displayed with a stroke of given width and color.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "NoLine",
+            []
+          ],
+          [
+            "Stroke",
+            [
+              "Float",
+              "Color.Color"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Point",
+        "comment": " Styling of a point.\n\nA point is either not visible,\nor displayed as a colored disk of a given radius.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "NoPoint",
+            []
+          ],
+          [
+            "Disk",
+            [
+              "Float",
+              "Color.Color"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "fillAttribute",
+        "comment": " Transform a Fill style into the corresponding svg attribute.\n",
+        "type": "Annotation.Style.Fill -> Svg.Attribute msg"
+      },
+      {
+        "name": "fillDefault",
+        "comment": " Default style of a content (fill)\n\nA red with opacity at 20%.\n\n",
+        "type": "Annotation.Style.Fill"
+      },
+      {
+        "name": "pointDefault",
+        "comment": " Default style of a point.\n\nAn orange disk of radius 3 px.\n\n",
+        "type": "Annotation.Style.Point"
+      },
+      {
+        "name": "strokeAttributes",
+        "comment": " Transform a Line style into the corresponding svg attributes.\n",
+        "type": "Annotation.Style.Line -> List (Svg.Attribute msg)"
+      },
+      {
+        "name": "strokeDefault",
+        "comment": " Default style of a line.\n\nA red stroke of width 2 px.\n\n",
+        "type": "Annotation.Style.Line"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Annotation.Geometry.Outline",
+    "comment": " Create and manipulate free line closed outlines.\n\nThe `Outline` type is an alias for the [OpenSolid Geometry Polygon2d][polygon2d]\ntype so if a functionality is not provided by this module,\nyou can easily extend it with functions from the OpenSolid/Geometry package.\n\n[polygon2d]: http://package.elm-lang.org/packages/opensolid/geometry/2.0.1/OpenSolid-Polygon2d#Polygon2d\n\n@docs empty, fromPoints, points\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "empty",
+        "comment": " Create an empty outline.\n",
+        "type": "Annotation.Geometry.Types.Outline"
+      },
+      {
+        "name": "fromPoints",
+        "comment": " Create a closed outline from a list of points.\n",
+        "type": "List Annotation.Geometry.Types.Point -> Annotation.Geometry.Types.Outline"
+      },
+      {
+        "name": "points",
+        "comment": " Retrieve the list of points of the outline.\n",
+        "type": "Annotation.Geometry.Types.Contour -> List Annotation.Geometry.Types.Point"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Annotation.Viewer",
     "comment": " This module provides functions to manage the viewing area.\n\n\n# Model\n\n@docs Viewer, default\n\n\n# Update\n\n@docs setSize, getCenter, centerAt\n@docs setZoom, setZoomCentered, zoomIn, zoomOut\n@docs fitImage\n@docs grabMove, positionIn, sizeIn\n\n\n# View\n\n@docs viewIn, viewInWithDetails, placeIn\n\n",
     "aliases": [
@@ -209,30 +321,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Annotation.Geometry.Outline",
-    "comment": " Create and manipulate free line closed outlines.\n\nThe `Outline` type is an alias for the [OpenSolid Geometry Polygon2d][polygon2d]\ntype so if a functionality is not provided by this module,\nyou can easily extend it with functions from the OpenSolid/Geometry package.\n\n[polygon2d]: http://package.elm-lang.org/packages/opensolid/geometry/2.0.1/OpenSolid-Polygon2d#Polygon2d\n\n@docs empty, fromPoints, points\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "empty",
-        "comment": " Create an empty outline.\n",
-        "type": "Annotation.Geometry.Types.Outline"
-      },
-      {
-        "name": "fromPoints",
-        "comment": " Create a closed outline from a list of points.\n",
-        "type": "List Annotation.Geometry.Types.Point -> Annotation.Geometry.Types.Outline"
-      },
-      {
-        "name": "points",
-        "comment": " Retrieve the list of points of the outline.\n",
-        "type": "Annotation.Geometry.Types.Contour -> List Annotation.Geometry.Types.Point"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Annotation.Geometry.Point",
     "comment": " Create and manipulate points.\n\n@docs fromCoordinates\n\n",
     "aliases": [],
@@ -242,25 +330,6 @@
         "name": "fromCoordinates",
         "comment": " Create a Point with the given coordinates.\n",
         "type": "( Float, Float ) -> Annotation.Geometry.Types.Point"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Annotation.Geometry.BoundingBox",
-    "comment": " Create and manipulate bounding boxes.\n\n@docs fromPair, svgAttributes\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "fromPair",
-        "comment": " Create a bounding box from a pair of points\nrepresenting opposite corners of the bounding box.\n",
-        "type": "( Annotation.Geometry.Types.Point, Annotation.Geometry.Types.Point ) -> Annotation.Geometry.Types.BoundingBox"
-      },
-      {
-        "name": "svgAttributes",
-        "comment": " Get the geometric svg attributes of a bounding box.\n",
-        "type": "Annotation.Geometry.Types.BoundingBox -> List (Svg.Attribute msg)"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -290,89 +359,44 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Annotation.Style",
-    "comment": " Styling the annotations.\n\n\n# Styling points\n\n@docs Point, pointDefault\n\n\n# Styling lines\n\n@docs Line, strokeDefault, strokeAttributes\n\n\n# Styling contents (fill)\n\n@docs Fill, fillDefault, fillAttribute\n\n",
+    "name": "Annotation.Geometry.BoundingBox",
+    "comment": " Create and manipulate bounding boxes.\n\n@docs fromPair, svgAttributes\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "Fill",
-        "comment": " Styling of a content (fill).\n\nA fill is either not visible, or of a given color.\nOpacity is set using the alpha channel of the color.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "NoFill",
-            []
-          ],
-          [
-            "Fill",
-            [
-              "Color.Color"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "Line",
-        "comment": " Styling of a line.\n\nA line is either not visible,\nor displayed with a stroke of given width and color.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "NoLine",
-            []
-          ],
-          [
-            "Stroke",
-            [
-              "Float",
-              "Color.Color"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "Point",
-        "comment": " Styling of a point.\n\nA point is either not visible,\nor displayed as a colored disk of a given radius.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "NoPoint",
-            []
-          ],
-          [
-            "Disk",
-            [
-              "Float",
-              "Color.Color"
-            ]
-          ]
-        ]
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "fillAttribute",
-        "comment": " Transform a Fill style into the corresponding svg attribute.\n",
-        "type": "Annotation.Style.Fill -> Svg.Attribute msg"
+        "name": "fromPair",
+        "comment": " Create a bounding box from a pair of points\nrepresenting opposite corners of the bounding box.\n",
+        "type": "( Annotation.Geometry.Types.Point, Annotation.Geometry.Types.Point ) -> Annotation.Geometry.Types.BoundingBox"
       },
       {
-        "name": "fillDefault",
-        "comment": " Default style of a content (fill)\n\nA red with opacity at 20%.\n\n",
-        "type": "Annotation.Style.Fill"
+        "name": "svgAttributes",
+        "comment": " Get the geometric svg attributes of a bounding box.\n",
+        "type": "Annotation.Geometry.Types.BoundingBox -> List (Svg.Attribute msg)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Annotation.Color",
+    "comment": " Color management.\n\n@docs toStr, turquoise, palette\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "palette",
+        "comment": " A color palette print and color-blind friendly.\n\n( beige, green, turquoise, blue, dark blue )\n\n",
+        "type": "( Color.Color, Color.Color, Color.Color, Color.Color, Color.Color )"
       },
       {
-        "name": "pointDefault",
-        "comment": " Default style of a point.\n\nAn orange disk of radius 3 px.\n\n",
-        "type": "Annotation.Style.Point"
+        "name": "toStr",
+        "comment": " Get a string describing the color like `rgba(255,0,0,1)`.\n",
+        "type": "Color.Color -> String"
       },
       {
-        "name": "strokeAttributes",
-        "comment": " Transform a Line style into the corresponding svg attributes.\n",
-        "type": "Annotation.Style.Line -> List (Svg.Attribute msg)"
-      },
-      {
-        "name": "strokeDefault",
-        "comment": " Default style of a line.\n\nA red stroke of width 2 px.\n\n",
-        "type": "Annotation.Style.Line"
+        "name": "turquoise",
+        "comment": " Turquoise.\n",
+        "type": "Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -414,30 +438,6 @@
     ],
     "types": [],
     "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Annotation.Color",
-    "comment": " Color management.\n\n@docs toStr, turquoise, palette\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "palette",
-        "comment": " A color palette print and color-blind friendly.\n\n( beige, green, turquoise, blue, dark blue )\n\n",
-        "type": "( Color.Color, Color.Color, Color.Color, Color.Color, Color.Color )"
-      },
-      {
-        "name": "toStr",
-        "comment": " Get a string describing the color like `rgba(255,0,0,1)`.\n",
-        "type": "Color.Color -> String"
-      },
-      {
-        "name": "turquoise",
-        "comment": " Turquoise.\n",
-        "type": "Color.Color"
-      }
-    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]

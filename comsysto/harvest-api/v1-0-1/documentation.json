@@ -297,51 +297,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Harvest.WhoAmI",
-    "comment": " Warpper around Harvest Who Am I API\n\n# WhoAmI\n@docs ProjectManager, User, Modules, Company, WhoAmI\n\n# WhoAmI API\n@docs getUserInfo\n\n",
-    "aliases": [
-      {
-        "name": "Company",
-        "comment": " Representation of a company.\n",
-        "args": [],
-        "type": "{ baseUri : String , fullDomain : String , name : String , active : Bool , weekStartDay : String , timeFormat : String , clock : String , decimalSymbol : String , colorScheme : String , modules : Harvest.WhoAmI.Modules , thousandsSeparator : String , planType : String }"
-      },
-      {
-        "name": "Modules",
-        "comment": " Representation of modules.\n",
-        "args": [],
-        "type": "{ expenses : Bool , invoices : Bool , estimates : Bool , approval : Bool }"
-      },
-      {
-        "name": "ProjectManager",
-        "comment": " Representation of a project manager.\n",
-        "args": [],
-        "type": "{ isProjectManager : Bool , canSeeRates : Bool , canCreateProjects : Bool , canCreateInvoices : Bool }"
-      },
-      {
-        "name": "User",
-        "comment": " Representation of a user.\n",
-        "args": [],
-        "type": "{ timezone : String , timezoneIdentifier : String , timezoneUtcOffset : Int , id : Int , email : String , admin : Bool , firstName : String , lastName : String , avatarUrl : String , projectManager : Harvest.WhoAmI.ProjectManager , timestampTimers : Bool }"
-      },
-      {
-        "name": "WhoAmI",
-        "comment": " Representation of the user and company.\n",
-        "args": [],
-        "type": "{ user : Harvest.WhoAmI.User, company : Harvest.WhoAmI.Company }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "getUserInfo",
-        "comment": "\nThis call will return user and account information for the currently authenticated user.\n\nUsage: `getUserInfo accountId token`\n\nsends a GET request to `https://YOURACCOUNT.harvestapp.com/account/who_am_i?access_token={token}`\n",
-        "type": "String -> String -> Http.Request Harvest.WhoAmI.WhoAmI"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Harvest.ReportingAPI",
     "comment": " Warpper around Harvest Reporting API\n\n# DayEntry\n@docs DayEntry\n\n# DayEntry API\n@docs getEntriesByUserForDateRange, getEntriesForProjectTimeframe\n\n# DayEntry decoders\n@docs dayEntry, hours\n\n# Expense\n@docs Expense\n\n# Expense API\n@docs getExpensesByUserForDateRange, getExpensesForProjectTimeframe\n\n# Expense decoders\n@docs expenses, expense\n",
     "aliases": [
@@ -399,6 +354,153 @@
         "name": "hours",
         "comment": " Decode a JSON list of day entries into a `List DayEntry`.\n",
         "type": "Json.Decode.Decoder (List Harvest.ReportingAPI.DayEntry)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Harvest.TaskAPI",
+    "comment": " Warpper around Harvest Task API\n\n# Task\n@docs Task\n\n# Task API\n@docs getAllTasks, getTask, createTask, deleteTask, updateTask, reactivateTask\n\n# Task decoders\n@docs tasksDecoder, taskDecoder\n\n# TaskAssignment\n@docs TaskAssignment\n\n# TaskAssignment API\n@docs getTasksAssignedToProject, getTaskAssignment, assignTaskToAProject, createNewTaskAndAssignItToProject, removeTaskFromProject, updateTaskAssignment\n\n# TaskAssignment decoders\n@docs taskAssignmentsDecoder, taskAssignmentDecoder\n",
+    "aliases": [
+      {
+        "name": "Task",
+        "comment": " Representation of a task.\n",
+        "args": [],
+        "type": "{ id : Int , name : String , billableByDefault : Bool , isDefault : Bool , defaultHourlyRate : Float , deactivated : Bool , createdAt : Maybe.Maybe Date.Date , updatedAt : Maybe.Maybe Date.Date }"
+      },
+      {
+        "name": "TaskAssignment",
+        "comment": " Representation of a taskassignment.\n",
+        "args": [],
+        "type": "{ id : Int , projectId : Int , taskId : Int , billable : Bool , deactivated : Bool , hourlyRate : Float , budget : Maybe.Maybe Float , estimate : Maybe.Maybe Float , createdAt : Date.Date , updatedAt : Date.Date }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "assignTaskToAProject",
+        "comment": "\nAssign Task To A Project\n\nUsage:\n`assignTaskToAProject accountId taskId projectId token`\n\nsends a POST request to `https://{accountId}.harvestapp.com/projects/{projectId}/task_assignments?access_token={token}`\n\nRetruns `Location: /projects/{PROJECT_ID}/task_assignments/{NEW_TASK_ASSIGNMENT_ID}`\n",
+        "type": "String -> Int -> Int -> String -> Http.Request String"
+      },
+      {
+        "name": "createNewTaskAndAssignItToProject",
+        "comment": "\nCreate A New Task And Assign It To A Project\n\nUsage:\n`createNewTaskAndAssignItToProject accountId projectId taskName token`\n\nsends a POST request to `https://{accountId}.harvestapp.com/projects/{PROJECT_ID}/task_assignments/add_with_create_new_task?access_token={token}`\n\nReturns `Location: /projects/{PROJECT_ID}/task_assignments/{NEW_TASK_ASSIGNMENT_ID}`\n",
+        "type": "String -> Int -> String -> String -> Http.Request String"
+      },
+      {
+        "name": "createTask",
+        "comment": "\nCreate New Task\n\nUsage:\n`createTask accountId token task`\n\nsends a POST request to `https://{accountId}.harvestapp.com/tasks?access_token={token}`\n\nA successful call will return: `201 Created` and the header `Location: /tasks/{new_task_id}`\n",
+        "type": "String -> String -> Harvest.TaskAPI.Task -> Http.Request String"
+      },
+      {
+        "name": "deleteTask",
+        "comment": "\nArchive/Delete A Task\n\nUsage:\n`deleteTask accountId taskId token`\n\nsends a DELETE request to `https://{accountId}.harvestapp.com/tasks/{task_id}?access_token={token}`\n",
+        "type": "String -> Int -> String -> Http.Request String"
+      },
+      {
+        "name": "getAllTasks",
+        "comment": "\nShow All Tasks\n\nUsage:\n`getAllTasks accountId token params`\n\nsends a GET request to `https://{accountId}.harvestapp.com/tasks?access_token={token}`\n\nAllowed parameters:\n\n`updated_since` e.g. `updated_since=2015-09-25+18%3A30`\n",
+        "type": "String -> String -> Dict.Dict String String -> Http.Request (List Harvest.TaskAPI.Task)"
+      },
+      {
+        "name": "getTask",
+        "comment": "\nShow One Task\n\nUsage:\n`getTask accountId taskId token`\n\nsends a GET request to `https://{accountId}.harvestapp.com/tasks/{task_id}?access_token={token}`\n\nResponse: `200 OK` if successful\n",
+        "type": "String -> Int -> String -> Http.Request Harvest.TaskAPI.Task"
+      },
+      {
+        "name": "getTaskAssignment",
+        "comment": "\nGet One Task Assignment\n\nUsage:\n`getTaskAssignment accountId projectId assignmentId token`\n\nsends a GET request to `https://{accountId}.harvestapp.com/projects/{PROJECT_ID}/task_assignments/{TASK_ASSIGNMENT_ID}?access_token={token}`\n\nResponse: `200 OK` if successful\n",
+        "type": "String -> Int -> Int -> String -> Http.Request Harvest.TaskAPI.TaskAssignment"
+      },
+      {
+        "name": "getTasksAssignedToProject",
+        "comment": "\nAll Assigned Tasks To Project\n\nUsage:\n`getTasksAssignedToProject accountId projectId token params`\n\nsends a GET request to `https://{accountId}.harvestapp.com/projects/{project_id}/task_assignments?access_token={token}`\n\nAllowed parameters:\n\n`updated_since` e.g. `updated_since=2010-09-25+18%3A30`\n",
+        "type": "String -> Int -> String -> Dict.Dict String String -> Http.Request (List Harvest.TaskAPI.TaskAssignment)"
+      },
+      {
+        "name": "reactivateTask",
+        "comment": "\nReactivate A Task\n\nUsage:\n`reactivateTask accountId taskId token`\n\nsends a POST request to `https://{accountId}.harvestapp.com/tasks/{taskId}/activate?access_token={token}`\n",
+        "type": "String -> Int -> String -> Http.Request String"
+      },
+      {
+        "name": "removeTaskFromProject",
+        "comment": "\nRemoving A Task From A Project\n\nUsage:\n`removeTaskFromProject accountId projectId assignmentId token`\n\nsends a DELETE request to `https://{accountId}.harestapp.com/projects/{projectId}/task_assignments/{assignmentId}?access_token={token}`\n",
+        "type": "String -> Int -> Int -> String -> Http.Request String"
+      },
+      {
+        "name": "taskAssignmentDecoder",
+        "comment": " Decode a JSON task assignment into a `TaskAssignment`.\n",
+        "type": "Json.Decode.Decoder Harvest.TaskAPI.TaskAssignment"
+      },
+      {
+        "name": "taskAssignmentsDecoder",
+        "comment": " Decode a JSON list of task assignments into a `List TaskAssignment`.\n",
+        "type": "Json.Decode.Decoder (List Harvest.TaskAPI.TaskAssignment)"
+      },
+      {
+        "name": "taskDecoder",
+        "comment": " Decode a JSON task into a `Task`.\n",
+        "type": "Json.Decode.Decoder Harvest.TaskAPI.Task"
+      },
+      {
+        "name": "tasksDecoder",
+        "comment": " Decode a JSON list of tasks into a `List Task`.\n",
+        "type": "Json.Decode.Decoder (List Harvest.TaskAPI.Task)"
+      },
+      {
+        "name": "updateTask",
+        "comment": "\nUpdate A Task\n\nUsage:\n`updateTask accountId task token`\n\nsends a PUT request to `https://{accountId}.harvestapp.com/tasks/{task_id}?access_token={token}`\n",
+        "type": "String -> Harvest.TaskAPI.Task -> String -> Http.Request String"
+      },
+      {
+        "name": "updateTaskAssignment",
+        "comment": "\nUpdating A Task Assignment For A Project\n\nUsage:\n`updateTaskAssignment accountId assignment token`\n\nsends a PUT request to `https://{accountId}.harvestapp.com/projects/{PROJECT_ID}/task_assignments/{TASK_ASSIGNMENT_ID}?access_token={token}`\n",
+        "type": "String -> Harvest.TaskAPI.TaskAssignment -> String -> Http.Request String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Harvest.WhoAmI",
+    "comment": " Warpper around Harvest Who Am I API\n\n# WhoAmI\n@docs ProjectManager, User, Modules, Company, WhoAmI\n\n# WhoAmI API\n@docs getUserInfo\n\n",
+    "aliases": [
+      {
+        "name": "Company",
+        "comment": " Representation of a company.\n",
+        "args": [],
+        "type": "{ baseUri : String , fullDomain : String , name : String , active : Bool , weekStartDay : String , timeFormat : String , clock : String , decimalSymbol : String , colorScheme : String , modules : Harvest.WhoAmI.Modules , thousandsSeparator : String , planType : String }"
+      },
+      {
+        "name": "Modules",
+        "comment": " Representation of modules.\n",
+        "args": [],
+        "type": "{ expenses : Bool , invoices : Bool , estimates : Bool , approval : Bool }"
+      },
+      {
+        "name": "ProjectManager",
+        "comment": " Representation of a project manager.\n",
+        "args": [],
+        "type": "{ isProjectManager : Bool , canSeeRates : Bool , canCreateProjects : Bool , canCreateInvoices : Bool }"
+      },
+      {
+        "name": "User",
+        "comment": " Representation of a user.\n",
+        "args": [],
+        "type": "{ timezone : String , timezoneIdentifier : String , timezoneUtcOffset : Int , id : Int , email : String , admin : Bool , firstName : String , lastName : String , avatarUrl : String , projectManager : Harvest.WhoAmI.ProjectManager , timestampTimers : Bool }"
+      },
+      {
+        "name": "WhoAmI",
+        "comment": " Representation of the user and company.\n",
+        "args": [],
+        "type": "{ user : Harvest.WhoAmI.User, company : Harvest.WhoAmI.Company }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "getUserInfo",
+        "comment": "\nThis call will return user and account information for the currently authenticated user.\n\nUsage: `getUserInfo accountId token`\n\nsends a GET request to `https://YOURACCOUNT.harvestapp.com/account/who_am_i?access_token={token}`\n",
+        "type": "String -> String -> Http.Request Harvest.WhoAmI.WhoAmI"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -501,25 +603,6 @@
         "name": "updateContact",
         "comment": "\nUpdate A Client Contact\n\nUsage:\n`updateContact accountId contact token`\n\nsends a PUT request to `https://YOURACCOUNT.harvestapp.com/contacts/{CONTACTID}?access_token={token}`\n\nResponse: `200 OK`, along with header `Location /contacts/{CONTACTID}`\n",
         "type": "String -> Harvest.ClientAPI.Contact -> String -> Http.Request String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Harvest.Auth",
-    "comment": " Support for Authentication\n\n# Utility methods\n@docs authUrl, checkAccessTokenAvailable\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "authUrl",
-        "comment": " create Harvest authorization API using account name (accountId), id of your client app (clientId) and redirectUrl\n\nUsage:\n`authUrl accountId clientId redirectUrl`\n",
-        "type": "String -> String -> String -> String"
-      },
-      {
-        "name": "checkAccessTokenAvailable",
-        "comment": " check if access_token is present in the url\n\nUsage:\n`checkAccessTokenAvailable urlHashToParse authenticationUrl`\n",
-        "type": "String -> String -> Result.Result String String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -628,103 +711,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Harvest.TaskAPI",
-    "comment": " Warpper around Harvest Task API\n\n# Task\n@docs Task\n\n# Task API\n@docs getAllTasks, getTask, createTask, deleteTask, updateTask, reactivateTask\n\n# Task decoders\n@docs tasksDecoder, taskDecoder\n\n# TaskAssignment\n@docs TaskAssignment\n\n# TaskAssignment API\n@docs getTasksAssignedToProject, getTaskAssignment, assignTaskToAProject, createNewTaskAndAssignItToProject, removeTaskFromProject, updateTaskAssignment\n\n# TaskAssignment decoders\n@docs taskAssignmentsDecoder, taskAssignmentDecoder\n",
-    "aliases": [
-      {
-        "name": "Task",
-        "comment": " Representation of a task.\n",
-        "args": [],
-        "type": "{ id : Int , name : String , billableByDefault : Bool , isDefault : Bool , defaultHourlyRate : Float , deactivated : Bool , createdAt : Maybe.Maybe Date.Date , updatedAt : Maybe.Maybe Date.Date }"
-      },
-      {
-        "name": "TaskAssignment",
-        "comment": " Representation of a taskassignment.\n",
-        "args": [],
-        "type": "{ id : Int , projectId : Int , taskId : Int , billable : Bool , deactivated : Bool , hourlyRate : Float , budget : Maybe.Maybe Float , estimate : Maybe.Maybe Float , createdAt : Date.Date , updatedAt : Date.Date }"
-      }
-    ],
+    "name": "Harvest.Auth",
+    "comment": " Support for Authentication\n\n# Utility methods\n@docs authUrl, checkAccessTokenAvailable\n\n",
+    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "assignTaskToAProject",
-        "comment": "\nAssign Task To A Project\n\nUsage:\n`assignTaskToAProject accountId taskId projectId token`\n\nsends a POST request to `https://{accountId}.harvestapp.com/projects/{projectId}/task_assignments?access_token={token}`\n\nRetruns `Location: /projects/{PROJECT_ID}/task_assignments/{NEW_TASK_ASSIGNMENT_ID}`\n",
-        "type": "String -> Int -> Int -> String -> Http.Request String"
+        "name": "authUrl",
+        "comment": " create Harvest authorization API using account name (accountId), id of your client app (clientId) and redirectUrl\n\nUsage:\n`authUrl accountId clientId redirectUrl`\n",
+        "type": "String -> String -> String -> String"
       },
       {
-        "name": "createNewTaskAndAssignItToProject",
-        "comment": "\nCreate A New Task And Assign It To A Project\n\nUsage:\n`createNewTaskAndAssignItToProject accountId projectId taskName token`\n\nsends a POST request to `https://{accountId}.harvestapp.com/projects/{PROJECT_ID}/task_assignments/add_with_create_new_task?access_token={token}`\n\nReturns `Location: /projects/{PROJECT_ID}/task_assignments/{NEW_TASK_ASSIGNMENT_ID}`\n",
-        "type": "String -> Int -> String -> String -> Http.Request String"
-      },
-      {
-        "name": "createTask",
-        "comment": "\nCreate New Task\n\nUsage:\n`createTask accountId token task`\n\nsends a POST request to `https://{accountId}.harvestapp.com/tasks?access_token={token}`\n\nA successful call will return: `201 Created` and the header `Location: /tasks/{new_task_id}`\n",
-        "type": "String -> String -> Harvest.TaskAPI.Task -> Http.Request String"
-      },
-      {
-        "name": "deleteTask",
-        "comment": "\nArchive/Delete A Task\n\nUsage:\n`deleteTask accountId taskId token`\n\nsends a DELETE request to `https://{accountId}.harvestapp.com/tasks/{task_id}?access_token={token}`\n",
-        "type": "String -> Int -> String -> Http.Request String"
-      },
-      {
-        "name": "getAllTasks",
-        "comment": "\nShow All Tasks\n\nUsage:\n`getAllTasks accountId token params`\n\nsends a GET request to `https://{accountId}.harvestapp.com/tasks?access_token={token}`\n\nAllowed parameters:\n\n`updated_since` e.g. `updated_since=2015-09-25+18%3A30`\n",
-        "type": "String -> String -> Dict.Dict String String -> Http.Request (List Harvest.TaskAPI.Task)"
-      },
-      {
-        "name": "getTask",
-        "comment": "\nShow One Task\n\nUsage:\n`getTask accountId taskId token`\n\nsends a GET request to `https://{accountId}.harvestapp.com/tasks/{task_id}?access_token={token}`\n\nResponse: `200 OK` if successful\n",
-        "type": "String -> Int -> String -> Http.Request Harvest.TaskAPI.Task"
-      },
-      {
-        "name": "getTaskAssignment",
-        "comment": "\nGet One Task Assignment\n\nUsage:\n`getTaskAssignment accountId projectId assignmentId token`\n\nsends a GET request to `https://{accountId}.harvestapp.com/projects/{PROJECT_ID}/task_assignments/{TASK_ASSIGNMENT_ID}?access_token={token}`\n\nResponse: `200 OK` if successful\n",
-        "type": "String -> Int -> Int -> String -> Http.Request Harvest.TaskAPI.TaskAssignment"
-      },
-      {
-        "name": "getTasksAssignedToProject",
-        "comment": "\nAll Assigned Tasks To Project\n\nUsage:\n`getTasksAssignedToProject accountId projectId token params`\n\nsends a GET request to `https://{accountId}.harvestapp.com/projects/{project_id}/task_assignments?access_token={token}`\n\nAllowed parameters:\n\n`updated_since` e.g. `updated_since=2010-09-25+18%3A30`\n",
-        "type": "String -> Int -> String -> Dict.Dict String String -> Http.Request (List Harvest.TaskAPI.TaskAssignment)"
-      },
-      {
-        "name": "reactivateTask",
-        "comment": "\nReactivate A Task\n\nUsage:\n`reactivateTask accountId taskId token`\n\nsends a POST request to `https://{accountId}.harvestapp.com/tasks/{taskId}/activate?access_token={token}`\n",
-        "type": "String -> Int -> String -> Http.Request String"
-      },
-      {
-        "name": "removeTaskFromProject",
-        "comment": "\nRemoving A Task From A Project\n\nUsage:\n`removeTaskFromProject accountId projectId assignmentId token`\n\nsends a DELETE request to `https://{accountId}.harestapp.com/projects/{projectId}/task_assignments/{assignmentId}?access_token={token}`\n",
-        "type": "String -> Int -> Int -> String -> Http.Request String"
-      },
-      {
-        "name": "taskAssignmentDecoder",
-        "comment": " Decode a JSON task assignment into a `TaskAssignment`.\n",
-        "type": "Json.Decode.Decoder Harvest.TaskAPI.TaskAssignment"
-      },
-      {
-        "name": "taskAssignmentsDecoder",
-        "comment": " Decode a JSON list of task assignments into a `List TaskAssignment`.\n",
-        "type": "Json.Decode.Decoder (List Harvest.TaskAPI.TaskAssignment)"
-      },
-      {
-        "name": "taskDecoder",
-        "comment": " Decode a JSON task into a `Task`.\n",
-        "type": "Json.Decode.Decoder Harvest.TaskAPI.Task"
-      },
-      {
-        "name": "tasksDecoder",
-        "comment": " Decode a JSON list of tasks into a `List Task`.\n",
-        "type": "Json.Decode.Decoder (List Harvest.TaskAPI.Task)"
-      },
-      {
-        "name": "updateTask",
-        "comment": "\nUpdate A Task\n\nUsage:\n`updateTask accountId task token`\n\nsends a PUT request to `https://{accountId}.harvestapp.com/tasks/{task_id}?access_token={token}`\n",
-        "type": "String -> Harvest.TaskAPI.Task -> String -> Http.Request String"
-      },
-      {
-        "name": "updateTaskAssignment",
-        "comment": "\nUpdating A Task Assignment For A Project\n\nUsage:\n`updateTaskAssignment accountId assignment token`\n\nsends a PUT request to `https://{accountId}.harvestapp.com/projects/{PROJECT_ID}/task_assignments/{TASK_ASSIGNMENT_ID}?access_token={token}`\n",
-        "type": "String -> Harvest.TaskAPI.TaskAssignment -> String -> Http.Request String"
+        "name": "checkAccessTokenAvailable",
+        "comment": " check if access_token is present in the url\n\nUsage:\n`checkAccessTokenAvailable urlHashToParse authenticationUrl`\n",
+        "type": "String -> String -> Result.Result String String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

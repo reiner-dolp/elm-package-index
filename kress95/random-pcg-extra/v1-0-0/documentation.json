@@ -1,24 +1,5 @@
 [
   {
-    "name": "Random.Pcg.List",
-    "comment": " Extra randomized functions on lists.\n\n# Work with a List\n@docs choose, shuffle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "choose",
-        "comment": " Sample without replacement: produce a randomly selected element of the\nlist, and the list with that element omitted. If the list is empty, the\nselected element will be `Nothing`.\n",
-        "type": "List a -> Random.Pcg.Generator ( Maybe.Maybe a, List a )"
-      },
-      {
-        "name": "shuffle",
-        "comment": " Shuffle the list using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
-        "type": "List a -> Random.Pcg.Generator (List a)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Random.Pcg.Order",
     "comment": " An extra random generator for the `Order` type.\n\n@docs order\n",
     "aliases": [],
@@ -52,6 +33,60 @@
         "name": "set",
         "comment": " Generate a set of at most the given size from a generator.\n\nThe size of a generated set is limited both by the integer provided and the\nnumber of unique values the generator can produce. It is very likely, but not\nguaranteed, that generated sets will be as big as the smaller of these two limits.\n",
         "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator (Set.Set comparable)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.Date",
+    "comment": " Extra randomized functions on dates.\n\n# Generators\n@docs date, day, month, year, hour, hour24, hour12, minute, second\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "date",
+        "comment": " Generate a random date given a start date and an end date.\n",
+        "type": "Date.Date -> Date.Date -> Random.Pcg.Generator Date.Date"
+      },
+      {
+        "name": "day",
+        "comment": " Generate a random day of the week.\n",
+        "type": "Random.Pcg.Generator Date.Day"
+      },
+      {
+        "name": "hour",
+        "comment": " Generate a random hour (random int between 0 and 23 inclusive)\n",
+        "type": "Random.Pcg.Generator Int"
+      },
+      {
+        "name": "hour12",
+        "comment": " Generate a random 12-hour day hour (random int between 0 and 11 inclusive)\n",
+        "type": "Random.Pcg.Generator Int"
+      },
+      {
+        "name": "hour24",
+        "comment": " Generate a random 24-hour day hour (random int between 0 and 23 inclusive)\n",
+        "type": "Random.Pcg.Generator Int"
+      },
+      {
+        "name": "minute",
+        "comment": " Generate a random minute (random int between 0 and 59 inclusive)\n",
+        "type": "Random.Pcg.Generator Int"
+      },
+      {
+        "name": "month",
+        "comment": " Generate a random month of the year.\n",
+        "type": "Random.Pcg.Generator Date.Month"
+      },
+      {
+        "name": "second",
+        "comment": " Generate a random second (random int between 0 and 59 inclusive)\n",
+        "type": "Random.Pcg.Generator Int"
+      },
+      {
+        "name": "year",
+        "comment": " Generate a random year given a start year and end year (alias for `int`)\n",
+        "type": "Int -> Int -> Random.Pcg.Generator Int"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1201,60 +1236,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.Date",
-    "comment": " Extra randomized functions on dates.\n\n# Generators\n@docs date, day, month, year, hour, hour24, hour12, minute, second\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "date",
-        "comment": " Generate a random date given a start date and an end date.\n",
-        "type": "Date.Date -> Date.Date -> Random.Pcg.Generator Date.Date"
-      },
-      {
-        "name": "day",
-        "comment": " Generate a random day of the week.\n",
-        "type": "Random.Pcg.Generator Date.Day"
-      },
-      {
-        "name": "hour",
-        "comment": " Generate a random hour (random int between 0 and 23 inclusive)\n",
-        "type": "Random.Pcg.Generator Int"
-      },
-      {
-        "name": "hour12",
-        "comment": " Generate a random 12-hour day hour (random int between 0 and 11 inclusive)\n",
-        "type": "Random.Pcg.Generator Int"
-      },
-      {
-        "name": "hour24",
-        "comment": " Generate a random 24-hour day hour (random int between 0 and 23 inclusive)\n",
-        "type": "Random.Pcg.Generator Int"
-      },
-      {
-        "name": "minute",
-        "comment": " Generate a random minute (random int between 0 and 59 inclusive)\n",
-        "type": "Random.Pcg.Generator Int"
-      },
-      {
-        "name": "month",
-        "comment": " Generate a random month of the year.\n",
-        "type": "Random.Pcg.Generator Date.Month"
-      },
-      {
-        "name": "second",
-        "comment": " Generate a random second (random int between 0 and 59 inclusive)\n",
-        "type": "Random.Pcg.Generator Int"
-      },
-      {
-        "name": "year",
-        "comment": " Generate a random year given a start year and end year (alias for `int`)\n",
-        "type": "Int -> Int -> Random.Pcg.Generator Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Random.Pcg.Array",
     "comment": " Extra randomized functions on arrays.\n\n# Create an Array\n@docs array, rangeLengthArray\n\n# Work with an Array\n@docs sample, choose, shuffle\n\n",
     "aliases": [],
@@ -1289,45 +1270,58 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.Float",
-    "comment": " Extra randomized functions on floats.\n\n# Arithmetic Generators\n@docs anyFloat, positiveFloat, negativeFloat, floatGreaterThan, floatLessThan\n\n# Gaussian Generators\n@docs normal, standardNormal\n\n",
+    "name": "Random.Pcg.List",
+    "comment": " Extra randomized functions on lists.\n\n# Work with a List\n@docs choose, shuffle\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "anyFloat",
-        "comment": " A generator that generates any float\n",
-        "type": "Random.Pcg.Generator Float"
+        "name": "choose",
+        "comment": " Sample without replacement: produce a randomly selected element of the\nlist, and the list with that element omitted. If the list is empty, the\nselected element will be `Nothing`.\n",
+        "type": "List a -> Random.Pcg.Generator ( Maybe.Maybe a, List a )"
       },
       {
-        "name": "floatGreaterThan",
-        "comment": " A generator that generates a float greater than a given float\n",
-        "type": "Float -> Random.Pcg.Generator Float"
+        "name": "shuffle",
+        "comment": " Shuffle the list using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
+        "type": "List a -> Random.Pcg.Generator (List a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.String",
+    "comment": " Extra randomized functions on strings.\n\n# Create a String\n@docs string, rangeLengthString\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rangeLengthString",
+        "comment": " Generates a random string of random length given the minimum length\nand maximum length and a given character generator.\n",
+        "type": "Int -> Int -> Random.Pcg.Generator Char -> Random.Pcg.Generator String"
       },
       {
-        "name": "floatLessThan",
-        "comment": " A generator that generates a float less than a given float\n",
-        "type": "Float -> Random.Pcg.Generator Float"
+        "name": "string",
+        "comment": " Generate a random string of a given length with a given character generator\n\n    fiveLetterEnglishWord = string 5 Random.Pcg.Char.english\n",
+        "type": "Int -> Random.Pcg.Generator Char -> Random.Pcg.Generator String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.Dict",
+    "comment": " Extra randomized functions on dicts.\n\n# Generators\n@docs dict, rangeLengthDict\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
+        "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
       },
       {
-        "name": "negativeFloat",
-        "comment": " A generator that generates any negative float\n",
-        "type": "Random.Pcg.Generator Float"
-      },
-      {
-        "name": "normal",
-        "comment": " Create a generator of floats that is normally distributed with\ngiven mean and standard deviation.\n",
-        "type": "Float -> Float -> Random.Pcg.Generator Float"
-      },
-      {
-        "name": "positiveFloat",
-        "comment": " A generator that generates any positive float\n",
-        "type": "Random.Pcg.Generator Float"
-      },
-      {
-        "name": "standardNormal",
-        "comment": " A generator that follows a standard normal distribution (as opposed to\na uniform distribution)\n",
-        "type": "Random.Pcg.Generator Float"
+        "name": "rangeLengthDict",
+        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1367,20 +1361,55 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.String",
-    "comment": " Extra randomized functions on strings.\n\n# Create a String\n@docs string, rangeLengthString\n\n",
+    "name": "Random.Pcg.Color",
+    "comment": " Extra randomized functions on colors.\n\n# Random.Pcg Colors by Components\n@docs rgb, rgba, hsl, hsla\n\n# Random.Pcg Colors by Shade\n@docs greyscale, grayscale, red, green, blue\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "rangeLengthString",
-        "comment": " Generates a random string of random length given the minimum length\nand maximum length and a given character generator.\n",
-        "type": "Int -> Int -> Random.Pcg.Generator Char -> Random.Pcg.Generator String"
+        "name": "blue",
+        "comment": " Generate a random shade of blue.\n",
+        "type": "Random.Pcg.Generator Color.Color"
       },
       {
-        "name": "string",
-        "comment": " Generate a random string of a given length with a given character generator\n\n    fiveLetterEnglishWord = string 5 Random.Pcg.Char.english\n",
-        "type": "Int -> Random.Pcg.Generator Char -> Random.Pcg.Generator String"
+        "name": "grayscale",
+        "comment": " Alias for greyscale.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "green",
+        "comment": " Generate a random shade of green.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "greyscale",
+        "comment": " Generate a random shade of grey\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "hsl",
+        "comment": " Generate a random non-transparent color by random HSL values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "hsla",
+        "comment": " Generate a random transparent color by random HSLA values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "red",
+        "comment": " Generate a random shade of red.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "rgb",
+        "comment": " Generate a random non-transparent color by random RGB values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "rgba",
+        "comment": " Generate a random transparent color by random RGBA values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1485,74 +1514,45 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.Color",
-    "comment": " Extra randomized functions on colors.\n\n# Random.Pcg Colors by Components\n@docs rgb, rgba, hsl, hsla\n\n# Random.Pcg Colors by Shade\n@docs greyscale, grayscale, red, green, blue\n\n",
+    "name": "Random.Pcg.Float",
+    "comment": " Extra randomized functions on floats.\n\n# Arithmetic Generators\n@docs anyFloat, positiveFloat, negativeFloat, floatGreaterThan, floatLessThan\n\n# Gaussian Generators\n@docs normal, standardNormal\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "blue",
-        "comment": " Generate a random shade of blue.\n",
-        "type": "Random.Pcg.Generator Color.Color"
+        "name": "anyFloat",
+        "comment": " A generator that generates any float\n",
+        "type": "Random.Pcg.Generator Float"
       },
       {
-        "name": "grayscale",
-        "comment": " Alias for greyscale.\n",
-        "type": "Random.Pcg.Generator Color.Color"
+        "name": "floatGreaterThan",
+        "comment": " A generator that generates a float greater than a given float\n",
+        "type": "Float -> Random.Pcg.Generator Float"
       },
       {
-        "name": "green",
-        "comment": " Generate a random shade of green.\n",
-        "type": "Random.Pcg.Generator Color.Color"
+        "name": "floatLessThan",
+        "comment": " A generator that generates a float less than a given float\n",
+        "type": "Float -> Random.Pcg.Generator Float"
       },
       {
-        "name": "greyscale",
-        "comment": " Generate a random shade of grey\n",
-        "type": "Random.Pcg.Generator Color.Color"
+        "name": "negativeFloat",
+        "comment": " A generator that generates any negative float\n",
+        "type": "Random.Pcg.Generator Float"
       },
       {
-        "name": "hsl",
-        "comment": " Generate a random non-transparent color by random HSL values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
+        "name": "normal",
+        "comment": " Create a generator of floats that is normally distributed with\ngiven mean and standard deviation.\n",
+        "type": "Float -> Float -> Random.Pcg.Generator Float"
       },
       {
-        "name": "hsla",
-        "comment": " Generate a random transparent color by random HSLA values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
+        "name": "positiveFloat",
+        "comment": " A generator that generates any positive float\n",
+        "type": "Random.Pcg.Generator Float"
       },
       {
-        "name": "red",
-        "comment": " Generate a random shade of red.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "rgb",
-        "comment": " Generate a random non-transparent color by random RGB values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "rgba",
-        "comment": " Generate a random transparent color by random RGBA values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Random.Pcg.Dict",
-    "comment": " Extra randomized functions on dicts.\n\n# Generators\n@docs dict, rangeLengthDict\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "dict",
-        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
-        "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
-      },
-      {
-        "name": "rangeLengthDict",
-        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
+        "name": "standardNormal",
+        "comment": " A generator that follows a standard normal distribution (as opposed to\na uniform distribution)\n",
+        "type": "Random.Pcg.Generator Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"

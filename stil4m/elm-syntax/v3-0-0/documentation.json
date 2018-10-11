@@ -71,32 +71,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Elm.RawFile",
-    "comment": "\n\n\n# Elm.RawFile\n\n@docs RawFile\n\n@docs moduleName, imports\n\n",
-    "aliases": [
-      {
-        "name": "RawFile",
-        "comment": " A Raw file\n",
-        "args": [],
-        "type": "Elm.Internal.RawFile.RawFile"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "imports",
-        "comment": " Retrieve the imports for a raw file\n",
-        "type": "Elm.RawFile.RawFile -> List Elm.Syntax.Module.Import"
-      },
-      {
-        "name": "moduleName",
-        "comment": " Retrieve the module name for a raw file\n",
-        "type": "Elm.RawFile.RawFile -> Maybe.Maybe Elm.Syntax.Base.ModuleName"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Elm.Json.Encode",
     "comment": "\n\n\n# Elm.Json.Encode\n\nEncoding Elm Code to Json\n\n@docs encode\n\n",
     "aliases": [],
@@ -120,6 +94,32 @@
         "name": "decode",
         "comment": " Decode a file stored in Json\n",
         "type": "Json.Decode.Decoder Elm.Internal.RawFile.RawFile"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Elm.RawFile",
+    "comment": "\n\n\n# Elm.RawFile\n\n@docs RawFile\n\n@docs moduleName, imports\n\n",
+    "aliases": [
+      {
+        "name": "RawFile",
+        "comment": " A Raw file\n",
+        "args": [],
+        "type": "Elm.Internal.RawFile.RawFile"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "imports",
+        "comment": " Retrieve the imports for a raw file\n",
+        "type": "Elm.RawFile.RawFile -> List Elm.Syntax.Module.Import"
+      },
+      {
+        "name": "moduleName",
+        "comment": " Retrieve the module name for a raw file\n",
+        "type": "Elm.RawFile.RawFile -> Maybe.Maybe Elm.Syntax.Base.ModuleName"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -709,6 +709,96 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Elm.Syntax.Exposing",
+    "comment": " Exposing Syntax\n\n\n# Types\n\n@docs Exposing, TopLevelExpose, ExposedType, ValueConstructorExpose\n\n\n# Functions\n\n@docs topLevelExposeRange, exposesFunction, operators\n\n",
+    "aliases": [
+      {
+        "name": "ExposedType",
+        "comment": " Exposed Type\n",
+        "args": [],
+        "type": "{ name : String , constructors : Maybe.Maybe (Elm.Syntax.Exposing.Exposing Elm.Syntax.Exposing.ValueConstructorExpose) }"
+      },
+      {
+        "name": "ValueConstructorExpose",
+        "comment": " Exposed Value Constructor\n",
+        "args": [],
+        "type": "Elm.Syntax.Ranged.Ranged String"
+      }
+    ],
+    "types": [
+      {
+        "name": "Exposing",
+        "comment": " Diffent kind of exposing declarations\n",
+        "args": [
+          "a"
+        ],
+        "cases": [
+          [
+            "All",
+            [
+              "Elm.Syntax.Range.Range"
+            ]
+          ],
+          [
+            "Explicit",
+            [
+              "List a"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "TopLevelExpose",
+        "comment": " An exposed entity\n",
+        "args": [],
+        "cases": [
+          [
+            "InfixExpose",
+            [
+              "String"
+            ]
+          ],
+          [
+            "FunctionExpose",
+            [
+              "String"
+            ]
+          ],
+          [
+            "TypeOrAliasExpose",
+            [
+              "String"
+            ]
+          ],
+          [
+            "TypeExpose",
+            [
+              "Elm.Syntax.Exposing.ExposedType"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "exposesFunction",
+        "comment": " Check whether an import/module exposing list exposes a certain function\n",
+        "type": "String -> Elm.Syntax.Exposing.Exposing Elm.Syntax.Exposing.TopLevelExpose -> Bool"
+      },
+      {
+        "name": "operators",
+        "comment": " Get all operator names from a list of TopLevelExposes\n",
+        "type": "List Elm.Syntax.Exposing.TopLevelExpose -> List String"
+      },
+      {
+        "name": "topLevelExposeRange",
+        "comment": " Find out the range of a top level expose\n",
+        "type": "Elm.Syntax.Ranged.Ranged Elm.Syntax.Exposing.TopLevelExpose -> Elm.Syntax.Range.Range"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Elm.Syntax.Pattern",
     "comment": " Pattern Syntax\n\n\n# Types\n\n@docs Pattern, QualifiedNameRef\n\n",
     "aliases": [
@@ -818,96 +908,6 @@
       }
     ],
     "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Elm.Syntax.Exposing",
-    "comment": " Exposing Syntax\n\n\n# Types\n\n@docs Exposing, TopLevelExpose, ExposedType, ValueConstructorExpose\n\n\n# Functions\n\n@docs topLevelExposeRange, exposesFunction, operators\n\n",
-    "aliases": [
-      {
-        "name": "ExposedType",
-        "comment": " Exposed Type\n",
-        "args": [],
-        "type": "{ name : String , constructors : Maybe.Maybe (Elm.Syntax.Exposing.Exposing Elm.Syntax.Exposing.ValueConstructorExpose) }"
-      },
-      {
-        "name": "ValueConstructorExpose",
-        "comment": " Exposed Value Constructor\n",
-        "args": [],
-        "type": "Elm.Syntax.Ranged.Ranged String"
-      }
-    ],
-    "types": [
-      {
-        "name": "Exposing",
-        "comment": " Diffent kind of exposing declarations\n",
-        "args": [
-          "a"
-        ],
-        "cases": [
-          [
-            "All",
-            [
-              "Elm.Syntax.Range.Range"
-            ]
-          ],
-          [
-            "Explicit",
-            [
-              "List a"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "TopLevelExpose",
-        "comment": " An exposed entity\n",
-        "args": [],
-        "cases": [
-          [
-            "InfixExpose",
-            [
-              "String"
-            ]
-          ],
-          [
-            "FunctionExpose",
-            [
-              "String"
-            ]
-          ],
-          [
-            "TypeOrAliasExpose",
-            [
-              "String"
-            ]
-          ],
-          [
-            "TypeExpose",
-            [
-              "Elm.Syntax.Exposing.ExposedType"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "exposesFunction",
-        "comment": " Check whether an import/module exposing list exposes a certain function\n",
-        "type": "String -> Elm.Syntax.Exposing.Exposing Elm.Syntax.Exposing.TopLevelExpose -> Bool"
-      },
-      {
-        "name": "operators",
-        "comment": " Get all operator names from a list of TopLevelExposes\n",
-        "type": "List Elm.Syntax.Exposing.TopLevelExpose -> List String"
-      },
-      {
-        "name": "topLevelExposeRange",
-        "comment": " Find out the range of a top level expose\n",
-        "type": "Elm.Syntax.Ranged.Ranged Elm.Syntax.Exposing.TopLevelExpose -> Elm.Syntax.Range.Range"
-      }
-    ],
     "generated-with-elm-version": "0.18.0"
   },
   {

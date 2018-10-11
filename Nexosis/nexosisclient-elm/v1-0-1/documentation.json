@@ -48,101 +48,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Api.Data",
-    "comment": " Functions for interacting with the `/data` endpoint.\n\n\n## GET\n\n@docs get, getRetrieveDetail, getDataByDateRange, getStats, getStatsForColumn\n\n\n## PUT\n\n@docs put, updateMetadata, MetadataUpdateRequest, createDataSetWithKey\n\n\n## DELETE\n\n@docs delete\n\n",
-    "aliases": [
-      {
-        "name": "MetadataUpdateRequest",
-        "comment": " Details used when changing just the `ColumnMetadata` of a `DataSet`.\n",
-        "args": [],
-        "type": "{ dataSetName : Nexosis.Types.DataSet.DataSetName , columns : List Nexosis.Types.Columns.ColumnMetadata }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "createDataSetWithKey",
-        "comment": " PUT to create an empty `DataSet`, specifying only name of the key column.\n",
-        "type": "Nexosis.ClientConfig -> String -> String -> Http.Request ()"
-      },
-      {
-        "name": "delete",
-        "comment": " DELETE a specific `DataSet`. Cascade options are used to cascade delete other resources, such as `Sessions` or `Models`\n",
-        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Set.Set String -> Http.Request ()"
-      },
-      {
-        "name": "get",
-        "comment": " GET a list of `DataSet`, with paging limits and sorting information.\n",
-        "type": "Nexosis.ClientConfig -> Int -> Int -> Nexosis.Types.SortParameters.SortParameters -> Http.Request Nexosis.Types.DataSet.DataSetList"
-      },
-      {
-        "name": "getDataByDateRange",
-        "comment": " GET data from a `DataSet` filtered by a specific date range. Used for time-series `DataSets`.\n",
-        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Maybe.Maybe ( String, String ) -> List String -> Http.Request Nexosis.Types.DataSet.DataSetData"
-      },
-      {
-        "name": "getRetrieveDetail",
-        "comment": " GET a single `DataSet`, with paging on the actual contents of the `DataSet`.\n",
-        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Int -> Int -> Http.Request Nexosis.Types.DataSet.DataSetData"
-      },
-      {
-        "name": "getStats",
-        "comment": " GET stats information about a specific `DataSet`.\n",
-        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Http.Request Nexosis.Types.DataSet.DataSetStats"
-      },
-      {
-        "name": "getStatsForColumn",
-        "comment": " GET stats information for a specific `DataSet` column, requesting that the stats be calculated as a specific `DataType`.\n",
-        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> String -> Nexosis.Types.Columns.DataType -> Http.Request Nexosis.Types.DataSet.DataSetStats"
-      },
-      {
-        "name": "put",
-        "comment": " PUT - Upserts data to a dataset. If the `DataSet` has a key column, rows with the same key will be overwritten. If not, all rows will be appended to the existing `DataSet`.\n",
-        "type": "Nexosis.ClientConfig -> String -> String -> String -> Http.Request ()"
-      },
-      {
-        "name": "updateMetadata",
-        "comment": " PUT Changes just the `ColumnMetadata` of a `DataSet`.\n",
-        "type": "Nexosis.ClientConfig -> Nexosis.Api.Data.MetadataUpdateRequest -> Http.Request ()"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Api.Models",
-    "comment": " Functions for interacting with the `/models` endpoint.\n\n\n## GET\n\nRetrieve information about `Models` that have been created by a `Session`.\n\n@docs get, getOne\n\n\n## Predict\n\nUpload new rows of data which to be predicted by the specified `Model`.\n\n@docs predict, predictRaw\n\n\n## DELETE\n\n@docs delete\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "delete",
-        "comment": " DELETE a single `Model`.\n",
-        "type": "Nexosis.ClientConfig -> String -> Http.Request ()"
-      },
-      {
-        "name": "get",
-        "comment": " GET a listing of `Models`, with page limits and sorting information.\n",
-        "type": "Nexosis.ClientConfig -> Int -> Int -> Nexosis.Types.SortParameters.SortParameters -> Http.Request Nexosis.Types.Model.ModelList"
-      },
-      {
-        "name": "getOne",
-        "comment": " GET details about a single `Model`.\n",
-        "type": "Nexosis.ClientConfig -> String -> Http.Request Nexosis.Types.Model.ModelData"
-      },
-      {
-        "name": "predict",
-        "comment": " POST data to predict. This should be the `Id` of a `Model`, the `String` content that should be predicted in CSV or JSON format, and the ContentType of the data, either `\"text/csv\"` or `\"application/json\"`.\n",
-        "type": "Nexosis.ClientConfig -> String -> String -> String -> Http.Request Nexosis.Types.Model.PredictionResult"
-      },
-      {
-        "name": "predictRaw",
-        "comment": " Same as [`predict`](#predict), but with an additional parameter to specify the return format of the response, either `\"text/csv\"` or `\"application/json\"`.\n",
-        "type": "Nexosis.ClientConfig -> String -> String -> String -> String -> Http.Request String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nexosis.Api.Sessions",
     "comment": " Functions for interacting with the `/sessions` endpoint.\n\n\n## GET\n\nRetrieve information about `Sessions`.\n\n@docs get, getForDataset, getOne\n\n\n## POST\n\nStart running a new `Session`. The type of `Session` will depend on the machine leaning problem you are trying to solve.\n\nFor some higher level information about Sessions, refer to [the documentation](https://docs.nexosis.com/guides/sessions).\n\n@docs postModel, postForecast, postImpact\n\n\n## Request Types\n\nThese types are used to specify parameters about a `Session`.\n\n@docs ModelSessionRequest, ForecastSessionRequest, ImpactSessionRequest\n\n\n## Results\n\nOnce a `Session` is complete, results generated by the Session will be available. Different kinds of sessions will produce different result types.\n\n@docs results, resultsCsv, getConfusionMatrix, getDistanceMetrics, getDistanceMetricsCsv\n\n\n## DELETE\n\n@docs delete\n\n",
     "aliases": [
@@ -231,6 +136,101 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Nexosis.Api.Models",
+    "comment": " Functions for interacting with the `/models` endpoint.\n\n\n## GET\n\nRetrieve information about `Models` that have been created by a `Session`.\n\n@docs get, getOne\n\n\n## Predict\n\nUpload new rows of data which to be predicted by the specified `Model`.\n\n@docs predict, predictRaw\n\n\n## DELETE\n\n@docs delete\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "delete",
+        "comment": " DELETE a single `Model`.\n",
+        "type": "Nexosis.ClientConfig -> String -> Http.Request ()"
+      },
+      {
+        "name": "get",
+        "comment": " GET a listing of `Models`, with page limits and sorting information.\n",
+        "type": "Nexosis.ClientConfig -> Int -> Int -> Nexosis.Types.SortParameters.SortParameters -> Http.Request Nexosis.Types.Model.ModelList"
+      },
+      {
+        "name": "getOne",
+        "comment": " GET details about a single `Model`.\n",
+        "type": "Nexosis.ClientConfig -> String -> Http.Request Nexosis.Types.Model.ModelData"
+      },
+      {
+        "name": "predict",
+        "comment": " POST data to predict. This should be the `Id` of a `Model`, the `String` content that should be predicted in CSV or JSON format, and the ContentType of the data, either `\"text/csv\"` or `\"application/json\"`.\n",
+        "type": "Nexosis.ClientConfig -> String -> String -> String -> Http.Request Nexosis.Types.Model.PredictionResult"
+      },
+      {
+        "name": "predictRaw",
+        "comment": " Same as [`predict`](#predict), but with an additional parameter to specify the return format of the response, either `\"text/csv\"` or `\"application/json\"`.\n",
+        "type": "Nexosis.ClientConfig -> String -> String -> String -> String -> Http.Request String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Api.Data",
+    "comment": " Functions for interacting with the `/data` endpoint.\n\n\n## GET\n\n@docs get, getRetrieveDetail, getDataByDateRange, getStats, getStatsForColumn\n\n\n## PUT\n\n@docs put, updateMetadata, MetadataUpdateRequest, createDataSetWithKey\n\n\n## DELETE\n\n@docs delete\n\n",
+    "aliases": [
+      {
+        "name": "MetadataUpdateRequest",
+        "comment": " Details used when changing just the `ColumnMetadata` of a `DataSet`.\n",
+        "args": [],
+        "type": "{ dataSetName : Nexosis.Types.DataSet.DataSetName , columns : List Nexosis.Types.Columns.ColumnMetadata }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "createDataSetWithKey",
+        "comment": " PUT to create an empty `DataSet`, specifying only name of the key column.\n",
+        "type": "Nexosis.ClientConfig -> String -> String -> Http.Request ()"
+      },
+      {
+        "name": "delete",
+        "comment": " DELETE a specific `DataSet`. Cascade options are used to cascade delete other resources, such as `Sessions` or `Models`\n",
+        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Set.Set String -> Http.Request ()"
+      },
+      {
+        "name": "get",
+        "comment": " GET a list of `DataSet`, with paging limits and sorting information.\n",
+        "type": "Nexosis.ClientConfig -> Int -> Int -> Nexosis.Types.SortParameters.SortParameters -> Http.Request Nexosis.Types.DataSet.DataSetList"
+      },
+      {
+        "name": "getDataByDateRange",
+        "comment": " GET data from a `DataSet` filtered by a specific date range. Used for time-series `DataSets`.\n",
+        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Maybe.Maybe ( String, String ) -> List String -> Http.Request Nexosis.Types.DataSet.DataSetData"
+      },
+      {
+        "name": "getRetrieveDetail",
+        "comment": " GET a single `DataSet`, with paging on the actual contents of the `DataSet`.\n",
+        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Int -> Int -> Http.Request Nexosis.Types.DataSet.DataSetData"
+      },
+      {
+        "name": "getStats",
+        "comment": " GET stats information about a specific `DataSet`.\n",
+        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> Http.Request Nexosis.Types.DataSet.DataSetStats"
+      },
+      {
+        "name": "getStatsForColumn",
+        "comment": " GET stats information for a specific `DataSet` column, requesting that the stats be calculated as a specific `DataType`.\n",
+        "type": "Nexosis.ClientConfig -> Nexosis.Types.DataSet.DataSetName -> String -> Nexosis.Types.Columns.DataType -> Http.Request Nexosis.Types.DataSet.DataSetStats"
+      },
+      {
+        "name": "put",
+        "comment": " PUT - Upserts data to a dataset. If the `DataSet` has a key column, rows with the same key will be overwritten. If not, all rows will be appended to the existing `DataSet`.\n",
+        "type": "Nexosis.ClientConfig -> String -> String -> String -> Http.Request ()"
+      },
+      {
+        "name": "updateMetadata",
+        "comment": " PUT Changes just the `ColumnMetadata` of a `DataSet`.\n",
+        "type": "Nexosis.ClientConfig -> Nexosis.Api.Data.MetadataUpdateRequest -> Http.Request ()"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nexosis.Types.Import",
     "comment": " Information about the Imports that can be found at the `/imports` endpoint, <Nexosis.Api.Imports>.\n\n@docs ImportDetail, ImportType\n\n",
     "aliases": [
@@ -266,81 +266,24 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.DataSet",
-    "comment": " Representations of DataSets. Used when interacting with the `/data` and `/imports` endpoints.\n\nRefer to our [documentation on DataSets](https://docs.nexosis.com/guides/retrieving-data) for more information.\n\n@docs DataSet, DataSetList, DataSetData, DataSetStats, DataSetName, toDataSetName, dataSetNameToString\n\n",
+    "name": "Nexosis.Api.Metrics",
+    "comment": " This endpoint returns static information about the metrics that the Api will calculate.\nThis is really just to provide up to date text descriptions and names for metrics that may be shown to a user.\n\n@docs get, Metric\n\n",
     "aliases": [
       {
-        "name": "DataSet",
-        "comment": " Summary information about a `DataSet`, returned within a [`DataSetList`](#DataSetList).\n",
+        "name": "Metric",
+        "comment": " Metrics information.\n",
         "args": [],
-        "type": "{ dataSetName : Nexosis.Types.DataSet.DataSetName , dataSetSize : Int , isTimeSeries : Bool , dateCreated : Time.ZonedDateTime.ZonedDateTime , lastModified : Time.ZonedDateTime.ZonedDateTime , rowCount : Int , columnCount : Int }"
-      },
-      {
-        "name": "DataSetData",
-        "comment": " Returned from the `/data/{dataSetName}` endpoint called by [Nexosis.Api.Data.getRetrieveDetail](Nexosis-Api-Data#getRetrieveDetail)\nDetails of the `Dataset`, a List of data, and paging information for the data.\n",
-        "args": [],
-        "type": "{ dataSetName : Nexosis.Types.DataSet.DataSetName , dataSetSize : Int , isTimeSeries : Bool , columns : List Nexosis.Types.Columns.ColumnMetadata , data : Nexosis.Types.Data.Data , pageNumber : Int , totalPages : Int , pageSize : Int , totalCount : Int , dateCreated : Time.ZonedDateTime.ZonedDateTime , lastModified : Time.ZonedDateTime.ZonedDateTime , rowCount : Int }"
-      },
-      {
-        "name": "DataSetList",
-        "comment": " Returned from `/data` endpoint called by [Nexosis.Api.Data.get](Nexosis-Api-Data#get)\nA List of [DataSet](#DataSet), with paging information.\n",
-        "args": [],
-        "type": "{ items : List Nexosis.Types.DataSet.DataSet , pageNumber : Int , totalPages : Int , pageSize : Int , totalCount : Int }"
-      },
-      {
-        "name": "DataSetStats",
-        "comment": " Stats about a [`DataSet`](#DataSet). Returned from `/data/stats` endpoint called by [`Nexosis.Api.Data.getStats`](Nexosis-Api-Data#getStats)\n",
-        "args": [],
-        "type": "{ dataSetName : String , columns : Nexosis.Types.Columns.ColumnStatsDict }"
-      }
-    ],
-    "types": [
-      {
-        "name": "DataSetName",
-        "comment": " `DataSetName` is an opaque type, used to differentiate if from a normal string. Use [`toDataSetName`](#toDataSetName) and [`dataSetNameToString`](#dataSetNameToString) to wrap and unwrap if needed.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "dataSetNameToString",
-        "comment": " ",
-        "type": "Nexosis.Types.DataSet.DataSetName -> String"
-      },
-      {
-        "name": "toDataSetName",
-        "comment": " ",
-        "type": "String -> Nexosis.Types.DataSet.DataSetName"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.Model",
-    "comment": " In this package, `Model` refers to a machine learning `Model`, used to make predictions on new data, rather than the `Model` in The Elm Architecture.\n\nAfter a `Session` has completed, a `Model` will be available. This `Model` can be used to make predictions by using the <Nexosis.Api.Mdoels> prediction functions.\n\nRefer to our [documentation](https://docs.nexosis.com/guides/sessions) for more information.\n\n@docs ModelData, ModelList, PredictionResult\n\n",
-    "aliases": [
-      {
-        "name": "ModelData",
-        "comment": " ModelData\nRepresentation of a single Model. Returned from the `/models` endpoint called by <Nexosis.Api.Models>.\n",
-        "args": [],
-        "type": "{ modelId : String , sessionId : String , predictionDomain : Nexosis.Types.PredictionDomain.PredictionDomain , dataSourceName : String , columns : List Nexosis.Types.Columns.ColumnMetadata , createdDate : Time.ZonedDateTime.ZonedDateTime , algorithm : Nexosis.Types.Algorithm.Algorithm , modelName : Maybe.Maybe String , lastUsedDate : Maybe.Maybe Time.ZonedDateTime.ZonedDateTime , metrics : Dict.Dict String Float , links : List Nexosis.Types.Link.Link }"
-      },
-      {
-        "name": "ModelList",
-        "comment": " A `List` of `ModelData`, with paging information.\n",
-        "args": [],
-        "type": "{ items : List Nexosis.Types.Model.ModelData , pageNumber : Int , totalPages : Int , pageSize : Int , totalCount : Int }"
-      },
-      {
-        "name": "PredictionResult",
-        "comment": " The results returned when calling [`predict`](Nexosis.Api.Models#predict) on a `Model`.\n",
-        "args": [],
-        "type": "{ data : List (Dict.Dict String String) , messages : List Nexosis.Types.Message.Message }"
+        "type": "{ key : String, name : String, description : String }"
       }
     ],
     "types": [],
-    "values": [],
+    "values": [
+      {
+        "name": "get",
+        "comment": " GET a list of `Metric` definitions that are reported by the Api.\n",
+        "type": "Nexosis.ClientConfig -> Http.Request (List Nexosis.Api.Metrics.Metric)"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -399,6 +342,84 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Nexosis.Types.Model",
+    "comment": " In this package, `Model` refers to a machine learning `Model`, used to make predictions on new data, rather than the `Model` in The Elm Architecture.\n\nAfter a `Session` has completed, a `Model` will be available. This `Model` can be used to make predictions by using the <Nexosis.Api.Mdoels> prediction functions.\n\nRefer to our [documentation](https://docs.nexosis.com/guides/sessions) for more information.\n\n@docs ModelData, ModelList, PredictionResult\n\n",
+    "aliases": [
+      {
+        "name": "ModelData",
+        "comment": " ModelData\nRepresentation of a single Model. Returned from the `/models` endpoint called by <Nexosis.Api.Models>.\n",
+        "args": [],
+        "type": "{ modelId : String , sessionId : String , predictionDomain : Nexosis.Types.PredictionDomain.PredictionDomain , dataSourceName : String , columns : List Nexosis.Types.Columns.ColumnMetadata , createdDate : Time.ZonedDateTime.ZonedDateTime , algorithm : Nexosis.Types.Algorithm.Algorithm , modelName : Maybe.Maybe String , lastUsedDate : Maybe.Maybe Time.ZonedDateTime.ZonedDateTime , metrics : Dict.Dict String Float , links : List Nexosis.Types.Link.Link }"
+      },
+      {
+        "name": "ModelList",
+        "comment": " A `List` of `ModelData`, with paging information.\n",
+        "args": [],
+        "type": "{ items : List Nexosis.Types.Model.ModelData , pageNumber : Int , totalPages : Int , pageSize : Int , totalCount : Int }"
+      },
+      {
+        "name": "PredictionResult",
+        "comment": " The results returned when calling [`predict`](Nexosis.Api.Models#predict) on a `Model`.\n",
+        "args": [],
+        "type": "{ data : List (Dict.Dict String String) , messages : List Nexosis.Types.Message.Message }"
+      }
+    ],
+    "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.DataSet",
+    "comment": " Representations of DataSets. Used when interacting with the `/data` and `/imports` endpoints.\n\nRefer to our [documentation on DataSets](https://docs.nexosis.com/guides/retrieving-data) for more information.\n\n@docs DataSet, DataSetList, DataSetData, DataSetStats, DataSetName, toDataSetName, dataSetNameToString\n\n",
+    "aliases": [
+      {
+        "name": "DataSet",
+        "comment": " Summary information about a `DataSet`, returned within a [`DataSetList`](#DataSetList).\n",
+        "args": [],
+        "type": "{ dataSetName : Nexosis.Types.DataSet.DataSetName , dataSetSize : Int , isTimeSeries : Bool , dateCreated : Time.ZonedDateTime.ZonedDateTime , lastModified : Time.ZonedDateTime.ZonedDateTime , rowCount : Int , columnCount : Int }"
+      },
+      {
+        "name": "DataSetData",
+        "comment": " Returned from the `/data/{dataSetName}` endpoint called by [Nexosis.Api.Data.getRetrieveDetail](Nexosis-Api-Data#getRetrieveDetail)\nDetails of the `Dataset`, a List of data, and paging information for the data.\n",
+        "args": [],
+        "type": "{ dataSetName : Nexosis.Types.DataSet.DataSetName , dataSetSize : Int , isTimeSeries : Bool , columns : List Nexosis.Types.Columns.ColumnMetadata , data : Nexosis.Types.Data.Data , pageNumber : Int , totalPages : Int , pageSize : Int , totalCount : Int , dateCreated : Time.ZonedDateTime.ZonedDateTime , lastModified : Time.ZonedDateTime.ZonedDateTime , rowCount : Int }"
+      },
+      {
+        "name": "DataSetList",
+        "comment": " Returned from `/data` endpoint called by [Nexosis.Api.Data.get](Nexosis-Api-Data#get)\nA List of [DataSet](#DataSet), with paging information.\n",
+        "args": [],
+        "type": "{ items : List Nexosis.Types.DataSet.DataSet , pageNumber : Int , totalPages : Int , pageSize : Int , totalCount : Int }"
+      },
+      {
+        "name": "DataSetStats",
+        "comment": " Stats about a [`DataSet`](#DataSet). Returned from `/data/stats` endpoint called by [`Nexosis.Api.Data.getStats`](Nexosis-Api-Data#getStats)\n",
+        "args": [],
+        "type": "{ dataSetName : String , columns : Nexosis.Types.Columns.ColumnStatsDict }"
+      }
+    ],
+    "types": [
+      {
+        "name": "DataSetName",
+        "comment": " `DataSetName` is an opaque type, used to differentiate if from a normal string. Use [`toDataSetName`](#toDataSetName) and [`dataSetNameToString`](#dataSetNameToString) to wrap and unwrap if needed.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "dataSetNameToString",
+        "comment": " ",
+        "type": "Nexosis.Types.DataSet.DataSetName -> String"
+      },
+      {
+        "name": "toDataSetName",
+        "comment": " ",
+        "type": "String -> Nexosis.Types.DataSet.DataSetName"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nexosis.Decoders.Columns",
     "comment": " Decoders for working with `ColumnMetadata`.\n\n@docs decodeColumnMetadata, decodeColumnStatsDict\n\n",
     "aliases": [],
@@ -418,22 +439,28 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Api.Metrics",
-    "comment": " This endpoint returns static information about the metrics that the Api will calculate.\nThis is really just to provide up to date text descriptions and names for metrics that may be shown to a user.\n\n@docs get, Metric\n\n",
+    "name": "Nexosis.Types.DistanceMetric",
+    "comment": " Distance metrics are calculated for Anomaly Detection `Sessions`. This is the Mahalanobis Distance of the items in the `DataSet`.\n\n@docs DistanceMetrics, DistanceValue, fromDistanceMetrics\n\n",
     "aliases": [
       {
-        "name": "Metric",
-        "comment": " Metrics information.\n",
+        "name": "DistanceMetrics",
+        "comment": " Distance Metric information for the `DataSet`, as calculated during the `Session`.\n",
         "args": [],
-        "type": "{ key : String, name : String, description : String }"
+        "type": "{ dataSourceName : String , modelId : String , sessionId : String , sessionName : String , data : Nexosis.Types.Data.Data , pageNumber : Int , pageSize : Int , totalCount : Int , totalPages : Int }"
+      },
+      {
+        "name": "DistanceValue",
+        "comment": " Distance an Anomaly values.\n",
+        "args": [],
+        "type": "{ anomaly : Float, distance : Float }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "get",
-        "comment": " GET a list of `Metric` definitions that are reported by the Api.\n",
-        "type": "Nexosis.ClientConfig -> Http.Request (List Nexosis.Api.Metrics.Metric)"
+        "name": "fromDistanceMetrics",
+        "comment": " Convenience function to go from a full `DistanceMetrics` response to just a list of `DistanceValue`.\n",
+        "type": "Nexosis.Types.DistanceMetric.DistanceMetrics -> List Nexosis.Types.DistanceMetric.DistanceValue"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -547,30 +574,39 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.DistanceMetric",
-    "comment": " Distance metrics are calculated for Anomaly Detection `Sessions`. This is the Mahalanobis Distance of the items in the `DataSet`.\n\n@docs DistanceMetrics, DistanceValue, fromDistanceMetrics\n\n",
-    "aliases": [
+    "name": "Nexosis.Types.PredictionDomain",
+    "comment": " This specifies the broad class of machine learning algorithms that should be used when running a `Session`.\n\nFor more information about these types can be found [in our documentation](https://docs.nexosis.com/guides/how-it-works#session).\n\n@docs PredictionDomain\n\n",
+    "aliases": [],
+    "types": [
       {
-        "name": "DistanceMetrics",
-        "comment": " Distance Metric information for the `DataSet`, as calculated during the `Session`.\n",
+        "name": "PredictionDomain",
+        "comment": " ",
         "args": [],
-        "type": "{ dataSourceName : String , modelId : String , sessionId : String , sessionName : String , data : Nexosis.Types.Data.Data , pageNumber : Int , pageSize : Int , totalCount : Int , totalPages : Int }"
-      },
-      {
-        "name": "DistanceValue",
-        "comment": " Distance an Anomaly values.\n",
-        "args": [],
-        "type": "{ anomaly : Float, distance : Float }"
+        "cases": [
+          [
+            "Regression",
+            []
+          ],
+          [
+            "Classification",
+            []
+          ],
+          [
+            "Forecast",
+            []
+          ],
+          [
+            "Impact",
+            []
+          ],
+          [
+            "Anomalies",
+            []
+          ]
+        ]
       }
     ],
-    "types": [],
-    "values": [
-      {
-        "name": "fromDistanceMetrics",
-        "comment": " Convenience function to go from a full `DistanceMetrics` response to just a list of `DistanceValue`.\n",
-        "type": "Nexosis.Types.DistanceMetric.DistanceMetrics -> List Nexosis.Types.DistanceMetric.DistanceValue"
-      }
-    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -621,97 +657,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.ImputationStrategy",
-    "comment": " The Imputation Strategy to use when filling in missing values in a `DataSet`. This is an option provided on [ColumnMetadata](Nexosis.Types.Columns#ColumnMetadata).\n\nRefer to the docs for more information about [ColumnMetadata](https://docs.nexosis.com/guides/column-metadata).\n\n@docs ImputationStrategy\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "ImputationStrategy",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Zeroes",
-            []
-          ],
-          [
-            "Mean",
-            []
-          ],
-          [
-            "Median",
-            []
-          ],
-          [
-            "Mode",
-            []
-          ],
-          [
-            "Min",
-            []
-          ],
-          [
-            "Max",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.Algorithm",
-    "comment": " Details about a machine learning algorithm.\n\n@docs Algorithm\n\n",
-    "aliases": [
-      {
-        "name": "Algorithm",
-        "comment": " ",
-        "args": [],
-        "type": "{ name : String, description : String, key : Maybe.Maybe String }"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.PredictionDomain",
-    "comment": " This specifies the broad class of machine learning algorithms that should be used when running a `Session`.\n\nFor more information about these types can be found [in our documentation](https://docs.nexosis.com/guides/how-it-works#session).\n\n@docs PredictionDomain\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "PredictionDomain",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Regression",
-            []
-          ],
-          [
-            "Classification",
-            []
-          ],
-          [
-            "Forecast",
-            []
-          ],
-          [
-            "Impact",
-            []
-          ],
-          [
-            "Anomalies",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nexosis.Types.SortParameters",
     "comment": " Api calls that return lists of results require a sort order and direction in order to determine how the results\nshould be returned.\n\n@docs SortParameters, SortDirection\n\n",
     "aliases": [
@@ -743,17 +688,71 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.ConfusionMatrix",
-    "comment": " Classification `Sessions` will generate a `ConfusionMatrix`, which shows how well the `Model` was able to choose the correct class for a row.\n\n@docs ConfusionMatrix\n\n",
+    "name": "Nexosis.Types.Data",
+    "comment": "\n\n@docs Data\n\n",
     "aliases": [
       {
-        "name": "ConfusionMatrix",
-        "comment": " ",
+        "name": "Data",
+        "comment": " Alias for a `List` of `Dict String String`. Returned from several different Api calls.\n",
         "args": [],
-        "type": "{ classes : Array.Array String , confusionMatrix : Array.Array (Array.Array Int) }"
+        "type": "List (Dict.Dict String String)"
       }
     ],
     "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.Link",
+    "comment": " Links are returned on many different endpoint calls, and refer to different related objects in the Api.\n\n@docs Link\n\n",
+    "aliases": [
+      {
+        "name": "Link",
+        "comment": " ",
+        "args": [],
+        "type": "{ rel : String, href : String }"
+      }
+    ],
+    "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.Message",
+    "comment": " Messages are returned on many different Api endpoints. Generally, these show additional information about an Api Resource.\n\n@docs Message, Severity\n\n",
+    "aliases": [
+      {
+        "name": "Message",
+        "comment": " ",
+        "args": [],
+        "type": "{ severity : Nexosis.Types.Message.Severity, message : String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Severity",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Debug",
+            []
+          ],
+          [
+            "Informational",
+            []
+          ],
+          [
+            "Warning",
+            []
+          ],
+          [
+            "Error",
+            []
+          ]
+        ]
+      }
+    ],
     "values": [],
     "generated-with-elm-version": "0.18.0"
   },
@@ -798,14 +797,14 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.Link",
-    "comment": " Links are returned on many different endpoint calls, and refer to different related objects in the Api.\n\n@docs Link\n\n",
+    "name": "Nexosis.Types.Algorithm",
+    "comment": " Details about a machine learning algorithm.\n\n@docs Algorithm\n\n",
     "aliases": [
       {
-        "name": "Link",
+        "name": "Algorithm",
         "comment": " ",
         "args": [],
-        "type": "{ rel : String, href : String }"
+        "type": "{ name : String, description : String, key : Maybe.Maybe String }"
       }
     ],
     "types": [],
@@ -813,56 +812,57 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.Data",
-    "comment": "\n\n@docs Data\n\n",
-    "aliases": [
-      {
-        "name": "Data",
-        "comment": " Alias for a `List` of `Dict String String`. Returned from several different Api calls.\n",
-        "args": [],
-        "type": "List (Dict.Dict String String)"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.Message",
-    "comment": " Messages are returned on many different Api endpoints. Generally, these show additional information about an Api Resource.\n\n@docs Message, Severity\n\n",
-    "aliases": [
-      {
-        "name": "Message",
-        "comment": " ",
-        "args": [],
-        "type": "{ severity : Nexosis.Types.Message.Severity, message : String }"
-      }
-    ],
+    "name": "Nexosis.Types.ImputationStrategy",
+    "comment": " The Imputation Strategy to use when filling in missing values in a `DataSet`. This is an option provided on [ColumnMetadata](Nexosis.Types.Columns#ColumnMetadata).\n\nRefer to the docs for more information about [ColumnMetadata](https://docs.nexosis.com/guides/column-metadata).\n\n@docs ImputationStrategy\n\n",
+    "aliases": [],
     "types": [
       {
-        "name": "Severity",
+        "name": "ImputationStrategy",
         "comment": " ",
         "args": [],
         "cases": [
           [
-            "Debug",
+            "Zeroes",
             []
           ],
           [
-            "Informational",
+            "Mean",
             []
           ],
           [
-            "Warning",
+            "Median",
             []
           ],
           [
-            "Error",
+            "Mode",
+            []
+          ],
+          [
+            "Min",
+            []
+          ],
+          [
+            "Max",
             []
           ]
         ]
       }
     ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.ConfusionMatrix",
+    "comment": " Classification `Sessions` will generate a `ConfusionMatrix`, which shows how well the `Model` was able to choose the correct class for a row.\n\n@docs ConfusionMatrix\n\n",
+    "aliases": [
+      {
+        "name": "ConfusionMatrix",
+        "comment": " ",
+        "args": [],
+        "type": "{ classes : Array.Array String , confusionMatrix : Array.Array (Array.Array Int) }"
+      }
+    ],
+    "types": [],
     "values": [],
     "generated-with-elm-version": "0.18.0"
   },

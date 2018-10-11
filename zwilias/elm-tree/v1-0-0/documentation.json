@@ -183,148 +183,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Tree.AVL",
-    "comment": " AVL trees are the earliest example of self-balancing binary search trees.\n\nAn AVL tree upholds only a single invariant:\n\n> The difference of maximal heights between the left- and righthand sides of\n> every node is, for every internal node in the tree, either -1, 0 or 1.\n\nThis invariant is maintained by rebalancing the tree after each modification\n(insertion or removal). Rebalancing, here, is implemented using one or two\nrotations for every internal node while the stack unwinds.\n\n![Tree rotations, courtesy of wikipedia](https://upload.wikimedia.org/wikipedia/commons/3/31/Tree_rotation_animation_250x250.gif)\n\n# Types\n@docs Tree\n\n# Creation\n@docs empty, singleton\n\n# Basic operations\n@docs insert, remove, member, size, foldl, foldr\n\n# Fold-based operations\n@docs map, filter, toList, fromList, union, remove, intersect, diff, partition\n\n# Internals\n@docs tree, rotateLeft, rotateRight, height, heightDiff, balance\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Tree",
-        "comment": " A node in an avl tree is either a node with one key and zero, one or two\nbranches, or is empty. Some trees (like Two Three trees) impose the restriction\nthat a node must be either a leaf node (having no children), or a completely\ninternal node, i.e. having all branch-points filled in by a non-empty node.\n\nThe left branch of a node contains values smaller than the node's own value, the\nright branch contains values greater than the node's own value.\n",
-        "args": [
-          "comparable"
-        ],
-        "cases": [
-          [
-            "Node",
-            [
-              "Int",
-              "comparable",
-              "Tree.AVL.Tree comparable",
-              "Tree.AVL.Tree comparable"
-            ]
-          ],
-          [
-            "Empty",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "balance",
-        "comment": " Rebalances a tree (if it is, in fact, unbalanced).\n\nIf a tree becomes unbalanced by |2|, this restores the balance by rotating and\n-- if a child is unbalanced in the opposite direction -- rotating the child in\nthe opposite direction.\n\nFor more information on how this works, please refer to [Brian Hick's excellent\nseries](https://www.brianthicks.com/post/2016/11/27/functional-sets-part-3-balancing/)\non implementing AVL trees in Elm.\n",
-        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "diff",
-        "comment": " The differences between two trees is, in Elm land, defined as the elements\nof the left tree that do not exists in the right tree. As such, this is\nimplemented by filtering the left tree for values that do not exist in the\nright set.\n",
-        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "empty",
-        "comment": " An empty AVL tree is a single `Empty` node.\n",
-        "type": "Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "filter",
-        "comment": " Create a new set with elements that match the predicate.\n",
-        "type": "(comparable -> Bool) -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "foldl",
-        "comment": " As with other trees, left-folding works by recursively folding over the\nleft hand side, then the own value, then the right hand side. Since our initial\nnode definition specified that all values contained in the left branch must be\nsmaller than the node-value, and all values in the right branch must be greater\nthan the node-value, this ensures values are folded over in strictly ascending\norder.\n",
-        "type": "(comparable -> a -> a) -> a -> Tree.AVL.Tree comparable -> a"
-      },
-      {
-        "name": "foldr",
-        "comment": " Simply the mirror of `foldl` -- rather than recursing left-hand first, fold\nright-hand first, which ensures the values are folded over in descending order.\n",
-        "type": "(comparable -> a -> a) -> a -> Tree.AVL.Tree comparable -> a"
-      },
-      {
-        "name": "fromList",
-        "comment": " Create tree from list by folding over the list and inserting into an\ninitially empty tree.\n",
-        "type": "List comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "height",
-        "comment": " The height of a set is something baked right into the Tree, and is important\nfor balancing the internal tree. A properly balanced tree will have a maximal\nheight-difference between branches of |1|.\n\n```\nimport Tree.Self as Tree exposing (Tree)\n\n\nTree.height Tree.empty == 0\nTree.height Tree.singleton 0 == 1\n\nTree.fromList [ 1, 2, 3 ]\n    |> Tree.height == 2\n```\n",
-        "type": "Tree.AVL.Tree comparable -> Int"
-      },
-      {
-        "name": "heightDiff",
-        "comment": " Calculate the difference in height between our left and right branches.\n\nA *valid* AVL tree has a maximal height difference of |1| over its branches,\nwhich allows checking if a random element is in the tree in `O (log n)`.\n",
-        "type": "Tree.AVL.Tree comparable -> Int"
-      },
-      {
-        "name": "insert",
-        "comment": " Insertion semantics in AVL trees are rather simple:\n\n- Locate where the item has to be inserted, which will always be at a\nbranch-point, or not at all\n- Insert if it does not exist yet by adding a singleton in the appropriate\nbranch-point\n- Rebalance the tree, which might require some rotating.\n",
-        "type": "comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "intersect",
-        "comment": " Tree intersection creates a new Tree containing only those values found in\nboth trees. This is implemented by filtering the right-hand set, only keeping\nvalues found in the left-hand set.\n",
-        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "map",
-        "comment": " Fold over the tree, executing the specified operation on each value, and\naccumulating these values into a new tree.\n",
-        "type": "(comparable -> comparable2) -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable2"
-      },
-      {
-        "name": "member",
-        "comment": " Member checks happen the same way as in other binary trees, recursively\nselecting the most likely place to find the item to check for. As with other\nself-balancing binary trees, this can happen in `O (log n)`.\n",
-        "type": "comparable -> Tree.AVL.Tree comparable -> Bool"
-      },
-      {
-        "name": "partition",
-        "comment": " Similar to filtering, this does not throw away the values that do not match\nthe predicate, but creating a second tree from those values. The resulting\ntrees are then returned as a tuple.\n",
-        "type": "(comparable -> Bool) -> Tree.AVL.Tree comparable -> ( Tree.AVL.Tree comparable, Tree.AVL.Tree comparable )"
-      },
-      {
-        "name": "remove",
-        "comment": " Removal in AVL trees works by searching for the node to be removed, and\nreplacing that node by the union of its branch-points (which might be Empty if\nthe node to be removed was a leaf-node).\n\nAfter the actual removal, the parent branches are rebalanced during the\nrecursive bubble up, so as to maintain the AVL invariants.\n",
-        "type": "comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "rotateLeft",
-        "comment": " Rotate a tree to the left (for balancing).\n\n",
-        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "rotateRight",
-        "comment": " Inversely, rotate a tree to the right (for balancing).\n",
-        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "singleton",
-        "comment": " A singleton in an AVL tree is a Node with both branch-points empty.\n",
-        "type": "comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "size",
-        "comment": " Foldl over the list and incrementing an accumulator by one for each value\nthat passes through the accumulator operation.\n",
-        "type": "Tree.AVL.Tree comparable -> Int"
-      },
-      {
-        "name": "toList",
-        "comment": " Convert tree to list in ascending order, using foldl.\n",
-        "type": "Tree.AVL.Tree comparable -> List comparable"
-      },
-      {
-        "name": "tree",
-        "comment": " Create a new set with a given element and a predecided lefthand and\nrighthand value.\n\nNote that this constructor does *not* use insertion internally, and - hence -\n**does not sustain the AVL invariant**.\n\n```\nimport Tree.Self as Tree exposing (Tree)\n\ncustomSingleton : Int -> Tree Int\ncustomSingleton val =\n    Tree.tree val Tree.empty Tree.empty\n\n\ncustomSingleton 1 == < 1 . . >\n```\n",
-        "type": "comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      },
-      {
-        "name": "union",
-        "comment": " Union is implemented by folding over the second list and inserting it into\nthe first list.\n",
-        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Tree.AA",
     "comment": "\n\nAA trees are a variation of the red-black tree, where \"red\" nodes can only be\nadded on the right-hand side. This results in a simulation of 2-3 trees,\nwhereas red-black trees could be considered a simulation or 2-3-4 trees.\n\nDue to the stricter invariant, maintenance operations needed to keep the tree\nbalanced are quite a bit simpler than they are for regular red-black trees.\n\nFive invariants hold for AA trees:\n\n1. The level of every leaf node is one.\n2. The level of every left child is exactly one less than that of its parent.\n3. The level of every right child is equal to or one less than that of its\nparent.\n4. The level of every right grandchild is strictly less than that of its\ngrandparent.\n5. Every node of level greater than one has two children.\n\nThese invariants are maintained by skewing and splitting the tree after\ninsertion and deletion, as well as updating the levels after deletion of\ninternal nodes.\n\n# Types\n@docs Tree\n\n# Creation\n@docs empty, singleton\n\n# Basic operations\n@docs insert, remove, member, size, foldl, foldr\n\n# AA tree operations\n@docs unsafeMinimum, unsafeMaximum, skew, split, rebalance, decreaseLevel, getLevel, setLevel, mapRight\n\n# Fold-based operations\n@docs map, filter, toList, fromList, union, remove, intersect, diff, partition\n\n",
     "aliases": [],
@@ -477,6 +335,148 @@
         "name": "unsafeMinimum",
         "comment": " Finds the minimal value in the provided tree. Crashes when called on an\nEmpty tree -- meant for internal use within delete where its used to find the\npredecessor from an *internal* node, hence guaranteeing safety.\n",
         "type": "Tree.AA.Tree comparable -> comparable"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Tree.AVL",
+    "comment": " AVL trees are the earliest example of self-balancing binary search trees.\n\nAn AVL tree upholds only a single invariant:\n\n> The difference of maximal heights between the left- and righthand sides of\n> every node is, for every internal node in the tree, either -1, 0 or 1.\n\nThis invariant is maintained by rebalancing the tree after each modification\n(insertion or removal). Rebalancing, here, is implemented using one or two\nrotations for every internal node while the stack unwinds.\n\n![Tree rotations, courtesy of wikipedia](https://upload.wikimedia.org/wikipedia/commons/3/31/Tree_rotation_animation_250x250.gif)\n\n# Types\n@docs Tree\n\n# Creation\n@docs empty, singleton\n\n# Basic operations\n@docs insert, remove, member, size, foldl, foldr\n\n# Fold-based operations\n@docs map, filter, toList, fromList, union, remove, intersect, diff, partition\n\n# Internals\n@docs tree, rotateLeft, rotateRight, height, heightDiff, balance\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Tree",
+        "comment": " A node in an avl tree is either a node with one key and zero, one or two\nbranches, or is empty. Some trees (like Two Three trees) impose the restriction\nthat a node must be either a leaf node (having no children), or a completely\ninternal node, i.e. having all branch-points filled in by a non-empty node.\n\nThe left branch of a node contains values smaller than the node's own value, the\nright branch contains values greater than the node's own value.\n",
+        "args": [
+          "comparable"
+        ],
+        "cases": [
+          [
+            "Node",
+            [
+              "Int",
+              "comparable",
+              "Tree.AVL.Tree comparable",
+              "Tree.AVL.Tree comparable"
+            ]
+          ],
+          [
+            "Empty",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "balance",
+        "comment": " Rebalances a tree (if it is, in fact, unbalanced).\n\nIf a tree becomes unbalanced by |2|, this restores the balance by rotating and\n-- if a child is unbalanced in the opposite direction -- rotating the child in\nthe opposite direction.\n\nFor more information on how this works, please refer to [Brian Hick's excellent\nseries](https://www.brianthicks.com/post/2016/11/27/functional-sets-part-3-balancing/)\non implementing AVL trees in Elm.\n",
+        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "diff",
+        "comment": " The differences between two trees is, in Elm land, defined as the elements\nof the left tree that do not exists in the right tree. As such, this is\nimplemented by filtering the left tree for values that do not exist in the\nright set.\n",
+        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "empty",
+        "comment": " An empty AVL tree is a single `Empty` node.\n",
+        "type": "Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "filter",
+        "comment": " Create a new set with elements that match the predicate.\n",
+        "type": "(comparable -> Bool) -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "foldl",
+        "comment": " As with other trees, left-folding works by recursively folding over the\nleft hand side, then the own value, then the right hand side. Since our initial\nnode definition specified that all values contained in the left branch must be\nsmaller than the node-value, and all values in the right branch must be greater\nthan the node-value, this ensures values are folded over in strictly ascending\norder.\n",
+        "type": "(comparable -> a -> a) -> a -> Tree.AVL.Tree comparable -> a"
+      },
+      {
+        "name": "foldr",
+        "comment": " Simply the mirror of `foldl` -- rather than recursing left-hand first, fold\nright-hand first, which ensures the values are folded over in descending order.\n",
+        "type": "(comparable -> a -> a) -> a -> Tree.AVL.Tree comparable -> a"
+      },
+      {
+        "name": "fromList",
+        "comment": " Create tree from list by folding over the list and inserting into an\ninitially empty tree.\n",
+        "type": "List comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "height",
+        "comment": " The height of a set is something baked right into the Tree, and is important\nfor balancing the internal tree. A properly balanced tree will have a maximal\nheight-difference between branches of |1|.\n\n```\nimport Tree.Self as Tree exposing (Tree)\n\n\nTree.height Tree.empty == 0\nTree.height Tree.singleton 0 == 1\n\nTree.fromList [ 1, 2, 3 ]\n    |> Tree.height == 2\n```\n",
+        "type": "Tree.AVL.Tree comparable -> Int"
+      },
+      {
+        "name": "heightDiff",
+        "comment": " Calculate the difference in height between our left and right branches.\n\nA *valid* AVL tree has a maximal height difference of |1| over its branches,\nwhich allows checking if a random element is in the tree in `O (log n)`.\n",
+        "type": "Tree.AVL.Tree comparable -> Int"
+      },
+      {
+        "name": "insert",
+        "comment": " Insertion semantics in AVL trees are rather simple:\n\n- Locate where the item has to be inserted, which will always be at a\nbranch-point, or not at all\n- Insert if it does not exist yet by adding a singleton in the appropriate\nbranch-point\n- Rebalance the tree, which might require some rotating.\n",
+        "type": "comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "intersect",
+        "comment": " Tree intersection creates a new Tree containing only those values found in\nboth trees. This is implemented by filtering the right-hand set, only keeping\nvalues found in the left-hand set.\n",
+        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "map",
+        "comment": " Fold over the tree, executing the specified operation on each value, and\naccumulating these values into a new tree.\n",
+        "type": "(comparable -> comparable2) -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable2"
+      },
+      {
+        "name": "member",
+        "comment": " Member checks happen the same way as in other binary trees, recursively\nselecting the most likely place to find the item to check for. As with other\nself-balancing binary trees, this can happen in `O (log n)`.\n",
+        "type": "comparable -> Tree.AVL.Tree comparable -> Bool"
+      },
+      {
+        "name": "partition",
+        "comment": " Similar to filtering, this does not throw away the values that do not match\nthe predicate, but creating a second tree from those values. The resulting\ntrees are then returned as a tuple.\n",
+        "type": "(comparable -> Bool) -> Tree.AVL.Tree comparable -> ( Tree.AVL.Tree comparable, Tree.AVL.Tree comparable )"
+      },
+      {
+        "name": "remove",
+        "comment": " Removal in AVL trees works by searching for the node to be removed, and\nreplacing that node by the union of its branch-points (which might be Empty if\nthe node to be removed was a leaf-node).\n\nAfter the actual removal, the parent branches are rebalanced during the\nrecursive bubble up, so as to maintain the AVL invariants.\n",
+        "type": "comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "rotateLeft",
+        "comment": " Rotate a tree to the left (for balancing).\n\n",
+        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "rotateRight",
+        "comment": " Inversely, rotate a tree to the right (for balancing).\n",
+        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "singleton",
+        "comment": " A singleton in an AVL tree is a Node with both branch-points empty.\n",
+        "type": "comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "size",
+        "comment": " Foldl over the list and incrementing an accumulator by one for each value\nthat passes through the accumulator operation.\n",
+        "type": "Tree.AVL.Tree comparable -> Int"
+      },
+      {
+        "name": "toList",
+        "comment": " Convert tree to list in ascending order, using foldl.\n",
+        "type": "Tree.AVL.Tree comparable -> List comparable"
+      },
+      {
+        "name": "tree",
+        "comment": " Create a new set with a given element and a predecided lefthand and\nrighthand value.\n\nNote that this constructor does *not* use insertion internally, and - hence -\n**does not sustain the AVL invariant**.\n\n```\nimport Tree.Self as Tree exposing (Tree)\n\ncustomSingleton : Int -> Tree Int\ncustomSingleton val =\n    Tree.tree val Tree.empty Tree.empty\n\n\ncustomSingleton 1 == < 1 . . >\n```\n",
+        "type": "comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
+      },
+      {
+        "name": "union",
+        "comment": " Union is implemented by folding over the second list and inserting it into\nthe first list.\n",
+        "type": "Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable -> Tree.AVL.Tree comparable"
       }
     ],
     "generated-with-elm-version": "0.18.0"

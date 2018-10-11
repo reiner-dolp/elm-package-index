@@ -1,5 +1,33 @@
 [
   {
+    "name": "Lint.Rules.NoUnusedVariables",
+    "comment": "\n@docs rule\n\n# Fail\n\n    module Main exposing (a)\n    a n =\n        n + 1\n    b = a 2\n\n# Success\n\n    module Main exposing (a)\n    a n =\n        n + 1\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Reports variables that are declared but never used.\n\n    rules =\n        [ NoUnusedVariables.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoUselessPatternMatching",
+    "comment": "\n@docs rule\n\n# Fail\n\n    -- Useless pattern matching\n    case value of\n        Foo -> 1\n        Bar -> 1\n        _ -> 1\n\n    -- Useless pattern `Bar`, it's the same as the default pattern\n    case value of\n        Foo -> 2\n        Bar -> 1\n        _ -> 1\n\n# Success\n\n    case value of\n        Foo -> 1\n        Bar -> 2\n        _ -> 3\n\n    case value of\n        Foo n -> n\n        Bar n -> n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Reports case expressions that can be simplified. Either when all patterns will lead to the same value, or when a\npattern will lead to the same value as the default pattern.\n\n    rules =\n        [ NoUselessPatternMatching.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Lint.Rules.NoWarningComments",
     "comment": "\n@docs rule\n\n# Fail\n\n    -- TODO Refactor this part of the code\n    -- FIXME Broken because of...\n    -- XXX This should not be done like this\n\n# Success\n\n    -- Regular comment\n",
     "aliases": [],
@@ -8,20 +36,6 @@
       {
         "name": "rule",
         "comment": " Detect comments containing words like `TODO`, `FIXME` and `XXX`.\n\n    rules =\n        [ NoWarningComments.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.SimplifyPropertyAccess",
-    "comment": "\n@docs rule\n\n# Fail\n\n    a = List.map (\\x -> x.foo) values\n\n# Success\n\n    a = List.map .foo values\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Simplify functions that return the property of a record by using an access function\n\n    rules =\n        [ SimplifyPropertyAccess.rule\n        ]\n",
         "type": "Lint.Types.LintRule"
       }
     ],
@@ -42,6 +56,34 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Lint.Rules.NoNestedLet",
+    "comment": "\n@docs rule\n\n# Fail\n\n    a = let b = 1\n        in  let c = 2\n            in b + c\n\n# Success\n\n    a = let\n          b = 1\n          c = 2\n        in\n          b + c\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid nesting let expressions directly.\n\n    rules =\n        [ NoNestedLet.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.ElmTest.NoDuplicateTestBodies",
+    "comment": "\n@docs rule\n\n# Fail\n\n    module Addition exposing (..)\n\n    import Test exposing (test)\n\n    tests =\n        [ test \"foo\" <|\n            \\() -> 1 + 1\n                |> Expect.equal 2\n        , test \"bar\" <|\n            \\() -> 1 + 1\n                |> Expect.equal 2\n        ]\n\n# Success\n\n    module Addition exposing (..)\n\n    import Test exposing (test)\n\n    tests =\n        [ test \"foo\" <|\n            \\() -> 1 + 1\n                |> Expect.equal 2\n        , test \"bar\" <|\n            \\() -> 1 + 2\n                |> Expect.equal 3\n        ]\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid dupicate test bodies.\nWhen copy-pasting tests, it can happen that the title is changed but the developer forgets to update the test body.\nThis may result in specifications that are thought to be implemented but are not enforced by tests.\n\n    rules =\n        [ ElmTest.NoDuplicateTestBodies.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Lint.Rules.NoUselessIf",
     "comment": "\n@docs rule\n\n# Fail\n\n    if condition then\n        value\n    else\n        value\n\n# Success\n\n    if condition then\n        value1\n    else\n        value2\n",
     "aliases": [],
@@ -50,6 +92,97 @@
       {
         "name": "rule",
         "comment": " Reports when both paths of an If expression result will lead to the same value.\n\n    rules =\n        [ NoUselessIf.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoDebug",
+    "comment": "\n@docs rule\n\n# Fail\n\n    if Debug.log \"condition\" condition then a else b\n    if condition then\n        Debug.crash \"Nooo!\"\n    else\n        value\n\n# Success\n\n    if condition then\n        a\n    else\n        b\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid the use of `Debug` before it goes into production.\n\n    rules =\n        [ NoDebug.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoExposingEverything",
+    "comment": "\n@docs rule\n\n# Fail\n\n    module Main exposing (..)\n\n# Success\n\n    module Main exposing (a, b, C)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid exporting everything in your modules `module Main exposing (..)`, to make your module explicit in what it exposes.\n\n    rules =\n        [ NoExposingEverything.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoDuplicateImports",
+    "comment": "\n@docs rule\n\n# Fail\n\n    import Set\n    import Set exposing (Set)\n\n# Success\n\n    import Set exposing (Set)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid importing the same module several times in a file.\n\n    rules =\n        [ NoDuplicateImports.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.SimplifyPropertyAccess",
+    "comment": "\n@docs rule\n\n# Fail\n\n    a = List.map (\\x -> x.foo) values\n\n# Success\n\n    a = List.map .foo values\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Simplify functions that return the property of a record by using an access function\n\n    rules =\n        [ SimplifyPropertyAccess.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoImportingEverything",
+    "comment": "\n@docs rule, Configuration\n\n# Fail\n\n    import Html exposing (..)\n\n# Success\n\n    import Html exposing (div, p, textarea)\n",
+    "aliases": [
+      {
+        "name": "Configuration",
+        "comment": " Configuration for the rule.\n",
+        "args": [],
+        "type": "{ exceptions : List String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid importing everything from your module. This can especially be confusing to newcomers when the exposed\nfunctions and types are unknown to them.\n\n    rules =\n        [ NoImportingEverything.rule { exceptions = [\"Html\"]}\n        ]\n",
+        "type": "Lint.Rules.NoImportingEverything.Configuration -> Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoConstantCondition",
+    "comment": "\n@docs rule\n\n# Fail\n\n    if True then a else b\n    if False then a else b\n    if foo == foo then a else b\n\n# Success\n\n    if foo == bar then a else b\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid the use of expressions in an If condition whose value are always the same.\n\n    rules =\n        [ NoConstantCondition.rule\n        ]\n",
         "type": "Lint.Types.LintRule"
       }
     ],
@@ -88,139 +221,6 @@
         "name": "rule",
         "comment": " Enforce the default pattern to always appear first or last.\n",
         "type": "Lint.Rules.DefaultPatternPosition.Configuration -> Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoNestedLet",
-    "comment": "\n@docs rule\n\n# Fail\n\n    a = let b = 1\n        in  let c = 2\n            in b + c\n\n# Success\n\n    a = let\n          b = 1\n          c = 2\n        in\n          b + c\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid nesting let expressions directly.\n\n    rules =\n        [ NoNestedLet.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoUnusedVariables",
-    "comment": "\n@docs rule\n\n# Fail\n\n    module Main exposing (a)\n    a n =\n        n + 1\n    b = a 2\n\n# Success\n\n    module Main exposing (a)\n    a n =\n        n + 1\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Reports variables that are declared but never used.\n\n    rules =\n        [ NoUnusedVariables.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoUselessPatternMatching",
-    "comment": "\n@docs rule\n\n# Fail\n\n    -- Useless pattern matching\n    case value of\n        Foo -> 1\n        Bar -> 1\n        _ -> 1\n\n    -- Useless pattern `Bar`, it's the same as the default pattern\n    case value of\n        Foo -> 2\n        Bar -> 1\n        _ -> 1\n\n# Success\n\n    case value of\n        Foo -> 1\n        Bar -> 2\n        _ -> 3\n\n    case value of\n        Foo n -> n\n        Bar n -> n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Reports case expressions that can be simplified. Either when all patterns will lead to the same value, or when a\npattern will lead to the same value as the default pattern.\n\n    rules =\n        [ NoUselessPatternMatching.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoExposingEverything",
-    "comment": "\n@docs rule\n\n# Fail\n\n    module Main exposing (..)\n\n# Success\n\n    module Main exposing (a, b, C)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid exporting everything in your modules `module Main exposing (..)`, to make your module explicit in what it exposes.\n\n    rules =\n        [ NoExposingEverything.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoConstantCondition",
-    "comment": "\n@docs rule\n\n# Fail\n\n    if True then a else b\n    if False then a else b\n    if foo == foo then a else b\n\n# Success\n\n    if foo == bar then a else b\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid the use of expressions in an If condition whose value are always the same.\n\n    rules =\n        [ NoConstantCondition.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoDuplicateImports",
-    "comment": "\n@docs rule\n\n# Fail\n\n    import Set\n    import Set exposing (Set)\n\n# Success\n\n    import Set exposing (Set)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid importing the same module several times in a file.\n\n    rules =\n        [ NoDuplicateImports.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoImportingEverything",
-    "comment": "\n@docs rule, Configuration\n\n# Fail\n\n    import Html exposing (..)\n\n# Success\n\n    import Html exposing (div, p, textarea)\n",
-    "aliases": [
-      {
-        "name": "Configuration",
-        "comment": " Configuration for the rule.\n",
-        "args": [],
-        "type": "{ exceptions : List String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid importing everything from your module. This can especially be confusing to newcomers when the exposed\nfunctions and types are unknown to them.\n\n    rules =\n        [ NoImportingEverything.rule { exceptions = [\"Html\"]}\n        ]\n",
-        "type": "Lint.Rules.NoImportingEverything.Configuration -> Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoDebug",
-    "comment": "\n@docs rule\n\n# Fail\n\n    if Debug.log \"condition\" condition then a else b\n    if condition then\n        Debug.crash \"Nooo!\"\n    else\n        value\n\n# Success\n\n    if condition then\n        a\n    else\n        b\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid the use of `Debug` before it goes into production.\n\n    rules =\n        [ NoDebug.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.ElmTest.NoDuplicateTestBodies",
-    "comment": "\n@docs rule\n\n# Fail\n\n    module Addition exposing (..)\n\n    import Test exposing (test)\n\n    tests =\n        [ test \"foo\" <|\n            \\() -> 1 + 1\n                |> Expect.equal 2\n        , test \"bar\" <|\n            \\() -> 1 + 1\n                |> Expect.equal 2\n        ]\n\n# Success\n\n    module Addition exposing (..)\n\n    import Test exposing (test)\n\n    tests =\n        [ test \"foo\" <|\n            \\() -> 1 + 1\n                |> Expect.equal 2\n        , test \"bar\" <|\n            \\() -> 1 + 2\n                |> Expect.equal 3\n        ]\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid dupicate test bodies.\nWhen copy-pasting tests, it can happen that the title is changed but the developer forgets to update the test body.\nThis may result in specifications that are thought to be implemented but are not enforced by tests.\n\n    rules =\n        [ ElmTest.NoDuplicateTestBodies.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -233,6 +233,37 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Abc",
+    "comment": " Library for parsing tunes written in ABC notation -\n     see: http://abcnotation.com/wiki/abc:standard:v2.1\n\n# Functions\n@docs parse, parseKeySignature, parseError\n\n# Types\n@docs ParseError\n\n",
+    "aliases": [
+      {
+        "name": "ParseError",
+        "comment": " A parse error with context.\n",
+        "args": [],
+        "type": "{ msgs : List String, input : String, position : Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "parse",
+        "comment": " Entry point - Parse an ABC tune image.\n",
+        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.AbcTune"
+      },
+      {
+        "name": "parseError",
+        "comment": " Format a parse error as a string.\n",
+        "type": "Abc.ParseError -> String"
+      },
+      {
+        "name": "parseKeySignature",
+        "comment": " Parse a key signature.\n    A utility function for applications needing to parse key signatures in isolation\n    and returning them as a ModifiedKeySignature (where the modification is empty).\n",
+        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.ModifiedKeySignature"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Abc.Canonical",
     "comment": " Module for converting an ABC Tune parse tree to a canonical ABC string,\n\n\n\n# Functions\n@docs fromTune, fromResult, abcNote, abcChord, tuplet\n\n",
     "aliases": [],
@@ -262,37 +293,6 @@
         "name": "tuplet",
         "comment": " Pretty-print a tuplet.\n",
         "type": "Abc.ParseTree.TupletSignature -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Abc",
-    "comment": " Library for parsing tunes written in ABC notation -\n     see: http://abcnotation.com/wiki/abc:standard:v2.1\n\n# Functions\n@docs parse, parseKeySignature, parseError\n\n# Types\n@docs ParseError\n\n",
-    "aliases": [
-      {
-        "name": "ParseError",
-        "comment": " A parse error with context.\n",
-        "args": [],
-        "type": "{ msgs : List String, input : String, position : Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "parse",
-        "comment": " Entry point - Parse an ABC tune image.\n",
-        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.AbcTune"
-      },
-      {
-        "name": "parseError",
-        "comment": " Format a parse error as a string.\n",
-        "type": "Abc.ParseError -> String"
-      },
-      {
-        "name": "parseKeySignature",
-        "comment": " Parse a key signature.\n    A utility function for applications needing to parse key signatures in isolation\n    and returning them as a ModifiedKeySignature (where the modification is empty).\n",
-        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.ModifiedKeySignature"
       }
     ],
     "generated-with-elm-version": "0.18.0"

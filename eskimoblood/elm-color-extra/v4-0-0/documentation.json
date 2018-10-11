@@ -72,70 +72,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Color.Blending",
-    "comment": "\n# Blending\nBased on the [Compositing and Blending Level 1](https://www.w3.org/TR/compositing-1/#blending)\n\n@docs multiply, screen, overlay, difference, exclusion, hardlight, softlight, colorBurn, colorDodge, lighten, darken\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "colorBurn",
-        "comment": "\nDarkens the backdrop color to reflect the source color.\nPainting with white produces no change.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "colorDodge",
-        "comment": "\nBrightens the backdrop color to reflect the source color.\nPainting with black produces no changes.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "darken",
-        "comment": "\nSelects the darker of the backdrop and source colors.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "difference",
-        "comment": "\nSubtracts the darker of the two constituent colors from the lighter color.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "exclusion",
-        "comment": "\nProduces an effect similar to that of the Difference mode but lower in contrast.\nPainting with white inverts the backdrop color; painting with black produces no change\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "hardlight",
-        "comment": "\nMultiplies or screens the colors, depending on the source color value.\nThe effect is similar to shining a harsh spotlight on the backdrop.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "lighten",
-        "comment": "\nSelects the lighter of the backdrop and source colors.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "multiply",
-        "comment": "\nThe source color is multiplied by the destination color and replaces the destination.\n\nThe resultant color is always at least as dark as either the source or destination color.\nMultiplying any color with black results in black.\nMultiplying any color with white preserves the original color.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "overlay",
-        "comment": "\nMultiplies or screens the colors, depending on the backdrop color value.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "screen",
-        "comment": "\nMultiplies the complements of the backdrop and source color values,\n then complements the result.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "softlight",
-        "comment": "\nDarkens or lightens the colors, depending on the source color value.\nThe effect is similar to shining a diffused spotlight on the backdrop.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Color.Manipulate",
     "comment": " A library for creating and manipulating colors.\n\n\n# Color adjustment\n@docs darken, lighten, saturate, desaturate, rotateHue, fadeIn, fadeOut, grayscale, scaleHsl, scaleRgb, mix, weightedMix\n\n",
     "aliases": [],
@@ -200,6 +136,70 @@
         "name": "weightedMix",
         "comment": " Mixes two colors together.\n\nThis function takes the average of each of the RGB components, weighted by a provided value between 0 and 1.0. The\nopacity of the colors is also considered when weighting the components.\n\nThe weight specifies the amount of the first color that should be included in the returned color. For example, a weight\nof 0.5 means that half the first color and half the second color should be used. A weight of 0.25 means that a quarter\nof the first color and three quarters of the second color should be used.\n\nThis function uses the same algorithm as the [mix](http://sass-lang.com/documentation/Sass/Script/Functions.html#mix-instance_method) function in Sass.\n",
         "type": "Color.Color -> Color.Color -> Float -> Color.Color"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Color.Blending",
+    "comment": "\n# Blending\nBased on the [Compositing and Blending Level 1](https://www.w3.org/TR/compositing-1/#blending)\n\n@docs multiply, screen, overlay, difference, exclusion, hardlight, softlight, colorBurn, colorDodge, lighten, darken\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "colorBurn",
+        "comment": "\nDarkens the backdrop color to reflect the source color.\nPainting with white produces no change.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "colorDodge",
+        "comment": "\nBrightens the backdrop color to reflect the source color.\nPainting with black produces no changes.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "darken",
+        "comment": "\nSelects the darker of the backdrop and source colors.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "difference",
+        "comment": "\nSubtracts the darker of the two constituent colors from the lighter color.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "exclusion",
+        "comment": "\nProduces an effect similar to that of the Difference mode but lower in contrast.\nPainting with white inverts the backdrop color; painting with black produces no change\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "hardlight",
+        "comment": "\nMultiplies or screens the colors, depending on the source color value.\nThe effect is similar to shining a harsh spotlight on the backdrop.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "lighten",
+        "comment": "\nSelects the lighter of the backdrop and source colors.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "multiply",
+        "comment": "\nThe source color is multiplied by the destination color and replaces the destination.\n\nThe resultant color is always at least as dark as either the source or destination color.\nMultiplying any color with black results in black.\nMultiplying any color with white preserves the original color.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "overlay",
+        "comment": "\nMultiplies or screens the colors, depending on the backdrop color value.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "screen",
+        "comment": "\nMultiplies the complements of the backdrop and source color values,\n then complements the result.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "softlight",
+        "comment": "\nDarkens or lightens the colors, depending on the source color value.\nThe effect is similar to shining a diffused spotlight on the backdrop.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -77,37 +77,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Sentry.Wallet",
-    "comment": " Wallet Sentry\n\n@docs WalletSentry, default, decoder, decodeToMsg\n\n",
-    "aliases": [
-      {
-        "name": "WalletSentry",
-        "comment": " ",
-        "args": [],
-        "type": "{ account : Maybe.Maybe Eth.Types.Address , networkId : Eth.Net.NetworkId }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "decodeToMsg",
-        "comment": " ",
-        "type": "(String -> msg) -> (Eth.Sentry.Wallet.WalletSentry -> msg) -> Json.Decode.Value -> msg"
-      },
-      {
-        "name": "decoder",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Sentry.Wallet.WalletSentry"
-      },
-      {
-        "name": "default",
-        "comment": " ",
-        "type": "Eth.Sentry.Wallet.WalletSentry"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Sentry.Tx",
     "comment": "\n\n\n# Core\n\n@docs TxSentry, Msg, update, init, OutPort, InPort, listen\n\n\n# Send Txs\n\n@docs send, sendWithReceipt\n\n\n# Custom Send\n\n@docs CustomSend, TxTracker, customSend\n\n\n# Utils\n\n@docs withDebug, changeNode\n\n",
     "aliases": [
@@ -194,6 +163,37 @@
         "name": "withDebug",
         "comment": " ",
         "type": "Eth.Sentry.Tx.TxSentry msg -> Eth.Sentry.Tx.TxSentry msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Sentry.Wallet",
+    "comment": " Wallet Sentry\n\n@docs WalletSentry, default, decoder, decodeToMsg\n\n",
+    "aliases": [
+      {
+        "name": "WalletSentry",
+        "comment": " ",
+        "args": [],
+        "type": "{ account : Maybe.Maybe Eth.Types.Address , networkId : Eth.Net.NetworkId }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decodeToMsg",
+        "comment": " ",
+        "type": "(String -> msg) -> (Eth.Sentry.Wallet.WalletSentry -> msg) -> Json.Decode.Value -> msg"
+      },
+      {
+        "name": "decoder",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Sentry.Wallet.WalletSentry"
+      },
+      {
+        "name": "default",
+        "comment": " ",
+        "type": "Eth.Sentry.Wallet.WalletSentry"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -299,100 +299,48 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Net",
-    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
-    "aliases": [],
-    "types": [
+    "name": "Shh",
+    "comment": " Whipser API (Use at your own risk! Work in progress)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
+    "aliases": [
       {
-        "name": "NetworkId",
+        "name": "Post",
         "comment": " ",
         "args": [],
-        "cases": [
-          [
-            "Mainnet",
-            []
-          ],
-          [
-            "Expanse",
-            []
-          ],
-          [
-            "Ropsten",
-            []
-          ],
-          [
-            "Rinkeby",
-            []
-          ],
-          [
-            "RskMain",
-            []
-          ],
-          [
-            "RskTest",
-            []
-          ],
-          [
-            "Kovan",
-            []
-          ],
-          [
-            "ETCMain",
-            []
-          ],
-          [
-            "ETCTest",
-            []
-          ],
-          [
-            "Private",
-            [
-              "Int"
-            ]
-          ]
-        ]
+        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
+      },
+      {
+        "name": "WhisperId",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Types.WhisperId"
       }
     ],
+    "types": [],
     "values": [
       {
-        "name": "clientVersion",
-        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
+        "name": "newIdentity",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
       },
       {
-        "name": "listening",
-        "comment": " Returns true if the node is actively listening for network connections.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
+        "name": "post",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
       },
       {
-        "name": "networkIdDecoder",
-        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString networkIdDecoder \"1\"          == Ok Mainnet\n    decodeString networkIdDecoder 3            == Ok Ropsten\n    decodeString networkIdDecoder \"five\"       == Err ...\n\n",
-        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
-      },
-      {
-        "name": "networkIdToInt",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Eth.Net.NetworkId -> Int"
-      },
-      {
-        "name": "networkIdToString",
-        "comment": " Get a NetworkId's name\n",
-        "type": "Eth.Net.NetworkId -> String"
-      },
-      {
-        "name": "peerCount",
-        "comment": " Get the number of peers currently connected to the client.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
-      },
-      {
-        "name": "toNetworkId",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Int -> Eth.Net.NetworkId"
+        "name": "toWhisperId",
+        "comment": " ",
+        "type": "String -> Result.Result String Shh.WhisperId"
       },
       {
         "name": "version",
-        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+      },
+      {
+        "name": "whisperIdToString",
+        "comment": " ",
+        "type": "Shh.WhisperId -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -632,6 +580,105 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Eth.Net",
+    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "NetworkId",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Mainnet",
+            []
+          ],
+          [
+            "Expanse",
+            []
+          ],
+          [
+            "Ropsten",
+            []
+          ],
+          [
+            "Rinkeby",
+            []
+          ],
+          [
+            "RskMain",
+            []
+          ],
+          [
+            "RskTest",
+            []
+          ],
+          [
+            "Kovan",
+            []
+          ],
+          [
+            "ETCMain",
+            []
+          ],
+          [
+            "ETCTest",
+            []
+          ],
+          [
+            "Private",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "clientVersion",
+        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
+      },
+      {
+        "name": "listening",
+        "comment": " Returns true if the node is actively listening for network connections.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
+      },
+      {
+        "name": "networkIdDecoder",
+        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString networkIdDecoder \"1\"          == Ok Mainnet\n    decodeString networkIdDecoder 3            == Ok Ropsten\n    decodeString networkIdDecoder \"five\"       == Err ...\n\n",
+        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
+      },
+      {
+        "name": "networkIdToInt",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Eth.Net.NetworkId -> Int"
+      },
+      {
+        "name": "networkIdToString",
+        "comment": " Get a NetworkId's name\n",
+        "type": "Eth.Net.NetworkId -> String"
+      },
+      {
+        "name": "peerCount",
+        "comment": " Get the number of peers currently connected to the client.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+      },
+      {
+        "name": "toNetworkId",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Int -> Eth.Net.NetworkId"
+      },
+      {
+        "name": "version",
+        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Eth.Decode",
     "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
     "aliases": [],
@@ -779,53 +826,6 @@
         "name": "uint",
         "comment": " ",
         "type": "Abi.Decode.AbiDecoder BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Shh",
-    "comment": " Whipser API (Use at your own risk! Work in progress)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
-    "aliases": [
-      {
-        "name": "Post",
-        "comment": " ",
-        "args": [],
-        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
-      },
-      {
-        "name": "WhisperId",
-        "comment": " ",
-        "args": [],
-        "type": "Internal.Types.WhisperId"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "newIdentity",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
-      },
-      {
-        "name": "post",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
-      },
-      {
-        "name": "toWhisperId",
-        "comment": " ",
-        "type": "String -> Result.Result String Shh.WhisperId"
-      },
-      {
-        "name": "version",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
-      },
-      {
-        "name": "whisperIdToString",
-        "comment": " ",
-        "type": "Shh.WhisperId -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1112,125 +1112,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Units",
-    "comment": " Conversions and Helpers\n\n\n# Concise Units\n\nUseful helpers for concise value declarations.\n\n    txParams : Send\n    txParams =\n        { to = Just myContract\n        , from = Nothing\n        , gas = Nothing\n        , gasPrice = Just (gwei 3)\n        , value = Just (eth 3)\n        , data = Just data\n        , nonce = Nothing\n        }\n\n@docs gwei, eth\n\n\n# Precise Units\n\nHelpers for dealing with floats.\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "EthUnit",
-        "comment": " Eth Unit\nUseful for displaying to, and taking user input from, the UI\n",
-        "args": [],
-        "cases": [
-          [
-            "Wei",
-            []
-          ],
-          [
-            "Kwei",
-            []
-          ],
-          [
-            "Mwei",
-            []
-          ],
-          [
-            "Gwei",
-            []
-          ],
-          [
-            "Microether",
-            []
-          ],
-          [
-            "Milliether",
-            []
-          ],
-          [
-            "Ether",
-            []
-          ],
-          [
-            "Kether",
-            []
-          ],
-          [
-            "Mether",
-            []
-          ],
-          [
-            "Gether",
-            []
-          ],
-          [
-            "Tether",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "bigIntToWei",
-        "comment": " Convert a given BigInt EthUnit to it's Wei equivalent\n",
-        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> BigInt.BigInt"
-      },
-      {
-        "name": "eth",
-        "comment": " ",
-        "type": "Int -> BigInt.BigInt"
-      },
-      {
-        "name": "fromWei",
-        "comment": " Convert stringy Wei to a given EthUnit\n\n    fromWei Gwei (BigInt.fromInt 123456789) == \"0.123456789\"\n    fromWei Ether (BigInt.fromInt 123456789) == \"0.000000000123456789\"\n\n**Note** Do not pass anything larger than MAX_SAFE_INTEGER into BigInt.fromInt\nMAX_SAFE_INTEGER == 9007199254740991\n\n",
-        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> String"
-      },
-      {
-        "name": "gwei",
-        "comment": " ",
-        "type": "Int -> BigInt.BigInt"
-      },
-      {
-        "name": "toWei",
-        "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
-        "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.RPC",
-    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
-    "aliases": [
-      {
-        "name": "RpcRequest",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "encode",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "toHttpBody",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
-      },
-      {
-        "name": "toTask",
-        "comment": " ",
-        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Types",
     "comment": " Types\n\n\n# Simple\n\n@docs Address, TxHash, BlockHash, Hex\n\n\n# Complex\n\n@docs Call, Send, Tx, TxReceipt, BlockId, Block, Uncle, BlockHead, Log, Event, LogFilter, SyncStatus\n\n\n# Misc\n\n@docs HttpProvider, WebsocketProvider, FilterId, IPFSHash\n\n",
     "aliases": [
@@ -1383,6 +1264,125 @@
       }
     ],
     "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Units",
+    "comment": " Conversions and Helpers\n\n\n# Concise Units\n\nUseful helpers for concise value declarations.\n\n    txParams : Send\n    txParams =\n        { to = Just myContract\n        , from = Nothing\n        , gas = Nothing\n        , gasPrice = Just (gwei 3)\n        , value = Just (eth 3)\n        , data = Just data\n        , nonce = Nothing\n        }\n\n@docs gwei, eth\n\n\n# Precise Units\n\nHelpers for dealing with floats.\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "EthUnit",
+        "comment": " Eth Unit\nUseful for displaying to, and taking user input from, the UI\n",
+        "args": [],
+        "cases": [
+          [
+            "Wei",
+            []
+          ],
+          [
+            "Kwei",
+            []
+          ],
+          [
+            "Mwei",
+            []
+          ],
+          [
+            "Gwei",
+            []
+          ],
+          [
+            "Microether",
+            []
+          ],
+          [
+            "Milliether",
+            []
+          ],
+          [
+            "Ether",
+            []
+          ],
+          [
+            "Kether",
+            []
+          ],
+          [
+            "Mether",
+            []
+          ],
+          [
+            "Gether",
+            []
+          ],
+          [
+            "Tether",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "bigIntToWei",
+        "comment": " Convert a given BigInt EthUnit to it's Wei equivalent\n",
+        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> BigInt.BigInt"
+      },
+      {
+        "name": "eth",
+        "comment": " ",
+        "type": "Int -> BigInt.BigInt"
+      },
+      {
+        "name": "fromWei",
+        "comment": " Convert stringy Wei to a given EthUnit\n\n    fromWei Gwei (BigInt.fromInt 123456789) == \"0.123456789\"\n    fromWei Ether (BigInt.fromInt 123456789) == \"0.000000000123456789\"\n\n**Note** Do not pass anything larger than MAX_SAFE_INTEGER into BigInt.fromInt\nMAX_SAFE_INTEGER == 9007199254740991\n\n",
+        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> String"
+      },
+      {
+        "name": "gwei",
+        "comment": " ",
+        "type": "Int -> BigInt.BigInt"
+      },
+      {
+        "name": "toWei",
+        "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
+        "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.RPC",
+    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
+    "aliases": [
+      {
+        "name": "RpcRequest",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "encode",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "toHttpBody",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
+      },
+      {
+        "name": "toTask",
+        "comment": " ",
+        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]

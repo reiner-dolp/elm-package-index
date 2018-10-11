@@ -1,29 +1,5 @@
 [
   {
-    "name": "Music.Tempo",
-    "comment": " Get or set the tempo of a tune.\n\nYou can change the tempo of an ABC tune by altering its beats per minute (bpm).\nFor example, to set the tempo of a parsed tune to 80 bpm you can say:\n\n* setBpm 80 tune\n\n\n\n# Constants\n@docs defaultTempo\n\n\n# Functions\n@docs getBpm\n    , setBpm\n\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultTempo",
-        "comment": " The default Tempo - 1/4=120.\n",
-        "type": "Abc.ParseTree.TempoSignature"
-      },
-      {
-        "name": "getBpm",
-        "comment": " Get the tempo of the tune in beats per minute from the tunes header\n    (if it exists) or the default of 120 if it does not.\n",
-        "type": "Abc.ParseTree.AbcTune -> Int"
-      },
-      {
-        "name": "setBpm",
-        "comment": " Change the tempo of the tune by altering the beats per minute (bpm)\n   in the tune's tempo header (if it exists) or by altering a newly incorporated\n   default tempo if not.\n",
-        "type": "Int -> Abc.ParseTree.AbcTune -> Abc.ParseTree.AbcTune"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Music.Transposition",
     "comment": " Tune transposition\n\nYou can transpose an ABC tune (in whatever key - perhaps in C) to (say) G# using:\n\n    transposedResult = mapError (\\_ -> \"parse error\") (parse source)\n        |> andThen (\\tune -> transposeTo ({pitchClass = G, accidental = Just Sharp, mode = Major},[]) tune)\n\n\nThe mode before and after transposition must be identical (that is: you cannot transpose minor to major and so on).\nChord symbols will be lost on transposition.\n\n# Constants\n@docs defaultKey\n\n\n# Functions\n@docs keyDistance\n    , transposeNote\n    , transposeTo\n\n\n",
     "aliases": [],
@@ -48,6 +24,30 @@
         "name": "transposeTo",
         "comment": " Transpose a tune to the target key.\n",
         "type": "Abc.ParseTree.ModifiedKeySignature -> Abc.ParseTree.AbcTune -> Result.Result String Abc.ParseTree.AbcTune"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Music.Tempo",
+    "comment": " Get or set the tempo of a tune.\n\nYou can change the tempo of an ABC tune by altering its beats per minute (bpm).\nFor example, to set the tempo of a parsed tune to 80 bpm you can say:\n\n* setBpm 80 tune\n\n\n\n# Constants\n@docs defaultTempo\n\n\n# Functions\n@docs getBpm\n    , setBpm\n\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultTempo",
+        "comment": " The default Tempo - 1/4=120.\n",
+        "type": "Abc.ParseTree.TempoSignature"
+      },
+      {
+        "name": "getBpm",
+        "comment": " Get the tempo of the tune in beats per minute from the tunes header\n    (if it exists) or the default of 120 if it does not.\n",
+        "type": "Abc.ParseTree.AbcTune -> Int"
+      },
+      {
+        "name": "setBpm",
+        "comment": " Change the tempo of the tune by altering the beats per minute (bpm)\n   in the tune's tempo header (if it exists) or by altering a newly incorporated\n   default tempo if not.\n",
+        "type": "Int -> Abc.ParseTree.AbcTune -> Abc.ParseTree.AbcTune"
       }
     ],
     "generated-with-elm-version": "0.18.0"

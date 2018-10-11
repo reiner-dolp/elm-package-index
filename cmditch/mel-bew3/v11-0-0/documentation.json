@@ -199,55 +199,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Decode",
-    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Address"
-      },
-      {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
-      },
-      {
-        "name": "blockHead",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
-      },
-      {
-        "name": "event",
-        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Hex"
-      },
-      {
-        "name": "ipfsHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
-      },
-      {
-        "name": "tx",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Tx"
-      },
-      {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.TxHash"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Shh",
     "comment": " Whipser API (Use at your own risk! Work in progress)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
     "aliases": [
@@ -295,100 +246,101 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Net",
-    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
+    "name": "Eth.Sentry.Event",
+    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
     "aliases": [],
     "types": [
       {
-        "name": "NetworkId",
+        "name": "EventSentry",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "FilterKey",
+        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Msg",
         "comment": " ",
         "args": [],
-        "cases": [
-          [
-            "Mainnet",
-            []
-          ],
-          [
-            "Expanse",
-            []
-          ],
-          [
-            "Ropsten",
-            []
-          ],
-          [
-            "Rinkeby",
-            []
-          ],
-          [
-            "RskMain",
-            []
-          ],
-          [
-            "RskTest",
-            []
-          ],
-          [
-            "Kovan",
-            []
-          ],
-          [
-            "ETCMain",
-            []
-          ],
-          [
-            "ETCTest",
-            []
-          ],
-          [
-            "Private",
-            [
-              "Int"
-            ]
-          ]
-        ]
+        "cases": []
       }
     ],
     "values": [
       {
-        "name": "clientVersion",
-        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
+        "name": "changeNode",
+        "comment": " ",
+        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
       },
       {
-        "name": "listening",
-        "comment": " Returns true if the node is actively listening for network connections.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
+        "name": "init",
+        "comment": " ",
+        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
       },
       {
-        "name": "networkIdDecoder",
-        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString networkIdDecoder \"1\"          == Ok Mainnet\n    decodeString networkIdDecoder 3            == Ok Ropsten\n    decodeString networkIdDecoder \"five\"       == Err ...\n\n",
-        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
+        "name": "listen",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
       },
       {
-        "name": "networkIdToInt",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Eth.Net.NetworkId -> Int"
+        "name": "newBlocks",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
       },
       {
-        "name": "networkIdToString",
-        "comment": " Get a NetworkId's name\n",
-        "type": "Eth.Net.NetworkId -> String"
+        "name": "nextBlock",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
       },
       {
-        "name": "peerCount",
-        "comment": " Get the number of peers currently connected to the client.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+        "name": "pendingTxs",
+        "comment": " ",
+        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
       },
       {
-        "name": "toNetworkId",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Int -> Eth.Net.NetworkId"
+        "name": "toFilterKey",
+        "comment": " ",
+        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
       },
       {
-        "name": "version",
-        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
+        "name": "unWatch",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchNewBlocks",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchPendingTxs",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "update",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watch",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watchOnce",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "withDebug",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -628,101 +580,149 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Sentry.Event",
-    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
+    "name": "Eth.Decode",
+    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "address",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Address"
+      },
+      {
+        "name": "blockHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
+      },
+      {
+        "name": "blockHead",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
+      },
+      {
+        "name": "event",
+        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
+      },
+      {
+        "name": "hex",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Hex"
+      },
+      {
+        "name": "ipfsHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
+      },
+      {
+        "name": "tx",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Tx"
+      },
+      {
+        "name": "txHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.TxHash"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Net",
+    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
     "aliases": [],
     "types": [
       {
-        "name": "EventSentry",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "FilterKey",
-        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Msg",
+        "name": "NetworkId",
         "comment": " ",
         "args": [],
-        "cases": []
+        "cases": [
+          [
+            "Mainnet",
+            []
+          ],
+          [
+            "Expanse",
+            []
+          ],
+          [
+            "Ropsten",
+            []
+          ],
+          [
+            "Rinkeby",
+            []
+          ],
+          [
+            "RskMain",
+            []
+          ],
+          [
+            "RskTest",
+            []
+          ],
+          [
+            "Kovan",
+            []
+          ],
+          [
+            "ETCMain",
+            []
+          ],
+          [
+            "ETCTest",
+            []
+          ],
+          [
+            "Private",
+            [
+              "Int"
+            ]
+          ]
+        ]
       }
     ],
     "values": [
       {
-        "name": "changeNode",
-        "comment": " ",
-        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+        "name": "clientVersion",
+        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
       },
       {
-        "name": "init",
-        "comment": " ",
-        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
+        "name": "listening",
+        "comment": " Returns true if the node is actively listening for network connections.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
       },
       {
-        "name": "listen",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
+        "name": "networkIdDecoder",
+        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString networkIdDecoder \"1\"          == Ok Mainnet\n    decodeString networkIdDecoder 3            == Ok Ropsten\n    decodeString networkIdDecoder \"five\"       == Err ...\n\n",
+        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
       },
       {
-        "name": "newBlocks",
-        "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+        "name": "networkIdToInt",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Eth.Net.NetworkId -> Int"
       },
       {
-        "name": "nextBlock",
-        "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+        "name": "networkIdToString",
+        "comment": " Get a NetworkId's name\n",
+        "type": "Eth.Net.NetworkId -> String"
       },
       {
-        "name": "pendingTxs",
-        "comment": " ",
-        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+        "name": "peerCount",
+        "comment": " Get the number of peers currently connected to the client.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
       },
       {
-        "name": "toFilterKey",
-        "comment": " ",
-        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
+        "name": "toNetworkId",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Int -> Eth.Net.NetworkId"
       },
       {
-        "name": "unWatch",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchNewBlocks",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchPendingTxs",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "update",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watch",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watchOnce",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "withDebug",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+        "name": "version",
+        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -923,40 +923,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Defaults",
-    "comment": " Default values.\nFor those withDefault shenanigans.\n\n@docs invalidAddress, zeroAddress, emptyBlockHash, emptyTxHash, emptyLogFilter\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "emptyBlockHash",
-        "comment": " ",
-        "type": "Eth.Types.BlockHash"
-      },
-      {
-        "name": "emptyLogFilter",
-        "comment": " ",
-        "type": "Eth.Types.LogFilter"
-      },
-      {
-        "name": "emptyTxHash",
-        "comment": " ",
-        "type": "Eth.Types.TxHash"
-      },
-      {
-        "name": "invalidAddress",
-        "comment": " ",
-        "type": "Eth.Types.Address"
-      },
-      {
-        "name": "zeroAddress",
-        "comment": " Danger Will Robinson, why are you using this?\nOnly to burn things should it be used.\n",
-        "type": "Eth.Types.Address"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Utils",
     "comment": " String/Type Conversion and Application Helpers\n\n\n# Address\n\n@docs toAddress, addressToString, addressToChecksumString, isAddress, isChecksumAddress\n\n\n# Hex\n\n@docs toHex, hexToString, isHex, hexToAscii, hexToUtf8, hexAppend, hexConcat\n\n\n# Transaction Hash\n\n@docs toTxHash, txHashToString, isTxHash\n\n\n# Block Hash\n\n@docs toBlockHash, blockHashToString, isBlockHash\n\n\n# SHA3\n\n@docs functionSig, keccak256, isSha256, lowLevelKeccak256\n\n\n# IPFS\n\n@docs ipfsHashToString, ipfsToBytes32, toIPFSHash, isIPFSHash\n\n\n# Unsafe\n\nUser beware!! These are sidestepping the power of Elm, and it's static types.\n\nUndoubtedly convenient for baking values, like contract addresses, into your source code.\n\nAll values coming from the outside world, like user input or server responses, should use the safe functions.\n\n@docs unsafeToHex, unsafeToAddress, unsafeToTxHash, unsafeToBlockHash, unsafeToIPFSHash\n\n\n# Application Helpers\n\n@docs Retry, retry, valueToMsg\n\n",
     "aliases": [
@@ -1133,6 +1099,40 @@
         "name": "valueToMsg",
         "comment": " Useful for decoding past a result straight into a Msg.\nComes in handy with Eth.Sentry.Event values.\n\n    transferDecoder : Value -> Msg\n    transferDecoder =\n        valueToMsg Transfer Error transferEventDecoder\n\n    type Msg\n        = Transfer (Event Transfer)\n        | Error String\n\n",
         "type": "(a -> msg) -> (String -> msg) -> Json.Decode.Decoder a -> Json.Encode.Value -> msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Defaults",
+    "comment": " Default values.\nFor those withDefault shenanigans.\n\n@docs invalidAddress, zeroAddress, emptyBlockHash, emptyTxHash, emptyLogFilter\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "emptyBlockHash",
+        "comment": " ",
+        "type": "Eth.Types.BlockHash"
+      },
+      {
+        "name": "emptyLogFilter",
+        "comment": " ",
+        "type": "Eth.Types.LogFilter"
+      },
+      {
+        "name": "emptyTxHash",
+        "comment": " ",
+        "type": "Eth.Types.TxHash"
+      },
+      {
+        "name": "invalidAddress",
+        "comment": " ",
+        "type": "Eth.Types.Address"
+      },
+      {
+        "name": "zeroAddress",
+        "comment": " Danger Will Robinson, why are you using this?\nOnly to burn things should it be used.\n",
+        "type": "Eth.Types.Address"
       }
     ],
     "generated-with-elm-version": "0.18.0"

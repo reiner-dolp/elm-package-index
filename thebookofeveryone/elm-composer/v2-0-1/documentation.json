@@ -151,6 +151,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Composer.Backend.Svg",
+    "comment": " Converts a list of primitive in a svg node ready to use as part of an HTML\ndocument.\n\n@docs render\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "render",
+        "comment": " ",
+        "type": "Composer.Geometry.Size.Size -> List Composer.Primitive.Primitive -> Svg.Svg msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Composer.Text",
     "comment": " A set of utilities to layout text\n\n\n# Layout Options\n\n@docs LayoutOptions, defaultOptions, LineHeight, LineHeightMode, HorizontalAlign, VerticalAlign\n\n\n# Text Layout\n\n@docs layout, shrink, trim, wrap\n\n",
     "aliases": [
@@ -277,17 +291,80 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Composer.Backend.Svg",
-    "comment": " Converts a list of primitive in a svg node ready to use as part of an HTML\ndocument.\n\n@docs render\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
+    "name": "Composer.Primitive",
+    "comment": " A primitive set of geometry atoms. Scenes are reduce to a flat list of\nprimitives by composer. Then, some backends are feed with these primitives to\ncreate pdf, svg, webgl scenes, etc.\n\n@docs Primitive\n\n\n## Type Aliases\n\n@docs Opacity, Id, ImageUri, FontName, FontSize\n\n",
+    "aliases": [
       {
-        "name": "render",
-        "comment": " ",
-        "type": "Composer.Geometry.Size.Size -> List Composer.Primitive.Primitive -> Svg.Svg msg"
+        "name": "FontName",
+        "comment": " The font name of a text.\n",
+        "args": [],
+        "type": "String"
+      },
+      {
+        "name": "FontSize",
+        "comment": " The font size of a text.\n",
+        "args": [],
+        "type": "Float"
+      },
+      {
+        "name": "Id",
+        "comment": " A string identifier.\n",
+        "args": [],
+        "type": "String"
+      },
+      {
+        "name": "ImageUri",
+        "comment": " A URI pointing to an image.\n",
+        "args": [],
+        "type": "String"
+      },
+      {
+        "name": "Opacity",
+        "comment": " A float value, 0 means transparent, 1 opaque.\n",
+        "args": [],
+        "type": "Float"
       }
     ],
+    "types": [
+      {
+        "name": "Primitive",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Rectangle",
+            [
+              "Composer.Primitive.Id",
+              "Composer.Geometry.Transform.Transform",
+              "Composer.Geometry.Size.Size",
+              "Color.Color"
+            ]
+          ],
+          [
+            "Text",
+            [
+              "Composer.Primitive.Id",
+              "Composer.Geometry.Transform.Transform",
+              "Composer.Primitive.FontSize",
+              "Color.Color",
+              "Composer.Primitive.FontName",
+              "String"
+            ]
+          ],
+          [
+            "Texture",
+            [
+              "Composer.Primitive.Id",
+              "Composer.Geometry.Transform.Transform",
+              "Composer.Primitive.Opacity",
+              "Composer.Geometry.Size.Size",
+              "Composer.Primitive.ImageUri"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -413,126 +490,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Composer.Primitive",
-    "comment": " A primitive set of geometry atoms. Scenes are reduce to a flat list of\nprimitives by composer. Then, some backends are feed with these primitives to\ncreate pdf, svg, webgl scenes, etc.\n\n@docs Primitive\n\n\n## Type Aliases\n\n@docs Opacity, Id, ImageUri, FontName, FontSize\n\n",
-    "aliases": [
-      {
-        "name": "FontName",
-        "comment": " The font name of a text.\n",
-        "args": [],
-        "type": "String"
-      },
-      {
-        "name": "FontSize",
-        "comment": " The font size of a text.\n",
-        "args": [],
-        "type": "Float"
-      },
-      {
-        "name": "Id",
-        "comment": " A string identifier.\n",
-        "args": [],
-        "type": "String"
-      },
-      {
-        "name": "ImageUri",
-        "comment": " A URI pointing to an image.\n",
-        "args": [],
-        "type": "String"
-      },
-      {
-        "name": "Opacity",
-        "comment": " A float value, 0 means transparent, 1 opaque.\n",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [
-      {
-        "name": "Primitive",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Rectangle",
-            [
-              "Composer.Primitive.Id",
-              "Composer.Geometry.Transform.Transform",
-              "Composer.Geometry.Size.Size",
-              "Color.Color"
-            ]
-          ],
-          [
-            "Text",
-            [
-              "Composer.Primitive.Id",
-              "Composer.Geometry.Transform.Transform",
-              "Composer.Primitive.FontSize",
-              "Color.Color",
-              "Composer.Primitive.FontName",
-              "String"
-            ]
-          ],
-          [
-            "Texture",
-            [
-              "Composer.Primitive.Id",
-              "Composer.Geometry.Transform.Transform",
-              "Composer.Primitive.Opacity",
-              "Composer.Geometry.Size.Size",
-              "Composer.Primitive.ImageUri"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Geometry.Rect",
-    "comment": " A 2D rectangle defined by a point and a size.\n\n@docs Rect , atOrigin\n\n",
-    "aliases": [
-      {
-        "name": "Rect",
-        "comment": " ",
-        "args": [],
-        "type": "{ origin : Composer.Geometry.Point.Point , size : Composer.Geometry.Size.Size }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "atOrigin",
-        "comment": " A rectangle laying on the origin of coordinates (0, 0).\n",
-        "type": "Composer.Geometry.Size.Size -> Composer.Geometry.Rect.Rect"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Scene.Shape",
-    "comment": " A set a geometrical shapes that entities can draw.\n\n@docs Shape\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Shape",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Rectangle",
-            [
-              "Composer.Geometry.Size.Size"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Composer.Geometry.Transform",
     "comment": " A 2D linear transform represented by 3x2 matix.\n\n@docs Transform, identity, multiply, combine, apply\n\n\n# Planar Transformations\n\n@docs translate, scale, rotation\n\n",
     "aliases": [
@@ -579,6 +536,49 @@
         "name": "translate",
         "comment": " A Transform that represents a translation to a point.\n",
         "type": "Composer.Geometry.Point.Point -> Composer.Geometry.Transform.Transform"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Composer.Scene.Shape",
+    "comment": " A set a geometrical shapes that entities can draw.\n\n@docs Shape\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Shape",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Rectangle",
+            [
+              "Composer.Geometry.Size.Size"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Composer.Geometry.Rect",
+    "comment": " A 2D rectangle defined by a point and a size.\n\n@docs Rect , atOrigin\n\n",
+    "aliases": [
+      {
+        "name": "Rect",
+        "comment": " ",
+        "args": [],
+        "type": "{ origin : Composer.Geometry.Point.Point , size : Composer.Geometry.Size.Size }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "atOrigin",
+        "comment": " A rectangle laying on the origin of coordinates (0, 0).\n",
+        "type": "Composer.Geometry.Size.Size -> Composer.Geometry.Rect.Rect"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -647,6 +647,21 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Composer.Geometry.Radian",
+    "comment": " A unit for measuring angles.\n\n@docs Radian\n\n",
+    "aliases": [
+      {
+        "name": "Radian",
+        "comment": " ",
+        "args": [],
+        "type": "Float"
+      }
+    ],
+    "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Composer.Geometry.Size",
     "comment": " A type to describe 2d sizes, containing width and height.\n\n@docs Size, zero\n\n",
     "aliases": [
@@ -668,37 +683,22 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Composer.Geometry.Radian",
-    "comment": " A unit for measuring angles.\n\n@docs Radian\n\n",
+    "name": "Composer.Geometry.Point",
+    "comment": " A type to describe positions in the Cartesian coordinate system.\n\n@docs Point, origin\n\n",
     "aliases": [
       {
-        "name": "Radian",
+        "name": "Point",
         "comment": " ",
         "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Geometry.Offset",
-    "comment": " A set of four dimensions: top, left, bottom and right. Used for offsets,\npadding, margins, etc.\n\n@docs Offset, zero\n\n",
-    "aliases": [
-      {
-        "name": "Offset",
-        "comment": " ",
-        "args": [],
-        "type": "{ top : Float, left : Float, bottom : Float, right : Float }"
+        "type": "{ x : Float, y : Float }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "zero",
-        "comment": " An offset with all the dimensions set to zero.\n",
-        "type": "Composer.Geometry.Offset.Offset"
+        "name": "origin",
+        "comment": " The origin (0, 0).\n",
+        "type": "Composer.Geometry.Point.Point"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -720,27 +720,6 @@
         "name": "zero",
         "comment": " An BoundingBox with all the dimensions set to zero.\n",
         "type": "Composer.Geometry.BoundingBox.BoundingBox"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Geometry.Point",
-    "comment": " A type to describe positions in the Cartesian coordinate system.\n\n@docs Point, origin\n\n",
-    "aliases": [
-      {
-        "name": "Point",
-        "comment": " ",
-        "args": [],
-        "type": "{ x : Float, y : Float }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "origin",
-        "comment": " The origin (0, 0).\n",
-        "type": "Composer.Geometry.Point.Point"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -777,6 +756,27 @@
         "name": "index",
         "comment": " Given a character, return the encoding value of that character, if exists.\n",
         "type": "Char -> Composer.Text.Font.CodePage.CodePage -> Maybe.Maybe Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Composer.Geometry.Offset",
+    "comment": " A set of four dimensions: top, left, bottom and right. Used for offsets,\npadding, margins, etc.\n\n@docs Offset, zero\n\n",
+    "aliases": [
+      {
+        "name": "Offset",
+        "comment": " ",
+        "args": [],
+        "type": "{ top : Float, left : Float, bottom : Float, right : Float }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "zero",
+        "comment": " An offset with all the dimensions set to zero.\n",
+        "type": "Composer.Geometry.Offset.Offset"
       }
     ],
     "generated-with-elm-version": "0.18.0"

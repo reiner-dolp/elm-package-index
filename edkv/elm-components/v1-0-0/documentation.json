@@ -1,19 +1,5 @@
 [
   {
-    "name": "Components.Svg.Keyed",
-    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "node",
-        "comment": " Works just like `Components.Svg.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
-        "type": "String -> List (Components.Svg.Attribute msg parts) -> List ( String, Components.Svg.Svg msg parts ) -> Components.Svg.Svg msg parts"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Components.Svg.Events",
     "comment": " The only difference from the `elm-lang/html` package is that the functions\naccept [`Signal`s](Components#Signal) instead of raw messages.\n\n\n# Animation event attributes\n\n@docs onBegin, onEnd, onRepeat\n\n\n# Document event attributes\n\n@docs onAbort, onError, onResize, onScroll, onLoad, onUnload, onZoom\n\n\n# Graphical event attributes\n\n@docs onActivate, onClick, onFocusIn, onFocusOut, onMouseDown, onMouseMove, onMouseOut, onMouseOver, onMouseUp\n\n\n# Custom Events\n\n@docs on, onWithOptions, Options, defaultOptions\n\n",
     "aliases": [
@@ -135,6 +121,20 @@
         "name": "onZoom",
         "comment": " ",
         "type": "Components.Signal msg parts -> Components.Svg.Attribute msg parts"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Components.Svg.Keyed",
+    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "node",
+        "comment": " Works just like `Components.Svg.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
+        "type": "String -> List (Components.Svg.Attribute msg parts) -> List ( String, Components.Svg.Svg msg parts ) -> Components.Svg.Svg msg parts"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1444,6 +1444,414 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Components.Svg",
+    "comment": " Build SVG views, just like with the `elm-lang/svg` package.\n\nDifferences from `elm-lang/svg`:\n\n  - New functions: [`none`](#none) and [`plain`](#plain).\n  - No [`map`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#map).\n  - It supports [adding dynamic styles](Components-Svg-Attributes#css)\n    via the\n    [`elm-css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest)\n    package.\n\n\n# SVG Nodes\n\n@docs Svg, Attribute, node, text, none, plain\n\n\n# HTML Embedding\n\n@docs svg, foreignObject\n\n\n# Graphics elements\n\n@docs circle, ellipse, image, line, path, polygon, polyline, rect, use\n\n\n# Animation elements\n\n@docs animate, animateColor, animateMotion, animateTransform, mpath, set\n\n\n# Descriptive elements\n\n@docs desc, metadata, title\n\n\n# Containers\n\n@docs a, defs, g, marker, mask, pattern, switch, symbol\n\n\n# Text\n\n@docs altGlyph, altGlyphDef, altGlyphItem, glyph, glyphRef, textPath, text_, tref, tspan\n\n\n# Fonts\n\n@docs font\n\n\n# Gradients\n\n@docs linearGradient, radialGradient, stop\n\n\n# Filters\n\n@docs feBlend, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting, feDisplacementMap, feFlood, feFuncA, feFuncB, feFuncG, feFuncR, feGaussianBlur, feImage, feMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting, feTile, feTurbulence\n\n\n# Light source elements\n\n@docs feDistantLight, fePointLight, feSpotLight\n\n\n# Miscellaneous\n\n@docs clipPath, colorProfile, cursor, filter, script, style, view\n\n",
+    "aliases": [
+      {
+        "name": "Attribute",
+        "comment": " ",
+        "args": [
+          "msg",
+          "parts"
+        ],
+        "type": "Components.Internal.Core.Attribute msg parts"
+      },
+      {
+        "name": "Svg",
+        "comment": " ",
+        "args": [
+          "msg",
+          "parts"
+        ],
+        "type": "Components.Node msg parts"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "a",
+        "comment": " The SVG Anchor Element defines a hyperlink.\n",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "altGlyph",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "altGlyphDef",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "altGlyphItem",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "animate",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "animateColor",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "animateMotion",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "animateTransform",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "circle",
+        "comment": " The circle element is an SVG basic shape, used to create circles based on\na center point and a radius.\n\n    circle [ cx \"60\", cy \"60\", r \"50\" ]\n\n",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "clipPath",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "colorProfile",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "cursor",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "defs",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "desc",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "ellipse",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feBlend",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feColorMatrix",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feComponentTransfer",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feComposite",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feConvolveMatrix",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feDiffuseLighting",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feDisplacementMap",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feDistantLight",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feFlood",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feFuncA",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feFuncB",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feFuncG",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feFuncR",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feGaussianBlur",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feImage",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feMerge",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feMergeNode",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feMorphology",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feOffset",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "fePointLight",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feSpecularLighting",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feSpotLight",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feTile",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "feTurbulence",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "filter",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "font",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "foreignObject",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Html.Html msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "g",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "glyph",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "glyphRef",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "image",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "line",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "linearGradient",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "marker",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "mask",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "metadata",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "mpath",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "node",
+        "comment": " Create any SVG node. To create a `<rect>` helper function, you would write:\n\n    rect : List (Attribute msg parts) -> List (Svg msg parts) -> Svg msg parts\n    rect attributes children =\n        node \"rect\" attributes children\n\nYou should always be able to use the helper functions already defined in this\nlibrary though!\n\n",
+        "type": "String -> List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "none",
+        "comment": " Same as `text \"\"`.\n",
+        "type": "Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "path",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "pattern",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "plain",
+        "comment": " Embed a node that was created with another package like `elm-lang/svg`.\n",
+        "type": "VirtualDom.Node msg -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "polygon",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "polyline",
+        "comment": " The polyline element is an SVG basic shape, used to create a series of\nstraight lines connecting several points. Typically a polyline is used to\ncreate open shapes.\n\n    polyline [ fill \"none\", stroke \"black\", points \"20,100 40,60 70,80 100,20\" ]\n\n",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "radialGradient",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "rect",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "script",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "set",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "stop",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "style",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "svg",
+        "comment": " The root `<svg>` node for any SVG scene. This example shows a scene\ncontaining a rounded rectangle:\n\n    import Components.Html exposing (Html)\n    import Components.Svg exposing (..)\n    import Components.Svg.Attributes exposing (..)\n\n    roundRect : Html msg parts\n    roundRect =\n        svg\n            [ width \"120\", height \"120\", viewBox \"0 0 120 120\" ]\n            [ rect\n                [ x \"10\"\n                , y \"10\"\n                , width \"100\"\n                , height \"100\"\n                , rx \"15\"\n                , ry \"15\"\n                ]\n                []\n            ]\n\n",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Html.Html msg parts"
+      },
+      {
+        "name": "switch",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "symbol",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "text",
+        "comment": " A simple text node, no tags at all.\n\nWarning: not to be confused with `text_` which produces the SVG `<text>` tag!\n\n",
+        "type": "String -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "textPath",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "text_",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "title",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "tref",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "tspan",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "use",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Components.Html.Attributes",
     "comment": " Differences from the `elm-lang/html` package : new [`none`](#none),\n[`plain`](#plain) and [`css`](#css) functions.\n\n\n# Primitives\n\n@docs property, attribute, none, plain, map\n\n\n# CSS\n\n@docs css, style\n\n\n# Super Common Attributes\n\n@docs class, classList, id, title, hidden\n\n\n# Inputs\n\n@docs type_, value, defaultValue, checked, placeholder, selected\n\n\n## Input Helpers\n\n@docs accept, acceptCharset, action, autocomplete, autofocus, disabled, enctype, formaction, list, maxlength, minlength, method, multiple, name, novalidate, pattern, readonly, required, size, for, form\n\n\n## Input Ranges\n\n@docs max, min, step\n\n\n## Input Text Areas\n\n@docs cols, rows, wrap\n\n\n# Links and Areas\n\n@docs href, target, download, downloadAs, hreflang, media, ping, rel\n\n\n## Maps\n\n@docs ismap, usemap, shape, coords\n\n\n# Embedded Content\n\n@docs src, height, width, alt\n\n\n## Audio and Video\n\n@docs autoplay, controls, loop, preload, poster, default, kind, srclang\n\n\n## iframes\n\n@docs sandbox, seamless, srcdoc\n\n\n# Ordered Lists\n\n@docs reversed, start\n\n\n# Tables\n\n@docs align, colspan, rowspan, headers, scope\n\n\n# Header Stuff\n\n@docs async, charset, content, defer, httpEquiv, language, scoped\n\n\n# Less Common Global Attributes\n\nAttributes that can be attached to any HTML tag but are less commonly used.\n\n@docs accesskey, contenteditable, contextmenu, dir, draggable, dropzone, itemprop, lang, spellcheck, tabindex\n\n\n# Key Generation\n\n@docs challenge, keytype\n\n\n# Miscellaneous\n\n@docs cite, datetime, pubdate, manifest\n\n",
     "aliases": [],
@@ -1963,443 +2371,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Components.Svg",
-    "comment": " Build SVG views, just like with the `elm-lang/svg` package.\n\nDifferences from `elm-lang/svg`:\n\n  - New functions: [`none`](#none) and [`plain`](#plain).\n  - No [`map`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#map).\n  - It supports [adding dynamic styles](Components-Svg-Attributes#css)\n    via the\n    [`elm-css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest)\n    package.\n\n\n# SVG Nodes\n\n@docs Svg, Attribute, node, text, none, plain\n\n\n# HTML Embedding\n\n@docs svg, foreignObject\n\n\n# Graphics elements\n\n@docs circle, ellipse, image, line, path, polygon, polyline, rect, use\n\n\n# Animation elements\n\n@docs animate, animateColor, animateMotion, animateTransform, mpath, set\n\n\n# Descriptive elements\n\n@docs desc, metadata, title\n\n\n# Containers\n\n@docs a, defs, g, marker, mask, pattern, switch, symbol\n\n\n# Text\n\n@docs altGlyph, altGlyphDef, altGlyphItem, glyph, glyphRef, textPath, text_, tref, tspan\n\n\n# Fonts\n\n@docs font\n\n\n# Gradients\n\n@docs linearGradient, radialGradient, stop\n\n\n# Filters\n\n@docs feBlend, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting, feDisplacementMap, feFlood, feFuncA, feFuncB, feFuncG, feFuncR, feGaussianBlur, feImage, feMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting, feTile, feTurbulence\n\n\n# Light source elements\n\n@docs feDistantLight, fePointLight, feSpotLight\n\n\n# Miscellaneous\n\n@docs clipPath, colorProfile, cursor, filter, script, style, view\n\n",
-    "aliases": [
-      {
-        "name": "Attribute",
-        "comment": " ",
-        "args": [
-          "msg",
-          "parts"
-        ],
-        "type": "Components.Internal.Core.Attribute msg parts"
-      },
-      {
-        "name": "Svg",
-        "comment": " ",
-        "args": [
-          "msg",
-          "parts"
-        ],
-        "type": "Components.Node msg parts"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "a",
-        "comment": " The SVG Anchor Element defines a hyperlink.\n",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "altGlyph",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "altGlyphDef",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "altGlyphItem",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "animate",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "animateColor",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "animateMotion",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "animateTransform",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "circle",
-        "comment": " The circle element is an SVG basic shape, used to create circles based on\na center point and a radius.\n\n    circle [ cx \"60\", cy \"60\", r \"50\" ]\n\n",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "clipPath",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "colorProfile",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "cursor",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "defs",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "desc",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "ellipse",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feBlend",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feColorMatrix",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feComponentTransfer",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feComposite",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feConvolveMatrix",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feDiffuseLighting",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feDisplacementMap",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feDistantLight",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feFlood",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feFuncA",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feFuncB",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feFuncG",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feFuncR",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feGaussianBlur",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feImage",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feMerge",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feMergeNode",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feMorphology",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feOffset",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "fePointLight",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feSpecularLighting",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feSpotLight",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feTile",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "feTurbulence",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "filter",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "font",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "foreignObject",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Html.Html msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "g",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "glyph",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "glyphRef",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "image",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "line",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "linearGradient",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "marker",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "mask",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "metadata",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "mpath",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "node",
-        "comment": " Create any SVG node. To create a `<rect>` helper function, you would write:\n\n    rect : List (Attribute msg parts) -> List (Svg msg parts) -> Svg msg parts\n    rect attributes children =\n        node \"rect\" attributes children\n\nYou should always be able to use the helper functions already defined in this\nlibrary though!\n\n",
-        "type": "String -> List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "none",
-        "comment": " Same as `text \"\"`.\n",
-        "type": "Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "path",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "pattern",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "plain",
-        "comment": " Embed a node that was created with another package like `elm-lang/svg`.\n",
-        "type": "VirtualDom.Node msg -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "polygon",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "polyline",
-        "comment": " The polyline element is an SVG basic shape, used to create a series of\nstraight lines connecting several points. Typically a polyline is used to\ncreate open shapes.\n\n    polyline [ fill \"none\", stroke \"black\", points \"20,100 40,60 70,80 100,20\" ]\n\n",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "radialGradient",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "rect",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "script",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "set",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "stop",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "style",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "svg",
-        "comment": " The root `<svg>` node for any SVG scene. This example shows a scene\ncontaining a rounded rectangle:\n\n    import Components.Html exposing (Html)\n    import Components.Svg exposing (..)\n    import Components.Svg.Attributes exposing (..)\n\n    roundRect : Html msg parts\n    roundRect =\n        svg\n            [ width \"120\", height \"120\", viewBox \"0 0 120 120\" ]\n            [ rect\n                [ x \"10\"\n                , y \"10\"\n                , width \"100\"\n                , height \"100\"\n                , rx \"15\"\n                , ry \"15\"\n                ]\n                []\n            ]\n\n",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Html.Html msg parts"
-      },
-      {
-        "name": "switch",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "symbol",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "text",
-        "comment": " A simple text node, no tags at all.\n\nWarning: not to be confused with `text_` which produces the SVG `<text>` tag!\n\n",
-        "type": "String -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "textPath",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "text_",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "title",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "tref",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "tspan",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "use",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "List (Components.Svg.Attribute msg parts) -> List (Components.Svg.Svg msg parts) -> Components.Svg.Svg msg parts"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Components.Html.Keyed",
-    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs div, ol, ul\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "div",
-        "comment": " ",
-        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
-      },
-      {
-        "name": "node",
-        "comment": " Works just like `Components.Html.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
-        "type": "String -> List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
-      },
-      {
-        "name": "ol",
-        "comment": " ",
-        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
-      },
-      {
-        "name": "ul",
-        "comment": " ",
-        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Components.Html.Events",
     "comment": " The only difference from the `elm-lang/html` package is that the functions\naccept [`Signal`s](Components#Signal) instead of raw messages.\n\n\n# Mouse Helpers\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseOver, onMouseOut\n\n\n# Form Helpers\n\n@docs onInput, onCheck, onSubmit\n\n\n# Focus Helpers\n\n@docs onBlur, onFocus\n\n\n# Custom Event Handlers\n\n@docs on, onWithOptions, Options, defaultOptions\n\n\n# Custom Decoders\n\n@docs targetValue, targetChecked, keyCode\n\n",
     "aliases": [
@@ -2506,6 +2477,35 @@
         "name": "targetValue",
         "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n\n    import Json.Decode as Json\n\n    onInput : (String -> Signal msg parts) -> Attribute msg parts\n    onInput tagger =\n        on \"input\" (Json.map tagger targetValue)\n\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n\n",
         "type": "Json.Decode.Decoder String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Components.Html.Keyed",
+    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs div, ol, ul\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "div",
+        "comment": " ",
+        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
+      },
+      {
+        "name": "node",
+        "comment": " Works just like `Components.Html.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
+        "type": "String -> List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
+      },
+      {
+        "name": "ol",
+        "comment": " ",
+        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
+      },
+      {
+        "name": "ul",
+        "comment": " ",
+        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
       }
     ],
     "generated-with-elm-version": "0.18.0"

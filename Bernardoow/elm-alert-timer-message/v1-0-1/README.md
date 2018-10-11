@@ -80,10 +80,9 @@ This alert will be displayed for 10 seconds.
 
 ## Examples
 
-See the [examples][examples] folder or try it on ellie-app: [example1] example.
+See the [examples][examples] folder
 
 [examples]: https://github.com/Bernardoow/elm-alert-timer-message/tree/master/examples
-[example1]: https://ellie-app.com/D4qz7wC4Ywa1/0
 [toastr]: https://github.com/CodeSeven/toastr
 
 Thanks for [toastr]. I used your css on one example.

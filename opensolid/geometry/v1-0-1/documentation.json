@@ -738,85 +738,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Triangle3d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle3d.svg\" alt=\"Triangle3d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle3d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle3d` constructor, for example\n\n    exampleTriangle =\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, area\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n\n# Bounds\n\n@docs boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of a triangle. This value is always positive.\n\n    Triangle3d.area exampleTriangle ==\n        1.5811\n\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle3d.boundingBox exampleTriangle ==\n        BoundingBox3d\n            { minX = 1\n            , maxX = 2\n            , minY = 0\n            , maxY = 1\n            , minZ = 0\n            , maxZ = 3\n            }\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.BoundingBox3d"
-      },
-      {
-        "name": "centroid",
-        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle3d.centroid exampleTriangle ==\n        Point3d ( 1.6667, 0.6667, 1 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "edges",
-        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle3d.edges exampleTriangle\n\n    e1 ==\n        LineSegment3d ( Point3d ( 1, 0, 0 ), Point3d ( 2, 0, 0 ) )\n\n    e2 ==\n        LineSegment3d ( Point3d ( 2, 0, 0 ), Point3d ( 2, 1, 3 ) )\n\n    e3 ==\n        LineSegment3d ( Point3d ( 2, 1, 3 ), Point3d ( 1, 0, 0 ) )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d )"
-      },
-      {
-        "name": "map",
-        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle.map (Point3d.projectOnto Plane3d.xz) exampleTriangle\n",
-        "type": "(OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Point3d) -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a triangle across a given plane.\n\n    Triangle3d.mirrorAcross Plane3d.yz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, 0, 0 )\n            ( Point3d ( -2, 0, 0 )\n            ( Point3d ( -2, 1, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.placeIn localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, 1, 3 )\n            , Point3d ( 4, 1, 3 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a triangle into a given sketch plane. Conceptually, this projects\nthe triangle onto the plane and then expresses the projected triangle in 2D\nsketch coordinates.\n\n    Triangle3d.projectInto SketchPlane3d.xy exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 1, 0 )\n            , Point2d ( 2, 0 )\n            , Point2d ( 2, 1 )\n            )\n\n    Triangle3d.projectInto SketchPlane3d.zx exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, 1 )\n            , Point2d ( 0, 2 )\n            , Point2d ( 3, 2 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a triangle onto a given plane.\n\n    Triangle3d.projectOnto Plane3d.xy exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 0 )\n            )\n\n    Triangle3d.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 0, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.relativeTo localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, -1, -3 )\n            , Point3d ( 0, -1, -3 )\n            , Point3d ( 0, 0, 0 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a triangle around a given axis by a given angle (in radians).\n\n    Triangle3d.rotateAround Axis3d.z (degrees 90) exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 0, 1, 0 )\n            , Point3d ( 0, 2, 0 )\n            , Point3d ( -1, 2, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle3d.scaleAbout Point3d.origin 2 exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 2, 0, 0 )\n            , Point3d ( 4, 0, 0 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Point3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector3d ( 2, -1, 3 )\n\n    Triangle3d.translateBy displacement exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, -1, 3 )\n            , Point3d ( 4, -1, 3 )\n            , Point3d ( 4, 0, 6 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices exampleTriangle\n\n    p1 ==\n        Point3d ( 1, 0, 0 )\n\n    p2 ==\n        Point3d ( 2, 0, 0 )\n\n    p3 ==\n        Point3d ( 2, 1, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.Plane3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/plane3d.svg\" alt=\"Plane3d\" width=\"160\">\n\nA `Plane3d` is an infinite flat plane in 3D. It is defined by an origin point\nand normal direction and is useful for several operations including:\n\n  - Mirroring across the plane\n  - Projecting onto the plane\n  - Measuring distance from the plane\n\nPlanes can by constructed by passing a record with `originPoint` and\n`normalDirection` fields to the `Plane3d` constructor, for example:\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 2, 1, 3 )\n            , normalDirection = Direction3d.y\n            }\n\n# Predefined planes\n\n@docs xy, yz, zx\n\n# Accessors\n\n@docs originPoint, normalDirection\n\n# Conversions\n\n@docs normalAxis, sketchPlane\n\n# Transformations\n\n@docs offsetBy, flip, rotateAround, translateBy, moveTo, mirrorAcross\n\n# Coordinate frames\n\n@docs relativeTo, placeIn\n",
     "aliases": [],
@@ -1015,6 +936,85 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.Triangle3d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle3d.svg\" alt=\"Triangle3d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle3d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle3d` constructor, for example\n\n    exampleTriangle =\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, area\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a triangle. This value is always positive.\n\n    Triangle3d.area exampleTriangle ==\n        1.5811\n\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle3d.boundingBox exampleTriangle ==\n        BoundingBox3d\n            { minX = 1\n            , maxX = 2\n            , minY = 0\n            , maxY = 1\n            , minZ = 0\n            , maxZ = 3\n            }\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.BoundingBox3d"
+      },
+      {
+        "name": "centroid",
+        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle3d.centroid exampleTriangle ==\n        Point3d ( 1.6667, 0.6667, 1 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Point3d"
+      },
+      {
+        "name": "edges",
+        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle3d.edges exampleTriangle\n\n    e1 ==\n        LineSegment3d ( Point3d ( 1, 0, 0 ), Point3d ( 2, 0, 0 ) )\n\n    e2 ==\n        LineSegment3d ( Point3d ( 2, 0, 0 ), Point3d ( 2, 1, 3 ) )\n\n    e3 ==\n        LineSegment3d ( Point3d ( 2, 1, 3 ), Point3d ( 1, 0, 0 ) )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d )"
+      },
+      {
+        "name": "map",
+        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle.map (Point3d.projectOnto Plane3d.xz) exampleTriangle\n",
+        "type": "(OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Point3d) -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a triangle across a given plane.\n\n    Triangle3d.mirrorAcross Plane3d.yz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, 0, 0 )\n            ( Point3d ( -2, 0, 0 )\n            ( Point3d ( -2, 1, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.placeIn localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, 1, 3 )\n            , Point3d ( 4, 1, 3 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a triangle into a given sketch plane. Conceptually, this projects\nthe triangle onto the plane and then expresses the projected triangle in 2D\nsketch coordinates.\n\n    Triangle3d.projectInto SketchPlane3d.xy exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 1, 0 )\n            , Point2d ( 2, 0 )\n            , Point2d ( 2, 1 )\n            )\n\n    Triangle3d.projectInto SketchPlane3d.zx exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, 1 )\n            , Point2d ( 0, 2 )\n            , Point2d ( 3, 2 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a triangle onto a given plane.\n\n    Triangle3d.projectOnto Plane3d.xy exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 0 )\n            )\n\n    Triangle3d.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 0, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.relativeTo localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, -1, -3 )\n            , Point3d ( 0, -1, -3 )\n            , Point3d ( 0, 0, 0 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a triangle around a given axis by a given angle (in radians).\n\n    Triangle3d.rotateAround Axis3d.z (degrees 90) exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 0, 1, 0 )\n            , Point3d ( 0, 2, 0 )\n            , Point3d ( -1, 2, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle3d.scaleAbout Point3d.origin 2 exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 2, 0, 0 )\n            , Point3d ( 4, 0, 0 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Point3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector3d ( 2, -1, 3 )\n\n    Triangle3d.translateBy displacement exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, -1, 3 )\n            , Point3d ( 4, -1, 3 )\n            , Point3d ( 4, 0, 6 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices exampleTriangle\n\n    p1 ==\n        Point3d ( 1, 0, 0 )\n\n    p2 ==\n        Point3d ( 2, 0, 0 )\n\n    p3 ==\n        Point3d ( 2, 1, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.BoundingBox3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/boundingBox3d.svg\" alt=\"BoundingBox3d\" width=\"160\">\n\nA `BoundingBox3d` is a rectangular box in 3D defined by its minimum and maximum\nX, Y and Z values. It is possible to generate bounding boxes for most geometric\nobjects; [`Triangle3d.boundingBox`](OpenSolid-Triangle3d#boundingBox)\ntakes a `Triangle3d` and returns a `BoundingBox3d` that contains that triangle.\nThere are several use cases where it is more efficient to deal with the bounding\nbox of an object than the object itself, such as:\n\n  - Intersection checking: If (for example) the bounding boxes of a line segment\n    and a triangle do not overlap, then the line segment and triangle cannot\n    possibly intersect each other. Expensive intersection checking therefore\n    only has to be performed for line segments and triangles whose bounding\n    boxes _do_ overlap.\n  - 3D rendering: When rendering a 3D scene, any object whose bounding box is\n    not visible must itself be not visible, and therefore does not have to be\n    drawn. This provides a simple form of culling.\n\nBounding boxes can be constructed by passing a record with `minX`, `maxX`,\n`minY`, `maxY`, `minZ` and `maxZ` fields to the `BoundingBox3d` constructor, for\nexample\n\n    exampleBox =\n        BoundingBox3d\n            { minX = -2\n            , maxX = 2\n            , minY = 2\n            , maxY = 5\n            , minZ = 3\n            , maxZ = 4\n            }\n\nIf you construct a `BoundingBox3d` this way, **you must ensure that the given\nvalues are properly ordered**: <code>minX&nbsp;<=&nbsp;maxX</code>,\n<code>minY&nbsp;<=&nbsp;maxY</code>, <code>minZ&nbsp;<=&nbsp;maxZ</code>.\nAlternately, you can construct bounding boxes using functions such as\n[`Point3d.hull`](OpenSolid-Point3d#hull) where the input order does not matter.\n\n# Constructors\n\n@docs singleton, containing\n\n# Accessors\n\n@docs extrema, minX, maxX, minY, maxY, minZ, maxZ\n@docs dimensions, midX, midY, midZ, centroid\n\n# Checks\n\n@docs contains, overlaps, isContainedIn\n\n# Boolean operations\n\n@docs hull, intersection\n",
     "aliases": [],
@@ -1198,184 +1198,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Triangle2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle2d.svg\" alt=\"Triangle2d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle2d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle2d` constructor, for example\n\n    exampleTriangle =\n        Triangle2d\n            ( Point2d ( 1, 1 )\n            , Point2d ( 2, 1 )\n            , Point2d ( 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, contains\n\n# Area\n\n@docs area, counterclockwiseArea, clockwiseArea\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle ==\n        1.0\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle ==\n        BoundingBox2d\n            { minX = 1\n            , maxX = 2\n            , minY = 1\n            , maxY = 3\n            }\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "centroid",
-        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle ==\n        Point2d ( 1.3333, 1.6667 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "clockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle ==\n        -1.0\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
-      },
-      {
-        "name": "contains",
-        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle ==\n        True\n\n    Triangle2d.contains Point2d.origin exampleTriangle ==\n        False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Triangle2d -> Bool"
-      },
-      {
-        "name": "counterclockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle ==\n        1.0\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
-      },
-      {
-        "name": "edges",
-        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n    e1 ==\n        LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 2, 1 ) )\n\n    e2 ==\n        LineSegment2d ( Point2d ( 2, 1 ), Point2d ( 1, 3 ) )\n\n    e3 ==\n        LineSegment2d ( Point2d ( 1, 3 ), Point2d ( 1, 1 ) )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d )"
-      },
-      {
-        "name": "map",
-        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.mirrorAcross Axis2d.x lineSegment ==\n        Triangle.map (Point2d.mirrorAcross Axis2d.x) lineSegment\n",
-        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -2, 1 )\n            , Point2d ( -1, 3 )\n            )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 3 )\n            , Point2d ( 3, 3 )\n            , Point2d ( 2, 5 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "placeOnto",
-        "comment": " Take a triangle defined in 2D coordinates within a particular sketch\nplane and return the corresponding triangle in 3D.\n\n    Triangle2d.placeOnto SketchPlane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 1 )\n            , Point3d ( 2, 0, 1 )\n            , Point3d ( 1, 0, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, -1 )\n            , Point2d ( 1, -1 )\n            , Point2d ( 0, 1 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    Triangle2d.rotateAround Point2d.origin (degrees 90) exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -1, 2 )\n            , Point2d ( -3, 1 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 2 )\n            , Point2d ( 4, 2 )\n            , Point2d ( 2, 6 )\n            )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 3, -2 )\n            , Point2d ( 4, -2 )\n            , Point2d ( 3, 0 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n    p1 ==\n        Point2d ( 1, 1 )\n\n    p2 ==\n        Point2d ( 2, 1 )\n\n    p3 ==\n        Point2d ( 1, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.BoundingBox2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/boundingBox2d.svg\" alt=\"BoundingBox2d\" width=\"160\">\n\nA `BoundingBox2d` is a rectangular box in 2D defined by its minimum and maximum\nX and Y values. It is possible to generate bounding boxes for most geometric\nobjects; for example, [`Triangle2d.boundingBox`](OpenSolid-Triangle2d#boundingBox)\ntakes a `Triangle2d` and returns a `BoundingBox2d` that contains that triangle.\nThere are several use cases where it is more efficient to deal with the bounding\nbox of an object than the object itself, such as:\n\n  - Intersection checking: If (for example) the bounding boxes of a line segment\n    and a triangle do not overlap, then the line segment and triangle cannot\n    possibly intersect each other. Expensive intersection checking therefore\n    only has to be performed for line segments and triangles whose bounding\n    boxes _do_ overlap.\n  - 2D rendering: When rendering a 2D scene, any object whose bounding box does\n    not overlap the viewing area must itself be completely outside the viewing\n    area, and therefore does not have to be drawn. This provides a simple form\n    of culling.\n\nBounding boxes can be constructed by passing a record with `minX`, `maxX`,\n`minY` and `maxY` fields to the `BoundingBox2d` constructor, for example\n\n    exampleBox =\n        BoundingBox2d\n            { minX = 3\n            , maxX = 8\n            , minY = 2\n            , maxY = 6\n            }\n\nIf you construct a `BoundingBox2d` this way, **you must ensure that the given\nvalues are properly ordered**: <code>minX&nbsp;<=&nbsp;maxX</code>,\n<code>minY&nbsp;<=&nbsp;maxY</code>. Alternately, you can construct bounding\nboxes using functions such as [`Point2d.hull`](OpenSolid-Point2d#hull) where the\ninput order does not matter.\n\n# Constructors\n\n@docs singleton, containing\n\n# Accessors\n\n@docs extrema, minX, maxX, minY, maxY\n@docs dimensions, midX, midY, centroid\n\n# Checks\n\n@docs contains, overlaps, isContainedIn\n\n# Boolean operations\n\n@docs hull, intersection\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "centroid",
-        "comment": " Get the point at the center of a bounding box.\n\n    BoundingBox2d.centroid exampleBox\n    --> Point2d ( 5.5, 4 )\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "containing",
-        "comment": " Construct a bounding box containing all points in the given list. If the\nlist is empty, returns `Nothing`.\n\n    points =\n        [ Point2d ( 2, 3 )\n        , Point2d ( -1, 5 )\n        , Point2d ( 6, 4 )\n        ]\n\n    BoundingBox2d.containing points\n    --> Just\n    -->     (BoundingBox2d\n    -->         { minX = -1\n    -->         , maxX = 6\n    -->         , minY = 3\n    -->         , maxY = 5\n    -->         }\n    -->     )\n\n    BoundingBox2d.containing []\n    --> Nothing\n\nIf you have exactly two points, you can use [`Point2d.hull`](OpenSolid-Point2d#hull)\ninstead (which returns a `BoundingBox2d` instead of a `Maybe BoundingBox2d`).\n",
-        "type": "List OpenSolid.Geometry.Types.Point2d -> Maybe.Maybe OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "contains",
-        "comment": " Check if a bounding box contains a particular point.\n\n    BoundingBox2d.contains (Point2d ( 4, 3 )) exampleBox\n    --> True\n\n    BoundingBox2d.contains Point2d.origin exampleBox\n    --> False\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Bool"
-      },
-      {
-        "name": "dimensions",
-        "comment": " Get the X and Y dimensions (width and height) of a bounding box.\n\n    ( width, height ) =\n        BoundingBox2d.dimensions exampleBox\n    --> width = 5\n    --> height = 4\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> ( Float, Float )"
-      },
-      {
-        "name": "extrema",
-        "comment": " Get the minimum and maximum X and Y values of a bounding box in a single\nrecord.\n\n    BoundingBox2d.extrema exampleBox\n    --> { minX = 3\n    --> , maxX = 8\n    --> , minY = 2\n    --> , maxY = 6\n    --> }\n\nCan be useful when combined with record destructuring, for example\n\n    { minX, maxX, minY, maxY } =\n        BoundingBox2d.extrema exampleBox\n    --> minX = 3\n    --> maxX = 8\n    --> minY = 2\n    --> maxY = 6\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> { minX : Float, maxX : Float, minY : Float, maxY : Float }"
-      },
-      {
-        "name": "hull",
-        "comment": " Build a bounding box that contains both given bounding boxes.\n\n    firstBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 4\n            , minY = 2\n            , maxY = 3\n            }\n\n    secondBox =\n        BoundingBox2d\n            { minX = -2\n            , maxX = 2\n            , minY = 4\n            , maxY = 5\n            }\n\n    BoundingBox2d.hull firstBox secondBox\n    --> BoundingBox2d\n    -->     { minX = -2\n    -->     , maxX = 4\n    -->     , minY = 2\n    -->     , maxY = 5\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "intersection",
-        "comment": " Attempt to build a bounding box that contains all points common to both\ngiven bounding boxes. If the given boxes do not overlap, returns `Nothing`.\n\n    firstBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 4\n            , minY = 2\n            , maxY = 3\n            }\n\n    secondBox =\n        BoundingBox2d\n            { minX = 2\n            , maxX = 5\n            , minY = 1\n            , maxY = 4\n            }\n\n    thirdBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 4\n            , minY = 4\n            , maxY = 5\n            }\n\n    BoundingBox2d.intersection firstBox secondBox\n    --> Just\n    -->     (BoundingBox2d\n    -->         { minX = 2\n    -->         , maxX = 4\n    -->         , minY = 2\n    -->         , maxY = 3\n    -->         }\n    -->     )\n\n    BoundingBox2d.intersection firstBox thirdBox\n    --> Nothing\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Maybe.Maybe OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "isContainedIn",
-        "comment": " Test if the second given bounding box is fully contained within the first\n(is a subset of it).\n\n    outerBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 10\n            , minY = 0\n            , maxY = 10\n            }\n\n    innerBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 5\n            , minY = 3\n            , maxY = 9\n            }\n\n    overlappingBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 5\n            , minY = 3\n            , maxY = 12\n            }\n\n    BoundingBox2d.isContainedIn outerBox innerBox\n    --> True\n\n    BoundingBox2d.isContainedIn outerBox overlappingBox\n    --> False\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Bool"
-      },
-      {
-        "name": "maxX",
-        "comment": " Get the maximum X value of a bounding box.\n\n    BoundingBox2d.maxX exampleBox\n    --> 8\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
-      },
-      {
-        "name": "maxY",
-        "comment": " Get the maximum Y value of a bounding box.\n\n    BoundingBox2d.maxY exampleBox\n    --> 6\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
-      },
-      {
-        "name": "midX",
-        "comment": " Get the median X value of a bounding box.\n\n    BoundingBox2d.midX exampleBox\n    --> 5.5\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
-      },
-      {
-        "name": "midY",
-        "comment": " Get the median Y value of a bounding box.\n\n    BoundingBox2d.midY exampleBox\n    --> 4\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
-      },
-      {
-        "name": "minX",
-        "comment": " Get the minimum X value of a bounding box.\n\n    BoundingBox2d.minX exampleBox\n    --> 3\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
-      },
-      {
-        "name": "minY",
-        "comment": " Get the minimum Y value of a bounding box.\n\n    BoundingBox2d.minY exampleBox\n    --> 2\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
-      },
-      {
-        "name": "overlaps",
-        "comment": " Test if one bounding box overlaps (touches) another.\n\n    firstBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 3\n            , minY = 0\n            , maxY = 2\n            }\n\n    secondBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 3\n            , minY = 1\n            , maxY = 4\n            }\n\n    thirdBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 3\n            , minY = 4\n            , maxY = 5\n            }\n\n    BoundingBox2d.overlaps firstBox secondBox\n    --> True\n\n    BoundingBox2d.overlaps firstBox thirdBox\n    --> False\n",
-        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Bool"
-      },
-      {
-        "name": "singleton",
-        "comment": " Construct a zero-width bounding box containing a single point.\n\n    point =\n        Point2d ( 2, 3 )\n\n    BoundingBox2d.singleton point\n    --> BoundingBox2d\n    -->     { minX = 2\n    -->     , maxX = 2\n    -->     , minY = 3\n    -->     , maxY = 3\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.BoundingBox2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.LineSegment2d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment2d.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\nLine segments can be constructed by passing a tuple of start and end points to\nthe `LineSegment2d` constructor, for example\n\n    exampleLineSegment =\n        LineSegment2d\n            ( Point2d ( 1, 2 )\n            , Point2d ( 3, 4 )\n            )\n\n# Endpoints\n\n@docs startPoint, endPoint, endpoints, reverse\n\n# Interpolation\n\n@docs midpoint, interpolate\n\n# Length and direction\n\n@docs length, squaredLength, direction, normalDirection, vector\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
     "aliases": [],
@@ -1490,6 +1312,95 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.BoundingBox2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/boundingBox2d.svg\" alt=\"BoundingBox2d\" width=\"160\">\n\nA `BoundingBox2d` is a rectangular box in 2D defined by its minimum and maximum\nX and Y values. It is possible to generate bounding boxes for most geometric\nobjects; for example, [`Triangle2d.boundingBox`](OpenSolid-Triangle2d#boundingBox)\ntakes a `Triangle2d` and returns a `BoundingBox2d` that contains that triangle.\nThere are several use cases where it is more efficient to deal with the bounding\nbox of an object than the object itself, such as:\n\n  - Intersection checking: If (for example) the bounding boxes of a line segment\n    and a triangle do not overlap, then the line segment and triangle cannot\n    possibly intersect each other. Expensive intersection checking therefore\n    only has to be performed for line segments and triangles whose bounding\n    boxes _do_ overlap.\n  - 2D rendering: When rendering a 2D scene, any object whose bounding box does\n    not overlap the viewing area must itself be completely outside the viewing\n    area, and therefore does not have to be drawn. This provides a simple form\n    of culling.\n\nBounding boxes can be constructed by passing a record with `minX`, `maxX`,\n`minY` and `maxY` fields to the `BoundingBox2d` constructor, for example\n\n    exampleBox =\n        BoundingBox2d\n            { minX = 3\n            , maxX = 8\n            , minY = 2\n            , maxY = 6\n            }\n\nIf you construct a `BoundingBox2d` this way, **you must ensure that the given\nvalues are properly ordered**: <code>minX&nbsp;<=&nbsp;maxX</code>,\n<code>minY&nbsp;<=&nbsp;maxY</code>. Alternately, you can construct bounding\nboxes using functions such as [`Point2d.hull`](OpenSolid-Point2d#hull) where the\ninput order does not matter.\n\n# Constructors\n\n@docs singleton, containing\n\n# Accessors\n\n@docs extrema, minX, maxX, minY, maxY\n@docs dimensions, midX, midY, centroid\n\n# Checks\n\n@docs contains, overlaps, isContainedIn\n\n# Boolean operations\n\n@docs hull, intersection\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "centroid",
+        "comment": " Get the point at the center of a bounding box.\n\n    BoundingBox2d.centroid exampleBox\n    --> Point2d ( 5.5, 4 )\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "containing",
+        "comment": " Construct a bounding box containing all points in the given list. If the\nlist is empty, returns `Nothing`.\n\n    points =\n        [ Point2d ( 2, 3 )\n        , Point2d ( -1, 5 )\n        , Point2d ( 6, 4 )\n        ]\n\n    BoundingBox2d.containing points\n    --> Just\n    -->     (BoundingBox2d\n    -->         { minX = -1\n    -->         , maxX = 6\n    -->         , minY = 3\n    -->         , maxY = 5\n    -->         }\n    -->     )\n\n    BoundingBox2d.containing []\n    --> Nothing\n\nIf you have exactly two points, you can use [`Point2d.hull`](OpenSolid-Point2d#hull)\ninstead (which returns a `BoundingBox2d` instead of a `Maybe BoundingBox2d`).\n",
+        "type": "List OpenSolid.Geometry.Types.Point2d -> Maybe.Maybe OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "contains",
+        "comment": " Check if a bounding box contains a particular point.\n\n    BoundingBox2d.contains (Point2d ( 4, 3 )) exampleBox\n    --> True\n\n    BoundingBox2d.contains Point2d.origin exampleBox\n    --> False\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Bool"
+      },
+      {
+        "name": "dimensions",
+        "comment": " Get the X and Y dimensions (width and height) of a bounding box.\n\n    ( width, height ) =\n        BoundingBox2d.dimensions exampleBox\n    --> width = 5\n    --> height = 4\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> ( Float, Float )"
+      },
+      {
+        "name": "extrema",
+        "comment": " Get the minimum and maximum X and Y values of a bounding box in a single\nrecord.\n\n    BoundingBox2d.extrema exampleBox\n    --> { minX = 3\n    --> , maxX = 8\n    --> , minY = 2\n    --> , maxY = 6\n    --> }\n\nCan be useful when combined with record destructuring, for example\n\n    { minX, maxX, minY, maxY } =\n        BoundingBox2d.extrema exampleBox\n    --> minX = 3\n    --> maxX = 8\n    --> minY = 2\n    --> maxY = 6\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> { minX : Float, maxX : Float, minY : Float, maxY : Float }"
+      },
+      {
+        "name": "hull",
+        "comment": " Build a bounding box that contains both given bounding boxes.\n\n    firstBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 4\n            , minY = 2\n            , maxY = 3\n            }\n\n    secondBox =\n        BoundingBox2d\n            { minX = -2\n            , maxX = 2\n            , minY = 4\n            , maxY = 5\n            }\n\n    BoundingBox2d.hull firstBox secondBox\n    --> BoundingBox2d\n    -->     { minX = -2\n    -->     , maxX = 4\n    -->     , minY = 2\n    -->     , maxY = 5\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "intersection",
+        "comment": " Attempt to build a bounding box that contains all points common to both\ngiven bounding boxes. If the given boxes do not overlap, returns `Nothing`.\n\n    firstBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 4\n            , minY = 2\n            , maxY = 3\n            }\n\n    secondBox =\n        BoundingBox2d\n            { minX = 2\n            , maxX = 5\n            , minY = 1\n            , maxY = 4\n            }\n\n    thirdBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 4\n            , minY = 4\n            , maxY = 5\n            }\n\n    BoundingBox2d.intersection firstBox secondBox\n    --> Just\n    -->     (BoundingBox2d\n    -->         { minX = 2\n    -->         , maxX = 4\n    -->         , minY = 2\n    -->         , maxY = 3\n    -->         }\n    -->     )\n\n    BoundingBox2d.intersection firstBox thirdBox\n    --> Nothing\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Maybe.Maybe OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "isContainedIn",
+        "comment": " Test if the second given bounding box is fully contained within the first\n(is a subset of it).\n\n    outerBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 10\n            , minY = 0\n            , maxY = 10\n            }\n\n    innerBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 5\n            , minY = 3\n            , maxY = 9\n            }\n\n    overlappingBox =\n        BoundingBox2d\n            { minX = 1\n            , maxX = 5\n            , minY = 3\n            , maxY = 12\n            }\n\n    BoundingBox2d.isContainedIn outerBox innerBox\n    --> True\n\n    BoundingBox2d.isContainedIn outerBox overlappingBox\n    --> False\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Bool"
+      },
+      {
+        "name": "maxX",
+        "comment": " Get the maximum X value of a bounding box.\n\n    BoundingBox2d.maxX exampleBox\n    --> 8\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
+      },
+      {
+        "name": "maxY",
+        "comment": " Get the maximum Y value of a bounding box.\n\n    BoundingBox2d.maxY exampleBox\n    --> 6\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
+      },
+      {
+        "name": "midX",
+        "comment": " Get the median X value of a bounding box.\n\n    BoundingBox2d.midX exampleBox\n    --> 5.5\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
+      },
+      {
+        "name": "midY",
+        "comment": " Get the median Y value of a bounding box.\n\n    BoundingBox2d.midY exampleBox\n    --> 4\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
+      },
+      {
+        "name": "minX",
+        "comment": " Get the minimum X value of a bounding box.\n\n    BoundingBox2d.minX exampleBox\n    --> 3\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
+      },
+      {
+        "name": "minY",
+        "comment": " Get the minimum Y value of a bounding box.\n\n    BoundingBox2d.minY exampleBox\n    --> 2\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> Float"
+      },
+      {
+        "name": "overlaps",
+        "comment": " Test if one bounding box overlaps (touches) another.\n\n    firstBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 3\n            , minY = 0\n            , maxY = 2\n            }\n\n    secondBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 3\n            , minY = 1\n            , maxY = 4\n            }\n\n    thirdBox =\n        BoundingBox2d\n            { minX = 0\n            , maxX = 3\n            , minY = 4\n            , maxY = 5\n            }\n\n    BoundingBox2d.overlaps firstBox secondBox\n    --> True\n\n    BoundingBox2d.overlaps firstBox thirdBox\n    --> False\n",
+        "type": "OpenSolid.Geometry.Types.BoundingBox2d -> OpenSolid.Geometry.Types.BoundingBox2d -> Bool"
+      },
+      {
+        "name": "singleton",
+        "comment": " Construct a zero-width bounding box containing a single point.\n\n    point =\n        Point2d ( 2, 3 )\n\n    BoundingBox2d.singleton point\n    --> BoundingBox2d\n    -->     { minX = 2\n    -->     , maxX = 2\n    -->     , minY = 3\n    -->     , maxY = 3\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.BoundingBox2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.Axis2d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/axis2d.svg\" alt=\"Axis2d\" width=\"160\">\n\nAn `Axis2d` represents an infinitely long straight line in 2D and is defined by\nan origin point and direction. Axes have several uses, such as:\n\n  - Mirroring across the axis\n  - Projecting onto the axis\n  - Measuring distance along the axis\n\nAxes can by constructed by passing a record with `originPoint` and `direction`\nfields to the `Axis2d` constructor, for example:\n\n    exampleAxis =\n        Axis2d\n            { originPoint = Point2d ( 1, 3 )\n            , direction = Direction2d ( 0.8, 0.6 )\n            }\n\n# Predefined axes\n\n@docs x, y\n\n# Accessors\n\n@docs originPoint, direction\n\n# Transformations\n\n@docs flip, moveTo, rotateAround, translateBy, mirrorAcross\n\n# Coordinate frames\n\nFunctions for transforming axes between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n",
     "aliases": [],
@@ -1554,6 +1465,95 @@
         "name": "y",
         "comment": " The global Y axis.\n\n    Axis2d.y\n    --> Axis2d\n    -->     { originPoint = Point2d.origin\n    -->     , direction = Direction2d.y\n    -->     }\n",
         "type": "OpenSolid.Geometry.Types.Axis2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.Triangle2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle2d.svg\" alt=\"Triangle2d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle2d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle2d` constructor, for example\n\n    exampleTriangle =\n        Triangle2d\n            ( Point2d ( 1, 1 )\n            , Point2d ( 2, 1 )\n            , Point2d ( 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, contains\n\n# Area\n\n@docs area, counterclockwiseArea, clockwiseArea\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle ==\n        1.0\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle ==\n        BoundingBox2d\n            { minX = 1\n            , maxX = 2\n            , minY = 1\n            , maxY = 3\n            }\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "centroid",
+        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle ==\n        Point2d ( 1.3333, 1.6667 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "clockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle ==\n        -1.0\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
+      },
+      {
+        "name": "contains",
+        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle ==\n        True\n\n    Triangle2d.contains Point2d.origin exampleTriangle ==\n        False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Triangle2d -> Bool"
+      },
+      {
+        "name": "counterclockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle ==\n        1.0\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
+      },
+      {
+        "name": "edges",
+        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n    e1 ==\n        LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 2, 1 ) )\n\n    e2 ==\n        LineSegment2d ( Point2d ( 2, 1 ), Point2d ( 1, 3 ) )\n\n    e3 ==\n        LineSegment2d ( Point2d ( 1, 3 ), Point2d ( 1, 1 ) )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d )"
+      },
+      {
+        "name": "map",
+        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.mirrorAcross Axis2d.x lineSegment ==\n        Triangle.map (Point2d.mirrorAcross Axis2d.x) lineSegment\n",
+        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -2, 1 )\n            , Point2d ( -1, 3 )\n            )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 3 )\n            , Point2d ( 3, 3 )\n            , Point2d ( 2, 5 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "placeOnto",
+        "comment": " Take a triangle defined in 2D coordinates within a particular sketch\nplane and return the corresponding triangle in 3D.\n\n    Triangle2d.placeOnto SketchPlane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 1 )\n            , Point3d ( 2, 0, 1 )\n            , Point3d ( 1, 0, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, -1 )\n            , Point2d ( 1, -1 )\n            , Point2d ( 0, 1 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    Triangle2d.rotateAround Point2d.origin (degrees 90) exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -1, 2 )\n            , Point2d ( -3, 1 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 2 )\n            , Point2d ( 4, 2 )\n            , Point2d ( 2, 6 )\n            )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 3, -2 )\n            , Point2d ( 4, -2 )\n            , Point2d ( 3, 0 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n    p1 ==\n        Point2d ( 1, 1 )\n\n    p2 ==\n        Point2d ( 2, 1 )\n\n    p3 ==\n        Point2d ( 1, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d )"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2104,6 +2104,125 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.Geometry.Decode",
+    "comment": " JSON decoders for the core OpenSolid types.\n\n@docs vector2d, vector3d, direction2d, direction3d, point2d, point3d\n@docs axis2d, axis3d, plane3d, frame2d, frame3d, sketchPlane3d\n@docs lineSegment2d, lineSegment3d, triangle2d, triangle3d\n@docs boundingBox2d, boundingBox3d\n@docs polyline2d, polyline3d, polygon2d\n@docs circle2d\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "axis2d",
+        "comment": " Decodes an Axis2d from an object with `originPoint` and `direction` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis2d"
+      },
+      {
+        "name": "axis3d",
+        "comment": " Decodes an Axis3d from an object with `originPoint` and `direction` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis3d"
+      },
+      {
+        "name": "boundingBox2d",
+        "comment": " Decodes a BoundingBox2d from an object with `minX`, `maxX`, `minY` and\n`maxY` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "boundingBox3d",
+        "comment": " Decodes a BoundingBox3d from an object with `minX`, `maxX`, `minY`, `maxY`,\n`minZ` and `maxZ` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox3d"
+      },
+      {
+        "name": "circle2d",
+        "comment": " Decodes a Circle2d from an object with `centerPoint` and `radius` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Circle2d"
+      },
+      {
+        "name": "direction2d",
+        "comment": " Decodes a Direction2d from a list of two floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction2d"
+      },
+      {
+        "name": "direction3d",
+        "comment": " Decodes a Direction3d from a list of three floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction3d"
+      },
+      {
+        "name": "frame2d",
+        "comment": " Decodes a Frame2d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame2d"
+      },
+      {
+        "name": "frame3d",
+        "comment": " Decodes a Frame3d from an object with `originPoint`, `xDirection`,\n`yDirection` and `zDirection` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame3d"
+      },
+      {
+        "name": "lineSegment2d",
+        "comment": " Decodes a LineSegment2d from a list of two endpoints.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "lineSegment3d",
+        "comment": " Decodes a LineSegment3d from a list of two endpoints.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "plane3d",
+        "comment": " Decodes a Plane3d from an object with `originPoint` and `normalDirection`\nfields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Plane3d"
+      },
+      {
+        "name": "point2d",
+        "comment": " Decodes a Point2d from a list of two floating-point coordinates.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "point3d",
+        "comment": " Decodes a Point3d from a list of three floating-point coordinates.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point3d"
+      },
+      {
+        "name": "polygon2d",
+        "comment": " Decodes a Polygon2d from a list of vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polygon2d"
+      },
+      {
+        "name": "polyline2d",
+        "comment": " Decodes a Polyline2d from a list of vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "polyline3d",
+        "comment": " Decodes a Polyline3d from a list of vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline3d"
+      },
+      {
+        "name": "sketchPlane3d",
+        "comment": " Decodes a SketchPlane3d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.SketchPlane3d"
+      },
+      {
+        "name": "triangle2d",
+        "comment": " Decodes a Triangle2d from a list of three vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "triangle3d",
+        "comment": " Decodes a Triangle3d from a list of three vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "vector2d",
+        "comment": " Decodes a Vector2d from a list of two floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "vector3d",
+        "comment": " Decodes a Vector3d from a list of three floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.Vector3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector3d.svg\" alt=\"Vector3d\" width=\"160\">\n\nA `Vector3d` represents a quantity such as a displacement or velocity in 3D, and\nis defined by its X, Y and Z components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point3d`\nand `Direction3d` than `Vector3d`, and much code can avoid working directly with\n`Vector3d` values at all!\n\nThe simplest way to create a `Vector3d` is by passing a tuple of X, Y and Z\ncomponents to the `Vector3d` constructor, for example\n\n    vector =\n        Vector3d ( 2, 1, 3 )\n\n# Predefined vectors\n\n@docs zero\n\nAlthough there are no predefined constants for\n<code>Vector3d&nbsp;(&nbsp;1,&nbsp;0,&nbsp;0&nbsp;)</code>,\n<code>Vector3d&nbsp;(&nbsp;0,&nbsp;1,&nbsp;0&nbsp;)</code> and\n<code>Vector3d&nbsp;(&nbsp;0,&nbsp;0,&nbsp;1&nbsp;)</code>, in most cases you\nwill actually want their `Direction3d` versions [`Direction3d.x`](OpenSolid-Direction3d#x),\n[`Direction3d.y`](OpenSolid-Direction3d#y) and [`Direction3d.z`](OpenSolid-Direction3d#z).\n\n# Constructors\n\n@docs perpendicularTo\n\n# Components\n\n@docs components, xComponent, yComponent, zComponent, componentIn\n\n# Comparison\n\n@docs equalWithin\n\n# Length and direction\n\n@docs length, squaredLength, direction, lengthAndDirection\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n# Transformations\n\nNote that for all transformations, only the orientation of the given axis or\nplane is relevant, since vectors are position-independent. Think of transforming\na vector as placing its tail on the relevant axis or plane and then transforming\nits tip.\n\n@docs flip, scaleBy, rotateAround, mirrorAcross, projectionIn, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate\ntransformations of vectors depend only on the orientations of the relevant\nframes, not their positions.\n\nFor the examples, assume the following definition of a local coordinate frame,\none that is rotated 30 degrees counterclockwise around the Z axis from the\nglobal XYZ frame:\n\n    rotatedFrame =\n        Frame3d.rotateAround Axis3d.z (degrees 30) Frame3d.xyz\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\nFunctions for converting vectors between global 3D coordinates and 2D\ncoordinates within a particular sketch plane.\n\n@docs projectInto\n",
     "aliases": [],
@@ -2367,120 +2486,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Geometry.Decode",
-    "comment": " JSON decoders for the core OpenSolid types.\n\n@docs vector2d, vector3d, direction2d, direction3d, point2d, point3d\n@docs axis2d, axis3d, plane3d, frame2d, frame3d, sketchPlane3d\n@docs lineSegment2d, lineSegment3d, triangle2d, triangle3d\n@docs boundingBox2d, boundingBox3d\n@docs polyline2d, polyline3d, polygon2d\n@docs circle2d\n",
+    "name": "OpenSolid.Scalar",
+    "comment": " Convenience functions for working with scalar (floating-point) values.\n\n@docs equalWithin\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "axis2d",
-        "comment": " Decodes an Axis2d from an object with `originPoint` and `direction` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis2d"
-      },
-      {
-        "name": "axis3d",
-        "comment": " Decodes an Axis3d from an object with `originPoint` and `direction` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis3d"
-      },
-      {
-        "name": "boundingBox2d",
-        "comment": " Decodes a BoundingBox2d from an object with `minX`, `maxX`, `minY` and\n`maxY` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "boundingBox3d",
-        "comment": " Decodes a BoundingBox3d from an object with `minX`, `maxX`, `minY`, `maxY`,\n`minZ` and `maxZ` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox3d"
-      },
-      {
-        "name": "circle2d",
-        "comment": " Decodes a Circle2d from an object with `centerPoint` and `radius` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Circle2d"
-      },
-      {
-        "name": "direction2d",
-        "comment": " Decodes a Direction2d from a list of two floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction2d"
-      },
-      {
-        "name": "direction3d",
-        "comment": " Decodes a Direction3d from a list of three floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction3d"
-      },
-      {
-        "name": "frame2d",
-        "comment": " Decodes a Frame2d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame2d"
-      },
-      {
-        "name": "frame3d",
-        "comment": " Decodes a Frame3d from an object with `originPoint`, `xDirection`,\n`yDirection` and `zDirection` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame3d"
-      },
-      {
-        "name": "lineSegment2d",
-        "comment": " Decodes a LineSegment2d from a list of two endpoints.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "lineSegment3d",
-        "comment": " Decodes a LineSegment3d from a list of two endpoints.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "plane3d",
-        "comment": " Decodes a Plane3d from an object with `originPoint` and `normalDirection`\nfields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "point2d",
-        "comment": " Decodes a Point2d from a list of two floating-point coordinates.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "point3d",
-        "comment": " Decodes a Point3d from a list of three floating-point coordinates.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "polygon2d",
-        "comment": " Decodes a Polygon2d from a list of vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polygon2d"
-      },
-      {
-        "name": "polyline2d",
-        "comment": " Decodes a Polyline2d from a list of vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "polyline3d",
-        "comment": " Decodes a Polyline3d from a list of vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline3d"
-      },
-      {
-        "name": "sketchPlane3d",
-        "comment": " Decodes a SketchPlane3d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.SketchPlane3d"
-      },
-      {
-        "name": "triangle2d",
-        "comment": " Decodes a Triangle2d from a list of three vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "triangle3d",
-        "comment": " Decodes a Triangle3d from a list of three vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "vector2d",
-        "comment": " Decodes a Vector2d from a list of two floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "vector3d",
-        "comment": " Decodes a Vector3d from a list of three floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector3d"
+        "name": "equalWithin",
+        "comment": " Check if two values are equal within a given tolerance.\n\n    Scalar.equalWithin 1e-6 1.9999 2.0001 ==\n        False\n\n    Scalar.equalWithin 1e-3 1.9999 2.0001 ==\n        True\n",
+        "type": "Float -> Float -> Float -> Bool"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2778,20 +2792,6 @@
       }
     ],
     "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.Scalar",
-    "comment": " Convenience functions for working with scalar (floating-point) values.\n\n@docs equalWithin\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "equalWithin",
-        "comment": " Check if two values are equal within a given tolerance.\n\n    Scalar.equalWithin 1e-6 1.9999 2.0001 ==\n        False\n\n    Scalar.equalWithin 1e-3 1.9999 2.0001 ==\n        True\n",
-        "type": "Float -> Float -> Float -> Bool"
-      }
-    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]

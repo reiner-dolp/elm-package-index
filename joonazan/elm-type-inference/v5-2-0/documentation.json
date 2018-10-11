@@ -14,48 +14,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Infer.Scheme",
-    "comment": "\n\n\n#\n\n@docs Scheme, freeVariables\n@docs Environment\n@docs freshInt, instantiate, generalize\n\n",
-    "aliases": [
-      {
-        "name": "Environment",
-        "comment": " Holds all names defined in outer scopes.\n",
-        "args": [],
-        "type": "Dict.Dict String Infer.Scheme.Scheme"
-      },
-      {
-        "name": "Scheme",
-        "comment": " A type scheme represents a variable definition, for example a named function.\nWhen the variable is used, the scheme must be converted into a concrete type.\nThe listed type variables are the ones that the type is generic over. It may\ncontain others that represent for example types of things defined higher up.\n",
-        "args": [],
-        "type": "( List Int, Infer.Type.Type )"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "freeVariables",
-        "comment": " Variables that are not bound by the type scheme.\n",
-        "type": "Infer.Scheme.Scheme -> Set.Set Int"
-      },
-      {
-        "name": "freshInt",
-        "comment": " Generates an int one greater than the last.\n",
-        "type": "Infer.Monad.Monad Int"
-      },
-      {
-        "name": "generalize",
-        "comment": " Converts a type into a type scheme that is generic over all the type variables\nin the type not coming from the environment.\n",
-        "type": "Infer.Scheme.Environment -> Infer.Type.Type -> Infer.Scheme.Scheme"
-      },
-      {
-        "name": "instantiate",
-        "comment": " Converts a scheme into a concrete type by swapping the generic type\nvariables for fresh ones.\n",
-        "type": "Infer.Scheme.Scheme -> Infer.Monad.Monad Infer.Type.Type"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Infer.Expression",
     "comment": "\n\n\n#\n\n@docs Expression\n\n",
     "aliases": [],
@@ -109,6 +67,48 @@
       }
     ],
     "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Infer.Scheme",
+    "comment": "\n\n\n#\n\n@docs Scheme, freeVariables\n@docs Environment\n@docs freshInt, instantiate, generalize\n\n",
+    "aliases": [
+      {
+        "name": "Environment",
+        "comment": " Holds all names defined in outer scopes.\n",
+        "args": [],
+        "type": "Dict.Dict String Infer.Scheme.Scheme"
+      },
+      {
+        "name": "Scheme",
+        "comment": " A type scheme represents a variable definition, for example a named function.\nWhen the variable is used, the scheme must be converted into a concrete type.\nThe listed type variables are the ones that the type is generic over. It may\ncontain others that represent for example types of things defined higher up.\n",
+        "args": [],
+        "type": "( List Int, Infer.Type.Type )"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "freeVariables",
+        "comment": " Variables that are not bound by the type scheme.\n",
+        "type": "Infer.Scheme.Scheme -> Set.Set Int"
+      },
+      {
+        "name": "freshInt",
+        "comment": " Generates an int one greater than the last.\n",
+        "type": "Infer.Monad.Monad Int"
+      },
+      {
+        "name": "generalize",
+        "comment": " Converts a type into a type scheme that is generic over all the type variables\nin the type not coming from the environment.\n",
+        "type": "Infer.Scheme.Environment -> Infer.Type.Type -> Infer.Scheme.Scheme"
+      },
+      {
+        "name": "instantiate",
+        "comment": " Converts a scheme into a concrete type by swapping the generic type\nvariables for fresh ones.\n",
+        "type": "Infer.Scheme.Scheme -> Infer.Monad.Monad Infer.Type.Type"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   },
   {

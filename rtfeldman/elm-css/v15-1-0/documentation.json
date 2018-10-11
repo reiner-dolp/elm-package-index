@@ -1,5 +1,29 @@
 [
   {
+    "name": "Svg.Styled.Lazy",
+    "comment": " A not-quite-drop-in replacement for the `Svg.Lazy` module from the\n`elm-lang/svg` package.\n\nThe only difference between this and the `lazy` from `elm-lang/svg` is that the\ncaller must call `toUnstyled` inside the function being passed to `lazy`.\n\nFor example:\n\n        import Css exposing (backgroundColor, rgb)\n        import Svg.Styled exposing (Svg, circle, svg, toUnstyled)\n        import Svg.Styled.Attributes exposing (css, cx, cy, r, viewBox)\n        import Svg.Styled.Lazy exposing (lazy)\n        import VirtualDom\n\n\n        view : Model -> Svg Msg\n        view model =\n            svg [ viewBox \"0 0 100 100\" ]\n                [ lazy viewCircle model.radius\n                ]\n\n\n        viewCircle : Int -> VirtualDom.Node msg\n        viewCircle radius =\n            circle\n                [ cx \"60\"\n                , cy \"60\"\n                , r (toString radius)\n                , css [ backgroundColor (rgb 200 0 0) ]\n                ]\n                |> toUnstyled -- toUnstyled must happen inside viewCircle!\n\n@docs lazy, lazy2, lazy3\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n\n",
+        "type": "(a -> VirtualDom.Node msg) -> a -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "lazy2",
+        "comment": " Same as `lazy` but checks on two arguments.\n",
+        "type": "(a -> b -> VirtualDom.Node msg) -> a -> b -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "lazy3",
+        "comment": " Same as `lazy` but checks on three arguments.\n",
+        "type": "(a -> b -> c -> VirtualDom.Node msg) -> a -> b -> c -> Svg.Styled.Svg msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Svg.Styled.Events",
     "comment": " Drop-in replacement for the `Svg.Events` module from the `elm-lang/svg` package.\n\n\n# Animation event attributes\n\n@docs onBegin, onEnd, onRepeat\n\n\n# Document event attributes\n\n@docs onAbort, onError, onResize, onScroll, onLoad, onUnload, onZoom\n\n\n# Graphical event attributes\n\n@docs onActivate, onClick, onFocusIn, onFocusOut, onMouseDown, onMouseMove, onMouseOut, onMouseOver, onMouseUp\n\n\n# Custom Events\n\n@docs on\n\n",
     "aliases": [],
@@ -104,30 +128,6 @@
         "name": "onZoom",
         "comment": " ",
         "type": "msg -> Svg.Styled.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Svg.Styled.Lazy",
-    "comment": " A not-quite-drop-in replacement for the `Svg.Lazy` module from the\n`elm-lang/svg` package.\n\nThe only difference between this and the `lazy` from `elm-lang/svg` is that the\ncaller must call `toUnstyled` inside the function being passed to `lazy`.\n\nFor example:\n\n        import Css exposing (backgroundColor, rgb)\n        import Svg.Styled exposing (Svg, circle, svg, toUnstyled)\n        import Svg.Styled.Attributes exposing (css, cx, cy, r, viewBox)\n        import Svg.Styled.Lazy exposing (lazy)\n        import VirtualDom\n\n\n        view : Model -> Svg Msg\n        view model =\n            svg [ viewBox \"0 0 100 100\" ]\n                [ lazy viewCircle model.radius\n                ]\n\n\n        viewCircle : Int -> VirtualDom.Node msg\n        viewCircle radius =\n            circle\n                [ cx \"60\"\n                , cy \"60\"\n                , r (toString radius)\n                , css [ backgroundColor (rgb 200 0 0) ]\n                ]\n                |> toUnstyled -- toUnstyled must happen inside viewCircle!\n\n@docs lazy, lazy2, lazy3\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "lazy",
-        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n\n",
-        "type": "(a -> VirtualDom.Node msg) -> a -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "lazy2",
-        "comment": " Same as `lazy` but checks on two arguments.\n",
-        "type": "(a -> b -> VirtualDom.Node msg) -> a -> b -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "lazy3",
-        "comment": " Same as `lazy` but checks on three arguments.\n",
-        "type": "(a -> b -> c -> VirtualDom.Node msg) -> a -> b -> c -> Svg.Styled.Svg msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1431,446 +1431,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Html.Styled.Lazy",
-    "comment": " A not-quite-drop-in replacement for the `Html.Lazy` module from the\n`elm-lang/html` package.\n\nThe only difference between this and the `lazy` from `elm-lang/html` is that the\ncaller must call `toUnstyled` inside the function being passed to `lazy`.\n\nFor example:\n\n        import Html.Styled as Html exposing (Html)\n        import Html.Styled.Lazy exposing (lazy)\n        import VirtualDom\n\n\n        view : Model -> Html Msg\n        view model =\n            lazy viewCount model.count\n\n\n        viewCount : Int -> VirtualDom.Node msg\n        viewCount count =\n            span [ css [ textDecoration underline ] ] [ text (toString count) ]\n                |> toUnstyled -- toUnstyled must happen inside viewCount!\n\n@docs lazy, lazy2, lazy3\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "lazy",
-        "comment": " A performance optimization that delays the building of virtual DOM nodes.\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
-        "type": "(a -> VirtualDom.Node msg) -> a -> Html.Styled.Html msg"
-      },
-      {
-        "name": "lazy2",
-        "comment": " Same as `lazy` but checks on two arguments.\n",
-        "type": "(a -> b -> VirtualDom.Node msg) -> a -> b -> Html.Styled.Html msg"
-      },
-      {
-        "name": "lazy3",
-        "comment": " Same as `lazy` but checks on three arguments.\n",
-        "type": "(a -> b -> c -> VirtualDom.Node msg) -> a -> b -> c -> Html.Styled.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Svg.Styled",
-    "comment": " Drop-in replacement for the `Svg` module from the `elm-lang/svg` package.\nThe only functions added are `styled`, `toUnstyled` and `fromUnstyled`:\n\n@docs styled, fromUnstyled, toUnstyled\n\n\n# SVG Nodes\n\n@docs Svg, Attribute, text, node, map\n\n\n# HTML Embedding\n\n@docs svg, foreignObject\n\n\n# Graphics elements\n\n@docs circle, ellipse, image, line, path, polygon, polyline, rect, use\n\n\n# Animation elements\n\n@docs animate, animateColor, animateMotion, animateTransform, mpath, set\n\n\n# Descriptive elements\n\n@docs desc, metadata, title\n\n\n# Containers\n\n@docs a, defs, g, marker, mask, pattern, switch, symbol\n\n\n# Text\n\n@docs altGlyph, altGlyphDef, altGlyphItem, glyph, glyphRef, textPath, text_, tref, tspan\n\n\n# Fonts\n\n@docs font\n\n\n# Gradients\n\n@docs linearGradient, radialGradient, stop\n\n\n# Filters\n\n@docs feBlend, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting, feDisplacementMap, feFlood, feFuncA, feFuncB, feFuncG, feFuncR, feGaussianBlur, feImage, feMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting, feTile, feTurbulence\n\n\n# Light source elements\n\n@docs feDistantLight, fePointLight, feSpotLight\n\n\n# Miscellaneous\n\n@docs clipPath, colorProfile, cursor, filter, script, style, view\n\n",
-    "aliases": [
-      {
-        "name": "Attribute",
-        "comment": " An [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) which supports the [`css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Svg-Styled-Attributes#css) attribute.\n\nYou can obtain one of these from the normal [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\nby using [`fromUnstyled`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg-Styled-Attributes#fromUnstyled).\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "VirtualDom.Styled.Property msg"
-      },
-      {
-        "name": "Svg",
-        "comment": " Styled [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg).\n\nYou can convert from this to the normal [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\n(which is a type alias for [`VirtualDom.Node`](http://package.elm-lang.org/packages/elm-lang/virtual-dom/latest/VirtualDom#Node))\nby using [`toUnstyled`](#toUnstyled).\n\nYou can convert the other way using [`fromUnstyled`](#fromUnstyled).\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "VirtualDom.Styled.Node msg"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "a",
-        "comment": " The SVG Anchor Element defines a hyperlink.\n",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "altGlyph",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "altGlyphDef",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "altGlyphItem",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animate",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animateColor",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animateMotion",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animateTransform",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "circle",
-        "comment": " The circle element is an SVG basic shape, used to create circles based on\na center point and a radius.\ncircle [ cx \"60\", cy \"60\", r \"50\" ]\n",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "clipPath",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "colorProfile",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "cursor",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "defs",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "desc",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "ellipse",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feBlend",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feColorMatrix",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feComponentTransfer",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feComposite",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feConvolveMatrix",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feDiffuseLighting",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feDisplacementMap",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feDistantLight",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFlood",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncA",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncB",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncG",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncR",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feGaussianBlur",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feImage",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feMerge",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feMergeNode",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feMorphology",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feOffset",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "fePointLight",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feSpecularLighting",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feSpotLight",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feTile",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feTurbulence",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "filter",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "font",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "foreignObject",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Html.Styled.Html msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "fromUnstyled",
-        "comment": " ",
-        "type": "VirtualDom.Node msg -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "g",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "glyph",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "glyphRef",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "image",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "line",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "linearGradient",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "map",
-        "comment": " Transform the messages produced by some `Svg`.\n",
-        "type": "(a -> msg) -> Svg.Styled.Svg a -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "marker",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "mask",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "metadata",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "mpath",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "node",
-        "comment": " Create any SVG node. To create a `<rect>` helper function, you would write:\n\n    rect : List (Attribute msg) -> List (Svg msg) -> Svg msg\n    rect attributes children =\n        node \"rect\" attributes children\n\nYou should always be able to use the helper functions already defined in this\nlibrary though!\n\n",
-        "type": "String -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "path",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "pattern",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "polygon",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "polyline",
-        "comment": " The polyline element is an SVG basic shape, used to create a series of\nstraight lines connecting several points. Typically a polyline is used to\ncreate open shapes.\npolyline [ fill \"none\", stroke \"black\", points \"20,100 40,60 70,80 100,20\" ]\n",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "radialGradient",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "rect",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "script",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "set",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "stop",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "style",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "styled",
-        "comment": " Takes a function that creates an element, and pre-applies styles to it.\n",
-        "type": "(List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg) -> List Css.Style -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "svg",
-        "comment": " The root `<svg>` node for any SVG scene. This example shows a scene\ncontaining a rounded rectangle:\n\n    import Html.Styled exposing (Html)\n    import Svg.Styled exposing (..)\n    import Svg.Styled.Attributes exposing (..)\n\n    roundRect : Html msg\n    roundRect =\n        svg\n            [ width \"120\", height \"120\", viewBox \"0 0 120 120\" ]\n            [ rect [ x \"10\", y \"10\", width \"100\", height \"100\", rx \"15\", ry \"15\" ] [] ]\n\n",
-        "type": "List (Html.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Html.Styled.Html msg"
-      },
-      {
-        "name": "switch",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "symbol",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "text",
-        "comment": " A simple text node, no tags at all.\nWarning: not to be confused with `text_` which produces the SVG `<text>` tag!\n",
-        "type": "String -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "textPath",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "text_",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "title",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "toUnstyled",
-        "comment": " ",
-        "type": "Svg.Styled.Svg msg -> VirtualDom.Node msg"
-      },
-      {
-        "name": "tref",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "tspan",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "use",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Html.Styled.Attributes",
     "comment": " Drop-in replacement for the `Html.Attributes` module from the `elm-lang/html` package.\nThe only functions added are `css` and `fromUnstyled`:\n\n@docs css, fromUnstyled\n\nHelper functions for HTML attributes. They are organized roughly by\ncategory. Each attribute is labeled with the HTML tags it can be used with, so\njust search the page for `video` if you want video stuff.\n\n\n# Primitives\n\n@docs style, property, attribute, map\n\n\n# Super Common Attributes\n\n@docs class, classList, id, title, hidden\n\n\n# Inputs\n\n@docs type_, value, defaultValue, checked, placeholder, selected\n\n\n## Input Helpers\n\n@docs accept, acceptCharset, action, autocomplete, autofocus, disabled, enctype, formaction, list, maxlength, minlength, method, multiple, name, novalidate, pattern, readonly, required, size, for, form\n\n\n## Input Ranges\n\n@docs max, min, step\n\n\n## Input Text Areas\n\n@docs cols, rows, wrap\n\n\n# Links and Areas\n\n@docs href, target, download, downloadAs, hreflang, media, ping, rel\n\n\n## Maps\n\n@docs ismap, usemap, shape, coords\n\n\n# Embedded Content\n\n@docs src, height, width, alt\n\n\n## Audio and Video\n\n@docs autoplay, controls, loop, preload, poster, default, kind, srclang\n\n\n## iframes\n\n@docs sandbox, seamless, srcdoc\n\n\n# Ordered Lists\n\n@docs reversed, start\n\n\n# Tables\n\n@docs align, colspan, rowspan, headers, scope\n\n\n# Header Stuff\n\n@docs async, charset, content, defer, httpEquiv, language, scoped\n\n\n# Less Common Global Attributes\n\nAttributes that can be attached to any HTML tag but are less commonly used.\n\n@docs accesskey, contenteditable, contextmenu, dir, draggable, dropzone, itemprop, lang, spellcheck, tabindex\n\n\n# Key Generation\n\n@docs challenge, keytype\n\n\n# Miscellaneous\n\n@docs cite, datetime, manifest, pubdate\n\n",
     "aliases": [],
@@ -2385,141 +1945,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Html.Styled.Events",
-    "comment": " Drop-in replacement for the `Html.Events` module from the `elm-lang/html` package.\n\nIt is often helpful to create an [Union Type] so you can have many different kinds\nof events as seen in the [TodoMVC] example.\n[Union Type]: <http://elm-lang.org/learn/Union-Types.elm>\n[TodoMVC]: <https://github.com/evancz/elm-todomvc/blob/master/Todo.elm>\n\n\n# Mouse Helpers\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseOver, onMouseOut\n\n\n# Form Helpers\n\n@docs onInput, onCheck, onSubmit\n\n\n# Focus Helpers\n\n@docs onBlur, onFocus\n\n\n# Custom Event Handlers\n\n@docs on, onWithOptions, Options, defaultOptions\n\n\n# Custom Decoders\n\n@docs targetValue, targetChecked, keyCode\n\n",
-    "aliases": [
-      {
-        "name": "Options",
-        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
-        "args": [],
-        "type": "{ stopPropagation : Bool, preventDefault : Bool }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Everything is `False` by default.\n\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n\n",
-        "type": "Html.Styled.Events.Options"
-      },
-      {
-        "name": "keyCode",
-        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n\n    import Json.Decode as Json\n\n    onKeyUp : (Int -> msg) -> Attribute msg\n    onKeyUp tagger =\n        on \"keyup\" (Json.map tagger keyCode)\n\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n\n",
-        "type": "Json.Decode.Decoder Int"
-      },
-      {
-        "name": "on",
-        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n\n    import Json.Decode as Json\n\n    onClick : msg -> Attribute msg\n    onClick message =\n        on \"click\" (Json.succeed message)\n\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\n\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `message`.\n\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n\n[aEL]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener\n[decoder]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\n[tutorial]: https://github.com/evancz/elm-architecture-tutorial/\n\n",
-        "type": "String -> Json.Decode.Decoder msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onBlur",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onCheck",
-        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\n\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n\n",
-        "type": "(Bool -> msg) -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onClick",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onDoubleClick",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onFocus",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onInput",
-        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\n\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\n\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n\n",
-        "type": "(String -> msg) -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onMouseDown",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onMouseEnter",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onMouseLeave",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onMouseOut",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onMouseOver",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onMouseUp",
-        "comment": " ",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onSubmit",
-        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
-        "type": "msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "onWithOptions",
-        "comment": " Same as `on` but you can set a few options.\n",
-        "type": "String -> Html.Styled.Events.Options -> Json.Decode.Decoder msg -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "targetChecked",
-        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n\n    import Json.Decode as Json\n\n    onCheck : (Bool -> msg) -> Attribute msg\n    onCheck tagger =\n        on \"input\" (Json.map tagger targetChecked)\n\n",
-        "type": "Json.Decode.Decoder Bool"
-      },
-      {
-        "name": "targetValue",
-        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n\n    import Json.Decode as Json\n\n    onInput : (String -> msg) -> Attribute msg\n    onInput tagger =\n        on \"input\" (Json.map tagger targetValue)\n\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n\n",
-        "type": "Json.Decode.Decoder String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Html.Styled.Keyed",
-    "comment": " Drop-in replacement for the `Html.Keyed` module from the `elm-lang/html` package.\n\nA keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier. This\n    makes it possible for the underlying diffing algorithm to reuse nodes more\n    efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs ol, ul\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "node",
-        "comment": " Works just like `Html.node`, but you add a unique identifier to each child\nnode. You want this when you have a list of nodes that is changing: adding\nnodes, removing nodes, etc. In these cases, the unique identifiers help make\nthe DOM modifications more efficient.\n",
-        "type": "String -> List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
-      },
-      {
-        "name": "ol",
-        "comment": " ",
-        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
-      },
-      {
-        "name": "ul",
-        "comment": " ",
-        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Css.Global",
     "comment": " Apply global CSS to things like foreign DOM structures (e.g. generated\nfrom markdown) where you cannot add attributes.\n\nThis module relies on CSS selectors which are [globally scoped and\nbad for maintainability](https://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284),\nso definitely avoid using this module except when there is no reasonable way\ndo to it using `Style` instead!\n\n\n# Global Styles\n\n@docs global, Snippet\n\n\n# Statements\n\n@docs class, id, selector, everything, media, mediaQuery\n\n\n# Combinators\n\n@docs children, descendants, adjacentSiblings, generalSiblings, each, withAttribute, withClass\n\n\n# Basic elements\n\n@docs typeSelector, html, body\n\n\n# Content sectioning\n\n@docs article, header, footer, h1, h2, h3, h4, h5, h6, nav, menu, section, aside, time, details, summary\n\n\n# Text content\n\n@docs div, hr, li, main_, ol, p, ul, pre, dl, dt, dd, blockquote\n\n\n# Inline text semantics\n\n@docs a, code, small, span, strong, i, em, q\n\n\n# Image and multimedia\n\n@docs img, audio, video, canvas\n\n\n# Table content\n\n@docs caption, col, colgroup, table, tbody, td, tfoot, th, thead, tr\n\n\n# Forms\n\n@docs button, fieldset, form, input, label, legend, optgroup, option, progress, select, textarea\n\n\n# SVG\n\n@docs svg, path, rect, circle, ellipse, line, polyline, polygon\n\n",
     "aliases": [
@@ -2961,6 +2386,581 @@
         "name": "withClass",
         "comment": " Apply styles to the current selector plus an additional class\n\n    typeSelector \"div\"\n        [ fontSize (px 14)\n        , withClass \"is-bold\"\n            [ fontWeight bold\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv {\n    font-size: 14px;\n}\n\ndiv.is-bold {\n    font-weight: bold;\n}\n```\n\n",
         "type": "String -> List Css.Preprocess.Style -> Css.Preprocess.Style"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Svg.Styled",
+    "comment": " Drop-in replacement for the `Svg` module from the `elm-lang/svg` package.\nThe only functions added are `styled`, `toUnstyled` and `fromUnstyled`:\n\n@docs styled, fromUnstyled, toUnstyled\n\n\n# SVG Nodes\n\n@docs Svg, Attribute, text, node, map\n\n\n# HTML Embedding\n\n@docs svg, foreignObject\n\n\n# Graphics elements\n\n@docs circle, ellipse, image, line, path, polygon, polyline, rect, use\n\n\n# Animation elements\n\n@docs animate, animateColor, animateMotion, animateTransform, mpath, set\n\n\n# Descriptive elements\n\n@docs desc, metadata, title\n\n\n# Containers\n\n@docs a, defs, g, marker, mask, pattern, switch, symbol\n\n\n# Text\n\n@docs altGlyph, altGlyphDef, altGlyphItem, glyph, glyphRef, textPath, text_, tref, tspan\n\n\n# Fonts\n\n@docs font\n\n\n# Gradients\n\n@docs linearGradient, radialGradient, stop\n\n\n# Filters\n\n@docs feBlend, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting, feDisplacementMap, feFlood, feFuncA, feFuncB, feFuncG, feFuncR, feGaussianBlur, feImage, feMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting, feTile, feTurbulence\n\n\n# Light source elements\n\n@docs feDistantLight, fePointLight, feSpotLight\n\n\n# Miscellaneous\n\n@docs clipPath, colorProfile, cursor, filter, script, style, view\n\n",
+    "aliases": [
+      {
+        "name": "Attribute",
+        "comment": " An [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) which supports the [`css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Svg-Styled-Attributes#css) attribute.\n\nYou can obtain one of these from the normal [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\nby using [`fromUnstyled`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg-Styled-Attributes#fromUnstyled).\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "VirtualDom.Styled.Property msg"
+      },
+      {
+        "name": "Svg",
+        "comment": " Styled [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg).\n\nYou can convert from this to the normal [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\n(which is a type alias for [`VirtualDom.Node`](http://package.elm-lang.org/packages/elm-lang/virtual-dom/latest/VirtualDom#Node))\nby using [`toUnstyled`](#toUnstyled).\n\nYou can convert the other way using [`fromUnstyled`](#fromUnstyled).\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "VirtualDom.Styled.Node msg"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "a",
+        "comment": " The SVG Anchor Element defines a hyperlink.\n",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "altGlyph",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "altGlyphDef",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "altGlyphItem",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animate",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animateColor",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animateMotion",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animateTransform",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "circle",
+        "comment": " The circle element is an SVG basic shape, used to create circles based on\na center point and a radius.\ncircle [ cx \"60\", cy \"60\", r \"50\" ]\n",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "clipPath",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "colorProfile",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "cursor",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "defs",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "desc",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "ellipse",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feBlend",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feColorMatrix",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feComponentTransfer",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feComposite",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feConvolveMatrix",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feDiffuseLighting",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feDisplacementMap",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feDistantLight",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFlood",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncA",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncB",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncG",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncR",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feGaussianBlur",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feImage",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feMerge",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feMergeNode",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feMorphology",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feOffset",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "fePointLight",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feSpecularLighting",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feSpotLight",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feTile",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feTurbulence",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "filter",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "font",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "foreignObject",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Html.Styled.Html msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "fromUnstyled",
+        "comment": " ",
+        "type": "VirtualDom.Node msg -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "g",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "glyph",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "glyphRef",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "image",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "line",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "linearGradient",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "map",
+        "comment": " Transform the messages produced by some `Svg`.\n",
+        "type": "(a -> msg) -> Svg.Styled.Svg a -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "marker",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "mask",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "metadata",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "mpath",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "node",
+        "comment": " Create any SVG node. To create a `<rect>` helper function, you would write:\n\n    rect : List (Attribute msg) -> List (Svg msg) -> Svg msg\n    rect attributes children =\n        node \"rect\" attributes children\n\nYou should always be able to use the helper functions already defined in this\nlibrary though!\n\n",
+        "type": "String -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "path",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "pattern",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "polygon",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "polyline",
+        "comment": " The polyline element is an SVG basic shape, used to create a series of\nstraight lines connecting several points. Typically a polyline is used to\ncreate open shapes.\npolyline [ fill \"none\", stroke \"black\", points \"20,100 40,60 70,80 100,20\" ]\n",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "radialGradient",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "rect",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "script",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "set",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "stop",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "style",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "styled",
+        "comment": " Takes a function that creates an element, and pre-applies styles to it.\n",
+        "type": "(List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg) -> List Css.Style -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "svg",
+        "comment": " The root `<svg>` node for any SVG scene. This example shows a scene\ncontaining a rounded rectangle:\n\n    import Html.Styled exposing (Html)\n    import Svg.Styled exposing (..)\n    import Svg.Styled.Attributes exposing (..)\n\n    roundRect : Html msg\n    roundRect =\n        svg\n            [ width \"120\", height \"120\", viewBox \"0 0 120 120\" ]\n            [ rect [ x \"10\", y \"10\", width \"100\", height \"100\", rx \"15\", ry \"15\" ] [] ]\n\n",
+        "type": "List (Html.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Html.Styled.Html msg"
+      },
+      {
+        "name": "switch",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "symbol",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "text",
+        "comment": " A simple text node, no tags at all.\nWarning: not to be confused with `text_` which produces the SVG `<text>` tag!\n",
+        "type": "String -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "textPath",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "text_",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "title",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "toUnstyled",
+        "comment": " ",
+        "type": "Svg.Styled.Svg msg -> VirtualDom.Node msg"
+      },
+      {
+        "name": "tref",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "tspan",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "use",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Html.Styled.Lazy",
+    "comment": " A not-quite-drop-in replacement for the `Html.Lazy` module from the\n`elm-lang/html` package.\n\nThe only difference between this and the `lazy` from `elm-lang/html` is that the\ncaller must call `toUnstyled` inside the function being passed to `lazy`.\n\nFor example:\n\n        import Html.Styled as Html exposing (Html)\n        import Html.Styled.Lazy exposing (lazy)\n        import VirtualDom\n\n\n        view : Model -> Html Msg\n        view model =\n            lazy viewCount model.count\n\n\n        viewCount : Int -> VirtualDom.Node msg\n        viewCount count =\n            span [ css [ textDecoration underline ] ] [ text (toString count) ]\n                |> toUnstyled -- toUnstyled must happen inside viewCount!\n\n@docs lazy, lazy2, lazy3\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " A performance optimization that delays the building of virtual DOM nodes.\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
+        "type": "(a -> VirtualDom.Node msg) -> a -> Html.Styled.Html msg"
+      },
+      {
+        "name": "lazy2",
+        "comment": " Same as `lazy` but checks on two arguments.\n",
+        "type": "(a -> b -> VirtualDom.Node msg) -> a -> b -> Html.Styled.Html msg"
+      },
+      {
+        "name": "lazy3",
+        "comment": " Same as `lazy` but checks on three arguments.\n",
+        "type": "(a -> b -> c -> VirtualDom.Node msg) -> a -> b -> c -> Html.Styled.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Html.Styled.Events",
+    "comment": " Drop-in replacement for the `Html.Events` module from the `elm-lang/html` package.\n\nIt is often helpful to create an [Union Type] so you can have many different kinds\nof events as seen in the [TodoMVC] example.\n[Union Type]: <http://elm-lang.org/learn/Union-Types.elm>\n[TodoMVC]: <https://github.com/evancz/elm-todomvc/blob/master/Todo.elm>\n\n\n# Mouse Helpers\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseOver, onMouseOut\n\n\n# Form Helpers\n\n@docs onInput, onCheck, onSubmit\n\n\n# Focus Helpers\n\n@docs onBlur, onFocus\n\n\n# Custom Event Handlers\n\n@docs on, onWithOptions, Options, defaultOptions\n\n\n# Custom Decoders\n\n@docs targetValue, targetChecked, keyCode\n\n",
+    "aliases": [
+      {
+        "name": "Options",
+        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
+        "args": [],
+        "type": "{ stopPropagation : Bool, preventDefault : Bool }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultOptions",
+        "comment": " Everything is `False` by default.\n\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n\n",
+        "type": "Html.Styled.Events.Options"
+      },
+      {
+        "name": "keyCode",
+        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n\n    import Json.Decode as Json\n\n    onKeyUp : (Int -> msg) -> Attribute msg\n    onKeyUp tagger =\n        on \"keyup\" (Json.map tagger keyCode)\n\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n\n",
+        "type": "Json.Decode.Decoder Int"
+      },
+      {
+        "name": "on",
+        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n\n    import Json.Decode as Json\n\n    onClick : msg -> Attribute msg\n    onClick message =\n        on \"click\" (Json.succeed message)\n\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\n\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `message`.\n\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n\n[aEL]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener\n[decoder]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\n[tutorial]: https://github.com/evancz/elm-architecture-tutorial/\n\n",
+        "type": "String -> Json.Decode.Decoder msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onBlur",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onCheck",
+        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\n\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n\n",
+        "type": "(Bool -> msg) -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onClick",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onDoubleClick",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onFocus",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onInput",
+        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\n\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\n\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n\n",
+        "type": "(String -> msg) -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onMouseDown",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onMouseEnter",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onMouseLeave",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onMouseOut",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onMouseOver",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onMouseUp",
+        "comment": " ",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onSubmit",
+        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
+        "type": "msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "onWithOptions",
+        "comment": " Same as `on` but you can set a few options.\n",
+        "type": "String -> Html.Styled.Events.Options -> Json.Decode.Decoder msg -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "targetChecked",
+        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n\n    import Json.Decode as Json\n\n    onCheck : (Bool -> msg) -> Attribute msg\n    onCheck tagger =\n        on \"input\" (Json.map tagger targetChecked)\n\n",
+        "type": "Json.Decode.Decoder Bool"
+      },
+      {
+        "name": "targetValue",
+        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n\n    import Json.Decode as Json\n\n    onInput : (String -> msg) -> Attribute msg\n    onInput tagger =\n        on \"input\" (Json.map tagger targetValue)\n\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n\n",
+        "type": "Json.Decode.Decoder String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Html.Styled.Keyed",
+    "comment": " Drop-in replacement for the `Html.Keyed` module from the `elm-lang/html` package.\n\nA keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier. This\n    makes it possible for the underlying diffing algorithm to reuse nodes more\n    efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs ol, ul\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "node",
+        "comment": " Works just like `Html.node`, but you add a unique identifier to each child\nnode. You want this when you have a list of nodes that is changing: adding\nnodes, removing nodes, etc. In these cases, the unique identifiers help make\nthe DOM modifications more efficient.\n",
+        "type": "String -> List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
+      },
+      {
+        "name": "ol",
+        "comment": " ",
+        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
+      },
+      {
+        "name": "ul",
+        "comment": " ",
+        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

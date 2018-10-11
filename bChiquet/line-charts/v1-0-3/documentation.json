@@ -352,49 +352,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "LineChart.Axis.Title",
-    "comment": "\n\n@docs Config, default, atAxisMax, atDataMax, atPosition, custom\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " Part of the configuration in `Axis.custom`.\n\n    axisConfig : Axis.Config Data msg\n    axisConfig =\n      Axis.custom\n        { title = Title.default\n        , ...\n        }\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Internal.Axis.Title.Config msg"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "atAxisMax",
-        "comment": " Place the title at the maxima of your axis range. Arguments:\n\n  1. The x offset in SVG-space.\n  2. The y offset in SVG-space.\n  3. The title.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      Title.atAxisMax 0 10 \"Age\"\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
-        "type": "Float -> Float -> String -> LineChart.Axis.Title.Config msg"
-      },
-      {
-        "name": "atDataMax",
-        "comment": " Place the title at the maxima of your data range. Arguments:\n\n  1. The x offset in SVG-space.\n  2. The y offset in SVG-space.\n  3. The title.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      Title.atDataMax 0 10 \"Age\"\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
-        "type": "Float -> Float -> String -> LineChart.Axis.Title.Config msg"
-      },
-      {
-        "name": "atPosition",
-        "comment": " Place your title in any spot along your axis. Arguments:\n\n  1. Given the data range and axis range, provide a position.\n  2. The x offset in SVG-space.\n  3. The y offset in SVG-space.\n  4. The title.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      let position dataRange axisRange = 80 in\n      Title.atPosition position -15 30 \"Weight\"\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
-        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range -> Float) -> Float -> Float -> String -> LineChart.Axis.Title.Config msg"
-      },
-      {
-        "name": "custom",
-        "comment": " Almost the same as `atPosition` except instead of a string title, you pass a\nSVG title. Arguments:\n\n  1. Given the data range and axis range, provide a position.\n  2. The x offset in SVG-space.\n  3. The y offset in SVG-space.\n  4. The title view.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      let position dataRange axisRange = middle axisRange in\n      Title.custom position -10 35 <|\n        Svg.g\n          [ Svg.Attributes.style \"text-anchor: middle;\" ]\n          [ Junk.label Colors.pink \"Weight\" ]\n\n    middle : Coordinate.Range -> Float\n    middle { min, max } =\n      min + (max - min) / 2\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
-        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range -> Float) -> Float -> Float -> Svg.Svg msg -> LineChart.Axis.Title.Config msg"
-      },
-      {
-        "name": "default",
-        "comment": " Place the title at the maxima of your axis range.\n",
-        "type": "String -> LineChart.Axis.Title.Config msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "LineChart.Junk",
     "comment": "\n\nJunk is a way to draw whatever you like in the chart. The name comes from\n[Edward Tufte's concept of \"chart junk\"](https://en.wikipedia.org/wiki/Chartjunk).\nIf you want to add tooltips, sections for emphasis, or kittens on your chart,\nthis is where it's at.\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/junk.png?raw=true\"></src>\n\n@docs Config, default, hoverOne, hoverMany\n\n# Customization\n@docs custom, Layers\n\n# Helpers\n\n## On chart area\n\nA good thing to know before reading this section is what I mean by \"chart area\".\nIt is basically the rectangle which covers your entire x and y axis-range.\nBelow is an illustration.\n\n_What is an axis-range? See the `Axis.Range` module._\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/chartarea.png?raw=true\"></src>\n\n@docs withinChartArea\n\n## Lines\n@docs vertical, horizontal, verticalCustom, horizontalCustom\n\n## Shapes\n@docs rectangle, circle\n\n## Label\n@docs label, labelAt\n\n## Placing\n@docs placed, Transfrom, transform, move, offset\n\n## Hover views\nThis is just regular html views! Nothing fancy - you can also make your own!\nNotice that you can override all the styles.\n\n@docs hover, hoverAt\n\n\n",
     "aliases": [
@@ -518,6 +475,49 @@
         "name": "withinChartArea",
         "comment": " An attribute which when added, truncates the rendered element if it\nextends outside the chart area.\n",
         "type": "LineChart.Coordinate.System -> Svg.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "LineChart.Axis.Title",
+    "comment": "\n\n@docs Config, default, atAxisMax, atDataMax, atPosition, custom\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Part of the configuration in `Axis.custom`.\n\n    axisConfig : Axis.Config Data msg\n    axisConfig =\n      Axis.custom\n        { title = Title.default\n        , ...\n        }\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "Internal.Axis.Title.Config msg"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "atAxisMax",
+        "comment": " Place the title at the maxima of your axis range. Arguments:\n\n  1. The x offset in SVG-space.\n  2. The y offset in SVG-space.\n  3. The title.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      Title.atAxisMax 0 10 \"Age\"\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
+        "type": "Float -> Float -> String -> LineChart.Axis.Title.Config msg"
+      },
+      {
+        "name": "atDataMax",
+        "comment": " Place the title at the maxima of your data range. Arguments:\n\n  1. The x offset in SVG-space.\n  2. The y offset in SVG-space.\n  3. The title.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      Title.atDataMax 0 10 \"Age\"\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
+        "type": "Float -> Float -> String -> LineChart.Axis.Title.Config msg"
+      },
+      {
+        "name": "atPosition",
+        "comment": " Place your title in any spot along your axis. Arguments:\n\n  1. Given the data range and axis range, provide a position.\n  2. The x offset in SVG-space.\n  3. The y offset in SVG-space.\n  4. The title.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      let position dataRange axisRange = 80 in\n      Title.atPosition position -15 30 \"Weight\"\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
+        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range -> Float) -> Float -> Float -> String -> LineChart.Axis.Title.Config msg"
+      },
+      {
+        "name": "custom",
+        "comment": " Almost the same as `atPosition` except instead of a string title, you pass a\nSVG title. Arguments:\n\n  1. Given the data range and axis range, provide a position.\n  2. The x offset in SVG-space.\n  3. The y offset in SVG-space.\n  4. The title view.\n\n\n    titleConfig : Title.Config msg\n    titleConfig =\n      let position dataRange axisRange = middle axisRange in\n      Title.custom position -10 35 <|\n        Svg.g\n          [ Svg.Attributes.style \"text-anchor: middle;\" ]\n          [ Junk.label Colors.pink \"Weight\" ]\n\n    middle : Coordinate.Range -> Float\n    middle { min, max } =\n      min + (max - min) / 2\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Title/Example1.elm)._\n\n",
+        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range -> Float) -> Float -> Float -> Svg.Svg msg -> LineChart.Axis.Title.Config msg"
+      },
+      {
+        "name": "default",
+        "comment": " Place the title at the maxima of your axis range.\n",
+        "type": "String -> LineChart.Axis.Title.Config msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -657,6 +657,42 @@
         "name": "time",
         "comment": " ",
         "type": "LineChart.Axis.Tick.Time -> LineChart.Axis.Tick.Config msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "LineChart.Interpolation",
+    "comment": "\n\nInterpolation is the the kind of line which is drawn between your data points.\nIt's meant to be a guide to where your data point would actually be if you had\nmore data. It's not just for looks!\n\n@docs Config, default, linear, monotone, stepped\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Use in the `LineChart.Config` passed to `LineChart.viewCustom`.\n\n    chartConfig : LineChart.Config Data msg\n    chartConfig =\n      { ...\n      , interpolation = Interpolation.default\n      , ...\n      }\n\n",
+        "args": [],
+        "type": "Internal.Interpolation.Config"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "default",
+        "comment": " The vanilla of interpolations: linear.\n",
+        "type": "LineChart.Interpolation.Config"
+      },
+      {
+        "name": "linear",
+        "comment": " A linear interpolation.\n\n<img alt=\"Legends\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/interpolation3.png?raw=true\"></src>\n\n",
+        "type": "LineChart.Interpolation.Config"
+      },
+      {
+        "name": "monotone",
+        "comment": " A monotone-x interpolation.\n\n<img alt=\"Legends\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/interpolation2.png?raw=true\"></src>\n\n",
+        "type": "LineChart.Interpolation.Config"
+      },
+      {
+        "name": "stepped",
+        "comment": " A stepped interpolation where the step comes after the dot.\n\n<img alt=\"Legends\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/interpolation4.png?raw=true\"></src>\n\n",
+        "type": "LineChart.Interpolation.Config"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -810,37 +846,37 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "LineChart.Interpolation",
-    "comment": "\n\nInterpolation is the the kind of line which is drawn between your data points.\nIt's meant to be a guide to where your data point would actually be if you had\nmore data. It's not just for looks!\n\n@docs Config, default, linear, monotone, stepped\n\n",
+    "name": "LineChart.Axis.Range",
+    "comment": "\n\n## Axis ranges and data ranges\n\nConsidering the following data:\n\n    data =\n      [ { x = -1, y = -2 }\n      , { x = 5, y = 6 }\n      ]\n\nFrom this we can see that the smallest x is -1 and the largest x is 5. We\ncall this the x-data range. By default, the axis range is the same as your\ndata range, but we can make it far more complicated than that.\n\nOpposite your data range which is only calculated from  from your data,\n**your axis range can be edited** with this module. For example, you can make\nit larger than your data range, as illustrated below.\n\n<img alt=\"Ranges explained\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n_Notice how the data range begins and ends where the pink line begins and ends._\n\nThis is cool because it looks good. You can also make the axis range\nsmaller than the data range, and the result will we a \"zoomed in\" view of\none section of the data, which can also be useful.\n\nTake a look at some of these functions if these effects interests you.\n\n@docs Config, default, window, padded, custom\n\n",
     "aliases": [
       {
         "name": "Config",
-        "comment": " Use in the `LineChart.Config` passed to `LineChart.viewCustom`.\n\n    chartConfig : LineChart.Config Data msg\n    chartConfig =\n      { ...\n      , interpolation = Interpolation.default\n      , ...\n      }\n\n",
+        "comment": " First of all, this configuration is part of the\nconfiguration in `Axis.custom`.\n\n    axisConfig : Axis.Config Data msg\n    axisConfig =\n      Axis.custom\n        { ..\n        , range = Range.default\n        , ...\n        }\n\n",
         "args": [],
-        "type": "Internal.Interpolation.Config"
+        "type": "Internal.Axis.Range.Config"
       }
     ],
     "types": [],
     "values": [
       {
+        "name": "custom",
+        "comment": " Given your data range, produce your desired axis range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.custom specialRange\n\n    specialRange : Coordinate.Range -> Coordinate.Range\n    specialRange { min, max } =\n      { min = min - 1, max = max + 2 }\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges4.png?raw=true\"></src>\n\n",
+        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range) -> LineChart.Axis.Range.Config"
+      },
+      {
         "name": "default",
-        "comment": " The vanilla of interpolations: linear.\n",
-        "type": "LineChart.Interpolation.Config"
+        "comment": " Set the axis range to the full length of your data range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.default\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges3.png?raw=true\"></src>\n\n",
+        "type": "LineChart.Axis.Range.Config"
       },
       {
-        "name": "linear",
-        "comment": " A linear interpolation.\n\n<img alt=\"Legends\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/interpolation3.png?raw=true\"></src>\n\n",
-        "type": "LineChart.Interpolation.Config"
+        "name": "padded",
+        "comment": " Add a given amount of pixels to the minimum and maximum of your axis range,\nrespectivily.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.padded 40 40\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n",
+        "type": "Float -> Float -> LineChart.Axis.Range.Config"
       },
       {
-        "name": "monotone",
-        "comment": " A monotone-x interpolation.\n\n<img alt=\"Legends\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/interpolation2.png?raw=true\"></src>\n\n",
-        "type": "LineChart.Interpolation.Config"
-      },
-      {
-        "name": "stepped",
-        "comment": " A stepped interpolation where the step comes after the dot.\n\n<img alt=\"Legends\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/interpolation4.png?raw=true\"></src>\n\n",
-        "type": "LineChart.Interpolation.Config"
+        "name": "window",
+        "comment": " Straight up set your axis range by specifying the minimum and maximum,\nrespectivily.\n\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.window -0.5 4.5\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges2.png?raw=true\"></src>\n\n",
+        "type": "Float -> Float -> LineChart.Axis.Range.Config"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -951,42 +987,6 @@
         "name": "triangle",
         "comment": " ",
         "type": "LineChart.Dots.Shape"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "LineChart.Axis.Range",
-    "comment": "\n\n## Axis ranges and data ranges\n\nConsidering the following data:\n\n    data =\n      [ { x = -1, y = -2 }\n      , { x = 5, y = 6 }\n      ]\n\nFrom this we can see that the smallest x is -1 and the largest x is 5. We\ncall this the x-data range. By default, the axis range is the same as your\ndata range, but we can make it far more complicated than that.\n\nOpposite your data range which is only calculated from  from your data,\n**your axis range can be edited** with this module. For example, you can make\nit larger than your data range, as illustrated below.\n\n<img alt=\"Ranges explained\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n_Notice how the data range begins and ends where the pink line begins and ends._\n\nThis is cool because it looks good. You can also make the axis range\nsmaller than the data range, and the result will we a \"zoomed in\" view of\none section of the data, which can also be useful.\n\nTake a look at some of these functions if these effects interests you.\n\n@docs Config, default, window, padded, custom\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " First of all, this configuration is part of the\nconfiguration in `Axis.custom`.\n\n    axisConfig : Axis.Config Data msg\n    axisConfig =\n      Axis.custom\n        { ..\n        , range = Range.default\n        , ...\n        }\n\n",
-        "args": [],
-        "type": "Internal.Axis.Range.Config"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "custom",
-        "comment": " Given your data range, produce your desired axis range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.custom specialRange\n\n    specialRange : Coordinate.Range -> Coordinate.Range\n    specialRange { min, max } =\n      { min = min - 1, max = max + 2 }\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges4.png?raw=true\"></src>\n\n",
-        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range) -> LineChart.Axis.Range.Config"
-      },
-      {
-        "name": "default",
-        "comment": " Set the axis range to the full length of your data range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.default\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges3.png?raw=true\"></src>\n\n",
-        "type": "LineChart.Axis.Range.Config"
-      },
-      {
-        "name": "padded",
-        "comment": " Add a given amount of pixels to the minimum and maximum of your axis range,\nrespectivily.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.padded 40 40\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n",
-        "type": "Float -> Float -> LineChart.Axis.Range.Config"
-      },
-      {
-        "name": "window",
-        "comment": " Straight up set your axis range by specifying the minimum and maximum,\nrespectivily.\n\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.window -0.5 4.5\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges2.png?raw=true\"></src>\n\n",
-        "type": "Float -> Float -> LineChart.Axis.Range.Config"
       }
     ],
     "generated-with-elm-version": "0.18.0"

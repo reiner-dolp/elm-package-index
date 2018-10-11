@@ -742,6 +742,132 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.CubicSpline3d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/cubicSpline3d.svg\" alt=\"CubicSpline3d\" width=\"160\">\n\nA `CubicSpline3d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 3D defined by four control points. This module contains functionality for\n\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline3d\n\n\n# Constructors\n\n@docs fromControlPoints, hermite, on\n\n\n# Properties\n\n@docs controlPoints, startPoint, endPoint, startDerivative, endDerivative\n\n\n# Evaluation\n\n@docs pointOn, derivative, evaluate\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n",
+    "aliases": [
+      {
+        "name": "CubicSpline3d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.CubicSpline3d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "bisect",
+        "comment": " Split a spline into two roughly equal halves. Equivalent to `splitAt 0.5`.\n\n    CubicSpline3d.bisect exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1.5, 1 )\n    -->     , Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     , Point3d.fromCoordinates ( 3, 2.5, 1.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
+      },
+      {
+        "name": "controlPoints",
+        "comment": " Get the control points of a spline as a tuple.\n\n    ( p1, p2, p3, p4 ) =\n        CubicSpline3d.controlPoints exampleSpline\n\n\n    --> p1 = Point3d.fromCoordinates ( 1, 1, 1 )\n    --> p2 = Point3d.fromCoordinates ( 3, 1, 1 )\n    --> p3 = Point3d.fromCoordinates ( 3, 3, 1 )\n    --> p4 = Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d )"
+      },
+      {
+        "name": "derivative",
+        "comment": " Get the deriative value at a point along a spline, based on a parameter that\nranges from 0 to 1. A parameter value of 0 corresponds to the start derivative\nof the spline and a value of 1 corresponds to the end derivative.\n\n    CubicSpline3d.derivative exampleSpline 0\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n    CubicSpline3d.derivative exampleSpline 0.5\n    --> Vector3d.fromComponents ( 1.5, 3, 1.5 )\n\n    CubicSpline3d.derivative exampleSpline 1\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\nNote that the derivative interpolates linearly from end to end.\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Vector3d.Vector3d"
+      },
+      {
+        "name": "endDerivative",
+        "comment": " Get the end derivative of a spline. This is equal to three times the vector\nfrom the spline's third control point to its fourth.\n\n    CubicSpline3d.endDerivative exampleSpline\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a spline. This is equal to the spline's last control\npoint.\n\n    CubicSpline3d.endPoint exampleSpline\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "evaluate",
+        "comment": " Evaluate a spline at a given parameter value, returning the point on the\nspline at that parameter value and the derivative with respect to that parameter\nvalue;\n\n    CubicSpline3d.evaluate spline t\n\nis equivalent to\n\n    ( CubicSpline3d.pointOn spline t\n    , CubicSpline3d.derivative spline t\n    )\n\nbut is more efficient.\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d )"
+      },
+      {
+        "name": "fromControlPoints",
+        "comment": " Construct a spline from its four control points:\n\n    exampleSpline =\n        CubicSpline3d.fromControlPoints\n            ( Point3d.fromCoordinates ( 1, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 3 )\n            )\n\n",
+        "type": "( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "hermite",
+        "comment": " Construct a spline in Hermite form, from the position and derivative values\nat its start and end points, like so:\n\n![Hermite cubic spline](https://opensolid.github.io/images/geometry/1.2/hermiteCubicSpline.svg)\n\nThe spline is based on a parameter that ranges from 0 to 1; as a result, in most\ncases the length of each derivative vector should be roughly equal to the length\nof the resulting spline.\n\n",
+        "type": "( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a spline across a plane.\n\n    CubicSpline3d.mirrorAcross Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -3 )\n    -->     )\n\n",
+        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "on",
+        "comment": " Construct a 3D spline lying _on_ a sketch plane by providing a 2D spline\nspecified in XY coordinates _within_ the sketch plane.\n\n    CubicSpline3d.on SketchPlane3d.xz <|\n        CubicSpline2d.fromControlPoints\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            , Point2d.fromCoordinates ( 5, 1 )\n            , Point2d.fromCoordinates ( 7, 4 )\n            )\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 0, 4 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 7, 0, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline2d.CubicSpline2d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.placeIn localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "pointOn",
+        "comment": " Get a point along a spline, based on a parameter that ranges from 0 to 1. A\nparameter value of 0 corresponds to the start point of the spline and a value of\n1 corresponds to the end point.\n\n    CubicSpline3d.pointOn exampleSpline 0\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n    CubicSpline3d.pointOn exampleSpline 0.5\n    --> Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n\n    CubicSpline3d.pointOn exampleSpline 1\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a spline into a given sketch plane. Conceptually, this\nprojects the spline onto the plane and then expresses the projected\nspline in 2D sketch coordinates.\n\n    exampleSpline\n        |> CubicSpline3d.projectInto SketchPlane3d.yz\n    --> CubicSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a spline onto a plane.\n\n    CubicSpline3d.projectOnto Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     )\n\n",
+        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.relativeTo localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 0, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 0 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    CubicSpline3d.reverse exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a spline counterclockwise around a given axis by a given angle (in\nradians).\n\n    exampleSpline\n        |> CubicSpline3d.rotateAround Axis3d.z (degrees 90)\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( -1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( -1, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.Axis3d.Axis3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a spline about the given center point by the given scale.\n\n    CubicSpline3d.scaleAbout Point3d.origin 2 exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point3d.Point3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "splitAt",
+        "comment": " Split a spline at a particular parameter value (in the range 0 to 1),\nresulting in two smaller splines.\n\n    CubicSpline3d.splitAt 0.75 exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.88, 2.13, 1 )\n    -->     , Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     , Point3d.fromCoordinates ( 3, 2.88, 2.13 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
+        "type": "Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
+      },
+      {
+        "name": "startDerivative",
+        "comment": " Get the start derivative of a spline. This is equal to three times the\nvector from the spline's first control point to its second.\n\n    CubicSpline3d.startDerivative exampleSpline\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a spline. This is equal to the spline's first control\npoint.\n\n    CubicSpline3d.startPoint exampleSpline\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 2, 3, 1 )\n\n    CubicSpline3d.translateBy displacement exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.Vector3d.Vector3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.LineSegment3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment3d.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment3d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along, on\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, normalDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn, projectInto\n\n",
     "aliases": [
@@ -878,132 +1004,6 @@
         "name": "vector",
         "comment": " Get the vector from a line segment's start point to its end point.\n\n    LineSegment3d.vector exampleLineSegment\n    --> Vector3d.fromComponents ( 2, 2, 2 )\n\n",
         "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Vector3d.Vector3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.CubicSpline3d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/cubicSpline3d.svg\" alt=\"CubicSpline3d\" width=\"160\">\n\nA `CubicSpline3d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 3D defined by four control points. This module contains functionality for\n\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline3d\n\n\n# Constructors\n\n@docs fromControlPoints, hermite, on\n\n\n# Properties\n\n@docs controlPoints, startPoint, endPoint, startDerivative, endDerivative\n\n\n# Evaluation\n\n@docs pointOn, derivative, evaluate\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n",
-    "aliases": [
-      {
-        "name": "CubicSpline3d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.CubicSpline3d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "bisect",
-        "comment": " Split a spline into two roughly equal halves. Equivalent to `splitAt 0.5`.\n\n    CubicSpline3d.bisect exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1.5, 1 )\n    -->     , Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     , Point3d.fromCoordinates ( 3, 2.5, 1.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
-      },
-      {
-        "name": "controlPoints",
-        "comment": " Get the control points of a spline as a tuple.\n\n    ( p1, p2, p3, p4 ) =\n        CubicSpline3d.controlPoints exampleSpline\n\n\n    --> p1 = Point3d.fromCoordinates ( 1, 1, 1 )\n    --> p2 = Point3d.fromCoordinates ( 3, 1, 1 )\n    --> p3 = Point3d.fromCoordinates ( 3, 3, 1 )\n    --> p4 = Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d )"
-      },
-      {
-        "name": "derivative",
-        "comment": " Get the deriative value at a point along a spline, based on a parameter that\nranges from 0 to 1. A parameter value of 0 corresponds to the start derivative\nof the spline and a value of 1 corresponds to the end derivative.\n\n    CubicSpline3d.derivative exampleSpline 0\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n    CubicSpline3d.derivative exampleSpline 0.5\n    --> Vector3d.fromComponents ( 1.5, 3, 1.5 )\n\n    CubicSpline3d.derivative exampleSpline 1\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\nNote that the derivative interpolates linearly from end to end.\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Vector3d.Vector3d"
-      },
-      {
-        "name": "endDerivative",
-        "comment": " Get the end derivative of a spline. This is equal to three times the vector\nfrom the spline's third control point to its fourth.\n\n    CubicSpline3d.endDerivative exampleSpline\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a spline. This is equal to the spline's last control\npoint.\n\n    CubicSpline3d.endPoint exampleSpline\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "evaluate",
-        "comment": " Evaluate a spline at a given parameter value, returning the point on the\nspline at that parameter value and the derivative with respect to that parameter\nvalue;\n\n    CubicSpline3d.evaluate spline t\n\nis equivalent to\n\n    ( CubicSpline3d.pointOn spline t\n    , CubicSpline3d.derivative spline t\n    )\n\nbut is more efficient.\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d )"
-      },
-      {
-        "name": "fromControlPoints",
-        "comment": " Construct a spline from its four control points:\n\n    exampleSpline =\n        CubicSpline3d.fromControlPoints\n            ( Point3d.fromCoordinates ( 1, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 3 )\n            )\n\n",
-        "type": "( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "hermite",
-        "comment": " Construct a spline in Hermite form, from the position and derivative values\nat its start and end points, like so:\n\n![Hermite cubic spline](https://opensolid.github.io/images/geometry/1.2/hermiteCubicSpline.svg)\n\nThe spline is based on a parameter that ranges from 0 to 1; as a result, in most\ncases the length of each derivative vector should be roughly equal to the length\nof the resulting spline.\n\n",
-        "type": "( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a spline across a plane.\n\n    CubicSpline3d.mirrorAcross Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -3 )\n    -->     )\n\n",
-        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "on",
-        "comment": " Construct a 3D spline lying _on_ a sketch plane by providing a 2D spline\nspecified in XY coordinates _within_ the sketch plane.\n\n    CubicSpline3d.on SketchPlane3d.xz <|\n        CubicSpline2d.fromControlPoints\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            , Point2d.fromCoordinates ( 5, 1 )\n            , Point2d.fromCoordinates ( 7, 4 )\n            )\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 0, 4 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 7, 0, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline2d.CubicSpline2d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.placeIn localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "pointOn",
-        "comment": " Get a point along a spline, based on a parameter that ranges from 0 to 1. A\nparameter value of 0 corresponds to the start point of the spline and a value of\n1 corresponds to the end point.\n\n    CubicSpline3d.pointOn exampleSpline 0\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n    CubicSpline3d.pointOn exampleSpline 0.5\n    --> Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n\n    CubicSpline3d.pointOn exampleSpline 1\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a spline into a given sketch plane. Conceptually, this\nprojects the spline onto the plane and then expresses the projected\nspline in 2D sketch coordinates.\n\n    exampleSpline\n        |> CubicSpline3d.projectInto SketchPlane3d.yz\n    --> CubicSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a spline onto a plane.\n\n    CubicSpline3d.projectOnto Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     )\n\n",
-        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.relativeTo localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 0, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 0 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    CubicSpline3d.reverse exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a spline counterclockwise around a given axis by a given angle (in\nradians).\n\n    exampleSpline\n        |> CubicSpline3d.rotateAround Axis3d.z (degrees 90)\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( -1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( -1, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.Axis3d.Axis3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a spline about the given center point by the given scale.\n\n    CubicSpline3d.scaleAbout Point3d.origin 2 exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point3d.Point3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "splitAt",
-        "comment": " Split a spline at a particular parameter value (in the range 0 to 1),\nresulting in two smaller splines.\n\n    CubicSpline3d.splitAt 0.75 exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.88, 2.13, 1 )\n    -->     , Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     , Point3d.fromCoordinates ( 3, 2.88, 2.13 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
-        "type": "Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
-      },
-      {
-        "name": "startDerivative",
-        "comment": " Get the start derivative of a spline. This is equal to three times the\nvector from the spline's first control point to its second.\n\n    CubicSpline3d.startDerivative exampleSpline\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a spline. This is equal to the spline's first control\npoint.\n\n    CubicSpline3d.startPoint exampleSpline\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 2, 3, 1 )\n\n    CubicSpline3d.translateBy displacement exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.Vector3d.Vector3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1979,6 +1979,112 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.QuadraticSpline2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/quadraticSpline2d.svg\" alt=\"QuadraticSpline2d\" width=\"160\">\n\nA `QuadraticSpline2d` is a quadratic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 2D defined by three control points. This module contains functionality for\n\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs QuadraticSpline2d\n\n\n# Constructors\n\n@docs fromControlPoints\n\n\n# Properties\n\n@docs controlPoints, startPoint, endPoint, startDerivative, endDerivative\n\n\n# Evaluation\n\n@docs pointOn, derivative, evaluate\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n",
+    "aliases": [
+      {
+        "name": "QuadraticSpline2d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.QuadraticSpline2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "bisect",
+        "comment": " Split a spline into two roughly equal halves. Equivalent to `splitAt 0.5`.\n\n    QuadraticSpline2d.bisect exampleSpline\n    --> ( QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2, 2.5 )\n    -->     , Point2d.fromCoordinates ( 3, 2.5 )\n    -->     )\n    --> , QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 3, 2.5 )\n    -->     , Point2d.fromCoordinates ( 4, 2.5 )\n    -->     , Point2d.fromCoordinates ( 5, 1 )\n    -->     )\n    --> )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> ( OpenSolid.QuadraticSpline2d.QuadraticSpline2d , OpenSolid.QuadraticSpline2d.QuadraticSpline2d )"
+      },
+      {
+        "name": "controlPoints",
+        "comment": " Get the control points of a spline as a tuple.\n\n    ( p1, p2, p3 ) =\n        QuadraticSpline2d.controlPoints exampleSpline\n\n\n    --> p1 = Point2d.fromCoordinates ( 1, 1 )\n    --> p2 = Point2d.fromCoordinates ( 3, 4 )\n    --> p3 = Point2d.fromCoordinates ( 5, 1 )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> ( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d )"
+      },
+      {
+        "name": "derivative",
+        "comment": " Get the deriative value at a point along a spline, based on a parameter that\nranges from 0 to 1. A parameter value of 0 corresponds to the start derivative\nof the spline and a value of 1 corresponds to the end derivative.\n\n    QuadraticSpline2d.derivative exampleSpline 0\n    --> Vector2d.fromComponents ( 4, 6 )\n\n    QuadraticSpline2d.derivative exampleSpline 0.5\n    --> Vector2d.fromComponents ( 4, 0 )\n\n    QuadraticSpline2d.derivative exampleSpline 1\n    --> Vector2d.fromComponents ( 4, -6 )\n\nNote that the derivative interpolates linearly from end to end.\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> Float -> OpenSolid.Vector2d.Vector2d"
+      },
+      {
+        "name": "endDerivative",
+        "comment": " Get the end derivative of a spline. This is equal to twice the vector from\nthe spline's second control point to its third.\n\n    QuadraticSpline2d.endDerivative exampleSpline\n    --> Vector2d.fromComponents ( 4, -6 )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Vector2d.Vector2d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a spline. This is equal to the spline's last control\npoint.\n\n    QuadraticSpline2d.endPoint exampleSpline\n    --> Point2d.fromCoordinates ( 5, 1 )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "evaluate",
+        "comment": " Evaluate a spline at a given parameter value, returning the point on the\nspline at that parameter value and the derivative with respect to that parameter\nvalue;\n\n    QuadraticSpline2d.evaluate spline t\n\nis equivalent to\n\n    ( QuadraticSpline2d.pointOn spline t\n    , QuadraticSpline2d.derivative spline t\n    )\n\nbut is more efficient.\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> Float -> ( OpenSolid.Point2d.Point2d, OpenSolid.Vector2d.Vector2d )"
+      },
+      {
+        "name": "fromControlPoints",
+        "comment": " Construct a spline from its three control points:\n\n    exampleSpline =\n        QuadraticSpline2d.fromControlPoints\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            , Point2d.fromCoordinates ( 5, 1 )\n            )\n\n",
+        "type": "( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d ) -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a spline across an axis.\n\n    QuadraticSpline2d.mirrorAcross Axis2d.x exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 3, -4 )\n    -->     , Point2d.fromCoordinates ( 5, -1 )\n    -->     )\n\n",
+        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    QuadraticSpline2d.placeIn localFrame exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     , Point2d.fromCoordinates ( 6, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      },
+      {
+        "name": "pointOn",
+        "comment": " Get a point along a spline, based on a parameter that ranges from 0 to 1. A\nparameter value of 0 corresponds to the start point of the spline and a value of\n1 corresponds to the end point.\n\n    QuadraticSpline2d.pointOn exampleSpline 0\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n    QuadraticSpline2d.pointOn exampleSpline 0.5\n    --> Point2d.fromCoordinates ( 3, 2.5 )\n\n    QuadraticSpline2d.pointOn exampleSpline 1\n    --> Point2d.fromCoordinates ( 5, 1 )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> Float -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    QuadraticSpline2d.relativeTo localFrame exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 4, -1 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    QuadraticSpline2d.reverse exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 5, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a spline counterclockwise around a given center point by a given\nangle (in radians).\n\n    examplePolyline\n        |> QuadraticSpline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -4, 3 )\n    -->     , Point2d.fromCoordinates ( -1, 5 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a spline about the given center point by the given scale.\n\n    examplePolyline\n        |> QuadraticSpline2d.scaleAbout Point2d.origin 2\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 6, 8 )\n    -->     , Point2d.fromCoordinates ( 10, 2 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      },
+      {
+        "name": "splitAt",
+        "comment": " Split a spline at a particular parameter value (in the range 0 to 1),\nresulting in two smaller splines.\n\n    QuadraticSpline2d.splitAt 0.75 exampleSpline\n    --> ( QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2.5, 3.25 )\n    -->     , Point2d.fromCoordinates ( 4, 2.125 )\n    -->     )\n    --> , QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 4, 2.125 )\n    -->     , Point2d.fromCoordinates ( 4.5, 1.75 )\n    -->     , Point2d.fromCoordinates ( 5, 1 )\n    -->     )\n    --> )\n\n",
+        "type": "Float -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> ( OpenSolid.QuadraticSpline2d.QuadraticSpline2d , OpenSolid.QuadraticSpline2d.QuadraticSpline2d )"
+      },
+      {
+        "name": "startDerivative",
+        "comment": " Get the start derivative of a spline. This is equal to twice the vector from\nthe spline's first control point to its second.\n\n    QuadraticSpline2d.startDerivative exampleSpline\n    --> Vector2d.fromComponents ( 4, 6 )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Vector2d.Vector2d"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a spline. This is equal to the spline's first control\npoint.\n\n    QuadraticSpline2d.startPoint exampleSpline\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n",
+        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    exampleSpline\n        |> QuadraticSpline2d.translateBy displacement\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 5, 7 )\n    -->     , Point2d.fromCoordinates ( 7, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.CubicSpline2d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/cubicSpline2d.svg\" alt=\"CubicSpline2d\" width=\"160\">\n\nA `CubicSpline2d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 2D defined by four control points. This module contains functionality for\n\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline2d\n\n\n# Constructors\n\n@docs fromControlPoints, hermite\n\n\n# Properties\n\n@docs controlPoints, startPoint, endPoint, startDerivative, endDerivative\n\n\n# Evaluation\n\n@docs pointOn, derivative, evaluate\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n",
     "aliases": [
@@ -2221,112 +2327,6 @@
         "name": "vector",
         "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d.fromComponents ( 2, 2 )\n\n",
         "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Vector2d.Vector2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.QuadraticSpline2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/quadraticSpline2d.svg\" alt=\"QuadraticSpline2d\" width=\"160\">\n\nA `QuadraticSpline2d` is a quadratic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 2D defined by three control points. This module contains functionality for\n\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs QuadraticSpline2d\n\n\n# Constructors\n\n@docs fromControlPoints\n\n\n# Properties\n\n@docs controlPoints, startPoint, endPoint, startDerivative, endDerivative\n\n\n# Evaluation\n\n@docs pointOn, derivative, evaluate\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n",
-    "aliases": [
-      {
-        "name": "QuadraticSpline2d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.QuadraticSpline2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "bisect",
-        "comment": " Split a spline into two roughly equal halves. Equivalent to `splitAt 0.5`.\n\n    QuadraticSpline2d.bisect exampleSpline\n    --> ( QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2, 2.5 )\n    -->     , Point2d.fromCoordinates ( 3, 2.5 )\n    -->     )\n    --> , QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 3, 2.5 )\n    -->     , Point2d.fromCoordinates ( 4, 2.5 )\n    -->     , Point2d.fromCoordinates ( 5, 1 )\n    -->     )\n    --> )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> ( OpenSolid.QuadraticSpline2d.QuadraticSpline2d , OpenSolid.QuadraticSpline2d.QuadraticSpline2d )"
-      },
-      {
-        "name": "controlPoints",
-        "comment": " Get the control points of a spline as a tuple.\n\n    ( p1, p2, p3 ) =\n        QuadraticSpline2d.controlPoints exampleSpline\n\n\n    --> p1 = Point2d.fromCoordinates ( 1, 1 )\n    --> p2 = Point2d.fromCoordinates ( 3, 4 )\n    --> p3 = Point2d.fromCoordinates ( 5, 1 )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> ( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d )"
-      },
-      {
-        "name": "derivative",
-        "comment": " Get the deriative value at a point along a spline, based on a parameter that\nranges from 0 to 1. A parameter value of 0 corresponds to the start derivative\nof the spline and a value of 1 corresponds to the end derivative.\n\n    QuadraticSpline2d.derivative exampleSpline 0\n    --> Vector2d.fromComponents ( 4, 6 )\n\n    QuadraticSpline2d.derivative exampleSpline 0.5\n    --> Vector2d.fromComponents ( 4, 0 )\n\n    QuadraticSpline2d.derivative exampleSpline 1\n    --> Vector2d.fromComponents ( 4, -6 )\n\nNote that the derivative interpolates linearly from end to end.\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> Float -> OpenSolid.Vector2d.Vector2d"
-      },
-      {
-        "name": "endDerivative",
-        "comment": " Get the end derivative of a spline. This is equal to twice the vector from\nthe spline's second control point to its third.\n\n    QuadraticSpline2d.endDerivative exampleSpline\n    --> Vector2d.fromComponents ( 4, -6 )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Vector2d.Vector2d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a spline. This is equal to the spline's last control\npoint.\n\n    QuadraticSpline2d.endPoint exampleSpline\n    --> Point2d.fromCoordinates ( 5, 1 )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "evaluate",
-        "comment": " Evaluate a spline at a given parameter value, returning the point on the\nspline at that parameter value and the derivative with respect to that parameter\nvalue;\n\n    QuadraticSpline2d.evaluate spline t\n\nis equivalent to\n\n    ( QuadraticSpline2d.pointOn spline t\n    , QuadraticSpline2d.derivative spline t\n    )\n\nbut is more efficient.\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> Float -> ( OpenSolid.Point2d.Point2d, OpenSolid.Vector2d.Vector2d )"
-      },
-      {
-        "name": "fromControlPoints",
-        "comment": " Construct a spline from its three control points:\n\n    exampleSpline =\n        QuadraticSpline2d.fromControlPoints\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            , Point2d.fromCoordinates ( 5, 1 )\n            )\n\n",
-        "type": "( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d ) -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a spline across an axis.\n\n    QuadraticSpline2d.mirrorAcross Axis2d.x exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 3, -4 )\n    -->     , Point2d.fromCoordinates ( 5, -1 )\n    -->     )\n\n",
-        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    QuadraticSpline2d.placeIn localFrame exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     , Point2d.fromCoordinates ( 6, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      },
-      {
-        "name": "pointOn",
-        "comment": " Get a point along a spline, based on a parameter that ranges from 0 to 1. A\nparameter value of 0 corresponds to the start point of the spline and a value of\n1 corresponds to the end point.\n\n    QuadraticSpline2d.pointOn exampleSpline 0\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n    QuadraticSpline2d.pointOn exampleSpline 0.5\n    --> Point2d.fromCoordinates ( 3, 2.5 )\n\n    QuadraticSpline2d.pointOn exampleSpline 1\n    --> Point2d.fromCoordinates ( 5, 1 )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> Float -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    QuadraticSpline2d.relativeTo localFrame exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 4, -1 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    QuadraticSpline2d.reverse exampleSpline\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 5, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a spline counterclockwise around a given center point by a given\nangle (in radians).\n\n    examplePolyline\n        |> QuadraticSpline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -4, 3 )\n    -->     , Point2d.fromCoordinates ( -1, 5 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a spline about the given center point by the given scale.\n\n    examplePolyline\n        |> QuadraticSpline2d.scaleAbout Point2d.origin 2\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 6, 8 )\n    -->     , Point2d.fromCoordinates ( 10, 2 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      },
-      {
-        "name": "splitAt",
-        "comment": " Split a spline at a particular parameter value (in the range 0 to 1),\nresulting in two smaller splines.\n\n    QuadraticSpline2d.splitAt 0.75 exampleSpline\n    --> ( QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2.5, 3.25 )\n    -->     , Point2d.fromCoordinates ( 4, 2.125 )\n    -->     )\n    --> , QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 4, 2.125 )\n    -->     , Point2d.fromCoordinates ( 4.5, 1.75 )\n    -->     , Point2d.fromCoordinates ( 5, 1 )\n    -->     )\n    --> )\n\n",
-        "type": "Float -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> ( OpenSolid.QuadraticSpline2d.QuadraticSpline2d , OpenSolid.QuadraticSpline2d.QuadraticSpline2d )"
-      },
-      {
-        "name": "startDerivative",
-        "comment": " Get the start derivative of a spline. This is equal to twice the vector from\nthe spline's first control point to its second.\n\n    QuadraticSpline2d.startDerivative exampleSpline\n    --> Vector2d.fromComponents ( 4, 6 )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Vector2d.Vector2d"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a spline. This is equal to the spline's first control\npoint.\n\n    QuadraticSpline2d.startPoint exampleSpline\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n",
-        "type": "OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    exampleSpline\n        |> QuadraticSpline2d.translateBy displacement\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 5, 7 )\n    -->     , Point2d.fromCoordinates ( 7, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -3219,6 +3219,147 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.Direction2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/direction2d.svg\" alt=\"Direction2d\" width=\"160\">\n\nA `Direction2d` represents a direction like 'up' or 'north' or 'forwards'. They\nare represented using X and Y components, and can be converted to vectors if\nnecessary, but should be thought of as conceptually different. Directions have\nseveral uses, such as:\n\n  - Constructing a vector from a length and direction\n  - Determining the component of a vector in a particular direction (for\n    example, finding the component of velocity in the up direction to get\n    vertical speed)\n  - Determining the (signed) angle between two directions\n  - Defining the orientation of an axis or reference frame\n\n@docs Direction2d\n\n\n# Constants\n\n@docs x, y, positiveX, negativeX, positiveY, negativeY\n\n\n# Constructors\n\n@docs fromAngle, from, perpendicularTo, orthonormalize, orthogonalize, unsafe\n\n\n# Properties\n\n@docs components, xComponent, yComponent, angle\n\n\n# Comparison\n\n@docs equalWithin\n\n\n# Measurement\n\n@docs componentIn, angleFrom\n\n\n# Conversion\n\n@docs toVector\n\n\n# Transformations\n\n@docs flip, rotateBy, mirrorAcross\n\n\n# Coordinate conversions\n\nFunctions for transforming directions between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate\ntransformations of directions depend only on the orientations of the relevant\nframes, not the positions of their origin points.\n\nFor the examples, assume the following frames have been defined:\n\n    upsideDownFrame =\n        Frame2d\n            { originPoint = Point2d.origin\n            , xDirection = Direction2d.positiveX\n            , yDirection = Direction2d.negativeY\n            }\n\n    rotatedFrame =\n        Frame2d.rotateBy (degrees 30) Frame2d.xy\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Direction2d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.Direction2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "angle",
+        "comment": " Get the polar angle of a vector (its counterclockwise angle in radians from\nthe positive X direction). The result will be in the range -π to π.\n\n    Direction2d.angle Direction2d.x\n    --> 0\n\n    Direction2d.angle Direction2d.y\n    --> degrees 90\n\n    Direction2d.angle Direction2d.negativeY\n    --> degrees -90\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> Float"
+      },
+      {
+        "name": "angleFrom",
+        "comment": " Find the counterclockwise angle in radians from the first direction to the\nsecond. The result will be in the range -π to π.\n\n    referenceDirection =\n        Direction2d.fromAngle (degrees 30)\n\n    Direction2d.angleFrom referenceDirection Direction2d.y\n    --> degrees 60\n\n    Direction2d.angleFrom referenceDirection Direction2d.x\n    --> degrees -30\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d -> Float"
+      },
+      {
+        "name": "componentIn",
+        "comment": " Find the component of one direction in another direction. This is equal to\nthe cosine of the angle between the directions, or equivalently the dot product\nof the two directions converted to unit vectors.\n\n    direction =\n        Direction2d.fromAngle (degrees 60)\n\n    Direction2d.componentIn Direction2d.x direction\n    --> 0.5\n\n    Direction2d.componentIn direction direction\n    --> 1\n\n    Direction2d.componentIn Direction2d.x Direction2d.y\n    --> 0\n\nThis is more general and flexible than using `xComponent` or `yComponent`, both\nof which can be expressed in terms of `componentIn`; for example,\n\n    Direction2d.xComponent direction\n\nis equivalent to\n\n    Direction2d.componentIn Direction2d.x direction\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d -> Float"
+      },
+      {
+        "name": "components",
+        "comment": " Get the components of a direction as a tuple (the components it would have\nas a unit vector, also know as its direction cosines).\n\n    ( x, y ) =\n        Direction2d.components direction\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> ( Float, Float )"
+      },
+      {
+        "name": "equalWithin",
+        "comment": " Compare two directions within an angular tolerance. Returns true if the\nabsolute value of the angle between the two given directions is less than the\ngiven tolerance.\n\n    firstDirection =\n        Direction2d.fromAngle (degrees 45)\n\n    secondDirection =\n        Direction2d.fromAngle (degrees 47)\n\n    Direction2d.equalWithin (degrees 5)\n        firstDirection\n        secondDirection\n    --> True\n\n    Direction2d.equalWithin (degrees 1)\n        firstDirection\n        secondDirection\n    --> False\n\n",
+        "type": "Float -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d -> Bool"
+      },
+      {
+        "name": "flip",
+        "comment": " Reverse a direction.\n\n    Direction2d.flip Direction2d.y\n    --> Direction2d.negativeY\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "from",
+        "comment": " Attempt to construct the direction from the first given point to the second.\nIf the two points are coincident, returns `Nothing`.\n\n    point =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    Direction2d.from Point2d.origin point\n    --> Just (Direction2d.fromAngle (degrees 45))\n\n    Direction2d.from point Point2d.origin\n    --> Just (Direction2d.fromAngle (degrees -135))\n\n    Direction2d.from point point\n    --> Nothing\n\n",
+        "type": "OpenSolid.Geometry.Internal.Point2d -> OpenSolid.Geometry.Internal.Point2d -> Maybe.Maybe OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "fromAngle",
+        "comment": " Construct a direction from an angle in radians, given counterclockwise from\nthe positive X direction.\n\n    Direction2d.fromAngle 0\n    --> Direction2d.x\n\n    Direction2d.fromAngle (degrees 90)\n    --> Direction2d.y\n\n    Direction2d.fromAngle (degrees -90)\n    --> Direction2d.negativeY\n\n",
+        "type": "Float -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a direction across a particular axis. Note that only the direction of\nthe axis affects the result, since directions are position-independent.\n\n    slopedAxis =\n        Axis2d.with\n            { originPoint =\n                Point2d.fromCoordinates ( 100, 200 )\n            , direction =\n                Direction2d.fromAngle (degrees 45)\n            }\n\n    Direction2d.mirrorAcross slopedAxis Direction2d.x\n    --> Direction2d.y\n\n    Direction2d.mirrorAcross slopedAxis Direction2d.y\n    --> Direction2d.x\n\n",
+        "type": "OpenSolid.Geometry.Internal.Axis2d -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "negativeX",
+        "comment": " The negative X direction.\n\n    Direction2d.components Direction2d.negativeX\n    --> ( -1, 0 )\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "negativeY",
+        "comment": " The negative Y direction.\n\n    Direction2d.components Direction2d.negativeY\n    --> ( 0, -1 )\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "orthogonalize",
+        "comment": " Attempt to form a pair of perpendicular directions from the two given\ndirections;\n\n    Direction2d.orthogonalize ( xDirection, yDirection )\n\nis equivalent to\n\n    Direction2d.orthonormalize\n        ( Direction2d.toVector xDirection\n        , Direction2d.toVector yDirection\n        )\n\n",
+        "type": "( OpenSolid.Direction2d.Direction2d , OpenSolid.Direction2d.Direction2d ) -> Maybe.Maybe ( OpenSolid.Direction2d.Direction2d , OpenSolid.Direction2d.Direction2d )"
+      },
+      {
+        "name": "orthonormalize",
+        "comment": " Attempt to form a pair of perpendicular directions from the two given\nvectors by performing [Gram-Schmidt normalization](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process):\n\n  - The first returned direction will be equal to the direction of the first\n    given vector\n  - The second returned direction will be as close as possible to the second\n    given vector while being perpendicular to the first returned direction\n\nIf either of the given vectors are zero, or if the two vectors are parallel,\n`Nothing` will be returned.\n\n    Direction2d.orthonormalize\n        ( Vector2d.fromComponents ( 3, 3 )\n        , Vector2d.fromComponents ( 0, -2 )\n        )\n    --> Just\n    -->     ( Direction2d.fromAngle (degrees 45)\n    -->     , Direction2d.fromAngle (degrees -45)\n    -->     )\n\n    Direction2d.orthonormalize\n        ( Vector2d.fromComponents ( 3, 3 )\n        , Vector2d.fromComponents ( -2, -2 )\n        )\n    --> Nothing\n\n",
+        "type": "( OpenSolid.Vector2d.Vector2d, OpenSolid.Vector2d.Vector2d ) -> Maybe.Maybe ( OpenSolid.Direction2d.Direction2d , OpenSolid.Direction2d.Direction2d )"
+      },
+      {
+        "name": "perpendicularTo",
+        "comment": " Construct a direction perpendicular to the given direction, by rotating the\ngiven direction 90 degrees counterclockwise.\n\n    Direction2d.perpendicularTo Direction2d.x\n    --> Direction2d.y\n\n    Direction2d.perpendicularTo Direction2d.y\n    --> Direction2d.negativeX\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a direction defined in local coordinates relative to a given reference\nframe, and return that direction expressed in global coordinates.\n\n    Direction2d.placeIn upsideDownFrame Direction2d.y\n    --> Direction2d.negativeY\n\n    Direction2d.placeIn rotatedFrame Direction2d.x\n    --> Direction2d.fromAngle (degrees 30)\n\n    Direction2d.placeIn rotatedFrame Direction2d.y\n    --> Direction2d.fromAngle (degrees 120)\n\n",
+        "type": "OpenSolid.Geometry.Internal.Frame2d -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "positiveX",
+        "comment": " The positive X direction.\n\n    Direction2d.components Direction2d.positiveX\n    --> ( 1, 0 )\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "positiveY",
+        "comment": " The positive Y direction.\n\n    Direction2d.components Direction2d.positiveY\n    --> ( 0, 1 )\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a direction defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    Direction2d.relativeTo upsideDownFrame Direction2d.y\n    --> Direction2d.negativeY\n\n    Direction2d.relativeTo rotatedFrame Direction2d.x\n    --> Direction2d.fromAngle (degrees -30)\n\n    Direction2d.relativeTo rotatedFrame Direction2d.y\n    --> Direction2d.fromAngle (degrees 60)\n\n",
+        "type": "OpenSolid.Geometry.Internal.Frame2d -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "rotateBy",
+        "comment": " Rotate a direction counterclockwise by a given angle (in radians).\n\n    Direction2d.rotateBy pi Direction2d.x\n    --> Direction2d.negativeX\n\n    Direction2d.rotateBy (degrees 45) Direction2d.y\n    --> Direction2d.fromAngle (degrees 135)\n\n",
+        "type": "Float -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "toVector",
+        "comment": " Convert a direction to a unit vector.\n\n    Direction2d.toVector Direction2d.x\n    --> Vector2d.fromComponents ( 1, 0 )\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Vector2d.Vector2d"
+      },
+      {
+        "name": "unsafe",
+        "comment": " Construct a direction directly from its X and Y components. Note that **you\nmust ensure that the sum of the squares of the given components is exactly\none**:\n\n    Direction2d.unsafe ( 1, 0 )\n    Direction2d.unsafe ( 0, -1 )\n    Direction2d.unsafe ( 0.6, 0.8 )\n\nare all valid but\n\n    Direction2d.unsafe ( 2, 0 )\n    Direction2d.unsafe ( 1, 1 )\n\nare not. Instead of using `Direction2d.unsafe`, it may be easier to use\nconstructors like `Direction2d.fromAngle` (which will always result in a valid\ndirection) or start with existing directions and transform them as necessary.\n\n",
+        "type": "( Float, Float ) -> OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "x",
+        "comment": " Synonym for `Direction2d.positiveX`.\n",
+        "type": "OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "xComponent",
+        "comment": " Get the X component of a direction.\n\n    Direction2d.xComponent Direction2d.x\n    --> 1\n\n    Direction2d.xComponent Direction2d.y\n    --> 0\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> Float"
+      },
+      {
+        "name": "y",
+        "comment": " Synonym for `Direction2d.positiveY`.\n",
+        "type": "OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "yComponent",
+        "comment": " Get the Y component of a direction.\n\n    Direction2d.yComponent Direction2d.x\n    --> 0\n\n    Direction2d.yComponent Direction2d.y\n    --> 1\n\n",
+        "type": "OpenSolid.Direction2d.Direction2d -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.Vector3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector3d.svg\" alt=\"Vector3d\" width=\"160\">\n\nA `Vector3d` represents a quantity such as a displacement or velocity in 3D, and\nis defined by its X, Y and Z components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point3d`\nand `Direction3d` than `Vector3d`, and much code can avoid working directly with\n`Vector3d` values at all!\n\n@docs Vector3d\n\n\n# Predefined vectors\n\n@docs zero\n\nAlthough there are no predefined constants for the vectors with components\n(1,&nbsp;0,&nbsp;0), (0,&nbsp;1,&nbsp;0) and (0,&nbsp;0,&nbsp;1), in most cases\nyou will actually want their `Direction3d` versions [`Direction3d.x`](OpenSolid-Direction3d#x),\n[`Direction3d.y`](OpenSolid-Direction3d#y) and [`Direction3d.z`](OpenSolid-Direction3d#z).\n\n\n# Constructors\n\n@docs fromComponents, from, with, on, perpendicularTo, interpolateFrom\n\n\n# Components\n\n@docs components, xComponent, yComponent, zComponent, length, squaredLength, direction, lengthAndDirection\n\n\n# Comparison\n\n@docs equalWithin\n\n\n# Measurement\n\n@docs componentIn\n\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n\n# Transformations\n\nNote that for all transformations, only the orientation of the given axis or\nplane is relevant, since vectors are position-independent. Think of transforming\na vector as placing its tail on the relevant axis or plane and then transforming\nits tip.\n\n@docs flip, normalize, scaleBy, rotateAround, mirrorAcross, projectionIn, projectOnto\n\n\n# Coordinate conversions\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate\ntransformations of vectors depend only on the orientations of the relevant\nframes/sketch planes, not their positions.\n\nFor the examples, assume the following definition of a local coordinate frame,\none that is rotated 30 degrees counterclockwise around the Z axis from the\nglobal XYZ frame:\n\n    rotatedFrame =\n        Frame3d.rotateAround Axis3d.z (degrees 30) Frame3d.xyz\n\n@docs relativeTo, placeIn, projectInto\n\n",
     "aliases": [
@@ -3385,147 +3526,6 @@
         "name": "zero",
         "comment": " The zero vector.\n\n    Vector3d.zero\n    --> Vector3d.fromComponents ( 0, 0, 0 )\n\n",
         "type": "OpenSolid.Vector3d.Vector3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.Direction2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/direction2d.svg\" alt=\"Direction2d\" width=\"160\">\n\nA `Direction2d` represents a direction like 'up' or 'north' or 'forwards'. They\nare represented using X and Y components, and can be converted to vectors if\nnecessary, but should be thought of as conceptually different. Directions have\nseveral uses, such as:\n\n  - Constructing a vector from a length and direction\n  - Determining the component of a vector in a particular direction (for\n    example, finding the component of velocity in the up direction to get\n    vertical speed)\n  - Determining the (signed) angle between two directions\n  - Defining the orientation of an axis or reference frame\n\n@docs Direction2d\n\n\n# Constants\n\n@docs x, y, positiveX, negativeX, positiveY, negativeY\n\n\n# Constructors\n\n@docs fromAngle, from, perpendicularTo, orthonormalize, orthogonalize, unsafe\n\n\n# Properties\n\n@docs components, xComponent, yComponent, angle\n\n\n# Comparison\n\n@docs equalWithin\n\n\n# Measurement\n\n@docs componentIn, angleFrom\n\n\n# Conversion\n\n@docs toVector\n\n\n# Transformations\n\n@docs flip, rotateBy, mirrorAcross\n\n\n# Coordinate conversions\n\nFunctions for transforming directions between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate\ntransformations of directions depend only on the orientations of the relevant\nframes, not the positions of their origin points.\n\nFor the examples, assume the following frames have been defined:\n\n    upsideDownFrame =\n        Frame2d\n            { originPoint = Point2d.origin\n            , xDirection = Direction2d.positiveX\n            , yDirection = Direction2d.negativeY\n            }\n\n    rotatedFrame =\n        Frame2d.rotateBy (degrees 30) Frame2d.xy\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Direction2d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.Direction2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "angle",
-        "comment": " Get the polar angle of a vector (its counterclockwise angle in radians from\nthe positive X direction). The result will be in the range -π to π.\n\n    Direction2d.angle Direction2d.x\n    --> 0\n\n    Direction2d.angle Direction2d.y\n    --> degrees 90\n\n    Direction2d.angle Direction2d.negativeY\n    --> degrees -90\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> Float"
-      },
-      {
-        "name": "angleFrom",
-        "comment": " Find the counterclockwise angle in radians from the first direction to the\nsecond. The result will be in the range -π to π.\n\n    referenceDirection =\n        Direction2d.fromAngle (degrees 30)\n\n    Direction2d.angleFrom referenceDirection Direction2d.y\n    --> degrees 60\n\n    Direction2d.angleFrom referenceDirection Direction2d.x\n    --> degrees -30\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d -> Float"
-      },
-      {
-        "name": "componentIn",
-        "comment": " Find the component of one direction in another direction. This is equal to\nthe cosine of the angle between the directions, or equivalently the dot product\nof the two directions converted to unit vectors.\n\n    direction =\n        Direction2d.fromAngle (degrees 60)\n\n    Direction2d.componentIn Direction2d.x direction\n    --> 0.5\n\n    Direction2d.componentIn direction direction\n    --> 1\n\n    Direction2d.componentIn Direction2d.x Direction2d.y\n    --> 0\n\nThis is more general and flexible than using `xComponent` or `yComponent`, both\nof which can be expressed in terms of `componentIn`; for example,\n\n    Direction2d.xComponent direction\n\nis equivalent to\n\n    Direction2d.componentIn Direction2d.x direction\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d -> Float"
-      },
-      {
-        "name": "components",
-        "comment": " Get the components of a direction as a tuple (the components it would have\nas a unit vector, also know as its direction cosines).\n\n    ( x, y ) =\n        Direction2d.components direction\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> ( Float, Float )"
-      },
-      {
-        "name": "equalWithin",
-        "comment": " Compare two directions within an angular tolerance. Returns true if the\nabsolute value of the angle between the two given directions is less than the\ngiven tolerance.\n\n    firstDirection =\n        Direction2d.fromAngle (degrees 45)\n\n    secondDirection =\n        Direction2d.fromAngle (degrees 47)\n\n    Direction2d.equalWithin (degrees 5)\n        firstDirection\n        secondDirection\n    --> True\n\n    Direction2d.equalWithin (degrees 1)\n        firstDirection\n        secondDirection\n    --> False\n\n",
-        "type": "Float -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d -> Bool"
-      },
-      {
-        "name": "flip",
-        "comment": " Reverse a direction.\n\n    Direction2d.flip Direction2d.y\n    --> Direction2d.negativeY\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "from",
-        "comment": " Attempt to construct the direction from the first given point to the second.\nIf the two points are coincident, returns `Nothing`.\n\n    point =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    Direction2d.from Point2d.origin point\n    --> Just (Direction2d.fromAngle (degrees 45))\n\n    Direction2d.from point Point2d.origin\n    --> Just (Direction2d.fromAngle (degrees -135))\n\n    Direction2d.from point point\n    --> Nothing\n\n",
-        "type": "OpenSolid.Geometry.Internal.Point2d -> OpenSolid.Geometry.Internal.Point2d -> Maybe.Maybe OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "fromAngle",
-        "comment": " Construct a direction from an angle in radians, given counterclockwise from\nthe positive X direction.\n\n    Direction2d.fromAngle 0\n    --> Direction2d.x\n\n    Direction2d.fromAngle (degrees 90)\n    --> Direction2d.y\n\n    Direction2d.fromAngle (degrees -90)\n    --> Direction2d.negativeY\n\n",
-        "type": "Float -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a direction across a particular axis. Note that only the direction of\nthe axis affects the result, since directions are position-independent.\n\n    slopedAxis =\n        Axis2d.with\n            { originPoint =\n                Point2d.fromCoordinates ( 100, 200 )\n            , direction =\n                Direction2d.fromAngle (degrees 45)\n            }\n\n    Direction2d.mirrorAcross slopedAxis Direction2d.x\n    --> Direction2d.y\n\n    Direction2d.mirrorAcross slopedAxis Direction2d.y\n    --> Direction2d.x\n\n",
-        "type": "OpenSolid.Geometry.Internal.Axis2d -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "negativeX",
-        "comment": " The negative X direction.\n\n    Direction2d.components Direction2d.negativeX\n    --> ( -1, 0 )\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "negativeY",
-        "comment": " The negative Y direction.\n\n    Direction2d.components Direction2d.negativeY\n    --> ( 0, -1 )\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "orthogonalize",
-        "comment": " Attempt to form a pair of perpendicular directions from the two given\ndirections;\n\n    Direction2d.orthogonalize ( xDirection, yDirection )\n\nis equivalent to\n\n    Direction2d.orthonormalize\n        ( Direction2d.toVector xDirection\n        , Direction2d.toVector yDirection\n        )\n\n",
-        "type": "( OpenSolid.Direction2d.Direction2d , OpenSolid.Direction2d.Direction2d ) -> Maybe.Maybe ( OpenSolid.Direction2d.Direction2d , OpenSolid.Direction2d.Direction2d )"
-      },
-      {
-        "name": "orthonormalize",
-        "comment": " Attempt to form a pair of perpendicular directions from the two given\nvectors by performing [Gram-Schmidt normalization](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process):\n\n  - The first returned direction will be equal to the direction of the first\n    given vector\n  - The second returned direction will be as close as possible to the second\n    given vector while being perpendicular to the first returned direction\n\nIf either of the given vectors are zero, or if the two vectors are parallel,\n`Nothing` will be returned.\n\n    Direction2d.orthonormalize\n        ( Vector2d.fromComponents ( 3, 3 )\n        , Vector2d.fromComponents ( 0, -2 )\n        )\n    --> Just\n    -->     ( Direction2d.fromAngle (degrees 45)\n    -->     , Direction2d.fromAngle (degrees -45)\n    -->     )\n\n    Direction2d.orthonormalize\n        ( Vector2d.fromComponents ( 3, 3 )\n        , Vector2d.fromComponents ( -2, -2 )\n        )\n    --> Nothing\n\n",
-        "type": "( OpenSolid.Vector2d.Vector2d, OpenSolid.Vector2d.Vector2d ) -> Maybe.Maybe ( OpenSolid.Direction2d.Direction2d , OpenSolid.Direction2d.Direction2d )"
-      },
-      {
-        "name": "perpendicularTo",
-        "comment": " Construct a direction perpendicular to the given direction, by rotating the\ngiven direction 90 degrees counterclockwise.\n\n    Direction2d.perpendicularTo Direction2d.x\n    --> Direction2d.y\n\n    Direction2d.perpendicularTo Direction2d.y\n    --> Direction2d.negativeX\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a direction defined in local coordinates relative to a given reference\nframe, and return that direction expressed in global coordinates.\n\n    Direction2d.placeIn upsideDownFrame Direction2d.y\n    --> Direction2d.negativeY\n\n    Direction2d.placeIn rotatedFrame Direction2d.x\n    --> Direction2d.fromAngle (degrees 30)\n\n    Direction2d.placeIn rotatedFrame Direction2d.y\n    --> Direction2d.fromAngle (degrees 120)\n\n",
-        "type": "OpenSolid.Geometry.Internal.Frame2d -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "positiveX",
-        "comment": " The positive X direction.\n\n    Direction2d.components Direction2d.positiveX\n    --> ( 1, 0 )\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "positiveY",
-        "comment": " The positive Y direction.\n\n    Direction2d.components Direction2d.positiveY\n    --> ( 0, 1 )\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a direction defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    Direction2d.relativeTo upsideDownFrame Direction2d.y\n    --> Direction2d.negativeY\n\n    Direction2d.relativeTo rotatedFrame Direction2d.x\n    --> Direction2d.fromAngle (degrees -30)\n\n    Direction2d.relativeTo rotatedFrame Direction2d.y\n    --> Direction2d.fromAngle (degrees 60)\n\n",
-        "type": "OpenSolid.Geometry.Internal.Frame2d -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "rotateBy",
-        "comment": " Rotate a direction counterclockwise by a given angle (in radians).\n\n    Direction2d.rotateBy pi Direction2d.x\n    --> Direction2d.negativeX\n\n    Direction2d.rotateBy (degrees 45) Direction2d.y\n    --> Direction2d.fromAngle (degrees 135)\n\n",
-        "type": "Float -> OpenSolid.Direction2d.Direction2d -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "toVector",
-        "comment": " Convert a direction to a unit vector.\n\n    Direction2d.toVector Direction2d.x\n    --> Vector2d.fromComponents ( 1, 0 )\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> OpenSolid.Vector2d.Vector2d"
-      },
-      {
-        "name": "unsafe",
-        "comment": " Construct a direction directly from its X and Y components. Note that **you\nmust ensure that the sum of the squares of the given components is exactly\none**:\n\n    Direction2d.unsafe ( 1, 0 )\n    Direction2d.unsafe ( 0, -1 )\n    Direction2d.unsafe ( 0.6, 0.8 )\n\nare all valid but\n\n    Direction2d.unsafe ( 2, 0 )\n    Direction2d.unsafe ( 1, 1 )\n\nare not. Instead of using `Direction2d.unsafe`, it may be easier to use\nconstructors like `Direction2d.fromAngle` (which will always result in a valid\ndirection) or start with existing directions and transform them as necessary.\n\n",
-        "type": "( Float, Float ) -> OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "x",
-        "comment": " Synonym for `Direction2d.positiveX`.\n",
-        "type": "OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "xComponent",
-        "comment": " Get the X component of a direction.\n\n    Direction2d.xComponent Direction2d.x\n    --> 1\n\n    Direction2d.xComponent Direction2d.y\n    --> 0\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> Float"
-      },
-      {
-        "name": "y",
-        "comment": " Synonym for `Direction2d.positiveY`.\n",
-        "type": "OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "yComponent",
-        "comment": " Get the Y component of a direction.\n\n    Direction2d.yComponent Direction2d.x\n    --> 0\n\n    Direction2d.yComponent Direction2d.y\n    --> 1\n\n",
-        "type": "OpenSolid.Direction2d.Direction2d -> Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"

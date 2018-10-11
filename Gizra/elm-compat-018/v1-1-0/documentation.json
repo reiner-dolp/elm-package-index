@@ -1,0 +1,602 @@
+[
+  {
+    "name": "Time019",
+    "comment": " Elm 0.19 moved the `Date` module to a separate package\n[elm-time](https://package.elm-lang.org/packages/elm/time/1.0.0/)\nand renamed it `Time`. So, this is an implementation for Elm 0.18.\n\n\n# Time\n\n@docs Posix, now, every, posixToMillis, millisToPosix\n\n\n# Time Zones\n\n@docs Zone, utc, here\n\n\n# Human Times\n\n@docs toYear, toMonth, toDay, toWeekday, toHour, toMinute, toSecond, toMillis\n\n\n# Weeks and Months\n\n@docs Weekday, Month\n\n\n# For Package Authors\n\n@docs customZone, getZoneName, ZoneName\n\n",
+    "aliases": [
+      {
+        "name": "Month",
+        "comment": " Represents a `Month` so that you can convert it to a `String` or `Int`\nhowever you please. For example, if you need the Danish representation, you\ncan say:\n\n    toDanishMonth : Month -> String\n    toDanishMonth month =\n        case month of\n            Jan ->\n                \"januar\"\n\n            Feb ->\n                \"februar\"\n\n            Mar ->\n                \"marts\"\n\n            Apr ->\n                \"april\"\n\n            May ->\n                \"maj\"\n\n            Jun ->\n                \"juni\"\n\n            Jul ->\n                \"juli\"\n\n            Aug ->\n                \"august\"\n\n            Sep ->\n                \"september\"\n\n            Oct ->\n                \"oktober\"\n\n            Nov ->\n                \"november\"\n\n            Dec ->\n                \"december\"\n\n",
+        "args": [],
+        "type": "Date.Month"
+      },
+      {
+        "name": "Weekday",
+        "comment": " Represents a `Weekday` so that you can convert it to a `String` or `Int`\nhowever you please. For example, if you need the Japanese representation, you\ncan say:\n\n    toJapaneseWeekday : Weekday -> String\n    toJapaneseWeekday weekday =\n        case weekday of\n            Mon ->\n                \"月\"\n\n            Tue ->\n                \"火\"\n\n            Wed ->\n                \"水\"\n\n            Thu ->\n                \"木\"\n\n            Fri ->\n                \"金\"\n\n            Sat ->\n                \"土\"\n\n            Sun ->\n                \"日\"\n\n",
+        "args": [],
+        "type": "Date.Day"
+      }
+    ],
+    "types": [
+      {
+        "name": "Posix",
+        "comment": " A computer representation of time. It is the same all over Earth, so if we\nhave a phone call or meeting at a certain POSIX time, there is no ambiguity.\nIt is very hard for humans to _read_ a POSIX time though, so we use functions\nlike [`toHour`](#toHour) and [`toMinute`](#toMinute) to `view` them.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Zone",
+        "comment": " Information about a particular time zone.\n\nThe [IANA Time Zone Database][iana] tracks things like UTC offsets and\ndaylight-saving rules so that you can turn a `Posix` time into local times\nwithin a time zone.\n\nSee [`utc`](#utc), [`here`](#here), and [`Browser.Env`][env] to learn how to\nobtain `Zone` values.\n\n[iana]: https://www.iana.org/time-zones\n[env]: /packages/elm/browser/latest/Browser#Env\n\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "ZoneName",
+        "comment": " **Intended for package authors.**\n\nThe `getZoneName` function relies on a JavaScript API that is not supported\nin all browsers yet, so it can return the following:\n\n    -- in more recent browsers\n    Name \"Europe/Moscow\"\n    Name \"America/Havana\"\n\n    -- in older browsers\n    Offset 180\n    Offset -300\n\nSo if the real info is not available, it will tell you the current UTC offset\nin minutes, just like what `here` uses to make zones like `customZone -60 []`.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Name",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Offset",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "customZone",
+        "comment": " **Intended for package authors.**\n\nThe documentation of [`here`](#here) explains that it has certain accuracy\nlimitations that block on adding new APIs to JavaScript. The `customZone`\nfunction is a stopgap that takes:\n\n1.  A default offset in minutes. So `Etc/GMT-5` is `customZone (-5 * 60) []`\n    and `Etc/GMT+9` is `customZone (9 * 60) []`.\n2.  A list of exceptions containing their `start` time in \"minutes since the Unix\n    epoch\" and their `offset` in \"minutes from UTC\"\n\nHuman times will be based on the nearest `start`, falling back on the default\noffset if the time is older than all of the exceptions.\n\nWhen paired with `getZoneName`, this allows you to load the real IANA time zone\ndatabase however you want: HTTP, cache, hardcode, etc.\n\n**Note:** If you use this, please share your work in an Elm community forum! I\nam sure others would like to hear about it, and more experience reports will\nhelp me and the any potential TC39 proposal.\n\n",
+        "type": "Int -> List { start : Int, offset : Int } -> Time019.Zone"
+      },
+      {
+        "name": "every",
+        "comment": " Get the current time periodically. How often though? Well, you provide an\ninterval in milliseconds (like `1000` for a second or `60 * 1000` for a minute\nor `60 * 60 * 1000` for an hour) and that is how often you get a new time!\n\nCheck out [this example](https://elm-lang.org/examples/time) to see how to use\nit in an application.\n\n**This function is not for animation.** Use the [`elm/animation-frame`][af]\npackage for that sort of thing! It syncs up with repaints and will end up\nbeing much smoother for any moving visuals.\n\n[af]: /packages/elm/animation-frame/latest\n\n",
+        "type": "Float -> (Time019.Posix -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "getZoneName",
+        "comment": " **Intended for package authors.**\n\nUse `Intl.DateTimeFormat().resolvedOptions().timeZone` to try to get names\nlike `Europe/Moscow` or `America/Havana`. From there you can look it up in any\nIANA data you loaded yourself.\n\n",
+        "type": "Task.Task x Time019.ZoneName"
+      },
+      {
+        "name": "here",
+        "comment": " Produce a `Zone` based on the current UTC offset.\n\nYou can use this to figure out what day it is where you are:\n\n    import Task exposing (Task)\n\n    whatDayIsIt : Task x Int\n    whatDayIsIt =\n        Task.map2 Time.toDay Time.here Time.now\n\n**Accuracy Note:** This function can only give time zones like `Etc/GMT+9` or\n`Etc/GMT-6`. It cannot give you `Europe/Stockholm`, `Asia/Tokyo`, or any other\nnormal time zone from the [full list][tz] due to limitations in JavaScript.\nFor example, if you run `here` in New York City, the resulting `Zone` will\nnever be `America/New_York`. Instead you get `Etc/GMT-5` or `Etc/GMT-4`\ndepending on Daylight Saving Time. So even though browsers must have internal\naccess to `America/New_York` to figure out that offset, there is no public API\nto get the full information. This means the `Zone` you get from this function\nwill act weird if (1) an application stays open across a Daylight Saving Time\nboundary or (2) you try to use it on historical data.\n\n**Future Note:** We can improve `here` when there is good browser support for\nJavaScript functions that (1) expose the IANA time zone database and (2) let\nyou ask the time zone of the computer. The committee that reviews additions to\nJavaScript is called TC39, and I encourage you to push for these capabilities! I\ncannot do it myself unfortunately.\n\n**Alternatives:** See the `customZone` docs to learn how to implement stopgaps.\n[tz]: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>\n\n",
+        "type": "Task.Task x Time019.Zone"
+      },
+      {
+        "name": "millisToPosix",
+        "comment": " Turn milliseconds into a `Posix` time.\n",
+        "type": "Int -> Time019.Posix"
+      },
+      {
+        "name": "now",
+        "comment": " Get the POSIX time at the moment when this task is run.\n",
+        "type": "Task.Task x Time019.Posix"
+      },
+      {
+        "name": "posixToMillis",
+        "comment": " Turn a `Posix` time into the number of milliseconds since 1970 January 1\nat 00:00:00 UTC. It was a Thursday.\n",
+        "type": "Time019.Posix -> Int"
+      },
+      {
+        "name": "toDay",
+        "comment": " What day is it?! (Days go from 1 to 31)\n\n    toDay utc (millisToPosix 0) --> 1\n\n    toDay nyc (millisToPosix 0) == 31\n    -- pretend `nyc` is the `Zone` for America/New_York.\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Int"
+      },
+      {
+        "name": "toHour",
+        "comment": " What hour is it? (From 0 to 23)\n\n    toHour utc (millisToPosix 0) --> 0 -- 12am\n\n    toHour nyc (millisToPosix 0) == 19 -- 7pm\n    -- pretend `nyc` is the `Zone` for America/New_York.\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Int"
+      },
+      {
+        "name": "toMillis",
+        "comment": "\n\n    toMillis utc (millisToPosix    0) --> 0\n\n    toMillis utc (millisToPosix 1234) --> 234\n\n    toMillis utc (millisToPosix 5678) --> 678\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Int"
+      },
+      {
+        "name": "toMinute",
+        "comment": " What minute is it? (From 0 to 59)\n\n    toMinute utc (millisToPosix 0) --> 0\n\nThis can be different in different time zones. Some time zones are offset\nby 30 or 45 minutes!\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Int"
+      },
+      {
+        "name": "toMonth",
+        "comment": " What month is it?!\n\n    import Date exposing (Month(..))\n\n    toMonth utc (millisToPosix 0) --> Jan\n\n    toMonth nyc (millisToPosix 0) == Dec\n    -- pretend `nyc` is the `Zone` for America/New_York.\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Time019.Month"
+      },
+      {
+        "name": "toSecond",
+        "comment": " What second is it?\n\n    toSecond utc (millisToPosix 0) --> 0\n\n    toSecond utc (millisToPosix 1234) --> 1\n\n    toSecond utc (millisToPosix 5678) --> 5\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Int"
+      },
+      {
+        "name": "toWeekday",
+        "comment": " What day of the week is it?\n\n    toWeekday utc (millisToPosix 0) == Thu\n\n    toWeekday nyc (millisToPosix 0) == Wed\n    -- pretend `nyc` is the `Zone` for America/New_York.\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Time019.Weekday"
+      },
+      {
+        "name": "toYear",
+        "comment": " What year is it?!\n\n    toYear utc (millisToPosix 0) --> 1970\n\n    toYear nyc (millisToPosix 0) == 1969\n    -- pretend `nyc` is the `Zone` for America/New_York.\n\n",
+        "type": "Time019.Zone -> Time019.Posix -> Int"
+      },
+      {
+        "name": "utc",
+        "comment": " The time zone for Coordinated Universal Time ([UTC])\n\nThe `utc` zone has no time adjustments. It never observes daylight-saving\ntime and it never shifts around based on political restructuring.\n[UTC]: <https://en.wikipedia.org/wiki/Coordinated_Universal_Time>\n\n",
+        "type": "Time019.Zone"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random017",
+    "comment": " Like in other modules, the paramenters of `andThen` were flipped in Elm\n0.18.\n\n@docs andThen\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain random operations, threading through the seed. In the following\nexample, we will generate a random letter by putting together uppercase and\nlowercase letters.\n\n    letter : Generator Char\n    letter =\n      bool `andThen` \\b ->\n        if b then uppercaseLetter else lowercaseLetter\n\n    -- bool : Generator Bool\n    -- uppercaseLetter : Generator Char\n    -- lowercaseLetter : Generator Char\n",
+        "type": "Random.Generator a -> (a -> Random.Generator b) -> Random.Generator b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Basics019",
+    "comment": " Elm 0.19 renamed these two functions, so here they are with their\nnew names.\n\n@docs modBy, remainderBy\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "modBy",
+        "comment": " Perform [modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic).\nA common trick is to use (n mod 2) to detect even and odd numbers:\n\n    modBy 2 0 --> 0\n\n    modBy 2 1 --> 1\n\n    modBy 2 2 --> 0\n\n    modBy 2 3 --> 1\n\nOur `modBy` function works in the typical mathematical way when you run into\nnegative numbers:\n\n    List.map (modBy 4)\n        [ -5, -4, -3, -2, -1,  0,  1,  2,  3,  4,  5 ]\n        --> [  3,  0,  1,  2,  3,  0,  1,  2,  3,  0,  1 ]\n\nUse [`remainderBy`](#remainderBy) for a different treatment of negative numbers,\nor read Daan Leijen’s [Division and Modulus for Computer Scientists][dm] for more\ninformation.\n\n[dm]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf\n\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "remainderBy",
+        "comment": " Get the remainder after division. Here are bunch of examples of dividing by four:\n\n    List.map (remainderBy 4)\n        [ -5, -4, -3, -2, -1,  0,  1,  2,  3,  4,  5 ]\n        --> [ -1,  0, -3, -2, -1,  0,  1,  2,  3,  0,  1 ]\n\nUse [`modBy`](#modBy) for a different treatment of negative numbers,\nor read Daan Leijen’s [Division and Modulus for Computer Scientists][dm] for more\ninformation.\n\n[dm]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf\n\n",
+        "type": "Int -> Int -> Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "String019",
+    "comment": " Elm 0.19 added several new functions.\n\n@docs replace, fromInt, fromFloat\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fromFloat",
+        "comment": " Convert a `Float` to a `String`.\n\n    fromFloat 123 --> \"123\"\n\n    fromFloat -42 --> \"-42\"\n\nfromFloat 3.9 --> \"3.9\"\n\nCheck out [`Debug.toString`](Debug#toString) to convert *any* value to a string\nfor debugging purposes.\n\n",
+        "type": "Float -> String"
+      },
+      {
+        "name": "fromInt",
+        "comment": " Convert an `Int` to a `String`.\n\n    fromInt 123 --> \"123\"\n\n    fromInt -42 --> \"-42\"\n\nCheck out [`Debug.toString`](Debug#toString) to convert *any* value to a string\nfor debugging purposes.\n\n",
+        "type": "Int -> String"
+      },
+      {
+        "name": "replace",
+        "comment": " Replace all occurrences of some substring.\n\n    replace \".\" \"-\" \"Json.Decode.succeed\" --> \"Json-Decode-succeed\"\n\n    replace \",\" \"/\" \"a,b,c,d,e\"           --> \"a/b/c/d/e\"\n\n**Note:** If you need more advanced replacements, check out the\n[`elm/parser`][parser] or [`elm/regex`][regex] package.\n\n[parser]: /packages/elm/parser/latest\n[regex]: /packages/elm/regex/latest\n\n",
+        "type": "String -> String -> String -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Task017",
+    "comment": " Elm 0.18 flipped parameters for `andThen` and `onError`, altered `perform`,\nand removed functions converting from and to `Maybe` and `Result`.\n\n@docs andThen, onError, perform, andMap, fromMaybe, fromResult, toMaybe, toResult\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andMap",
+        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\nThis function makes it possible to chain tons of tasks together and pipe them\nall into a single function.\n\n    (f `map` task1 `andMap` task2 `andMap` task3) -- map3 f task1 task2 task3\n",
+        "type": "Task.Task x (a -> b) -> Task.Task x a -> Task.Task x b"
+      },
+      {
+        "name": "andThen",
+        "comment": " Chain together a task and a callback. The first task will run, and if it is\nsuccessful, you give the result to the callback resulting in another task. This\ntask then gets run.\n\n    succeed 2 `andThen` (\\n -> succeed (n + 2)) -- succeed 4\n\nThis is useful for chaining tasks together. Maybe you need to get a user from\nyour servers *and then* lookup their picture once you know their name.\n",
+        "type": "Task.Task x a -> (a -> Task.Task x b) -> Task.Task x b"
+      },
+      {
+        "name": "fromMaybe",
+        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na maybe value like a task.\n\n    fromMaybe \"file not found\" Nothing   -- fail \"file not found\"\n    fromMaybe \"file not found\" (Just 42) -- succeed 42\n",
+        "type": "x -> Maybe.Maybe a -> Task.Task x a"
+      },
+      {
+        "name": "fromResult",
+        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na result like a task.\n\n    fromResult (Err \"file not found\") -- fail \"file not found\"\n    fromResult (Ok 42)                -- succeed 42\n",
+        "type": "Result.Result x a -> Task.Task x a"
+      },
+      {
+        "name": "onError",
+        "comment": " Recover from a failure in a task. If the given task fails, we use the\ncallback to recover.\n\n    fail \"file not found\" `onError` (\\msg -> succeed 42) -- succeed 42\n    succeed 9 `onError` (\\msg -> succeed 42)             -- succeed 9\n",
+        "type": "Task.Task x a -> (x -> Task.Task y a) -> Task.Task y a"
+      },
+      {
+        "name": "perform",
+        "comment": " Command the runtime system to perform a task. The most important argument\nis the `Task` which describes what you want to happen. But you also need to\nprovide functions to tag the two possible outcomes of the task. It can fail or\nsucceed, but either way, you need to have a message to feed back into your\napplication.\n",
+        "type": "(x -> msg) -> (a -> msg) -> Task.Task x a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "toMaybe",
+        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Nothing` and any success into `Just` something.\n\n    toMaybe (fail \"file not found\") -- succeed Nothing\n    toMaybe (succeed 42)            -- succeed (Just 42)\n\nThis means you can handle the error with the `Maybe` module instead.\n",
+        "type": "Task.Task x a -> Task.Task never (Maybe.Maybe a)"
+      },
+      {
+        "name": "toResult",
+        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Err` something and any success into `Ok` something.\n\n    toResult (fail \"file not found\") -- succeed (Err \"file not found\")\n    toResult (succeed 42)            -- succeed (Ok 42)\n\nThis means you can handle the error with the `Result` module instead.\n",
+        "type": "Task.Task x a -> Task.Task never (Result.Result x a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Tuple019",
+    "comment": " Elm 0.19 added `pair` and `mapBoth`.\n\n@docs pair, mapBoth\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "mapBoth",
+        "comment": " Transform both parts of a tuple.\n\n    mapBoth String.reverse sqrt  (\"stressed\", 16) --> (\"desserts\", 4)\n\n    mapBoth String.length negate (\"stressed\", 16) --> (8, -16)\n\n",
+        "type": "(a -> x) -> (b -> y) -> ( a, b ) -> ( x, y )"
+      },
+      {
+        "name": "pair",
+        "comment": " Create a 2-tuple.\n\n    pair 3 4 --> (3, 4)\n\n    zip : List a -> List b -> List (a, b)\n    zip xs ys =\n      List.map2 Tuple.pair xs ys\n\n",
+        "type": "a -> b -> ( a, b )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random019",
+    "comment": " Elm 0.19 moved `Random` to a separate module and added several functions\nto the API. Those functions are provided here.\n\nElm 0.19 also improved the basic algorithm for randomness. That is not\nimplemented here -- so, this is the Elm 0.18 algorithm with the Elm 0.19 API.\nIf you want something closer to the Elm 0.19 algorithm in Elm 0.18, then\nconsider using\n[mgold/elm-random-pcg](https://package.elm-lang.org/packages/mgold/elm-random-pcg/latest)\n\n@docs uniform, weighted, constant, lazy, independentSeed\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "constant",
+        "comment": " Generate the same value every time.\n\n    import Random\n\n    alwaysFour : Random.Generator Int\n    alwaysFour =\n        Random.constant 4\n\nThink of it as picking from a hat with only one thing in it. It is weird,\nbut it can be useful with [`elm-community/random-extra`][extra] which has\ntons of nice helpers.\n\n[extra]: /packages/elm-community/random-extra/latest\n\n",
+        "type": "a -> Random.Generator a"
+      },
+      {
+        "name": "independentSeed",
+        "comment": " A generator that produces a seed that is independent of any other seed in\nthe program. These seeds will generate their own unique sequences of random\nvalues. They are useful when you need an unknown amount of randomness _later_\nbut can request only a fixed amount of randomness _now_.\n\n> It does not seem possible to implement Elm 0.19's exact algorithm in an Elm\n> 0.18 user package. So, what is implemented here is an approximation of what Elm\n> 0.19 does, and probably does not have the same quality of randomness.\n\n",
+        "type": "Random.Generator Random.Seed"
+      },
+      {
+        "name": "lazy",
+        "comment": " Helper for defining self-recursive generators. Say we want to generate a\nrandom number of probabilities:\n\n    import Random\n\n    probabilities : Random.Generator (List Float)\n    probabilities =\n        Random.andThen identity <|\n            Random.uniform\n                (Random.constant [])\n                [ Random.map2 (::)\n                    (Random.float 0 1)\n                    (Random.lazy (\\_ -> probabilities))\n                ]\n\nIn 50% of cases we end the list. In 50% of cases we generate a probability and\nadd it onto a random number of probabilities. The `lazy` call is crucial\nbecause it means we do not unroll the generator unless we need to.\n\nThis is a pretty subtle issue, so I recommend reading more about it\n[here](https://elm-lang.org/hints/0.19.0/bad-recursion)!\n\n**Note:** You can delay evaluation with `andThen` too. The thing that matters\nis that you have a function call that delays the creation of the generator!\n\n",
+        "type": "(() -> Random.Generator a) -> Random.Generator a"
+      },
+      {
+        "name": "uniform",
+        "comment": " Generate values with equal probability. Say we want a random suit for some\ncards:\n\n    import Random\n\n    type Suit\n        = Diamond\n        | Club\n        | Heart\n        | Spade\n\n    suit : Random.Generator Suit\n    suit =\n        Random.uniform Diamond [ Club, Heart, Spade ]\n\nThat generator produces all `Suit` values with equal probability, 25% each.\n\n**Note:** Why not have `uniform : List a -> Generator a` as the API? It looks\na little prettier in code, but it leads to an awkward question. What do you do\nwith `uniform []`? How can it produce an `Int` or `Float`? The current API\nguarantees that we always have _at least_ one value, so we never run into that\nquestion!\n\n",
+        "type": "a -> List a -> Random.Generator a"
+      },
+      {
+        "name": "weighted",
+        "comment": " Generate values with a _weighted_ probability. Say we want to simulate a\n[loaded die](https://en.wikipedia.org/wiki/Dice#Loaded_dice) that lands\non ⚄ and ⚅ more often than the other faces:\n\n    import Random\n\n    type Face\n        = One\n        | Two\n        | Three\n        | Four\n        | Five\n        | Six\n\n    roll : Random.Generator Face\n    roll =\n        Random.weighted\n            ( 10, One )\n            [ ( 10, Two )\n            , ( 10, Three )\n            , ( 10, Four )\n            , ( 20, Five )\n            , ( 40, Six )\n            ]\n\nSo there is a 40% chance of getting `Six`, a 20% chance of getting `Five`, and\nthen a 10% chance for each of the remaining faces.\n\n**Note:** I made the weights add up to 100, but that is not necessary. I always\nadd up your weights into a `total`, and from there, the probablity of each case\nis `weight / total`. Negative weights do not really make sense, so I just flip\nthem to be positive.\n\n",
+        "type": "( Float, a ) -> List ( Float, a ) -> Random.Generator a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Basics017",
+    "comment": " Several functions from Elm 0.17 were moved to other modules in Elm 0.18, so\nhere they are!\n\n@docs fst, snd\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fst",
+        "comment": " Given a 2-tuple, returns the first value.\n",
+        "type": "( a, b ) -> a"
+      },
+      {
+        "name": "snd",
+        "comment": " Given a 2-tuple, returns the second value.\n",
+        "type": "( a, b ) -> b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Result017",
+    "comment": " `formatError` was renamed to `mapError` in Elm 0.18, and\nthe parameters of `andThen` were flipped.\n\n@docs andThen, formatError\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain together a sequence of computations that may fail. It is helpful\nto see its definition:\n\n    andThen : Result e a -> (a -> Result e b) -> Result e b\n    andThen result callback =\n        case result of\n          Ok value -> callback value\n          Err msg -> Err msg\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`toInt : String -> Result String Int`) to parse\na month and make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Result String Int\n    toValidMonth month =\n        if month >= 1 && month <= 12\n            then Ok month\n            else Err \"months must be between 1 and 12\"\n\n    toMonth : String -> Result String Int\n    toMonth rawString =\n        toInt rawString `andThen` toValidMonth\n\n    -- toMonth \"4\" == Ok 4\n    -- toMonth \"9\" == Ok 9\n    -- toMonth \"a\" == Err \"cannot parse to an Int\"\n    -- toMonth \"0\" == Err \"months must be between 1 and 12\"\n\nThis allows us to come out of a chain of operations with quite a specific error\nmessage. It is often best to create a custom type that explicitly represents\nthe exact ways your computation may fail. This way it is easy to handle in your\ncode.\n",
+        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b"
+      },
+      {
+        "name": "formatError",
+        "comment": " Format the error value of a result. If the result is `Ok`, it stays exactly\nthe same, but if the result is an `Err` we will format the error. For example,\nsay the errors we get have too much information:\n\n    parseInt : String -> Result ParseError Int\n\n    type alias ParseError =\n        { message : String\n        , code : Int\n        , position : (Int,Int)\n        }\n\n    formatError .message (parseInt \"123\") == Ok 123\n    formatError .message (parseInt \"abc\") == Err \"char 'a' is not a number\"\n",
+        "type": "(error1 -> error2) -> Result.Result error1 a -> Result.Result error2 a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Regex019",
+    "comment": " `Regex` was moved to a separate package in Elm 0.19, and the\nAPI had some significant changes. Those changes are back-ported here, so much\nas is possible.\n\n@docs fromString, fromStringWith, Options, never\n\n@docs split, splitAtMost, find, findAtMost\n\n",
+    "aliases": [
+      {
+        "name": "Options",
+        "comment": " This type was introduced in Elm 0.19. In Elm 0.19, it also has a\n`multiline` field, but it is not practical to back-port that behaviour\nto Elm 0.18.\n",
+        "args": [],
+        "type": "{ caseInsensitive : Bool }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "find",
+        "comment": " Find matches in a string:\n\n    import Regex\n\n    location : Regex.Regex\n    location =\n        Maybe.withDefault Regex.never <|\n            Regex.fromString \"[oi]n a (\\\\w+)\"\n\n    places : List Regex.Match\n    places =\n        Regex.find location \"I am on a boat in a lake.\"\n\n\n    -- map .match      places == [ \"on a boat\", \"in a lake\" ]\n    -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n\nIf you need `submatches` for some reason, a library like\n[`elm/parser`][parser] will probably lead to better code in the long run.\n\n[parser]: /packages/elm/parser/latest\n\n",
+        "type": "Regex.Regex -> String -> List Regex.Match"
+      },
+      {
+        "name": "findAtMost",
+        "comment": " Just like `find` but it stops after some number of matches.\n\nA library like [`elm/parser`][parser] will probably lead to better code in\nthe long run.\n\n[parser]: /packages/elm/parser/latest\n\n",
+        "type": "Int -> Regex.Regex -> String -> List Regex.Match"
+      },
+      {
+        "name": "fromString",
+        "comment": " Try to create a `Regex`.\n\n    import Regex\n\n    lowerCase : Regex.Regex\n    lowerCase =\n        Maybe.withDefault Regex.never <|\n            Regex.fromString \"[a-z]+\"\n\n**Note:** There are some [shorthand character classes][short] like `\\w` for\nword characters, `\\s` for whitespace characters, and `\\d` for digits. **Make\nsure they are properly escaped!** If you specify them directly in your code,\nthey would look like `\"\\\\w\\\\s\\\\d\"`.\n\n[short]: https://www.regular-expressions.info/shorthand.html\n\n> In Elm 0.19, this returns a `Maybe` in order to cover cases where the\n> input is not a valid regular expression. It is not practical to port this\n> behaviour back to Elm 0.18, so we always return `Just ...`, and crash if\n> the input is not valid (as Elm 0.18 would do).\n\n",
+        "type": "String -> Maybe.Maybe Regex.Regex"
+      },
+      {
+        "name": "fromStringWith",
+        "comment": " Create a `Regex` with some additional options. For example, you can define\n`fromString` like this:\n\n    import Regex\n\n    fromString : String -> Maybe Regex.Regex\n    fromString string =\n        fromStringWith { caseInsensitive = False } string\n\n> In Elm 0.19, there is also a `multiline` option, but it is not practical\n> to back-port this option to Elm 0.18.\n\n",
+        "type": "Regex019.Options -> String -> Maybe.Maybe Regex.Regex"
+      },
+      {
+        "name": "never",
+        "comment": " A regular expression that never matches any string.\n",
+        "type": "Regex.Regex"
+      },
+      {
+        "name": "split",
+        "comment": " Split a string. The following example will split on commas and tolerate\nwhitespace on either side of the comma:\n\n    import Regex\n\n    comma : Regex.Regex\n    comma =\n        Maybe.withDefault Regex.never <|\n            Regex.fromString \" *, *\"\n\n\n    -- Regex.split comma \"tom,99,90,85\"     == [\"tom\",\"99\",\"90\",\"85\"]\n    -- Regex.split comma \"tom, 99, 90, 85\"  == [\"tom\",\"99\",\"90\",\"85\"]\n    -- Regex.split comma \"tom , 99, 90, 85\" == [\"tom\",\"99\",\"90\",\"85\"]\n\nIf you want some really fancy splits, a library like\n[`elm/parser`][parser] will probably be easier to use.\n\n[parser]: /packages/elm/parser/latest\n\n",
+        "type": "Regex.Regex -> String -> List String"
+      },
+      {
+        "name": "splitAtMost",
+        "comment": " Just like `split` but it stops after some number of matches.\n\nA library like [`elm/parser`][parser] will probably lead to better code in\nthe long run.\n\n[parser]: /packages/elm/parser/latest\n\n",
+        "type": "Int -> Regex.Regex -> String -> List String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Json.Encode019",
+    "comment": " Elm 0.19 moved this module to a separate package, and added\na couple of new encoders.\n\n@docs dict, set\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Turn a `Dict` into a JSON object.\n\n    import Dict\n    import Json.Encode as Encode\n\n    Dict.fromList [ (\"Tom\",42), (\"Sue\", 38) ]\n        |> dict identity Encode.int\n        |> Encode.encode 0\n        --> \"\"\"{\"Tom\":42,\"Sue\":38}\"\"\"\n\n",
+        "type": "(comparable -> String) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
+      },
+      {
+        "name": "set",
+        "comment": " Turn an `Set` into a JSON array.\n\n    import Json.Encode as Encode\n    import Set\n\n    Set.fromList [ 42, 38 ]\n        |> set Encode.int\n        |> Encode.encode 0\n        --> \"[38,42]\"\n\n",
+        "type": "(comparable -> Json.Encode.Value) -> Set.Set comparable -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Json.Decode017",
+    "comment": " There were quite a few changes between Elm 0.17 and 0.18 in Json.Decode.\nHere are some things from Elm 0.17.\n\n@docs andThen, (:=), customDecoder\n@docs object1, object2, object3, object4, object5, object6, object7, object8\n@docs tuple1, tuple2, tuple3, tuple4, tuple5, tuple6, tuple7, tuple8\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": ":=",
+        "comment": " Applies the decoder to the field with the given name.\nFails if the JSON object has no such field.\n\n    nameAndAge : Decoder ( String, Int )\n    nameAndAge =\n        object2 (,)\n            (\"name\" := string)\n            (\"age\" := int)\n\n    optionalProfession : Decoder (Maybe String)\n    optionalProfession =\n        maybe (\"profession\" := string)\n\n",
+        "type": "String -> Json.Decode.Decoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "andThen",
+        "comment": " Helpful when a field tells you about the overall structure of the JSON\nyou are dealing with. For example, imagine we are getting JSON representing\ndifferent shapes. Data like this:\n\n    { \"tag\": \"rectangle\", \"width\": 2, \"height\": 3 }\n    { \"tag\": \"circle\", \"radius\": 2 }\n\nThe following `shape` decoder looks at the `tag` to know what other fields to\nexpect **and then** it extracts the relevant information.\n\n    type Shape\n        = Rectangle Float Float\n        | Circle Float\n\n    shape : Decoder Shape\n    shape =\n        (\"tag\" := string) `andThen` shapeInfo\n\n    shapeInfo : String -> Decoder Shape\n    shapeInfo tag =\n        case tag of\n            \"rectangle\" ->\n                object2 Rectangle (\"width\" := float) (\"height\" := float)\n\n            \"circle\" ->\n                object1 Circle (\"radius\" := float)\n\n            _ ->\n                fail (tag ++ \" is not a recognized tag for shapes\")\n\n",
+        "type": "Json.Decode.Decoder a -> (a -> Json.Decode.Decoder b) -> Json.Decode.Decoder b"
+      },
+      {
+        "name": "customDecoder",
+        "comment": " Create a custom decoder that may do some fancy computation.\n",
+        "type": "Json.Decode.Decoder a -> (a -> Result.Result String b) -> Json.Decode.Decoder b"
+      },
+      {
+        "name": "object1",
+        "comment": " Apply a function to a decoder. You can use this function as `map` if you\nmust (which can be done with any `objectN` function actually).\n\n    object1 sqrt (\"x\" := float)\n\n",
+        "type": "(a -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "object2",
+        "comment": " Use two different decoders on a JS value. This is nice for extracting\nmultiple fields from an object.\n\n    point : Decoder ( Float, Float )\n    point =\n        object2 (,)\n            (\"x\" := float)\n            (\"y\" := float)\n\n",
+        "type": "(a -> b -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "object3",
+        "comment": " Use three different decoders on a JS value. This is nice for extracting\nmultiple fields from an object.\n\n    type alias Job =\n        { name : String, id : Int, completed : Bool }\n\n    job : Decoder Job\n    job =\n        object3 Job\n            (\"name\" := string)\n            (\"id\" := int)\n            (\"completed\" := bool)\n\n",
+        "type": "(a -> b -> c -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "object4",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "object5",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "object6",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> f -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder f -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "object7",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> f -> g -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder f -> Json.Decode.Decoder g -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "object8",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> f -> g -> h -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder f -> Json.Decode.Decoder g -> Json.Decode.Decoder h -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple1",
+        "comment": " Handle an array with exactly one element.\n\n    extractString : Decoder String\n    extractString =\n        tuple1 identity string\n\n    authorship : Decoder String\n    authorship =\n        oneOf\n            [ tuple1 (\\author -> \"Author: \" ++ author) string\n            , list string |> map (\\authors -> \"Co-authors: \" ++ String.join \", \" authors)\n            ]\n\n",
+        "type": "(a -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple2",
+        "comment": " Handle an array with exactly two elements. Useful for points and simple\npairs.\n\n    point : Decoder ( Float, Float )\n    point =\n        tuple2 (,) float float\n\n\n    -- [\"John\",\"Doe\"] or [\"Hermann\",\"Hesse\"]\n\n    name : Decoder Name\n    name =\n        tuple2 Name string string\n\n    type alias Name =\n        { first : String, last : String }\n\n",
+        "type": "(a -> b -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple3",
+        "comment": " Handle an array with exactly three elements.\n\n    point3D : Decoder ( Float, Float, Float )\n    point3D =\n        tuple3 (,,) float float float\n\n",
+        "type": "(a -> b -> c -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple4",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple5",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple6",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> f -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder f -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple7",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> f -> g -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder f -> Json.Decode.Decoder g -> Json.Decode.Decoder value"
+      },
+      {
+        "name": "tuple8",
+        "comment": " ",
+        "type": "(a -> b -> c -> d -> e -> f -> g -> h -> value) -> Json.Decode.Decoder a -> Json.Decode.Decoder b -> Json.Decode.Decoder c -> Json.Decode.Decoder d -> Json.Decode.Decoder e -> Json.Decode.Decoder f -> Json.Decode.Decoder g -> Json.Decode.Decoder h -> Json.Decode.Decoder value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Platform019",
+    "comment": " In Elm 0.19, `programWithFlags` was renamed `worker`.\n\n@docs worker\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "worker",
+        "comment": " Create a [headless] program with no user interface.\n\nThis is great if you want to use Elm as the &ldquo;brain&rdquo; for something\nelse. For example, you could send messages out ports to modify the DOM, but do\nall the complex logic in Elm.\n\n[headless]: https://en.wikipedia.org/wiki/Headless_software\n\nInitializing a headless program from JavaScript looks like this:\n\n```javascript\nvar app = Elm.MyThing.init();\n```\n\n[headless]: https://en.wikipedia.org/wiki/Headless_software\n\n",
+        "type": "{ init : flags -> ( model, Platform.Cmd.Cmd msg ) , update : msg -> model -> ( model, Platform.Cmd.Cmd msg ) , subscriptions : model -> Platform.Sub.Sub msg } -> Platform.Program flags model msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Maybe017",
+    "comment": " Some functions from Elm 0.17\n\n@docs andThen, oneOf\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain together many computations that may fail. It is helpful to see its\ndefinition:\n\n    andThen : Maybe a -> (a -> Maybe b) -> Maybe b\n    andThen maybe callback =\n        case maybe of\n            Just value ->\n                callback value\n\n            Nothing ->\n                Nothing\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`head : List Int -> Maybe Int`) to get the\nfirst month from a `List` and then make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Maybe Int\n    toValidMonth month =\n        if month >= 1 && month <= 12 then\n            Just month\n        else\n            Nothing\n\n    getFirstMonth : List Int -> Maybe Int\n    getFirstMonth months =\n        head months `andThen` toValidMonth\n\nIf `head` fails and results in `Nothing` (because the `List` was `empty`),\nthis entire chain of operations will short-circuit and result in `Nothing`.\nIf `toValidMonth` results in `Nothing`, again the chain of computations\nwill result in `Nothing`.\n\n",
+        "type": "Maybe.Maybe a -> (a -> Maybe.Maybe b) -> Maybe.Maybe b"
+      },
+      {
+        "name": "oneOf",
+        "comment": " Pick the first `Maybe` that actually has a value. Useful when you want to\ntry a couple different things, but there is no default value.\n\n    oneOf [ Nothing, Just 42, Just 71 ] == Just 42\n    oneOf [ Nothing, Nothing, Just 71 ] == Just 71\n    oneOf [ Nothing, Nothing, Nothing ] == Nothing\n\n",
+        "type": "List (Maybe.Maybe a) -> Maybe.Maybe a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bitwise017",
+    "comment": " Elm 0.18 replaced some functions from Elm 0.17 with flipped versions.\nSo, here are the original unfipped versions.\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "shiftLeft",
+        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRight",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n    32 `shiftRight` 1 == 16\n    32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRightLogical",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n    32 `shiftRightLogical` 1 == 16\n    32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n\n",
+        "type": "Int -> Int -> Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Debug019",
+    "comment": " Elm 0.19 moved `toString` to the `Debug` module, and renamed\n`crash` to `todo`.\n\n@docs toString, todo\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toString",
+        "comment": " Turn any kind of value into a string.\n\n    Debug019.toString 42                --> \"42\"\n\n    Debug019.toString [1,2]             --> \"[1,2]\"\n\n    Debug019.toString ('a', \"cat\", 13)  --> \"('a',\\\"cat\\\",13)\"\n\n    Debug019.toString \"he said, \\\"hi\\\"\" --> \"\\\"he said, \\\\\\\"hi\\\\\\\"\\\"\"\n\nNotice that with strings, this is not the `identity` function. It escapes\ncharacters so if you say `Html.text (toString \"he said, \\\"hi\\\"\")` it will\nshow `\"he said, \\\"hi\\\"\"` rather than `he said, \"hi\"`. This makes it nice\nfor viewing Elm data structures.\n\n",
+        "type": "a -> String"
+      },
+      {
+        "name": "todo",
+        "comment": " This is a placeholder for code that you will write later.\n\nFor example, if you are working with a large union type and have partially\ncompleted a case expression, it may make sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.todo \"handle Captain and Seagull\"\n\nThe Elm compiler recognizes each `Debug.todo` so if you run into it, you get\nan **uncatchable runtime exception** that includes the module name and line\nnumber.\n\n**Note:** For the equivalent of try/catch error handling in Elm, use modules\nlike [`Maybe`](#Maybe) and [`Result`](#Result) which guarantee that no error\ngoes unhandled!\n\n",
+        "type": "String -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Char019",
+    "comment": " Elm 0.19 added a few new functions.\n\n@docs isAlpha, isAlphaNum\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "isAlpha",
+        "comment": " Detect upper case and lower case ASCII characters.\n\n    isAlpha 'a' --> True\n\n    isAlpha 'b' --> True\n\n    isAlpha 'E' --> True\n\n    isAlpha 'Y' --> True\n\n    isAlpha '0' --> False\n\n    isAlpha '-' --> False\n\n    isAlpha 'π' --> False\n\n",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isAlphaNum",
+        "comment": " Detect upper case and lower case ASCII characters.\n\n    isAlphaNum 'a' --> True\n\n    isAlphaNum 'b' --> True\n\n    isAlphaNum 'E' --> True\n\n    isAlphaNum 'Y' --> True\n\n    isAlphaNum '0' --> True\n\n    isAlphaNum '7' --> True\n\n    isAlphaNum '-' --> False\n\n    isAlphaNum 'π' --> False\n\n",
+        "type": "Char -> Bool"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

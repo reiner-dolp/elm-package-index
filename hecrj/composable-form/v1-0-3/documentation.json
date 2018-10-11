@@ -324,30 +324,30 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.Base.NumberField",
-    "comment": " This module contains a reusable `NumberField` type.\n\n\n# Definition\n\n@docs NumberField, Attributes\n\n\n# Helpers\n\n@docs form\n\n",
+    "name": "Form.Base.RadioField",
+    "comment": " This module contains a reusable `RadioField` type.\n\n\n# Definition\n\n@docs RadioField, Attributes\n\n\n# Helpers\n\n@docs form\n\n",
     "aliases": [
       {
         "name": "Attributes",
-        "comment": " The attributes of a NumberField.\n\nYou need to provide these to:\n\n  - [`Form.numberField`][numberField]\n\n[numberField]: Form#numberField\n\n",
+        "comment": " The attributes of a RadioField.\n\nYou need to provide these to:\n\n  - [`Form.radioField`][radioField]\n\n[radioField]: Form#radioField\n\n",
         "args": [],
-        "type": "{ label : String , placeholder : String , step : Float , min : Maybe.Maybe Float , max : Maybe.Maybe Float }"
+        "type": "{ label : String, options : List ( String, String ) }"
       },
       {
-        "name": "NumberField",
-        "comment": " Represents a number field.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields or writing your own form renderer.\n\n",
+        "name": "RadioField",
+        "comment": " Represents a radio field.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields or writing your own form renderer.\n\n",
         "args": [
           "values"
         ],
-        "type": "Form.Field.Field Form.Base.NumberField.Attributes Float values"
+        "type": "Form.Field.Field Form.Base.RadioField.Attributes String values"
       }
     ],
     "types": [],
     "values": [
       {
         "name": "form",
-        "comment": " Builds a [`Form`](Form-Base#Form) with a single `NumberField`.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields.\n\n",
-        "type": "(Form.Base.NumberField.NumberField values -> field) -> Form.Base.FieldConfig Form.Base.NumberField.Attributes Float values output -> Form.Base.Form values output field"
+        "comment": " Builds a [`Form`](Form-Base#Form) with a single `RadioField`.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields.\n\n",
+        "type": "(Form.Base.RadioField.RadioField values -> field) -> Form.Base.FieldConfig Form.Base.RadioField.Attributes String values output -> Form.Base.Form values output field"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -411,35 +411,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.Base.CheckboxField",
-    "comment": " This module contains a reusable `CheckboxField` type.\n\n\n# Definition\n\n@docs CheckboxField, Attributes\n\n\n# Helpers\n\n@docs form\n\n",
-    "aliases": [
-      {
-        "name": "Attributes",
-        "comment": " The attributes of a CheckboxField.\n\nYou need to provide these to:\n\n  - [`Form.checkboxField`][checkboxField]\n\n[checkboxField]: Form#checkboxField\n\n",
-        "args": [],
-        "type": "{ label : String }"
-      },
-      {
-        "name": "CheckboxField",
-        "comment": " Represents a checkbox field.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields or writing your own form renderer.\n\n",
-        "args": [
-          "values"
-        ],
-        "type": "Form.Field.Field Form.Base.CheckboxField.Attributes Bool values"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "form",
-        "comment": " Builds a [`Form`](Form-Base#Form) with a single `CheckboxField`.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields.\n\n",
-        "type": "(Form.Base.CheckboxField.CheckboxField values -> field) -> Form.Base.FieldConfig Form.Base.CheckboxField.Attributes Bool values output -> Form.Base.Form values output field"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Form.Base.TextField",
     "comment": " This module contains a reusable `TextField` type.\n\n\n# Definition\n\n@docs TextField, Attributes\n\n\n# Helpers\n\n@docs form\n\n",
     "aliases": [
@@ -469,30 +440,59 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.Base.RadioField",
-    "comment": " This module contains a reusable `RadioField` type.\n\n\n# Definition\n\n@docs RadioField, Attributes\n\n\n# Helpers\n\n@docs form\n\n",
+    "name": "Form.Base.NumberField",
+    "comment": " This module contains a reusable `NumberField` type.\n\n\n# Definition\n\n@docs NumberField, Attributes\n\n\n# Helpers\n\n@docs form\n\n",
     "aliases": [
       {
         "name": "Attributes",
-        "comment": " The attributes of a RadioField.\n\nYou need to provide these to:\n\n  - [`Form.radioField`][radioField]\n\n[radioField]: Form#radioField\n\n",
+        "comment": " The attributes of a NumberField.\n\nYou need to provide these to:\n\n  - [`Form.numberField`][numberField]\n\n[numberField]: Form#numberField\n\n",
         "args": [],
-        "type": "{ label : String, options : List ( String, String ) }"
+        "type": "{ label : String , placeholder : String , step : Float , min : Maybe.Maybe Float , max : Maybe.Maybe Float }"
       },
       {
-        "name": "RadioField",
-        "comment": " Represents a radio field.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields or writing your own form renderer.\n\n",
+        "name": "NumberField",
+        "comment": " Represents a number field.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields or writing your own form renderer.\n\n",
         "args": [
           "values"
         ],
-        "type": "Form.Field.Field Form.Base.RadioField.Attributes String values"
+        "type": "Form.Field.Field Form.Base.NumberField.Attributes Float values"
       }
     ],
     "types": [],
     "values": [
       {
         "name": "form",
-        "comment": " Builds a [`Form`](Form-Base#Form) with a single `RadioField`.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields.\n\n",
-        "type": "(Form.Base.RadioField.RadioField values -> field) -> Form.Base.FieldConfig Form.Base.RadioField.Attributes String values output -> Form.Base.Form values output field"
+        "comment": " Builds a [`Form`](Form-Base#Form) with a single `NumberField`.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields.\n\n",
+        "type": "(Form.Base.NumberField.NumberField values -> field) -> Form.Base.FieldConfig Form.Base.NumberField.Attributes Float values output -> Form.Base.Form values output field"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.Base.CheckboxField",
+    "comment": " This module contains a reusable `CheckboxField` type.\n\n\n# Definition\n\n@docs CheckboxField, Attributes\n\n\n# Helpers\n\n@docs form\n\n",
+    "aliases": [
+      {
+        "name": "Attributes",
+        "comment": " The attributes of a CheckboxField.\n\nYou need to provide these to:\n\n  - [`Form.checkboxField`][checkboxField]\n\n[checkboxField]: Form#checkboxField\n\n",
+        "args": [],
+        "type": "{ label : String }"
+      },
+      {
+        "name": "CheckboxField",
+        "comment": " Represents a checkbox field.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields or writing your own form renderer.\n\n",
+        "args": [
+          "values"
+        ],
+        "type": "Form.Field.Field Form.Base.CheckboxField.Attributes Bool values"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "form",
+        "comment": " Builds a [`Form`](Form-Base#Form) with a single `CheckboxField`.\n\n**Note:** You should not need to care about this unless you are creating your own\ncustom fields.\n\n",
+        "type": "(Form.Base.CheckboxField.CheckboxField values -> field) -> Form.Base.FieldConfig Form.Base.CheckboxField.Attributes Bool values output -> Form.Base.Form values output field"
       }
     ],
     "generated-with-elm-version": "0.18.0"

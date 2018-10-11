@@ -1,5 +1,19 @@
 [
   {
+    "name": "Svg.Keyed",
+    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n\nWhen you use a keyed node, every child is paired with a string identifier. This\nmakes it possible for the underlying diffing algorithm to reuse nodes more\nefficiently.\n\n# Keyed Nodes\n@docs node\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "node",
+        "comment": " Works just like `Svg.node`, but you add a unique identifier to each child\nnode. You want this when you have a list of nodes that is changing: adding\nnodes, removing nodes, etc. In these cases, the unique identifiers help make\nthe DOM modifications more efficient.\n",
+        "type": "String -> List (Svg.Attribute msg) -> List ( String, Svg.Svg msg ) -> Svg.Svg msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Svg.Lazy",
     "comment": " Since all Elm functions are pure we have a guarantee that the same input\nwill always result in the same output. This module gives us tools to be lazy\nabout building `Svg` that utilize this fact.\n\nRather than immediately applying functions to their arguments, the `lazy`\nfunctions just bundle the function and arguments up for later. When diffing\nthe old and new virtual DOM, it checks to see if all the arguments are equal.\nIf so, it skips calling the function!\n\nThis is a really cheap test and often makes things a lot faster, but definitely\nbenchmark to be sure!\n\n@docs lazy, lazy2, lazy3\n",
     "aliases": [],
@@ -19,20 +33,6 @@
         "name": "lazy3",
         "comment": " Same as `lazy` but checks on three arguments.\n",
         "type": "(a -> b -> c -> Svg.Svg msg) -> a -> b -> c -> Svg.Svg msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Svg.Keyed",
-    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n\nWhen you use a keyed node, every child is paired with a string identifier. This\nmakes it possible for the underlying diffing algorithm to reuse nodes more\nefficiently.\n\n# Keyed Nodes\n@docs node\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "node",
-        "comment": " Works just like `Svg.node`, but you add a unique identifier to each child\nnode. You want this when you have a list of nodes that is changing: adding\nnodes, removing nodes, etc. In these cases, the unique identifiers help make\nthe DOM modifications more efficient.\n",
-        "type": "String -> List (Svg.Attribute msg) -> List ( String, Svg.Svg msg ) -> Svg.Svg msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

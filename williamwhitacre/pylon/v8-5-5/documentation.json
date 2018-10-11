@@ -312,6 +312,90 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Pylon.DB.Meta",
+    "comment": " Subscribe to metadata about connectivity, timestamp offset, and authentication using the\nsame easy to understand pattern set forth in `Pylon.DB`.\n\n# Types\n@docs MetaFeedback, MetaBinding, MetaData\n\n# Special Server Metadata Binding\n@docs nilMetaData, metaBindingTo, metaSendingTo, metaForwardingTo, metaInputOne, metaInput, metaSubscribe\n\n# Getters\n@docs getTimestampOffset, getConnectionStatus, getAuthenticationStatus\n\n# Etc.\n@docs serverTimestampPlaceholder\n\n",
+    "aliases": [
+      {
+        "name": "MetaBinding",
+        "comment": " Server metadata binding. ",
+        "args": [],
+        "type": "{ address : Signal.Address (List Pylon.DB.Meta.MetaFeedback) , location : ElmFire.Location }"
+      },
+      {
+        "name": "MetaData",
+        "comment": " Server metadata record. ",
+        "args": [],
+        "type": "{ timeStampOffset : Pylon.Resource.Resource Pylon.DB.DBError Time.Time , isConnected : Pylon.Resource.Resource Pylon.DB.DBError Bool , authentication : Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication , subscriptions : Pylon.DB.Meta.MetaSubscriptions }"
+      }
+    ],
+    "types": [
+      {
+        "name": "MetaFeedback",
+        "comment": " Feedback for the the server metadata subscription. ",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getAuthenticationStatus",
+        "comment": " Get the resource representing the current authentication status to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication"
+      },
+      {
+        "name": "getConnectionStatus",
+        "comment": " Get the resource representing the current connection status to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Bool"
+      },
+      {
+        "name": "getTimestampOffset",
+        "comment": " Get the resource representing the current timestamp offset to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Time.Time"
+      },
+      {
+        "name": "metaBindingTo",
+        "comment": " Create a metadata binding for a firebase location. Should be the root location. ",
+        "type": "ElmFire.Location -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaForwardingTo",
+        "comment": " Add an address to a metadata binding with a forwarding function. ",
+        "type": "(List Pylon.DB.Meta.MetaFeedback -> List action) -> Signal.Address (List action) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaInput",
+        "comment": " Server metadata list update function. ",
+        "type": "List Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "metaInputOne",
+        "comment": " Server metadata single update function. ",
+        "type": "Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "metaSendingTo",
+        "comment": " Add an address to a metadata binding. Unless you do this, feedback will go to a hidden internal\ndrain. ",
+        "type": "Signal.Address (List Pylon.DB.Meta.MetaFeedback) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaSubscribe",
+        "comment": " Subscribe to the server metadata at your root Firebase location. ",
+        "type": "Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaData -> ( Pylon.DB.Meta.MetaData, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "nilMetaData",
+        "comment": " Empty metadata record. A metadata record should always be initialized to this. ",
+        "type": "Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "serverTimestampPlaceholder",
+        "comment": " A placeholder for encoding the server timestamp. ",
+        "type": "Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Pylon.DB.Tree",
     "comment": " This module is intended to mirror entire trees of data on firebase.\n\n# Types\n@docs Tree, TreeFeedback, Context, Config, Controller\n\n# Manipulate Context\n@docs context, contextForward, contextSetRoot, pathContext, contextPath, locationContext, contextLocation, contextPrefixSet, contextPrefixGet\n\n# Controller Policies\n@docs controllerSubscribe, controllerManual, controllerData, controllerSubscribeFrom, controllerManualFrom, controllerDataFrom\n\n# Default Configuration\n@docs dbConfig\n\n# Feedback Helpers\n@docs feedbackPath\n\n# Tree\n@docs newTree, cancel, cancelAndReset, subscribe, addPath, removePath, inputOne, step\n\n",
     "aliases": [
@@ -1157,90 +1241,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Pylon.DB.Meta",
-    "comment": " Subscribe to metadata about connectivity, timestamp offset, and authentication using the\nsame easy to understand pattern set forth in `Pylon.DB`.\n\n# Types\n@docs MetaFeedback, MetaBinding, MetaData\n\n# Special Server Metadata Binding\n@docs nilMetaData, metaBindingTo, metaSendingTo, metaForwardingTo, metaInputOne, metaInput, metaSubscribe\n\n# Getters\n@docs getTimestampOffset, getConnectionStatus, getAuthenticationStatus\n\n# Etc.\n@docs serverTimestampPlaceholder\n\n",
-    "aliases": [
-      {
-        "name": "MetaBinding",
-        "comment": " Server metadata binding. ",
-        "args": [],
-        "type": "{ address : Signal.Address (List Pylon.DB.Meta.MetaFeedback) , location : ElmFire.Location }"
-      },
-      {
-        "name": "MetaData",
-        "comment": " Server metadata record. ",
-        "args": [],
-        "type": "{ timeStampOffset : Pylon.Resource.Resource Pylon.DB.DBError Time.Time , isConnected : Pylon.Resource.Resource Pylon.DB.DBError Bool , authentication : Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication , subscriptions : Pylon.DB.Meta.MetaSubscriptions }"
-      }
-    ],
-    "types": [
-      {
-        "name": "MetaFeedback",
-        "comment": " Feedback for the the server metadata subscription. ",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getAuthenticationStatus",
-        "comment": " Get the resource representing the current authentication status to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication"
-      },
-      {
-        "name": "getConnectionStatus",
-        "comment": " Get the resource representing the current connection status to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Bool"
-      },
-      {
-        "name": "getTimestampOffset",
-        "comment": " Get the resource representing the current timestamp offset to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Time.Time"
-      },
-      {
-        "name": "metaBindingTo",
-        "comment": " Create a metadata binding for a firebase location. Should be the root location. ",
-        "type": "ElmFire.Location -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaForwardingTo",
-        "comment": " Add an address to a metadata binding with a forwarding function. ",
-        "type": "(List Pylon.DB.Meta.MetaFeedback -> List action) -> Signal.Address (List action) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaInput",
-        "comment": " Server metadata list update function. ",
-        "type": "List Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "metaInputOne",
-        "comment": " Server metadata single update function. ",
-        "type": "Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "metaSendingTo",
-        "comment": " Add an address to a metadata binding. Unless you do this, feedback will go to a hidden internal\ndrain. ",
-        "type": "Signal.Address (List Pylon.DB.Meta.MetaFeedback) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaSubscribe",
-        "comment": " Subscribe to the server metadata at your root Firebase location. ",
-        "type": "Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaData -> ( Pylon.DB.Meta.MetaData, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "nilMetaData",
-        "comment": " Empty metadata record. A metadata record should always be initialized to this. ",
-        "type": "Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "serverTimestampPlaceholder",
-        "comment": " A placeholder for encoding the server timestamp. ",
-        "type": "Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Pylon.DB",
     "comment": " High level 2-way data binding against Firebase using ElmFire. For 2-way binding of arbitrary,\npossibly nested collections of data, use `Pylon.DB.Group`. You should have ElmFire installed to\nuse this, and in order to avoid redundancy. A more general API that can be wired to other DB\nbackends is planned, but not promised.\n\n# Types\n@docs DBTask, DBError, Feedback, Config, Binding, Operation, Data\n\n# Define Operations\n@docs opSet, opSetAndPrioritize, opPrioritize, opUpdateChildren, opSetOrUpdateChildren, opDelete\n\n# Configuration\n@docs config, configDecoder, configEncoder, nilConfig, withEncoder, withDecoder, bindingTo, bindingFrom, sendingTo, forwardingTo\n\n# Data Constructors\n@docs newData, voidData\n\n# Data Binding\n@docs subscribe, cancel, reset, cancelAndReset, inputOne, input\n\n# Interrogating Data\n@docs getResource, getPriorResource, getLastFailed\n\n# Operate on Data\n@docs doOperationIf, doMap, doTransform, enqueueOperation, flushQueue, doOperation, doRetry, doOperationSimple\n\n",
     "aliases": [
@@ -1578,6 +1578,142 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Pylon.DB.Path",
+    "comment": " This path module is designed to work with Pylon.DB.Tree and ElmFire.\n\nPaths must be manipulated using this API. You can transform ElmFire locations with paths.\n\n# Path Type\n@docs Path\n\n# Constructors\n@docs base, single\n\n# List Conversion\n@docs toList, fromList, toStack, fromStack\n\n# Inquiry\n@docs countElements, top, last, first, depth\n\n# Walking\n@docs child, parent, push, pop, up, truncate\n\n# Special Operations\n@docs foldBase, foldTop, join\n\n# Manipulations for `ElmFire.Location`\n@docs childPath, childLocation, absoluteLocation\n\n# Comparisons\n@docs isSame\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Path",
+        "comment": " Opaque type representing a path. ",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "absoluteLocation",
+        "comment": " Given the ElmFire root location used by your application (it will be rooted just in case) and a\npath, give a location that represents it as an absolute path in to your database. ",
+        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
+      },
+      {
+        "name": "base",
+        "comment": " A base path. Represents no path. ",
+        "type": "Pylon.DB.Path.Path"
+      },
+      {
+        "name": "child",
+        "comment": " Append a new last element to the path. Synonym: `push` ",
+        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "childLocation",
+        "comment": " Given an ElmFire location and a path adjust the location relative to it's current position. ",
+        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
+      },
+      {
+        "name": "childPath",
+        "comment": " Take two paths, setting the first as the child path of the second. ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "countElements",
+        "comment": " Count of the elements in the path. ",
+        "type": "Pylon.DB.Path.Path -> Int"
+      },
+      {
+        "name": "depth",
+        "comment": " Synonym for countElements. ",
+        "type": "Pylon.DB.Path.Path -> Int"
+      },
+      {
+        "name": "first",
+        "comment": " Get first element of the path. NOTE: _O(n)_ ",
+        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
+      },
+      {
+        "name": "foldBase",
+        "comment": " Fold over a path's elements from the _base_. ",
+        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
+      },
+      {
+        "name": "foldTop",
+        "comment": " Fold over a path's elements from the _top_. ",
+        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
+      },
+      {
+        "name": "fromList",
+        "comment": " Create a path from a list of strings, ordered from the base to the top. ",
+        "type": "List String -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "fromStack",
+        "comment": " Set the internal stack. ",
+        "type": "List String -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "isSame",
+        "comment": " Compare two paths for equality. ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Bool"
+      },
+      {
+        "name": "join",
+        "comment": " Join the path elements with a glue delimiter, like `List.join`. ",
+        "type": "String -> Pylon.DB.Path.Path -> String"
+      },
+      {
+        "name": "last",
+        "comment": " Get the last element of the path. NOTE : _O(1)_ ",
+        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
+      },
+      {
+        "name": "parent",
+        "comment": " Remove the last element from the path. Synonym: `pop` ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "pop",
+        "comment": " Pop an element from the end of the path. Synonym: `parent` ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "push",
+        "comment": " Push an element to the end of the path. Synonym: `child` ",
+        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "single",
+        "comment": " A path with a single element. ",
+        "type": "String -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "toList",
+        "comment": " Interpret the path as a list of strings ordered from base to top. ",
+        "type": "Pylon.DB.Path.Path -> List String"
+      },
+      {
+        "name": "toStack",
+        "comment": " Get the internal stack. ",
+        "type": "Pylon.DB.Path.Path -> List String"
+      },
+      {
+        "name": "top",
+        "comment": " Get the last element of the path. Synonym for last. NOTE : _O(1)_ ",
+        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
+      },
+      {
+        "name": "truncate",
+        "comment": " Truncate the path to _n_ members by popping until that element count is attained. ",
+        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "up",
+        "comment": " Go up in the path by _n_ parents. Some equivalencies:\n\n  Path.up 1 mypath == Path.parent mypath == Path.pop mypath\n  Path.up (Path.countElements mypath) mypath = Path.base\n\nSynonym : `popMany`\n",
+        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Pylon.Resource",
     "comment": " Resource types and reductions. Heavily pruned from Scaffold predecessor to give only what has\nbeen tested, used in practice, and proven useful.\n\n# Resource Type\n\nThis type represents a single remote resource in such a way that it's state can be easily reduced\nto a more abstract representation, either for another part of the system, or the user's view itself.\n\nWe export the tags as well so as to allow the user easy case destructuring.\n@docs Resource\n\n\n# Resource Constructors\n@docs def, pending, undecided, void, unknown\n\n\n# Predicate Composition\n@docs isAll, isAny\n\n\n# Predicates\n@docs isKnown, isNotKnown, isPending, isNotPending, isNotUndecided, isNotUnknown, isNotVoid, isUndecided, isUnknown, isVoid\n\n\n# Reduction\n@docs therefore, otherwise, decideBy, assumeIf, assumeIfNot, assumeInCase, deriveIf, deriveKnown\n\n\n# Interop with Result and Maybe\n@docs maybeKnown, maybeOr, resultOr\n\n",
     "aliases": [],
@@ -1757,142 +1893,6 @@
         "name": "void",
         "comment": "  ",
         "type": "Pylon.Resource.Resource errortype v"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Pylon.DB.Path",
-    "comment": " This path module is designed to work with Pylon.DB.Tree and ElmFire.\n\nPaths must be manipulated using this API. You can transform ElmFire locations with paths.\n\n# Path Type\n@docs Path\n\n# Constructors\n@docs base, single\n\n# List Conversion\n@docs toList, fromList, toStack, fromStack\n\n# Inquiry\n@docs countElements, top, last, first, depth\n\n# Walking\n@docs child, parent, push, pop, up, truncate\n\n# Special Operations\n@docs foldBase, foldTop, join\n\n# Manipulations for `ElmFire.Location`\n@docs childPath, childLocation, absoluteLocation\n\n# Comparisons\n@docs isSame\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Path",
-        "comment": " Opaque type representing a path. ",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "absoluteLocation",
-        "comment": " Given the ElmFire root location used by your application (it will be rooted just in case) and a\npath, give a location that represents it as an absolute path in to your database. ",
-        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
-      },
-      {
-        "name": "base",
-        "comment": " A base path. Represents no path. ",
-        "type": "Pylon.DB.Path.Path"
-      },
-      {
-        "name": "child",
-        "comment": " Append a new last element to the path. Synonym: `push` ",
-        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "childLocation",
-        "comment": " Given an ElmFire location and a path adjust the location relative to it's current position. ",
-        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
-      },
-      {
-        "name": "childPath",
-        "comment": " Take two paths, setting the first as the child path of the second. ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "countElements",
-        "comment": " Count of the elements in the path. ",
-        "type": "Pylon.DB.Path.Path -> Int"
-      },
-      {
-        "name": "depth",
-        "comment": " Synonym for countElements. ",
-        "type": "Pylon.DB.Path.Path -> Int"
-      },
-      {
-        "name": "first",
-        "comment": " Get first element of the path. NOTE: _O(n)_ ",
-        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
-      },
-      {
-        "name": "foldBase",
-        "comment": " Fold over a path's elements from the _base_. ",
-        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
-      },
-      {
-        "name": "foldTop",
-        "comment": " Fold over a path's elements from the _top_. ",
-        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
-      },
-      {
-        "name": "fromList",
-        "comment": " Create a path from a list of strings, ordered from the base to the top. ",
-        "type": "List String -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "fromStack",
-        "comment": " Set the internal stack. ",
-        "type": "List String -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "isSame",
-        "comment": " Compare two paths for equality. ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Bool"
-      },
-      {
-        "name": "join",
-        "comment": " Join the path elements with a glue delimiter, like `List.join`. ",
-        "type": "String -> Pylon.DB.Path.Path -> String"
-      },
-      {
-        "name": "last",
-        "comment": " Get the last element of the path. NOTE : _O(1)_ ",
-        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
-      },
-      {
-        "name": "parent",
-        "comment": " Remove the last element from the path. Synonym: `pop` ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "pop",
-        "comment": " Pop an element from the end of the path. Synonym: `parent` ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "push",
-        "comment": " Push an element to the end of the path. Synonym: `child` ",
-        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "single",
-        "comment": " A path with a single element. ",
-        "type": "String -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "toList",
-        "comment": " Interpret the path as a list of strings ordered from base to top. ",
-        "type": "Pylon.DB.Path.Path -> List String"
-      },
-      {
-        "name": "toStack",
-        "comment": " Get the internal stack. ",
-        "type": "Pylon.DB.Path.Path -> List String"
-      },
-      {
-        "name": "top",
-        "comment": " Get the last element of the path. Synonym for last. NOTE : _O(1)_ ",
-        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
-      },
-      {
-        "name": "truncate",
-        "comment": " Truncate the path to _n_ members by popping until that element count is attained. ",
-        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "up",
-        "comment": " Go up in the path by _n_ parents. Some equivalencies:\n\n  Path.up 1 mypath == Path.parent mypath == Path.pop mypath\n  Path.up (Path.countElements mypath) mypath = Path.base\n\nSynonym : `popMany`\n",
-        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
       }
     ],
     "generated-with-elm-version": "0.16.0"

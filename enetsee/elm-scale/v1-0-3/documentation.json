@@ -28,62 +28,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Continuous.Linear",
-    "comment": "\n@docs Linear, linear, niceDomain\n",
-    "aliases": [
-      {
-        "name": "Linear",
-        "comment": " Linear scale\n",
-        "args": [
-          "a"
-        ],
-        "type": "{ a | domain : ( Float, Float ), range : ( Float, Float ), outsideDomain : Scale.Config.OutsideDomain }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "linear",
-        "comment": " ",
-        "type": "Scale.Continuous.Linear.Linear a -> Scale.Continuous.Continuous Float Float"
-      },
-      {
-        "name": "niceDomain",
-        "comment": " ",
-        "type": "Int -> Scale.Continuous.Linear.Linear a -> Scale.Continuous.Linear.Linear a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Scale.Continuous.Log",
-    "comment": "\n@docs Log, log, niceDomain\n",
-    "aliases": [
-      {
-        "name": "Log",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ a | base : Float, domain : ( Float, Float ), range : ( Float, Float ), outsideDomain : Scale.Config.OutsideDomain }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "log",
-        "comment": " ",
-        "type": "Scale.Continuous.Log.Log a -> Scale.Continuous.Continuous Float Float"
-      },
-      {
-        "name": "niceDomain",
-        "comment": "\n",
-        "type": "Scale.Continuous.Log.Log a -> Scale.Continuous.Log.Log a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Scale.Ordinal.Band",
     "comment": "\n@docs Band, Config, band, customBand , defaultConfig\n",
     "aliases": [
@@ -124,29 +68,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Sequential.RGBBasis",
-    "comment": "\n@docs RGBBasis , rgbBasis\n",
-    "aliases": [
-      {
-        "name": "RGBBasis",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ a | domain : ( Float, Float ), range : List Color.Color, closed : Bool, outsideDomain : Scale.Config.OutsideDomain }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "rgbBasis",
-        "comment": " ",
-        "type": "Scale.Sequential.RGBBasis.RGBBasis a -> Scale.Sequential.Sequential Float Color.Color"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Scale.Sequential.RGB",
     "comment": "\n@docs RGB , rgb\n",
     "aliases": [
@@ -165,6 +86,29 @@
         "name": "rgb",
         "comment": " ",
         "type": "Scale.Sequential.RGB.RGB a -> Scale.Sequential.Sequential Float Color.Color"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Sequential.RGBBasis",
+    "comment": "\n@docs RGBBasis , rgbBasis\n",
+    "aliases": [
+      {
+        "name": "RGBBasis",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ a | domain : ( Float, Float ), range : List Color.Color, closed : Bool, outsideDomain : Scale.Config.OutsideDomain }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "rgbBasis",
+        "comment": " ",
+        "type": "Scale.Sequential.RGBBasis.RGBBasis a -> Scale.Sequential.Sequential Float Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -193,40 +137,57 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Continuous",
-    "comment": " Continuous Scale\n@docs Continuous, continuous, scale , unscale, ticks\n\n\n",
-    "aliases": [],
-    "types": [
+    "name": "Scale.Continuous.Log",
+    "comment": "\n@docs Log, log, niceDomain\n",
+    "aliases": [
       {
-        "name": "Continuous",
+        "name": "Log",
         "comment": " ",
         "args": [
-          "domain",
-          "range"
+          "a"
         ],
-        "cases": []
+        "type": "{ a | base : Float, domain : ( Float, Float ), range : ( Float, Float ), outsideDomain : Scale.Config.OutsideDomain }"
       }
     ],
+    "types": [],
     "values": [
       {
-        "name": "continuous",
+        "name": "log",
         "comment": " ",
-        "type": "{ a | compareDomain : domain -> domain -> Basics.Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolateRange : ( range, range ) -> Float -> range, outsideDomain : Scale.Config.OutsideDomain, range : ( range, range ), reinterpolateDomain : ( domain, domain ) -> range -> domain, ticks : ( domain, domain ) -> Int -> List domain } -> Scale.Continuous.Continuous domain range"
+        "type": "Scale.Continuous.Log.Log a -> Scale.Continuous.Continuous Float Float"
       },
       {
-        "name": "scale",
+        "name": "niceDomain",
+        "comment": "\n",
+        "type": "Scale.Continuous.Log.Log a -> Scale.Continuous.Log.Log a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Continuous.Linear",
+    "comment": "\n@docs Linear, linear, niceDomain\n",
+    "aliases": [
+      {
+        "name": "Linear",
+        "comment": " Linear scale\n",
+        "args": [
+          "a"
+        ],
+        "type": "{ a | domain : ( Float, Float ), range : ( Float, Float ), outsideDomain : Scale.Config.OutsideDomain }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "linear",
         "comment": " ",
-        "type": "Scale.Continuous.Continuous domain range -> domain -> Maybe.Maybe range"
+        "type": "Scale.Continuous.Linear.Linear a -> Scale.Continuous.Continuous Float Float"
       },
       {
-        "name": "ticks",
+        "name": "niceDomain",
         "comment": " ",
-        "type": "Scale.Continuous.Continuous domain range -> Int -> List domain"
-      },
-      {
-        "name": "unscale",
-        "comment": " ",
-        "type": "Scale.Continuous.Continuous domain Float -> Float -> Maybe.Maybe domain"
+        "type": "Int -> Scale.Continuous.Linear.Linear a -> Scale.Continuous.Linear.Linear a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -311,6 +272,45 @@
         "name": "ticks",
         "comment": " ",
         "type": "Scale.Sequential.Sequential domain range -> Int -> List domain"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Continuous",
+    "comment": " Continuous Scale\n@docs Continuous, continuous, scale , unscale, ticks\n\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Continuous",
+        "comment": " ",
+        "args": [
+          "domain",
+          "range"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "continuous",
+        "comment": " ",
+        "type": "{ a | compareDomain : domain -> domain -> Basics.Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolateRange : ( range, range ) -> Float -> range, outsideDomain : Scale.Config.OutsideDomain, range : ( range, range ), reinterpolateDomain : ( domain, domain ) -> range -> domain, ticks : ( domain, domain ) -> Int -> List domain } -> Scale.Continuous.Continuous domain range"
+      },
+      {
+        "name": "scale",
+        "comment": " ",
+        "type": "Scale.Continuous.Continuous domain range -> domain -> Maybe.Maybe range"
+      },
+      {
+        "name": "ticks",
+        "comment": " ",
+        "type": "Scale.Continuous.Continuous domain range -> Int -> List domain"
+      },
+      {
+        "name": "unscale",
+        "comment": " ",
+        "type": "Scale.Continuous.Continuous domain Float -> Float -> Maybe.Maybe domain"
       }
     ],
     "generated-with-elm-version": "0.18.0"

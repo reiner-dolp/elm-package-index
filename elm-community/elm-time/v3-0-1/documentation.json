@@ -3453,25 +3453,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Time.Iso8601ErrorMsg",
-    "comment": " A renderer to format error messages resulting from\nISO8601 parsing errors.\n\nAt this time, there is a renderer, **renderText**, to render\na fixed-font message to, say, a terminal screen. This renderer\nstrives to output the friendly useful error message that elm\nis famous for.\n\n\n# Main entry\n\n@docs renderText\n\n\n# Utilities\n\n@docs reflow\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "reflow",
-        "comment": " A convenience function to auto-wrap long strings\n\nUse this method to appropriately wrap the error string returned\nfrom `renderText` above.\n\n    -- \\n inserted at 72nt position coz is right margin.\n    reflow \"Expecting the value 29 to be in the range 1 to 28 for the specified year, 1991, and month, 2.\"\n    --> \"Expecting the value 29 to be in the range 1 to 28 for the specified\" ++ \"\\n\" ++ \"year, 1991, and month, 2.\"\n\n",
-        "type": "String -> String"
-      },
-      {
-        "name": "renderText",
-        "comment": " Invoking the renderer. This returns an 'elm compiler-style formatted' error string\n\n    import Parser\n\n    -- The \\n in the middle of the string is to provide for the 72-char right margin\n    failString : String\n    failString =\n        \"Expecting the value 29 to be in the range 1 to 28 for the specified\\nyear, 1991, and month, 2.\"\n\n    renderedString : String\n    renderedString =\n        \"The 'day-of-month' segment is invalid:\\n\\n\" ++\n        \"    1991-02-29T12:25:12.0Z\\n\" ++\n        \"            ^\\n\\n\" ++\n        failString\n\n    parserError : Parser.Error\n    parserError =\n        { row = 1\n        , col = 11\n        , source = \"1991-02-29T12:25:12.0Z\"\n        , problem = Parser.Fail failString\n        , context = [{ row = 1, col = 11, description = \"leap-year\" }]\n        }\n\n    renderText parserError\n    --> renderedString\n\n",
-        "type": "Parser.Error -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Time.Date",
     "comment": " This module defines a timezone-independent Date type which can\nrepresent any date of the proleptic Gregorian calendar.\n\n\n# Dates\n\n@docs Date, date, year, month, day, Weekday, weekday\n\n\n# Manipulating Dates\n\n@docs setYear, setMonth, setDay, addYears, addMonths, addDays\n\n\n# Comparing Dates\n\n@docs compare\n\n\n# Subtracting Dates\n\n@docs DateDelta, delta\n\n\n# Helper functions\n\n@docs toTuple, fromTuple, isValidDate, isLeapYear, daysInMonth\n\n",
     "aliases": [
@@ -3615,6 +3596,25 @@
         "name": "year",
         "comment": " year returns a Date's year as an Int.\n\n    year (date 2018 5 26)\n    --> 2018\n\n",
         "type": "Time.Date.Date -> Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Time.Iso8601ErrorMsg",
+    "comment": " A renderer to format error messages resulting from\nISO8601 parsing errors.\n\nAt this time, there is a renderer, **renderText**, to render\na fixed-font message to, say, a terminal screen. This renderer\nstrives to output the friendly useful error message that elm\nis famous for.\n\n\n# Main entry\n\n@docs renderText\n\n\n# Utilities\n\n@docs reflow\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "reflow",
+        "comment": " A convenience function to auto-wrap long strings\n\nUse this method to appropriately wrap the error string returned\nfrom `renderText` above.\n\n    -- \\n inserted at 72nt position coz is right margin.\n    reflow \"Expecting the value 29 to be in the range 1 to 28 for the specified year, 1991, and month, 2.\"\n    --> \"Expecting the value 29 to be in the range 1 to 28 for the specified\" ++ \"\\n\" ++ \"year, 1991, and month, 2.\"\n\n",
+        "type": "String -> String"
+      },
+      {
+        "name": "renderText",
+        "comment": " Invoking the renderer. This returns an 'elm compiler-style formatted' error string\n\n    import Parser\n\n    -- The \\n in the middle of the string is to provide for the 72-char right margin\n    failString : String\n    failString =\n        \"Expecting the value 29 to be in the range 1 to 28 for the specified\\nyear, 1991, and month, 2.\"\n\n    renderedString : String\n    renderedString =\n        \"The 'day-of-month' segment is invalid:\\n\\n\" ++\n        \"    1991-02-29T12:25:12.0Z\\n\" ++\n        \"            ^\\n\\n\" ++\n        failString\n\n    parserError : Parser.Error\n    parserError =\n        { row = 1\n        , col = 11\n        , source = \"1991-02-29T12:25:12.0Z\"\n        , problem = Parser.Fail failString\n        , context = [{ row = 1, col = 11, description = \"leap-year\" }]\n        }\n\n    renderText parserError\n    --> renderedString\n\n",
+        "type": "Parser.Error -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -1,5 +1,36 @@
 [
   {
+    "name": "Process",
+    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
+    "aliases": [
+      {
+        "name": "Id",
+        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
+        "args": [],
+        "type": "Platform.ProcessId"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "kill",
+        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
+        "type": "Process.Id -> Task.Task x ()"
+      },
+      {
+        "name": "sleep",
+        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
+        "type": "Time.Time -> Task.Task x ()"
+      },
+      {
+        "name": "spawn",
+        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1 `Task.andThen` \\_ -> spawn task2\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
+        "type": "Task.Task x a -> Task.Task y Process.Id"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Random",
     "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nIt may be helpful to [read about JSON decoders][json] because they work very\nsimilarly.\n\n[json]: https://evancz.gitbooks.io/an-introduction-to-elm/content/interop/json.html\n\n> *Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Generate Values\n@docs generate\n\n# Generate Values Manually\n@docs step, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
     "aliases": [],
@@ -99,37 +130,6 @@
         "name": "step",
         "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `step` we need to provide a\nseed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `step` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed1 ==> (31, seed2)\n    -- step (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n",
         "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Process",
-    "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
-    "aliases": [
-      {
-        "name": "Id",
-        "comment": " A light-weight process that runs concurrently. You can use `spawn` to\nget a bunch of different tasks running in different processes. The Elm runtime\nwill interleave their progress. So if a task is taking too long, we will pause\nit at an `andThen` and switch over to other stuff.\n\n**Note:** We make a distinction between *concurrency* which means interleaving\ndifferent sequences and *parallelism* which means running different\nsequences at the exact same time. For example, a\n[time-sharing system](https://en.wikipedia.org/wiki/Time-sharing) is definitely\nconcurrent, but not necessarily parallel. So even though JS runs within a\nsingle OS-level thread, Elm can still run things concurrently.\n",
-        "args": [],
-        "type": "Platform.ProcessId"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "kill",
-        "comment": " Sometimes you `spawn` a process, but later decide it would be a waste to\nhave it keep running and doing stuff. The `kill` function will force a process\nto bail on whatever task it is running. So if there is an HTTP request in\nflight, it will also abort the request.\n",
-        "type": "Process.Id -> Task.Task x ()"
-      },
-      {
-        "name": "sleep",
-        "comment": " Block progress on the current process for a given amount of time. The\nJavaScript equivalent of this is [`setTimeout`][setTimeout] which lets you\ndelay work until later.\n\n[setTimeout]: https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout\n",
-        "type": "Time.Time -> Task.Task x ()"
-      },
-      {
-        "name": "spawn",
-        "comment": " Run a task in its own light-weight process. In the following example,\n`task1` and `task2` will be interleaved. If `task1` makes a long HTTP request\nor is just taking a long time, we can hop over to `task2` and do some work\nthere.\n\n    spawn task1 `Task.andThen` \\_ -> spawn task2\n\n**Note:** This creates a relatively restricted kind of `Process` because it\ncannot receive any messages. More flexibility for user-defined processes will\ncome in a later release!\n",
-        "type": "Task.Task x a -> Task.Task y Process.Id"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -511,72 +511,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Time",
-    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
-    "aliases": [
-      {
-        "name": "Time",
-        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "every",
-        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
-        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "hour",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "inHours",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMilliseconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMinutes",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inSeconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "millisecond",
-        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
-        "type": "Time.Time"
-      },
-      {
-        "name": "minute",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "now",
-        "comment": " Get the `Time` at the moment when this task is run.\n",
-        "type": "Task.Task x Time.Time"
-      },
-      {
-        "name": "second",
-        "comment": "",
-        "type": "Time.Time"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Set",
     "comment": " A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Sets\n@docs Set\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs isEmpty, member, size\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n",
     "aliases": [],
@@ -675,6 +609,133 @@
         "name": "union",
         "comment": " Get the union of two sets. Keep all values.\n",
         "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Time",
+    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
+    "aliases": [
+      {
+        "name": "Time",
+        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
+        "args": [],
+        "type": "Float"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "every",
+        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
+        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "hour",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "inHours",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMilliseconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMinutes",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inSeconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "millisecond",
+        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
+        "type": "Time.Time"
+      },
+      {
+        "name": "minute",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "now",
+        "comment": " Get the `Time` at the moment when this task is run.\n",
+        "type": "Task.Task x Time.Time"
+      },
+      {
+        "name": "second",
+        "comment": "",
+        "type": "Time.Time"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Json.Encode",
+    "comment": " Library for turning Elm values into Json values.\n\n# Encoding\n@docs encode, Value\n\n# Primitives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array\n\n# Objects\n@docs object\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Value",
+        "comment": " Represents a JavaScript value.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "array",
+        "comment": "",
+        "type": "Array.Array Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "bool",
+        "comment": "",
+        "type": "Bool -> Json.Encode.Value"
+      },
+      {
+        "name": "encode",
+        "comment": " Convert a `Value` into a prettified string. The first argument specifies\nthe amount of indentation in the resulting string.\n\n    person =\n        object\n          [ (\"name\", string \"Tom\")\n          , (\"age\", int 42)\n          ]\n\n    compact = encode 0 person\n    -- {\"name\":\"Tom\",\"age\":42}\n\n    readable = encode 4 person\n    -- {\n    --     \"name\": \"Tom\",\n    --     \"age\": 42\n    -- }\n",
+        "type": "Int -> Json.Encode.Value -> String"
+      },
+      {
+        "name": "float",
+        "comment": " Encode a Float. `Infinity` and `NaN` are encoded as `null`.\n",
+        "type": "Float -> Json.Encode.Value"
+      },
+      {
+        "name": "int",
+        "comment": "",
+        "type": "Int -> Json.Encode.Value"
+      },
+      {
+        "name": "list",
+        "comment": "",
+        "type": "List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "null",
+        "comment": "",
+        "type": "Json.Encode.Value"
+      },
+      {
+        "name": "object",
+        "comment": "",
+        "type": "List ( String, Json.Encode.Value ) -> Json.Encode.Value"
+      },
+      {
+        "name": "string",
+        "comment": "",
+        "type": "String -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -809,62 +870,213 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Json.Encode",
-    "comment": " Library for turning Elm values into Json values.\n\n# Encoding\n@docs encode, Value\n\n# Primitives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array\n\n# Objects\n@docs object\n",
+    "name": "Task",
+    "comment": " Tasks make it easy to describe asynchronous operations that may fail, like\nHTTP requests or writing to a database. For more information, see the [Elm\ndocumentation on Tasks](http://guide.elm-lang.org/error_handling/task.html).\n\n# Basics\n@docs Task, succeed, fail\n\n# Mapping\n@docs map, map2, map3, map4, map5, andMap\n\n# Chaining\n@docs andThen, sequence\n\n# Errors\n@docs onError, mapError, toMaybe, fromMaybe, toResult, fromResult\n\n# Commands\n@docs perform\n\n",
+    "aliases": [
+      {
+        "name": "Task",
+        "comment": " Represents asynchronous effects that may fail. It is useful for stuff like\nHTTP.\n\nFor example, maybe we have a task with the type (`Task String User`). This means\nthat when we perform the task, it will either fail with a `String` message or\nsucceed with a `User`. So this could represent a task that is asking a server\nfor a certain user.\n",
+        "args": [
+          "err",
+          "ok"
+        ],
+        "type": "Platform.Task err ok"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "andMap",
+        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\nThis function makes it possible to chain tons of tasks together and pipe them\nall into a single function.\n\n    (f `map` task1 `andMap` task2 `andMap` task3) -- map3 f task1 task2 task3\n",
+        "type": "Task.Task x (a -> b) -> Task.Task x a -> Task.Task x b"
+      },
+      {
+        "name": "andThen",
+        "comment": " Chain together a task and a callback. The first task will run, and if it is\nsuccessful, you give the result to the callback resulting in another task. This\ntask then gets run.\n\n    succeed 2 `andThen` (\\n -> succeed (n + 2)) -- succeed 4\n\nThis is useful for chaining tasks together. Maybe you need to get a user from\nyour servers *and then* lookup their picture once you know their name.\n",
+        "type": "Task.Task x a -> (a -> Task.Task x b) -> Task.Task x b"
+      },
+      {
+        "name": "fail",
+        "comment": " A task that fails immediately when run.\n\n    fail \"file not found\" : Task String a\n",
+        "type": "x -> Task.Task x a"
+      },
+      {
+        "name": "fromMaybe",
+        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na maybe value like a task.\n\n    fromMaybe \"file not found\" Nothing   -- fail \"file not found\"\n    fromMaybe \"file not found\" (Just 42) -- succeed 42\n",
+        "type": "x -> Maybe.Maybe a -> Task.Task x a"
+      },
+      {
+        "name": "fromResult",
+        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na result like a task.\n\n    fromResult (Err \"file not found\") -- fail \"file not found\"\n    fromResult (Ok 42)                -- succeed 42\n",
+        "type": "Result.Result x a -> Task.Task x a"
+      },
+      {
+        "name": "map",
+        "comment": " Transform a task.\n\n    map sqrt (succeed 9) -- succeed 3\n",
+        "type": "(a -> b) -> Task.Task x a -> Task.Task x b"
+      },
+      {
+        "name": "map2",
+        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\n    map2 (+) (succeed 9) (succeed 3) -- succeed 12\n",
+        "type": "(a -> b -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x result"
+      },
+      {
+        "name": "map3",
+        "comment": "",
+        "type": "(a -> b -> c -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x result"
+      },
+      {
+        "name": "map4",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x result"
+      },
+      {
+        "name": "map5",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> e -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x e -> Task.Task x result"
+      },
+      {
+        "name": "mapError",
+        "comment": " Transform the error value. This can be useful if you need a bunch of error\ntypes to match up.\n\n    type Error = Http Http.Error | WebGL WebGL.Error\n\n    getResources : Task Error Resource\n    getResources =\n      sequence [ mapError Http serverTask, mapError WebGL textureTask ]\n",
+        "type": "(x -> y) -> Task.Task x a -> Task.Task y a"
+      },
+      {
+        "name": "onError",
+        "comment": " Recover from a failure in a task. If the given task fails, we use the\ncallback to recover.\n\n    fail \"file not found\" `onError` (\\msg -> succeed 42) -- succeed 42\n    succeed 9 `onError` (\\msg -> succeed 42)             -- succeed 9\n",
+        "type": "Task.Task x a -> (x -> Task.Task y a) -> Task.Task y a"
+      },
+      {
+        "name": "perform",
+        "comment": " Command the runtime system to perform a task. The most important argument\nis the `Task` which describes what you want to happen. But you also need to\nprovide functions to tag the two possible outcomes of the task. It can fail or\nsucceed, but either way, you need to have a message to feed back into your\napplication.\n",
+        "type": "(x -> msg) -> (a -> msg) -> Task.Task x a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "sequence",
+        "comment": " Start with a list of tasks, and turn them into a single task that returns a\nlist. The tasks will be run in order one-by-one and if any task fails the whole\nsequence fails.\n\n    sequence [ succeed 1, succeed 2 ] -- succeed [ 1, 2 ]\n\nThis can be useful if you need to make a bunch of HTTP requests one-by-one.\n",
+        "type": "List (Task.Task x a) -> Task.Task x (List a)"
+      },
+      {
+        "name": "succeed",
+        "comment": " A task that succeeds immediately when run.\n\n    succeed 42    -- results in 42\n",
+        "type": "a -> Task.Task x a"
+      },
+      {
+        "name": "toMaybe",
+        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Nothing` and any success into `Just` something.\n\n    toMaybe (fail \"file not found\") -- succeed Nothing\n    toMaybe (succeed 42)            -- succeed (Just 42)\n\nThis means you can handle the error with the `Maybe` module instead.\n",
+        "type": "Task.Task x a -> Task.Task never (Maybe.Maybe a)"
+      },
+      {
+        "name": "toResult",
+        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Err` something and any success into `Ok` something.\n\n    toResult (fail \"file not found\") -- succeed (Err \"file not found\")\n    toResult (succeed 42)            -- succeed (Ok 42)\n\nThis means you can handle the error with the `Result` module instead.\n",
+        "type": "Task.Task x a -> Task.Task never (Result.Result x a)"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Array",
+    "comment": " A library for fast immutable arrays. The elements in an array must have the\nsame type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast\nreads, updates, and appends.\n\n# Arrays\n@docs Array\n\n# Creating Arrays\n@docs empty, repeat, initialize, fromList\n\n# Basics\n@docs isEmpty, length, push, append\n\n# Get and Set\n@docs get, set\n\n# Taking Arrays Apart\n@docs slice, toList, toIndexedList\n\n# Mapping, Filtering, and Folding\n@docs map, indexedMap, filter, foldl, foldr\n",
     "aliases": [],
     "types": [
       {
-        "name": "Value",
-        "comment": " Represents a JavaScript value.\n",
-        "args": [],
+        "name": "Array",
+        "comment": " Representation of fast immutable arrays. You can create arrays of integers\n(`Array Int`) or strings (`Array String`) or any other type of value you can\ndream up.\n",
+        "args": [
+          "a"
+        ],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "array",
-        "comment": "",
-        "type": "Array.Array Json.Encode.Value -> Json.Encode.Value"
+        "name": "append",
+        "comment": " Append two arrays to a new one.\n\n    append (repeat 2 42) (repeat 3 81) == fromList [42,42,81,81,81]\n",
+        "type": "Array.Array a -> Array.Array a -> Array.Array a"
       },
       {
-        "name": "bool",
-        "comment": "",
-        "type": "Bool -> Json.Encode.Value"
+        "name": "empty",
+        "comment": " Return an empty array.\n\n    length empty == 0\n",
+        "type": "Array.Array a"
       },
       {
-        "name": "encode",
-        "comment": " Convert a `Value` into a prettified string. The first argument specifies\nthe amount of indentation in the resulting string.\n\n    person =\n        object\n          [ (\"name\", string \"Tom\")\n          , (\"age\", int 42)\n          ]\n\n    compact = encode 0 person\n    -- {\"name\":\"Tom\",\"age\":42}\n\n    readable = encode 4 person\n    -- {\n    --     \"name\": \"Tom\",\n    --     \"age\": 42\n    -- }\n",
-        "type": "Int -> Json.Encode.Value -> String"
+        "name": "filter",
+        "comment": " Keep only elements that satisfy the predicate:\n\n    filter isEven (fromList [1..6]) == (fromList [2,4,6])\n",
+        "type": "(a -> Bool) -> Array.Array a -> Array.Array a"
       },
       {
-        "name": "float",
-        "comment": " Encode a Float. `Infinity` and `NaN` are encoded as `null`.\n",
-        "type": "Float -> Json.Encode.Value"
+        "name": "foldl",
+        "comment": " Reduce an array from the left. Read `foldl` as &ldquo;fold from the left&rdquo;.\n\n    foldl (::) [] (fromList [1,2,3]) == [3,2,1]\n",
+        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
       },
       {
-        "name": "int",
-        "comment": "",
-        "type": "Int -> Json.Encode.Value"
+        "name": "foldr",
+        "comment": " Reduce an array from the right. Read `foldr` as &ldquo;fold from the right&rdquo;.\n\n    foldr (+) 0 (repeat 3 5) == 15\n",
+        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
       },
       {
-        "name": "list",
-        "comment": "",
-        "type": "List Json.Encode.Value -> Json.Encode.Value"
+        "name": "fromList",
+        "comment": " Create an array from a list.\n",
+        "type": "List a -> Array.Array a"
       },
       {
-        "name": "null",
-        "comment": "",
-        "type": "Json.Encode.Value"
+        "name": "get",
+        "comment": " Return Just the element at the index or Nothing if the index is out of range.\n\n    get  0 (fromList [0,1,2]) == Just 0\n    get  2 (fromList [0,1,2]) == Just 2\n    get  5 (fromList [0,1,2]) == Nothing\n    get -1 (fromList [0,1,2]) == Nothing\n\n",
+        "type": "Int -> Array.Array a -> Maybe.Maybe a"
       },
       {
-        "name": "object",
-        "comment": "",
-        "type": "List ( String, Json.Encode.Value ) -> Json.Encode.Value"
+        "name": "indexedMap",
+        "comment": " Apply a function on every element with its index as first argument.\n\n    indexedMap (*) (fromList [5,5,5]) == fromList [0,5,10]\n",
+        "type": "(Int -> a -> b) -> Array.Array a -> Array.Array b"
       },
       {
-        "name": "string",
-        "comment": "",
-        "type": "String -> Json.Encode.Value"
+        "name": "initialize",
+        "comment": " Initialize an array. `initialize n f` creates an array of length `n` with\nthe element at index `i` initialized to the result of `(f i)`.\n\n    initialize 4 identity    == fromList [0,1,2,3]\n    initialize 4 (\\n -> n*n) == fromList [0,1,4,9]\n    initialize 4 (always 0)  == fromList [0,0,0,0]\n",
+        "type": "Int -> (Int -> a) -> Array.Array a"
+      },
+      {
+        "name": "isEmpty",
+        "comment": " Determine if an array is empty.\n\n    isEmpty empty == True\n",
+        "type": "Array.Array a -> Bool"
+      },
+      {
+        "name": "length",
+        "comment": " Return the length of an array.\n\n    length (fromList [1,2,3]) == 3\n",
+        "type": "Array.Array a -> Int"
+      },
+      {
+        "name": "map",
+        "comment": " Apply a function on every element in an array.\n\n    map sqrt (fromList [1,4,9]) == fromList [1,2,3]\n",
+        "type": "(a -> b) -> Array.Array a -> Array.Array b"
+      },
+      {
+        "name": "push",
+        "comment": " Push an element to the end of an array.\n\n    push 3 (fromList [1,2]) == fromList [1,2,3]\n",
+        "type": "a -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "repeat",
+        "comment": " Creates an array with a given length, filled with a default element.\n\n    repeat 5 0     == fromList [0,0,0,0,0]\n    repeat 3 \"cat\" == fromList [\"cat\",\"cat\",\"cat\"]\n\nNotice that `repeat 3 x` is the same as `initialize 3 (always x)`.\n",
+        "type": "Int -> a -> Array.Array a"
+      },
+      {
+        "name": "set",
+        "comment": " Set the element at a particular index. Returns an updated array.\nIf the index is out of range, the array is unaltered.\n\n    set 1 7 (fromList [1,2,3]) == fromList [1,7,3]\n",
+        "type": "Int -> a -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "slice",
+        "comment": " Get a sub-section of an array: `(slice start end array)`. The `start` is a\nzero-based index where we will start our slice. The `end` is a zero-based index\nthat indicates the end of the slice. The slice extracts up to but not including\n`end`.\n\n    slice  0  3 (fromList [0,1,2,3,4]) == fromList [0,1,2]\n    slice  1  4 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n\nBoth the `start` and `end` indexes can be negative, indicating an offset from\nthe end of the array.\n\n    slice  1 -1 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n    slice -2  5 (fromList [0,1,2,3,4]) == fromList [3,4]\n\nThis makes it pretty easy to `pop` the last element off of an array: `slice 0 -1 array`\n",
+        "type": "Int -> Int -> Array.Array a -> Array.Array a"
+      },
+      {
+        "name": "toIndexedList",
+        "comment": " Create an indexed list from an array. Each element of the array will be\npaired with its index.\n\n    toIndexedList (fromList [\"cat\",\"dog\"]) == [(0,\"cat\"), (1,\"dog\")]\n",
+        "type": "Array.Array a -> List ( Int, a )"
+      },
+      {
+        "name": "toList",
+        "comment": " Create a list of elements from an array.\n\n    toList (fromList [3,5,8]) == [3,5,8]\n",
+        "type": "Array.Array a -> List a"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1084,213 +1296,244 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Task",
-    "comment": " Tasks make it easy to describe asynchronous operations that may fail, like\nHTTP requests or writing to a database. For more information, see the [Elm\ndocumentation on Tasks](http://guide.elm-lang.org/error_handling/task.html).\n\n# Basics\n@docs Task, succeed, fail\n\n# Mapping\n@docs map, map2, map3, map4, map5, andMap\n\n# Chaining\n@docs andThen, sequence\n\n# Errors\n@docs onError, mapError, toMaybe, fromMaybe, toResult, fromResult\n\n# Commands\n@docs perform\n\n",
-    "aliases": [
-      {
-        "name": "Task",
-        "comment": " Represents asynchronous effects that may fail. It is useful for stuff like\nHTTP.\n\nFor example, maybe we have a task with the type (`Task String User`). This means\nthat when we perform the task, it will either fail with a `String` message or\nsucceed with a `User`. So this could represent a task that is asking a server\nfor a certain user.\n",
-        "args": [
-          "err",
-          "ok"
-        ],
-        "type": "Platform.Task err ok"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "andMap",
-        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\nThis function makes it possible to chain tons of tasks together and pipe them\nall into a single function.\n\n    (f `map` task1 `andMap` task2 `andMap` task3) -- map3 f task1 task2 task3\n",
-        "type": "Task.Task x (a -> b) -> Task.Task x a -> Task.Task x b"
-      },
-      {
-        "name": "andThen",
-        "comment": " Chain together a task and a callback. The first task will run, and if it is\nsuccessful, you give the result to the callback resulting in another task. This\ntask then gets run.\n\n    succeed 2 `andThen` (\\n -> succeed (n + 2)) -- succeed 4\n\nThis is useful for chaining tasks together. Maybe you need to get a user from\nyour servers *and then* lookup their picture once you know their name.\n",
-        "type": "Task.Task x a -> (a -> Task.Task x b) -> Task.Task x b"
-      },
-      {
-        "name": "fail",
-        "comment": " A task that fails immediately when run.\n\n    fail \"file not found\" : Task String a\n",
-        "type": "x -> Task.Task x a"
-      },
-      {
-        "name": "fromMaybe",
-        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na maybe value like a task.\n\n    fromMaybe \"file not found\" Nothing   -- fail \"file not found\"\n    fromMaybe \"file not found\" (Just 42) -- succeed 42\n",
-        "type": "x -> Maybe.Maybe a -> Task.Task x a"
-      },
-      {
-        "name": "fromResult",
-        "comment": " If you are chaining together a bunch of tasks, it may be useful to treat\na result like a task.\n\n    fromResult (Err \"file not found\") -- fail \"file not found\"\n    fromResult (Ok 42)                -- succeed 42\n",
-        "type": "Result.Result x a -> Task.Task x a"
-      },
-      {
-        "name": "map",
-        "comment": " Transform a task.\n\n    map sqrt (succeed 9) -- succeed 3\n",
-        "type": "(a -> b) -> Task.Task x a -> Task.Task x b"
-      },
-      {
-        "name": "map2",
-        "comment": " Put the results of two tasks together. If either task fails, the whole\nthing fails. It also runs in order so the first task will be completely\nfinished before the second task starts.\n\n    map2 (+) (succeed 9) (succeed 3) -- succeed 12\n",
-        "type": "(a -> b -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x result"
-      },
-      {
-        "name": "map3",
-        "comment": "",
-        "type": "(a -> b -> c -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x result"
-      },
-      {
-        "name": "map4",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x result"
-      },
-      {
-        "name": "map5",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> e -> result) -> Task.Task x a -> Task.Task x b -> Task.Task x c -> Task.Task x d -> Task.Task x e -> Task.Task x result"
-      },
-      {
-        "name": "mapError",
-        "comment": " Transform the error value. This can be useful if you need a bunch of error\ntypes to match up.\n\n    type Error = Http Http.Error | WebGL WebGL.Error\n\n    getResources : Task Error Resource\n    getResources =\n      sequence [ mapError Http serverTask, mapError WebGL textureTask ]\n",
-        "type": "(x -> y) -> Task.Task x a -> Task.Task y a"
-      },
-      {
-        "name": "onError",
-        "comment": " Recover from a failure in a task. If the given task fails, we use the\ncallback to recover.\n\n    fail \"file not found\" `onError` (\\msg -> succeed 42) -- succeed 42\n    succeed 9 `onError` (\\msg -> succeed 42)             -- succeed 9\n",
-        "type": "Task.Task x a -> (x -> Task.Task y a) -> Task.Task y a"
-      },
-      {
-        "name": "perform",
-        "comment": " Command the runtime system to perform a task. The most important argument\nis the `Task` which describes what you want to happen. But you also need to\nprovide functions to tag the two possible outcomes of the task. It can fail or\nsucceed, but either way, you need to have a message to feed back into your\napplication.\n",
-        "type": "(x -> msg) -> (a -> msg) -> Task.Task x a -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "sequence",
-        "comment": " Start with a list of tasks, and turn them into a single task that returns a\nlist. The tasks will be run in order one-by-one and if any task fails the whole\nsequence fails.\n\n    sequence [ succeed 1, succeed 2 ] -- succeed [ 1, 2 ]\n\nThis can be useful if you need to make a bunch of HTTP requests one-by-one.\n",
-        "type": "List (Task.Task x a) -> Task.Task x (List a)"
-      },
-      {
-        "name": "succeed",
-        "comment": " A task that succeeds immediately when run.\n\n    succeed 42    -- results in 42\n",
-        "type": "a -> Task.Task x a"
-      },
-      {
-        "name": "toMaybe",
-        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Nothing` and any success into `Just` something.\n\n    toMaybe (fail \"file not found\") -- succeed Nothing\n    toMaybe (succeed 42)            -- succeed (Just 42)\n\nThis means you can handle the error with the `Maybe` module instead.\n",
-        "type": "Task.Task x a -> Task.Task never (Maybe.Maybe a)"
-      },
-      {
-        "name": "toResult",
-        "comment": " Translate a task that can fail into a task that can never fail, by\nconverting any failure into `Err` something and any success into `Ok` something.\n\n    toResult (fail \"file not found\") -- succeed (Err \"file not found\")\n    toResult (succeed 42)            -- succeed (Ok 42)\n\nThis means you can handle the error with the `Result` module instead.\n",
-        "type": "Task.Task x a -> Task.Task never (Result.Result x a)"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Array",
-    "comment": " A library for fast immutable arrays. The elements in an array must have the\nsame type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast\nreads, updates, and appends.\n\n# Arrays\n@docs Array\n\n# Creating Arrays\n@docs empty, repeat, initialize, fromList\n\n# Basics\n@docs isEmpty, length, push, append\n\n# Get and Set\n@docs get, set\n\n# Taking Arrays Apart\n@docs slice, toList, toIndexedList\n\n# Mapping, Filtering, and Folding\n@docs map, indexedMap, filter, foldl, foldr\n",
+    "name": "Platform",
+    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
     "aliases": [],
     "types": [
       {
-        "name": "Array",
-        "comment": " Representation of fast immutable arrays. You can create arrays of integers\n(`Array Int`) or strings (`Array String`) or any other type of value you can\ndream up.\n",
+        "name": "ProcessId",
+        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Program",
+        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
         "args": [
-          "a"
+          "flags"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Router",
+        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
+        "args": [
+          "appMsg",
+          "selfMsg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Task",
+        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [
+          "err",
+          "ok"
         ],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "append",
-        "comment": " Append two arrays to a new one.\n\n    append (repeat 2 42) (repeat 3 81) == fromList [42,42,81,81,81]\n",
-        "type": "Array.Array a -> Array.Array a -> Array.Array a"
+        "name": "sendToApp",
+        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
+        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
       },
       {
-        "name": "empty",
-        "comment": " Return an empty array.\n\n    length empty == 0\n",
-        "type": "Array.Array a"
+        "name": "sendToSelf",
+        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
+        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "List",
+    "comment": " A library for manipulating lists of values. Every value in a\nlist must have the same type.\n\n# Basics\n@docs isEmpty, length, reverse, member\n\n# Sub-lists\n@docs head, tail, filter, take, drop\n\n# Putting Lists Together\n@docs repeat, (::), append, concat, intersperse\n\n# Taking Lists Apart\n@docs partition, unzip\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\nIf you can think of a legitimate use of `mapN` where `N` is 6 or more, please\nlet us know on [the list](https://groups.google.com/forum/#!forum/elm-discuss).\nThe current sentiment is that it is already quite error prone once you get to\n4 and possibly should be approached another way.\n\n# Special Maps\n@docs filterMap, concatMap, indexedMap\n\n# Folding\n@docs foldr, foldl\n\n# Special Folds\n@docs sum, product, maximum, minimum, all, any, scanl\n\n# Sorting\n@docs sort, sortBy, sortWith\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "::",
+        "comment": " Add an element to the front of a list. Pronounced *cons*.\n\n    1 :: [2,3] == [1,2,3]\n    1 :: [] == [1]\n",
+        "type": "a -> List a -> List a",
+        "associativity": "right",
+        "precedence": 5
+      },
+      {
+        "name": "all",
+        "comment": " Determine if all elements satisfy the predicate.\n\n    all isEven [2,4] == True\n    all isEven [2,3] == False\n    all isEven [] == True\n",
+        "type": "(a -> Bool) -> List a -> Bool"
+      },
+      {
+        "name": "any",
+        "comment": " Determine if any elements satisfy the predicate.\n\n    any isEven [2,3] == True\n    any isEven [1,3] == False\n    any isEven [] == False\n",
+        "type": "(a -> Bool) -> List a -> Bool"
+      },
+      {
+        "name": "append",
+        "comment": " Put two lists together.\n\n    append [1,1,2] [3,5,8] == [1,1,2,3,5,8]\n    append ['a','b'] ['c'] == ['a','b','c']\n\nYou can also use [the `(++)` operator](Basics#++) to append lists.\n",
+        "type": "List a -> List a -> List a"
+      },
+      {
+        "name": "concat",
+        "comment": " Concatenate a bunch of lists into a single list:\n\n    concat [[1,2],[3],[4,5]] == [1,2,3,4,5]\n",
+        "type": "List (List a) -> List a"
+      },
+      {
+        "name": "concatMap",
+        "comment": " Map a given function onto a list and flatten the resulting lists.\n\n    concatMap f xs == concat (map f xs)\n",
+        "type": "(a -> List b) -> List a -> List b"
+      },
+      {
+        "name": "drop",
+        "comment": " Drop the first *n* members of a list.\n\n    drop 2 [1,2,3,4] == [3,4]\n",
+        "type": "Int -> List a -> List a"
       },
       {
         "name": "filter",
-        "comment": " Keep only elements that satisfy the predicate:\n\n    filter isEven (fromList [1..6]) == (fromList [2,4,6])\n",
-        "type": "(a -> Bool) -> Array.Array a -> Array.Array a"
+        "comment": " Keep only elements that satisfy the predicate.\n\n    filter isEven [1..6] == [2,4,6]\n",
+        "type": "(a -> Bool) -> List a -> List a"
+      },
+      {
+        "name": "filterMap",
+        "comment": " Apply a function that may succeed to all values in the list, but only keep\nthe successes.\n\n    onlyTeens =\n      filterMap isTeen [3, 15, 12, 18, 24] == [15, 18]\n\n    isTeen : Int -> Maybe Int\n    isTeen n =\n      if 13 <= n && n <= 19 then\n        Just n\n\n      else\n        Nothing\n",
+        "type": "(a -> Maybe.Maybe b) -> List a -> List b"
       },
       {
         "name": "foldl",
-        "comment": " Reduce an array from the left. Read `foldl` as &ldquo;fold from the left&rdquo;.\n\n    foldl (::) [] (fromList [1,2,3]) == [3,2,1]\n",
-        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
+        "comment": " Reduce a list from the left.\n\n    foldl (::) [] [1,2,3] == [3,2,1]\n",
+        "type": "(a -> b -> b) -> b -> List a -> b"
       },
       {
         "name": "foldr",
-        "comment": " Reduce an array from the right. Read `foldr` as &ldquo;fold from the right&rdquo;.\n\n    foldr (+) 0 (repeat 3 5) == 15\n",
-        "type": "(a -> b -> b) -> b -> Array.Array a -> b"
+        "comment": " Reduce a list from the right.\n\n    foldr (+) 0 [1,2,3] == 6\n",
+        "type": "(a -> b -> b) -> b -> List a -> b"
       },
       {
-        "name": "fromList",
-        "comment": " Create an array from a list.\n",
-        "type": "List a -> Array.Array a"
-      },
-      {
-        "name": "get",
-        "comment": " Return Just the element at the index or Nothing if the index is out of range.\n\n    get  0 (fromList [0,1,2]) == Just 0\n    get  2 (fromList [0,1,2]) == Just 2\n    get  5 (fromList [0,1,2]) == Nothing\n    get -1 (fromList [0,1,2]) == Nothing\n\n",
-        "type": "Int -> Array.Array a -> Maybe.Maybe a"
+        "name": "head",
+        "comment": " Extract the first element of a list.\n\n    head [1,2,3] == Just 1\n    head [] == Nothing\n",
+        "type": "List a -> Maybe.Maybe a"
       },
       {
         "name": "indexedMap",
-        "comment": " Apply a function on every element with its index as first argument.\n\n    indexedMap (*) (fromList [5,5,5]) == fromList [0,5,10]\n",
-        "type": "(Int -> a -> b) -> Array.Array a -> Array.Array b"
+        "comment": " Same as `map` but the function is also applied to the index of each\nelement (starting at zero).\n\n    indexedMap (,) [\"Tom\",\"Sue\",\"Bob\"] == [ (0,\"Tom\"), (1,\"Sue\"), (2,\"Bob\") ]\n",
+        "type": "(Int -> a -> b) -> List a -> List b"
       },
       {
-        "name": "initialize",
-        "comment": " Initialize an array. `initialize n f` creates an array of length `n` with\nthe element at index `i` initialized to the result of `(f i)`.\n\n    initialize 4 identity    == fromList [0,1,2,3]\n    initialize 4 (\\n -> n*n) == fromList [0,1,4,9]\n    initialize 4 (always 0)  == fromList [0,0,0,0]\n",
-        "type": "Int -> (Int -> a) -> Array.Array a"
+        "name": "intersperse",
+        "comment": " Places the given value between all members of the given list.\n\n    intersperse \"on\" [\"turtles\",\"turtles\",\"turtles\"] == [\"turtles\",\"on\",\"turtles\",\"on\",\"turtles\"]\n",
+        "type": "a -> List a -> List a"
       },
       {
         "name": "isEmpty",
-        "comment": " Determine if an array is empty.\n\n    isEmpty empty == True\n",
-        "type": "Array.Array a -> Bool"
+        "comment": " Determine if a list is empty.\n\n    isEmpty [] == True\n",
+        "type": "List a -> Bool"
       },
       {
         "name": "length",
-        "comment": " Return the length of an array.\n\n    length (fromList [1,2,3]) == 3\n",
-        "type": "Array.Array a -> Int"
+        "comment": " Determine the length of a list.\n\n    length [1,2,3] == 3\n",
+        "type": "List a -> Int"
       },
       {
         "name": "map",
-        "comment": " Apply a function on every element in an array.\n\n    map sqrt (fromList [1,4,9]) == fromList [1,2,3]\n",
-        "type": "(a -> b) -> Array.Array a -> Array.Array b"
+        "comment": " Apply a function to every element of a list.\n\n    map sqrt [1,4,9] == [1,2,3]\n\n    map not [True,False,True] == [False,True,False]\n",
+        "type": "(a -> b) -> List a -> List b"
       },
       {
-        "name": "push",
-        "comment": " Push an element to the end of an array.\n\n    push 3 (fromList [1,2]) == fromList [1,2,3]\n",
-        "type": "a -> Array.Array a -> Array.Array a"
+        "name": "map2",
+        "comment": " Combine two lists, combining them with the given function.\nIf one list is longer, the extra elements are dropped.\n\n    map2 (+) [1,2,3] [1,2,3,4] == [2,4,6]\n\n    map2 (,) [1,2,3] ['a','b'] == [ (1,'a'), (2,'b') ]\n\n    pairs : List a -> List b -> List (a,b)\n    pairs lefts rights =\n        map2 (,) lefts rights\n",
+        "type": "(a -> b -> result) -> List a -> List b -> List result"
+      },
+      {
+        "name": "map3",
+        "comment": "",
+        "type": "(a -> b -> c -> result) -> List a -> List b -> List c -> List result"
+      },
+      {
+        "name": "map4",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> result) -> List a -> List b -> List c -> List d -> List result"
+      },
+      {
+        "name": "map5",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> e -> result) -> List a -> List b -> List c -> List d -> List e -> List result"
+      },
+      {
+        "name": "maximum",
+        "comment": " Find the maximum element in a non-empty list.\n\n    maximum [1,4,2] == Just 4\n    maximum []      == Nothing\n",
+        "type": "List comparable -> Maybe.Maybe comparable"
+      },
+      {
+        "name": "member",
+        "comment": " Figure out whether a list contains a value.\n\n    member 9 [1,2,3,4] == False\n    member 4 [1,2,3,4] == True\n",
+        "type": "a -> List a -> Bool"
+      },
+      {
+        "name": "minimum",
+        "comment": " Find the minimum element in a non-empty list.\n\n    minimum [3,2,1] == Just 1\n    minimum []      == Nothing\n",
+        "type": "List comparable -> Maybe.Maybe comparable"
+      },
+      {
+        "name": "partition",
+        "comment": " Partition a list based on a predicate. The first list contains all values\nthat satisfy the predicate, and the second list contains all the value that do\nnot.\n\n    partition (\\x -> x < 3) [0..5] == ([0,1,2], [3,4,5])\n    partition isEven        [0..5] == ([0,2,4], [1,3,5])\n",
+        "type": "(a -> Bool) -> List a -> ( List a, List a )"
+      },
+      {
+        "name": "product",
+        "comment": " Get the product of the list elements.\n\n    product [1..4] == 24\n",
+        "type": "List number -> number"
       },
       {
         "name": "repeat",
-        "comment": " Creates an array with a given length, filled with a default element.\n\n    repeat 5 0     == fromList [0,0,0,0,0]\n    repeat 3 \"cat\" == fromList [\"cat\",\"cat\",\"cat\"]\n\nNotice that `repeat 3 x` is the same as `initialize 3 (always x)`.\n",
-        "type": "Int -> a -> Array.Array a"
+        "comment": " Create a list with *n* copies of a value:\n\n    repeat 3 (0,0) == [(0,0),(0,0),(0,0)]\n",
+        "type": "Int -> a -> List a"
       },
       {
-        "name": "set",
-        "comment": " Set the element at a particular index. Returns an updated array.\nIf the index is out of range, the array is unaltered.\n\n    set 1 7 (fromList [1,2,3]) == fromList [1,7,3]\n",
-        "type": "Int -> a -> Array.Array a -> Array.Array a"
+        "name": "reverse",
+        "comment": " Reverse a list.\n\n    reverse [1..4] == [4,3,2,1]\n",
+        "type": "List a -> List a"
       },
       {
-        "name": "slice",
-        "comment": " Get a sub-section of an array: `(slice start end array)`. The `start` is a\nzero-based index where we will start our slice. The `end` is a zero-based index\nthat indicates the end of the slice. The slice extracts up to but not including\n`end`.\n\n    slice  0  3 (fromList [0,1,2,3,4]) == fromList [0,1,2]\n    slice  1  4 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n\nBoth the `start` and `end` indexes can be negative, indicating an offset from\nthe end of the array.\n\n    slice  1 -1 (fromList [0,1,2,3,4]) == fromList [1,2,3]\n    slice -2  5 (fromList [0,1,2,3,4]) == fromList [3,4]\n\nThis makes it pretty easy to `pop` the last element off of an array: `slice 0 -1 array`\n",
-        "type": "Int -> Int -> Array.Array a -> Array.Array a"
+        "name": "scanl",
+        "comment": " Reduce a list from the left, building up all of the intermediate results into a list.\n\n    scanl (+) 0 [1,2,3,4] == [0,1,3,6,10]\n",
+        "type": "(a -> b -> b) -> b -> List a -> List b"
       },
       {
-        "name": "toIndexedList",
-        "comment": " Create an indexed list from an array. Each element of the array will be\npaired with its index.\n\n    toIndexedList (fromList [\"cat\",\"dog\"]) == [(0,\"cat\"), (1,\"dog\")]\n",
-        "type": "Array.Array a -> List ( Int, a )"
+        "name": "sort",
+        "comment": " Sort values from lowest to highest\n\n    sort [3,1,5] == [1,3,5]\n",
+        "type": "List comparable -> List comparable"
       },
       {
-        "name": "toList",
-        "comment": " Create a list of elements from an array.\n\n    toList (fromList [3,5,8]) == [3,5,8]\n",
-        "type": "Array.Array a -> List a"
+        "name": "sortBy",
+        "comment": " Sort values by a derived property.\n\n    alice = { name=\"Alice\", height=1.62 }\n    bob   = { name=\"Bob\"  , height=1.85 }\n    chuck = { name=\"Chuck\", height=1.76 }\n\n    sortBy .name   [chuck,alice,bob] == [alice,bob,chuck]\n    sortBy .height [chuck,alice,bob] == [alice,chuck,bob]\n\n    sortBy String.length [\"mouse\",\"cat\"] == [\"cat\",\"mouse\"]\n",
+        "type": "(a -> comparable) -> List a -> List a"
+      },
+      {
+        "name": "sortWith",
+        "comment": " Sort values with a custom comparison function.\n\n    sortWith flippedComparison [1..5] == [5,4,3,2,1]\n\n    flippedComparison a b =\n        case compare a b of\n          LT -> GT\n          EQ -> EQ\n          GT -> LT\n\nThis is also the most general sort function, allowing you\nto define any other: `sort == sortWith compare`\n",
+        "type": "(a -> a -> Basics.Order) -> List a -> List a"
+      },
+      {
+        "name": "sum",
+        "comment": " Get the sum of the list elements.\n\n    sum [1..4] == 10\n",
+        "type": "List number -> number"
+      },
+      {
+        "name": "tail",
+        "comment": " Extract the rest of the list.\n\n    tail [1,2,3] == Just [2,3]\n    tail [] == Nothing\n",
+        "type": "List a -> Maybe.Maybe (List a)"
+      },
+      {
+        "name": "take",
+        "comment": " Take the first *n* members of a list.\n\n    take 2 [1,2,3,4] == [1,2]\n",
+        "type": "Int -> List a -> List a"
+      },
+      {
+        "name": "unzip",
+        "comment": " Decompose a list of tuples into a tuple of lists.\n\n    unzip [(0, True), (17, False), (1337, True)] == ([0,17,1337], [True,False,True])\n",
+        "type": "List ( a, b ) -> ( List a, List b )"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1604,244 +1847,83 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform",
-    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
+    "name": "Result",
+    "comment": " A `Result` is the result of a computation that may fail. This is a great\nway to manage errors in Elm.\n\n# Type and Constructors\n@docs Result\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Chaining\n@docs andThen\n\n# Handling Errors\n@docs withDefault, toMaybe, fromMaybe, formatError\n",
     "aliases": [],
     "types": [
       {
-        "name": "ProcessId",
-        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Program",
-        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
+        "name": "Result",
+        "comment": " A `Result` is either `Ok` meaning the computation succeeded, or it is an\n`Err` meaning that there was some failure.\n",
         "args": [
-          "flags"
+          "error",
+          "value"
         ],
-        "cases": []
-      },
-      {
-        "name": "Router",
-        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
-        "args": [
-          "appMsg",
-          "selfMsg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Task",
-        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [
-          "err",
-          "ok"
-        ],
-        "cases": []
+        "cases": [
+          [
+            "Ok",
+            [
+              "value"
+            ]
+          ],
+          [
+            "Err",
+            [
+              "error"
+            ]
+          ]
+        ]
       }
     ],
     "values": [
       {
-        "name": "sendToApp",
-        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
-        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
+        "name": "andThen",
+        "comment": " Chain together a sequence of computations that may fail. It is helpful\nto see its definition:\n\n    andThen : Result e a -> (a -> Result e b) -> Result e b\n    andThen result callback =\n        case result of\n          Ok value -> callback value\n          Err msg -> Err msg\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`toInt : String -> Result String Int`) to parse\na month and make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Result String Int\n    toValidMonth month =\n        if month >= 1 && month <= 12\n            then Ok month\n            else Err \"months must be between 1 and 12\"\n\n    toMonth : String -> Result String Int\n    toMonth rawString =\n        toInt rawString `andThen` toValidMonth\n\n    -- toMonth \"4\" == Ok 4\n    -- toMonth \"9\" == Ok 9\n    -- toMonth \"a\" == Err \"cannot parse to an Int\"\n    -- toMonth \"0\" == Err \"months must be between 1 and 12\"\n\nThis allows us to come out of a chain of operations with quite a specific error\nmessage. It is often best to create a custom type that explicitly represents\nthe exact ways your computation may fail. This way it is easy to handle in your\ncode.\n",
+        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b"
       },
       {
-        "name": "sendToSelf",
-        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
-        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "List",
-    "comment": " A library for manipulating lists of values. Every value in a\nlist must have the same type.\n\n# Basics\n@docs isEmpty, length, reverse, member\n\n# Sub-lists\n@docs head, tail, filter, take, drop\n\n# Putting Lists Together\n@docs repeat, (::), append, concat, intersperse\n\n# Taking Lists Apart\n@docs partition, unzip\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\nIf you can think of a legitimate use of `mapN` where `N` is 6 or more, please\nlet us know on [the list](https://groups.google.com/forum/#!forum/elm-discuss).\nThe current sentiment is that it is already quite error prone once you get to\n4 and possibly should be approached another way.\n\n# Special Maps\n@docs filterMap, concatMap, indexedMap\n\n# Folding\n@docs foldr, foldl\n\n# Special Folds\n@docs sum, product, maximum, minimum, all, any, scanl\n\n# Sorting\n@docs sort, sortBy, sortWith\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "::",
-        "comment": " Add an element to the front of a list. Pronounced *cons*.\n\n    1 :: [2,3] == [1,2,3]\n    1 :: [] == [1]\n",
-        "type": "a -> List a -> List a",
-        "associativity": "right",
-        "precedence": 5
+        "name": "formatError",
+        "comment": " Format the error value of a result. If the result is `Ok`, it stays exactly\nthe same, but if the result is an `Err` we will format the error. For example,\nsay the errors we get have too much information:\n\n    parseInt : String -> Result ParseError Int\n\n    type alias ParseError =\n        { message : String\n        , code : Int\n        , position : (Int,Int)\n        }\n\n    formatError .message (parseInt \"123\") == Ok 123\n    formatError .message (parseInt \"abc\") == Err \"char 'a' is not a number\"\n",
+        "type": "(error -> error') -> Result.Result error a -> Result.Result error' a"
       },
       {
-        "name": "all",
-        "comment": " Determine if all elements satisfy the predicate.\n\n    all isEven [2,4] == True\n    all isEven [2,3] == False\n    all isEven [] == True\n",
-        "type": "(a -> Bool) -> List a -> Bool"
-      },
-      {
-        "name": "any",
-        "comment": " Determine if any elements satisfy the predicate.\n\n    any isEven [2,3] == True\n    any isEven [1,3] == False\n    any isEven [] == False\n",
-        "type": "(a -> Bool) -> List a -> Bool"
-      },
-      {
-        "name": "append",
-        "comment": " Put two lists together.\n\n    append [1,1,2] [3,5,8] == [1,1,2,3,5,8]\n    append ['a','b'] ['c'] == ['a','b','c']\n\nYou can also use [the `(++)` operator](Basics#++) to append lists.\n",
-        "type": "List a -> List a -> List a"
-      },
-      {
-        "name": "concat",
-        "comment": " Concatenate a bunch of lists into a single list:\n\n    concat [[1,2],[3],[4,5]] == [1,2,3,4,5]\n",
-        "type": "List (List a) -> List a"
-      },
-      {
-        "name": "concatMap",
-        "comment": " Map a given function onto a list and flatten the resulting lists.\n\n    concatMap f xs == concat (map f xs)\n",
-        "type": "(a -> List b) -> List a -> List b"
-      },
-      {
-        "name": "drop",
-        "comment": " Drop the first *n* members of a list.\n\n    drop 2 [1,2,3,4] == [3,4]\n",
-        "type": "Int -> List a -> List a"
-      },
-      {
-        "name": "filter",
-        "comment": " Keep only elements that satisfy the predicate.\n\n    filter isEven [1..6] == [2,4,6]\n",
-        "type": "(a -> Bool) -> List a -> List a"
-      },
-      {
-        "name": "filterMap",
-        "comment": " Apply a function that may succeed to all values in the list, but only keep\nthe successes.\n\n    onlyTeens =\n      filterMap isTeen [3, 15, 12, 18, 24] == [15, 18]\n\n    isTeen : Int -> Maybe Int\n    isTeen n =\n      if 13 <= n && n <= 19 then\n        Just n\n\n      else\n        Nothing\n",
-        "type": "(a -> Maybe.Maybe b) -> List a -> List b"
-      },
-      {
-        "name": "foldl",
-        "comment": " Reduce a list from the left.\n\n    foldl (::) [] [1,2,3] == [3,2,1]\n",
-        "type": "(a -> b -> b) -> b -> List a -> b"
-      },
-      {
-        "name": "foldr",
-        "comment": " Reduce a list from the right.\n\n    foldr (+) 0 [1,2,3] == 6\n",
-        "type": "(a -> b -> b) -> b -> List a -> b"
-      },
-      {
-        "name": "head",
-        "comment": " Extract the first element of a list.\n\n    head [1,2,3] == Just 1\n    head [] == Nothing\n",
-        "type": "List a -> Maybe.Maybe a"
-      },
-      {
-        "name": "indexedMap",
-        "comment": " Same as `map` but the function is also applied to the index of each\nelement (starting at zero).\n\n    indexedMap (,) [\"Tom\",\"Sue\",\"Bob\"] == [ (0,\"Tom\"), (1,\"Sue\"), (2,\"Bob\") ]\n",
-        "type": "(Int -> a -> b) -> List a -> List b"
-      },
-      {
-        "name": "intersperse",
-        "comment": " Places the given value between all members of the given list.\n\n    intersperse \"on\" [\"turtles\",\"turtles\",\"turtles\"] == [\"turtles\",\"on\",\"turtles\",\"on\",\"turtles\"]\n",
-        "type": "a -> List a -> List a"
-      },
-      {
-        "name": "isEmpty",
-        "comment": " Determine if a list is empty.\n\n    isEmpty [] == True\n",
-        "type": "List a -> Bool"
-      },
-      {
-        "name": "length",
-        "comment": " Determine the length of a list.\n\n    length [1,2,3] == 3\n",
-        "type": "List a -> Int"
+        "name": "fromMaybe",
+        "comment": " Convert from a simple `Maybe` to interact with some code that primarily\nuses `Results`.\n\n    parseInt : String -> Maybe Int\n\n    resultParseInt : String -> Result String Int\n    resultParseInt string =\n        fromMaybe (\"error parsing string: \" ++ toString string) (parseInt string)\n",
+        "type": "x -> Maybe.Maybe a -> Result.Result x a"
       },
       {
         "name": "map",
-        "comment": " Apply a function to every element of a list.\n\n    map sqrt [1,4,9] == [1,2,3]\n\n    map not [True,False,True] == [False,True,False]\n",
-        "type": "(a -> b) -> List a -> List b"
+        "comment": " Apply a function to a result. If the result is `Ok`, it will be converted.\nIf the result is an `Err`, the same error value will propagate through.\n\n    map sqrt (Ok 4.0)          == Ok 2.0\n    map sqrt (Err \"bad input\") == Err \"bad input\"\n",
+        "type": "(a -> value) -> Result.Result x a -> Result.Result x value"
       },
       {
         "name": "map2",
-        "comment": " Combine two lists, combining them with the given function.\nIf one list is longer, the extra elements are dropped.\n\n    map2 (+) [1,2,3] [1,2,3,4] == [2,4,6]\n\n    map2 (,) [1,2,3] ['a','b'] == [ (1,'a'), (2,'b') ]\n\n    pairs : List a -> List b -> List (a,b)\n    pairs lefts rights =\n        map2 (,) lefts rights\n",
-        "type": "(a -> b -> result) -> List a -> List b -> List result"
+        "comment": " Apply a function to two results, if both results are `Ok`. If not,\nthe first argument which is an `Err` will propagate through.\n\n    map2 (+) (String.toInt \"1\") (String.toInt \"2\") == Ok 3\n    map2 (+) (String.toInt \"1\") (String.toInt \"y\") == Err \"could not convert string 'y' to an Int\"\n    map2 (+) (String.toInt \"x\") (String.toInt \"y\") == Err \"could not convert string 'x' to an Int\"\n",
+        "type": "(a -> b -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x value"
       },
       {
         "name": "map3",
         "comment": "",
-        "type": "(a -> b -> c -> result) -> List a -> List b -> List c -> List result"
+        "type": "(a -> b -> c -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x value"
       },
       {
         "name": "map4",
         "comment": "",
-        "type": "(a -> b -> c -> d -> result) -> List a -> List b -> List c -> List d -> List result"
+        "type": "(a -> b -> c -> d -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x value"
       },
       {
         "name": "map5",
         "comment": "",
-        "type": "(a -> b -> c -> d -> e -> result) -> List a -> List b -> List c -> List d -> List e -> List result"
+        "type": "(a -> b -> c -> d -> e -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x e -> Result.Result x value"
       },
       {
-        "name": "maximum",
-        "comment": " Find the maximum element in a non-empty list.\n\n    maximum [1,4,2] == Just 4\n    maximum []      == Nothing\n",
-        "type": "List comparable -> Maybe.Maybe comparable"
+        "name": "toMaybe",
+        "comment": " Convert to a simpler `Maybe` if the actual error message is not needed or\nyou need to interact with some code that primarily uses maybes.\n\n    parseInt : String -> Result ParseError Int\n\n    maybeParseInt : String -> Maybe Int\n    maybeParseInt string =\n        toMaybe (parseInt string)\n",
+        "type": "Result.Result x a -> Maybe.Maybe a"
       },
       {
-        "name": "member",
-        "comment": " Figure out whether a list contains a value.\n\n    member 9 [1,2,3,4] == False\n    member 4 [1,2,3,4] == True\n",
-        "type": "a -> List a -> Bool"
-      },
-      {
-        "name": "minimum",
-        "comment": " Find the minimum element in a non-empty list.\n\n    minimum [3,2,1] == Just 1\n    minimum []      == Nothing\n",
-        "type": "List comparable -> Maybe.Maybe comparable"
-      },
-      {
-        "name": "partition",
-        "comment": " Partition a list based on a predicate. The first list contains all values\nthat satisfy the predicate, and the second list contains all the value that do\nnot.\n\n    partition (\\x -> x < 3) [0..5] == ([0,1,2], [3,4,5])\n    partition isEven        [0..5] == ([0,2,4], [1,3,5])\n",
-        "type": "(a -> Bool) -> List a -> ( List a, List a )"
-      },
-      {
-        "name": "product",
-        "comment": " Get the product of the list elements.\n\n    product [1..4] == 24\n",
-        "type": "List number -> number"
-      },
-      {
-        "name": "repeat",
-        "comment": " Create a list with *n* copies of a value:\n\n    repeat 3 (0,0) == [(0,0),(0,0),(0,0)]\n",
-        "type": "Int -> a -> List a"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a list.\n\n    reverse [1..4] == [4,3,2,1]\n",
-        "type": "List a -> List a"
-      },
-      {
-        "name": "scanl",
-        "comment": " Reduce a list from the left, building up all of the intermediate results into a list.\n\n    scanl (+) 0 [1,2,3,4] == [0,1,3,6,10]\n",
-        "type": "(a -> b -> b) -> b -> List a -> List b"
-      },
-      {
-        "name": "sort",
-        "comment": " Sort values from lowest to highest\n\n    sort [3,1,5] == [1,3,5]\n",
-        "type": "List comparable -> List comparable"
-      },
-      {
-        "name": "sortBy",
-        "comment": " Sort values by a derived property.\n\n    alice = { name=\"Alice\", height=1.62 }\n    bob   = { name=\"Bob\"  , height=1.85 }\n    chuck = { name=\"Chuck\", height=1.76 }\n\n    sortBy .name   [chuck,alice,bob] == [alice,bob,chuck]\n    sortBy .height [chuck,alice,bob] == [alice,chuck,bob]\n\n    sortBy String.length [\"mouse\",\"cat\"] == [\"cat\",\"mouse\"]\n",
-        "type": "(a -> comparable) -> List a -> List a"
-      },
-      {
-        "name": "sortWith",
-        "comment": " Sort values with a custom comparison function.\n\n    sortWith flippedComparison [1..5] == [5,4,3,2,1]\n\n    flippedComparison a b =\n        case compare a b of\n          LT -> GT\n          EQ -> EQ\n          GT -> LT\n\nThis is also the most general sort function, allowing you\nto define any other: `sort == sortWith compare`\n",
-        "type": "(a -> a -> Basics.Order) -> List a -> List a"
-      },
-      {
-        "name": "sum",
-        "comment": " Get the sum of the list elements.\n\n    sum [1..4] == 10\n",
-        "type": "List number -> number"
-      },
-      {
-        "name": "tail",
-        "comment": " Extract the rest of the list.\n\n    tail [1,2,3] == Just [2,3]\n    tail [] == Nothing\n",
-        "type": "List a -> Maybe.Maybe (List a)"
-      },
-      {
-        "name": "take",
-        "comment": " Take the first *n* members of a list.\n\n    take 2 [1,2,3,4] == [1,2]\n",
-        "type": "Int -> List a -> List a"
-      },
-      {
-        "name": "unzip",
-        "comment": " Decompose a list of tuples into a tuple of lists.\n\n    unzip [(0, True), (17, False), (1337, True)] == ([0,17,1337], [True,False,True])\n",
-        "type": "List ( a, b ) -> ( List a, List b )"
+        "name": "withDefault",
+        "comment": " If the result is `Ok` return the value, but if the result is an `Err` then\nreturn a given default value. The following examples try to parse integers.\n\n    Result.withDefault 0 (String.toInt \"123\") == 123\n    Result.withDefault 0 (String.toInt \"abc\") == 0\n",
+        "type": "a -> Result.Result x a -> a"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1922,83 +2004,72 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Result",
-    "comment": " A `Result` is the result of a computation that may fail. This is a great\nway to manage errors in Elm.\n\n# Type and Constructors\n@docs Result\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Chaining\n@docs andThen\n\n# Handling Errors\n@docs withDefault, toMaybe, fromMaybe, formatError\n",
+    "name": "Platform.Sub",
+    "comment": "\n\n@docs Sub, map, batch, none\n",
     "aliases": [],
     "types": [
       {
-        "name": "Result",
-        "comment": " A `Result` is either `Ok` meaning the computation succeeded, or it is an\n`Err` meaning that there was some failure.\n",
+        "name": "Sub",
+        "comment": " A subscription is a way of telling Elm, “Hey, let me know if anything\ninteresting happens over there!” So if you want listen for messages on a web\nsocket, you would tell Elm to create a subscription. If you want to get clock\nticks, you would tell Elm to subscribe to that. The cool thing here is that\nthis means *Elm* manages all the details of subscriptions instead of *you*.\nSo if a web socket goes down, *you* do not need to manually reconnect with an\nexponential backoff strategy, *Elm* does this all for you behind the scenes!\n\nEvery `Sub` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, subscriptions will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they fit\ninto a real application!\n",
         "args": [
-          "error",
-          "value"
+          "msg"
         ],
-        "cases": [
-          [
-            "Ok",
-            [
-              "value"
-            ]
-          ],
-          [
-            "Err",
-            [
-              "error"
-            ]
-          ]
-        ]
+        "cases": []
       }
     ],
     "values": [
       {
-        "name": "andThen",
-        "comment": " Chain together a sequence of computations that may fail. It is helpful\nto see its definition:\n\n    andThen : Result e a -> (a -> Result e b) -> Result e b\n    andThen result callback =\n        case result of\n          Ok value -> callback value\n          Err msg -> Err msg\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`toInt : String -> Result String Int`) to parse\na month and make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Result String Int\n    toValidMonth month =\n        if month >= 1 && month <= 12\n            then Ok month\n            else Err \"months must be between 1 and 12\"\n\n    toMonth : String -> Result String Int\n    toMonth rawString =\n        toInt rawString `andThen` toValidMonth\n\n    -- toMonth \"4\" == Ok 4\n    -- toMonth \"9\" == Ok 9\n    -- toMonth \"a\" == Err \"cannot parse to an Int\"\n    -- toMonth \"0\" == Err \"months must be between 1 and 12\"\n\nThis allows us to come out of a chain of operations with quite a specific error\nmessage. It is often best to create a custom type that explicitly represents\nthe exact ways your computation may fail. This way it is easy to handle in your\ncode.\n",
-        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b"
-      },
-      {
-        "name": "formatError",
-        "comment": " Format the error value of a result. If the result is `Ok`, it stays exactly\nthe same, but if the result is an `Err` we will format the error. For example,\nsay the errors we get have too much information:\n\n    parseInt : String -> Result ParseError Int\n\n    type alias ParseError =\n        { message : String\n        , code : Int\n        , position : (Int,Int)\n        }\n\n    formatError .message (parseInt \"123\") == Ok 123\n    formatError .message (parseInt \"abc\") == Err \"char 'a' is not a number\"\n",
-        "type": "(error -> error') -> Result.Result error a -> Result.Result error' a"
-      },
-      {
-        "name": "fromMaybe",
-        "comment": " Convert from a simple `Maybe` to interact with some code that primarily\nuses `Results`.\n\n    parseInt : String -> Maybe Int\n\n    resultParseInt : String -> Result String Int\n    resultParseInt string =\n        fromMaybe (\"error parsing string: \" ++ toString string) (parseInt string)\n",
-        "type": "x -> Maybe.Maybe a -> Result.Result x a"
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Sub.Sub msg) -> Platform.Sub.Sub msg"
       },
       {
         "name": "map",
-        "comment": " Apply a function to a result. If the result is `Ok`, it will be converted.\nIf the result is an `Err`, the same error value will propagate through.\n\n    map sqrt (Ok 4.0)          == Ok 2.0\n    map sqrt (Err \"bad input\") == Err \"bad input\"\n",
-        "type": "(a -> value) -> Result.Result x a -> Result.Result x value"
-      },
-      {
-        "name": "map2",
-        "comment": " Apply a function to two results, if both results are `Ok`. If not,\nthe first argument which is an `Err` will propagate through.\n\n    map2 (+) (String.toInt \"1\") (String.toInt \"2\") == Ok 3\n    map2 (+) (String.toInt \"1\") (String.toInt \"y\") == Err \"could not convert string 'y' to an Int\"\n    map2 (+) (String.toInt \"x\") (String.toInt \"y\") == Err \"could not convert string 'x' to an Int\"\n",
-        "type": "(a -> b -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x value"
-      },
-      {
-        "name": "map3",
         "comment": "",
-        "type": "(a -> b -> c -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x value"
+        "type": "(a -> msg) -> Platform.Sub.Sub a -> Platform.Sub.Sub msg"
       },
       {
-        "name": "map4",
+        "name": "none",
         "comment": "",
-        "type": "(a -> b -> c -> d -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x value"
-      },
+        "type": "Platform.Sub.Sub msg"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Platform.Cmd",
+    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
+    "aliases": [],
+    "types": [
       {
-        "name": "map5",
+        "name": "Cmd",
+        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "!",
         "comment": "",
-        "type": "(a -> b -> c -> d -> e -> value) -> Result.Result x a -> Result.Result x b -> Result.Result x c -> Result.Result x d -> Result.Result x e -> Result.Result x value"
+        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
       },
       {
-        "name": "toMaybe",
-        "comment": " Convert to a simpler `Maybe` if the actual error message is not needed or\nyou need to interact with some code that primarily uses maybes.\n\n    parseInt : String -> Result ParseError Int\n\n    maybeParseInt : String -> Maybe Int\n    maybeParseInt string =\n        toMaybe (parseInt string)\n",
-        "type": "Result.Result x a -> Maybe.Maybe a"
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
       },
       {
-        "name": "withDefault",
-        "comment": " If the result is `Ok` return the value, but if the result is an `Err` then\nreturn a given default value. The following examples try to parse integers.\n\n    Result.withDefault 0 (String.toInt \"123\") == 123\n    Result.withDefault 0 (String.toInt \"abc\") == 0\n",
-        "type": "a -> Result.Result x a -> a"
+        "name": "map",
+        "comment": "",
+        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "none",
+        "comment": "",
+        "type": "Platform.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -2381,34 +2452,20 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform.Sub",
-    "comment": "\n\n@docs Sub, map, batch, none\n",
+    "name": "Debug",
+    "comment": " This library is for investigating bugs or performance problems. It should\n*not* be used in production code.\n\n# Debugging\n@docs log, crash\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "Sub",
-        "comment": " A subscription is a way of telling Elm, “Hey, let me know if anything\ninteresting happens over there!” So if you want listen for messages on a web\nsocket, you would tell Elm to create a subscription. If you want to get clock\nticks, you would tell Elm to subscribe to that. The cool thing here is that\nthis means *Elm* manages all the details of subscriptions instead of *you*.\nSo if a web socket goes down, *you* do not need to manually reconnect with an\nexponential backoff strategy, *Elm* does this all for you behind the scenes!\n\nEvery `Sub` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, subscriptions will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they fit\ninto a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Sub.Sub msg) -> Platform.Sub.Sub msg"
+        "name": "crash",
+        "comment": " Crash the program with an error message. This is an uncatchable error,\nintended for code that is soon-to-be-implemented. For example, if you are\nworking with a large ADT and have partially completed a case expression, it may\nmake sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.crash \"TODO\"\n\nThe Elm compiler recognizes each `Debug.crash` and when you run into it at\nruntime, the error will point to the corresponding module name and line number.\nFor `case` expressions that ends with a wildcard pattern and a crash, it will\nalso show the value that snuck through. In our example, that'd be `Captain` or\n`Seagull`.\n\n**Use this if** you want to do some testing while you are partway through\nwriting a function.\n\n**Do not use this if** you want to do some typical try-catch exception handling.\nUse the [`Maybe`](Maybe) or [`Result`](Result) libraries instead.\n",
+        "type": "String -> a"
       },
       {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Sub.Sub a -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Sub.Sub msg"
+        "name": "log",
+        "comment": " Log a tagged value on the developer console, and then return the value.\n\n    1 + log \"number\" 1        -- equals 2, logs \"number: 1\"\n    length (log \"start\" [])   -- equals 0, logs \"start: []\"\n\nNotice that `log` is not a pure function! It should *only* be used for\ninvestigating bugs or performance problems.\n",
+        "type": "String -> a -> a"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -2522,63 +2579,6 @@
         "name": "xor",
         "comment": " Bitwise XOR\n",
         "type": "Int -> Int -> Int"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Debug",
-    "comment": " This library is for investigating bugs or performance problems. It should\n*not* be used in production code.\n\n# Debugging\n@docs log, crash\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "crash",
-        "comment": " Crash the program with an error message. This is an uncatchable error,\nintended for code that is soon-to-be-implemented. For example, if you are\nworking with a large ADT and have partially completed a case expression, it may\nmake sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.crash \"TODO\"\n\nThe Elm compiler recognizes each `Debug.crash` and when you run into it at\nruntime, the error will point to the corresponding module name and line number.\nFor `case` expressions that ends with a wildcard pattern and a crash, it will\nalso show the value that snuck through. In our example, that'd be `Captain` or\n`Seagull`.\n\n**Use this if** you want to do some testing while you are partway through\nwriting a function.\n\n**Do not use this if** you want to do some typical try-catch exception handling.\nUse the [`Maybe`](Maybe) or [`Result`](Result) libraries instead.\n",
-        "type": "String -> a"
-      },
-      {
-        "name": "log",
-        "comment": " Log a tagged value on the developer console, and then return the value.\n\n    1 + log \"number\" 1        -- equals 2, logs \"number: 1\"\n    length (log \"start\" [])   -- equals 0, logs \"start: []\"\n\nNotice that `log` is not a pure function! It should *only* be used for\ninvestigating bugs or performance problems.\n",
-        "type": "String -> a -> a"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Platform.Cmd",
-    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Cmd",
-        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "!",
-        "comment": "",
-        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.17.1"

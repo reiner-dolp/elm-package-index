@@ -1431,6 +1431,916 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Html.Styled.Keyed",
+    "comment": " Drop-in replacement for the `Html.Keyed` module from the `elm-lang/html` package.\n\nA keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier. This\n    makes it possible for the underlying diffing algorithm to reuse nodes more\n    efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs ol, ul\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "node",
+        "comment": " Works just like `Html.node`, but you add a unique identifier to each child\nnode. You want this when you have a list of nodes that is changing: adding\nnodes, removing nodes, etc. In these cases, the unique identifiers help make\nthe DOM modifications more efficient.\n",
+        "type": "String -> List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
+      },
+      {
+        "name": "ol",
+        "comment": " ",
+        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
+      },
+      {
+        "name": "ul",
+        "comment": " ",
+        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Css.Global",
+    "comment": " Apply global CSS to things like foreign DOM structures (e.g. generated\nfrom markdown) where you cannot add attributes.\n\nThis module relies on CSS selectors which are [globally scoped and\nbad for maintainability](https://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284),\nso definitely avoid using this module except when there is no reasonable way\ndo to it using `Style` instead!\n\n\n# Global Styles\n\n@docs global, Snippet\n\n\n# Statements\n\n@docs class, id, selector, everything, media, mediaQuery\n\n\n# Combinators\n\n@docs children, descendants, adjacentSiblings, generalSiblings, each, withAttribute, withClass\n\n\n# Basic elements\n\n@docs typeSelector, html, body\n\n\n# Content sectioning\n\n@docs article, header, footer, h1, h2, h3, h4, h5, h6, nav, menu, section, aside, time, details, summary\n\n\n# Text content\n\n@docs div, hr, li, main_, ol, p, ul, pre, dl, dt, dd, blockquote\n\n\n# Inline text semantics\n\n@docs a, code, small, span, strong, i, em, q\n\n\n# Image and multimedia\n\n@docs img, audio, video, canvas\n\n\n# Table content\n\n@docs caption, col, colgroup, table, tbody, td, tfoot, th, thead, tr\n\n\n# Forms\n\n@docs button, fieldset, form, input, label, legend, optgroup, option, progress, select, textarea\n\n\n# SVG\n\n@docs svg, path, rect, circle, ellipse, line, polyline, polygon\n\n",
+    "aliases": [
+      {
+        "name": "Snippet",
+        "comment": " ",
+        "args": [],
+        "type": "Css.Preprocess.Snippet"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "a",
+        "comment": " Selector for an `<a>` element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "adjacentSiblings",
+        "comment": " Apply styles in a list of snippets to the adjacent siblings of a selector\n\n    typeSelector \"div\"\n        [ adjacentSiblings\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv + p {\n    font-size: 14px;\n}\n```\n\n",
+        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
+      },
+      {
+        "name": "article",
+        "comment": " Selector for an article element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "aside",
+        "comment": " Selector for a [aside](https://developer.mozilla.org/en/docs/Web/HTML/Element/aside) element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "audio",
+        "comment": " Selector for an audio element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "blockquote",
+        "comment": " Selector for a blockquote element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "body",
+        "comment": " Selector for a body element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "button",
+        "comment": " Selector for a button element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "canvas",
+        "comment": " Selector for a canvas element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "caption",
+        "comment": " Selector for a caption element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "children",
+        "comment": " Apply styles in a list of snippets to the direct children of a selector\n\n    typeSelector \"div\"\n        [ children\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv > p {\n    font-size: 14px;\n}\n```\n\n",
+        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
+      },
+      {
+        "name": "circle",
+        "comment": " Selector for a circle element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "class",
+        "comment": " A [class selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors).\n\n    global\n        [ class \"login-form-button\"\n            [ fontWeight normal\n            , color (rgb 128 64 32)\n            ]\n        ]\n\n",
+        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "code",
+        "comment": " Selector for a code element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "col",
+        "comment": " Selector for a col element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "colgroup",
+        "comment": " Selector for a colgroup element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "dd",
+        "comment": " Selector for a dd element.\n\n    <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd>\n\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "descendants",
+        "comment": " Apply styles in a list of snippets to the descendants of a selector\n\n    typeSelector \"div\"\n        [ descendants\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv p {\n    font-size: 14px;\n}\n```\n\n",
+        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
+      },
+      {
+        "name": "details",
+        "comment": " Selector for a details element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "div",
+        "comment": " Selector for a div element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "dl",
+        "comment": " Selector for a dl element.\n\n    <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl>\n\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "dt",
+        "comment": " Selector for a dt element.\n\n    <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt>\n\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "each",
+        "comment": " Apply a list of styles to multiple selectors\n\n    each [ typeSelector \"div\", typeSelector \"p\" ]\n        [ fontSize (px 14)\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv {\n    font-size: 14px;\n}\n\np {\n    font-size: 14px;\n}\n```\n\n",
+        "type": "List (List Css.Preprocess.Style -> Css.Global.Snippet) -> List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "ellipse",
+        "comment": " Selector for a ellipse element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "em",
+        "comment": " Selector for a em element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "everything",
+        "comment": " A [`*` selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Universal_selectors).\n\n    class Foo\n        [ children\n            [ everything\n                [ color (rgb 14 15 16)\n                , borderRadius (px 5)\n                ]\n            ]\n        ]\n\n...compiles to:\n\n    .Foo > * {\n      color: rgb(14, 15, 16);\n      border-radius: 5px;\n    }\n\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "fieldset",
+        "comment": " Selector for a fieldset element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "footer",
+        "comment": " Selector for a footer element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "form",
+        "comment": " Selector for a form element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "generalSiblings",
+        "comment": " Apply styles in a list of snippets to the general siblings of a selector\n\n    typeSelector \"div\"\n        [ generalSiblings\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv ~ p {\n    font-size: 14px;\n}\n```\n\n",
+        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
+      },
+      {
+        "name": "global",
+        "comment": " Add global styles to the page. This compiles directly to a `<style>` element.\n",
+        "type": "List Css.Global.Snippet -> Html.Styled.Html msg"
+      },
+      {
+        "name": "h1",
+        "comment": " Selector for an h1 element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "h2",
+        "comment": " Selector for an h2 element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "h3",
+        "comment": " Selector for an h3 element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "h4",
+        "comment": " Selector for an h4 element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "h5",
+        "comment": " Selector for an h5 element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "h6",
+        "comment": " Selector for an h6 element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "header",
+        "comment": " Selector for a header element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "hr",
+        "comment": " Selector for an hr element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "html",
+        "comment": " Selector for a html element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "i",
+        "comment": " Selector for a i element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "id",
+        "comment": " An [id selector](https://developer.mozilla.org/en-US/docs/Web/CSS/ID_selectors).\n\n    global\n        [ id \"nav-bar\"\n            [ width 960 px\n            , backgroundColor (rgb 123 42 208)\n            ]\n        ]\n\n",
+        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "img",
+        "comment": " Selector for a img element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "input",
+        "comment": " Selector for an input element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "label",
+        "comment": " Selector for a label element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "legend",
+        "comment": " Selector for a legend element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "li",
+        "comment": " Selector for an li element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "line",
+        "comment": " Selector for a line element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "main_",
+        "comment": " Selector for a main element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "media",
+        "comment": " Combines media queries into a `@media` rule.\n\n    global\n        [ media [ only screen [ Media.minWidth (px 300) ] ]\n            [ footer [ Css.maxWidth (px 300) ] ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\n@media screen and (min-width: 300px) {\n    footer {\n        max-width: 300px;\n    }\n}\n```\n\n",
+        "type": "List Css.Media.MediaQuery -> List Css.Global.Snippet -> Css.Global.Snippet"
+      },
+      {
+        "name": "mediaQuery",
+        "comment": " Manually specify a `@media` rule using a List of strings.\n\n    mediaQuery [ \"screen and (min-width: 320px)\", \"screen and (max-height: 400px)\" ]\n        [ body [ fontSize (px 14) ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media screen and (min-width: 320px), screen and (max-height: 400px) {\n    body {\n        font-size: 14px;\n    }\n}\n```\n\n",
+        "type": "List String -> List Css.Global.Snippet -> Css.Global.Snippet"
+      },
+      {
+        "name": "menu",
+        "comment": " Selector for a [menu](https://developer.mozilla.org/en/docs/Web/HTML/Element/menu) element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "nav",
+        "comment": " Selector for a nav element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "ol",
+        "comment": " Selector for an ol element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "optgroup",
+        "comment": " Selector for an optgroup element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "option",
+        "comment": " Selector for an option element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "p",
+        "comment": " Selector for a p element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "path",
+        "comment": " Selector for a path element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "polygon",
+        "comment": " Selector for a polygon element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "polyline",
+        "comment": " Selector for a polyline element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "pre",
+        "comment": " Selector for a pre element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "progress",
+        "comment": " Selector for a progress element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "q",
+        "comment": " Selector for a [q](https://developer.mozilla.org/en/docs/Web/HTML/Element/q) element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "rect",
+        "comment": " Selector for a rect element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "section",
+        "comment": " Selector for a section element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "select",
+        "comment": " Selector for a select element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "selector",
+        "comment": " A custom selector. Use this for things like\n[attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors)\nand [universal selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Universal_selectors).\n\n    global\n        [ selector \"* [lang^=en]\"\n            [ textDecoration underline\n            , color (rgb 7 7 7)\n            ]\n        ]\n\n",
+        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "small",
+        "comment": " Selector for a small element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "span",
+        "comment": " Selector for a span element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "strong",
+        "comment": " Selector for a strong element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "summary",
+        "comment": " Selector for a summary element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "svg",
+        "comment": " Selector for a svg element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "table",
+        "comment": " Selector for a table element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "tbody",
+        "comment": " Selector for a tbody element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "td",
+        "comment": " Selector for a td element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "textarea",
+        "comment": " Selector for a textarea element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "tfoot",
+        "comment": " Selector for a tfoot element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "th",
+        "comment": " Selector for a th element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "thead",
+        "comment": " Selector for a thead element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "time",
+        "comment": " Selector for a [time](https://developer.mozilla.org/en/docs/Web/HTML/Element/time) element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "tr",
+        "comment": " Selector for a tr element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "typeSelector",
+        "comment": " Define a custom element.\n\n    global\n        [ typeSelector \"aside\" [ display block ]\n        ]\n\n...outputs\n\n    aside {\n        display: block;\n    }\n\n",
+        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "ul",
+        "comment": " Selector for a ul element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "video",
+        "comment": " Selector for a video element.\n",
+        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
+      },
+      {
+        "name": "withAttribute",
+        "comment": " Apply styles to the current selector plus an attribute selector\n\n    typeSelector \"div\"\n        [ fontSize (px 14)\n        , withAttribute \"data-some-attribute\"\n            [ display none\n            ]\n        , withAttribute \"data-hello=world\"\n            [ color red\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv {\n    font-size: 14px;\n}\n\ndiv[data-some-attribute] {\n    display: none;\n}\n\ndiv[data-hello=world] {\n    color: red;\n}\n```\n\n",
+        "type": "String -> List Css.Preprocess.Style -> Css.Preprocess.Style"
+      },
+      {
+        "name": "withClass",
+        "comment": " Apply styles to the current selector plus an additional class\n\n    typeSelector \"div\"\n        [ fontSize (px 14)\n        , withClass \"is-bold\"\n            [ fontWeight bold\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv {\n    font-size: 14px;\n}\n\ndiv.is-bold {\n    font-weight: bold;\n}\n```\n\n",
+        "type": "String -> List Css.Preprocess.Style -> Css.Preprocess.Style"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Html.Styled.Lazy",
+    "comment": " A not-quite-drop-in replacement for the `Html.Lazy` module from the\n`elm-lang/html` package.\n\nThe only difference between this and the `lazy` from `elm-lang/html` is that the\ncaller must call `toUnstyled` inside the function being passed to `lazy`.\n\nFor example:\n\n        import Html.Styled as Html exposing (Html)\n        import Html.Styled.Lazy exposing (lazy)\n        import VirtualDom\n\n\n        view : Model -> Html Msg\n        view model =\n            lazy viewCount model.count\n\n\n        viewCount : Int -> VirtualDom.Node msg\n        viewCount count =\n            span [ css [ textDecoration underline ] ] [ text (toString count) ]\n                |> toUnstyled -- toUnstyled must happen inside viewCount!\n\n@docs lazy, lazy2, lazy3\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " A performance optimization that delays the building of virtual DOM nodes.\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
+        "type": "(a -> VirtualDom.Node msg) -> a -> Html.Styled.Html msg"
+      },
+      {
+        "name": "lazy2",
+        "comment": " Same as `lazy` but checks on two arguments.\n",
+        "type": "(a -> b -> VirtualDom.Node msg) -> a -> b -> Html.Styled.Html msg"
+      },
+      {
+        "name": "lazy3",
+        "comment": " Same as `lazy` but checks on three arguments.\n",
+        "type": "(a -> b -> c -> VirtualDom.Node msg) -> a -> b -> c -> Html.Styled.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Svg.Styled",
+    "comment": " Drop-in replacement for the `Svg` module from the `elm-lang/svg` package.\nThe only functions added are `styled`, `toUnstyled` and `fromUnstyled`:\n\n@docs styled, fromUnstyled, toUnstyled\n\n\n# SVG Nodes\n\n@docs Svg, Attribute, text, node, map\n\n\n# HTML Embedding\n\n@docs svg, foreignObject\n\n\n# Graphics elements\n\n@docs circle, ellipse, image, line, path, polygon, polyline, rect, use\n\n\n# Animation elements\n\n@docs animate, animateColor, animateMotion, animateTransform, mpath, set\n\n\n# Descriptive elements\n\n@docs desc, metadata, title\n\n\n# Containers\n\n@docs a, defs, g, marker, mask, pattern, switch, symbol\n\n\n# Text\n\n@docs altGlyph, altGlyphDef, altGlyphItem, glyph, glyphRef, textPath, text_, tref, tspan\n\n\n# Fonts\n\n@docs font\n\n\n# Gradients\n\n@docs linearGradient, radialGradient, stop\n\n\n# Filters\n\n@docs feBlend, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting, feDisplacementMap, feFlood, feFuncA, feFuncB, feFuncG, feFuncR, feGaussianBlur, feImage, feMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting, feTile, feTurbulence\n\n\n# Light source elements\n\n@docs feDistantLight, fePointLight, feSpotLight\n\n\n# Miscellaneous\n\n@docs clipPath, colorProfile, cursor, filter, script, style, view\n\n",
+    "aliases": [
+      {
+        "name": "Attribute",
+        "comment": " An [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) which supports the [`css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Svg-Styled-Attributes#css) attribute.\n\nYou can obtain one of these from the normal [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\nby using [`fromUnstyled`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg-Styled-Attributes#fromUnstyled).\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "VirtualDom.Styled.Property msg"
+      },
+      {
+        "name": "Svg",
+        "comment": " Styled [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg).\n\nYou can convert from this to the normal [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\n(which is a type alias for [`VirtualDom.Node`](http://package.elm-lang.org/packages/elm-lang/virtual-dom/latest/VirtualDom#Node))\nby using [`toUnstyled`](#toUnstyled).\n\nYou can convert the other way using [`fromUnstyled`](#fromUnstyled).\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "VirtualDom.Styled.Node msg"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "a",
+        "comment": " The SVG Anchor Element defines a hyperlink.\n",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "altGlyph",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "altGlyphDef",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "altGlyphItem",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animate",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animateColor",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animateMotion",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "animateTransform",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "circle",
+        "comment": " The circle element is an SVG basic shape, used to create circles based on\na center point and a radius.\ncircle [ cx \"60\", cy \"60\", r \"50\" ]\n",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "clipPath",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "colorProfile",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "cursor",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "defs",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "desc",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "ellipse",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feBlend",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feColorMatrix",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feComponentTransfer",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feComposite",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feConvolveMatrix",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feDiffuseLighting",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feDisplacementMap",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feDistantLight",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFlood",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncA",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncB",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncG",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feFuncR",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feGaussianBlur",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feImage",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feMerge",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feMergeNode",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feMorphology",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feOffset",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "fePointLight",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feSpecularLighting",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feSpotLight",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feTile",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "feTurbulence",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "filter",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "font",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "foreignObject",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Html.Styled.Html msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "fromUnstyled",
+        "comment": " ",
+        "type": "VirtualDom.Node msg -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "g",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "glyph",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "glyphRef",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "image",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "line",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "linearGradient",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "map",
+        "comment": " Transform the messages produced by some `Svg`.\n",
+        "type": "(a -> msg) -> Svg.Styled.Svg a -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "marker",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "mask",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "metadata",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "mpath",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "node",
+        "comment": " Create any SVG node. To create a `<rect>` helper function, you would write:\n\n    rect : List (Attribute msg) -> List (Svg msg) -> Svg msg\n    rect attributes children =\n        node \"rect\" attributes children\n\nYou should always be able to use the helper functions already defined in this\nlibrary though!\n\n",
+        "type": "String -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "path",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "pattern",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "polygon",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "polyline",
+        "comment": " The polyline element is an SVG basic shape, used to create a series of\nstraight lines connecting several points. Typically a polyline is used to\ncreate open shapes.\npolyline [ fill \"none\", stroke \"black\", points \"20,100 40,60 70,80 100,20\" ]\n",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "radialGradient",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "rect",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "script",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "set",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "stop",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "style",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "styled",
+        "comment": " Takes a function that creates an element, and pre-applies styles to it.\n",
+        "type": "(List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg) -> List Css.Style -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "svg",
+        "comment": " The root `<svg>` node for any SVG scene. This example shows a scene\ncontaining a rounded rectangle:\n\n    import Html.Styled exposing (Html)\n    import Svg.Styled exposing (..)\n    import Svg.Styled.Attributes exposing (..)\n\n    roundRect : Html msg\n    roundRect =\n        svg\n            [ width \"120\", height \"120\", viewBox \"0 0 120 120\" ]\n            [ rect [ x \"10\", y \"10\", width \"100\", height \"100\", rx \"15\", ry \"15\" ] [] ]\n\n",
+        "type": "List (Html.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Html.Styled.Html msg"
+      },
+      {
+        "name": "switch",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "symbol",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "text",
+        "comment": " A simple text node, no tags at all.\nWarning: not to be confused with `text_` which produces the SVG `<text>` tag!\n",
+        "type": "String -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "textPath",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "text_",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "title",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "toUnstyled",
+        "comment": " ",
+        "type": "Svg.Styled.Svg msg -> VirtualDom.Node msg"
+      },
+      {
+        "name": "tref",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "tspan",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "use",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Html.Styled.Attributes",
     "comment": " Drop-in replacement for the `Html.Attributes` module from the `elm-lang/html` package.\nThe only functions added are `css` and `fromUnstyled`:\n\n@docs css, fromUnstyled\n\nHelper functions for HTML attributes. They are organized roughly by\ncategory. Each attribute is labeled with the HTML tags it can be used with, so\njust search the page for `video` if you want video stuff.\n\n\n# Primitives\n\n@docs style, property, attribute, map\n\n\n# Super Common Attributes\n\n@docs class, classList, id, title, hidden\n\n\n# Inputs\n\n@docs type_, value, defaultValue, checked, placeholder, selected\n\n\n## Input Helpers\n\n@docs accept, acceptCharset, action, autocomplete, autofocus, disabled, enctype, formaction, list, maxlength, minlength, method, multiple, name, novalidate, pattern, readonly, required, size, for, form\n\n\n## Input Ranges\n\n@docs max, min, step\n\n\n## Input Text Areas\n\n@docs cols, rows, wrap\n\n\n# Links and Areas\n\n@docs href, target, download, downloadAs, hreflang, media, ping, rel\n\n\n## Maps\n\n@docs ismap, usemap, shape, coords\n\n\n# Embedded Content\n\n@docs src, height, width, alt\n\n\n## Audio and Video\n\n@docs autoplay, controls, loop, preload, poster, default, kind, srclang\n\n\n## iframes\n\n@docs sandbox, seamless, srcdoc\n\n\n# Ordered Lists\n\n@docs reversed, start\n\n\n# Tables\n\n@docs align, colspan, rowspan, headers, scope\n\n\n# Header Stuff\n\n@docs async, charset, content, defer, httpEquiv, language, scoped\n\n\n# Less Common Global Attributes\n\nAttributes that can be attached to any HTML tag but are less commonly used.\n\n@docs accesskey, contenteditable, contextmenu, dir, draggable, dropzone, itemprop, lang, spellcheck, tabindex\n\n\n# Key Generation\n\n@docs challenge, keytype\n\n\n# Miscellaneous\n\n@docs cite, datetime, manifest, pubdate\n\n",
     "aliases": [],
@@ -1940,916 +2850,6 @@
         "name": "wrap",
         "comment": " Indicates whether the text should be wrapped in a `textarea`. Possible\nvalues are \"hard\" and \"soft\".\n",
         "type": "String -> Html.Styled.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Html.Styled.Lazy",
-    "comment": " A not-quite-drop-in replacement for the `Html.Lazy` module from the\n`elm-lang/html` package.\n\nThe only difference between this and the `lazy` from `elm-lang/html` is that the\ncaller must call `toUnstyled` inside the function being passed to `lazy`.\n\nFor example:\n\n        import Html.Styled as Html exposing (Html)\n        import Html.Styled.Lazy exposing (lazy)\n        import VirtualDom\n\n\n        view : Model -> Html Msg\n        view model =\n            lazy viewCount model.count\n\n\n        viewCount : Int -> VirtualDom.Node msg\n        viewCount count =\n            span [ css [ textDecoration underline ] ] [ text (toString count) ]\n                |> toUnstyled -- toUnstyled must happen inside viewCount!\n\n@docs lazy, lazy2, lazy3\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "lazy",
-        "comment": " A performance optimization that delays the building of virtual DOM nodes.\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
-        "type": "(a -> VirtualDom.Node msg) -> a -> Html.Styled.Html msg"
-      },
-      {
-        "name": "lazy2",
-        "comment": " Same as `lazy` but checks on two arguments.\n",
-        "type": "(a -> b -> VirtualDom.Node msg) -> a -> b -> Html.Styled.Html msg"
-      },
-      {
-        "name": "lazy3",
-        "comment": " Same as `lazy` but checks on three arguments.\n",
-        "type": "(a -> b -> c -> VirtualDom.Node msg) -> a -> b -> c -> Html.Styled.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Svg.Styled",
-    "comment": " Drop-in replacement for the `Svg` module from the `elm-lang/svg` package.\nThe only functions added are `styled`, `toUnstyled` and `fromUnstyled`:\n\n@docs styled, fromUnstyled, toUnstyled\n\n\n# SVG Nodes\n\n@docs Svg, Attribute, text, node, map\n\n\n# HTML Embedding\n\n@docs svg, foreignObject\n\n\n# Graphics elements\n\n@docs circle, ellipse, image, line, path, polygon, polyline, rect, use\n\n\n# Animation elements\n\n@docs animate, animateColor, animateMotion, animateTransform, mpath, set\n\n\n# Descriptive elements\n\n@docs desc, metadata, title\n\n\n# Containers\n\n@docs a, defs, g, marker, mask, pattern, switch, symbol\n\n\n# Text\n\n@docs altGlyph, altGlyphDef, altGlyphItem, glyph, glyphRef, textPath, text_, tref, tspan\n\n\n# Fonts\n\n@docs font\n\n\n# Gradients\n\n@docs linearGradient, radialGradient, stop\n\n\n# Filters\n\n@docs feBlend, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting, feDisplacementMap, feFlood, feFuncA, feFuncB, feFuncG, feFuncR, feGaussianBlur, feImage, feMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting, feTile, feTurbulence\n\n\n# Light source elements\n\n@docs feDistantLight, fePointLight, feSpotLight\n\n\n# Miscellaneous\n\n@docs clipPath, colorProfile, cursor, filter, script, style, view\n\n",
-    "aliases": [
-      {
-        "name": "Attribute",
-        "comment": " An [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) which supports the [`css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Svg-Styled-Attributes#css) attribute.\n\nYou can obtain one of these from the normal [`Attribute`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Attribute) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\nby using [`fromUnstyled`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg-Styled-Attributes#fromUnstyled).\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "VirtualDom.Styled.Property msg"
-      },
-      {
-        "name": "Svg",
-        "comment": " Styled [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg).\n\nYou can convert from this to the normal [`Svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#Svg) type from [`elm-lang/svg`](http://package.elm-lang.org/packages/elm-lang/svg/latest)\n(which is a type alias for [`VirtualDom.Node`](http://package.elm-lang.org/packages/elm-lang/virtual-dom/latest/VirtualDom#Node))\nby using [`toUnstyled`](#toUnstyled).\n\nYou can convert the other way using [`fromUnstyled`](#fromUnstyled).\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "VirtualDom.Styled.Node msg"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "a",
-        "comment": " The SVG Anchor Element defines a hyperlink.\n",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "altGlyph",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "altGlyphDef",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "altGlyphItem",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animate",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animateColor",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animateMotion",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "animateTransform",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "circle",
-        "comment": " The circle element is an SVG basic shape, used to create circles based on\na center point and a radius.\ncircle [ cx \"60\", cy \"60\", r \"50\" ]\n",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "clipPath",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "colorProfile",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "cursor",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "defs",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "desc",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "ellipse",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feBlend",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feColorMatrix",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feComponentTransfer",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feComposite",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feConvolveMatrix",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feDiffuseLighting",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feDisplacementMap",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feDistantLight",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFlood",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncA",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncB",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncG",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feFuncR",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feGaussianBlur",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feImage",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feMerge",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feMergeNode",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feMorphology",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feOffset",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "fePointLight",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feSpecularLighting",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feSpotLight",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feTile",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "feTurbulence",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "filter",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "font",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "foreignObject",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Html.Styled.Html msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "fromUnstyled",
-        "comment": " ",
-        "type": "VirtualDom.Node msg -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "g",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "glyph",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "glyphRef",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "image",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "line",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "linearGradient",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "map",
-        "comment": " Transform the messages produced by some `Svg`.\n",
-        "type": "(a -> msg) -> Svg.Styled.Svg a -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "marker",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "mask",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "metadata",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "mpath",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "node",
-        "comment": " Create any SVG node. To create a `<rect>` helper function, you would write:\n\n    rect : List (Attribute msg) -> List (Svg msg) -> Svg msg\n    rect attributes children =\n        node \"rect\" attributes children\n\nYou should always be able to use the helper functions already defined in this\nlibrary though!\n\n",
-        "type": "String -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "path",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "pattern",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "polygon",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "polyline",
-        "comment": " The polyline element is an SVG basic shape, used to create a series of\nstraight lines connecting several points. Typically a polyline is used to\ncreate open shapes.\npolyline [ fill \"none\", stroke \"black\", points \"20,100 40,60 70,80 100,20\" ]\n",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "radialGradient",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "rect",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "script",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "set",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "stop",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "style",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "styled",
-        "comment": " Takes a function that creates an element, and pre-applies styles to it.\n",
-        "type": "(List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg) -> List Css.Style -> List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "svg",
-        "comment": " The root `<svg>` node for any SVG scene. This example shows a scene\ncontaining a rounded rectangle:\n\n    import Html.Styled exposing (Html)\n    import Svg.Styled exposing (..)\n    import Svg.Styled.Attributes exposing (..)\n\n    roundRect : Html msg\n    roundRect =\n        svg\n            [ width \"120\", height \"120\", viewBox \"0 0 120 120\" ]\n            [ rect [ x \"10\", y \"10\", width \"100\", height \"100\", rx \"15\", ry \"15\" ] [] ]\n\n",
-        "type": "List (Html.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Html.Styled.Html msg"
-      },
-      {
-        "name": "switch",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "symbol",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "text",
-        "comment": " A simple text node, no tags at all.\nWarning: not to be confused with `text_` which produces the SVG `<text>` tag!\n",
-        "type": "String -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "textPath",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "text_",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "title",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "toUnstyled",
-        "comment": " ",
-        "type": "Svg.Styled.Svg msg -> VirtualDom.Node msg"
-      },
-      {
-        "name": "tref",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "tspan",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "use",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "List (Svg.Styled.Attribute msg) -> List (Svg.Styled.Svg msg) -> Svg.Styled.Svg msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Html.Styled.Keyed",
-    "comment": " Drop-in replacement for the `Html.Keyed` module from the `elm-lang/html` package.\n\nA keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier. This\n    makes it possible for the underlying diffing algorithm to reuse nodes more\n    efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs ol, ul\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "node",
-        "comment": " Works just like `Html.node`, but you add a unique identifier to each child\nnode. You want this when you have a list of nodes that is changing: adding\nnodes, removing nodes, etc. In these cases, the unique identifiers help make\nthe DOM modifications more efficient.\n",
-        "type": "String -> List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
-      },
-      {
-        "name": "ol",
-        "comment": " ",
-        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
-      },
-      {
-        "name": "ul",
-        "comment": " ",
-        "type": "List (Html.Styled.Attribute msg) -> List ( String, Html.Styled.Html msg ) -> Html.Styled.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Css.Global",
-    "comment": " Apply global CSS to things like foreign DOM structures (e.g. generated\nfrom markdown) where you cannot add attributes.\n\nThis module relies on CSS selectors which are [globally scoped and\nbad for maintainability](https://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284),\nso definitely avoid using this module except when there is no reasonable way\ndo to it using `Style` instead!\n\n\n# Global Styles\n\n@docs global, Snippet\n\n\n# Statements\n\n@docs class, id, selector, everything, media, mediaQuery\n\n\n# Combinators\n\n@docs children, descendants, adjacentSiblings, generalSiblings, each, withAttribute, withClass\n\n\n# Basic elements\n\n@docs typeSelector, html, body\n\n\n# Content sectioning\n\n@docs article, header, footer, h1, h2, h3, h4, h5, h6, nav, menu, section, aside, time, details, summary\n\n\n# Text content\n\n@docs div, hr, li, main_, ol, p, ul, pre, dl, dt, dd, blockquote\n\n\n# Inline text semantics\n\n@docs a, code, small, span, strong, i, em, q\n\n\n# Image and multimedia\n\n@docs img, audio, video, canvas\n\n\n# Table content\n\n@docs caption, col, colgroup, table, tbody, td, tfoot, th, thead, tr\n\n\n# Forms\n\n@docs button, fieldset, form, input, label, legend, optgroup, option, progress, select, textarea\n\n\n# SVG\n\n@docs svg, path, rect, circle, ellipse, line, polyline, polygon\n\n",
-    "aliases": [
-      {
-        "name": "Snippet",
-        "comment": " ",
-        "args": [],
-        "type": "Css.Preprocess.Snippet"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "a",
-        "comment": " Selector for an `<a>` element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "adjacentSiblings",
-        "comment": " Apply styles in a list of snippets to the adjacent siblings of a selector\n\n    typeSelector \"div\"\n        [ adjacentSiblings\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv + p {\n    font-size: 14px;\n}\n```\n\n",
-        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
-      },
-      {
-        "name": "article",
-        "comment": " Selector for an article element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "aside",
-        "comment": " Selector for a [aside](https://developer.mozilla.org/en/docs/Web/HTML/Element/aside) element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "audio",
-        "comment": " Selector for an audio element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "blockquote",
-        "comment": " Selector for a blockquote element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "body",
-        "comment": " Selector for a body element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "button",
-        "comment": " Selector for a button element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "canvas",
-        "comment": " Selector for a canvas element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "caption",
-        "comment": " Selector for a caption element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "children",
-        "comment": " Apply styles in a list of snippets to the direct children of a selector\n\n    typeSelector \"div\"\n        [ children\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv > p {\n    font-size: 14px;\n}\n```\n\n",
-        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
-      },
-      {
-        "name": "circle",
-        "comment": " Selector for a circle element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "class",
-        "comment": " A [class selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors).\n\n    global\n        [ class \"login-form-button\"\n            [ fontWeight normal\n            , color (rgb 128 64 32)\n            ]\n        ]\n\n",
-        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "code",
-        "comment": " Selector for a code element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "col",
-        "comment": " Selector for a col element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "colgroup",
-        "comment": " Selector for a colgroup element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "dd",
-        "comment": " Selector for a dd element.\n\n    <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd>\n\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "descendants",
-        "comment": " Apply styles in a list of snippets to the descendants of a selector\n\n    typeSelector \"div\"\n        [ descendants\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv p {\n    font-size: 14px;\n}\n```\n\n",
-        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
-      },
-      {
-        "name": "details",
-        "comment": " Selector for a details element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "div",
-        "comment": " Selector for a div element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "dl",
-        "comment": " Selector for a dl element.\n\n    <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl>\n\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "dt",
-        "comment": " Selector for a dt element.\n\n    <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt>\n\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "each",
-        "comment": " Apply a list of styles to multiple selectors\n\n    each [ typeSelector \"div\", typeSelector \"p\" ]\n        [ fontSize (px 14)\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv {\n    font-size: 14px;\n}\n\np {\n    font-size: 14px;\n}\n```\n\n",
-        "type": "List (List Css.Preprocess.Style -> Css.Global.Snippet) -> List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "ellipse",
-        "comment": " Selector for a ellipse element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "em",
-        "comment": " Selector for a em element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "everything",
-        "comment": " A [`*` selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Universal_selectors).\n\n    class Foo\n        [ children\n            [ everything\n                [ color (rgb 14 15 16)\n                , borderRadius (px 5)\n                ]\n            ]\n        ]\n\n...compiles to:\n\n    .Foo > * {\n      color: rgb(14, 15, 16);\n      border-radius: 5px;\n    }\n\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "fieldset",
-        "comment": " Selector for a fieldset element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "footer",
-        "comment": " Selector for a footer element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "form",
-        "comment": " Selector for a form element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "generalSiblings",
-        "comment": " Apply styles in a list of snippets to the general siblings of a selector\n\n    typeSelector \"div\"\n        [ generalSiblings\n            [ typeSelector \"p\"\n                [ fontSize (px 14)\n                ]\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv ~ p {\n    font-size: 14px;\n}\n```\n\n",
-        "type": "List Css.Global.Snippet -> Css.Preprocess.Style"
-      },
-      {
-        "name": "global",
-        "comment": " Add global styles to the page. This compiles directly to a `<style>` element.\n",
-        "type": "List Css.Global.Snippet -> Html.Styled.Html msg"
-      },
-      {
-        "name": "h1",
-        "comment": " Selector for an h1 element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "h2",
-        "comment": " Selector for an h2 element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "h3",
-        "comment": " Selector for an h3 element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "h4",
-        "comment": " Selector for an h4 element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "h5",
-        "comment": " Selector for an h5 element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "h6",
-        "comment": " Selector for an h6 element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "header",
-        "comment": " Selector for a header element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "hr",
-        "comment": " Selector for an hr element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "html",
-        "comment": " Selector for a html element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "i",
-        "comment": " Selector for a i element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "id",
-        "comment": " An [id selector](https://developer.mozilla.org/en-US/docs/Web/CSS/ID_selectors).\n\n    global\n        [ id \"nav-bar\"\n            [ width 960 px\n            , backgroundColor (rgb 123 42 208)\n            ]\n        ]\n\n",
-        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "img",
-        "comment": " Selector for a img element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "input",
-        "comment": " Selector for an input element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "label",
-        "comment": " Selector for a label element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "legend",
-        "comment": " Selector for a legend element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "li",
-        "comment": " Selector for an li element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "line",
-        "comment": " Selector for a line element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "main_",
-        "comment": " Selector for a main element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "media",
-        "comment": " Combines media queries into a `@media` rule.\n\n    global\n        [ media [ only screen [ Media.minWidth (px 300) ] ]\n            [ footer [ Css.maxWidth (px 300) ] ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\n@media screen and (min-width: 300px) {\n    footer {\n        max-width: 300px;\n    }\n}\n```\n\n",
-        "type": "List Css.Media.MediaQuery -> List Css.Global.Snippet -> Css.Global.Snippet"
-      },
-      {
-        "name": "mediaQuery",
-        "comment": " Manually specify a `@media` rule using a List of strings.\n\n    mediaQuery [ \"screen and (min-width: 320px)\", \"screen and (max-height: 400px)\" ]\n        [ body [ fontSize (px 14) ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media screen and (min-width: 320px), screen and (max-height: 400px) {\n    body {\n        font-size: 14px;\n    }\n}\n```\n\n",
-        "type": "List String -> List Css.Global.Snippet -> Css.Global.Snippet"
-      },
-      {
-        "name": "menu",
-        "comment": " Selector for a [menu](https://developer.mozilla.org/en/docs/Web/HTML/Element/menu) element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "nav",
-        "comment": " Selector for a nav element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "ol",
-        "comment": " Selector for an ol element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "optgroup",
-        "comment": " Selector for an optgroup element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "option",
-        "comment": " Selector for an option element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "p",
-        "comment": " Selector for a p element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "path",
-        "comment": " Selector for a path element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "polygon",
-        "comment": " Selector for a polygon element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "polyline",
-        "comment": " Selector for a polyline element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "pre",
-        "comment": " Selector for a pre element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "progress",
-        "comment": " Selector for a progress element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "q",
-        "comment": " Selector for a [q](https://developer.mozilla.org/en/docs/Web/HTML/Element/q) element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "rect",
-        "comment": " Selector for a rect element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "section",
-        "comment": " Selector for a section element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "select",
-        "comment": " Selector for a select element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "selector",
-        "comment": " A custom selector. Use this for things like\n[attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors)\nand [universal selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Universal_selectors).\n\n    global\n        [ selector \"* [lang^=en]\"\n            [ textDecoration underline\n            , color (rgb 7 7 7)\n            ]\n        ]\n\n",
-        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "small",
-        "comment": " Selector for a small element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "span",
-        "comment": " Selector for a span element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "strong",
-        "comment": " Selector for a strong element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "summary",
-        "comment": " Selector for a summary element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "svg",
-        "comment": " Selector for a svg element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "table",
-        "comment": " Selector for a table element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "tbody",
-        "comment": " Selector for a tbody element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "td",
-        "comment": " Selector for a td element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "textarea",
-        "comment": " Selector for a textarea element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "tfoot",
-        "comment": " Selector for a tfoot element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "th",
-        "comment": " Selector for a th element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "thead",
-        "comment": " Selector for a thead element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "time",
-        "comment": " Selector for a [time](https://developer.mozilla.org/en/docs/Web/HTML/Element/time) element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "tr",
-        "comment": " Selector for a tr element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "typeSelector",
-        "comment": " Define a custom element.\n\n    global\n        [ typeSelector \"aside\" [ display block ]\n        ]\n\n...outputs\n\n    aside {\n        display: block;\n    }\n\n",
-        "type": "String -> List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "ul",
-        "comment": " Selector for a ul element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "video",
-        "comment": " Selector for a video element.\n",
-        "type": "List Css.Preprocess.Style -> Css.Global.Snippet"
-      },
-      {
-        "name": "withAttribute",
-        "comment": " Apply styles to the current selector plus an attribute selector\n\n    typeSelector \"div\"\n        [ fontSize (px 14)\n        , withAttribute \"data-some-attribute\"\n            [ display none\n            ]\n        , withAttribute \"data-hello=world\"\n            [ color red\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv {\n    font-size: 14px;\n}\n\ndiv[data-some-attribute] {\n    display: none;\n}\n\ndiv[data-hello=world] {\n    color: red;\n}\n```\n\n",
-        "type": "String -> List Css.Preprocess.Style -> Css.Preprocess.Style"
-      },
-      {
-        "name": "withClass",
-        "comment": " Apply styles to the current selector plus an additional class\n\n    typeSelector \"div\"\n        [ fontSize (px 14)\n        , withClass \"is-bold\"\n            [ fontWeight bold\n            ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\ndiv {\n    font-size: 14px;\n}\n\ndiv.is-bold {\n    font-weight: bold;\n}\n```\n\n",
-        "type": "String -> List Css.Preprocess.Style -> Css.Preprocess.Style"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -3522,458 +3522,6 @@
         "name": "wbr",
         "comment": " Represents a line break opportunity, that is a suggested point for\nwrapping text in order to improve readability of text split on several lines.\n",
         "type": "List (Html.Styled.Attribute msg) -> List (Html.Styled.Html msg) -> Html.Styled.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Css.Media",
-    "comment": " Functions for building [`@media` queries](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries).\n\n\n# Data Structures\n\n@docs MediaQuery, MediaType, Expression\n\n\n# `@media` rule constructors\n\n@docs withMedia, withMediaQuery\n\n\n# Query constructors\n\n@docs all, only, not\n\n\n# Media Types\n\n@docs screen, print, speech\n\n\n# Viewport, Page Dimensions Media Features\n\n@docs minWidth, width, maxWidth, minHeight, height, maxHeight, Ratio, ratio\n@docs minAspectRatio, aspectRatio, maxAspectRatio, Landscape, Portrait\n@docs landscape, portrait, orientation\n\n\n# Display Quality Media Features\n\n@docs Resolution, dpi, dpcm, dppx, minResolution, resolution, maxResolution\n@docs Progressive, Interlace, progressive, interlace, scan, grid, Slow\n@docs Fast, slow, fast, update, Paged, OptionalPaged, paged, optionalPaged\n@docs overflowBlock, overflowInline\n\n\n# Color Media Features\n\n@docs Bits, bits, minColor, color, maxColor, minMonochrome, monochrome\n@docs maxMonochrome, minColorIndex, colorIndex, maxColorIndex, SRGB, P3\n@docs Rec2020, srgb, p3, rec2020, colorGamut\n\n\n# Interaction Media Features\n\n@docs Fine, Coarse, fine, coarse, pointer, anyPointer, CanHover, canHover\n@docs hover, anyHover\n\n\n# Scripting Media Features\n\n@docs InitialOnly, Enabled, initialOnly, enabled, scripting\n\n",
-    "aliases": [
-      {
-        "name": "Bits",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, bits : Css.Structure.Compatible }"
-      },
-      {
-        "name": "CanHover",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, hoverCapability : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Coarse",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, pointerDevice : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Enabled",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, scriptingSupport : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Expression",
-        "comment": " A media expression.\n\nAn expression is a media feature with an optional value, which resolves to\neither true or false.\n\nIn the media query `screen and (min-width: 768px)`,\n\n  - `screen` is a media type,\n  - `min-width` is a media feature, and\n  - `(min-width: 768px)` is an expression.\n\n[[[[[[<https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features>](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)\n\n",
-        "args": [],
-        "type": "Css.Structure.MediaExpression"
-      },
-      {
-        "name": "Fast",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, updateFrequency : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Fine",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, pointerDevice : Css.Structure.Compatible }"
-      },
-      {
-        "name": "InitialOnly",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, scriptingSupport : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Interlace",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, scanningProcess : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Landscape",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, orientation : Css.Structure.Compatible }"
-      },
-      {
-        "name": "MediaQuery",
-        "comment": " One query of a media rule. A media rule can have multiple queries.\nThe CSS below contains 1 rule, with 2 queries.\n\n```css\n@media print, screen and (monochrome) {\n    body {\n        color: black;\n    }\n}\n```\n\nThe above rule roughly translates as:\n_If the device is a printer or is a monochrome screen, the body color is black._\n\nIn elm-css, queries are joined into rules using a special `MediaQuery`\nreturned by the `or` function.\n\n",
-        "args": [],
-        "type": "Css.Structure.MediaQuery"
-      },
-      {
-        "name": "MediaType",
-        "comment": " A media type.\n\n[[[[[[<https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types>](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)\n\n",
-        "args": [],
-        "type": "Css.Structure.MediaType"
-      },
-      {
-        "name": "OptionalPaged",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, blockAxisOverflow : Css.Structure.Compatible }"
-      },
-      {
-        "name": "P3",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, colorGamut : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Paged",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, blockAxisOverflow : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Portrait",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, orientation : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Progressive",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, scanningProcess : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Ratio",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, ratio : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Rec2020",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, colorGamut : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Resolution",
-        "comment": " Display Resolution. <https://www.w3.org/TR/css3-values/#resolution-value>\n",
-        "args": [],
-        "type": "{ value : String, resolution : Css.Structure.Compatible }"
-      },
-      {
-        "name": "SRGB",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, colorGamut : Css.Structure.Compatible }"
-      },
-      {
-        "name": "Slow",
-        "comment": " ",
-        "args": [],
-        "type": "{ value : String, updateFrequency : Css.Structure.Compatible }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "all",
-        "comment": " Build a media query that will match all media types.\n\nThe supplied `expressions` are combined with `and`.\n\n    media [ all [ color, landscape ] ]\n        [ body [ Css.color (hex \"ff0000\") ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media (color) and (landscape) {\n    body {\n        color: #ff0000;\n    }\n}\n```\n\n",
-        "type": "List Css.Media.Expression -> Css.Media.MediaQuery"
-      },
-      {
-        "name": "anyHover",
-        "comment": " Media feature [`any-hover`](https://drafts.csswg.org/mediaqueries/#any-input)\nQueries the if any of user agent's input mechanisms have the ability to hover over elements\nAccepts `none` or `canHover`.\n\n    media (anyHover canHover) [ a [ Css.hover [ textDecoration underline ] ] ]\n\n",
-        "type": "Css.Media.HoverCapability a -> Css.Media.Expression"
-      },
-      {
-        "name": "anyPointer",
-        "comment": " Media feature [`any-pointer`](https://drafts.csswg.org/mediaqueries/#any-input)\nQueries the presence and accuracy of a pointing device, such as a mouse, touchscreen, or Wii remote.\nReflects the capabilities of the most capable input mechanism.\nAccepts `none`, `fine`, and `coarse`.\n\n    media (anyPointer coarse) [ a [ display block, Css.height (px 24) ] ]\n\n",
-        "type": "Css.Media.PointerDevice a -> Css.Media.Expression"
-      },
-      {
-        "name": "aspectRatio",
-        "comment": " Media feature [`aspect-ratio`](https://drafts.csswg.org/mediaqueries/#aspect-ratio)\n\n    media (aspectRatio (ratio 16 10)) [ ... ]\n\n",
-        "type": "Css.Media.Ratio -> Css.Media.Expression"
-      },
-      {
-        "name": "bits",
-        "comment": " Get a bumber of bits\n\n    bits 8\n\n",
-        "type": "Int -> Css.Media.Bits"
-      },
-      {
-        "name": "canHover",
-        "comment": " The value [`hover`](https://drafts.csswg.org/mediaqueries/#valdef-media-hover-hover).\nNamed `canHover` to avoid conflict with the media feature of the same name\n",
-        "type": "Css.Media.CanHover"
-      },
-      {
-        "name": "coarse",
-        "comment": " CSS Value [`coarse`](https://drafts.csswg.org/mediaqueries/#valdef-media-pointer-coarse)\n",
-        "type": "Css.Media.Coarse"
-      },
-      {
-        "name": "color",
-        "comment": " Media feature [`color`](https://drafts.csswg.org/mediaqueries/#color)\n\n    media (not color) [ body [ Css.color (hex \"000000\") ] ]\n\n",
-        "type": "Css.Media.Expression"
-      },
-      {
-        "name": "colorGamut",
-        "comment": " Media feature [`color-gamut`](https://drafts.csswg.org/mediaqueries/#color-gamut).\nDescribes the approximate range of colors supported by the user agent and device.\n\n    media (and screen (colorGamut rec2020)) [ Css.class HiColorImg [ display block ] ]\n\n",
-        "type": "Css.Media.ColorGamut a -> Css.Media.Expression"
-      },
-      {
-        "name": "colorIndex",
-        "comment": " Media feature [`color-index`](https://drafts.csswg.org/mediaqueries/#color-index)\nQueries the number of colors in the user agent's color lookup table.\n\n    media (and screen (colorIndex (int 16777216))) [ a [ Css.color (hex \"D9534F\") ] ]\n\n",
-        "type": "Css.Structure.Number a -> Css.Media.Expression"
-      },
-      {
-        "name": "dpcm",
-        "comment": " `dpcm`: Dots per centimeter. <https://www.w3.org/TR/css3-values/#resolution-value>\n\n    dpcm 65\n\n",
-        "type": "Float -> Css.Media.Resolution"
-      },
-      {
-        "name": "dpi",
-        "comment": " `dpi`: Dots per inch. <https://www.w3.org/TR/css3-values/#resolution-value>\n\n    dpi 166\n\n",
-        "type": "Float -> Css.Media.Resolution"
-      },
-      {
-        "name": "dppx",
-        "comment": " `dppx`: Dots per pixel. <https://www.w3.org/TR/css3-values/#resolution-value>\n\n    dppx 1.5\n\n",
-        "type": "Float -> Css.Media.Resolution"
-      },
-      {
-        "name": "enabled",
-        "comment": " CSS value [`enabled`](https://drafts.csswg.org/mediaqueries/#valdef-media-scripting-enabled).\n",
-        "type": "Css.Media.Enabled"
-      },
-      {
-        "name": "fast",
-        "comment": " CSS value [`fast`](https://drafts.csswg.org/mediaqueries/#valdef-media-update-fast)\n",
-        "type": "Css.Media.Fast"
-      },
-      {
-        "name": "fine",
-        "comment": " CSS Value [`fine`](https://drafts.csswg.org/mediaqueries/#valdef-media-pointer-fine)\n",
-        "type": "Css.Media.Fine"
-      },
-      {
-        "name": "grid",
-        "comment": " Media feature [`grid`](https://drafts.csswg.org/mediaqueries/#grid).\nQueries whether the output device is a grid or bitmap.\n",
-        "type": "Css.Media.Expression"
-      },
-      {
-        "name": "height",
-        "comment": " Media feature [`height`](https://drafts.csswg.org/mediaqueries/#height)\n",
-        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
-      },
-      {
-        "name": "hover",
-        "comment": " Media feature [`hover`](https://drafts.csswg.org/mediaqueries/#hover).\nQueries the if the user agent's primary input mechanism has the ability to hover over elements.\nAccepts `none` or `canHover`.\n\n    media (Media.hover canHover) [ a [ Css.hover [ textDecoration underline ] ] ]\n\n",
-        "type": "Css.Media.HoverCapability a -> Css.Media.Expression"
-      },
-      {
-        "name": "initialOnly",
-        "comment": " CSS value [`initial-only`](https://drafts.csswg.org/mediaqueries/#valdef-media-scripting-initial-only).\n",
-        "type": "Css.Media.InitialOnly"
-      },
-      {
-        "name": "interlace",
-        "comment": " CSS value [`interlace`](https://drafts.csswg.org/mediaqueries/#valdef-media-scan-interlace)\n",
-        "type": "Css.Media.Interlace"
-      },
-      {
-        "name": "landscape",
-        "comment": " CSS value [`landscape`](https://drafts.csswg.org/mediaqueries/#valdef-media-orientation-portrait)\n",
-        "type": "Css.Media.Landscape"
-      },
-      {
-        "name": "maxAspectRatio",
-        "comment": " Media feature [`max-aspect-ratio`](https://drafts.csswg.org/mediaqueries/#aspect-ratio)\n\n    media (maxAspectRatio (ratio 16 9)) [ ... ]\n\n",
-        "type": "Css.Media.Ratio -> Css.Media.Expression"
-      },
-      {
-        "name": "maxColor",
-        "comment": " Media feature [`max-color`](https://drafts.csswg.org/mediaqueries/#color)\nQueries the user agent's bits per color channel\n\n    media (and screen (maxColor (bits 8))) [ a [ Css.color (hex \"FF0000\") ] ]\n\n",
-        "type": "Css.Media.Bits -> Css.Media.Expression"
-      },
-      {
-        "name": "maxColorIndex",
-        "comment": " Media feature [`max-color-index`](https://drafts.csswg.org/mediaqueries/#color-index).\nQueries the number of colors in the user agent's color lookup table.\n\n    media (and screen (maxColorIndex (int 256))) [ a [ Css.color (hex \"FF0000\") ] ]\n\n",
-        "type": "Css.Structure.Number a -> Css.Media.Expression"
-      },
-      {
-        "name": "maxHeight",
-        "comment": " Media feature [`max-height`](https://drafts.csswg.org/mediaqueries/#height)\n\n    media (Media.maxHeight (px 399)) [ Css.class TopBanner [ display none ] ]\n\n",
-        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
-      },
-      {
-        "name": "maxMonochrome",
-        "comment": " Media feature [`max-monochrome`](https://drafts.csswg.org/mediaqueries/#monochrome)\n",
-        "type": "Css.Media.Bits -> Css.Media.Expression"
-      },
-      {
-        "name": "maxResolution",
-        "comment": " Media feature [`max-resolution`](https://drafts.csswg.org/mediaqueries/#resolution)\nDescribes the resolution of the output device.\n\n    media (maxResolution (dpcm 65)) [ Css.class HiResImg [ display none ] ]\n\n",
-        "type": "Css.Media.Resolution -> Css.Media.Expression"
-      },
-      {
-        "name": "maxWidth",
-        "comment": " Media feature [`max-width`](https://drafts.csswg.org/mediaqueries/#width)\n\n    media (Media.maxWidth (px 800)) [ Css.class MobileNav [ display none ] ]\n\n",
-        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
-      },
-      {
-        "name": "minAspectRatio",
-        "comment": " Media feature [`min-aspect-ratio`](https://drafts.csswg.org/mediaqueries/#aspect-ratio)\n\n    media (minAspectRatio (ratio 1 1)) [ ... ]\n\n",
-        "type": "Css.Media.Ratio -> Css.Media.Expression"
-      },
-      {
-        "name": "minColor",
-        "comment": " Media Feature [`min-nncolor`](https://drafts.csswg.org/mediaqueries/#color)\nQueries the user agent's bits per color channel\n\n    media (screen (minColor (bits 256))) [ a [ Css.color (hex \"D9534F\") ] ]\n\n",
-        "type": "Css.Media.Bits -> Css.Media.Expression"
-      },
-      {
-        "name": "minColorIndex",
-        "comment": " Media Feature [`min-color-index`](https://drafts.csswg.org/mediaqueries/nn#color-index)\nQueries the number of colors in the user agent's color lookup table.\n\n    media (and screen (minColorIndex (int 16777216))) [ a [ Css.color (hex \"D9534F\") ] ]\n\n",
-        "type": "Css.Structure.Number a -> Css.Media.Expression"
-      },
-      {
-        "name": "minHeight",
-        "comment": " Media feature [`min-height`](https://drafts.csswg.org/mediaqueries/#height)\n\n    media (Media.minHeight (px 400)) [ Css.class TopBanner [ display block ] ]\n\n",
-        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
-      },
-      {
-        "name": "minMonochrome",
-        "comment": " Media Feature [`min-monochrome`](https://drafts.csswg.org/mediaqueries/#monochrome)\n",
-        "type": "Css.Media.Bits -> Css.Media.Expression"
-      },
-      {
-        "name": "minResolution",
-        "comment": " Media feature [`min-resolution`](https://drafts.csswg.org/mediaqueries/#resolution).\nDescribes the resolution of the output device.\n\n    media (minResolution (dpi 600)) [ Css.class HiResImg [ display block ] ]\n\n",
-        "type": "Css.Media.Resolution -> Css.Media.Expression"
-      },
-      {
-        "name": "minWidth",
-        "comment": " Media feature [`min-width`](https://drafts.csswg.org/mediaqueries/#width)\nQueries the width of the output device.\n\n    media (Media.minWidth (px 600)) [ Css.class Container [ Css.maxWidth (px 500) ] ]\n\n",
-        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
-      },
-      {
-        "name": "monochrome",
-        "comment": " Media feature [`monochrome`](https://drafts.csswg.org/mediaqueries/#monochrome)\n\n    media [ monochrome ] [ body [ Css.color (hex \"000000\") ] ]\n\n",
-        "type": "Css.Media.Expression"
-      },
-      {
-        "name": "not",
-        "comment": " Build a negated media query.\n\n    media [ not screen [] ]\n        [ body [ Css.color (hex \"ff0000\") ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media not screen {\n    body {\n        color: #ff0000;\n    }\n}\n```\n\n",
-        "type": "Css.Media.MediaType -> List Css.Media.Expression -> Css.Media.MediaQuery"
-      },
-      {
-        "name": "only",
-        "comment": " Build a media query matching a single media type.\n\n    media [ only screen [ minWidth (px 320), portrait ] ]\n        [ body [ Css.color (hex \"ff0000\") ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media only screen and (min-width: 320px) and (portrait) {\n    body {\n        color: #ff0000;\n    }\n}\n```\n\n",
-        "type": "Css.Media.MediaType -> List Css.Media.Expression -> Css.Media.MediaQuery"
-      },
-      {
-        "name": "optionalPaged",
-        "comment": " CSS value [`optional-paged`](https://drafts.csswg.org/mediaqueries/#valdef-media-overflow-block-optional-paged)\n",
-        "type": "Css.Media.OptionalPaged"
-      },
-      {
-        "name": "orientation",
-        "comment": " Media feature [`orientation`](https://drafts.csswg.org/mediaqueries/#orientation).\nAccepts `portrait` or `landscape`.\n",
-        "type": "Css.Media.Orientation a -> Css.Media.Expression"
-      },
-      {
-        "name": "overflowBlock",
-        "comment": " Media feature [`overflow-block`](https://drafts.csswg.org/mediaqueries/#overflow-block)\nDescribes the behavior of the device when content overflows the initial containing block in the block axis.\n",
-        "type": "Css.Media.BlockAxisOverflow a -> Css.Media.Expression"
-      },
-      {
-        "name": "overflowInline",
-        "comment": " Media feature [`overflow-inline`](https://drafts.csswg.org/mediaqueries/#overflow-inline).\nDescribes the behavior of the device when content overflows the initial containing block in the inline axis.\n",
-        "type": "Css.Media.InlineAxisOverflow a -> Css.Media.Expression"
-      },
-      {
-        "name": "p3",
-        "comment": " CSS value [`p3`](https://drafts.csswg.org/mediaqueries/#valdef-media-color-gamut-p3)\n",
-        "type": "Css.Media.P3"
-      },
-      {
-        "name": "paged",
-        "comment": " CSS value [`paged`](https://drafts.csswg.org/mediaqueries/#valdef-media-overflow-block-paged)\n",
-        "type": "Css.Media.Paged"
-      },
-      {
-        "name": "pointer",
-        "comment": " Media feature [`pointer`](https://drafts.csswg.org/mediaqueries/#pointer)\nQueries the presence and accuracy of a pointing device, such as a mouse, touchscreen, or Wii remote.\nReflects the capabilities of the primary input mechanism.\nAccepts `none`, `fine`, and `coarse`.\n\n    media (Media.pointer coarse) [ a [ display block, Css.height (px 24) ] ]\n\n",
-        "type": "Css.Media.PointerDevice a -> Css.Media.Expression"
-      },
-      {
-        "name": "portrait",
-        "comment": " CSS value [`portrait`](https://drafts.csswg.org/mediaqueries/#valdef-media-orientation-portrait)\n",
-        "type": "Css.Media.Portrait"
-      },
-      {
-        "name": "print",
-        "comment": " Media type for printers\n\n    media print [ a [ color (hex 0), textDecoration none ] ]\n\n",
-        "type": "Css.Media.MediaType"
-      },
-      {
-        "name": "progressive",
-        "comment": " CSS value [`progressive`](https://drafts.csswg.org/mediaqueries/#valdef-media-scan-progressive)\n",
-        "type": "Css.Media.Progressive"
-      },
-      {
-        "name": "ratio",
-        "comment": " Create a ratio.\n\n    --a ratio of 4/3\n    ratio 4 3\n\n",
-        "type": "Int -> Int -> Css.Media.Ratio"
-      },
-      {
-        "name": "rec2020",
-        "comment": " CSS value [`rec2020`](https://drafts.csswg.org/mediaqueries/#valdef-media-color-gamut-rec2020)\n",
-        "type": "Css.Media.Rec2020"
-      },
-      {
-        "name": "resolution",
-        "comment": " Media feature [`resolution`](https://drafts.csswg.org/mediaqueries/#resolution)\nDescribes the resolution of the output device.\n\n    media (resolution (dppx 2)) [ img [ width (pct 50) ] ]\n\n",
-        "type": "Css.Media.Resolution -> Css.Media.Expression"
-      },
-      {
-        "name": "scan",
-        "comment": " Media feature [`scan`](https://drafts.csswg.org/mediaqueries/#scan).\nQueries scanning process of the device. Accepts `innterlace` (some TVs) or `progressive` (most things).\n",
-        "type": "Css.Media.ScanningProcess a -> Css.Media.Expression"
-      },
-      {
-        "name": "screen",
-        "comment": " Media type for any device not matched by print or speech.\n\n    media (and screen (maxWidth (px 600)) [ Css.class mobileNav display none ]\n\n",
-        "type": "Css.Media.MediaType"
-      },
-      {
-        "name": "scripting",
-        "comment": " The [`scripting`](https://drafts.csswg.org/mediaqueries/#scripting) media feature\nfor querying the user agents support for scripting languages like JavaScript.\nAccepts `none`, `initialOnly`, and `enabled`.\n\n    media (scripting none) [ Css.class NoScript [ display block ] ]\n\n",
-        "type": "Css.Media.ScriptingSupport a -> Css.Media.Expression"
-      },
-      {
-        "name": "slow",
-        "comment": " CSS value [`slow`](https://drafts.csswg.org/mediaqueries/#valdef-media-update-slow)\n",
-        "type": "Css.Media.Slow"
-      },
-      {
-        "name": "speech",
-        "comment": " Media type for screenreaders and similar devices that read out a page\n\n    media (not speech) [ Css.class screenReaderOnly [ display none ] ]\n\n",
-        "type": "Css.Media.MediaType"
-      },
-      {
-        "name": "srgb",
-        "comment": " CSS value [`srgb`](https://drafts.csswg.org/mediaqueries/#valdef-media-color-gamut-srgb)\n",
-        "type": "Css.Media.SRGB"
-      },
-      {
-        "name": "update",
-        "comment": " Media feature [`update`](https://drafts.csswg.org/mediaqueries/#update)\nThe update frequency of the device. Accepts `none`, `slow`, or `fast`\n",
-        "type": "Css.Media.UpdateFrequency a -> Css.Media.Expression"
-      },
-      {
-        "name": "width",
-        "comment": " Media feature [`width`](https://drafts.csswg.org/mediaqueries/#width)\n\n    media (Media.width (px 200)) [ ... ]\n\n",
-        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
-      },
-      {
-        "name": "withMedia",
-        "comment": " Combines media queries that are nested under selectors into a `@media` rule.\n\n    css\n        [ withMedia [ only screen [ Media.minWidth (px 300), Media.maxWidth (px 800) ] ]\n            [ Css.maxWidth (px 300) ]\n\nThe above code translates into the following CSS.\n\n```css\n@media only screen and (min-width: 300px) and (max-width: 800px) {\n    ._c9f0fd {\n        max-width: 300px;\n    }\n}\n```\n\n",
-        "type": "List Css.Media.MediaQuery -> List Css.Style -> Css.Style"
-      },
-      {
-        "name": "withMediaQuery",
-        "comment": " Manually specify a `@media` rule that is nested under an element or class\nusing a List of strings.\n\n    body\n        [ withMediaQuery [ \"screen and (min-width: 320px)\", \"screen and (max-height: 400px)\" ]\n            [ fontSize (px 14 px) ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\n@media screen and (min-width: 320px), screen and (max-height: 400px) {\n    body {\n        font-size: 14px;\n    }\n}\n```\n\n",
-        "type": "List String -> List Css.Style -> Css.Style"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -5475,6 +5023,458 @@
         "name": "zIndex3",
         "comment": " Create a [`Transition`](#Transition) for the [z-index](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index)\nproperty specifying duration, delay and timing function\n",
         "type": "Float -> Float -> Css.Transitions.TimingFunction -> Css.Transitions.Transition"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Css.Media",
+    "comment": " Functions for building [`@media` queries](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries).\n\n\n# Data Structures\n\n@docs MediaQuery, MediaType, Expression\n\n\n# `@media` rule constructors\n\n@docs withMedia, withMediaQuery\n\n\n# Query constructors\n\n@docs all, only, not\n\n\n# Media Types\n\n@docs screen, print, speech\n\n\n# Viewport, Page Dimensions Media Features\n\n@docs minWidth, width, maxWidth, minHeight, height, maxHeight, Ratio, ratio\n@docs minAspectRatio, aspectRatio, maxAspectRatio, Landscape, Portrait\n@docs landscape, portrait, orientation\n\n\n# Display Quality Media Features\n\n@docs Resolution, dpi, dpcm, dppx, minResolution, resolution, maxResolution\n@docs Progressive, Interlace, progressive, interlace, scan, grid, Slow\n@docs Fast, slow, fast, update, Paged, OptionalPaged, paged, optionalPaged\n@docs overflowBlock, overflowInline\n\n\n# Color Media Features\n\n@docs Bits, bits, minColor, color, maxColor, minMonochrome, monochrome\n@docs maxMonochrome, minColorIndex, colorIndex, maxColorIndex, SRGB, P3\n@docs Rec2020, srgb, p3, rec2020, colorGamut\n\n\n# Interaction Media Features\n\n@docs Fine, Coarse, fine, coarse, pointer, anyPointer, CanHover, canHover\n@docs hover, anyHover\n\n\n# Scripting Media Features\n\n@docs InitialOnly, Enabled, initialOnly, enabled, scripting\n\n",
+    "aliases": [
+      {
+        "name": "Bits",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, bits : Css.Structure.Compatible }"
+      },
+      {
+        "name": "CanHover",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, hoverCapability : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Coarse",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, pointerDevice : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Enabled",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, scriptingSupport : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Expression",
+        "comment": " A media expression.\n\nAn expression is a media feature with an optional value, which resolves to\neither true or false.\n\nIn the media query `screen and (min-width: 768px)`,\n\n  - `screen` is a media type,\n  - `min-width` is a media feature, and\n  - `(min-width: 768px)` is an expression.\n\n[[[[[[<https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features>](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features)\n\n",
+        "args": [],
+        "type": "Css.Structure.MediaExpression"
+      },
+      {
+        "name": "Fast",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, updateFrequency : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Fine",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, pointerDevice : Css.Structure.Compatible }"
+      },
+      {
+        "name": "InitialOnly",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, scriptingSupport : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Interlace",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, scanningProcess : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Landscape",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, orientation : Css.Structure.Compatible }"
+      },
+      {
+        "name": "MediaQuery",
+        "comment": " One query of a media rule. A media rule can have multiple queries.\nThe CSS below contains 1 rule, with 2 queries.\n\n```css\n@media print, screen and (monochrome) {\n    body {\n        color: black;\n    }\n}\n```\n\nThe above rule roughly translates as:\n_If the device is a printer or is a monochrome screen, the body color is black._\n\nIn elm-css, queries are joined into rules using a special `MediaQuery`\nreturned by the `or` function.\n\n",
+        "args": [],
+        "type": "Css.Structure.MediaQuery"
+      },
+      {
+        "name": "MediaType",
+        "comment": " A media type.\n\n[[[[[[<https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types>](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_types)\n\n",
+        "args": [],
+        "type": "Css.Structure.MediaType"
+      },
+      {
+        "name": "OptionalPaged",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, blockAxisOverflow : Css.Structure.Compatible }"
+      },
+      {
+        "name": "P3",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, colorGamut : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Paged",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, blockAxisOverflow : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Portrait",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, orientation : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Progressive",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, scanningProcess : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Ratio",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, ratio : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Rec2020",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, colorGamut : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Resolution",
+        "comment": " Display Resolution. <https://www.w3.org/TR/css3-values/#resolution-value>\n",
+        "args": [],
+        "type": "{ value : String, resolution : Css.Structure.Compatible }"
+      },
+      {
+        "name": "SRGB",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, colorGamut : Css.Structure.Compatible }"
+      },
+      {
+        "name": "Slow",
+        "comment": " ",
+        "args": [],
+        "type": "{ value : String, updateFrequency : Css.Structure.Compatible }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "all",
+        "comment": " Build a media query that will match all media types.\n\nThe supplied `expressions` are combined with `and`.\n\n    media [ all [ color, landscape ] ]\n        [ body [ Css.color (hex \"ff0000\") ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media (color) and (landscape) {\n    body {\n        color: #ff0000;\n    }\n}\n```\n\n",
+        "type": "List Css.Media.Expression -> Css.Media.MediaQuery"
+      },
+      {
+        "name": "anyHover",
+        "comment": " Media feature [`any-hover`](https://drafts.csswg.org/mediaqueries/#any-input)\nQueries the if any of user agent's input mechanisms have the ability to hover over elements\nAccepts `none` or `canHover`.\n\n    media (anyHover canHover) [ a [ Css.hover [ textDecoration underline ] ] ]\n\n",
+        "type": "Css.Media.HoverCapability a -> Css.Media.Expression"
+      },
+      {
+        "name": "anyPointer",
+        "comment": " Media feature [`any-pointer`](https://drafts.csswg.org/mediaqueries/#any-input)\nQueries the presence and accuracy of a pointing device, such as a mouse, touchscreen, or Wii remote.\nReflects the capabilities of the most capable input mechanism.\nAccepts `none`, `fine`, and `coarse`.\n\n    media (anyPointer coarse) [ a [ display block, Css.height (px 24) ] ]\n\n",
+        "type": "Css.Media.PointerDevice a -> Css.Media.Expression"
+      },
+      {
+        "name": "aspectRatio",
+        "comment": " Media feature [`aspect-ratio`](https://drafts.csswg.org/mediaqueries/#aspect-ratio)\n\n    media (aspectRatio (ratio 16 10)) [ ... ]\n\n",
+        "type": "Css.Media.Ratio -> Css.Media.Expression"
+      },
+      {
+        "name": "bits",
+        "comment": " Get a bumber of bits\n\n    bits 8\n\n",
+        "type": "Int -> Css.Media.Bits"
+      },
+      {
+        "name": "canHover",
+        "comment": " The value [`hover`](https://drafts.csswg.org/mediaqueries/#valdef-media-hover-hover).\nNamed `canHover` to avoid conflict with the media feature of the same name\n",
+        "type": "Css.Media.CanHover"
+      },
+      {
+        "name": "coarse",
+        "comment": " CSS Value [`coarse`](https://drafts.csswg.org/mediaqueries/#valdef-media-pointer-coarse)\n",
+        "type": "Css.Media.Coarse"
+      },
+      {
+        "name": "color",
+        "comment": " Media feature [`color`](https://drafts.csswg.org/mediaqueries/#color)\n\n    media (not color) [ body [ Css.color (hex \"000000\") ] ]\n\n",
+        "type": "Css.Media.Expression"
+      },
+      {
+        "name": "colorGamut",
+        "comment": " Media feature [`color-gamut`](https://drafts.csswg.org/mediaqueries/#color-gamut).\nDescribes the approximate range of colors supported by the user agent and device.\n\n    media (and screen (colorGamut rec2020)) [ Css.class HiColorImg [ display block ] ]\n\n",
+        "type": "Css.Media.ColorGamut a -> Css.Media.Expression"
+      },
+      {
+        "name": "colorIndex",
+        "comment": " Media feature [`color-index`](https://drafts.csswg.org/mediaqueries/#color-index)\nQueries the number of colors in the user agent's color lookup table.\n\n    media (and screen (colorIndex (int 16777216))) [ a [ Css.color (hex \"D9534F\") ] ]\n\n",
+        "type": "Css.Structure.Number a -> Css.Media.Expression"
+      },
+      {
+        "name": "dpcm",
+        "comment": " `dpcm`: Dots per centimeter. <https://www.w3.org/TR/css3-values/#resolution-value>\n\n    dpcm 65\n\n",
+        "type": "Float -> Css.Media.Resolution"
+      },
+      {
+        "name": "dpi",
+        "comment": " `dpi`: Dots per inch. <https://www.w3.org/TR/css3-values/#resolution-value>\n\n    dpi 166\n\n",
+        "type": "Float -> Css.Media.Resolution"
+      },
+      {
+        "name": "dppx",
+        "comment": " `dppx`: Dots per pixel. <https://www.w3.org/TR/css3-values/#resolution-value>\n\n    dppx 1.5\n\n",
+        "type": "Float -> Css.Media.Resolution"
+      },
+      {
+        "name": "enabled",
+        "comment": " CSS value [`enabled`](https://drafts.csswg.org/mediaqueries/#valdef-media-scripting-enabled).\n",
+        "type": "Css.Media.Enabled"
+      },
+      {
+        "name": "fast",
+        "comment": " CSS value [`fast`](https://drafts.csswg.org/mediaqueries/#valdef-media-update-fast)\n",
+        "type": "Css.Media.Fast"
+      },
+      {
+        "name": "fine",
+        "comment": " CSS Value [`fine`](https://drafts.csswg.org/mediaqueries/#valdef-media-pointer-fine)\n",
+        "type": "Css.Media.Fine"
+      },
+      {
+        "name": "grid",
+        "comment": " Media feature [`grid`](https://drafts.csswg.org/mediaqueries/#grid).\nQueries whether the output device is a grid or bitmap.\n",
+        "type": "Css.Media.Expression"
+      },
+      {
+        "name": "height",
+        "comment": " Media feature [`height`](https://drafts.csswg.org/mediaqueries/#height)\n",
+        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
+      },
+      {
+        "name": "hover",
+        "comment": " Media feature [`hover`](https://drafts.csswg.org/mediaqueries/#hover).\nQueries the if the user agent's primary input mechanism has the ability to hover over elements.\nAccepts `none` or `canHover`.\n\n    media (Media.hover canHover) [ a [ Css.hover [ textDecoration underline ] ] ]\n\n",
+        "type": "Css.Media.HoverCapability a -> Css.Media.Expression"
+      },
+      {
+        "name": "initialOnly",
+        "comment": " CSS value [`initial-only`](https://drafts.csswg.org/mediaqueries/#valdef-media-scripting-initial-only).\n",
+        "type": "Css.Media.InitialOnly"
+      },
+      {
+        "name": "interlace",
+        "comment": " CSS value [`interlace`](https://drafts.csswg.org/mediaqueries/#valdef-media-scan-interlace)\n",
+        "type": "Css.Media.Interlace"
+      },
+      {
+        "name": "landscape",
+        "comment": " CSS value [`landscape`](https://drafts.csswg.org/mediaqueries/#valdef-media-orientation-portrait)\n",
+        "type": "Css.Media.Landscape"
+      },
+      {
+        "name": "maxAspectRatio",
+        "comment": " Media feature [`max-aspect-ratio`](https://drafts.csswg.org/mediaqueries/#aspect-ratio)\n\n    media (maxAspectRatio (ratio 16 9)) [ ... ]\n\n",
+        "type": "Css.Media.Ratio -> Css.Media.Expression"
+      },
+      {
+        "name": "maxColor",
+        "comment": " Media feature [`max-color`](https://drafts.csswg.org/mediaqueries/#color)\nQueries the user agent's bits per color channel\n\n    media (and screen (maxColor (bits 8))) [ a [ Css.color (hex \"FF0000\") ] ]\n\n",
+        "type": "Css.Media.Bits -> Css.Media.Expression"
+      },
+      {
+        "name": "maxColorIndex",
+        "comment": " Media feature [`max-color-index`](https://drafts.csswg.org/mediaqueries/#color-index).\nQueries the number of colors in the user agent's color lookup table.\n\n    media (and screen (maxColorIndex (int 256))) [ a [ Css.color (hex \"FF0000\") ] ]\n\n",
+        "type": "Css.Structure.Number a -> Css.Media.Expression"
+      },
+      {
+        "name": "maxHeight",
+        "comment": " Media feature [`max-height`](https://drafts.csswg.org/mediaqueries/#height)\n\n    media (Media.maxHeight (px 399)) [ Css.class TopBanner [ display none ] ]\n\n",
+        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
+      },
+      {
+        "name": "maxMonochrome",
+        "comment": " Media feature [`max-monochrome`](https://drafts.csswg.org/mediaqueries/#monochrome)\n",
+        "type": "Css.Media.Bits -> Css.Media.Expression"
+      },
+      {
+        "name": "maxResolution",
+        "comment": " Media feature [`max-resolution`](https://drafts.csswg.org/mediaqueries/#resolution)\nDescribes the resolution of the output device.\n\n    media (maxResolution (dpcm 65)) [ Css.class HiResImg [ display none ] ]\n\n",
+        "type": "Css.Media.Resolution -> Css.Media.Expression"
+      },
+      {
+        "name": "maxWidth",
+        "comment": " Media feature [`max-width`](https://drafts.csswg.org/mediaqueries/#width)\n\n    media (Media.maxWidth (px 800)) [ Css.class MobileNav [ display none ] ]\n\n",
+        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
+      },
+      {
+        "name": "minAspectRatio",
+        "comment": " Media feature [`min-aspect-ratio`](https://drafts.csswg.org/mediaqueries/#aspect-ratio)\n\n    media (minAspectRatio (ratio 1 1)) [ ... ]\n\n",
+        "type": "Css.Media.Ratio -> Css.Media.Expression"
+      },
+      {
+        "name": "minColor",
+        "comment": " Media Feature [`min-nncolor`](https://drafts.csswg.org/mediaqueries/#color)\nQueries the user agent's bits per color channel\n\n    media (screen (minColor (bits 256))) [ a [ Css.color (hex \"D9534F\") ] ]\n\n",
+        "type": "Css.Media.Bits -> Css.Media.Expression"
+      },
+      {
+        "name": "minColorIndex",
+        "comment": " Media Feature [`min-color-index`](https://drafts.csswg.org/mediaqueries/nn#color-index)\nQueries the number of colors in the user agent's color lookup table.\n\n    media (and screen (minColorIndex (int 16777216))) [ a [ Css.color (hex \"D9534F\") ] ]\n\n",
+        "type": "Css.Structure.Number a -> Css.Media.Expression"
+      },
+      {
+        "name": "minHeight",
+        "comment": " Media feature [`min-height`](https://drafts.csswg.org/mediaqueries/#height)\n\n    media (Media.minHeight (px 400)) [ Css.class TopBanner [ display block ] ]\n\n",
+        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
+      },
+      {
+        "name": "minMonochrome",
+        "comment": " Media Feature [`min-monochrome`](https://drafts.csswg.org/mediaqueries/#monochrome)\n",
+        "type": "Css.Media.Bits -> Css.Media.Expression"
+      },
+      {
+        "name": "minResolution",
+        "comment": " Media feature [`min-resolution`](https://drafts.csswg.org/mediaqueries/#resolution).\nDescribes the resolution of the output device.\n\n    media (minResolution (dpi 600)) [ Css.class HiResImg [ display block ] ]\n\n",
+        "type": "Css.Media.Resolution -> Css.Media.Expression"
+      },
+      {
+        "name": "minWidth",
+        "comment": " Media feature [`min-width`](https://drafts.csswg.org/mediaqueries/#width)\nQueries the width of the output device.\n\n    media (Media.minWidth (px 600)) [ Css.class Container [ Css.maxWidth (px 500) ] ]\n\n",
+        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
+      },
+      {
+        "name": "monochrome",
+        "comment": " Media feature [`monochrome`](https://drafts.csswg.org/mediaqueries/#monochrome)\n\n    media [ monochrome ] [ body [ Css.color (hex \"000000\") ] ]\n\n",
+        "type": "Css.Media.Expression"
+      },
+      {
+        "name": "not",
+        "comment": " Build a negated media query.\n\n    media [ not screen [] ]\n        [ body [ Css.color (hex \"ff0000\") ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media not screen {\n    body {\n        color: #ff0000;\n    }\n}\n```\n\n",
+        "type": "Css.Media.MediaType -> List Css.Media.Expression -> Css.Media.MediaQuery"
+      },
+      {
+        "name": "only",
+        "comment": " Build a media query matching a single media type.\n\n    media [ only screen [ minWidth (px 320), portrait ] ]\n        [ body [ Css.color (hex \"ff0000\") ] ]\n\nThe above code translates into the following CSS.\n\n```css\n@media only screen and (min-width: 320px) and (portrait) {\n    body {\n        color: #ff0000;\n    }\n}\n```\n\n",
+        "type": "Css.Media.MediaType -> List Css.Media.Expression -> Css.Media.MediaQuery"
+      },
+      {
+        "name": "optionalPaged",
+        "comment": " CSS value [`optional-paged`](https://drafts.csswg.org/mediaqueries/#valdef-media-overflow-block-optional-paged)\n",
+        "type": "Css.Media.OptionalPaged"
+      },
+      {
+        "name": "orientation",
+        "comment": " Media feature [`orientation`](https://drafts.csswg.org/mediaqueries/#orientation).\nAccepts `portrait` or `landscape`.\n",
+        "type": "Css.Media.Orientation a -> Css.Media.Expression"
+      },
+      {
+        "name": "overflowBlock",
+        "comment": " Media feature [`overflow-block`](https://drafts.csswg.org/mediaqueries/#overflow-block)\nDescribes the behavior of the device when content overflows the initial containing block in the block axis.\n",
+        "type": "Css.Media.BlockAxisOverflow a -> Css.Media.Expression"
+      },
+      {
+        "name": "overflowInline",
+        "comment": " Media feature [`overflow-inline`](https://drafts.csswg.org/mediaqueries/#overflow-inline).\nDescribes the behavior of the device when content overflows the initial containing block in the inline axis.\n",
+        "type": "Css.Media.InlineAxisOverflow a -> Css.Media.Expression"
+      },
+      {
+        "name": "p3",
+        "comment": " CSS value [`p3`](https://drafts.csswg.org/mediaqueries/#valdef-media-color-gamut-p3)\n",
+        "type": "Css.Media.P3"
+      },
+      {
+        "name": "paged",
+        "comment": " CSS value [`paged`](https://drafts.csswg.org/mediaqueries/#valdef-media-overflow-block-paged)\n",
+        "type": "Css.Media.Paged"
+      },
+      {
+        "name": "pointer",
+        "comment": " Media feature [`pointer`](https://drafts.csswg.org/mediaqueries/#pointer)\nQueries the presence and accuracy of a pointing device, such as a mouse, touchscreen, or Wii remote.\nReflects the capabilities of the primary input mechanism.\nAccepts `none`, `fine`, and `coarse`.\n\n    media (Media.pointer coarse) [ a [ display block, Css.height (px 24) ] ]\n\n",
+        "type": "Css.Media.PointerDevice a -> Css.Media.Expression"
+      },
+      {
+        "name": "portrait",
+        "comment": " CSS value [`portrait`](https://drafts.csswg.org/mediaqueries/#valdef-media-orientation-portrait)\n",
+        "type": "Css.Media.Portrait"
+      },
+      {
+        "name": "print",
+        "comment": " Media type for printers\n\n    media print [ a [ color (hex 0), textDecoration none ] ]\n\n",
+        "type": "Css.Media.MediaType"
+      },
+      {
+        "name": "progressive",
+        "comment": " CSS value [`progressive`](https://drafts.csswg.org/mediaqueries/#valdef-media-scan-progressive)\n",
+        "type": "Css.Media.Progressive"
+      },
+      {
+        "name": "ratio",
+        "comment": " Create a ratio.\n\n    --a ratio of 4/3\n    ratio 4 3\n\n",
+        "type": "Int -> Int -> Css.Media.Ratio"
+      },
+      {
+        "name": "rec2020",
+        "comment": " CSS value [`rec2020`](https://drafts.csswg.org/mediaqueries/#valdef-media-color-gamut-rec2020)\n",
+        "type": "Css.Media.Rec2020"
+      },
+      {
+        "name": "resolution",
+        "comment": " Media feature [`resolution`](https://drafts.csswg.org/mediaqueries/#resolution)\nDescribes the resolution of the output device.\n\n    media (resolution (dppx 2)) [ img [ width (pct 50) ] ]\n\n",
+        "type": "Css.Media.Resolution -> Css.Media.Expression"
+      },
+      {
+        "name": "scan",
+        "comment": " Media feature [`scan`](https://drafts.csswg.org/mediaqueries/#scan).\nQueries scanning process of the device. Accepts `innterlace` (some TVs) or `progressive` (most things).\n",
+        "type": "Css.Media.ScanningProcess a -> Css.Media.Expression"
+      },
+      {
+        "name": "screen",
+        "comment": " Media type for any device not matched by print or speech.\n\n    media (and screen (maxWidth (px 600)) [ Css.class mobileNav display none ]\n\n",
+        "type": "Css.Media.MediaType"
+      },
+      {
+        "name": "scripting",
+        "comment": " The [`scripting`](https://drafts.csswg.org/mediaqueries/#scripting) media feature\nfor querying the user agents support for scripting languages like JavaScript.\nAccepts `none`, `initialOnly`, and `enabled`.\n\n    media (scripting none) [ Css.class NoScript [ display block ] ]\n\n",
+        "type": "Css.Media.ScriptingSupport a -> Css.Media.Expression"
+      },
+      {
+        "name": "slow",
+        "comment": " CSS value [`slow`](https://drafts.csswg.org/mediaqueries/#valdef-media-update-slow)\n",
+        "type": "Css.Media.Slow"
+      },
+      {
+        "name": "speech",
+        "comment": " Media type for screenreaders and similar devices that read out a page\n\n    media (not speech) [ Css.class screenReaderOnly [ display none ] ]\n\n",
+        "type": "Css.Media.MediaType"
+      },
+      {
+        "name": "srgb",
+        "comment": " CSS value [`srgb`](https://drafts.csswg.org/mediaqueries/#valdef-media-color-gamut-srgb)\n",
+        "type": "Css.Media.SRGB"
+      },
+      {
+        "name": "update",
+        "comment": " Media feature [`update`](https://drafts.csswg.org/mediaqueries/#update)\nThe update frequency of the device. Accepts `none`, `slow`, or `fast`\n",
+        "type": "Css.Media.UpdateFrequency a -> Css.Media.Expression"
+      },
+      {
+        "name": "width",
+        "comment": " Media feature [`width`](https://drafts.csswg.org/mediaqueries/#width)\n\n    media (Media.width (px 200)) [ ... ]\n\n",
+        "type": "Css.Media.AbsoluteLength compatible -> Css.Media.Expression"
+      },
+      {
+        "name": "withMedia",
+        "comment": " Combines media queries that are nested under selectors into a `@media` rule.\n\n    css\n        [ withMedia [ only screen [ Media.minWidth (px 300), Media.maxWidth (px 800) ] ]\n            [ Css.maxWidth (px 300) ]\n\nThe above code translates into the following CSS.\n\n```css\n@media only screen and (min-width: 300px) and (max-width: 800px) {\n    ._c9f0fd {\n        max-width: 300px;\n    }\n}\n```\n\n",
+        "type": "List Css.Media.MediaQuery -> List Css.Style -> Css.Style"
+      },
+      {
+        "name": "withMediaQuery",
+        "comment": " Manually specify a `@media` rule that is nested under an element or class\nusing a List of strings.\n\n    body\n        [ withMediaQuery [ \"screen and (min-width: 320px)\", \"screen and (max-height: 400px)\" ]\n            [ fontSize (px 14 px) ]\n        ]\n\nThe above code translates into the following CSS.\n\n```css\n@media screen and (min-width: 320px), screen and (max-height: 400px) {\n    body {\n        font-size: 14px;\n    }\n}\n```\n\n",
+        "type": "List String -> List Css.Style -> Css.Style"
       }
     ],
     "generated-with-elm-version": "0.18.0"

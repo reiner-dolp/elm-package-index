@@ -19,6 +19,30 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Dom.Lazy",
+    "comment": " Support for the VirtualDom `lazy` optimization\n\nFrom *elm-lang/html* documentation:\n\n> Since all Elm functions are pure we have a guarantee that the same input\n> will always result in the same output. This module gives us tools to be lazy\n> about building `Html` that utilize this fact.\n>\n> Rather than immediately applying functions to their arguments, the `lazy`\n> functions just bundle the function and arguments up for later. When diffing\n> the old and new virtual Dom, it checks to see if all the arguments are equal.\n> If so, it skips calling the function!\n>\n> This is a really cheap test and often makes things a lot faster, but definitely\n> benchmark to be sure!\"\n\n@docs toNode, container, eval\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "container",
+        "comment": " Apply `Dom.Lazy.toNode` to all of the child nodes when constructing an\nelement container\n",
+        "type": "String -> List (Dom.Element msg) -> Dom.Element msg"
+      },
+      {
+        "name": "eval",
+        "comment": " Alias for `VirtualDom.lazy`\n",
+        "type": "(a -> Dom.Node msg) -> a -> Dom.Node msg"
+      },
+      {
+        "name": "toNode",
+        "comment": " A lazy version of `Dom.Element.toNode`\n",
+        "type": "Dom.Element msg -> VirtualDom.Node msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Dom.Svg",
     "comment": "\n\nThis module contains helper functions for constructing `Dom.Element`\nrecords with the SVG namespace designation. Use these functions for any SVG\ntags in your DOM.\n\n# Dom.Node constructors\nThese constructors wrap `VirtualDom.node`, with the same pattern as the\nfunctions in the Dom.Node module\n@docs leaf, textWrapper, container\n\n# Dom.Element constructors\n@docs element, wrapNodes\n",
     "aliases": [],
@@ -53,94 +77,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Dom.Lazy",
-    "comment": " Support for the VirtualDom `lazy` optimization\n\nFrom *elm-lang/html* documentation:\n\n> Since all Elm functions are pure we have a guarantee that the same input\n> will always result in the same output. This module gives us tools to be lazy\n> about building `Html` that utilize this fact.\n>\n> Rather than immediately applying functions to their arguments, the `lazy`\n> functions just bundle the function and arguments up for later. When diffing\n> the old and new virtual Dom, it checks to see if all the arguments are equal.\n> If so, it skips calling the function!\n>\n> This is a really cheap test and often makes things a lot faster, but definitely\n> benchmark to be sure!\"\n\n@docs toNode, container, eval\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "container",
-        "comment": " Apply `Dom.Lazy.toNode` to all of the child nodes when constructing an\nelement container\n",
-        "type": "String -> List (Dom.Element msg) -> Dom.Element msg"
-      },
-      {
-        "name": "eval",
-        "comment": " Alias for `VirtualDom.lazy`\n",
-        "type": "(a -> Dom.Node msg) -> a -> Dom.Node msg"
-      },
-      {
-        "name": "toNode",
-        "comment": " A lazy version of `Dom.Element.toNode`\n",
-        "type": "Dom.Element msg -> VirtualDom.Node msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dom.Program",
-    "comment": "\n\nThis module contains pipeline functions that can be helpful when setting up an\nElm program for initial testing and adding features as you go.\n\nConstruct a static program with just `setup` and `run` to test your initial\nmodel and view. Then add interaction with `update`. Add Dom effects, HTTP\nrequests, and so on with `onLoad` and `updateWithCmds`. Add ports with\n`subscribe` or `subscribeWithParams`. Use `runWithFlags` to pass data to your\ninitial model.\n\nThe `Dom.Program.run` function is an alias for `VirtualDom.program`, so just use\nthat if you want to set up a program in the standard way.\n\n# Basic\n@docs setup, update, run\n\n# Commands\n@docs onLoad, updateWithCmds\n\n# Subscriptions\n@docs subscribe, subscribeWithParams\n\n# Flags\n@docs runWithFlags, customWithFlags\n\n# Type alias\n@docs Setup\n\n",
-    "aliases": [
-      {
-        "name": "Setup",
-        "comment": " Type alias for arguments to `VirtualDom.program`\n",
-        "args": [
-          "model",
-          "msg"
-        ],
-        "type": "{ init : ( model, Platform.Cmd.Cmd msg ) , update : msg -> model -> ( model, Platform.Cmd.Cmd msg ) , subscriptions : model -> Platform.Sub.Sub msg , view : model -> Dom.Node msg }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "customWithFlags",
-        "comment": " Alias for `VirtualDom.programWithFlags`\n",
-        "type": "{ init : flags -> ( model, Platform.Cmd.Cmd msg ) , update : msg -> model -> ( model, Platform.Cmd.Cmd msg ) , subscriptions : model -> Platform.Sub.Sub msg , view : model -> Dom.Node msg } -> Platform.Program flags model msg"
-      },
-      {
-        "name": "onLoad",
-        "comment": " Modify your program setup to perform a list of commands when the program\nloads\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about commands.\n\n",
-        "type": "List (Platform.Cmd.Cmd msg) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
-      },
-      {
-        "name": "run",
-        "comment": " Tell the Elm compiler to generate a program from your setup\n\nAlias for `VirtualDom.program`\n\n",
-        "type": "Dom.Program.Setup model msg -> Platform.Program Basics.Never model msg"
-      },
-      {
-        "name": "runWithFlags",
-        "comment": " Generate your initial model with data passed to your Elm program from the\nJavaScript side, with the initial model specified in your setup as a fallback\nif anything goes wrong\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about flags.\n\n",
-        "type": "(flags -> Maybe.Maybe model) -> Dom.Program.Setup model msg -> Platform.Program flags model msg"
-      },
-      {
-        "name": "setup",
-        "comment": " Generate a record that describes the setup of an Elm program; the first\nargument is a function that takes a model and generates a view, and the second\nargument is an initial model to pass to that function\n\nThese two function calls will setup and run a static program (a program where\nthe view doesn't update):\n\n    main =\n      initialModel\n        |> Dom.Program.setup view\n        |> Dom.Program.run\n\n",
-        "type": "(model -> Dom.Node msg) -> model -> Dom.Program.Setup model msg"
-      },
-      {
-        "name": "subscribe",
-        "comment": " Receive data from ports\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about ports and subscriptions.\n\n",
-        "type": "List (Platform.Sub.Sub msg) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
-      },
-      {
-        "name": "subscribeWithParams",
-        "comment": " Apply a custom function to control data flow from ports\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about ports and subscriptions.\n\n",
-        "type": "(model -> Platform.Sub.Sub msg) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
-      },
-      {
-        "name": "update",
-        "comment": " Route messages generated in the program to a function that will update the\ninitial model; the first argument is the update function, and the second\nargument is the setup record\n",
-        "type": "(msg -> model -> model) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
-      },
-      {
-        "name": "updateWithCmds",
-        "comment": " Handle updates in a with a function that can also produce commands in\nresponse to messages\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about commands.\n\n",
-        "type": "(msg -> model -> ( model, Platform.Cmd.Cmd msg )) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Dom.Text",
     "comment": " Construct a text node\n\n@docs node\n",
     "aliases": [],
@@ -164,20 +100,6 @@
         "name": "toProperty",
         "comment": " Alias for `VirtualDom.style`\n",
         "type": "List ( String, String ) -> Dom.Property msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dom.Class",
-    "comment": " Construct a `className` property from a list of classes\n\n@docs toProperty\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toProperty",
-        "comment": " Bundles up a list of class names and returns a `Dom.Property`\n",
-        "type": "List String -> Dom.Property msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -297,6 +219,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Dom.Class",
+    "comment": " Construct a `className` property from a list of classes\n\n@docs toProperty\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toProperty",
+        "comment": " Bundles up a list of class names and returns a `Dom.Property`\n",
+        "type": "List String -> Dom.Property msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Dom.Node",
     "comment": " Construct native `VirtualDom` nodes\n\nUsing the constructors in this module is the more efficient way of building your\nElm program's Dom, but unlike Dom.Element records, native `VirtualDom` nodes\ncannot be modified (within an Elm program) after they are constructed.\n\n@docs leaf, textWrapper, container\n\n",
     "aliases": [],
@@ -316,6 +252,70 @@
         "name": "textWrapper",
         "comment": " Construct a node that wraps text; the first argument gives the tag, the\nsecond argument gives a list of attributes, and the third argument gives the\ninternal text\n\nThis function is an alias for `VirtualDom.node` with a single text node as the\nonly child.\n\n    \"Hello World!\"\n      |> Dom.Node.textWrapper \"p\" []\n\n",
         "type": "String -> List (Dom.Property msg) -> String -> Dom.Node msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Dom.Program",
+    "comment": "\n\nThis module contains pipeline functions that can be helpful when setting up an\nElm program for initial testing and adding features as you go.\n\nConstruct a static program with just `setup` and `run` to test your initial\nmodel and view. Then add interaction with `update`. Add Dom effects, HTTP\nrequests, and so on with `onLoad` and `updateWithCmds`. Add ports with\n`subscribe` or `subscribeWithParams`. Use `runWithFlags` to pass data to your\ninitial model.\n\nThe `Dom.Program.run` function is an alias for `VirtualDom.program`, so just use\nthat if you want to set up a program in the standard way.\n\n# Basic\n@docs setup, update, run\n\n# Commands\n@docs onLoad, updateWithCmds\n\n# Subscriptions\n@docs subscribe, subscribeWithParams\n\n# Flags\n@docs runWithFlags, customWithFlags\n\n# Type alias\n@docs Setup\n\n",
+    "aliases": [
+      {
+        "name": "Setup",
+        "comment": " Type alias for arguments to `VirtualDom.program`\n",
+        "args": [
+          "model",
+          "msg"
+        ],
+        "type": "{ init : ( model, Platform.Cmd.Cmd msg ) , update : msg -> model -> ( model, Platform.Cmd.Cmd msg ) , subscriptions : model -> Platform.Sub.Sub msg , view : model -> Dom.Node msg }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "customWithFlags",
+        "comment": " Alias for `VirtualDom.programWithFlags`\n",
+        "type": "{ init : flags -> ( model, Platform.Cmd.Cmd msg ) , update : msg -> model -> ( model, Platform.Cmd.Cmd msg ) , subscriptions : model -> Platform.Sub.Sub msg , view : model -> Dom.Node msg } -> Platform.Program flags model msg"
+      },
+      {
+        "name": "onLoad",
+        "comment": " Modify your program setup to perform a list of commands when the program\nloads\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about commands.\n\n",
+        "type": "List (Platform.Cmd.Cmd msg) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
+      },
+      {
+        "name": "run",
+        "comment": " Tell the Elm compiler to generate a program from your setup\n\nAlias for `VirtualDom.program`\n\n",
+        "type": "Dom.Program.Setup model msg -> Platform.Program Basics.Never model msg"
+      },
+      {
+        "name": "runWithFlags",
+        "comment": " Generate your initial model with data passed to your Elm program from the\nJavaScript side, with the initial model specified in your setup as a fallback\nif anything goes wrong\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about flags.\n\n",
+        "type": "(flags -> Maybe.Maybe model) -> Dom.Program.Setup model msg -> Platform.Program flags model msg"
+      },
+      {
+        "name": "setup",
+        "comment": " Generate a record that describes the setup of an Elm program; the first\nargument is a function that takes a model and generates a view, and the second\nargument is an initial model to pass to that function\n\nThese two function calls will setup and run a static program (a program where\nthe view doesn't update):\n\n    main =\n      initialModel\n        |> Dom.Program.setup view\n        |> Dom.Program.run\n\n",
+        "type": "(model -> Dom.Node msg) -> model -> Dom.Program.Setup model msg"
+      },
+      {
+        "name": "subscribe",
+        "comment": " Receive data from ports\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about ports and subscriptions.\n\n",
+        "type": "List (Platform.Sub.Sub msg) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
+      },
+      {
+        "name": "subscribeWithParams",
+        "comment": " Apply a custom function to control data flow from ports\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about ports and subscriptions.\n\n",
+        "type": "(model -> Platform.Sub.Sub msg) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
+      },
+      {
+        "name": "update",
+        "comment": " Route messages generated in the program to a function that will update the\ninitial model; the first argument is the update function, and the second\nargument is the setup record\n",
+        "type": "(msg -> model -> model) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
+      },
+      {
+        "name": "updateWithCmds",
+        "comment": " Handle updates in a with a function that can also produce commands in\nresponse to messages\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about commands.\n\n",
+        "type": "(msg -> model -> ( model, Platform.Cmd.Cmd msg )) -> Dom.Program.Setup model msg -> Dom.Program.Setup model msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -355,35 +355,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Dom.Property",
-    "comment": "\n\nSet the value of an\n[IDL attribute](http://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)\n(a.k.a. \"JavaScript property\").\n\nThe functions in this module wrap `VirtualDom.property`.\n\nSee\n[here](https://stackoverflow.com/questions/3919291/when-to-use-setattribute-vs-attribute-in-javascript)\nfor some background on when to use the functions in this module versus the\nfunctions in `Dom.Attribute`.\n\n@docs bool, string, int, float\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bool",
-        "comment": " Set a property that takes a boolean value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"controls\"\n      |> Dom.Property.bool True\n    ]\n      |> Dom.Node.leaf \"video\"\n\n",
-        "type": "Bool -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "float",
-        "comment": " Set a property that takes a floating point value; the first argument gives\nthe *value* and the second argument gives the *key*\n\n    [ \"type\"\n      |> Dom.Property.string \"number\"\n    , \"min\"\n      |> Dom.Property.int 0\n    , \"max\"\n      |> Dom.Property.int 1\n    , \"step\"\n      |> Dom.Property.float 0.1\n    ]\n      |> Dom.Node.leaf \"input\"\n\n",
-        "type": "Float -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "int",
-        "comment": " Set a property that takes an integer value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"rows\"\n      |> Dom.Property.int 10\n    ]\n      |> Dom.Node.leaf \"textarea\"\n\n\n",
-        "type": "Int -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "string",
-        "comment": " Set a property that takes a string value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    \"Hello World!\"\n      |> Dom.Element.textWrapper \"p\"\n      |> Dom.Element.withAttributes\n        [ \"title\"\n          |> Dom.Property.string \"Hello, again!\"\n        ]\n\n",
-        "type": "String -> String -> VirtualDom.Property msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Dom.Attribute",
     "comment": "\n\nSet the value of a\n[content attribute](http://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)\n\nThe functions in this module wrap `VirtualDom.attribute`, which should always\nbe used when setting attributes on SVG nodes and may also be used to set\nnonstandard HTML attributes.\n\nSee\n[here](https://stackoverflow.com/questions/3919291/when-to-use-setattribute-vs-attribute-in-javascript)\nfor some background on when to use the functions in this module versus the\nfunctions in `Dom.Property`.\n\n@docs string, int, float, namespaced\n\n",
     "aliases": [],
@@ -407,6 +378,35 @@
       {
         "name": "string",
         "comment": " Set an attribute by giving its value as a string; the first argument gives\nthe *value* and the second argument gives the *key*\n\n    myGraphics\n      |> Dom.Svg.container \"svg\"\n        [ \"viewbox\"\n          |> Dom.Attribute.string \"0 0 400 400\"\n        ]\n\n",
+        "type": "String -> String -> VirtualDom.Property msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Dom.Property",
+    "comment": "\n\nSet the value of an\n[IDL attribute](http://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)\n(a.k.a. \"JavaScript property\").\n\nThe functions in this module wrap `VirtualDom.property`.\n\nSee\n[here](https://stackoverflow.com/questions/3919291/when-to-use-setattribute-vs-attribute-in-javascript)\nfor some background on when to use the functions in this module versus the\nfunctions in `Dom.Attribute`.\n\n@docs bool, string, int, float\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bool",
+        "comment": " Set a property that takes a boolean value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"controls\"\n      |> Dom.Property.bool True\n    ]\n      |> Dom.Node.leaf \"video\"\n\n",
+        "type": "Bool -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "float",
+        "comment": " Set a property that takes a floating point value; the first argument gives\nthe *value* and the second argument gives the *key*\n\n    [ \"type\"\n      |> Dom.Property.string \"number\"\n    , \"min\"\n      |> Dom.Property.int 0\n    , \"max\"\n      |> Dom.Property.int 1\n    , \"step\"\n      |> Dom.Property.float 0.1\n    ]\n      |> Dom.Node.leaf \"input\"\n\n",
+        "type": "Float -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "int",
+        "comment": " Set a property that takes an integer value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"rows\"\n      |> Dom.Property.int 10\n    ]\n      |> Dom.Node.leaf \"textarea\"\n\n\n",
+        "type": "Int -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "string",
+        "comment": " Set a property that takes a string value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    \"Hello World!\"\n      |> Dom.Element.textWrapper \"p\"\n      |> Dom.Element.withAttributes\n        [ \"title\"\n          |> Dom.Property.string \"Hello, again!\"\n        ]\n\n",
         "type": "String -> String -> VirtualDom.Property msg"
       }
     ],

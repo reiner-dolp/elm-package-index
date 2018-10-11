@@ -610,84 +610,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Visualization.Histogram",
-    "comment": " A histogram is an accurate graphical representation of the distribution of\nnumerical data. It is an estimate of the probability distribution of a continuous\nvariable (quantitative variable)\n\n[![Histogram](http://code.gampleman.eu/elm-visualization/Histogram/preview.png)](http://code.gampleman.eu/elm-visualization/Histogram/)\n\nTo compute a histogram, one first configures a Histogram Generator and then uses\nit to compute a histogram. Histograms can then be visualized in a variaty of ways,\nfor example using Svg rects and linear scales.\n\n\n### Configuring a Generator\n\n@docs HistogramGenerator, float, generator, custom, withDomain\n\n\n### Computing a Histogram\n\n@docs Bin, compute\n\n\n### Thresholds\n\n@docs Threshold, sturges, steps, binCount\n\n",
-    "aliases": [
-      {
-        "name": "Bin",
-        "comment": " A bin holding data. All of the data falling into the bin is available in `values`. Each of the\n`values` (when transformed to a comparable) falls between `x0` and `x1`. The number of elements in the\nbin is available as `length`, which is equivalent to (but faster then) `List.length values`.\n",
-        "args": [
-          "a",
-          "comparable"
-        ],
-        "type": "{ x0 : comparable, x1 : comparable, values : List a, length : Int }"
-      },
-      {
-        "name": "Threshold",
-        "comment": " A function that computes threshold values separating the individual bins. It is passed a function that\ncan convert values to comparables, the list of all valus and the extent (i.e. smallest and largest value).\nNote that the smallest and largest value may be the same, however the list of all values is guaranteed not to\nbe empty.\n\nIt must return a list of boundary values that separate the bins. If you wish to have `n` bins, this should\nreturn `n-1` thresholds.\n\n",
-        "args": [
-          "a",
-          "comparable"
-        ],
-        "type": "(a -> comparable) -> List a -> ( a, a ) -> List comparable"
-      }
-    ],
-    "types": [
-      {
-        "name": "HistogramGenerator",
-        "comment": " Represents configuration to compute a histogram from a list of arbitrary data.\n\nHowever, to compute a histogram, the data must be made comparable, this is typically done\nthrough a conversion to a `Float`, however any `comparable` type will do.\n\n",
-        "args": [
-          "a",
-          "comparable"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "binCount",
-        "comment": " Computes appropriate threshold values given an extent and the desired number of bins. Useful for implementing\nyour custom `Threshold` values when you have a way to compute the desired number of bins.\n",
-        "type": "( Float, Float ) -> Int -> List Float"
-      },
-      {
-        "name": "compute",
-        "comment": " Given some data and a configured HistogramGenerator, computes the binning of the data.\n\nIf the data is empty, returns an empty list.\n\n",
-        "type": "List a -> Visualization.Histogram.HistogramGenerator a comparable -> List (Visualization.Histogram.Bin a comparable)"
-      },
-      {
-        "name": "custom",
-        "comment": " Create a custom generator by supplying your own threshold function and a mapping function.\n",
-        "type": "Visualization.Histogram.Threshold a comparable -> (a -> comparable) -> Visualization.Histogram.HistogramGenerator a comparable"
-      },
-      {
-        "name": "float",
-        "comment": " Create a histogram generator that takes float data and uses Sturges' formula for thresholding.\n",
-        "type": "Visualization.Histogram.HistogramGenerator Float Float"
-      },
-      {
-        "name": "generator",
-        "comment": " Make histograms with arbitrary data passing in a function that converts the data to a Float.\n\nThis is pretty similar to using `Histogram.float` and `List.map`ing your data in advance, however\nhere you will have access to the original data in the bins if needed for further analysis.\n\n",
-        "type": "(a -> Float) -> Visualization.Histogram.HistogramGenerator a Float"
-      },
-      {
-        "name": "steps",
-        "comment": " For creating an appropriate Threshold value if you already have appropriate\nThreshold values (i.e. from `Scale.ticks`).\n",
-        "type": "List a -> Visualization.Histogram.Threshold a comparable"
-      },
-      {
-        "name": "sturges",
-        "comment": " Returns the threshold values according to [Sturges’ formula](https://en.wikipedia.org/wiki/Histogram#Mathematical_definition).\nThis is a decent default value, however it implicitly assumes an approximately normal distribution and may perform poorly\nif you have less than 30 data points.\n",
-        "type": "Visualization.Histogram.Threshold a Float"
-      },
-      {
-        "name": "withDomain",
-        "comment": " Set the domain for the HistogramGenerator. All values falling outside the domain will be ignored.\n",
-        "type": "( a, a ) -> Visualization.Histogram.HistogramGenerator a comparable -> Visualization.Histogram.HistogramGenerator a comparable"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Visualization.Force",
     "comment": " This module implements a velocity Verlet numerical integrator for simulating physical forces on particles.\nThe simulation is simplified: it assumes a constant unit time step *Δt = 1* for each step, and a constant unit\nmass *m = 1* for all particles. As a result, a force *F* acting on a particle is equivalent to a constant\nacceleration *a* over the time interval *Δt*, and can be simulated simply by adding to the particle’s velocity,\nwhich is then added to the particle’s position.\n\n<a href=\"http://code.gampleman.eu/elm-visualization/ForceDirectedGraph/\"><img style=\"max-width: 100%\" src=\"http://code.gampleman.eu/elm-visualization/ForceDirectedGraph/preview@2x.png\" alt=\"force directed graph illustration\" /></a>\n\nIn the domain of information visualization, physical simulations are useful for studying networks and hierarchies!\n\n\n## Simulation\n\n@docs Entity, entity, simulation, State, isCompleted, reheat, iterations, computeSimulation, tick\n\n\n## Forces\n\n@docs Force, center, links, customLinks, manyBody, manyBodyStrength\n\n",
     "aliases": [
@@ -779,6 +701,84 @@
         "name": "tick",
         "comment": " Advances the simulation a single tick, returning both updated entities and a new State of the simulation.\n",
         "type": "Visualization.Force.State comparable -> List (Visualization.Force.Entity comparable a) -> ( Visualization.Force.State comparable , List (Visualization.Force.Entity comparable a) )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Visualization.Histogram",
+    "comment": " A histogram is an accurate graphical representation of the distribution of\nnumerical data. It is an estimate of the probability distribution of a continuous\nvariable (quantitative variable)\n\n[![Histogram](http://code.gampleman.eu/elm-visualization/Histogram/preview.png)](http://code.gampleman.eu/elm-visualization/Histogram/)\n\nTo compute a histogram, one first configures a Histogram Generator and then uses\nit to compute a histogram. Histograms can then be visualized in a variaty of ways,\nfor example using Svg rects and linear scales.\n\n\n### Configuring a Generator\n\n@docs HistogramGenerator, float, generator, custom, withDomain\n\n\n### Computing a Histogram\n\n@docs Bin, compute\n\n\n### Thresholds\n\n@docs Threshold, sturges, steps, binCount\n\n",
+    "aliases": [
+      {
+        "name": "Bin",
+        "comment": " A bin holding data. All of the data falling into the bin is available in `values`. Each of the\n`values` (when transformed to a comparable) falls between `x0` and `x1`. The number of elements in the\nbin is available as `length`, which is equivalent to (but faster then) `List.length values`.\n",
+        "args": [
+          "a",
+          "comparable"
+        ],
+        "type": "{ x0 : comparable, x1 : comparable, values : List a, length : Int }"
+      },
+      {
+        "name": "Threshold",
+        "comment": " A function that computes threshold values separating the individual bins. It is passed a function that\ncan convert values to comparables, the list of all valus and the extent (i.e. smallest and largest value).\nNote that the smallest and largest value may be the same, however the list of all values is guaranteed not to\nbe empty.\n\nIt must return a list of boundary values that separate the bins. If you wish to have `n` bins, this should\nreturn `n-1` thresholds.\n\n",
+        "args": [
+          "a",
+          "comparable"
+        ],
+        "type": "(a -> comparable) -> List a -> ( a, a ) -> List comparable"
+      }
+    ],
+    "types": [
+      {
+        "name": "HistogramGenerator",
+        "comment": " Represents configuration to compute a histogram from a list of arbitrary data.\n\nHowever, to compute a histogram, the data must be made comparable, this is typically done\nthrough a conversion to a `Float`, however any `comparable` type will do.\n\n",
+        "args": [
+          "a",
+          "comparable"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "binCount",
+        "comment": " Computes appropriate threshold values given an extent and the desired number of bins. Useful for implementing\nyour custom `Threshold` values when you have a way to compute the desired number of bins.\n",
+        "type": "( Float, Float ) -> Int -> List Float"
+      },
+      {
+        "name": "compute",
+        "comment": " Given some data and a configured HistogramGenerator, computes the binning of the data.\n\nIf the data is empty, returns an empty list.\n\n",
+        "type": "List a -> Visualization.Histogram.HistogramGenerator a comparable -> List (Visualization.Histogram.Bin a comparable)"
+      },
+      {
+        "name": "custom",
+        "comment": " Create a custom generator by supplying your own threshold function and a mapping function.\n",
+        "type": "Visualization.Histogram.Threshold a comparable -> (a -> comparable) -> Visualization.Histogram.HistogramGenerator a comparable"
+      },
+      {
+        "name": "float",
+        "comment": " Create a histogram generator that takes float data and uses Sturges' formula for thresholding.\n",
+        "type": "Visualization.Histogram.HistogramGenerator Float Float"
+      },
+      {
+        "name": "generator",
+        "comment": " Make histograms with arbitrary data passing in a function that converts the data to a Float.\n\nThis is pretty similar to using `Histogram.float` and `List.map`ing your data in advance, however\nhere you will have access to the original data in the bins if needed for further analysis.\n\n",
+        "type": "(a -> Float) -> Visualization.Histogram.HistogramGenerator a Float"
+      },
+      {
+        "name": "steps",
+        "comment": " For creating an appropriate Threshold value if you already have appropriate\nThreshold values (i.e. from `Scale.ticks`).\n",
+        "type": "List a -> Visualization.Histogram.Threshold a comparable"
+      },
+      {
+        "name": "sturges",
+        "comment": " Returns the threshold values according to [Sturges’ formula](https://en.wikipedia.org/wiki/Histogram#Mathematical_definition).\nThis is a decent default value, however it implicitly assumes an approximately normal distribution and may perform poorly\nif you have less than 30 data points.\n",
+        "type": "Visualization.Histogram.Threshold a Float"
+      },
+      {
+        "name": "withDomain",
+        "comment": " Set the domain for the HistogramGenerator. All values falling outside the domain will be ignored.\n",
+        "type": "( a, a ) -> Visualization.Histogram.HistogramGenerator a comparable -> Visualization.Histogram.HistogramGenerator a comparable"
       }
     ],
     "generated-with-elm-version": "0.18.0"

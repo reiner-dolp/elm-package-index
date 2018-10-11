@@ -453,117 +453,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Element.Events",
-    "comment": " This module is mirrored nearly completely from Html.Events\n\nThe only difference is that the HTML.Events are turned into Element.Events\n\n\n# Mouse Helpers\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseOver, onMouseOut\n\n\n# Form Helpers\n\n@docs onInput, onCheck, onSubmit\n\n\n# Focus Helpers\n\n@docs onBlur, onFocus\n\n\n# Custom Event Handlers\n\n@docs on, onWithOptions, Options, defaultOptions\n\n\n# Custom Decoders\n\n@docs targetValue, targetChecked, keyCode\n\n",
-    "aliases": [
-      {
-        "name": "Options",
-        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
-        "args": [],
-        "type": "{ stopPropagation : Bool, preventDefault : Bool }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Everything is `False` by default.\n\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n\n",
-        "type": "Element.Events.Options"
-      },
-      {
-        "name": "keyCode",
-        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n\n    import Json.Decode as Json\n\n    onKeyUp : (Int -> msg) -> Attribute msg\n    onKeyUp tagger =\n        on \"keyup\" (Json.map tagger keyCode)\n\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n\n",
-        "type": "Json.Decode.Decoder Int"
-      },
-      {
-        "name": "on",
-        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n\n    import Json.Decode as Json\n\n    onClick : msg -> Attribute variation msg\n    onClick message =\n        on \"click\" (Json.succeed message)\n\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `message`.\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n[aEL]: <https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener>\n[decoder]: <http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode>\n[tutorial]: <https://github.com/evancz/elm-architecture-tutorial/>\n\n",
-        "type": "String -> Json.Decode.Decoder msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onBlur",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onCheck",
-        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n",
-        "type": "(Bool -> msg) -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onClick",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onDoubleClick",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onFocus",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onInput",
-        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n",
-        "type": "(String -> msg) -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onMouseDown",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onMouseEnter",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onMouseLeave",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onMouseOut",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onMouseOver",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onMouseUp",
-        "comment": " ",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onSubmit",
-        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
-        "type": "msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "onWithOptions",
-        "comment": " Same as `on` but you can set a few options.\n",
-        "type": "String -> Html.Events.Options -> Json.Decode.Decoder msg -> Element.Internal.Model.Attribute variation msg"
-      },
-      {
-        "name": "targetChecked",
-        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n\n    import Json.Decode as Json\n\n    onCheck : (Bool -> msg) -> Attribute msg\n    onCheck tagger =\n        on \"input\" (Json.map tagger targetChecked)\n\n",
-        "type": "Json.Decode.Decoder Bool"
-      },
-      {
-        "name": "targetValue",
-        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n\n    import Json.Decode as Json\n\n    onInput : (String -> msg) -> Attribute msg\n    onInput tagger =\n        on \"input\" (Json.map tagger targetValue)\n\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n\n",
-        "type": "Json.Decode.Decoder String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Element.Attributes",
     "comment": "\n\n\n# This module is a mirror of `Html.Attributes`\n\nSome attributes have been added.\n\nThe only modification to the existing library is that `style` has been renamed `inlineStyle` to avoid collision with `Style.style`.\n\nSince this is a style library, you shouldn't need it very often.\n\n\n# Style Element Attributes\n\nThese are the new attributes that generally have to do with layout.\n\n@docs hidden, vary\n\n\n## Alignment\n\nAlignment attributes are incredibly useful for adjusting your layout.\n\nWhen applied to layout elements like `row` and `grid`, alignment will affect the alignment of the children.\n\nWhen applied to singular elements like `el`, alignment will affect the alignment of that individual element.\n\n@docs center, verticalCenter, justify, alignTop, alignBottom, alignLeft, alignRight\n\n\n## Sizing\n\n@docs width, minWidth, maxWidth, height, minHeight, maxHeight, px, fill, percent\n\n\n## Spacing ++ Padding\n\nSpacing allows a layout to set the distance between the children in the layout.\n\nSo this layout:\n\n    row [ spacing 10, padding 10 ]\n        [ el Box [] empty\n        , el Box [] empty\n        , el Box [] empty\n        ]\n\nIs rendered into something like this:\n\n<img src=\"https://mdgriffith.github.io/style-elements/images/spacing.png\" alt=\"Spacing\" width=\"400\">\n\n@docs spacing, spacingXY, padding, paddingXY, paddingTop, paddingRight, paddingBottom, paddingLeft\n\n\n## Positioning\n\n@docs moveUp, moveDown, moveRight, moveLeft, moveXY, moveX, moveY\n\n\n## Scrollbars\n\n@docs scrollbars, yScrollbar, xScrollbar\n\n\n## Overflow\n\n@docs clip, clipX, clipY\n\n\n## Conversion\n\n@docs toAttr\n\n\n# Normal `Html.Attributes`\n\nHelper functions for HTML attributes. They are organized roughly by\ncategory. Each attribute is labeled with the HTML tags it can be used with, so\njust search the page for `video` if you want video stuff.\n\nIf you cannot find what you are looking for, go to the [Custom\nAttributes](#custom-attributes) section to learn how to create new helpers.\n\n\n# Primitives\n\n@docs inlineStyle, property, attribute, map\n\n\n# Super Common Attributes\n\n@docs class, classList, id, title, hidden\n\n\n# Inputs\n\n@docs type_, value, defaultValue, checked, placeholder, selected\n\n\n## Input Helpers\n\n@docs accept, acceptCharset, action, autocomplete, autofocus, disabled, enctype, formaction, list, maxlength, minlength, method, multiple, name, novalidate, pattern, readonly, required, size, for, form\n\n\n## Input Ranges\n\n@docs max, min, step\n\n\n## Input Text Areas\n\n@docs cols, rows, wrap\n\n\n# Links and Areas\n\n@docs href, target, download, downloadAs, hreflang, media, ping, rel\n\n\n## Maps\n\n@docs ismap, usemap, shape, coords\n\n\n# Embedded Content\n\n@docs src, alt\n\n\n## Audio and Video\n\n@docs autoplay, controls, loop, preload, poster, default, kind, srclang\n\n\n## iframes\n\n@docs sandbox, seamless, srcdoc\n\n\n# Ordered Lists\n\n@docs reversed, start\n\n\n# Tables\n\n@docs align, colspan, rowspan, headers, scope\n\n\n# Header Stuff\n\n@docs async, charset, content, defer, httpEquiv, language, scoped\n\n\n# Less Common Global Attributes\n\nAttributes that can be attached to any HTML tag but are less commonly used.\n@docs accesskey, contenteditable, contextmenu, dir, draggable, dropzone, itemprop, lang, spellcheck, tabindex\n\n\n# Key Generation\n\n@docs challenge, keytype\n\n\n# Miscellaneous\n\n@docs cite, datetime, pubdate, manifest\n\n",
     "aliases": [],
@@ -1253,114 +1142,112 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Filter",
-    "comment": " CSS filters.\n\nApply a stack of filters.\n\n    import Style.Filter as Filter\n    import Style exposing (..)\n\n    style MyFitleredStyle\n        [ filters\n            [ Filter.blur 0.5\n            , Filter.invert 0.5\n            ]\n\n        ]\n\n@docs url, blur, brightness, contrast, grayscale, hueRotate, invert, opacity, saturate, sepia\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
+    "name": "Element.Events",
+    "comment": " This module is mirrored nearly completely from Html.Events\n\nThe only difference is that the HTML.Events are turned into Element.Events\n\n\n# Mouse Helpers\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseOver, onMouseOut\n\n\n# Form Helpers\n\n@docs onInput, onCheck, onSubmit\n\n\n# Focus Helpers\n\n@docs onBlur, onFocus\n\n\n# Custom Event Handlers\n\n@docs on, onWithOptions, Options, defaultOptions\n\n\n# Custom Decoders\n\n@docs targetValue, targetChecked, keyCode\n\n",
+    "aliases": [
       {
-        "name": "blur",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "brightness",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "contrast",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "grayscale",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "hueRotate",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "invert",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "opacity",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "saturate",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "sepia",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "url",
-        "comment": " ",
-        "type": "String -> Style.Filter"
+        "name": "Options",
+        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
+        "args": [],
+        "type": "{ stopPropagation : Bool, preventDefault : Bool }"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Style.Shadow",
-    "comment": " Shadows\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nThese are for when you want to specify shadows manually. They're meant to be specified in a shadow stack using `Style.shadows`:\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Style.shadows\n            [ Shadow.inset\n                { offset = ( 0, 0 )\n                , size = 5\n                , blur = 2\n                , color = Color.blue\n                }\n            ]\n        ]\n\n@docs box, drop, inset, text\n\n",
-    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "box",
+        "name": "defaultOptions",
+        "comment": " Everything is `False` by default.\n\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n\n",
+        "type": "Element.Events.Options"
+      },
+      {
+        "name": "keyCode",
+        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n\n    import Json.Decode as Json\n\n    onKeyUp : (Int -> msg) -> Attribute msg\n    onKeyUp tagger =\n        on \"keyup\" (Json.map tagger keyCode)\n\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n\n",
+        "type": "Json.Decode.Decoder Int"
+      },
+      {
+        "name": "on",
+        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n\n    import Json.Decode as Json\n\n    onClick : msg -> Attribute variation msg\n    onClick message =\n        on \"click\" (Json.succeed message)\n\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `message`.\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n[aEL]: <https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener>\n[decoder]: <http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode>\n[tutorial]: <https://github.com/evancz/elm-architecture-tutorial/>\n\n",
+        "type": "String -> Json.Decode.Decoder msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "onBlur",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
       },
       {
-        "name": "deep",
-        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
-        "type": "Style.Property class variation"
+        "name": "onCheck",
+        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n",
+        "type": "(Bool -> msg) -> Element.Internal.Model.Attribute variation msg"
       },
       {
-        "name": "drop",
+        "name": "onClick",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
       },
       {
-        "name": "glow",
-        "comment": " A simple glow by specifying the color and size.\n",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      },
-      {
-        "name": "innerGlow",
+        "name": "onDoubleClick",
         "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
       },
       {
-        "name": "inset",
+        "name": "onFocus",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
       },
       {
-        "name": "simple",
-        "comment": " A nice preset box shadow.\n",
-        "type": "Style.Property class variation"
+        "name": "onInput",
+        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n",
+        "type": "(String -> msg) -> Element.Internal.Model.Attribute variation msg"
       },
       {
-        "name": "text",
+        "name": "onMouseDown",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
       },
       {
-        "name": "textGlow",
+        "name": "onMouseEnter",
         "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "onMouseLeave",
+        "comment": " ",
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "onMouseOut",
+        "comment": " ",
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "onMouseOver",
+        "comment": " ",
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "onMouseUp",
+        "comment": " ",
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "onSubmit",
+        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
+        "type": "msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "onWithOptions",
+        "comment": " Same as `on` but you can set a few options.\n",
+        "type": "String -> Html.Events.Options -> Json.Decode.Decoder msg -> Element.Internal.Model.Attribute variation msg"
+      },
+      {
+        "name": "targetChecked",
+        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n\n    import Json.Decode as Json\n\n    onCheck : (Bool -> msg) -> Attribute msg\n    onCheck tagger =\n        on \"input\" (Json.map tagger targetChecked)\n\n",
+        "type": "Json.Decode.Decoder Bool"
+      },
+      {
+        "name": "targetValue",
+        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n\n    import Json.Decode as Json\n\n    onInput : (String -> msg) -> Attribute msg\n    onInput tagger =\n        on \"input\" (Json.map tagger targetValue)\n\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n\n",
+        "type": "Json.Decode.Decoder String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1570,115 +1457,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Background",
-    "comment": "\n\n\n## Background Image\n\n@docs image, imageWith, repeatX, repeatY, repeat, space, round, noRepeat\n\n\n## Background Gradient\n\n@docs gradient, step, percent, px\n\n\n## Directed Gradients\n\n@docs gradientRight, gradientLeft, gradientUp, gradientDown, gradientTopRight, gradientBottomRight, gradientTopLeft, gradientBottomLeft\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "gradient",
-        "comment": " Here's an example of creating a background gradient:\n\n    Background.gradient 0 [ step Color.blue, step Color.green]\n\nThe first number of the gradient angle given in radians, where 0 is pointing up.\n\n",
-        "type": "Float -> List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientBottomLeft",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientBottomRight",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientDown",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientLeft",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientRight",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientTopLeft",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientTopRight",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "gradientUp",
-        "comment": " ",
-        "type": "List Style.Background.GradientStep -> Style.Property class variation"
-      },
-      {
-        "name": "image",
-        "comment": " ",
-        "type": "String -> Style.Property class variation"
-      },
-      {
-        "name": "imageWith",
-        "comment": " ",
-        "type": "{ src : String , position : ( Float, Float ) , repeat : Style.Background.Repeat } -> Style.Property class variation"
-      },
-      {
-        "name": "noRepeat",
-        "comment": " ",
-        "type": "Style.Background.Repeat"
-      },
-      {
-        "name": "percent",
-        "comment": " ",
-        "type": "Float -> Color.Color -> Style.Background.GradientStep"
-      },
-      {
-        "name": "px",
-        "comment": " ",
-        "type": "Float -> Color.Color -> Style.Background.GradientStep"
-      },
-      {
-        "name": "repeat",
-        "comment": " ",
-        "type": "Style.Background.Repeat"
-      },
-      {
-        "name": "repeatX",
-        "comment": " ",
-        "type": "Style.Background.Repeat"
-      },
-      {
-        "name": "repeatY",
-        "comment": " ",
-        "type": "Style.Background.Repeat"
-      },
-      {
-        "name": "round",
-        "comment": " ",
-        "type": "Style.Background.Repeat"
-      },
-      {
-        "name": "space",
-        "comment": " ",
-        "type": "Style.Background.Repeat"
-      },
-      {
-        "name": "step",
-        "comment": " ",
-        "type": "Color.Color -> Style.Background.GradientStep"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Style.Border",
     "comment": " Border Properties\n\n\n# Border Widths\n\n@docs none, all, left, right, top, bottom\n\n\n# Border Styles\n\n@docs solid, dashed, dotted\n\n\n# Rounded Border\n\n@docs rounded, roundTopLeft, roundTopRight, roundBottomRight, roundBottomLeft\n\n",
     "aliases": [],
@@ -1787,6 +1565,228 @@
         "name": "mix",
         "comment": " ",
         "type": "List (Style.Style class variation) -> Style.Style class variation"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Filter",
+    "comment": " CSS filters.\n\nApply a stack of filters.\n\n    import Style.Filter as Filter\n    import Style exposing (..)\n\n    style MyFitleredStyle\n        [ filters\n            [ Filter.blur 0.5\n            , Filter.invert 0.5\n            ]\n\n        ]\n\n@docs url, blur, brightness, contrast, grayscale, hueRotate, invert, opacity, saturate, sepia\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "blur",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "brightness",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "contrast",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "grayscale",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "hueRotate",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "invert",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "opacity",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "saturate",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "sepia",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "url",
+        "comment": " ",
+        "type": "String -> Style.Filter"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Shadow",
+    "comment": " Shadows\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nThese are for when you want to specify shadows manually. They're meant to be specified in a shadow stack using `Style.shadows`:\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Style.shadows\n            [ Shadow.inset\n                { offset = ( 0, 0 )\n                , size = 5\n                , blur = 2\n                , color = Color.blue\n                }\n            ]\n        ]\n\n@docs box, drop, inset, text\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "box",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "deep",
+        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "drop",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "glow",
+        "comment": " A simple glow by specifying the color and size.\n",
+        "type": "Color.Color -> Float -> Style.Property class variation"
+      },
+      {
+        "name": "innerGlow",
+        "comment": " ",
+        "type": "Color.Color -> Float -> Style.Property class variation"
+      },
+      {
+        "name": "inset",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "simple",
+        "comment": " A nice preset box shadow.\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "text",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "textGlow",
+        "comment": " ",
+        "type": "Color.Color -> Float -> Style.Property class variation"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Background",
+    "comment": "\n\n\n## Background Image\n\n@docs image, imageWith, repeatX, repeatY, repeat, space, round, noRepeat\n\n\n## Background Gradient\n\n@docs gradient, step, percent, px\n\n\n## Directed Gradients\n\n@docs gradientRight, gradientLeft, gradientUp, gradientDown, gradientTopRight, gradientBottomRight, gradientTopLeft, gradientBottomLeft\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "gradient",
+        "comment": " Here's an example of creating a background gradient:\n\n    Background.gradient 0 [ step Color.blue, step Color.green]\n\nThe first number of the gradient angle given in radians, where 0 is pointing up.\n\n",
+        "type": "Float -> List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientBottomLeft",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientBottomRight",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientDown",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientLeft",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientRight",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientTopLeft",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientTopRight",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "gradientUp",
+        "comment": " ",
+        "type": "List Style.Background.GradientStep -> Style.Property class variation"
+      },
+      {
+        "name": "image",
+        "comment": " ",
+        "type": "String -> Style.Property class variation"
+      },
+      {
+        "name": "imageWith",
+        "comment": " ",
+        "type": "{ src : String , position : ( Float, Float ) , repeat : Style.Background.Repeat } -> Style.Property class variation"
+      },
+      {
+        "name": "noRepeat",
+        "comment": " ",
+        "type": "Style.Background.Repeat"
+      },
+      {
+        "name": "percent",
+        "comment": " ",
+        "type": "Float -> Color.Color -> Style.Background.GradientStep"
+      },
+      {
+        "name": "px",
+        "comment": " ",
+        "type": "Float -> Color.Color -> Style.Background.GradientStep"
+      },
+      {
+        "name": "repeat",
+        "comment": " ",
+        "type": "Style.Background.Repeat"
+      },
+      {
+        "name": "repeatX",
+        "comment": " ",
+        "type": "Style.Background.Repeat"
+      },
+      {
+        "name": "repeatY",
+        "comment": " ",
+        "type": "Style.Background.Repeat"
+      },
+      {
+        "name": "round",
+        "comment": " ",
+        "type": "Style.Background.Repeat"
+      },
+      {
+        "name": "space",
+        "comment": " ",
+        "type": "Style.Background.Repeat"
+      },
+      {
+        "name": "step",
+        "comment": " ",
+        "type": "Color.Color -> Style.Background.GradientStep"
       }
     ],
     "generated-with-elm-version": "0.18.0"

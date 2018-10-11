@@ -1,5 +1,143 @@
 [
   {
+    "name": "Nri.Tabs",
+    "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " ",
+        "args": [
+          "id",
+          "msg"
+        ],
+        "type": "{ title : Maybe.Maybe String , onSelect : id -> msg , tabs : List.Zipper.Zipper (Nri.Tabs.Tab id) , content : id -> Html.Html msg , alignment : Nri.Tabs.Alignment }"
+      },
+      {
+        "name": "LinkConfig",
+        "comment": " Configure a set a tab links\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ title : Maybe.Maybe String , tabs : List.Zipper.Zipper Nri.Tabs.TabLink , content : Html.Html msg , alignment : Nri.Tabs.Alignment }"
+      },
+      {
+        "name": "Tab",
+        "comment": " ",
+        "args": [
+          "id"
+        ],
+        "type": "{ label : String, id : id }"
+      },
+      {
+        "name": "TabLink",
+        "comment": " Describe a tab that is meant to link to another page\n",
+        "args": [],
+        "type": "{ label : String, href : Maybe.Maybe String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Alignment",
+        "comment": " Determines whether tabs are centered or floating to the left or right.\n",
+        "args": [],
+        "cases": [
+          [
+            "Left",
+            []
+          ],
+          [
+            "Center",
+            []
+          ],
+          [
+            "Right",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "links",
+        "comment": " View a set of tab links\n",
+        "type": "Nri.Tabs.LinkConfig msg -> Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Tabs.CssClasses msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.Tabs.Config id msg -> Html.Html msg"
+      },
+      {
+        "name": "viewCustom",
+        "comment": " ",
+        "type": "Nri.Tabs.Config id msg -> (Nri.Tabs.Tab id -> Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "viewTabDefault",
+        "comment": " ",
+        "type": "Nri.Tabs.Tab id -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Modal",
+    "comment": "\n\n@docs Model\n@docs info\n@docs styles\n@docs warning\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": "\n\n  - `onDismiss`: If `Nothing`, the modal will not be dismissable\n  - `visibleTitle`: If `False`, the title will still be used for screen readers\n  - `content`: This will be placed in a `width:100%` div in the main area of the modal\n  - `footerContent`: The optional items here will be stacked below the main content area and center-aligned.\n    Commonly you will either give a list of Nri.Buttons,\n    or an empty list.\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ title : String , visibleTitle : Bool , content : Html.Html msg , footerContent : List (Html.Html msg) , onDismiss : Maybe.Maybe msg , width : Maybe.Maybe Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "info",
+        "comment": " ",
+        "type": "Nri.Modal.Model msg -> Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Modal.CssClasses b"
+      },
+      {
+        "name": "warning",
+        "comment": " ",
+        "type": "Nri.Modal.Model msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.TextAreaWithOverlappingLabel",
+    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nri.Button",
     "comment": " Common NoRedInk buttons. For accessibility purposes, buttons that perform an\naction on the current page should be HTML `<button>` elements and are created here\nwith `*Button` functions. Buttons that take the user to a new page should be\nHTML `<a>` elements and are created here with `*Link` functions. Both versions\nshould be able to use the same CSS class in all cases.\n\nThere will generally be a `*Button` and `*Link` version of each button style.\n(These will be created as they are needed.)\n\n\n## Required styles\n\n@docs styles\n\n\n## Common configs\n\n@docs ButtonContent\n@docs ButtonSize\n@docs ButtonState\n@docs ButtonStyle\n\n\n## `<button>` Buttons\n\n@docs button\n\n",
     "aliases": [
@@ -173,106 +311,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Modal",
-    "comment": "\n\n@docs Model\n@docs info\n@docs styles\n@docs warning\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": "\n\n  - `onDismiss`: If `Nothing`, the modal will not be dismissable\n  - `visibleTitle`: If `False`, the title will still be used for screen readers\n  - `content`: This will be placed in a `width:100%` div in the main area of the modal\n  - `footerContent`: The optional items here will be stacked below the main content area and center-aligned.\n    Commonly you will either give a list of Nri.Buttons,\n    or an empty list.\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ title : String , visibleTitle : Bool , content : Html.Html msg , footerContent : List (Html.Html msg) , onDismiss : Maybe.Maybe msg , width : Maybe.Maybe Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "info",
-        "comment": " ",
-        "type": "Nri.Modal.Model msg -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Modal.CssClasses b"
-      },
-      {
-        "name": "warning",
-        "comment": " ",
-        "type": "Nri.Modal.Model msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Divider",
-    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.TextAreaWithOverlappingLabel",
-    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.BannerAlert",
-    "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "error",
-        "comment": " A banner to show error alerts\n",
-        "type": "String -> Html.Html msg"
-      },
-      {
-        "name": "neutral",
-        "comment": " A banner to show neutral alerts\n",
-        "type": "String -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.BannerAlert.CssClasses b"
-      },
-      {
-        "name": "success",
-        "comment": " A banner for success alerts\n",
-        "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nri.Alert",
     "comment": " UI components that highlight information to the user.\n\n@docs Model\n@docs error\n@docs styles\n@docs success\n@docs tip\n@docs viewResult\n@docs warning\n\n",
     "aliases": [
@@ -372,87 +410,49 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Tabs",
-    "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " ",
-        "args": [
-          "id",
-          "msg"
-        ],
-        "type": "{ title : Maybe.Maybe String , onSelect : id -> msg , tabs : List.Zipper.Zipper (Nri.Tabs.Tab id) , content : id -> Html.Html msg , alignment : Nri.Tabs.Alignment }"
-      },
-      {
-        "name": "LinkConfig",
-        "comment": " Configure a set a tab links\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ title : Maybe.Maybe String , tabs : List.Zipper.Zipper Nri.Tabs.TabLink , content : Html.Html msg , alignment : Nri.Tabs.Alignment }"
-      },
-      {
-        "name": "Tab",
-        "comment": " ",
-        "args": [
-          "id"
-        ],
-        "type": "{ label : String, id : id }"
-      },
-      {
-        "name": "TabLink",
-        "comment": " Describe a tab that is meant to link to another page\n",
-        "args": [],
-        "type": "{ label : String, href : Maybe.Maybe String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Alignment",
-        "comment": " Determines whether tabs are centered or floating to the left or right.\n",
-        "args": [],
-        "cases": [
-          [
-            "Left",
-            []
-          ],
-          [
-            "Center",
-            []
-          ],
-          [
-            "Right",
-            []
-          ]
-        ]
-      }
-    ],
+    "name": "Nri.BannerAlert",
+    "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
+    "aliases": [],
+    "types": [],
     "values": [
       {
-        "name": "links",
-        "comment": " View a set of tab links\n",
-        "type": "Nri.Tabs.LinkConfig msg -> Html.Html msg"
+        "name": "error",
+        "comment": " A banner to show error alerts\n",
+        "type": "String -> Html.Html msg"
+      },
+      {
+        "name": "neutral",
+        "comment": " A banner to show neutral alerts\n",
+        "type": "String -> Html.Html msg"
       },
       {
         "name": "styles",
         "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Tabs.CssClasses msg"
+        "type": "Nri.Styles.Styles Basics.Never Nri.BannerAlert.CssClasses b"
+      },
+      {
+        "name": "success",
+        "comment": " A banner for success alerts\n",
+        "type": "String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Divider",
+    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
       },
       {
         "name": "view",
         "comment": " ",
-        "type": "Nri.Tabs.Config id msg -> Html.Html msg"
-      },
-      {
-        "name": "viewCustom",
-        "comment": " ",
-        "type": "Nri.Tabs.Config id msg -> (Nri.Tabs.Tab id -> Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "viewTabDefault",
-        "comment": " ",
-        "type": "Nri.Tabs.Tab id -> Html.Html msg"
+        "type": "String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

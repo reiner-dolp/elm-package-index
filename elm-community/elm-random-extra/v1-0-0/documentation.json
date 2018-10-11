@@ -49,39 +49,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Order",
-    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "order",
-        "comment": " Generate a random order with equal probability.\n",
-        "type": "Random.Generator Basics.Order"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Random.List",
-    "comment": " List of List Generators\n\n# Generators\n@docs emptyList, rangeLengthList\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "emptyList",
-        "comment": " Generator that always returns the empty list.\n",
-        "type": "Random.Generator (List a)"
-      },
-      {
-        "name": "rangeLengthList",
-        "comment": " Generate a random list of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Generator a -> Random.Generator (List a)"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Random.Set",
     "comment": " List of Random Set Generators\n\n# Generators\n@docs empty, singleton, set, notInSet\n\n# Combinators\n@docs select, selectWithDefault\n\n",
     "aliases": [],
@@ -121,25 +88,63 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Result",
-    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
+    "name": "Random.Maybe",
+    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "error",
-        "comment": " Generate an error result from a random generator of errors\n",
-        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
+        "name": "maybe",
+        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
       },
       {
-        "name": "ok",
-        "comment": " Generate an ok result from a random generator of values\n",
-        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
+        "name": "withDefault",
+        "comment": " Generate values from a maybe generator or a default value.\n",
+        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
       },
       {
-        "name": "result",
-        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
-        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
+        "name": "withDefaultGenerator",
+        "comment": " Generate values from a maybe generator or a default generator.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Random.Order",
+    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "order",
+        "comment": " Generate a random order with equal probability.\n",
+        "type": "Random.Generator Basics.Order"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Random.Dict",
+    "comment": " List of Dict Generators\n\n# Generators\n@docs dict, emptyDict, rangeLengthDict\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
+        "type": "Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
+      },
+      {
+        "name": "emptyDict",
+        "comment": " Generator that always generates the empty dict\n",
+        "type": "Random.Generator (Dict.Dict comparable value)"
+      },
+      {
+        "name": "rangeLengthDict",
+        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1289,25 +1294,40 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Maybe",
-    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
+    "name": "Random.Array",
+    "comment": " List of Array Generators\n\n# Generate an Array\n@docs array, emptyArray, rangeLengthArray\n\n# Random Operations on an Array\n@docs sample, choose, shuffle\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "maybe",
-        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
+        "name": "array",
+        "comment": " Generate a random array of given size given a random generator\n\n    randomLength5IntArray = array 5 (int 0 100)\n",
+        "type": "Int -> Random.Generator a -> Random.Generator (Array.Array a)"
       },
       {
-        "name": "withDefault",
-        "comment": " Generate values from a maybe generator or a default value.\n",
-        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+        "name": "choose",
+        "comment": " Sample without replacement: produce a randomly selected element of the\narray, and the array with that element omitted (shifting all later elements\ndown).\n",
+        "type": "Array.Array a -> Random.Generator ( Maybe.Maybe a, Array.Array a )"
       },
       {
-        "name": "withDefaultGenerator",
-        "comment": " Generate values from a maybe generator or a default generator.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+        "name": "emptyArray",
+        "comment": " Generator that always generates the empty array\n",
+        "type": "Random.Generator (Array.Array a)"
+      },
+      {
+        "name": "rangeLengthArray",
+        "comment": " Generate a random array of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Generator a -> Random.Generator (Array.Array a)"
+      },
+      {
+        "name": "sample",
+        "comment": " Sample with replacement: produce a randomly selected element of the\narray, or `Nothing` for an empty array. Takes O(1) time.\n",
+        "type": "Array.Array a -> Random.Generator (Maybe.Maybe a)"
+      },
+      {
+        "name": "shuffle",
+        "comment": " Shuffle the array using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
+        "type": "Array.Array a -> Random.Generator (Array.Array a)"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1367,64 +1387,44 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Array",
-    "comment": " List of Array Generators\n\n# Generate an Array\n@docs array, emptyArray, rangeLengthArray\n\n# Random Operations on an Array\n@docs sample, choose, shuffle\n\n",
+    "name": "Random.Result",
+    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "array",
-        "comment": " Generate a random array of given size given a random generator\n\n    randomLength5IntArray = array 5 (int 0 100)\n",
-        "type": "Int -> Random.Generator a -> Random.Generator (Array.Array a)"
+        "name": "error",
+        "comment": " Generate an error result from a random generator of errors\n",
+        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
       },
       {
-        "name": "choose",
-        "comment": " Sample without replacement: produce a randomly selected element of the\narray, and the array with that element omitted (shifting all later elements\ndown).\n",
-        "type": "Array.Array a -> Random.Generator ( Maybe.Maybe a, Array.Array a )"
+        "name": "ok",
+        "comment": " Generate an ok result from a random generator of values\n",
+        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
       },
       {
-        "name": "emptyArray",
-        "comment": " Generator that always generates the empty array\n",
-        "type": "Random.Generator (Array.Array a)"
-      },
-      {
-        "name": "rangeLengthArray",
-        "comment": " Generate a random array of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Generator a -> Random.Generator (Array.Array a)"
-      },
-      {
-        "name": "sample",
-        "comment": " Sample with replacement: produce a randomly selected element of the\narray, or `Nothing` for an empty array. Takes O(1) time.\n",
-        "type": "Array.Array a -> Random.Generator (Maybe.Maybe a)"
-      },
-      {
-        "name": "shuffle",
-        "comment": " Shuffle the array using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
-        "type": "Array.Array a -> Random.Generator (Array.Array a)"
+        "name": "result",
+        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
+        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
       }
     ],
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Dict",
-    "comment": " List of Dict Generators\n\n# Generators\n@docs dict, emptyDict, rangeLengthDict\n\n",
+    "name": "Random.List",
+    "comment": " List of List Generators\n\n# Generators\n@docs emptyList, rangeLengthList\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "dict",
-        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
-        "type": "Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
+        "name": "emptyList",
+        "comment": " Generator that always returns the empty list.\n",
+        "type": "Random.Generator (List a)"
       },
       {
-        "name": "emptyDict",
-        "comment": " Generator that always generates the empty dict\n",
-        "type": "Random.Generator (Dict.Dict comparable value)"
-      },
-      {
-        "name": "rangeLengthDict",
-        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
+        "name": "rangeLengthList",
+        "comment": " Generate a random list of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Generator a -> Random.Generator (List a)"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1594,55 +1594,35 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Color",
-    "comment": " List of Color Generators\n\n# Generators\n@docs rgb, rgba, hsl, hsla, greyscale, grayscale, red, green, blue\n\n",
+    "name": "Random.Int",
+    "comment": " List of Int Generators\n\n# Generators\n@docs anyInt, positiveInt, negativeInt, intGreaterThan, intLessThan\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "blue",
-        "comment": " Generate a random shade of blue.\n",
-        "type": "Random.Generator Color.Color"
+        "name": "anyInt",
+        "comment": " Generator that generates any int that can be generate by the\nrandom generator algorithm.\n",
+        "type": "Random.Generator Int"
       },
       {
-        "name": "grayscale",
-        "comment": " Alias for greyscale\n",
-        "type": "Random.Generator Color.Color"
+        "name": "intGreaterThan",
+        "comment": " Generator that generates an int greater than a given int\n",
+        "type": "Int -> Random.Generator Int"
       },
       {
-        "name": "green",
-        "comment": " Generate a random shade of green.\n",
-        "type": "Random.Generator Color.Color"
+        "name": "intLessThan",
+        "comment": " Generator that generates an int less than a given int\n",
+        "type": "Int -> Random.Generator Int"
       },
       {
-        "name": "greyscale",
-        "comment": " Generate a random shade of grey\n",
-        "type": "Random.Generator Color.Color"
+        "name": "negativeInt",
+        "comment": " Generator that generates a negative int\n",
+        "type": "Random.Generator Int"
       },
       {
-        "name": "hsl",
-        "comment": " Generate a random non-transparent color by random HSL values.\n",
-        "type": "Random.Generator Color.Color"
-      },
-      {
-        "name": "hsla",
-        "comment": " Generate a random transparent color by random HSLA values.\n",
-        "type": "Random.Generator Color.Color"
-      },
-      {
-        "name": "red",
-        "comment": " Generate a random shade of red.\n",
-        "type": "Random.Generator Color.Color"
-      },
-      {
-        "name": "rgb",
-        "comment": " Generate a random non-transparent color by random RGB values.\n",
-        "type": "Random.Generator Color.Color"
-      },
-      {
-        "name": "rgba",
-        "comment": " Generate a random transparent color by random RGBA values.\n",
-        "type": "Random.Generator Color.Color"
+        "name": "positiveInt",
+        "comment": " Generator that generates a positive int\n",
+        "type": "Random.Generator Int"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1712,35 +1692,55 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Int",
-    "comment": " List of Int Generators\n\n# Generators\n@docs anyInt, positiveInt, negativeInt, intGreaterThan, intLessThan\n",
+    "name": "Random.Color",
+    "comment": " List of Color Generators\n\n# Generators\n@docs rgb, rgba, hsl, hsla, greyscale, grayscale, red, green, blue\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "anyInt",
-        "comment": " Generator that generates any int that can be generate by the\nrandom generator algorithm.\n",
-        "type": "Random.Generator Int"
+        "name": "blue",
+        "comment": " Generate a random shade of blue.\n",
+        "type": "Random.Generator Color.Color"
       },
       {
-        "name": "intGreaterThan",
-        "comment": " Generator that generates an int greater than a given int\n",
-        "type": "Int -> Random.Generator Int"
+        "name": "grayscale",
+        "comment": " Alias for greyscale\n",
+        "type": "Random.Generator Color.Color"
       },
       {
-        "name": "intLessThan",
-        "comment": " Generator that generates an int less than a given int\n",
-        "type": "Int -> Random.Generator Int"
+        "name": "green",
+        "comment": " Generate a random shade of green.\n",
+        "type": "Random.Generator Color.Color"
       },
       {
-        "name": "negativeInt",
-        "comment": " Generator that generates a negative int\n",
-        "type": "Random.Generator Int"
+        "name": "greyscale",
+        "comment": " Generate a random shade of grey\n",
+        "type": "Random.Generator Color.Color"
       },
       {
-        "name": "positiveInt",
-        "comment": " Generator that generates a positive int\n",
-        "type": "Random.Generator Int"
+        "name": "hsl",
+        "comment": " Generate a random non-transparent color by random HSL values.\n",
+        "type": "Random.Generator Color.Color"
+      },
+      {
+        "name": "hsla",
+        "comment": " Generate a random transparent color by random HSLA values.\n",
+        "type": "Random.Generator Color.Color"
+      },
+      {
+        "name": "red",
+        "comment": " Generate a random shade of red.\n",
+        "type": "Random.Generator Color.Color"
+      },
+      {
+        "name": "rgb",
+        "comment": " Generate a random non-transparent color by random RGB values.\n",
+        "type": "Random.Generator Color.Color"
+      },
+      {
+        "name": "rgba",
+        "comment": " Generate a random transparent color by random RGBA values.\n",
+        "type": "Random.Generator Color.Color"
       }
     ],
     "generated-with-elm-version": "0.17.1"

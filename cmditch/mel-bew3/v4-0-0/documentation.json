@@ -156,6 +156,107 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Eth.Sentry.Event",
+    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, logFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
+    "aliases": [
+      {
+        "name": "FilterKey",
+        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
+        "args": [],
+        "type": "( String, String )"
+      }
+    ],
+    "types": [
+      {
+        "name": "EventSentry",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Msg",
+        "comment": " ",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "changeNode",
+        "comment": " ",
+        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+      },
+      {
+        "name": "init",
+        "comment": " ",
+        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
+      },
+      {
+        "name": "listen",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "logFilterKey",
+        "comment": " ",
+        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
+      },
+      {
+        "name": "newBlocks",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "nextBlock",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "pendingTxs",
+        "comment": " ",
+        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatch",
+        "comment": " ",
+        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchNewBlocks",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchPendingTxs",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "update",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watch",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Types.LogFilter -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watchOnce",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Types.LogFilter -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "withDebug",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Shh",
     "comment": " Whipser API\n\n@docs Post\n\n@docs version, post, newIdentity\n\n@docs WhisperId, whisperIdToString, toWhisperId\n\n",
     "aliases": [
@@ -432,107 +533,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Sentry.Event",
-    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, logFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
-    "aliases": [
-      {
-        "name": "FilterKey",
-        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
-        "args": [],
-        "type": "( String, String )"
-      }
-    ],
-    "types": [
-      {
-        "name": "EventSentry",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Msg",
-        "comment": " ",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "changeNode",
-        "comment": " ",
-        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
-      },
-      {
-        "name": "init",
-        "comment": " ",
-        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
-      },
-      {
-        "name": "listen",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "logFilterKey",
-        "comment": " ",
-        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
-      },
-      {
-        "name": "newBlocks",
-        "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "nextBlock",
-        "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "pendingTxs",
-        "comment": " ",
-        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatch",
-        "comment": " ",
-        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchNewBlocks",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchPendingTxs",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "update",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watch",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Types.LogFilter -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watchOnce",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Types.LogFilter -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "withDebug",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Evm.Decode",
     "comment": " Decode RPC Responses\n\n@docs EvmDecoder, evmDecode, runDecoder, toElmDecoder, toElmDecoderWithDebug\n@docs uint, bool, address, dBytes, sBytes, string, dArray, sArray, ipfsHash\n@docs andMap, topic, data\n\n",
     "aliases": [],
@@ -784,6 +784,87 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Evm.Encode",
+    "comment": " Encode before sending RPC Calls\n\n@docs Encoding, encodeData, encodeDataWithDebug\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Encoding",
+        "comment": " Not yet implemented :\n\n    -- DO NOT USE\n    DBytesE, BytesE, StringE, ListE\n\n",
+        "args": [],
+        "cases": [
+          [
+            "AddressE",
+            [
+              "Eth.Types.Address"
+            ]
+          ],
+          [
+            "UintE",
+            [
+              "BigInt.BigInt"
+            ]
+          ],
+          [
+            "BoolE",
+            [
+              "Bool"
+            ]
+          ],
+          [
+            "DBytesE",
+            [
+              "String"
+            ]
+          ],
+          [
+            "BytesE",
+            [
+              "String"
+            ]
+          ],
+          [
+            "StringE",
+            [
+              "String"
+            ]
+          ],
+          [
+            "ListE",
+            [
+              "Evm.Encode.Encoding"
+            ]
+          ],
+          [
+            "IPFSHashE",
+            [
+              "Eth.Types.IPFSHash"
+            ]
+          ],
+          [
+            "Custom",
+            [
+              "String"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "encodeData",
+        "comment": " ",
+        "type": "String -> List Evm.Encode.Encoding -> Eth.Types.Hex"
+      },
+      {
+        "name": "encodeDataWithDebug",
+        "comment": " ",
+        "type": "String -> List Evm.Encode.Encoding -> Eth.Types.Hex"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Eth.Decode",
     "comment": " Eth Decoders\n\n\n# Simple\n\n@docs address, txHash, blockHash, hex\n\n\n# Complex\n\n@docs block, uncle, blockHead, tx, txReceipt, log, event, syncStatus\n\n\n# Rudiments\n\n@docs stringInt, hexInt, bigInt, hexTime, hexBool\n\n\n# Utils\n\n@docs resultToDecoder, nonZero\n\n",
     "aliases": [],
@@ -883,87 +964,6 @@
         "name": "uncle",
         "comment": " ",
         "type": "Json.Decode.Decoder (Eth.Types.Block ())"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Evm.Encode",
-    "comment": " Encode before sending RPC Calls\n\n@docs Encoding, encodeData, encodeDataWithDebug\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Encoding",
-        "comment": " Not yet implemented :\n\n    -- DO NOT USE\n    DBytesE, BytesE, StringE, ListE\n\n",
-        "args": [],
-        "cases": [
-          [
-            "AddressE",
-            [
-              "Eth.Types.Address"
-            ]
-          ],
-          [
-            "UintE",
-            [
-              "BigInt.BigInt"
-            ]
-          ],
-          [
-            "BoolE",
-            [
-              "Bool"
-            ]
-          ],
-          [
-            "DBytesE",
-            [
-              "String"
-            ]
-          ],
-          [
-            "BytesE",
-            [
-              "String"
-            ]
-          ],
-          [
-            "StringE",
-            [
-              "String"
-            ]
-          ],
-          [
-            "ListE",
-            [
-              "Evm.Encode.Encoding"
-            ]
-          ],
-          [
-            "IPFSHashE",
-            [
-              "Eth.Types.IPFSHash"
-            ]
-          ],
-          [
-            "Custom",
-            [
-              "String"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "encodeData",
-        "comment": " ",
-        "type": "String -> List Evm.Encode.Encoding -> Eth.Types.Hex"
-      },
-      {
-        "name": "encodeDataWithDebug",
-        "comment": " ",
-        "type": "String -> List Evm.Encode.Encoding -> Eth.Types.Hex"
       }
     ],
     "generated-with-elm-version": "0.18.0"

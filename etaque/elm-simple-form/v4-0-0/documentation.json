@@ -381,6 +381,83 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
+    "name": "Form.Field",
+    "comment": " Read and write field values.\n\n# Constructors\n@docs Field, group\n\n# Value readers\n@docs at, asString, asBool\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Field",
+        "comment": " Form field. Can either be a group of named fields, or a final field.\n",
+        "args": [],
+        "cases": [
+          [
+            "Group",
+            [
+              "Dict.Dict String Form.Field.Field"
+            ]
+          ],
+          [
+            "Text",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Textarea",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Select",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Radio",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Check",
+            [
+              "Bool"
+            ]
+          ],
+          [
+            "EmptyField",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "asBool",
+        "comment": " Get field value as boolean.\n",
+        "type": "Form.Field.Field -> Maybe.Maybe Bool"
+      },
+      {
+        "name": "asString",
+        "comment": " Get field value as string.\n",
+        "type": "Form.Field.Field -> Maybe.Maybe String"
+      },
+      {
+        "name": "at",
+        "comment": " Get field at name, for nested forms.\n",
+        "type": "String -> Form.Field.Field -> Maybe.Maybe Form.Field.Field"
+      },
+      {
+        "name": "group",
+        "comment": " Build a group of values, for nested forms.\n",
+        "type": "List ( String, Form.Field.Field ) -> Form.Field.Field"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Form.Error",
     "comment": " Validation errors.\n\n@docs Error, getAt\n",
     "aliases": [],
@@ -488,83 +565,6 @@
         "name": "getAt",
         "comment": " Get error at name, for nested errors.\n",
         "type": "String -> Form.Error.Error e -> Maybe.Maybe (Form.Error.Error e)"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Form.Field",
-    "comment": " Read and write field values.\n\n# Constructors\n@docs Field, group\n\n# Value readers\n@docs at, asString, asBool\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Field",
-        "comment": " Form field. Can either be a group of named fields, or a final field.\n",
-        "args": [],
-        "cases": [
-          [
-            "Group",
-            [
-              "Dict.Dict String Form.Field.Field"
-            ]
-          ],
-          [
-            "Text",
-            [
-              "String"
-            ]
-          ],
-          [
-            "Textarea",
-            [
-              "String"
-            ]
-          ],
-          [
-            "Select",
-            [
-              "String"
-            ]
-          ],
-          [
-            "Radio",
-            [
-              "String"
-            ]
-          ],
-          [
-            "Check",
-            [
-              "Bool"
-            ]
-          ],
-          [
-            "EmptyField",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "asBool",
-        "comment": " Get field value as boolean.\n",
-        "type": "Form.Field.Field -> Maybe.Maybe Bool"
-      },
-      {
-        "name": "asString",
-        "comment": " Get field value as string.\n",
-        "type": "Form.Field.Field -> Maybe.Maybe String"
-      },
-      {
-        "name": "at",
-        "comment": " Get field at name, for nested forms.\n",
-        "type": "String -> Form.Field.Field -> Maybe.Maybe Form.Field.Field"
-      },
-      {
-        "name": "group",
-        "comment": " Build a group of values, for nested forms.\n",
-        "type": "List ( String, Form.Field.Field ) -> Form.Field.Field"
       }
     ],
     "generated-with-elm-version": "0.17.1"

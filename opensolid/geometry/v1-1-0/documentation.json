@@ -491,80 +491,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Polyline2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/polyline2d.svg\" alt=\"Polyline2d\" width=\"160\">\n\nA `Polyline2d` represents a sequence of vertices connected by line segments.\nThis module contains a variety of polyline-related functionality, such as\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\nPolylines can be constructed by passing an ordered list of vertices to the\n`Polyline2d` constructor, for example\n\n    stepShape =\n        Polyline2d\n            [ Point2d ( 0, 0 )\n            , Point2d ( 1, 0 )\n            , Point2d ( 1, 1 )\n            , Point2d ( 2, 1 )\n            ]\n\n# Accessors\n\n@docs vertices, segments\n\n# Length\n\n@docs length\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline2d.boundingBox stepShape\n    --> Just\n    -->     (BoundingBox2d\n    -->         { minX = 0\n    -->         , maxX = 2\n    -->         , minY = 0\n    -->         , maxY = 1\n    -->         }\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.Polyline2d -> Maybe.Maybe OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline2d.length stepShape\n    --> 3\n",
-        "type": "OpenSolid.Geometry.Types.Polyline2d -> Float"
-      },
-      {
-        "name": "map",
-        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `map`; for example,\n\n    Polyline2d.mirrorAcross Axis2d.x polyline\n\nis equivalent to\n\n    Polyline2d.map (Point2d.mirrorAcross Axis2d.x) polyline\n",
-        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a polyline across the given axis.\n\n    Polyline2d.mirrorAcross Axis2d.x stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 0, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 1, -1 )\n    -->     , Point2d ( 2, -1 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Polyline2d.placeIn localFrame stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 1, 2 )\n    -->     , Point2d ( 2, 2 )\n    -->     , Point2d ( 2, 3 )\n    -->     , Point2d ( 3, 3 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "placeOnto",
-        "comment": " Take a polyline defined in 2D coordinates within a particular sketch plane\nand return the corresponding polyline in 3D.\n\n    Polyline2d.placeOnto SketchPlane3d.yz stepShape\n    --> Polyline3d\n    -->     [ Point3d ( 0, 0, 0 )\n    -->     , Point3d ( 0, 1, 0 )\n    -->     , Point3d ( 0, 1, 1 )\n    -->     , Point3d ( 0, 2, 1 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline3d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project (flatten) a polyline onto the given axis.\n\n    Polyline2d.projectOnto Axis2d.x stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 0, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 2, 0 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Polyline2d.relativeTo localFrame stepShape\n    --> Polyline2d\n    -->     [ Point2d ( -1, -2 )\n    -->     , Point2d ( 0, -2 )\n    -->     , Point2d ( 0, -1 )\n    -->     , Point2d ( 1, -1 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a polyline around the given center point counterclockwise by the\ngiven angle (in radians).\n\n    Polyline2d.rotateAround Point2d.origin (degrees 90) stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 0, 0 )\n    -->     , Point2d ( 0, 1 )\n    -->     , Point2d ( -1, 1 )\n    -->     , Point2d ( -1, 2 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a polyline about a given center point by a given scale.\n\n    point =\n        Point2d ( 1, 0 )\n\n    Polyline2d.scaleAbout point 2 stepShape\n    --> Polyline2d\n    -->     [ Point2d ( -1, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 1, 2 )\n    -->     , Point2d ( 3, 2 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "segments",
-        "comment": " Get the individual segments of a polyline.\n\n    Polyline2d.segments stepShape\n    --> [ LineSegment2d ( Point2d ( 0, 0 ), Point2d ( 1, 0 ) )\n    --> , LineSegment2d ( Point2d ( 1, 0 ), Point2d ( 1, 1 ) )\n    --> , LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 2, 1 ) )\n    --> ]\n",
-        "type": "OpenSolid.Geometry.Types.Polyline2d -> List OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector2d ( 2, 3 )\n\n    Polyline2d.translateBy displacement stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 2, 3 )\n    -->     , Point2d ( 3, 3 )\n    -->     , Point2d ( 3, 4 )\n    -->     , Point2d ( 4, 4 )\n    -->     ]\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a polyline.\n\n    Polyline2d.vertices stepShape\n    --> [ Point2d ( 0, 0 )\n    --> , Point2d ( 1, 0 )\n    --> , Point2d ( 1, 1 )\n    --> , Point2d ( 2, 1 )\n    --> ]\n",
-        "type": "OpenSolid.Geometry.Types.Polyline2d -> List OpenSolid.Geometry.Types.Point2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.Polygon2d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/polygon2d.svg\" alt=\"Polygon2d\" width=\"160\">\n\nA `Polygon2d` represents a closed polygon in 2D, and is defined by a list of\nvertices. This module contains a variety of polygon-related functionality, such\nas\n\n  - Computing the perimeter and area of polygons\n  - Scaling, rotating, translating and mirroring polygons\n  - Converting polygons between different coordinate systems\n\nPolygons can be constructed by passing an ordered list of vertices to the\n`Polygon2d` constructor, for example\n\n    rectangle =\n        Polygon2d\n            [ Point2d ( 1, 1 )\n            , Point2d ( 3, 1 )\n            , Point2d ( 3, 2 )\n            , Point2d ( 1, 2 )\n            ]\n\nThe last vertex is implicitly considered to be connected back to the first\nvertex (you do not have to close the polygon explicitly).\n\n# Accessors\n\n@docs vertices, edges\n\n# Perimeter and area\n\n@docs perimeter, area, clockwiseArea, counterclockwiseArea\n\n# Transformations\n\nTransforming a polygon is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, map\n\n# Coordinate frames\n\n@docs relativeTo, placeIn\n\n# Bounds\n\n@docs boundingBox\n",
     "aliases": [],
@@ -639,6 +565,80 @@
         "name": "vertices",
         "comment": " Get the vertices of a polygon.\n\n    Polygon2d.vertices rectangle\n    --> [ Point2d ( 1, 1 )\n    --> , Point2d ( 3, 1 )\n    --> , Point2d ( 3, 2 )\n    --> , Point2d ( 1, 2 )\n    --> ]\n",
         "type": "OpenSolid.Geometry.Types.Polygon2d -> List OpenSolid.Geometry.Types.Point2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.Polyline2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/polyline2d.svg\" alt=\"Polyline2d\" width=\"160\">\n\nA `Polyline2d` represents a sequence of vertices connected by line segments.\nThis module contains a variety of polyline-related functionality, such as\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\nPolylines can be constructed by passing an ordered list of vertices to the\n`Polyline2d` constructor, for example\n\n    stepShape =\n        Polyline2d\n            [ Point2d ( 0, 0 )\n            , Point2d ( 1, 0 )\n            , Point2d ( 1, 1 )\n            , Point2d ( 2, 1 )\n            ]\n\n# Accessors\n\n@docs vertices, segments\n\n# Length\n\n@docs length\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline2d.boundingBox stepShape\n    --> Just\n    -->     (BoundingBox2d\n    -->         { minX = 0\n    -->         , maxX = 2\n    -->         , minY = 0\n    -->         , maxY = 1\n    -->         }\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.Polyline2d -> Maybe.Maybe OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline2d.length stepShape\n    --> 3\n",
+        "type": "OpenSolid.Geometry.Types.Polyline2d -> Float"
+      },
+      {
+        "name": "map",
+        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `map`; for example,\n\n    Polyline2d.mirrorAcross Axis2d.x polyline\n\nis equivalent to\n\n    Polyline2d.map (Point2d.mirrorAcross Axis2d.x) polyline\n",
+        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a polyline across the given axis.\n\n    Polyline2d.mirrorAcross Axis2d.x stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 0, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 1, -1 )\n    -->     , Point2d ( 2, -1 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Polyline2d.placeIn localFrame stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 1, 2 )\n    -->     , Point2d ( 2, 2 )\n    -->     , Point2d ( 2, 3 )\n    -->     , Point2d ( 3, 3 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "placeOnto",
+        "comment": " Take a polyline defined in 2D coordinates within a particular sketch plane\nand return the corresponding polyline in 3D.\n\n    Polyline2d.placeOnto SketchPlane3d.yz stepShape\n    --> Polyline3d\n    -->     [ Point3d ( 0, 0, 0 )\n    -->     , Point3d ( 0, 1, 0 )\n    -->     , Point3d ( 0, 1, 1 )\n    -->     , Point3d ( 0, 2, 1 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline3d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project (flatten) a polyline onto the given axis.\n\n    Polyline2d.projectOnto Axis2d.x stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 0, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 2, 0 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Polyline2d.relativeTo localFrame stepShape\n    --> Polyline2d\n    -->     [ Point2d ( -1, -2 )\n    -->     , Point2d ( 0, -2 )\n    -->     , Point2d ( 0, -1 )\n    -->     , Point2d ( 1, -1 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a polyline around the given center point counterclockwise by the\ngiven angle (in radians).\n\n    Polyline2d.rotateAround Point2d.origin (degrees 90) stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 0, 0 )\n    -->     , Point2d ( 0, 1 )\n    -->     , Point2d ( -1, 1 )\n    -->     , Point2d ( -1, 2 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a polyline about a given center point by a given scale.\n\n    point =\n        Point2d ( 1, 0 )\n\n    Polyline2d.scaleAbout point 2 stepShape\n    --> Polyline2d\n    -->     [ Point2d ( -1, 0 )\n    -->     , Point2d ( 1, 0 )\n    -->     , Point2d ( 1, 2 )\n    -->     , Point2d ( 3, 2 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "segments",
+        "comment": " Get the individual segments of a polyline.\n\n    Polyline2d.segments stepShape\n    --> [ LineSegment2d ( Point2d ( 0, 0 ), Point2d ( 1, 0 ) )\n    --> , LineSegment2d ( Point2d ( 1, 0 ), Point2d ( 1, 1 ) )\n    --> , LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 2, 1 ) )\n    --> ]\n",
+        "type": "OpenSolid.Geometry.Types.Polyline2d -> List OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector2d ( 2, 3 )\n\n    Polyline2d.translateBy displacement stepShape\n    --> Polyline2d\n    -->     [ Point2d ( 2, 3 )\n    -->     , Point2d ( 3, 3 )\n    -->     , Point2d ( 3, 4 )\n    -->     , Point2d ( 4, 4 )\n    -->     ]\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Polyline2d -> OpenSolid.Geometry.Types.Polyline2d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a polyline.\n\n    Polyline2d.vertices stepShape\n    --> [ Point2d ( 0, 0 )\n    --> , Point2d ( 1, 0 )\n    --> , Point2d ( 1, 1 )\n    --> , Point2d ( 2, 1 )\n    --> ]\n",
+        "type": "OpenSolid.Geometry.Types.Polyline2d -> List OpenSolid.Geometry.Types.Point2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -817,125 +817,6 @@
         "name": "zx",
         "comment": " The global ZX plane, centered at the origin with a normal in the positive Y\ndirection.\n\n    Plane3d.zx\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.y\n    -->     }\n",
         "type": "OpenSolid.Geometry.Types.Plane3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.LineSegment3d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment3d.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\nLine segments can be constructed by passing a tuple of start and end points to\nthe `LineSegment3d` constructor, for example\n\n    exampleLineSegment =\n        LineSegment3d\n            ( Point3d ( 1, 2, 3 )\n            , Point3d ( 4, 5, 6 )\n            )\n\n# Constructors\n\n@docs along\n\n# Endpoints\n\n@docs startPoint, endPoint, endpoints, reverse\n\n# Interpolation\n\n@docs midpoint, interpolate\n\n# Length and direction\n\n@docs length, squaredLength, direction, normalDirection, vector\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n\n# Bounds\n\n@docs boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "along",
-        "comment": " Construct a line segment collinear with the given axis, with its endpoints\nat the given distances from the axis' origin point.\n\n    LineSegment3d.along Axis3d.x 3 5\n    --> LineSegment3d ( Point3d ( 3, 0, 0 ), Point3d ( 5, 0, 0 ) )\n\n    LineSegment3d.along Axis3d.y 2 -4\n    --> LineSegment3d ( Point3d ( 0, 2, 0 ), Point3d ( 0, -4, 0 ) )\n\n",
-        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> Float -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a line segment.\n\n    LineSegment3d.boundingBox exampleLineSegment\n    -- BoundingBox3d\n    --     { minX = 1\n    --     , maxX = 4\n    --     , minY = 2\n    --     , maxY = 5\n    --     , minZ = 3\n    --     , maxZ = 6\n    --     }\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.BoundingBox3d"
-      },
-      {
-        "name": "direction",
-        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment3d.direction exampleLineSegment\n    -- Just (Direction3d ( 0.5774, 0.5774, 0.5774 ))\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction3d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a line segment.\n\n    LineSegment3d.endPoint exampleLineSegment\n    -- Point3d ( 4, 5, 6 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "endpoints",
-        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment3d.endpoints lineSegment\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> ( OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d )"
-      },
-      {
-        "name": "interpolate",
-        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Negative values\nor values greater than 1 can be used to extrapolate.\n\n    LineSegment3d.interpolate exampleLineSegment (1 / 3)\n    -- Point3d ( 2, 4, 5 )\n\n    LineSegment3d.interpolate exampleLineSegment (-1 / 3)\n    -- Point3d ( 0, 1, 2 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Float -> OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the length of a line segment.\n\n    LineSegment3d.length exampleLineSegment\n    -- 5.1962\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Float"
-      },
-      {
-        "name": "map",
-        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `map`; for example,\n\n    LineSegment3d.projectOnto Plane3d.xy\n\nis equivalent to\n\n    LineSegment3d.map (Point3d.projectOnto Plane3d.xy)\n",
-        "type": "(OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Point3d) -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "midpoint",
-        "comment": " Get the midpoint of a line segment.\n\n    LineSegment3d.midpoint exampleLineSegment\n    -- Point3d ( 2.5, 3.5, 4.5 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a line segment across a plane.\n\n    LineSegment3d.mirrorAcross Plane3d.xy exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 1, 2, -3 )\n    --     , Point3d ( 4, 5, -6 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "normalDirection",
-        "comment": " Get an arbitrary direction perpendicular to a line segment. If the line\nsegment has zero length, returns `Nothing`.\n\n    LineSegment3d.normalDirection exampleLineSegment\n    -- Just (Direction3d ( 0, -0.7071, 0.7071 ))\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.at (Point3d ( 1, 2, 3 ))\n\n    LineSegment3d.placeIn localFrame exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 2, 4, 6 )\n    --     , Point3d ( 5, 7, 9 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a line segment into a given sketch plane. Conceptually, this\nprojects the line segment onto the plane and then expresses the projected\nline segment in 2D sketch coordinates.\n\n    LineSegment3d.projectInto SketchPlane3d.xy exampleLineSegment\n    -- LineSegment2d\n    --     ( Point2d ( 1, 2 )\n    --     , Point2d ( 4, 5 )\n    --     )\n\n    LineSegment3d.projectInto SketchPlane3d.yz exampleLineSegment\n    -- LineSegment2d\n    --     ( Point2d ( 2, 3 )\n    --     , Point2d ( 5, 6 )\n    --     )\n\n    LineSegment3d.projectInto SketchPlane3d.zx exampleLineSegment\n    -- LineSegment2d\n    --     ( Point2d ( 3, 1 )\n    --     , Point2d ( 6, 4 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a line segment onto a plane.\n\n    LineSegment3d.projectOnto Plane3d.yz exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 0, 2, 3 )\n    --     , Point3d ( 0, 5, 6 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.at (Point3d ( 1, 2, 3 ))\n\n    LineSegment3d.relativeTo localFrame exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 0, 0, 0 )\n    --     , Point3d ( 3, 3, 3 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment3d.reverse exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 4, 5, 6 )\n    --     , Point3d ( 1, 2, 3 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate around a given axis by a given angle (in radians).\n\n    LineSegment3d.rotateAround Axis3d.z (degrees 90) exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( -2, 1, 3 )\n    --     , Point3d ( -5, 4, 6 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point3d ( 1, 1, 1 )\n\n    LineSegment3d.scaleAbout point 2 exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 1, 3, 5 )\n    --     , Point3d ( 7, 9, 11 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.Point3d -> Float -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment3d.squaredLength exampleLineSegment\n    -- 27\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Float"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a line segment.\n\n    LineSegment3d.startPoint exampleLineSegment\n    -- Point3d ( 1, 2, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector3d ( 1, 2, 3 )\n\n    LineSegment3d.translateBy displacement exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 2, 4, 6 )\n    --     , Point3d ( 5, 7, 9 )\n    --     )\n",
-        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "vector",
-        "comment": " Get the vector from a line segment's start point to its end point.\n\n    LineSegment3d.vector exampleLineSegment\n    -- Vector3d ( 2, 2, 2 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Vector3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1124,6 +1005,125 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.LineSegment3d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment3d.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\nLine segments can be constructed by passing a tuple of start and end points to\nthe `LineSegment3d` constructor, for example\n\n    exampleLineSegment =\n        LineSegment3d\n            ( Point3d ( 1, 2, 3 )\n            , Point3d ( 4, 5, 6 )\n            )\n\n# Constructors\n\n@docs along\n\n# Endpoints\n\n@docs startPoint, endPoint, endpoints, reverse\n\n# Interpolation\n\n@docs midpoint, interpolate\n\n# Length and direction\n\n@docs length, squaredLength, direction, normalDirection, vector\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "along",
+        "comment": " Construct a line segment collinear with the given axis, with its endpoints\nat the given distances from the axis' origin point.\n\n    LineSegment3d.along Axis3d.x 3 5\n    --> LineSegment3d ( Point3d ( 3, 0, 0 ), Point3d ( 5, 0, 0 ) )\n\n    LineSegment3d.along Axis3d.y 2 -4\n    --> LineSegment3d ( Point3d ( 0, 2, 0 ), Point3d ( 0, -4, 0 ) )\n\n",
+        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> Float -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a line segment.\n\n    LineSegment3d.boundingBox exampleLineSegment\n    -- BoundingBox3d\n    --     { minX = 1\n    --     , maxX = 4\n    --     , minY = 2\n    --     , maxY = 5\n    --     , minZ = 3\n    --     , maxZ = 6\n    --     }\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.BoundingBox3d"
+      },
+      {
+        "name": "direction",
+        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment3d.direction exampleLineSegment\n    -- Just (Direction3d ( 0.5774, 0.5774, 0.5774 ))\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction3d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a line segment.\n\n    LineSegment3d.endPoint exampleLineSegment\n    -- Point3d ( 4, 5, 6 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Point3d"
+      },
+      {
+        "name": "endpoints",
+        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment3d.endpoints lineSegment\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> ( OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d )"
+      },
+      {
+        "name": "interpolate",
+        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Negative values\nor values greater than 1 can be used to extrapolate.\n\n    LineSegment3d.interpolate exampleLineSegment (1 / 3)\n    -- Point3d ( 2, 4, 5 )\n\n    LineSegment3d.interpolate exampleLineSegment (-1 / 3)\n    -- Point3d ( 0, 1, 2 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Float -> OpenSolid.Geometry.Types.Point3d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the length of a line segment.\n\n    LineSegment3d.length exampleLineSegment\n    -- 5.1962\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Float"
+      },
+      {
+        "name": "map",
+        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `map`; for example,\n\n    LineSegment3d.projectOnto Plane3d.xy\n\nis equivalent to\n\n    LineSegment3d.map (Point3d.projectOnto Plane3d.xy)\n",
+        "type": "(OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Point3d) -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "midpoint",
+        "comment": " Get the midpoint of a line segment.\n\n    LineSegment3d.midpoint exampleLineSegment\n    -- Point3d ( 2.5, 3.5, 4.5 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Point3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a line segment across a plane.\n\n    LineSegment3d.mirrorAcross Plane3d.xy exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 1, 2, -3 )\n    --     , Point3d ( 4, 5, -6 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "normalDirection",
+        "comment": " Get an arbitrary direction perpendicular to a line segment. If the line\nsegment has zero length, returns `Nothing`.\n\n    LineSegment3d.normalDirection exampleLineSegment\n    -- Just (Direction3d ( 0, -0.7071, 0.7071 ))\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.at (Point3d ( 1, 2, 3 ))\n\n    LineSegment3d.placeIn localFrame exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 2, 4, 6 )\n    --     , Point3d ( 5, 7, 9 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a line segment into a given sketch plane. Conceptually, this\nprojects the line segment onto the plane and then expresses the projected\nline segment in 2D sketch coordinates.\n\n    LineSegment3d.projectInto SketchPlane3d.xy exampleLineSegment\n    -- LineSegment2d\n    --     ( Point2d ( 1, 2 )\n    --     , Point2d ( 4, 5 )\n    --     )\n\n    LineSegment3d.projectInto SketchPlane3d.yz exampleLineSegment\n    -- LineSegment2d\n    --     ( Point2d ( 2, 3 )\n    --     , Point2d ( 5, 6 )\n    --     )\n\n    LineSegment3d.projectInto SketchPlane3d.zx exampleLineSegment\n    -- LineSegment2d\n    --     ( Point2d ( 3, 1 )\n    --     , Point2d ( 6, 4 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a line segment onto a plane.\n\n    LineSegment3d.projectOnto Plane3d.yz exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 0, 2, 3 )\n    --     , Point3d ( 0, 5, 6 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.at (Point3d ( 1, 2, 3 ))\n\n    LineSegment3d.relativeTo localFrame exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 0, 0, 0 )\n    --     , Point3d ( 3, 3, 3 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment3d.reverse exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 4, 5, 6 )\n    --     , Point3d ( 1, 2, 3 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate around a given axis by a given angle (in radians).\n\n    LineSegment3d.rotateAround Axis3d.z (degrees 90) exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( -2, 1, 3 )\n    --     , Point3d ( -5, 4, 6 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point3d ( 1, 1, 1 )\n\n    LineSegment3d.scaleAbout point 2 exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 1, 3, 5 )\n    --     , Point3d ( 7, 9, 11 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.Point3d -> Float -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "squaredLength",
+        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment3d.squaredLength exampleLineSegment\n    -- 27\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> Float"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a line segment.\n\n    LineSegment3d.startPoint exampleLineSegment\n    -- Point3d ( 1, 2, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Point3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector3d ( 1, 2, 3 )\n\n    LineSegment3d.translateBy displacement exampleLineSegment\n    -- LineSegment3d\n    --     ( Point3d ( 2, 4, 6 )\n    --     , Point3d ( 5, 7, 9 )\n    --     )\n",
+        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "vector",
+        "comment": " Get the vector from a line segment's start point to its end point.\n\n    LineSegment3d.vector exampleLineSegment\n    -- Vector3d ( 2, 2, 2 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment3d -> OpenSolid.Geometry.Types.Vector3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.Axis3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/axis3d.svg\" alt=\"Axis3d\" width=\"160\">\n\nAn `Axis3d` represents an infinitely long straight line in 3D and is defined by\nan origin point and direction. Axes have several uses, such as:\n\n  - Rotating around the axis\n  - Projecting onto the axis\n  - Measuring distance along the axis\n\nAxes can by constructed by passing a record with `originPoint` and `direction`\nfields to the `Axis3d` constructor, for example:\n\n    exampleAxis =\n        Axis3d\n            { originPoint = Point3d ( -2, 1, 3 )\n            , direction = Direction3d ( 0, 0.8, -0.6 )\n            }\n\n# Predefined axes\n\n@docs x, y, z\n\n# Accessors\n\n@docs originPoint, direction\n\n# Transformations\n\n@docs flip, moveTo, rotateAround, translateBy, mirrorAcross, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming axes between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n",
     "aliases": [],
@@ -1198,125 +1198,6 @@
         "name": "z",
         "comment": " The global Z axis.\n\n    Axis3d.z\n    --> Axis3d\n    -->     { originPoint = Point3d.origin\n    -->     , direction = Direction3d.z\n    -->     }\n",
         "type": "OpenSolid.Geometry.Types.Axis3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.LineSegment2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment2d.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\nLine segments can be constructed by passing a tuple of start and end points to\nthe `LineSegment2d` constructor, for example\n\n    exampleLineSegment =\n        LineSegment2d\n            ( Point2d ( 1, 2 )\n            , Point2d ( 3, 4 )\n            )\n\n# Constructors\n\n@docs along\n\n# Endpoints\n\n@docs startPoint, endPoint, endpoints, reverse\n\n# Interpolation\n\n@docs midpoint, interpolate\n\n# Length and direction\n\n@docs length, squaredLength, direction, normalDirection, vector\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "along",
-        "comment": " Construct a line segment collinear with the given axis, with its endpoints\nat the given distances from the axis' origin point.\n\n    LineSegment2d.along Axis2d.x 3 5\n    --> LineSegment2d ( Point2d ( 3, 0 ), Point2d ( 5, 0 ) )\n\n    LineSegment2d.along Axis2d.y 2 -4\n    --> LineSegment2d ( Point2d ( 0, 2 ), Point2d ( 0, -4 ) )\n\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> Float -> Float -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given line segment.\n\n    LineSegment2d.boundingBox exampleLineSegment\n    --> BoundingBox2d\n    -->     { minX = 1\n    -->     , maxX = 3\n    -->     , minY = 2\n    -->     , maxY = 4\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "direction",
-        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment2d.direction exampleLineSegment\n    --> Just (Direction2d ( 0.7071, 0.7071 ))\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a line segment.\n\n    LineSegment2d.endPoint exampleLineSegment\n    --> Point2d ( 3, 4 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "endpoints",
-        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment2d.endpoints lineSegment\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> ( OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d )"
-      },
-      {
-        "name": "interpolate",
-        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Negative values\nor values greater than 1 can be used to extrapolate.\n\n    LineSegment2d.interpolate exampleLineSegment 0.25\n    --> Point2d ( 1.5, 2.5 )\n\n    LineSegment2d.interpolate exampleLineSegment 1.5\n    --> Point2d ( 4, 5 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Float -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the length of a line segment.\n\n    LineSegment2d.length exampleLineSegment\n    --> 2.8284\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Float"
-      },
-      {
-        "name": "map",
-        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `map`; for example,\n\n    LineSegment2d.projectOnto Axis2d.x\n\nis equivalent to\n\n    LineSegment2d.map (Point2d.projectOnto Axis2d.x)\n",
-        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "midpoint",
-        "comment": " Get the midpoint of a line segment.\n\n    LineSegment2d.midpoint exampleLineSegment\n    --> Point2d ( 2, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a line segment across an axis.\n\n    LineSegment2d.mirrorAcross Axis2d.y exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( -1, 2 )\n    -->     , Point2d ( -3, 4 )\n    -->     )\n\nNote that the endpoints of a mirrored segment are equal to the mirrored\nendpoints of the original segment, but as a result the normal direction of a\nmirrored segment is the *opposite* of the mirrored normal direction of the\noriginal segment (since the normal direction is always considered to be 'to the\nleft' of the line segment).\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "normalDirection",
-        "comment": " Get the direction perpendicular to a line segment, pointing to the left. If\nthe line segment has zero length, returns `Nothing`.\n\n    LineSegment2d.normalDirection exampleLineSegment\n    --> Just (Direction2d ( -0.7071, 0.7071 ))\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    LineSegment2d.placeIn localFrame exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 2, 4 )\n    -->     , Point2d ( 4, 6 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "placeOnto",
-        "comment": " Take a line segment defined in 2D coordinates within a particular sketch\nplane and return the corresponding line segment in 3D.\n\n    LineSegment2d.placeOnto SketchPlane3d.yz exampleLineSegment\n    --> LineSegment3d\n    -->     ( Point3d ( 0, 1, 2 )\n    -->     , Point3d ( 0, 3, 4 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment3d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a line segment onto an axis.\n\n    LineSegment2d.projectOnto Axis2d.x exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 1, 0 )\n    -->     , Point2d ( 3, 0 )\n    -->     )\n\n    LineSegment2d.projectOnto Axis2d.y exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 0, 2 )\n    -->     , Point2d ( 0, 4 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    LineSegment2d.relativeTo localFrame exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 0, 0 )\n    -->     , Point2d ( 2, 2 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment2d.reverse exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 3, 4 )\n    -->     , Point2d ( 1, 2 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate around a given center point counterclockwise by a given angle (in\nradians).\n\n    LineSegment2d.rotateAround Point2d.origin (degrees 90) exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( -2, 1 )\n    -->     , Point2d ( -4, 3 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point2d ( 1, 1 )\n\n    LineSegment2d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 1, 3 )\n    -->     , Point2d ( 5, 7 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment2d.squaredLength exampleLineSegment\n    --> 8\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Float"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a line segment.\n\n    LineSegment2d.startPoint exampleLineSegment\n    --> Point2d ( 1, 2 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector2d ( 1, 2 )\n\n    LineSegment2d.translateBy displacement exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 2, 4 )\n    -->     , Point2d ( 4, 6 )\n    -->     )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
-      },
-      {
-        "name": "vector",
-        "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d ( 2, 2 )\n",
-        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Vector2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1480,6 +1361,125 @@
         "name": "translateBy",
         "comment": " Translate a circle by a given displacement.\n\n    Circle2d.translateBy (Vector2d ( 2, 2 )) exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 3, 4 )\n    -->     , radius = 3\n    -->     }\n",
         "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.LineSegment2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment2d.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\nLine segments can be constructed by passing a tuple of start and end points to\nthe `LineSegment2d` constructor, for example\n\n    exampleLineSegment =\n        LineSegment2d\n            ( Point2d ( 1, 2 )\n            , Point2d ( 3, 4 )\n            )\n\n# Constructors\n\n@docs along\n\n# Endpoints\n\n@docs startPoint, endPoint, endpoints, reverse\n\n# Interpolation\n\n@docs midpoint, interpolate\n\n# Length and direction\n\n@docs length, squaredLength, direction, normalDirection, vector\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "along",
+        "comment": " Construct a line segment collinear with the given axis, with its endpoints\nat the given distances from the axis' origin point.\n\n    LineSegment2d.along Axis2d.x 3 5\n    --> LineSegment2d ( Point2d ( 3, 0 ), Point2d ( 5, 0 ) )\n\n    LineSegment2d.along Axis2d.y 2 -4\n    --> LineSegment2d ( Point2d ( 0, 2 ), Point2d ( 0, -4 ) )\n\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> Float -> Float -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given line segment.\n\n    LineSegment2d.boundingBox exampleLineSegment\n    --> BoundingBox2d\n    -->     { minX = 1\n    -->     , maxX = 3\n    -->     , minY = 2\n    -->     , maxY = 4\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "direction",
+        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment2d.direction exampleLineSegment\n    --> Just (Direction2d ( 0.7071, 0.7071 ))\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a line segment.\n\n    LineSegment2d.endPoint exampleLineSegment\n    --> Point2d ( 3, 4 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "endpoints",
+        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment2d.endpoints lineSegment\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> ( OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d )"
+      },
+      {
+        "name": "interpolate",
+        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Negative values\nor values greater than 1 can be used to extrapolate.\n\n    LineSegment2d.interpolate exampleLineSegment 0.25\n    --> Point2d ( 1.5, 2.5 )\n\n    LineSegment2d.interpolate exampleLineSegment 1.5\n    --> Point2d ( 4, 5 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Float -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the length of a line segment.\n\n    LineSegment2d.length exampleLineSegment\n    --> 2.8284\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Float"
+      },
+      {
+        "name": "map",
+        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `map`; for example,\n\n    LineSegment2d.projectOnto Axis2d.x\n\nis equivalent to\n\n    LineSegment2d.map (Point2d.projectOnto Axis2d.x)\n",
+        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "midpoint",
+        "comment": " Get the midpoint of a line segment.\n\n    LineSegment2d.midpoint exampleLineSegment\n    --> Point2d ( 2, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a line segment across an axis.\n\n    LineSegment2d.mirrorAcross Axis2d.y exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( -1, 2 )\n    -->     , Point2d ( -3, 4 )\n    -->     )\n\nNote that the endpoints of a mirrored segment are equal to the mirrored\nendpoints of the original segment, but as a result the normal direction of a\nmirrored segment is the *opposite* of the mirrored normal direction of the\noriginal segment (since the normal direction is always considered to be 'to the\nleft' of the line segment).\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "normalDirection",
+        "comment": " Get the direction perpendicular to a line segment, pointing to the left. If\nthe line segment has zero length, returns `Nothing`.\n\n    LineSegment2d.normalDirection exampleLineSegment\n    --> Just (Direction2d ( -0.7071, 0.7071 ))\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    LineSegment2d.placeIn localFrame exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 2, 4 )\n    -->     , Point2d ( 4, 6 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "placeOnto",
+        "comment": " Take a line segment defined in 2D coordinates within a particular sketch\nplane and return the corresponding line segment in 3D.\n\n    LineSegment2d.placeOnto SketchPlane3d.yz exampleLineSegment\n    --> LineSegment3d\n    -->     ( Point3d ( 0, 1, 2 )\n    -->     , Point3d ( 0, 3, 4 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment3d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a line segment onto an axis.\n\n    LineSegment2d.projectOnto Axis2d.x exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 1, 0 )\n    -->     , Point2d ( 3, 0 )\n    -->     )\n\n    LineSegment2d.projectOnto Axis2d.y exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 0, 2 )\n    -->     , Point2d ( 0, 4 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    LineSegment2d.relativeTo localFrame exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 0, 0 )\n    -->     , Point2d ( 2, 2 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment2d.reverse exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 3, 4 )\n    -->     , Point2d ( 1, 2 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate around a given center point counterclockwise by a given angle (in\nradians).\n\n    LineSegment2d.rotateAround Point2d.origin (degrees 90) exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( -2, 1 )\n    -->     , Point2d ( -4, 3 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point2d ( 1, 1 )\n\n    LineSegment2d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 1, 3 )\n    -->     , Point2d ( 5, 7 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "squaredLength",
+        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment2d.squaredLength exampleLineSegment\n    --> 8\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> Float"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a line segment.\n\n    LineSegment2d.startPoint exampleLineSegment\n    --> Point2d ( 1, 2 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector2d ( 1, 2 )\n\n    LineSegment2d.translateBy displacement exampleLineSegment\n    --> LineSegment2d\n    -->     ( Point2d ( 2, 4 )\n    -->     , Point2d ( 4, 6 )\n    -->     )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.LineSegment2d"
+      },
+      {
+        "name": "vector",
+        "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d ( 2, 2 )\n",
+        "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Vector2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2114,6 +2114,135 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.Vector2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector2d.svg\" alt=\"Vector2d\" width=\"160\">\n\nA `Vector2d` represents a quantity such as a displacement or velocity in 2D, and\nis defined by its X and Y components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point2d`\nand `Direction2d` than `Vector2d`, and much code can avoid working directly with\n`Vector2d` values at all!\n\nThe simplest way to create a `Vector2d` is  by passing a tuple of X and Y\ncomponents to the `Vector2d` constructor, for example\n\n    vector =\n        Vector2d ( 2, 3 )\n\nThere are no specific functions to create vectors from polar components, but you\ncan use Elm's built-in [`fromPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#fromPolar)\nfunction:\n\n    vector =\n        Vector2d (fromPolar ( radius, angle ))\n\n# Predefined vectors\n\n@docs zero\n\nAlthough there are no predefined constants for\n<code>Vector2d&nbsp;(&nbsp;1,&nbsp;0&nbsp;)</code> and\n<code>Vector2d&nbsp;(&nbsp;0,&nbsp;1&nbsp;)</code>, in most cases you will\nactually want their `Direction2d` versions [`Direction2d.x`](OpenSolid-Direction2d#x)\nand [`Direction2d.y`](OpenSolid-Direction2d#y).\n\n# Constructors\n\n@docs perpendicularTo\n\n# Components\n\n@docs components, xComponent, yComponent, componentIn\n\n# Comparison\n\n@docs equalWithin\n\n# Length and direction\n\n@docs length, squaredLength, direction, lengthAndDirection\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n# Transformations\n\nNote that for `mirrorAcross` and `projectOnto`, only the direction of the axis\naffects the result, since vectors are position-independent. Think of\nmirroring/projecting a vector across/onto an axis as moving the vector so its\ntail is on the axis, then mirroring/projecting its tip across/onto the axis.\n\n@docs flip, scaleBy, rotateBy, mirrorAcross, projectionIn, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate conversions\nof vectors depend only on the orientations of the relevant frames, not the\npositions of their origin points.\n\nFor the examples, assume the following frame has been defined:\n\n    rotatedFrame =\n        Frame2d.rotateBy (degrees 30) Frame2d.xy\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "componentIn",
+        "comment": " Find the component of a vector in an arbitrary direction, for example\n\n    forwardSpeed =\n        Vector2d.componentIn forwardDirection velocity\n\nThis is more general and flexible than using `xComponent` or `yComponent`, both\nof which can be expressed in terms of `componentIn`; for example,\n\n    Vector2d.xComponent vector\n\nis equivalent to\n\n    Vector2d.componentIn Direction2d.x vector\n",
+        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "components",
+        "comment": " Extract the components of a vector.\n\n    Vector2d.components (Vector2d ( 2, 3 ))\n    --> ( 2, 3 )\n\nThis combined with Elm's built-in tuple destructuring provides a convenient way\nto extract both the X and Y components of a vector in one line of code:\n\n    ( x, y ) =\n        Vector2d.components vector\n\nTo get the polar components of a vector, you can use Elm's built-in [`toPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#toPolar)\nfunction:\n\n    ( radius, angle ) =\n        toPolar (Vector2d.components vector)\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> ( Float, Float )"
+      },
+      {
+        "name": "crossProduct",
+        "comment": " Find the scalar 'cross product' of two vectors in 2D. This is defined as\n\n    crossProduct firstVector secondVector =\n        let\n            ( x1, y1 ) =\n                components firstVector\n\n            ( x2, y2 ) =\n                components secondVector\n        in\n            x1 * y2 - y1 * x2\n\nand is useful in many of the same ways as the 3D cross product:\n\n  - Its magnitude is equal to the product of the lengths of the two given\n    vectors and the sine of the angle between them, so it can be used as a\n    metric to determine if two vectors are nearly parallel.\n  - The sign of the result indicates the direction of rotation from the first\n    vector to the second (positive indicates a counterclockwise rotation and\n    negative indicates a clockwise rotation), similar to how the direction of\n    the 3D cross product indicates the direction of rotation.\n\nSome examples:\n\n    firstVector =\n        Vector2d ( 2, 0 )\n\n    secondVector =\n        Vector2d ( 0, 3 )\n\n    Vector2d.crossProduct firstVector secondVector\n    --> 6\n\n    Vector2d.crossProduct secondVector firstVector\n    --> -6\n\n    Vector2d.crossProduct firstVector firstVector\n    --> 0\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "difference",
+        "comment": " Find the difference between two vectors (the first vector minus the second).\n\n    firstVector =\n        Vector2d ( 5, 6 )\n\n    secondVector =\n        Vector2d ( 1, 3 )\n\n    Vector2d.difference firstVector secondVector\n    --> Vector2d ( 4, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "direction",
+        "comment": " Attempt to find the direction of a vector. In the case of a zero vector,\nreturn `Nothing`.\n\n    Vector2d.direction (Vector2d ( 3, 4 ))\n    --> Just (Direction2d ( 0.6, 0.8 ))\n\n    Vector2d.direction (Vector2d ( 0, 0 ))\n    --> Nothing\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
+      },
+      {
+        "name": "dotProduct",
+        "comment": " Find the dot product of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.dotProduct firstVector secondVector\n    --> 11\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "equalWithin",
+        "comment": " Compare two vectors within a tolerance. Returns true if the difference\nbetween the two given vectors has magnitude less than the given tolerance.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 0.9999, 2.0002 )\n\n    Vector2d.equalWithin 1e-3 firstVector secondVector\n    --> True\n\n    Vector2d.equalWithin 1e-6 firstVector secondVector\n    --> False\n",
+        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Bool"
+      },
+      {
+        "name": "flip",
+        "comment": " Reverse the direction of a vector, negating its components.\n\n    Vector2d.flip (Vector2d ( -1, 2 ))\n    --> Vector2d ( 1, -2 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the length (magnitude) of a vector.\n\n    Vector2d.length (Vector2d ( 3, 4 ))\n    --> 5\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "lengthAndDirection",
+        "comment": " Attempt to find the length and direction of a vector. In the case of a zero\nvector, returns `Nothing`.\n\n    vector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.lengthAndDirection vector\n    --> Just ( 5, Direction2d ( 0.6, 0.8 ) )\n\n    Vector2d.lengthAndDirection Vector2d.zero\n    --> Nothing\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe ( Float, OpenSolid.Geometry.Types.Direction2d )"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a vector across a given axis.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.mirrorAcross Axis2d.y vector\n    --> Vector2d ( -2, 3 )\n\n    horizontalAxis =\n        Axis2d\n            { originPoint = Point2d ( 100, 200 )\n            , direction = Direction2d.x\n            }\n\n    Vector2d.mirrorAcross horizontalAxis vector\n    --> Vector2d ( 2, -3 )\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "perpendicularTo",
+        "comment": " Construct a vector perpendicular to the given vector, by rotating the given\nvector 90 degrees counterclockwise. The constructed vector will have the same\nlength as the given vector.\n\n    Vector2d.perpendicularTo (Vector2d ( 1, 0 ))\n    --> Vector2d ( 0, 1 )\n\n    Vector2d.perpendicularTo (Vector2d ( 0, 2 ))\n    --> Vector2d ( -2, 0 )\n\n    Vector2d.perpendicularTo (Vector2d ( 3, 1 ))\n    --> Vector2d ( -1, 3 )\n\n    Vector2d.perpendicularTo Vector2d.zero\n    --> Vector2d.zero\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a vector defined in local coordinates relative to a given reference\nframe, and return that vector expressed in global coordinates.\n\n    Vector2d.placeIn rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, 1 )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "placeOnto",
+        "comment": " Take a vector defined in 2D coordinates within a particular sketch plane and\nreturn the corresponding vector in 3D.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.xy vector\n    --> Vector3d ( 2, 3, 0 )\n\n    Vector2d.placeOnto SketchPlane3d.yz vector\n    --> Vector3d ( 0, 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.zx vector\n    --> Vector3d ( 3, 0, 2 )\n\nA slightly more complex example:\n\n    tiltedSketchPlane =\n        SketchPlane3d.xy\n            |> SketchPlane3d.rotateAround Axis3d.x (degrees 45)\n\n    Vector2d.placeOnto tiltedSketchPlane (Vector2d ( 1, 1 ))\n    --> Vector3d ( 1, 0.7071, 0.7071 )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector3d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a vector onto an axis.\n\n    Vector2d.projectOnto Axis2d.y (Vector2d ( 3, 4 ))\n    --> Vector2d ( 0, 4 )\n\n    Vector2d.projectOnto Axis2d.x (Vector2d ( -1, 2 ))\n    --> Vector2d ( -1, 0 )\n\nThis is equivalent to finding the projection in the axis' direction.\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "projectionIn",
+        "comment": " Find the projection of a vector in a particular direction. Conceptually,\nthis means splitting the original vector into a portion parallel to the given\ndirection and a portion perpendicular to it, then returning the parallel\nportion.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.projectionIn Direction2d.x vector\n    --> Vector2d ( 2, 0 )\n\n    Vector2d.projectionIn Direction2d.y vector\n    --> Vector2d ( 0, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a vector defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    Vector2d.relativeTo rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, -1 )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "rotateBy",
+        "comment": " Rotate a vector counterclockwise by a given angle (in radians).\n\n    Vector2d.rotateBy (degrees 45) (Vector2d ( 1, 1 ))\n    --> Vector2d ( 0, 1.4142 )\n\n    Vector2d.rotateBy pi (Vector2d ( 1, 0 ))\n    --> Vector2d ( -1, 0 )\n",
+        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "scaleBy",
+        "comment": " Scale the length of a vector by a given scale.\n\n    Vector2d.scaleBy 3 (Vector2d ( 1, 2 ))\n    --> Vector2d ( 3, 6 )\n",
+        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "squaredLength",
+        "comment": " Get the squared length of a vector. `squaredLength` is slightly faster than\n`length`, so for example\n\n    Vector2d.squaredLength vector > tolerance * tolerance\n\nis equivalent to but slightly more efficient than\n\n    Vector2d.length vector > tolerance\n\nsince the latter requires a square root under the hood. In many cases, however,\nthe speed difference will be negligible and using `length` is much more\nreadable!\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "sum",
+        "comment": " Find the sum of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.sum firstVector secondVector\n    --> Vector2d ( 4, 6 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+      },
+      {
+        "name": "xComponent",
+        "comment": " Get the X component of a vector.\n\n    Vector2d.xComponent (Vector2d ( 2, 3 ))\n    --> 2\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "yComponent",
+        "comment": " Get the Y component of a vector.\n\n    Vector2d.yComponent (Vector2d ( 2, 3 ))\n    --> 3\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "zero",
+        "comment": " The zero vector.\n\n    Vector2d.zero\n    --> Vector2d ( 0, 0 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.Vector3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector3d.svg\" alt=\"Vector3d\" width=\"160\">\n\nA `Vector3d` represents a quantity such as a displacement or velocity in 3D, and\nis defined by its X, Y and Z components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point3d`\nand `Direction3d` than `Vector3d`, and much code can avoid working directly with\n`Vector3d` values at all!\n\nThe simplest way to create a `Vector3d` is by passing a tuple of X, Y and Z\ncomponents to the `Vector3d` constructor, for example\n\n    vector =\n        Vector3d ( 2, 1, 3 )\n\n# Predefined vectors\n\n@docs zero\n\nAlthough there are no predefined constants for\n<code>Vector3d&nbsp;(&nbsp;1,&nbsp;0,&nbsp;0&nbsp;)</code>,\n<code>Vector3d&nbsp;(&nbsp;0,&nbsp;1,&nbsp;0&nbsp;)</code> and\n<code>Vector3d&nbsp;(&nbsp;0,&nbsp;0,&nbsp;1&nbsp;)</code>, in most cases you\nwill actually want their `Direction3d` versions [`Direction3d.x`](OpenSolid-Direction3d#x),\n[`Direction3d.y`](OpenSolid-Direction3d#y) and [`Direction3d.z`](OpenSolid-Direction3d#z).\n\n# Constructors\n\n@docs perpendicularTo\n\n# Components\n\n@docs components, xComponent, yComponent, zComponent, componentIn\n\n# Comparison\n\n@docs equalWithin\n\n# Length and direction\n\n@docs length, squaredLength, direction, lengthAndDirection\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n# Transformations\n\nNote that for all transformations, only the orientation of the given axis or\nplane is relevant, since vectors are position-independent. Think of transforming\na vector as placing its tail on the relevant axis or plane and then transforming\nits tip.\n\n@docs flip, scaleBy, rotateAround, mirrorAcross, projectionIn, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate\ntransformations of vectors depend only on the orientations of the relevant\nframes, not their positions.\n\nFor the examples, assume the following definition of a local coordinate frame,\none that is rotated 30 degrees counterclockwise around the Z axis from the\nglobal XYZ frame:\n\n    rotatedFrame =\n        Frame3d.rotateAround Axis3d.z (degrees 30) Frame3d.xyz\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\nFunctions for converting vectors between global 3D coordinates and 2D\ncoordinates within a particular sketch plane.\n\n@docs projectInto\n",
     "aliases": [],
@@ -2243,135 +2372,6 @@
         "name": "zero",
         "comment": " The zero vector.\n\n    Vector3d.zero\n    --> Vector3d ( 0, 0, 0 )\n",
         "type": "OpenSolid.Geometry.Types.Vector3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.Vector2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector2d.svg\" alt=\"Vector2d\" width=\"160\">\n\nA `Vector2d` represents a quantity such as a displacement or velocity in 2D, and\nis defined by its X and Y components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point2d`\nand `Direction2d` than `Vector2d`, and much code can avoid working directly with\n`Vector2d` values at all!\n\nThe simplest way to create a `Vector2d` is  by passing a tuple of X and Y\ncomponents to the `Vector2d` constructor, for example\n\n    vector =\n        Vector2d ( 2, 3 )\n\nThere are no specific functions to create vectors from polar components, but you\ncan use Elm's built-in [`fromPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#fromPolar)\nfunction:\n\n    vector =\n        Vector2d (fromPolar ( radius, angle ))\n\n# Predefined vectors\n\n@docs zero\n\nAlthough there are no predefined constants for\n<code>Vector2d&nbsp;(&nbsp;1,&nbsp;0&nbsp;)</code> and\n<code>Vector2d&nbsp;(&nbsp;0,&nbsp;1&nbsp;)</code>, in most cases you will\nactually want their `Direction2d` versions [`Direction2d.x`](OpenSolid-Direction2d#x)\nand [`Direction2d.y`](OpenSolid-Direction2d#y).\n\n# Constructors\n\n@docs perpendicularTo\n\n# Components\n\n@docs components, xComponent, yComponent, componentIn\n\n# Comparison\n\n@docs equalWithin\n\n# Length and direction\n\n@docs length, squaredLength, direction, lengthAndDirection\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n# Transformations\n\nNote that for `mirrorAcross` and `projectOnto`, only the direction of the axis\naffects the result, since vectors are position-independent. Think of\nmirroring/projecting a vector across/onto an axis as moving the vector so its\ntail is on the axis, then mirroring/projecting its tip across/onto the axis.\n\n@docs flip, scaleBy, rotateBy, mirrorAcross, projectionIn, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate conversions\nof vectors depend only on the orientations of the relevant frames, not the\npositions of their origin points.\n\nFor the examples, assume the following frame has been defined:\n\n    rotatedFrame =\n        Frame2d.rotateBy (degrees 30) Frame2d.xy\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "componentIn",
-        "comment": " Find the component of a vector in an arbitrary direction, for example\n\n    forwardSpeed =\n        Vector2d.componentIn forwardDirection velocity\n\nThis is more general and flexible than using `xComponent` or `yComponent`, both\nof which can be expressed in terms of `componentIn`; for example,\n\n    Vector2d.xComponent vector\n\nis equivalent to\n\n    Vector2d.componentIn Direction2d.x vector\n",
-        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "components",
-        "comment": " Extract the components of a vector.\n\n    Vector2d.components (Vector2d ( 2, 3 ))\n    --> ( 2, 3 )\n\nThis combined with Elm's built-in tuple destructuring provides a convenient way\nto extract both the X and Y components of a vector in one line of code:\n\n    ( x, y ) =\n        Vector2d.components vector\n\nTo get the polar components of a vector, you can use Elm's built-in [`toPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#toPolar)\nfunction:\n\n    ( radius, angle ) =\n        toPolar (Vector2d.components vector)\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> ( Float, Float )"
-      },
-      {
-        "name": "crossProduct",
-        "comment": " Find the scalar 'cross product' of two vectors in 2D. This is defined as\n\n    crossProduct firstVector secondVector =\n        let\n            ( x1, y1 ) =\n                components firstVector\n\n            ( x2, y2 ) =\n                components secondVector\n        in\n            x1 * y2 - y1 * x2\n\nand is useful in many of the same ways as the 3D cross product:\n\n  - Its magnitude is equal to the product of the lengths of the two given\n    vectors and the sine of the angle between them, so it can be used as a\n    metric to determine if two vectors are nearly parallel.\n  - The sign of the result indicates the direction of rotation from the first\n    vector to the second (positive indicates a counterclockwise rotation and\n    negative indicates a clockwise rotation), similar to how the direction of\n    the 3D cross product indicates the direction of rotation.\n\nSome examples:\n\n    firstVector =\n        Vector2d ( 2, 0 )\n\n    secondVector =\n        Vector2d ( 0, 3 )\n\n    Vector2d.crossProduct firstVector secondVector\n    --> 6\n\n    Vector2d.crossProduct secondVector firstVector\n    --> -6\n\n    Vector2d.crossProduct firstVector firstVector\n    --> 0\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "difference",
-        "comment": " Find the difference between two vectors (the first vector minus the second).\n\n    firstVector =\n        Vector2d ( 5, 6 )\n\n    secondVector =\n        Vector2d ( 1, 3 )\n\n    Vector2d.difference firstVector secondVector\n    --> Vector2d ( 4, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "direction",
-        "comment": " Attempt to find the direction of a vector. In the case of a zero vector,\nreturn `Nothing`.\n\n    Vector2d.direction (Vector2d ( 3, 4 ))\n    --> Just (Direction2d ( 0.6, 0.8 ))\n\n    Vector2d.direction (Vector2d ( 0, 0 ))\n    --> Nothing\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
-      },
-      {
-        "name": "dotProduct",
-        "comment": " Find the dot product of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.dotProduct firstVector secondVector\n    --> 11\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "equalWithin",
-        "comment": " Compare two vectors within a tolerance. Returns true if the difference\nbetween the two given vectors has magnitude less than the given tolerance.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 0.9999, 2.0002 )\n\n    Vector2d.equalWithin 1e-3 firstVector secondVector\n    --> True\n\n    Vector2d.equalWithin 1e-6 firstVector secondVector\n    --> False\n",
-        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Bool"
-      },
-      {
-        "name": "flip",
-        "comment": " Reverse the direction of a vector, negating its components.\n\n    Vector2d.flip (Vector2d ( -1, 2 ))\n    --> Vector2d ( 1, -2 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the length (magnitude) of a vector.\n\n    Vector2d.length (Vector2d ( 3, 4 ))\n    --> 5\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "lengthAndDirection",
-        "comment": " Attempt to find the length and direction of a vector. In the case of a zero\nvector, returns `Nothing`.\n\n    vector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.lengthAndDirection vector\n    --> Just ( 5, Direction2d ( 0.6, 0.8 ) )\n\n    Vector2d.lengthAndDirection Vector2d.zero\n    --> Nothing\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe ( Float, OpenSolid.Geometry.Types.Direction2d )"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a vector across a given axis.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.mirrorAcross Axis2d.y vector\n    --> Vector2d ( -2, 3 )\n\n    horizontalAxis =\n        Axis2d\n            { originPoint = Point2d ( 100, 200 )\n            , direction = Direction2d.x\n            }\n\n    Vector2d.mirrorAcross horizontalAxis vector\n    --> Vector2d ( 2, -3 )\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "perpendicularTo",
-        "comment": " Construct a vector perpendicular to the given vector, by rotating the given\nvector 90 degrees counterclockwise. The constructed vector will have the same\nlength as the given vector.\n\n    Vector2d.perpendicularTo (Vector2d ( 1, 0 ))\n    --> Vector2d ( 0, 1 )\n\n    Vector2d.perpendicularTo (Vector2d ( 0, 2 ))\n    --> Vector2d ( -2, 0 )\n\n    Vector2d.perpendicularTo (Vector2d ( 3, 1 ))\n    --> Vector2d ( -1, 3 )\n\n    Vector2d.perpendicularTo Vector2d.zero\n    --> Vector2d.zero\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a vector defined in local coordinates relative to a given reference\nframe, and return that vector expressed in global coordinates.\n\n    Vector2d.placeIn rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, 1 )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "placeOnto",
-        "comment": " Take a vector defined in 2D coordinates within a particular sketch plane and\nreturn the corresponding vector in 3D.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.xy vector\n    --> Vector3d ( 2, 3, 0 )\n\n    Vector2d.placeOnto SketchPlane3d.yz vector\n    --> Vector3d ( 0, 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.zx vector\n    --> Vector3d ( 3, 0, 2 )\n\nA slightly more complex example:\n\n    tiltedSketchPlane =\n        SketchPlane3d.xy\n            |> SketchPlane3d.rotateAround Axis3d.x (degrees 45)\n\n    Vector2d.placeOnto tiltedSketchPlane (Vector2d ( 1, 1 ))\n    --> Vector3d ( 1, 0.7071, 0.7071 )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector3d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a vector onto an axis.\n\n    Vector2d.projectOnto Axis2d.y (Vector2d ( 3, 4 ))\n    --> Vector2d ( 0, 4 )\n\n    Vector2d.projectOnto Axis2d.x (Vector2d ( -1, 2 ))\n    --> Vector2d ( -1, 0 )\n\nThis is equivalent to finding the projection in the axis' direction.\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "projectionIn",
-        "comment": " Find the projection of a vector in a particular direction. Conceptually,\nthis means splitting the original vector into a portion parallel to the given\ndirection and a portion perpendicular to it, then returning the parallel\nportion.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.projectionIn Direction2d.x vector\n    --> Vector2d ( 2, 0 )\n\n    Vector2d.projectionIn Direction2d.y vector\n    --> Vector2d ( 0, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a vector defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    Vector2d.relativeTo rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, -1 )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "rotateBy",
-        "comment": " Rotate a vector counterclockwise by a given angle (in radians).\n\n    Vector2d.rotateBy (degrees 45) (Vector2d ( 1, 1 ))\n    --> Vector2d ( 0, 1.4142 )\n\n    Vector2d.rotateBy pi (Vector2d ( 1, 0 ))\n    --> Vector2d ( -1, 0 )\n",
-        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "scaleBy",
-        "comment": " Scale the length of a vector by a given scale.\n\n    Vector2d.scaleBy 3 (Vector2d ( 1, 2 ))\n    --> Vector2d ( 3, 6 )\n",
-        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a vector. `squaredLength` is slightly faster than\n`length`, so for example\n\n    Vector2d.squaredLength vector > tolerance * tolerance\n\nis equivalent to but slightly more efficient than\n\n    Vector2d.length vector > tolerance\n\nsince the latter requires a square root under the hood. In many cases, however,\nthe speed difference will be negligible and using `length` is much more\nreadable!\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "sum",
-        "comment": " Find the sum of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.sum firstVector secondVector\n    --> Vector2d ( 4, 6 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
-      },
-      {
-        "name": "xComponent",
-        "comment": " Get the X component of a vector.\n\n    Vector2d.xComponent (Vector2d ( 2, 3 ))\n    --> 2\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "yComponent",
-        "comment": " Get the Y component of a vector.\n\n    Vector2d.yComponent (Vector2d ( 2, 3 ))\n    --> 3\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "zero",
-        "comment": " The zero vector.\n\n    Vector2d.zero\n    --> Vector2d ( 0, 0 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"

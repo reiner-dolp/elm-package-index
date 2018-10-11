@@ -1,75 +1,5 @@
 [
   {
-    "name": "Field.String",
-    "comment": " A pre-applied `String` version of the `Field` type, and validation function\nto go along with them.\n\n\n# Base\n\n@docs Field, ViewConfig, ValidationFunc\n\n\n# Validation\n\n@docs notEmpty, email, numeric, nonnumeric, atLeast, atMost, exactly, optional\n\n",
-    "aliases": [
-      {
-        "name": "Field",
-        "comment": " A field to hold a `String` value, with an error type of `String`. See [`Field`](#Field)\n",
-        "args": [],
-        "type": "Field.Field String String"
-      },
-      {
-        "name": "ValidationFunc",
-        "comment": " A validation function for a String `Field`\n",
-        "args": [],
-        "type": "Field.ValidationFunc String String"
-      },
-      {
-        "name": "ViewConfig",
-        "comment": " A view config object for String fields. See [`ViewConfig`](#ViewConfig)\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Field.ViewConfig String String msg"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "atLeast",
-        "comment": " Enforce that a field is at least `x` characters long\n",
-        "type": "Int -> Field.String.ValidationFunc"
-      },
-      {
-        "name": "atMost",
-        "comment": " Enforce that a field is at most `x` characters long\n",
-        "type": "Int -> Field.String.ValidationFunc"
-      },
-      {
-        "name": "email",
-        "comment": " Enforce that a field is an email.\n\nThe format the email just follow is:\n\n    [ >1 upper,lower,digit,symbol ]@[ >2 upper,lower,digit,symbol ].[ >2 upper,lower,digit, ]\n\nTo validate emails, we don't use regex we use\n[elm-tools/parser](https://github.com/elm-tools/parser) to validate. If\nthere's a specific format you need your emails to follow, you can easily implement your\nown validation function.\n\n",
-        "type": "Field.String.ValidationFunc"
-      },
-      {
-        "name": "exactly",
-        "comment": " Enforce that a field is exactly `x` characters long\n",
-        "type": "Int -> Field.String.ValidationFunc"
-      },
-      {
-        "name": "nonnumeric",
-        "comment": " Enforce that a field does not contains only numbers.\n",
-        "type": "Field.String.ValidationFunc"
-      },
-      {
-        "name": "notEmpty",
-        "comment": " Enforces that a field is not empty\n",
-        "type": "Field.String.ValidationFunc"
-      },
-      {
-        "name": "numeric",
-        "comment": " Enforce that a field contains only numbers.\n",
-        "type": "Field.String.ValidationFunc"
-      },
-      {
-        "name": "optional",
-        "comment": " A validation function wrapper that will only run the `ValidationFunc` if the provided\nif the field's value is not `\"\"`. If the field's value is `\"\"` then this will just return the\nfield\n",
-        "type": "Field.String.ValidationFunc -> Field.String.ValidationFunc"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Field.Int",
     "comment": " A pre-applied `Int` version of the `Field` type, and validation functions\nto go along with them.\n\n\n# Base\n\n@docs Field, ViewConfig, ValidationFunc\n\n\n# Validation\n\n@docs atLeast, atMost, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual\n\n",
     "aliases": [
@@ -165,6 +95,76 @@
         "name": "lessThan",
         "comment": " Enforce that a field is greater than `x`\n",
         "type": "Float -> Field.Float.ValidationFunc"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Field.String",
+    "comment": " A pre-applied `String` version of the `Field` type, and validation function\nto go along with them.\n\n\n# Base\n\n@docs Field, ViewConfig, ValidationFunc\n\n\n# Validation\n\n@docs notEmpty, email, numeric, nonnumeric, atLeast, atMost, exactly, optional\n\n",
+    "aliases": [
+      {
+        "name": "Field",
+        "comment": " A field to hold a `String` value, with an error type of `String`. See [`Field`](#Field)\n",
+        "args": [],
+        "type": "Field.Field String String"
+      },
+      {
+        "name": "ValidationFunc",
+        "comment": " A validation function for a String `Field`\n",
+        "args": [],
+        "type": "Field.ValidationFunc String String"
+      },
+      {
+        "name": "ViewConfig",
+        "comment": " A view config object for String fields. See [`ViewConfig`](#ViewConfig)\n",
+        "args": [
+          "msg"
+        ],
+        "type": "Field.ViewConfig String String msg"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "atLeast",
+        "comment": " Enforce that a field is at least `x` characters long\n",
+        "type": "Int -> Field.String.ValidationFunc"
+      },
+      {
+        "name": "atMost",
+        "comment": " Enforce that a field is at most `x` characters long\n",
+        "type": "Int -> Field.String.ValidationFunc"
+      },
+      {
+        "name": "email",
+        "comment": " Enforce that a field is an email.\n\nThe format the email just follow is:\n\n    [ >1 upper,lower,digit,symbol ]@[ >2 upper,lower,digit,symbol ].[ >2 upper,lower,digit, ]\n\nTo validate emails, we don't use regex we use\n[elm-tools/parser](https://github.com/elm-tools/parser) to validate. If\nthere's a specific format you need your emails to follow, you can easily implement your\nown validation function.\n\n",
+        "type": "Field.String.ValidationFunc"
+      },
+      {
+        "name": "exactly",
+        "comment": " Enforce that a field is exactly `x` characters long\n",
+        "type": "Int -> Field.String.ValidationFunc"
+      },
+      {
+        "name": "nonnumeric",
+        "comment": " Enforce that a field does not contains only numbers.\n",
+        "type": "Field.String.ValidationFunc"
+      },
+      {
+        "name": "notEmpty",
+        "comment": " Enforces that a field is not empty\n",
+        "type": "Field.String.ValidationFunc"
+      },
+      {
+        "name": "numeric",
+        "comment": " Enforce that a field contains only numbers.\n",
+        "type": "Field.String.ValidationFunc"
+      },
+      {
+        "name": "optional",
+        "comment": " A validation function wrapper that will only run the `ValidationFunc` if the provided\nif the field's value is not `\"\"`. If the field's value is `\"\"` then this will just return the\nfield\n",
+        "type": "Field.String.ValidationFunc -> Field.String.ValidationFunc"
       }
     ],
     "generated-with-elm-version": "0.18.0"

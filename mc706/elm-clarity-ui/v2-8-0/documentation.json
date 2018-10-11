@@ -123,88 +123,48 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "ClarityUI.ProgressBar",
-    "comment": "\n\n\n# Clarity UI Progress bars\n\nWraps a progress bar in a helper function.\n\nFor more on Clarity UI Progress Bars: <https://vmware.github.io/clarity/documentation/progress>\n\n\n## Use\n\n@docs baseProgress\n\n\n## Shorthands\n\n@docs progressBar, labeledProgress\n\n\n## Options\n\n@docs ProgressColor, ProgressAnimation\n\n",
-    "aliases": [],
-    "types": [
+    "name": "ClarityUI.Sidenav",
+    "comment": " Clarity Sidenav\n\nFor more documentation on clairty sidenav: <https://vmware.github.io/clarity/documentation/sidenav>\n\n\n# Use\n\n@docs sidenav\n\n\n# Data\n\n@docs NavLink, NavGroup, NavItem\n\n",
+    "aliases": [
       {
-        "name": "ProgressAnimation",
-        "comment": " Set Animation Type\n",
+        "name": "NavGroup",
+        "comment": " A NavGroup is a grouped set of links with a section label,\nif it is collapsible, then the menu can be collapsed.\n",
         "args": [],
-        "cases": [
-          [
-            "None",
-            []
-          ],
-          [
-            "Fade",
-            []
-          ],
-          [
-            "Flash",
-            []
-          ],
-          [
-            "FlashDanger",
-            []
-          ],
-          [
-            "FlashFade",
-            []
-          ],
-          [
-            "FlashDangerFade",
-            []
-          ],
-          [
-            "Loop",
-            []
-          ],
-          [
-            "Static",
-            []
-          ]
-        ]
+        "type": "{ label : String , id : String , navList : List ClarityUI.Sidenav.NavLink , collapsible : Bool }"
       },
       {
-        "name": "ProgressColor",
-        "comment": " Set Color\n",
+        "name": "NavLink",
+        "comment": " A Single nav link\n",
+        "args": [],
+        "type": "{ link : String, text : String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "NavItem",
+        "comment": " Union type of NavLink and NavGroup\n",
         "args": [],
         "cases": [
           [
-            "Success",
-            []
+            "Link",
+            [
+              "ClarityUI.Sidenav.NavLink"
+            ]
           ],
           [
-            "Warning",
-            []
-          ],
-          [
-            "Danger",
-            []
-          ],
-          [
-            "Default",
-            []
+            "Group",
+            [
+              "ClarityUI.Sidenav.NavGroup"
+            ]
           ]
         ]
       }
     ],
     "values": [
       {
-        "name": "baseProgress",
-        "comment": " Main entry point to progress bars\n",
-        "type": "Maybe.Maybe String -> ClarityUI.ProgressBar.ProgressAnimation -> ClarityUI.ProgressBar.ProgressColor -> Int -> Html.Html msg"
-      },
-      {
-        "name": "labeledProgress",
-        "comment": " Shorthand for a labeled default progress bar\n",
-        "type": "String -> Int -> Html.Html msg"
-      },
-      {
-        "name": "progressBar",
-        "comment": " Shorthand for a default progress bar\n",
-        "type": "Int -> Html.Html msg"
+        "name": "sidenav",
+        "comment": " Main sidenav entry point.\n\nTakes a list of Nav items and renders out a layout compliant sidenav\n\n",
+        "type": "List ClarityUI.Sidenav.NavItem -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -354,106 +314,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "ClarityUI.Card",
-    "comment": " Wrapper around Clarity Cards\n\nfor More on clarity cards: <https://vmware.github.io/clarity/documentation/cards>\n\n\n# Methods\n\n@docs baseCard, card, clickableCard\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "baseCard",
-        "comment": " Base Card Function.\nImplements clarity card.\n\nDocumentation about clarity card : <https://vmware.github.io/clarity/documentation/cards>\n\n",
-        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Bool -> Html.Html msg"
-      },
-      {
-        "name": "card",
-        "comment": " Card Function\nCurried Base Card Function.\n",
-        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "clickableCard",
-        "comment": " Clickable Card Function\nCurried Base Card Function for a clickable card.\n",
-        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ClarityUI.Badge",
-    "comment": "\n\n\n# Clarity UI Badge\n\nFor more documentation on clarity UI badges: <https://vmware.github.io/clarity/documentation/badges>\n\n\n## Use\n\n@docs baseBadge\n\n\n## Shorthands\n\n@docs badge\n\n\n## Options\n\n@docs BadgeColor\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "BadgeColor",
-        "comment": " Badge colors\n",
-        "args": [],
-        "cases": [
-          [
-            "None",
-            []
-          ],
-          [
-            "Info",
-            []
-          ],
-          [
-            "Success",
-            []
-          ],
-          [
-            "Warning",
-            []
-          ],
-          [
-            "Danger",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "badge",
-        "comment": " Shorthand for a default badge\n",
-        "type": "val -> Html.Html msg"
-      },
-      {
-        "name": "baseBadge",
-        "comment": " Main entry point to the badge\n",
-        "type": "ClarityUI.Badge.BadgeColor -> val -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ClarityUI.CDN",
-    "comment": " CDN module.\nIncludes the clarity assets from a CDN for easy use with Elm Reactor.\n\n@docs styles, icons, iconsJS, iconsCEP\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "icons",
-        "comment": " Adds a link to an [cdnjs](https://cdnjs.com/libraries/clarity-ui) mirror of the clarify-icons css\n",
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "iconsCEP",
-        "comment": " Add custom element polyfill for icons\n",
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "iconsJS",
-        "comment": " Adds a script to an [cdnjs](https://cdnjs.com/libraries/clarity-ui) mirror of the clarify-icons js\n",
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " Adds a link to an [cdnjs](https://cdnjs.com/libraries/clarity-ui) mirror of the clarify-ui css\n\n    import ClarityUI.CDN\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.styles -- css embedded inline\n            ]\n\n",
-        "type": "Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "ClarityUI.Icon",
     "comment": " Wrapper around Clarity Icons Custom Element.\n\nFor the full Icon Font, see <https://vmware.github.io/clarity/documentation/iconography>\n\n\n# Use\n\n@docs baseIcon, icon, iconMd\n\n\n# Options\n\n@docs IconColor, IconSize\n\n",
     "aliases": [],
@@ -491,48 +351,97 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "ClarityUI.Sidenav",
-    "comment": " Clarity Sidenav\n\nFor more documentation on clairty sidenav: <https://vmware.github.io/clarity/documentation/sidenav>\n\n\n# Use\n\n@docs sidenav\n\n\n# Data\n\n@docs NavLink, NavGroup, NavItem\n\n",
-    "aliases": [
-      {
-        "name": "NavGroup",
-        "comment": " A NavGroup is a grouped set of links with a section label,\nif it is collapsible, then the menu can be collapsed.\n",
-        "args": [],
-        "type": "{ label : String , id : String , navList : List ClarityUI.Sidenav.NavLink , collapsible : Bool }"
-      },
-      {
-        "name": "NavLink",
-        "comment": " A Single nav link\n",
-        "args": [],
-        "type": "{ link : String, text : String }"
-      }
-    ],
+    "name": "ClarityUI.Button",
+    "comment": "\n\n\n## Clarity UI Buttons.\n\nWraps buttons in simple methods.\n\nFor more documentation on clarity ui buttons: <https://vmware.github.io/clarity/documentation/buttons>\n\n\n# Base\n\n@docs baseButton\n\n\n# Shortcuts\n\n@docs solidButton, outlineButton, flatButton\n\n\n# Options\n\n@docs ButtonType, ButtonColor\n\n",
+    "aliases": [],
     "types": [
       {
-        "name": "NavItem",
-        "comment": " Union type of NavLink and NavGroup\n",
+        "name": "ButtonColor",
+        "comment": " Button Color.\n",
         "args": [],
         "cases": [
           [
-            "Link",
-            [
-              "ClarityUI.Sidenav.NavLink"
-            ]
+            "Primary",
+            []
           ],
           [
-            "Group",
-            [
-              "ClarityUI.Sidenav.NavGroup"
-            ]
+            "Success",
+            []
+          ],
+          [
+            "Warning",
+            []
+          ],
+          [
+            "Danger",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "ButtonType",
+        "comment": " Button Type. See clarity UI for use\n",
+        "args": [],
+        "cases": [
+          [
+            "Solid",
+            []
+          ],
+          [
+            "Outline",
+            []
+          ],
+          [
+            "Flat",
+            []
           ]
         ]
       }
     ],
     "values": [
       {
-        "name": "sidenav",
-        "comment": " Main sidenav entry point.\n\nTakes a list of Nav items and renders out a layout compliant sidenav\n\n",
-        "type": "List ClarityUI.Sidenav.NavItem -> Html.Html msg"
+        "name": "baseButton",
+        "comment": " Base Button Function.\nWrapper around clarity buttons\n\nDocumentation for Clarity buttons : <https://vmware.github.io/clarity/documentation/buttons>\n\n",
+        "type": "ClarityUI.Button.ButtonType -> ClarityUI.Button.ButtonColor -> Bool -> Bool -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "flatButton",
+        "comment": " Shortcut for creating a flat button\n",
+        "type": "ClarityUI.Button.ButtonColor -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "outlineButton",
+        "comment": " Shortcut for creating a outline button\n",
+        "type": "ClarityUI.Button.ButtonColor -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "solidButton",
+        "comment": " Shortcut for creating a solid button\n",
+        "type": "ClarityUI.Button.ButtonColor -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ClarityUI.Card",
+    "comment": " Wrapper around Clarity Cards\n\nfor More on clarity cards: <https://vmware.github.io/clarity/documentation/cards>\n\n\n# Methods\n\n@docs baseCard, card, clickableCard\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "baseCard",
+        "comment": " Base Card Function.\nImplements clarity card.\n\nDocumentation about clarity card : <https://vmware.github.io/clarity/documentation/cards>\n\n",
+        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Bool -> Html.Html msg"
+      },
+      {
+        "name": "card",
+        "comment": " Card Function\nCurried Base Card Function.\n",
+        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "clickableCard",
+        "comment": " Clickable Card Function\nCurried Base Card Function for a clickable card.\n",
+        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -556,6 +465,122 @@
         "name": "layout",
         "comment": " Main Layout Entry Point.\n\nPass a LayoutComponents Record to it to layout the bas application.\n\n\n## Use\n\n        import Html exposing (Html, div)\n        import ClarityUI.Layout as Layout\n        import ClarityUI.Header as Header\n\n        view : Model -> Html msg\n        view model =\n            Layout.layout\n                { alerts = []\n                , header = viewHeader model\n                , subnav = viewSubnav model\n                , sidenav = viewSidenav model\n                , main = mainContent model\n                }\n\n",
         "type": "ClarityUI.Layout.LayoutComponents msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ClarityUI.CDN",
+    "comment": " CDN module.\nIncludes the clarity assets from a CDN for easy use with Elm Reactor.\n\n@docs styles, icons, iconsJS, iconsCEP\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "icons",
+        "comment": " Adds a link to an [cdnjs](https://cdnjs.com/libraries/clarity-ui) mirror of the clarify-icons css\n",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "iconsCEP",
+        "comment": " Add custom element polyfill for icons\n",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "iconsJS",
+        "comment": " Adds a script to an [cdnjs](https://cdnjs.com/libraries/clarity-ui) mirror of the clarify-icons js\n",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " Adds a link to an [cdnjs](https://cdnjs.com/libraries/clarity-ui) mirror of the clarify-ui css\n\n    import ClarityUI.CDN\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.styles -- css embedded inline\n            ]\n\n",
+        "type": "Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ClarityUI.ProgressBar",
+    "comment": "\n\n\n# Clarity UI Progress bars\n\nWraps a progress bar in a helper function.\n\nFor more on Clarity UI Progress Bars: <https://vmware.github.io/clarity/documentation/progress>\n\n\n## Use\n\n@docs baseProgress\n\n\n## Shorthands\n\n@docs progressBar, labeledProgress\n\n\n## Options\n\n@docs ProgressColor, ProgressAnimation\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "ProgressAnimation",
+        "comment": " Set Animation Type\n",
+        "args": [],
+        "cases": [
+          [
+            "None",
+            []
+          ],
+          [
+            "Fade",
+            []
+          ],
+          [
+            "Flash",
+            []
+          ],
+          [
+            "FlashDanger",
+            []
+          ],
+          [
+            "FlashFade",
+            []
+          ],
+          [
+            "FlashDangerFade",
+            []
+          ],
+          [
+            "Loop",
+            []
+          ],
+          [
+            "Static",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "ProgressColor",
+        "comment": " Set Color\n",
+        "args": [],
+        "cases": [
+          [
+            "Success",
+            []
+          ],
+          [
+            "Warning",
+            []
+          ],
+          [
+            "Danger",
+            []
+          ],
+          [
+            "Default",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "baseProgress",
+        "comment": " Main entry point to progress bars\n",
+        "type": "Maybe.Maybe String -> ClarityUI.ProgressBar.ProgressAnimation -> ClarityUI.ProgressBar.ProgressColor -> Int -> Html.Html msg"
+      },
+      {
+        "name": "labeledProgress",
+        "comment": " Shorthand for a labeled default progress bar\n",
+        "type": "String -> Int -> Html.Html msg"
+      },
+      {
+        "name": "progressBar",
+        "comment": " Shorthand for a default progress bar\n",
+        "type": "Int -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -633,17 +658,21 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "ClarityUI.Button",
-    "comment": "\n\n\n## Clarity UI Buttons.\n\nWraps buttons in simple methods.\n\nFor more documentation on clarity ui buttons: <https://vmware.github.io/clarity/documentation/buttons>\n\n\n# Base\n\n@docs baseButton\n\n\n# Shortcuts\n\n@docs solidButton, outlineButton, flatButton\n\n\n# Options\n\n@docs ButtonType, ButtonColor\n\n",
+    "name": "ClarityUI.Badge",
+    "comment": "\n\n\n# Clarity UI Badge\n\nFor more documentation on clarity UI badges: <https://vmware.github.io/clarity/documentation/badges>\n\n\n## Use\n\n@docs baseBadge\n\n\n## Shorthands\n\n@docs badge\n\n\n## Options\n\n@docs BadgeColor\n\n",
     "aliases": [],
     "types": [
       {
-        "name": "ButtonColor",
-        "comment": " Button Color.\n",
+        "name": "BadgeColor",
+        "comment": " Badge colors\n",
         "args": [],
         "cases": [
           [
-            "Primary",
+            "None",
+            []
+          ],
+          [
+            "Info",
             []
           ],
           [
@@ -659,47 +688,18 @@
             []
           ]
         ]
-      },
-      {
-        "name": "ButtonType",
-        "comment": " Button Type. See clarity UI for use\n",
-        "args": [],
-        "cases": [
-          [
-            "Solid",
-            []
-          ],
-          [
-            "Outline",
-            []
-          ],
-          [
-            "Flat",
-            []
-          ]
-        ]
       }
     ],
     "values": [
       {
-        "name": "baseButton",
-        "comment": " Base Button Function.\nWrapper around clarity buttons\n\nDocumentation for Clarity buttons : <https://vmware.github.io/clarity/documentation/buttons>\n\n",
-        "type": "ClarityUI.Button.ButtonType -> ClarityUI.Button.ButtonColor -> Bool -> Bool -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "badge",
+        "comment": " Shorthand for a default badge\n",
+        "type": "val -> Html.Html msg"
       },
       {
-        "name": "flatButton",
-        "comment": " Shortcut for creating a flat button\n",
-        "type": "ClarityUI.Button.ButtonColor -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "outlineButton",
-        "comment": " Shortcut for creating a outline button\n",
-        "type": "ClarityUI.Button.ButtonColor -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "solidButton",
-        "comment": " Shortcut for creating a solid button\n",
-        "type": "ClarityUI.Button.ButtonColor -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "baseBadge",
+        "comment": " Main entry point to the badge\n",
+        "type": "ClarityUI.Badge.BadgeColor -> val -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

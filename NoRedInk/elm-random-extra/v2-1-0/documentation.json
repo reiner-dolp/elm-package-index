@@ -1645,6 +1645,65 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Random.Task",
+    "comment": " List of Task Generators\n\n# Generators\n@docs task, error, spawn\n\n# Timeout Generators\n@docs timeout, rangeLengthTimeout\n\n# Chaining Task Generators\n@docs sequence, parallel, optional\n\n# Generators that communicate with mailboxes\n@docs send, broadcast\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "broadcast",
+        "comment": " Generate a task that broadcasts randomly generated values to a given address\nusing a given random generator\n",
+        "type": "List (Signal.Address a) -> Random.Generator a -> Random.Generator (Task.Task error ())"
+      },
+      {
+        "name": "error",
+        "comment": " Generate a failed task from a generator of error values\n",
+        "type": "Random.Generator error -> Random.Generator (Task.Task error value)"
+      },
+      {
+        "name": "optional",
+        "comment": " Generate a sequence of optional tasks that are run in sequence from a list\nof tasks\n",
+        "type": "Random.Generator (List (Task.Task x value)) -> Random.Generator (Task.Task y (List value))"
+      },
+      {
+        "name": "parallel",
+        "comment": " Generate a sequence of tasks that are run in parallel from a list of tasks\n",
+        "type": "Random.Generator (List (Task.Task error value)) -> Random.Generator (Task.Task error (List Task.ThreadID))"
+      },
+      {
+        "name": "rangeLengthTimeout",
+        "comment": " Generate a timeout which times out at some point between a given minimum\nand maximum time\n",
+        "type": "Time.Time -> Time.Time -> Random.Generator (Task.Task error ())"
+      },
+      {
+        "name": "send",
+        "comment": " Generate a task that sends randomly generated values to a given address\nusing a given random generator\n",
+        "type": "Signal.Address a -> Random.Generator a -> Random.Generator (Task.Task error ())"
+      },
+      {
+        "name": "sequence",
+        "comment": " Generate a sequence of tasks that are run in series from a list of tasks\n",
+        "type": "Random.Generator (List (Task.Task error value)) -> Random.Generator (Task.Task error (List value))"
+      },
+      {
+        "name": "spawn",
+        "comment": " Generate a task that is spawned in some independent thread given a\ntask generator\n",
+        "type": "Random.Generator (Task.Task x value) -> Random.Generator (Task.Task y Task.ThreadID)"
+      },
+      {
+        "name": "task",
+        "comment": " Generate a successful task from a generator of successful values\n",
+        "type": "Random.Generator value -> Random.Generator (Task.Task error value)"
+      },
+      {
+        "name": "timeout",
+        "comment": " Generate a timeout of given time\n",
+        "type": "Time.Time -> Random.Generator (Task.Task error ())"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Random.Signal",
     "comment": " List of Signal Generators\n\n# Generators\n@docs constant\n\n# Random Seeds\n@docs randomSeed, randomSeedEvery\n\n# Generate Signals\n@docs generate, generateEvery\n\n# Generate a run of an application\n@docs application, run\n",
     "aliases": [],
@@ -1684,6 +1743,20 @@
         "name": "run",
         "comment": " Create a running signal from an application that follows the Elm Architecture.\nThis is analogous to `application` and works better as it avoids issues with\n`Random.Extra.reduce`.\n\nHow to use:\n\n    main =\n      run initialModel actionGenerator update view\n",
         "type": "model -> Random.Generator action -> (action -> model -> model) -> (model -> view) -> Signal.Signal view"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Random.Order",
+    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "order",
+        "comment": " Generate a random order with equal probability.\n",
+        "type": "Random.Generator Basics.Order"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -1747,79 +1820,6 @@
         "name": "result",
         "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
         "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Random.Task",
-    "comment": " List of Task Generators\n\n# Generators\n@docs task, error, spawn\n\n# Timeout Generators\n@docs timeout, rangeLengthTimeout\n\n# Chaining Task Generators\n@docs sequence, parallel, optional\n\n# Generators that communicate with mailboxes\n@docs send, broadcast\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "broadcast",
-        "comment": " Generate a task that broadcasts randomly generated values to a given address\nusing a given random generator\n",
-        "type": "List (Signal.Address a) -> Random.Generator a -> Random.Generator (Task.Task error ())"
-      },
-      {
-        "name": "error",
-        "comment": " Generate a failed task from a generator of error values\n",
-        "type": "Random.Generator error -> Random.Generator (Task.Task error value)"
-      },
-      {
-        "name": "optional",
-        "comment": " Generate a sequence of optional tasks that are run in sequence from a list\nof tasks\n",
-        "type": "Random.Generator (List (Task.Task x value)) -> Random.Generator (Task.Task y (List value))"
-      },
-      {
-        "name": "parallel",
-        "comment": " Generate a sequence of tasks that are run in parallel from a list of tasks\n",
-        "type": "Random.Generator (List (Task.Task error value)) -> Random.Generator (Task.Task error (List Task.ThreadID))"
-      },
-      {
-        "name": "rangeLengthTimeout",
-        "comment": " Generate a timeout which times out at some point between a given minimum\nand maximum time\n",
-        "type": "Time.Time -> Time.Time -> Random.Generator (Task.Task error ())"
-      },
-      {
-        "name": "send",
-        "comment": " Generate a task that sends randomly generated values to a given address\nusing a given random generator\n",
-        "type": "Signal.Address a -> Random.Generator a -> Random.Generator (Task.Task error ())"
-      },
-      {
-        "name": "sequence",
-        "comment": " Generate a sequence of tasks that are run in series from a list of tasks\n",
-        "type": "Random.Generator (List (Task.Task error value)) -> Random.Generator (Task.Task error (List value))"
-      },
-      {
-        "name": "spawn",
-        "comment": " Generate a task that is spawned in some independent thread given a\ntask generator\n",
-        "type": "Random.Generator (Task.Task x value) -> Random.Generator (Task.Task y Task.ThreadID)"
-      },
-      {
-        "name": "task",
-        "comment": " Generate a successful task from a generator of successful values\n",
-        "type": "Random.Generator value -> Random.Generator (Task.Task error value)"
-      },
-      {
-        "name": "timeout",
-        "comment": " Generate a timeout of given time\n",
-        "type": "Time.Time -> Random.Generator (Task.Task error ())"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Random.Order",
-    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "order",
-        "comment": " Generate a random order with equal probability.\n",
-        "type": "Random.Generator Basics.Order"
       }
     ],
     "generated-with-elm-version": "0.16.0"

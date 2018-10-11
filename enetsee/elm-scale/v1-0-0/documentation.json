@@ -28,24 +28,24 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Sequential.RGBBasis",
-    "comment": "\n@docs RGBBasis , rgbBasis\n",
+    "name": "Scale.Sequential.HSL",
+    "comment": "\n@docs HSL, hsl\n",
     "aliases": [
       {
-        "name": "RGBBasis",
+        "name": "HSL",
         "comment": " ",
         "args": [
           "a"
         ],
-        "type": "{ a | domain : ( Float, Float ), range : List Color.Color, closed : Bool, outsideDomain : Scale.Config.OutsideDomain }"
+        "type": "{ a | domain : ( Float, Float ), range : ( Color.Color, Color.Color ), long : Bool, outsideDomain : Scale.Config.OutsideDomain }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "rgbBasis",
+        "name": "hsl",
         "comment": " ",
-        "type": "Scale.Sequential.RGBBasis.RGBBasis a -> Scale.Sequential.Sequential Float Color.Color"
+        "type": "Scale.Sequential.HSL.HSL a -> Scale.Sequential.Sequential Float Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -74,24 +74,24 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Sequential.HSL",
-    "comment": "\n@docs HSL, hsl\n",
+    "name": "Scale.Sequential.RGBBasis",
+    "comment": "\n@docs RGBBasis , rgbBasis\n",
     "aliases": [
       {
-        "name": "HSL",
+        "name": "RGBBasis",
         "comment": " ",
         "args": [
           "a"
         ],
-        "type": "{ a | domain : ( Float, Float ), range : ( Color.Color, Color.Color ), long : Bool, outsideDomain : Scale.Config.OutsideDomain }"
+        "type": "{ a | domain : ( Float, Float ), range : List Color.Color, closed : Bool, outsideDomain : Scale.Config.OutsideDomain }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "hsl",
+        "name": "rgbBasis",
         "comment": " ",
-        "type": "Scale.Sequential.HSL.HSL a -> Scale.Sequential.Sequential Float Color.Color"
+        "type": "Scale.Sequential.RGBBasis.RGBBasis a -> Scale.Sequential.Sequential Float Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -266,31 +266,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Ordinal.Comparable",
-    "comment": "\n@docs Comparable, comparable\n",
-    "aliases": [
-      {
-        "name": "Comparable",
-        "comment": " ",
-        "args": [
-          "a",
-          "comparableDomain",
-          "range"
-        ],
-        "type": "{ a | domain : List comparableDomain, range : List range }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "comparable",
-        "comment": " ",
-        "type": "Scale.Ordinal.Comparable.Comparable a comparableDomain range -> Scale.Ordinal.Ordinal comparableDomain range"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Scale.Ordinal.Custom",
     "comment": "\n@docs Custom, custom\n",
     "aliases": [
@@ -316,31 +291,28 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Config",
-    "comment": " Scale Configuration\n\n@docs OutsideDomain\n\n",
-    "aliases": [],
-    "types": [
+    "name": "Scale.Ordinal.Comparable",
+    "comment": "\n@docs Comparable, comparable\n",
+    "aliases": [
       {
-        "name": "OutsideDomain",
-        "comment": " Options for the behavior of a `Scale` when the value it is applied to lies\noutside of the defined domain\n",
-        "args": [],
-        "cases": [
-          [
-            "Clamp",
-            []
-          ],
-          [
-            "Discard",
-            []
-          ],
-          [
-            "Allow",
-            []
-          ]
-        ]
+        "name": "Comparable",
+        "comment": " ",
+        "args": [
+          "a",
+          "comparableDomain",
+          "range"
+        ],
+        "type": "{ a | domain : List comparableDomain, range : List range }"
       }
     ],
-    "values": [],
+    "types": [],
+    "values": [
+      {
+        "name": "comparable",
+        "comment": " ",
+        "type": "Scale.Ordinal.Comparable.Comparable a comparableDomain range -> Scale.Ordinal.Ordinal comparableDomain range"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -375,6 +347,34 @@
         "type": "Scale.Ordinal.Ordinal domain range -> a -> List domain"
       }
     ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Config",
+    "comment": " Scale Configuration\n\n@docs OutsideDomain\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "OutsideDomain",
+        "comment": " Options for the behavior of a `Scale` when the value it is applied to lies\noutside of the defined domain\n",
+        "args": [],
+        "cases": [
+          [
+            "Clamp",
+            []
+          ],
+          [
+            "Discard",
+            []
+          ],
+          [
+            "Allow",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   }
 ]

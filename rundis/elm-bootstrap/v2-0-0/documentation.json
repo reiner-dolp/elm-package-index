@@ -940,6 +940,172 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Bootstrap.Form",
+    "comment": " Bootstrap provides several form control styles, layout options, and custom components for creating a wide variety of forms.\n\n# Forms\n@docs form, formInline\n\n\n# Groups\nUse form groups to group items together (label + input is a typical simple example)\n\n@docs group, label\n\n## Group validation\n@docs groupSuccess, groupWarning, groupDanger\n\n\n# Grid layouts\n@docs row, col, colLabel, colLabelSm, colLabelLg, Col\n\n\n## Row validation\n@docs rowSuccess, rowWarning, rowDanger\n\n\n# Validation\n@docs validationText\n\n# Handy helpers\n@docs help, helpInline\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Col",
+        "comment": " Opaque type representing a column in a form row\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "col",
+        "comment": " Create a Grid column for use in [`form rows`](#row). It reuses the options from Bootstrap.Grid.Col which gives\nyou a ton of customization options for layout.\n\n* `options` List of Bootstrap.Grid.Col options\n* `children` List of child elements\n",
+        "type": "List (Bootstrap.Grid.Col.Option msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+      },
+      {
+        "name": "colLabel",
+        "comment": " Create a label element as a grid column to be used in a [`form row`](#row).\nHandy for use in horizontal form in various shapes.\n\n* `options` List of Bootstrap.Grid.Col options for layout customization\n* `children` List of child elements\n",
+        "type": "List (Bootstrap.Grid.Col.Option msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+      },
+      {
+        "name": "colLabelLg",
+        "comment": " Create a taller  [`colLabel`](#colLabel)\n",
+        "type": "List (Bootstrap.Grid.Internal.ColOption msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+      },
+      {
+        "name": "colLabelSm",
+        "comment": " Create a shorter (height) [`colLabel`](#colLabel)\n",
+        "type": "List (Bootstrap.Grid.Internal.ColOption msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+      },
+      {
+        "name": "form",
+        "comment": " Create a Html form elment\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "formInline",
+        "comment": " Create an inline form for placing elements horizontally.\n\n**Note**: You should stick to inline elements to get the effect you are probably expecting !\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "group",
+        "comment": " Use the group function to create a grouping of related form elements.\nIt just creates a div container with a `form-group` Bootstrap class.\nTypically you use this for vertically laid out forms.\n\n* `options` List of [`options`](#Option) for customizing the group\n* `children` List of children\n",
+        "type": "List (Bootstrap.Form.Option msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "groupDanger",
+        "comment": " Option to give a danger/error feedback for a form group. Typically used for validation.\n",
+        "type": "Bootstrap.Form.Option msg"
+      },
+      {
+        "name": "groupSuccess",
+        "comment": " Option to signal success for a form group. Typically used for validation.\n",
+        "type": "Bootstrap.Form.Option msg"
+      },
+      {
+        "name": "groupWarning",
+        "comment": " Option to give a warning feedback for a form group.  Typically used for validation.\n",
+        "type": "Bootstrap.Form.Option msg"
+      },
+      {
+        "name": "help",
+        "comment": " Creates a block level text element, suitable for providing context related help text in form groups.\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "helpInline",
+        "comment": " Creates an inline text element, suitable for providing context related help text for inputs.\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "label",
+        "comment": " Create a form control label. Suitable for use in form groups.\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "row",
+        "comment": " Create a form group row element. Use this function when creating horizontal forms (in various shapes)\nIt reuses the options from Bootstrap.Grid.Row which gives you\na ton of customization options for how to layout columns within this row.\n\n* `options` List of Bootstrap.Grid.Row options\n* `cols` List of column elements (see [`col`](#col) or [`colLabel`](#colLabel))\n",
+        "type": "List (Bootstrap.Grid.Row.Option msg) -> List (Bootstrap.Form.Col msg) -> Html.Html msg"
+      },
+      {
+        "name": "rowDanger",
+        "comment": " Option to give a danger/error feedback for a form row.  Typically used for validation.\n",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "rowSuccess",
+        "comment": " Option to give a success feedback for a form row.  Typically used for validation.\n",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "rowWarning",
+        "comment": " Option to give a warning feedback for a form row.  Typically used for validation.\n",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "validationText",
+        "comment": " Function to create validation related feedback. When placed inside a form group\nor form row with validation options set, this element will receive the appropriate color.\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bootstrap.Grid",
+    "comment": " Bootstrap includes a powerful mobile-first flexbox grid system for building layouts of all shapes and sizes. It’s based on a 12 column layout and has multiple tiers, one for each media query range.\n\n    Grid.container\n        [ Grid.row\n            [ Row.topXs ]\n            [ Grid.col\n                [ Col.xs4 ]\n                [ text \"col1-row1\"]\n\n            , Grid.col\n                [ Col.xs8 ]\n                [ text \"col2-row1\"]\n            ]\n        , Grid.simpleRow\n            [ Grid.col\n                [ Col.xs4 ]\n                [ text \"col1-row2\"]\n\n            , Grid.col\n                [ Col.xs6 ]\n                [ text \"col2-row2\"]\n\n            ]\n\n        ]\n\n# Containers\n@docs container, containerFluid\n\n# Rows\n@docs row, simpleRow, keyedRow\n\n\n# Columns\n@docs col, colBreak, keyedCol, Column\n\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Column",
+        "comment": " Opaque type represetning a column element\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "col",
+        "comment": " Create a column\n\n* `options` List of column options\n* `children` List of child elments\n",
+        "type": "List (Bootstrap.Grid.Col.Option msg) -> List (Html.Html msg) -> Bootstrap.Grid.Column msg"
+      },
+      {
+        "name": "colBreak",
+        "comment": " Creates a full width column with no content. Handy for creating equal width multi-row columns.\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Grid.Column msg"
+      },
+      {
+        "name": "container",
+        "comment": " Responsive fixed width container, which changes it's max-width at breakpoint\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "containerFluid",
+        "comment": " Full width container spanning the entire viewport\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "keyedCol",
+        "comment": " Create a column with keyed children\n\n* `options` List of column options\n* `keyedChildren` List of key,element child element tuples\n",
+        "type": "List (Bootstrap.Grid.Col.Option msg) -> List ( String, Html.Html msg ) -> Bootstrap.Grid.Column msg"
+      },
+      {
+        "name": "keyedRow",
+        "comment": " Create a row with keyed columns. Handy when you need to move columns around without getting big massiv rerenders.\n\n* `options` List of row options\n* `keydCols` List of key, column tuples\n",
+        "type": "List (Bootstrap.Grid.Row.Option msg) -> List ( String, Bootstrap.Grid.Column msg ) -> Html.Html msg"
+      },
+      {
+        "name": "row",
+        "comment": " Create a row\n\n* `options` List of row options\n* `cols` List of columns\n",
+        "type": "List (Bootstrap.Grid.Row.Option msg) -> List (Bootstrap.Grid.Column msg) -> Html.Html msg"
+      },
+      {
+        "name": "simpleRow",
+        "comment": " Create a row with no configuration options\n",
+        "type": "List (Bootstrap.Grid.Column msg) -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Bootstrap.Button",
     "comment": " Use Bootstrap’s custom button styles for actions in forms, dialogs, and more. Includes support for a handful of contextual variations and sizes.\nYou can also group a series of buttons together on a single line with the button group.\n\n\n# Buttons\n@docs button, linkButton, radioButton, checkboxButton\n\n# Button options\n\n@docs attrs, onClick, disabled, Option\n\n## Roled\n@docs primary, secondary, success, info, warning, danger, roleLink\n\n## Outlined\n@docs outlinePrimary, outlineSecondary, outlineSuccess, outlineInfo, outlineWarning, outlineDanger\n\n## Size\n@docs small, large\n\n## Block\n@docs block\n\n\n",
     "aliases": [
@@ -1073,167 +1239,354 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Grid",
-    "comment": " Bootstrap includes a powerful mobile-first flexbox grid system for building layouts of all shapes and sizes. It’s based on a 12 column layout and has multiple tiers, one for each media query range.\n\n    Grid.container\n        [ Grid.row\n            [ Row.topXs ]\n            [ Grid.col\n                [ Col.xs4 ]\n                [ text \"col1-row1\"]\n\n            , Grid.col\n                [ Col.xs8 ]\n                [ text \"col2-row1\"]\n            ]\n        , Grid.simpleRow\n            [ Grid.col\n                [ Col.xs4 ]\n                [ text \"col1-row2\"]\n\n            , Grid.col\n                [ Col.xs6 ]\n                [ text \"col2-row2\"]\n\n            ]\n\n        ]\n\n# Containers\n@docs container, containerFluid\n\n# Rows\n@docs row, simpleRow, keyedRow\n\n\n# Columns\n@docs col, colBreak, keyedCol, Column\n\n\n",
-    "aliases": [],
-    "types": [
+    "name": "Bootstrap.ListGroup",
+    "comment": " List groups are a flexible and powerful component for displaying a series of content. List group items can be modified and extended to support just about any content within. They can also be used as navigation with the right modifier class\n\n# Simple lists\n@docs ul, li, keyedUl, Item\n\n\n# Custom lists\n@docs custom, keyedCustom, anchor, button, CustomItem\n\n\n# Options\n@docs success, info, warning, danger, active, disabled, attrs, ItemOption\n\n\n",
+    "aliases": [
       {
-        "name": "Column",
-        "comment": " Opaque type represetning a column element\n",
+        "name": "CustomItem",
+        "comment": " Opaque type representing an item in a custom list group\n",
         "args": [
           "msg"
         ],
-        "cases": []
+        "type": "Bootstrap.Internal.ListGroup.CustomItem msg"
+      },
+      {
+        "name": "Item",
+        "comment": " Opaque type representing a list item in a ul based list group\n",
+        "args": [
+          "msg"
+        ],
+        "type": "Bootstrap.Internal.ListGroup.Item msg"
+      },
+      {
+        "name": "ItemOption",
+        "comment": " Opaque type representing configuration options for a list item\n",
+        "args": [
+          "msg"
+        ],
+        "type": "Bootstrap.Internal.ListGroup.ItemOption msg"
       }
     ],
+    "types": [],
     "values": [
       {
-        "name": "col",
-        "comment": " Create a column\n\n* `options` List of column options\n* `children` List of child elments\n",
-        "type": "List (Bootstrap.Grid.Col.Option msg) -> List (Html.Html msg) -> Bootstrap.Grid.Column msg"
+        "name": "active",
+        "comment": " Option to mark a list item as active\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       },
       {
-        "name": "colBreak",
-        "comment": " Creates a full width column with no content. Handy for creating equal width multi-row columns.\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Grid.Column msg"
+        "name": "anchor",
+        "comment": " Create a composable anchor list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
+        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
       },
       {
-        "name": "container",
-        "comment": " Responsive fixed width container, which changes it's max-width at breakpoint\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "attrs",
+        "comment": " Use this function to supply any additional Hmtl.Attribute you need for your list items\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.ListGroup.ItemOption msg"
       },
       {
-        "name": "containerFluid",
-        "comment": " Full width container spanning the entire viewport\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "button",
+        "comment": " Create a composable button list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
+        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
       },
       {
-        "name": "keyedCol",
-        "comment": " Create a column with keyed children\n\n* `options` List of column options\n* `keyedChildren` List of key,element child element tuples\n",
-        "type": "List (Bootstrap.Grid.Col.Option msg) -> List ( String, Html.Html msg ) -> Bootstrap.Grid.Column msg"
+        "name": "custom",
+        "comment": " Create a custom List group\n\n    ListGroup.custom\n        [ ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem1Msg\"\n            , ListGroup.info\n            ]\n            [ text \"List item 1\" ]\n        , ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem2Msg\"\n            , ListGroup.warning\n            ]\n            [ text \"List item 2\" ]\n        ]\n\n",
+        "type": "List (Bootstrap.ListGroup.CustomItem msg) -> Html.Html msg"
       },
       {
-        "name": "keyedRow",
-        "comment": " Create a row with keyed columns. Handy when you need to move columns around without getting big massiv rerenders.\n\n* `options` List of row options\n* `keydCols` List of key, column tuples\n",
-        "type": "List (Bootstrap.Grid.Row.Option msg) -> List ( String, Bootstrap.Grid.Column msg ) -> Html.Html msg"
+        "name": "danger",
+        "comment": " Option to style a list item with danger colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       },
       {
-        "name": "row",
-        "comment": " Create a row\n\n* `options` List of row options\n* `cols` List of columns\n",
-        "type": "List (Bootstrap.Grid.Row.Option msg) -> List (Bootstrap.Grid.Column msg) -> Html.Html msg"
+        "name": "disabled",
+        "comment": " Option to disable a list item\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       },
       {
-        "name": "simpleRow",
-        "comment": " Create a row with no configuration options\n",
-        "type": "List (Bootstrap.Grid.Column msg) -> Html.Html msg"
+        "name": "info",
+        "comment": " Option to style a list item with info colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
+      },
+      {
+        "name": "keyedCustom",
+        "comment": " Create a custom list group with keyed children.\n",
+        "type": "List ( String, Bootstrap.ListGroup.CustomItem msg ) -> Html.Html msg"
+      },
+      {
+        "name": "keyedUl",
+        "comment": " Create a ul list group with keyed children.\n",
+        "type": "List ( String, Bootstrap.ListGroup.Item msg ) -> Html.Html msg"
+      },
+      {
+        "name": "li",
+        "comment": " Composable li element for a ul based list group\n",
+        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.Item msg"
+      },
+      {
+        "name": "success",
+        "comment": " Option to style a list item with success colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
+      },
+      {
+        "name": "ul",
+        "comment": " A simple list group based on a ul element\n\n    ListGroup.ul\n        [ ListGroup.li [ ListGroup.active ] [ text \"Item 1\"]\n        , ListGroup.li [ ] [ text \"Item 2\" ]\n        ]\n",
+        "type": "List (Bootstrap.ListGroup.Item msg) -> Html.Html msg"
+      },
+      {
+        "name": "warning",
+        "comment": " Option to style a list item with warning colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Form",
-    "comment": " Bootstrap provides several form control styles, layout options, and custom components for creating a wide variety of forms.\n\n# Forms\n@docs form, formInline\n\n\n# Groups\nUse form groups to group items together (label + input is a typical simple example)\n\n@docs group, label\n\n## Group validation\n@docs groupSuccess, groupWarning, groupDanger\n\n\n# Grid layouts\n@docs row, col, colLabel, colLabelSm, colLabelLg, Col\n\n\n## Row validation\n@docs rowSuccess, rowWarning, rowDanger\n\n\n# Validation\n@docs validationText\n\n# Handy helpers\n@docs help, helpInline\n\n",
+    "name": "Bootstrap.Navbar",
+    "comment": " The navbar is a wrapper that positions branding, navigation, and other elements in a concise header.\nThe navbar is designed to be responsive by default and made interactive with a tiny sprinkle of Elm.\n\n\n\n\n\n    import Bootstrap.Navbar as Navbar\n\n    -- You need to keep track of the view state for the navbar in your model\n\n    type alias Model =\n        { navbarState : Navbar.State }\n\n\n    -- The navbar needs to know the initial window size, so the inital state for a navbar requires a command to be run by the Elm runtime\n\n    initialState : ( Model, Cmd Msg )\n    initialState =\n        let\n            ( navbarState, navbarCmd ) =\n                Navbar.initialState NavbarMsg\n        in\n            ( { navbarState = navbarState }, navbarCmd )\n\n\n    -- Define a message for the navbar\n\n    type Msg\n        = NavbarMsg Navbar.State\n\n\n    -- You need to handle navbar messages in your update function to step the navbar state forward\n\n    update : Msg -> Model -> (Model, Cmd Msg)\n    update msg model =\n        case msg of\n            NavbarMsg state ->\n                ( { model | navbarState = state }, Cmd.none )\n\n\n    view : Model -> Html Msg\n    view model =\n        Navbar.config NavbarMsg\n            |> Navbar.withAnimation\n            |> Navbar.brand [ href \"#\"] [ text \"Brand\"]\n            |> Navbar.items\n                [ Navbar.itemLink [href \"#\"] [ text \"Item 1\"]\n                , Navbar.itemLink [href \"#\"] [ text \"Item 2\"]\n                ]\n            |> Navbar.view model.navbarState\n\n    -- If you use animations as above or you use dropdowns in your navbar you need to configure subscriptions too\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Navbar.subscriptions model.navbarState NavbarMsg\n\n\n\n# Navbar\n@docs view, config, Config\n\n\n## Options\n@docs withAnimation, primary, success, info, warning, danger, inverse, faded, fixTop, fixBottom, lightCustom, darkCustom, lightCustomClass, darkCustomClass, collapseSmall, collapseMedium, collapseLarge, collapseExtraLarge, container, attrs\n\n\n## Brand\n@docs brand, Brand\n\n## Menu items\n@docs items, itemLink, itemLinkActive, Item\n\n## Dropdown menu\n@docs dropdown, dropdownToggle, dropdownItem, dropdownDivider, dropdownHeader, DropdownToggle, DropdownItem\n\n\n## Custom items\n@docs customItems, textItem, formItem, customItem, CustomItem\n\n\n\n# State\n@docs initialState, State\n\n\n# Interactive elements and subscriptions\n@docs subscriptions\n\n\n",
     "aliases": [],
     "types": [
       {
-        "name": "Col",
-        "comment": " Opaque type representing a column in a form row\n",
+        "name": "Brand",
+        "comment": " Opaque type representing a brand element\n",
         "args": [
           "msg"
         ],
+        "cases": []
+      },
+      {
+        "name": "Config",
+        "comment": " Configuration information for describing the view of the Navbar\n\n* `options` List of [`configuration options`](#options)\n* `toMsg` Message function used for stepping the viewstate of the navbar forward\n* `withAnimation` Set to True if you wish the menu to slide up/down with an animation effect\n* `brand` Optional [`brand`](#brand) element (typically a logo)\n* `items` List of menu items that the user can select from\n* `customItems` List of custom (inline) items that you may place to the right of the std. navigation items\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "CustomItem",
+        "comment": " Opaque type representing a custom (inline) navbar item\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "DropdownItem",
+        "comment": " Opaque type representing an item in a dropdown menu\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "DropdownToggle",
+        "comment": " Opaque type representing the toggle element for a dropdown menu\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Item",
+        "comment": " Opaque type representing a selectable menu item\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "State",
+        "comment": " Opaque type representing the view state of the navbar and any navbar dropdown menus\n",
+        "args": [],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "col",
-        "comment": " Create a Grid column for use in [`form rows`](#row). It reuses the options from Bootstrap.Grid.Col which gives\nyou a ton of customization options for layout.\n\n* `options` List of Bootstrap.Grid.Col options\n* `children` List of child elements\n",
-        "type": "List (Bootstrap.Grid.Col.Option msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+        "name": "attrs",
+        "comment": " Add a custom Html.Attribute to the navbar element using this function\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "colLabel",
-        "comment": " Create a label element as a grid column to be used in a [`form row`](#row).\nHandy for use in horizontal form in various shapes.\n\n* `options` List of Bootstrap.Grid.Col options for layout customization\n* `children` List of child elements\n",
-        "type": "List (Bootstrap.Grid.Col.Option msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+        "name": "brand",
+        "comment": " Create a brand element for your navbar\n\n    Navbar.brand\n        [ href \"#\" ] -- (and perhaps use onWithOptions for custom handling of clicks !)\n        [ img [src \"assets/logo.svg\" ] [ text \"MyCompany\" ] ]\n        config\n\n* `attributes` List of attributes\n* `children` List of children\n* `config` Navbar config record to add/modify brand for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "colLabelLg",
-        "comment": " Create a taller  [`colLabel`](#colLabel)\n",
-        "type": "List (Bootstrap.Grid.Internal.ColOption msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+        "name": "collapseExtraLarge",
+        "comment": " Collapse the menu at the extra large media breakpoint\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "colLabelSm",
-        "comment": " Create a shorter (height) [`colLabel`](#colLabel)\n",
-        "type": "List (Bootstrap.Grid.Internal.ColOption msg) -> List (Html.Html msg) -> Bootstrap.Form.Col msg"
+        "name": "collapseLarge",
+        "comment": " Collapse the menu at the large media breakpoint\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "form",
-        "comment": " Create a Html form elment\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "collapseMedium",
+        "comment": " Collapse the menu at the medium media breakpoint\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "formInline",
-        "comment": " Create an inline form for placing elements horizontally.\n\n**Note**: You should stick to inline elements to get the effect you are probably expecting !\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "collapseSmall",
+        "comment": " Collapse the menu at the small media breakpoint\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "group",
-        "comment": " Use the group function to create a grouping of related form elements.\nIt just creates a div container with a `form-group` Bootstrap class.\nTypically you use this for vertically laid out forms.\n\n* `options` List of [`options`](#Option) for customizing the group\n* `children` List of children\n",
-        "type": "List (Bootstrap.Form.Option msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "config",
+        "comment": " Creates a default navbar view configuration. Providing a starting point\nto set up your navbar how you'd like.\n",
+        "type": "(Bootstrap.Navbar.State -> msg) -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "groupDanger",
-        "comment": " Option to give a danger/error feedback for a form group. Typically used for validation.\n",
-        "type": "Bootstrap.Form.Option msg"
+        "name": "container",
+        "comment": " Use this option when you want a fixed width menu (typically because you're main content is also confgirued to be fixed width)\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "groupSuccess",
-        "comment": " Option to signal success for a form group. Typically used for validation.\n",
-        "type": "Bootstrap.Form.Option msg"
+        "name": "customItem",
+        "comment": " Create a completely custom item, which will float to the right when the menu isn't collapsed. You should ensure that you create inline elements or else your menu will break in unfortunate ways !\n\n* `attributes` List of attributes\n* `children` List of children\n\n\n**Note: If you have multiple custom items you will need to provide spacing between them yourself **\n",
+        "type": "Html.Html msg -> Bootstrap.Navbar.CustomItem msg"
       },
       {
-        "name": "groupWarning",
-        "comment": " Option to give a warning feedback for a form group.  Typically used for validation.\n",
-        "type": "Bootstrap.Form.Option msg"
+        "name": "customItems",
+        "comment": " You can add custom items to a navbar too. These are placed after any navigation items.\n\n**NOTE** If you call this function several times, the last time \"wins\".\n",
+        "type": "List (Bootstrap.Navbar.CustomItem msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "help",
-        "comment": " Creates a block level text element, suitable for providing context related help text in form groups.\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "danger",
+        "comment": " Option to color menu using the danger color\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "helpInline",
-        "comment": " Creates an inline text element, suitable for providing context related help text for inputs.\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "darkCustom",
+        "comment": " Option to color menu using a dark custom background color\n",
+        "type": "Color.Color -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "label",
-        "comment": " Create a form control label. Suitable for use in form groups.\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "darkCustomClass",
+        "comment": " Option to color menu using a dark custom background color defined by css class(es)\n",
+        "type": "String -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       },
       {
-        "name": "row",
-        "comment": " Create a form group row element. Use this function when creating horizontal forms (in various shapes)\nIt reuses the options from Bootstrap.Grid.Row which gives you\na ton of customization options for how to layout columns within this row.\n\n* `options` List of Bootstrap.Grid.Row options\n* `cols` List of column elements (see [`col`](#col) or [`colLabel`](#colLabel))\n",
-        "type": "List (Bootstrap.Grid.Row.Option msg) -> List (Bootstrap.Form.Col msg) -> Html.Html msg"
+        "name": "dropdown",
+        "comment": " Create a dropdown menu for use in a navbar\n\n* `config` A record with the following properties\n    * `id` A unique id for your dropdown. It's important, because it's used to keep track of the state of the dropdown !\n    * `toggle` The main item ([`toggle`](#dropdownToggle)) that toggles the dropdown menu up or down\n",
+        "type": "{ id : String , toggle : Bootstrap.Navbar.DropdownToggle msg , items : List (Bootstrap.Navbar.DropdownItem msg) } -> Bootstrap.Navbar.Item msg"
       },
       {
-        "name": "rowDanger",
-        "comment": " Option to give a danger/error feedback for a form row.  Typically used for validation.\n",
-        "type": "Bootstrap.Grid.Row.Option msg"
+        "name": "dropdownDivider",
+        "comment": " Creates a divider element appropriate for use in dropdowns.\nHandy when you want to visually separate groups of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "Bootstrap.Navbar.DropdownItem msg"
       },
       {
-        "name": "rowSuccess",
-        "comment": " Option to give a success feedback for a form row.  Typically used for validation.\n",
-        "type": "Bootstrap.Grid.Row.Option msg"
+        "name": "dropdownHeader",
+        "comment": " Creates an header element appropriate for use in dropdowns.\nHandy when you want to provide a heading for a group of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Html msg) -> Bootstrap.Navbar.DropdownItem msg"
       },
       {
-        "name": "rowWarning",
-        "comment": " Option to give a warning feedback for a form row.  Typically used for validation.\n",
-        "type": "Bootstrap.Grid.Row.Option msg"
+        "name": "dropdownItem",
+        "comment": " Creates an `a` element appropriate for use in a nav dropdown\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.DropdownItem msg"
       },
       {
-        "name": "validationText",
-        "comment": " Function to create validation related feedback. When placed inside a form group\nor form row with validation options set, this element will receive the appropriate color.\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+        "name": "dropdownToggle",
+        "comment": " Function to construct a toggle for a [`dropdown`](#dropdown)\n\n* attributes List of attributes\n* children List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.DropdownToggle msg"
+      },
+      {
+        "name": "faded",
+        "comment": " Give your menu a light faded gray look\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "fixBottom",
+        "comment": " Option to fix the menu to the bottom of the viewport\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "fixTop",
+        "comment": " Option to fix the menu to the top of the viewport\n\n**Note: You probably need to add some margin-top to the content element following the navbar when using this option **\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "formItem",
+        "comment": " Create a custom inline form element, which will float to the right when the menu isn't collapsed\n\n    Navbar.formItem []\n        [ TextInput.text\n            [ TextInput.small ]\n        , Button.button\n            [ Button.roleSuccess, Button.small]\n            [ text \"Submit\"]]\n        ]\n\n* `attributes` List of attributes\n* `children` List of children\n\n\n**Note: If you have multiple custom items you will need to provide spacing between them yourself **\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.CustomItem msg"
+      },
+      {
+        "name": "info",
+        "comment": " Option to color menu using the info color\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "initialState",
+        "comment": " You need to call this function to initialize the view state for the navbar\nand store the state in your main model.\n\n    init : ( Model, Cmd Msg )\n    init =\n        let\n            (navbarState, navCmd) =\n                Navbar.initializeState NavbarMsg\n        in\n            ( { navbarState = navbarState }\n            , navCmd\n            )\n\nThe Cmd part is needed, because the navbar as implemented currently needs the window size.\nHopefully a smoother solution can be devised in the future.\n\n\n",
+        "type": "(Bootstrap.Navbar.State -> msg) -> ( Bootstrap.Navbar.State, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "inverse",
+        "comment": " Inverse the colors of your menu. Dark background and light text\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "itemLink",
+        "comment": " Create a menu item (as an `a` element)\n\n* `attributes` List of attributes\n* `children` List of children\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.Item msg"
+      },
+      {
+        "name": "itemLinkActive",
+        "comment": " Create a menu item that is styled as active (as an `a` element)\n\n* `attributes` List of attributes\n* `children` List of children\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.Item msg"
+      },
+      {
+        "name": "items",
+        "comment": " Configure your navbar with a list of navigation links and/or dropdowns.\n\n**NOTE** If you call this function several times, the last time \"wins\".\n",
+        "type": "List (Bootstrap.Navbar.Item msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "lightCustom",
+        "comment": " Option to color menu using a light custom background color\n",
+        "type": "Color.Color -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "lightCustomClass",
+        "comment": " Option to color menu using a light custom background color defined by css class(es)\n",
+        "type": "String -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "primary",
+        "comment": " Option to color menu using the primary color\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "subscriptions",
+        "comment": " To support animations and managing the state of dropdown you need to wire up this\nfunction in your main subscriptions function.\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Navbar.subscriptions model.navbarState NavbarMsg\n\n\n**Note: ** If you ar NOT using dropdowns in your navbar AND you are using a navbar without animation\nyou can skip this. But it's not that much work, so maybe you are better off doing it anyway.\n",
+        "type": "Bootstrap.Navbar.State -> (Bootstrap.Navbar.State -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "success",
+        "comment": " Option to color menu using the success color\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "textItem",
+        "comment": " Create a custom inline text element, which will float to the right when the menu isn't collapsed\n\n* `attributes` List of attributes\n* `children` List of children\n\n\n**Note: If you have multiple custom items you will need to provide spacing between them yourself **\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.CustomItem msg"
+      },
+      {
+        "name": "view",
+        "comment": " The main view function for displaying a navbar.\n\n    Navbar.config NavbarMsg\n        |> Navbar.withAnimation\n        |> Navbar.brand [ href \"#\"] [ text \"Brand\"]\n        |> Navbar.items\n            [ Navbar.itemLink [href \"#\"] [ text \"Item 1\"]\n            , Navbar.itemLink [href \"#\"] [ text \"Item 2\"]\n            ]\n        |> Navbar.customItems\n            [ Navbar.textItem [] [ text \"Some text\" ] ]\n        |> Navbar.view model.navbarState\n\n* `state` Required view state the navbar uses to support interactive behavior\n* `config` The view [`configuration`](#Configuration) that determines to look and feel of the navbar\n\n",
+        "type": "Bootstrap.Navbar.State -> Bootstrap.Navbar.Config msg -> Html.Html msg"
+      },
+      {
+        "name": "warning",
+        "comment": " Option to color menu using the warning color\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      },
+      {
+        "name": "withAnimation",
+        "comment": " Use a slide up/down animation for toggling the navbar menu when collapsed.\n\n**NOTE: ** Do remember to set up the subscriptions function when using this option.\n",
+        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2984,326 +3337,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Navbar",
-    "comment": " The navbar is a wrapper that positions branding, navigation, and other elements in a concise header.\nThe navbar is designed to be responsive by default and made interactive with a tiny sprinkle of Elm.\n\n\n\n\n\n    import Bootstrap.Navbar as Navbar\n\n    -- You need to keep track of the view state for the navbar in your model\n\n    type alias Model =\n        { navbarState : Navbar.State }\n\n\n    -- The navbar needs to know the initial window size, so the inital state for a navbar requires a command to be run by the Elm runtime\n\n    initialState : ( Model, Cmd Msg )\n    initialState =\n        let\n            ( navbarState, navbarCmd ) =\n                Navbar.initialState NavbarMsg\n        in\n            ( { navbarState = navbarState }, navbarCmd )\n\n\n    -- Define a message for the navbar\n\n    type Msg\n        = NavbarMsg Navbar.State\n\n\n    -- You need to handle navbar messages in your update function to step the navbar state forward\n\n    update : Msg -> Model -> (Model, Cmd Msg)\n    update msg model =\n        case msg of\n            NavbarMsg state ->\n                ( { model | navbarState = state }, Cmd.none )\n\n\n    view : Model -> Html Msg\n    view model =\n        Navbar.config NavbarMsg\n            |> Navbar.withAnimation\n            |> Navbar.brand [ href \"#\"] [ text \"Brand\"]\n            |> Navbar.items\n                [ Navbar.itemLink [href \"#\"] [ text \"Item 1\"]\n                , Navbar.itemLink [href \"#\"] [ text \"Item 2\"]\n                ]\n            |> Navbar.view model.navbarState\n\n    -- If you use animations as above or you use dropdowns in your navbar you need to configure subscriptions too\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Navbar.subscriptions model.navbarState NavbarMsg\n\n\n\n# Navbar\n@docs view, config, Config\n\n\n## Options\n@docs withAnimation, primary, success, info, warning, danger, inverse, faded, fixTop, fixBottom, lightCustom, darkCustom, lightCustomClass, darkCustomClass, collapseSmall, collapseMedium, collapseLarge, collapseExtraLarge, container, attrs\n\n\n## Brand\n@docs brand, Brand\n\n## Menu items\n@docs items, itemLink, itemLinkActive, Item\n\n## Dropdown menu\n@docs dropdown, dropdownToggle, dropdownItem, dropdownDivider, dropdownHeader, DropdownToggle, DropdownItem\n\n\n## Custom items\n@docs customItems, textItem, formItem, customItem, CustomItem\n\n\n\n# State\n@docs initialState, State\n\n\n# Interactive elements and subscriptions\n@docs subscriptions\n\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Brand",
-        "comment": " Opaque type representing a brand element\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Config",
-        "comment": " Configuration information for describing the view of the Navbar\n\n* `options` List of [`configuration options`](#options)\n* `toMsg` Message function used for stepping the viewstate of the navbar forward\n* `withAnimation` Set to True if you wish the menu to slide up/down with an animation effect\n* `brand` Optional [`brand`](#brand) element (typically a logo)\n* `items` List of menu items that the user can select from\n* `customItems` List of custom (inline) items that you may place to the right of the std. navigation items\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "CustomItem",
-        "comment": " Opaque type representing a custom (inline) navbar item\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "DropdownItem",
-        "comment": " Opaque type representing an item in a dropdown menu\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "DropdownToggle",
-        "comment": " Opaque type representing the toggle element for a dropdown menu\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Item",
-        "comment": " Opaque type representing a selectable menu item\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "State",
-        "comment": " Opaque type representing the view state of the navbar and any navbar dropdown menus\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "attrs",
-        "comment": " Add a custom Html.Attribute to the navbar element using this function\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "brand",
-        "comment": " Create a brand element for your navbar\n\n    Navbar.brand\n        [ href \"#\" ] -- (and perhaps use onWithOptions for custom handling of clicks !)\n        [ img [src \"assets/logo.svg\" ] [ text \"MyCompany\" ] ]\n        config\n\n* `attributes` List of attributes\n* `children` List of children\n* `config` Navbar config record to add/modify brand for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "collapseExtraLarge",
-        "comment": " Collapse the menu at the extra large media breakpoint\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "collapseLarge",
-        "comment": " Collapse the menu at the large media breakpoint\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "collapseMedium",
-        "comment": " Collapse the menu at the medium media breakpoint\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "collapseSmall",
-        "comment": " Collapse the menu at the small media breakpoint\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "config",
-        "comment": " Creates a default navbar view configuration. Providing a starting point\nto set up your navbar how you'd like.\n",
-        "type": "(Bootstrap.Navbar.State -> msg) -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "container",
-        "comment": " Use this option when you want a fixed width menu (typically because you're main content is also confgirued to be fixed width)\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "customItem",
-        "comment": " Create a completely custom item, which will float to the right when the menu isn't collapsed. You should ensure that you create inline elements or else your menu will break in unfortunate ways !\n\n* `attributes` List of attributes\n* `children` List of children\n\n\n**Note: If you have multiple custom items you will need to provide spacing between them yourself **\n",
-        "type": "Html.Html msg -> Bootstrap.Navbar.CustomItem msg"
-      },
-      {
-        "name": "customItems",
-        "comment": " You can add custom items to a navbar too. These are placed after any navigation items.\n\n**NOTE** If you call this function several times, the last time \"wins\".\n",
-        "type": "List (Bootstrap.Navbar.CustomItem msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "danger",
-        "comment": " Option to color menu using the danger color\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "darkCustom",
-        "comment": " Option to color menu using a dark custom background color\n",
-        "type": "Color.Color -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "darkCustomClass",
-        "comment": " Option to color menu using a dark custom background color defined by css class(es)\n",
-        "type": "String -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "dropdown",
-        "comment": " Create a dropdown menu for use in a navbar\n\n* `config` A record with the following properties\n    * `id` A unique id for your dropdown. It's important, because it's used to keep track of the state of the dropdown !\n    * `toggle` The main item ([`toggle`](#dropdownToggle)) that toggles the dropdown menu up or down\n",
-        "type": "{ id : String , toggle : Bootstrap.Navbar.DropdownToggle msg , items : List (Bootstrap.Navbar.DropdownItem msg) } -> Bootstrap.Navbar.Item msg"
-      },
-      {
-        "name": "dropdownDivider",
-        "comment": " Creates a divider element appropriate for use in dropdowns.\nHandy when you want to visually separate groups of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "Bootstrap.Navbar.DropdownItem msg"
-      },
-      {
-        "name": "dropdownHeader",
-        "comment": " Creates an header element appropriate for use in dropdowns.\nHandy when you want to provide a heading for a group of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Html msg) -> Bootstrap.Navbar.DropdownItem msg"
-      },
-      {
-        "name": "dropdownItem",
-        "comment": " Creates an `a` element appropriate for use in a nav dropdown\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.DropdownItem msg"
-      },
-      {
-        "name": "dropdownToggle",
-        "comment": " Function to construct a toggle for a [`dropdown`](#dropdown)\n\n* attributes List of attributes\n* children List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.DropdownToggle msg"
-      },
-      {
-        "name": "faded",
-        "comment": " Give your menu a light faded gray look\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "fixBottom",
-        "comment": " Option to fix the menu to the bottom of the viewport\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "fixTop",
-        "comment": " Option to fix the menu to the top of the viewport\n\n**Note: You probably need to add some margin-top to the content element following the navbar when using this option **\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "formItem",
-        "comment": " Create a custom inline form element, which will float to the right when the menu isn't collapsed\n\n    Navbar.formItem []\n        [ TextInput.text\n            [ TextInput.small ]\n        , Button.button\n            [ Button.roleSuccess, Button.small]\n            [ text \"Submit\"]]\n        ]\n\n* `attributes` List of attributes\n* `children` List of children\n\n\n**Note: If you have multiple custom items you will need to provide spacing between them yourself **\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.CustomItem msg"
-      },
-      {
-        "name": "info",
-        "comment": " Option to color menu using the info color\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "initialState",
-        "comment": " You need to call this function to initialize the view state for the navbar\nand store the state in your main model.\n\n    init : ( Model, Cmd Msg )\n    init =\n        let\n            (navbarState, navCmd) =\n                Navbar.initializeState NavbarMsg\n        in\n            ( { navbarState = navbarState }\n            , navCmd\n            )\n\nThe Cmd part is needed, because the navbar as implemented currently needs the window size.\nHopefully a smoother solution can be devised in the future.\n\n\n",
-        "type": "(Bootstrap.Navbar.State -> msg) -> ( Bootstrap.Navbar.State, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "inverse",
-        "comment": " Inverse the colors of your menu. Dark background and light text\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "itemLink",
-        "comment": " Create a menu item (as an `a` element)\n\n* `attributes` List of attributes\n* `children` List of children\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.Item msg"
-      },
-      {
-        "name": "itemLinkActive",
-        "comment": " Create a menu item that is styled as active (as an `a` element)\n\n* `attributes` List of attributes\n* `children` List of children\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.Item msg"
-      },
-      {
-        "name": "items",
-        "comment": " Configure your navbar with a list of navigation links and/or dropdowns.\n\n**NOTE** If you call this function several times, the last time \"wins\".\n",
-        "type": "List (Bootstrap.Navbar.Item msg) -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "lightCustom",
-        "comment": " Option to color menu using a light custom background color\n",
-        "type": "Color.Color -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "lightCustomClass",
-        "comment": " Option to color menu using a light custom background color defined by css class(es)\n",
-        "type": "String -> Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "primary",
-        "comment": " Option to color menu using the primary color\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "subscriptions",
-        "comment": " To support animations and managing the state of dropdown you need to wire up this\nfunction in your main subscriptions function.\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Navbar.subscriptions model.navbarState NavbarMsg\n\n\n**Note: ** If you ar NOT using dropdowns in your navbar AND you are using a navbar without animation\nyou can skip this. But it's not that much work, so maybe you are better off doing it anyway.\n",
-        "type": "Bootstrap.Navbar.State -> (Bootstrap.Navbar.State -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "success",
-        "comment": " Option to color menu using the success color\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "textItem",
-        "comment": " Create a custom inline text element, which will float to the right when the menu isn't collapsed\n\n* `attributes` List of attributes\n* `children` List of children\n\n\n**Note: If you have multiple custom items you will need to provide spacing between them yourself **\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Navbar.CustomItem msg"
-      },
-      {
-        "name": "view",
-        "comment": " The main view function for displaying a navbar.\n\n    Navbar.config NavbarMsg\n        |> Navbar.withAnimation\n        |> Navbar.brand [ href \"#\"] [ text \"Brand\"]\n        |> Navbar.items\n            [ Navbar.itemLink [href \"#\"] [ text \"Item 1\"]\n            , Navbar.itemLink [href \"#\"] [ text \"Item 2\"]\n            ]\n        |> Navbar.customItems\n            [ Navbar.textItem [] [ text \"Some text\" ] ]\n        |> Navbar.view model.navbarState\n\n* `state` Required view state the navbar uses to support interactive behavior\n* `config` The view [`configuration`](#Configuration) that determines to look and feel of the navbar\n\n",
-        "type": "Bootstrap.Navbar.State -> Bootstrap.Navbar.Config msg -> Html.Html msg"
-      },
-      {
-        "name": "warning",
-        "comment": " Option to color menu using the warning color\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      },
-      {
-        "name": "withAnimation",
-        "comment": " Use a slide up/down animation for toggling the navbar menu when collapsed.\n\n**NOTE: ** Do remember to set up the subscriptions function when using this option.\n",
-        "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bootstrap.Form.Select",
-    "comment": " This module allows you to create Bootstrap styled `select` elements.\n\n\n# Creating\n@docs select, custom, item, Item\n\n# Options\n@docs id, small, large, id, disabled, onInput, attrs, Option\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Item",
-        "comment": " Opaque type representing a select option element\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Option",
-        "comment": " Opaque type representing legal select options\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "attrs",
-        "comment": " Use this function to handle any Html.Attribute option you wish for your select\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Form.Select.Option msg"
-      },
-      {
-        "name": "custom",
-        "comment": " Create a select with custom Bootstrap styling to make it look a little bit nicer than the default browser select element\n",
-        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
-      },
-      {
-        "name": "disabled",
-        "comment": " Shorthand for setting the disabled attribute of a select\n",
-        "type": "Bool -> Bootstrap.Form.Select.Option msg"
-      },
-      {
-        "name": "id",
-        "comment": " Options/shorthand for setting the id of a select\n",
-        "type": "String -> Bootstrap.Form.Select.Option msg"
-      },
-      {
-        "name": "item",
-        "comment": " Create a select option element to be passed to a [`select`](#select)\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Form.Select.Item msg"
-      },
-      {
-        "name": "large",
-        "comment": " Option to make a select taller (height)\n",
-        "type": "Bootstrap.Form.Select.Option msg"
-      },
-      {
-        "name": "onInput",
-        "comment": " Shorthand for assigning an onInput handler for a select\n",
-        "type": "(String -> msg) -> Bootstrap.Form.Select.Option msg"
-      },
-      {
-        "name": "select",
-        "comment": " Create a select\n\n    Select.select\n        [ Select.id \"myselect\"\n        , Select.value \"1\"\n        , Select.onInput MySelectMsg\n        ]\n        [ Select.item [ id \"1\"] [ text \"Item 1\" ]\n        , Select.item [ id \"2\"] [ text \"Item 2\" ]\n        ]\n\n",
-        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
-      },
-      {
-        "name": "small",
-        "comment": " Option to make a select shorter (height)\n",
-        "type": "Bootstrap.Form.Select.Option msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Bootstrap.Form.Input",
     "comment": " This module allows you to create Bootstrap styled HTML 5 inputs.\n\n\n# Input types\n@docs text, password, datetimeLocal, date, month, time, week, number, email, url, search, tel, color\n\n\n\n\n# Options\n@docs id, small, large, value, defaultValue, disabled, onInput, placeholder, attrs, Option\n\n# Validation\nThese options really only makes sense when used in conjunction with the form module.\nTo use standalone, remember to wrap your inputs in a containing element and provide it one of the following classes:\n\n* `has-success`\n* `has-warning`\n* `has-danger`\n\n@docs success, warning, danger\n\n\n",
     "aliases": [],
@@ -3447,6 +3480,150 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Bootstrap.Form.Select",
+    "comment": " This module allows you to create Bootstrap styled `select` elements.\n\n\n# Creating\n@docs select, custom, item, Item\n\n# Options\n@docs id, small, large, id, disabled, onInput, attrs, Option\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Item",
+        "comment": " Opaque type representing a select option element\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Option",
+        "comment": " Opaque type representing legal select options\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "attrs",
+        "comment": " Use this function to handle any Html.Attribute option you wish for your select\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Form.Select.Option msg"
+      },
+      {
+        "name": "custom",
+        "comment": " Create a select with custom Bootstrap styling to make it look a little bit nicer than the default browser select element\n",
+        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
+      },
+      {
+        "name": "disabled",
+        "comment": " Shorthand for setting the disabled attribute of a select\n",
+        "type": "Bool -> Bootstrap.Form.Select.Option msg"
+      },
+      {
+        "name": "id",
+        "comment": " Options/shorthand for setting the id of a select\n",
+        "type": "String -> Bootstrap.Form.Select.Option msg"
+      },
+      {
+        "name": "item",
+        "comment": " Create a select option element to be passed to a [`select`](#select)\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Form.Select.Item msg"
+      },
+      {
+        "name": "large",
+        "comment": " Option to make a select taller (height)\n",
+        "type": "Bootstrap.Form.Select.Option msg"
+      },
+      {
+        "name": "onInput",
+        "comment": " Shorthand for assigning an onInput handler for a select\n",
+        "type": "(String -> msg) -> Bootstrap.Form.Select.Option msg"
+      },
+      {
+        "name": "select",
+        "comment": " Create a select\n\n    Select.select\n        [ Select.id \"myselect\"\n        , Select.value \"1\"\n        , Select.onInput MySelectMsg\n        ]\n        [ Select.item [ id \"1\"] [ text \"Item 1\" ]\n        , Select.item [ id \"2\"] [ text \"Item 2\" ]\n        ]\n\n",
+        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
+      },
+      {
+        "name": "small",
+        "comment": " Option to make a select shorter (height)\n",
+        "type": "Bootstrap.Form.Select.Option msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bootstrap.Form.Textarea",
+    "comment": " This module allows you to create textarea elements.\n\n\n# Creating\n@docs textarea\n\n\n# Options\n@docs id, rows, value, defaultValue, disabled, onInput, attrs, Option\n\n# Validation\nThese options really only makes sense when you used in conjuction with the form module.\nTo use standalone, remember to wrap your textarea in a containing element and provide it one of the following classes:\n\n* `has-success`\n* `has-warning`\n* `has-danger`\n\n@docs success, warning, danger\n\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Option",
+        "comment": " Opaque type representing legal textarea configuration options\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "attrs",
+        "comment": " Use this function to handle any Html.Attribute option you wish for your textarea\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "danger",
+        "comment": " Option to add a danger marker icon for your textarea.\n\n**Note:** Please read the caveat described about [`validation options`](#validation)\n",
+        "type": "Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "defaultValue",
+        "comment": " Shorthand for setting the defaultValue attribute of a textarea\n",
+        "type": "String -> Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "disabled",
+        "comment": " Shorthand for setting the disabled attribute of a textarea\n",
+        "type": "Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "id",
+        "comment": " Options/shorthand for setting the id of a textarea\n",
+        "type": "String -> Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "onInput",
+        "comment": " Shorthand for assigning an onInput handler for a textarea\n",
+        "type": "(String -> msg) -> Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "rows",
+        "comment": " Option/shorthand to set the rows attribute of a textarea\n",
+        "type": "Int -> Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "success",
+        "comment": " Option to add a success marker icon for your textarea.\n\n**Note:** Please read the caveat described about [`validation options`](#validation)\n",
+        "type": "Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "textarea",
+        "comment": " Create a textarea element.\n\n    Textarea.textarea\n        [ Textarea.id \"myarea\"\n        , Textarea.rows 4\n        , Textarea.onInput MyTextareaMsg\n        ]\n\n",
+        "type": "List (Bootstrap.Form.Textarea.Option msg) -> Html.Html msg"
+      },
+      {
+        "name": "value",
+        "comment": " Shorthand for setting the value attribute of a textarea\n",
+        "type": "String -> Bootstrap.Form.Textarea.Option msg"
+      },
+      {
+        "name": "warning",
+        "comment": " Option to add a warning marker icon for your textarea.\n\n**Note:** Please read the caveat described about [`validation options`](#validation)\n",
+        "type": "Bootstrap.Form.Textarea.Option msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Bootstrap.Form.Radio",
     "comment": " This module allows you to create Bootstrap styled radios.\n\n\n# Creating\n@docs radio, custom, Radio\n\n# Options\n@docs checked, name, inline, onClick, disabled, attrs, Option\n\n\n# Composing\n@docs radioList, create, createCustom, Radio\n\n",
     "aliases": [],
@@ -3528,79 +3705,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Form.Textarea",
-    "comment": " This module allows you to create textarea elements.\n\n\n# Creating\n@docs textarea\n\n\n# Options\n@docs id, rows, value, defaultValue, disabled, onInput, attrs, Option\n\n# Validation\nThese options really only makes sense when you used in conjuction with the form module.\nTo use standalone, remember to wrap your textarea in a containing element and provide it one of the following classes:\n\n* `has-success`\n* `has-warning`\n* `has-danger`\n\n@docs success, warning, danger\n\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Option",
-        "comment": " Opaque type representing legal textarea configuration options\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "attrs",
-        "comment": " Use this function to handle any Html.Attribute option you wish for your textarea\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "danger",
-        "comment": " Option to add a danger marker icon for your textarea.\n\n**Note:** Please read the caveat described about [`validation options`](#validation)\n",
-        "type": "Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "defaultValue",
-        "comment": " Shorthand for setting the defaultValue attribute of a textarea\n",
-        "type": "String -> Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "disabled",
-        "comment": " Shorthand for setting the disabled attribute of a textarea\n",
-        "type": "Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "id",
-        "comment": " Options/shorthand for setting the id of a textarea\n",
-        "type": "String -> Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "onInput",
-        "comment": " Shorthand for assigning an onInput handler for a textarea\n",
-        "type": "(String -> msg) -> Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "rows",
-        "comment": " Option/shorthand to set the rows attribute of a textarea\n",
-        "type": "Int -> Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "success",
-        "comment": " Option to add a success marker icon for your textarea.\n\n**Note:** Please read the caveat described about [`validation options`](#validation)\n",
-        "type": "Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "textarea",
-        "comment": " Create a textarea element.\n\n    Textarea.textarea\n        [ Textarea.id \"myarea\"\n        , Textarea.rows 4\n        , Textarea.onInput MyTextareaMsg\n        ]\n\n",
-        "type": "List (Bootstrap.Form.Textarea.Option msg) -> Html.Html msg"
-      },
-      {
-        "name": "value",
-        "comment": " Shorthand for setting the value attribute of a textarea\n",
-        "type": "String -> Bootstrap.Form.Textarea.Option msg"
-      },
-      {
-        "name": "warning",
-        "comment": " Option to add a warning marker icon for your textarea.\n\n**Note:** Please read the caveat described about [`validation options`](#validation)\n",
-        "type": "Bootstrap.Form.Textarea.Option msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Bootstrap.Form.Checkbox",
     "comment": " This module allows you to create Bootstrap styled checkboxes.\n\n\n# Creating\n@docs checkbox, custom\n\n# Options\n@docs checked, inline, indeterminate, disabled, onCheck, attrs, success, warning, danger, Option\n\n\n",
     "aliases": [],
@@ -3669,110 +3773,6 @@
         "name": "warning",
         "comment": " Option to color a checkbox with warning.\n",
         "type": "Bootstrap.Form.Checkbox.Option msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bootstrap.ListGroup",
-    "comment": " List groups are a flexible and powerful component for displaying a series of content. List group items can be modified and extended to support just about any content within. They can also be used as navigation with the right modifier class\n\n# Simple lists\n@docs ul, li, keyedUl, Item\n\n\n# Custom lists\n@docs custom, keyedCustom, anchor, button, CustomItem\n\n\n# Options\n@docs success, info, warning, danger, active, disabled, attrs, ItemOption\n\n\n",
-    "aliases": [
-      {
-        "name": "CustomItem",
-        "comment": " Opaque type representing an item in a custom list group\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Bootstrap.Internal.ListGroup.CustomItem msg"
-      },
-      {
-        "name": "Item",
-        "comment": " Opaque type representing a list item in a ul based list group\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Bootstrap.Internal.ListGroup.Item msg"
-      },
-      {
-        "name": "ItemOption",
-        "comment": " Opaque type representing configuration options for a list item\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Bootstrap.Internal.ListGroup.ItemOption msg"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "active",
-        "comment": " Option to mark a list item as active\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
-      },
-      {
-        "name": "anchor",
-        "comment": " Create a composable anchor list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
-        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
-      },
-      {
-        "name": "attrs",
-        "comment": " Use this function to supply any additional Hmtl.Attribute you need for your list items\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.ListGroup.ItemOption msg"
-      },
-      {
-        "name": "button",
-        "comment": " Create a composable button list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
-        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
-      },
-      {
-        "name": "custom",
-        "comment": " Create a custom List group\n\n    ListGroup.custom\n        [ ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem1Msg\"\n            , ListGroup.info\n            ]\n            [ text \"List item 1\" ]\n        , ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem2Msg\"\n            , ListGroup.warning\n            ]\n            [ text \"List item 2\" ]\n        ]\n\n",
-        "type": "List (Bootstrap.ListGroup.CustomItem msg) -> Html.Html msg"
-      },
-      {
-        "name": "danger",
-        "comment": " Option to style a list item with danger colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
-      },
-      {
-        "name": "disabled",
-        "comment": " Option to disable a list item\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
-      },
-      {
-        "name": "info",
-        "comment": " Option to style a list item with info colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
-      },
-      {
-        "name": "keyedCustom",
-        "comment": " Create a custom list group with keyed children.\n",
-        "type": "List ( String, Bootstrap.ListGroup.CustomItem msg ) -> Html.Html msg"
-      },
-      {
-        "name": "keyedUl",
-        "comment": " Create a ul list group with keyed children.\n",
-        "type": "List ( String, Bootstrap.ListGroup.Item msg ) -> Html.Html msg"
-      },
-      {
-        "name": "li",
-        "comment": " Composable li element for a ul based list group\n",
-        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.Item msg"
-      },
-      {
-        "name": "success",
-        "comment": " Option to style a list item with success colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
-      },
-      {
-        "name": "ul",
-        "comment": " A simple list group based on a ul element\n\n    ListGroup.ul\n        [ ListGroup.li [ ListGroup.active ] [ text \"Item 1\"]\n        , ListGroup.li [ ] [ text \"Item 2\" ]\n        ]\n",
-        "type": "List (Bootstrap.ListGroup.Item msg) -> Html.Html msg"
-      },
-      {
-        "name": "warning",
-        "comment": " Option to style a list item with warning colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -3856,206 +3856,6 @@
         "name": "warning",
         "comment": " Option to give a progress bar a warning background color\n",
         "type": "Bootstrap.Progress.Option msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bootstrap.Alert",
-    "comment": " Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.\n\n\n    Alert.info\n        [ Alert.h4 \"For your information\"\n        , p [] [ text \"An information message of sorts\"]\n        , Alert.link [ href \"/somelink\" ] [ text \"link\"]\n        ]\n\n# Contextual alerts\n@docs success, info, warning, danger\n\n\n## Styled content\n@docs link, h1, h2, h3, h4, h5, h6\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "danger",
-        "comment": " Alert signaling an error\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h1",
-        "comment": " Alert h1 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h2",
-        "comment": " Alert h2 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h3",
-        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h4",
-        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h5",
-        "comment": " Alert h5 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h6",
-        "comment": " Alert h6 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "info",
-        "comment": " Alert information\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "link",
-        "comment": " To get proper link colors for `a` elements use this function\n\n* `attributes` List of attributes for the link element\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "success",
-        "comment": " Alert signaling success\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "warning",
-        "comment": " Alert signaling a warning of sorts\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bootstrap.Tab",
-    "comment": " Use tabs to create tabbable regions. Tabs uses view state, so there is a little bit of wiring needed to use them.\n\n    -- example with animation, you can drop the subscription part when not using animations\n\n    type alias Model =\n        { tabState : Tab.State }\n\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { tabState : Tab.initalState}, Cmd.none )\n\n\n    type Msg\n        = TabMsg Tab.State\n\n\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            TabMsg state ->\n                ( { model | tabState = state }\n                , Cmd.none\n                )\n\n    view : Model -> Html msg\n    view model =\n        Tab.config TabMsg\n            |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n            |> Tab.right\n            |> Tab.items\n                [ Tab.item\n                    { link = Tab.link [] [ text \"Tab 1\" ]\n                    , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                    }\n                , Tab.item\n                    { link = Tab.link [] [ text \"Tab 2\" ]\n                    , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                    }\n                ]\n            |> Tab.view model.tabState\n\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Tab.subscriptions model.tabState TabMsg\n\n\n\n\n# Tabs\n@docs view, config, items, initialState, customInitialState, Config, State\n\n# Options\n@docs pills, withAnimation, justified, fill, center, right, attrs, Option\n\n# Tab items\n@docs item, link, pane, Item, Link, Pane\n\n\n\n# With animations\n@docs subscriptions\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Config",
-        "comment": " Configuration for a tabs control\n\n* `toMsg` Message constructor function used for transitioning view state\n* `options` Customization options for the tabs control\n* `withAnimation` Option to enable a simple fade in animation for tabs.\n* `items` List of tab items\n\n**NOTE** When using animations you must also remember to set up [`subscriptions`](#subscriptions)\n\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Item",
-        "comment": " Opaque type representing a tab item\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Link",
-        "comment": " Opaque type representing a tab item link\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Option",
-        "comment": " Opaque type representing customization options for a tabs control\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Pane",
-        "comment": " Opaque type representing a tab item pane\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "State",
-        "comment": " Opaque type representing the view state of the tabs control\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "attrs",
-        "comment": " Use this function when you need additional customization with Html.Attribute attributes for the tabs control\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "center",
-        "comment": " Option to center the tab menu items\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "config",
-        "comment": " Create an initial/default view configuration for a Tab.\n",
-        "type": "(Bootstrap.Tab.State -> msg) -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "customInitialState",
-        "comment": " Use this function if you want to initialize your tabs control with a specific tab selected.\n\n**NOTE: ** Should you specify an index out of range, the first tab item will be displayd by default\n",
-        "type": "Int -> Bootstrap.Tab.State"
-      },
-      {
-        "name": "fill",
-        "comment": " Space out tab menu items to use the entire tabs control width, as opposed to [`justified`](#justified) items will not get equal widths\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "initialState",
-        "comment": " Use this function to create the inital state for the tabs control\n",
-        "type": "Bootstrap.Tab.State"
-      },
-      {
-        "name": "item",
-        "comment": " Create a composable tab item\n\n* `link` The link/menu for the tab item\n* `pane` The content part of a tab item\n",
-        "type": "{ link : Bootstrap.Tab.Link msg, pane : Bootstrap.Tab.Pane msg } -> Bootstrap.Tab.Item msg"
-      },
-      {
-        "name": "items",
-        "comment": " Define the tab items for a Tab.\n",
-        "type": "List (Bootstrap.Tab.Item msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "justified",
-        "comment": " Space out tab menu items evenly accross the the whole tabs control width\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "link",
-        "comment": " Creates a composable tab menu item\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Link msg"
-      },
-      {
-        "name": "pane",
-        "comment": " Creates a composable tab menu pane\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Pane msg"
-      },
-      {
-        "name": "pills",
-        "comment": " Option to make the tab menu items display with a pilled/buttonish look\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "right",
-        "comment": " Option to place tab menu items to the right\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "subscriptions",
-        "comment": " When using animations you **must** remember to wire up this function to your main subscriptions\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Tab.subscriptions model.tabState TabMsg\n            --  ...other subscriptions you might have\n            ]\n",
-        "type": "Bootstrap.Tab.State -> (Bootstrap.Tab.State -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "view",
-        "comment": " Creates a tab control which keeps track of the selected tab item and displays the corresponding tab pane for you\n\n    Tab.config TabMsg\n        |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n        |> Tab.right\n        |> Tab.items\n            [ Tab.item\n                { link = Tab.link [] [ text \"Tab 1\" ]\n                , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                }\n            , Tab.item\n                { link = Tab.link [] [ text \"Tab 2\" ]\n                , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                }\n            ]\n        |> Tab.view model.tabState\n",
-        "type": "Bootstrap.Tab.State -> Bootstrap.Tab.Config msg -> Html.Html msg"
-      },
-      {
-        "name": "withAnimation",
-        "comment": " Option to add a fade in/out animation effect when switching tabs\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -4300,6 +4100,89 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Bootstrap.CDN",
+    "comment": " Helper module for easily embedding css when you want to work with the library using the Elm Reactor\n\n\n@docs stylesheet, fontAwesome\n\n\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fontAwesome",
+        "comment": " For your convenience you can also include font-awesome as an inline node. Worth knowing that this `Bootstrap for Elm` has no dependencies on font awesome\n",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "stylesheet",
+        "comment": " Allows you to embed the bootstrap css as a node in your view\n\n    import Bootstrap.CDN\n\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.stylesheet -- css embedded inline.\n            , yourContentHere\n            , navbar model\n            , mainContent model\n            ]\n",
+        "type": "Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bootstrap.Alert",
+    "comment": " Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.\n\n\n    Alert.info\n        [ Alert.h4 \"For your information\"\n        , p [] [ text \"An information message of sorts\"]\n        , Alert.link [ href \"/somelink\" ] [ text \"link\"]\n        ]\n\n# Contextual alerts\n@docs success, info, warning, danger\n\n\n## Styled content\n@docs link, h1, h2, h3, h4, h5, h6\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "danger",
+        "comment": " Alert signaling an error\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h1",
+        "comment": " Alert h1 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h2",
+        "comment": " Alert h2 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h3",
+        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h4",
+        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h5",
+        "comment": " Alert h5 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h6",
+        "comment": " Alert h6 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "info",
+        "comment": " Alert information\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "link",
+        "comment": " To get proper link colors for `a` elements use this function\n\n* `attributes` List of attributes for the link element\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "success",
+        "comment": " Alert signaling success\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "warning",
+        "comment": " Alert signaling a warning of sorts\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Bootstrap.Popover",
     "comment": " Add small overlay content, like those found in iOS, to any element for housing secondary information.\n\n    -- You need to keep track of the view state for a popover\n    type alias Model =\n        { popoverState = Popover.State }\n\n    -- Define a message to handle popover state changes\n    type Msg\n        = PopoverMsg Popover.State\n\n\n    -- Initialize the popover state\n    initialState : ( Model, Cmd Msg )\n    initialState =\n        ( { popoverState = Popover.initialState}, Cmd.none )\n\n\n    -- Step the popover state forward in your update function\n    update : Msg -> Model -> ( Model, Cmd Msg)\n    update msg model =\n        case msg of\n            PopoverMsg state ->\n                ( { model | popoverState = state }, Cmd.none )\n\n\n    -- Compose a popover in your view (or a view helper function)\n    view : Model -> Html Msg\n    view model =\n         Popover.config\n             ( Button.button\n                -- Here configure the popover to be shown when the mouse is above the button ( tooltip basically !)\n                [ Button.attrs <| Popover.onHover model.popoverState PopoverMsg ]\n                [ text \"Toggle tooltip\" ]\n             )\n             |> Popover.right\n             |> Popover.titleH4 [] [ text \"My title\" ]\n             |> Popover.content []\n                 [ text \"Some content for my popover.\"\n                 , p [] [ text \"Different elements ok...\"]\n                 ]\n             |> Popover.view model.popoverState\n\n\n\n_You should be aware that the triggering element is wrapped by an `inline-block` div with relative positioning and that\nthe popover is added as a sibling of the triggering element. This will limit it's usage and there are bound to be\ncases where they don't work as you'd expect. So make sure you test your views when using them !_\n\n\n\n# Setup\n@docs config, initialState, view, Config, State\n\n# Triggering\n@docs onClick, onHover\n\n# View composition\n@docs title, content, titleH1, titleH2, titleH3, titleH4, titleH5, titleH6\n\n# Positioning\n@docs left, right, top, bottom\n\n\n",
     "aliases": [],
@@ -4409,20 +4292,137 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.CDN",
-    "comment": " Helper module for easily embedding css when you want to work with the library using the Elm Reactor\n\n\n@docs stylesheet, fontAwesome\n\n\n\n",
+    "name": "Bootstrap.Tab",
+    "comment": " Use tabs to create tabbable regions. Tabs uses view state, so there is a little bit of wiring needed to use them.\n\n    -- example with animation, you can drop the subscription part when not using animations\n\n    type alias Model =\n        { tabState : Tab.State }\n\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { tabState : Tab.initalState}, Cmd.none )\n\n\n    type Msg\n        = TabMsg Tab.State\n\n\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            TabMsg state ->\n                ( { model | tabState = state }\n                , Cmd.none\n                )\n\n    view : Model -> Html msg\n    view model =\n        Tab.config TabMsg\n            |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n            |> Tab.right\n            |> Tab.items\n                [ Tab.item\n                    { link = Tab.link [] [ text \"Tab 1\" ]\n                    , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                    }\n                , Tab.item\n                    { link = Tab.link [] [ text \"Tab 2\" ]\n                    , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                    }\n                ]\n            |> Tab.view model.tabState\n\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Tab.subscriptions model.tabState TabMsg\n\n\n\n\n# Tabs\n@docs view, config, items, initialState, customInitialState, Config, State\n\n# Options\n@docs pills, withAnimation, justified, fill, center, right, attrs, Option\n\n# Tab items\n@docs item, link, pane, Item, Link, Pane\n\n\n\n# With animations\n@docs subscriptions\n\n",
     "aliases": [],
-    "types": [],
-    "values": [
+    "types": [
       {
-        "name": "fontAwesome",
-        "comment": " For your convenience you can also include font-awesome as an inline node. Worth knowing that this `Bootstrap for Elm` has no dependencies on font awesome\n",
-        "type": "Html.Html msg"
+        "name": "Config",
+        "comment": " Configuration for a tabs control\n\n* `toMsg` Message constructor function used for transitioning view state\n* `options` Customization options for the tabs control\n* `withAnimation` Option to enable a simple fade in animation for tabs.\n* `items` List of tab items\n\n**NOTE** When using animations you must also remember to set up [`subscriptions`](#subscriptions)\n\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
       },
       {
-        "name": "stylesheet",
-        "comment": " Allows you to embed the bootstrap css as a node in your view\n\n    import Bootstrap.CDN\n\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.stylesheet -- css embedded inline.\n            , yourContentHere\n            , navbar model\n            , mainContent model\n            ]\n",
-        "type": "Html.Html msg"
+        "name": "Item",
+        "comment": " Opaque type representing a tab item\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Link",
+        "comment": " Opaque type representing a tab item link\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Option",
+        "comment": " Opaque type representing customization options for a tabs control\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Pane",
+        "comment": " Opaque type representing a tab item pane\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "State",
+        "comment": " Opaque type representing the view state of the tabs control\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "attrs",
+        "comment": " Use this function when you need additional customization with Html.Attribute attributes for the tabs control\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "center",
+        "comment": " Option to center the tab menu items\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "config",
+        "comment": " Create an initial/default view configuration for a Tab.\n",
+        "type": "(Bootstrap.Tab.State -> msg) -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "customInitialState",
+        "comment": " Use this function if you want to initialize your tabs control with a specific tab selected.\n\n**NOTE: ** Should you specify an index out of range, the first tab item will be displayd by default\n",
+        "type": "Int -> Bootstrap.Tab.State"
+      },
+      {
+        "name": "fill",
+        "comment": " Space out tab menu items to use the entire tabs control width, as opposed to [`justified`](#justified) items will not get equal widths\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "initialState",
+        "comment": " Use this function to create the inital state for the tabs control\n",
+        "type": "Bootstrap.Tab.State"
+      },
+      {
+        "name": "item",
+        "comment": " Create a composable tab item\n\n* `link` The link/menu for the tab item\n* `pane` The content part of a tab item\n",
+        "type": "{ link : Bootstrap.Tab.Link msg, pane : Bootstrap.Tab.Pane msg } -> Bootstrap.Tab.Item msg"
+      },
+      {
+        "name": "items",
+        "comment": " Define the tab items for a Tab.\n",
+        "type": "List (Bootstrap.Tab.Item msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "justified",
+        "comment": " Space out tab menu items evenly accross the the whole tabs control width\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "link",
+        "comment": " Creates a composable tab menu item\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Link msg"
+      },
+      {
+        "name": "pane",
+        "comment": " Creates a composable tab menu pane\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Pane msg"
+      },
+      {
+        "name": "pills",
+        "comment": " Option to make the tab menu items display with a pilled/buttonish look\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "right",
+        "comment": " Option to place tab menu items to the right\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "subscriptions",
+        "comment": " When using animations you **must** remember to wire up this function to your main subscriptions\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Tab.subscriptions model.tabState TabMsg\n            --  ...other subscriptions you might have\n            ]\n",
+        "type": "Bootstrap.Tab.State -> (Bootstrap.Tab.State -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "view",
+        "comment": " Creates a tab control which keeps track of the selected tab item and displays the corresponding tab pane for you\n\n    Tab.config TabMsg\n        |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n        |> Tab.right\n        |> Tab.items\n            [ Tab.item\n                { link = Tab.link [] [ text \"Tab 1\" ]\n                , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                }\n            , Tab.item\n                { link = Tab.link [] [ text \"Tab 2\" ]\n                , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                }\n            ]\n        |> Tab.view model.tabState\n",
+        "type": "Bootstrap.Tab.State -> Bootstrap.Tab.Config msg -> Html.Html msg"
+      },
+      {
+        "name": "withAnimation",
+        "comment": " Option to add a fade in/out animation effect when switching tabs\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

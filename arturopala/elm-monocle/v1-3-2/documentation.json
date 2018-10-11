@@ -103,6 +103,50 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Monocle.Lens",
+    "comment": " A Lens is a functional concept which solves a very common problem:\n    how to easily update a complex immutable structure,\n    for this purpose Lens acts as a zoom into a record.\n\n# Definition\n@docs Lens\n\n# Example\n    addressStreetNameLens : Lens Address String\n    addressStreetNameLens =\n        let\n            get a = a.streetName\n\n            set sn a = { a | streetName = sn }\n        in\n            Lens get set\n\n    placeAddressLens : Lens Place Address\n    placeAddressLens =\n        let\n            get p = p.address\n\n            set a p = { p | address = a }\n        in\n            Lens get set\n\n    placeStreetName: Lens Place String\n    placeStreetName = compose placeAddressLens addressStreetNameLens\n\n# Derived methods\n@docs compose, modify, modifyAndMerge, zip\n\n# Conversion\n@docs fromIso\n\n",
+    "aliases": [
+      {
+        "name": "Lens",
+        "comment": " In order to create Lens we need to suply 2 functions: set and get\n",
+        "args": [
+          "a",
+          "b"
+        ],
+        "type": "{ get : a -> b, set : b -> a -> a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "compose",
+        "comment": " Composes `Lens a b` with `Lens b c` and returns `Lens a c`\n",
+        "type": "Monocle.Lens.Lens a b -> Monocle.Lens.Lens b c -> Monocle.Lens.Lens a c"
+      },
+      {
+        "name": "fromIso",
+        "comment": " Casts `Iso a b` to `Lens a b`\n",
+        "type": "Monocle.Iso.Iso a b -> Monocle.Lens.Lens a b"
+      },
+      {
+        "name": "modify",
+        "comment": " Modifies given function `(b -> b)` to be `(a -> a)` using `Lens a b`\n\n    addressStreetNameLens = Lens Address String\n    fx streetName = String.reverse streeName\n    fx2 = Lens.modify addressStreetNameLens fx\n    fx2 {streetName=\"abcdef\"} == {streetName=\"fedcba\"}\n",
+        "type": "Monocle.Lens.Lens a b -> (b -> b) -> a -> a"
+      },
+      {
+        "name": "modifyAndMerge",
+        "comment": " Modifies given function `(b -> (b,c))` to be `(a,c) -> (a,c)` using `Lens a b` and `merge` function\n\n",
+        "type": "Monocle.Lens.Lens a b -> (b -> ( b, c )) -> (c -> c -> c) -> ( a, c ) -> ( a, c )"
+      },
+      {
+        "name": "zip",
+        "comment": " Zips `Lens a c` with `Lens b d` to form Lens ( a, b ) ( c, d )\n",
+        "type": "Monocle.Lens.Lens a c -> Monocle.Lens.Lens b d -> Monocle.Lens.Lens ( a, b ) ( c, d )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Monocle.Prism",
     "comment": " A Prism is a tool which optionally converts elements of type A into elements of type B and back.\n\n# Definition\n@docs Prism\n\n# Example\n\n    string2IntPrism : Prism String Int\n    string2IntPrism =\n        Prism (String.toInt >> Result.toMaybe) toString\n\n    string2IntPrism.getOption \"17896\" == Just 17896\n    string2IntPrism.getOption \"1a896\" == Nothing\n    string2IntPrism.reverseGet 1626767 = \"1626767\"\n\n# Derived methods\n@docs isMatching, modify, modifyOption, compose, composeIso\n\n# Conversion\n@docs fromIso\n\n",
     "aliases": [
@@ -147,50 +191,6 @@
         "name": "modifyOption",
         "comment": " Modifies given function `(b -> b)` to be `(a -> Maybe a)` using `Prism a b`\n\n        fx i = i * 2\n        modified = Monocle.Prism.modify string2IntPrism fx\n        modified \"22\" == Just \"44\"\n        modified \"abc\" == Nothing\n",
         "type": "Monocle.Prism.Prism a b -> (b -> b) -> a -> Maybe.Maybe a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Monocle.Lens",
-    "comment": " A Lens is a functional concept which solves a very common problem:\n    how to easily update a complex immutable structure,\n    for this purpose Lens acts as a zoom into a record.\n\n# Definition\n@docs Lens\n\n# Example\n    addressStreetNameLens : Lens Address String\n    addressStreetNameLens =\n        let\n            get a = a.streetName\n\n            set sn a = { a | streetName = sn }\n        in\n            Lens get set\n\n    placeAddressLens : Lens Place Address\n    placeAddressLens =\n        let\n            get p = p.address\n\n            set a p = { p | address = a }\n        in\n            Lens get set\n\n    placeStreetName: Lens Place String\n    placeStreetName = compose placeAddressLens addressStreetNameLens\n\n# Derived methods\n@docs compose, modify, modifyAndMerge, zip\n\n# Conversion\n@docs fromIso\n\n",
-    "aliases": [
-      {
-        "name": "Lens",
-        "comment": " In order to create Lens we need to suply 2 functions: set and get\n",
-        "args": [
-          "a",
-          "b"
-        ],
-        "type": "{ get : a -> b, set : b -> a -> a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "compose",
-        "comment": " Composes `Lens a b` with `Lens b c` and returns `Lens a c`\n",
-        "type": "Monocle.Lens.Lens a b -> Monocle.Lens.Lens b c -> Monocle.Lens.Lens a c"
-      },
-      {
-        "name": "fromIso",
-        "comment": " Casts `Iso a b` to `Lens a b`\n",
-        "type": "Monocle.Iso.Iso a b -> Monocle.Lens.Lens a b"
-      },
-      {
-        "name": "modify",
-        "comment": " Modifies given function `(b -> b)` to be `(a -> a)` using `Lens a b`\n\n    addressStreetNameLens = Lens Address String\n    fx streetName = String.reverse streeName\n    fx2 = Lens.modify addressStreetNameLens fx\n    fx2 {streetName=\"abcdef\"} == {streetName=\"fedcba\"}\n",
-        "type": "Monocle.Lens.Lens a b -> (b -> b) -> a -> a"
-      },
-      {
-        "name": "modifyAndMerge",
-        "comment": " Modifies given function `(b -> (b,c))` to be `(a,c) -> (a,c)` using `Lens a b` and `merge` function\n\n",
-        "type": "Monocle.Lens.Lens a b -> (b -> ( b, c )) -> (c -> c -> c) -> ( a, c ) -> ( a, c )"
-      },
-      {
-        "name": "zip",
-        "comment": " Zips `Lens a c` with `Lens b d` to form Lens ( a, b ) ( c, d )\n",
-        "type": "Monocle.Lens.Lens a c -> Monocle.Lens.Lens b d -> Monocle.Lens.Lens ( a, b ) ( c, d )"
       }
     ],
     "generated-with-elm-version": "0.18.0"

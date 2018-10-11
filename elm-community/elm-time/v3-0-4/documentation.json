@@ -3204,71 +3204,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Time.TimeZone",
-    "comment": " This module defines a representations for Timezone information.\n\n\n# TimeZone values\n\n@docs TimeZone, name, abbreviation, offset, offsetString\n\n\n# Manipulating TimeZones\n\n@docs setName\n\n\n# Constructing TimeZones\n\n@docs unpack\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "TimeZone",
-        "comment": " TimeZone represents the opaque type of timezone values. These are\ngenerally loaded from an external source via `unpack`.\n\nSee also <http://momentjs.com/timezone/docs/#/data-formats/packed-format/>.\n\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "abbreviation",
-        "comment": " Given an arbitrary Time and a TimeZone, abbreviation returns the\nTimeZone's abbreviation at that Time.\n",
-        "type": "Time.Time -> Time.TimeZone.TimeZone -> String"
-      },
-      {
-        "name": "name",
-        "comment": " name returns a TimeZone's name.\n",
-        "type": "Time.TimeZone.TimeZone -> String"
-      },
-      {
-        "name": "offset",
-        "comment": " Given an arbitrary Time and a TimeZone, offset returns the\nTimeZone's UTC offset in milliseconds at that Time.\n",
-        "type": "Time.Time -> Time.TimeZone.TimeZone -> Int"
-      },
-      {
-        "name": "offsetString",
-        "comment": " Given an arbitrary Time and TimeZone, offsetString returns an\nISO8601-formatted UTC offset for at that Time.\n",
-        "type": "Time.Time -> Time.TimeZone.TimeZone -> String"
-      },
-      {
-        "name": "setName",
-        "comment": " setName updates a TimeZone's name.\n",
-        "type": "String -> Time.TimeZone.TimeZone -> Time.TimeZone.TimeZone"
-      },
-      {
-        "name": "unpack",
-        "comment": " unpackNew decodes a packed zone data object into a TimeZone value.\n\nSee also <http://momentjs.com/timezone/docs/#/data-formats/packed-format/>\n\n",
-        "type": "String -> Result.Result Parser.Error Time.TimeZone.TimeZone"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Time.Iso8601ErrorMsg",
-    "comment": " A renderer to format error messages resulting from\nISO8601 parsing errors.\n\nAt this time, there is a renderer, **renderText**, to render\na fixed-font message to, say, a terminal screen. This renderer\nstrives to output the friendly useful error message that elm\nis famous for.\n\n\n# Main entry\n\n@docs renderText\n\n\n# Utilities\n\n@docs reflow\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "reflow",
-        "comment": " A convenience function to auto-wrap long strings\n\nUse this method to appropriately wrap the error string returned\nfrom `renderText` above.\n\n    -- \\n inserted at 72nt position coz is right margin.\n    reflow \"Expecting the value 29 to be in the range 1 to 28 for the specified year, 1991, and month, 2.\"\n    --> \"Expecting the value 29 to be in the range 1 to 28 for the specified\" ++ \"\\n\" ++ \"year, 1991, and month, 2.\"\n\n",
-        "type": "String -> String"
-      },
-      {
-        "name": "renderText",
-        "comment": " Invoking the renderer. This returns an 'elm compiler-style formatted' error string\n\n    import Parser\n\n    -- The \\n in the middle of the string is to provide for the 72-char right margin\n    failString : String\n    failString =\n        \"Expecting the value 29 to be in the range 1 to 28 for the specified\\nyear, 1991, and month, 2.\"\n\n    renderedString : String\n    renderedString =\n        \"The 'day-of-month' segment is invalid:\\n\\n\" ++\n        \"    1991-02-29T12:25:12.0Z\\n\" ++\n        \"            ^\\n\\n\" ++\n        failString\n\n    parserError : Parser.Error\n    parserError =\n        { row = 1\n        , col = 11\n        , source = \"1991-02-29T12:25:12.0Z\"\n        , problem = Parser.Fail failString\n        , context = [{ row = 1, col = 11, description = \"leap-year\" }]\n        }\n\n    renderText parserError\n    --> renderedString\n\n",
-        "type": "Parser.Error -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Time.DateTime",
     "comment": " This module defines a time representation based on a Date and the\ntime of day.\n\n\n# DateTimes\n\n@docs DateTime\n\n\n# Constructing DateTimes\n\n@docs zero, epoch, dateTime, makeDateTime, fromTimestamp, toTimestamp, fromTuple, toTuple\n\n\n# Inspecting DateTimes\n\n@docs date, year, month, day, weekday, hour, minute, second, millisecond\n\n\n# Manipulating DateTimes\n\n@docs setDate, setYear, setMonth, setDay, setHour, setMinute, setSecond, setMillisecond, addYears, addMonths, addDays, addHours, addMinutes, addSeconds, addMilliseconds\n\n\n# Comparing DateTimes\n\n@docs compare, DateTimeDelta, delta\n\n\n# Helper functions\n\n@docs isValidTime\n\n\n# Deprecated\n\n@docs toISO8601\n\n",
     "aliases": [
@@ -3467,6 +3402,71 @@
         "name": "zero",
         "comment": " zero represents the first millisecond of the first day of the\ncurrent era. Use it to construct `DateTime` values:\n\n    dateTime zero\n    |> toISO8601\n    --> \"0-01-01T00:00:00.000Z\"\n\n    dateTime { zero | year = 2016 }\n    |> toISO8601\n    --> \"2016-01-01T00:00:00.000Z\"\n\n    dateTime { zero | year = 2016, month = 5, day = 29, hour = 13 }\n    |> toISO8601\n    --> \"2016-05-29T13:00:00.000Z\"\n\n",
         "type": "Time.Internal.DateTimeData"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Time.TimeZone",
+    "comment": " This module defines a representations for Timezone information.\n\n\n# TimeZone values\n\n@docs TimeZone, name, abbreviation, offset, offsetString\n\n\n# Manipulating TimeZones\n\n@docs setName\n\n\n# Constructing TimeZones\n\n@docs unpack\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "TimeZone",
+        "comment": " TimeZone represents the opaque type of timezone values. These are\ngenerally loaded from an external source via `unpack`.\n\nSee also <http://momentjs.com/timezone/docs/#/data-formats/packed-format/>.\n\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "abbreviation",
+        "comment": " Given an arbitrary Time and a TimeZone, abbreviation returns the\nTimeZone's abbreviation at that Time.\n",
+        "type": "Time.Time -> Time.TimeZone.TimeZone -> String"
+      },
+      {
+        "name": "name",
+        "comment": " name returns a TimeZone's name.\n",
+        "type": "Time.TimeZone.TimeZone -> String"
+      },
+      {
+        "name": "offset",
+        "comment": " Given an arbitrary Time and a TimeZone, offset returns the\nTimeZone's UTC offset in milliseconds at that Time.\n",
+        "type": "Time.Time -> Time.TimeZone.TimeZone -> Int"
+      },
+      {
+        "name": "offsetString",
+        "comment": " Given an arbitrary Time and TimeZone, offsetString returns an\nISO8601-formatted UTC offset for at that Time.\n",
+        "type": "Time.Time -> Time.TimeZone.TimeZone -> String"
+      },
+      {
+        "name": "setName",
+        "comment": " setName updates a TimeZone's name.\n",
+        "type": "String -> Time.TimeZone.TimeZone -> Time.TimeZone.TimeZone"
+      },
+      {
+        "name": "unpack",
+        "comment": " unpackNew decodes a packed zone data object into a TimeZone value.\n\nSee also <http://momentjs.com/timezone/docs/#/data-formats/packed-format/>\n\n",
+        "type": "String -> Result.Result Parser.Error Time.TimeZone.TimeZone"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Time.Iso8601ErrorMsg",
+    "comment": " A renderer to format error messages resulting from\nISO8601 parsing errors.\n\nAt this time, there is a renderer, **renderText**, to render\na fixed-font message to, say, a terminal screen. This renderer\nstrives to output the friendly useful error message that elm\nis famous for.\n\n\n# Main entry\n\n@docs renderText\n\n\n# Utilities\n\n@docs reflow\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "reflow",
+        "comment": " A convenience function to auto-wrap long strings\n\nUse this method to appropriately wrap the error string returned\nfrom `renderText` above.\n\n    -- \\n inserted at 72nt position coz is right margin.\n    reflow \"Expecting the value 29 to be in the range 1 to 28 for the specified year, 1991, and month, 2.\"\n    --> \"Expecting the value 29 to be in the range 1 to 28 for the specified\" ++ \"\\n\" ++ \"year, 1991, and month, 2.\"\n\n",
+        "type": "String -> String"
+      },
+      {
+        "name": "renderText",
+        "comment": " Invoking the renderer. This returns an 'elm compiler-style formatted' error string\n\n    import Parser\n\n    -- The \\n in the middle of the string is to provide for the 72-char right margin\n    failString : String\n    failString =\n        \"Expecting the value 29 to be in the range 1 to 28 for the specified\\nyear, 1991, and month, 2.\"\n\n    renderedString : String\n    renderedString =\n        \"The 'day-of-month' segment is invalid:\\n\\n\" ++\n        \"    1991-02-29T12:25:12.0Z\\n\" ++\n        \"            ^\\n\\n\" ++\n        failString\n\n    parserError : Parser.Error\n    parserError =\n        { row = 1\n        , col = 11\n        , source = \"1991-02-29T12:25:12.0Z\"\n        , problem = Parser.Fail failString\n        , context = [{ row = 1, col = 11, description = \"leap-year\" }]\n        }\n\n    renderText parserError\n    --> renderedString\n\n",
+        "type": "Parser.Error -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

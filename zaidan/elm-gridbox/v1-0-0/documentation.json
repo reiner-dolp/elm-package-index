@@ -28,25 +28,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.GridPoints",
-    "comment": " Grid of points\n\n# Building a Grid of Points\n@docs points, rowPoints\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "points",
-        "comment": " Creates a grid of points.\n",
-        "type": "Grid.Grid -> Float -> List Collage.Form"
-      },
-      {
-        "name": "rowPoints",
-        "comment": " Creates a row of points.\n",
-        "type": "Row.Row -> Float -> List Collage.Form"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Form.Box",
     "comment": " Box Form Conversion\n\n# Converting Box to Form\n@docs fromBox, fromBoxList, fromCompressedBoxList\n\n# Converting Box to Path\n@docs makePath\n\n# Converting Path to Form\n@docs fromPath\n",
     "aliases": [],
@@ -76,6 +57,25 @@
         "name": "makePath",
         "comment": " Creates a path with given size.\n",
         "type": "Box.Box -> Collage.Path"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.GridPoints",
+    "comment": " Grid of points\n\n# Building a Grid of Points\n@docs points, rowPoints\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "points",
+        "comment": " Creates a grid of points.\n",
+        "type": "Grid.Grid -> Float -> List Collage.Form"
+      },
+      {
+        "name": "rowPoints",
+        "comment": " Creates a row of points.\n",
+        "type": "Row.Row -> Float -> List Collage.Form"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -162,6 +162,38 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Position",
+    "comment": " Position\n\n# Types\n@docs BoxPosition, BoxPositions\n\n# Conversion\n@docs fromBox, fromBoxes\n",
+    "aliases": [
+      {
+        "name": "BoxPosition",
+        "comment": " Box position\n",
+        "args": [],
+        "type": "( Box.BoxRow, Box.BoxCol )"
+      },
+      {
+        "name": "BoxPositions",
+        "comment": " Box positions\n",
+        "args": [],
+        "type": "List Position.BoxPosition"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "fromBox",
+        "comment": " Convert from Box to (row, col)\n",
+        "type": "Box.Box -> Position.BoxPosition"
+      },
+      {
+        "name": "fromBoxes",
+        "comment": " Convert all boxes in list from Box to (row, col)\n",
+        "type": "List Box.Box -> Position.BoxPositions"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Coordinate",
     "comment": " Coordinate\n\n# Type Conversion\n@docs fromBox, fromBoxes\n\n# Transformation\n@docs getX, getY, topX, topY, transform, transformOffset\n",
     "aliases": [],
@@ -206,38 +238,6 @@
         "name": "transformOffset",
         "comment": " Transform given coordinates with position (x, y) scale, x- and y-offset.\n",
         "type": "( Float, Float ) -> ( Float, Float ) -> Float -> ( Float, Float ) -> ( Float, Float )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Position",
-    "comment": " Position\n\n# Types\n@docs BoxPosition, BoxPositions\n\n# Conversion\n@docs fromBox, fromBoxes\n",
-    "aliases": [
-      {
-        "name": "BoxPosition",
-        "comment": " Box position\n",
-        "args": [],
-        "type": "( Box.BoxRow, Box.BoxCol )"
-      },
-      {
-        "name": "BoxPositions",
-        "comment": " Box positions\n",
-        "args": [],
-        "type": "List Position.BoxPosition"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "fromBox",
-        "comment": " Convert from Box to (row, col)\n",
-        "type": "Box.Box -> Position.BoxPosition"
-      },
-      {
-        "name": "fromBoxes",
-        "comment": " Convert all boxes in list from Box to (row, col)\n",
-        "type": "List Box.Box -> Position.BoxPositions"
       }
     ],
     "generated-with-elm-version": "0.18.0"

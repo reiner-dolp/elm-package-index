@@ -2121,198 +2121,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Polyline2d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Polyline2d/icon.svg\" alt=\"Polyline2d\" width=\"160\">\n\nA `Polyline2d` represents a sequence of vertices in 2D connected by line\nsegments. This module contains a variety of polyline-related functionality, such\nas\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\n@docs Polyline2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, segments, length, boundingBox\n\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Polyline2d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.Polyline2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline2d.boundingBox stepShape\n    --> Just\n    -->     (BoundingBox2d.fromExtrema\n    -->         { minX = 0\n    -->         , maxX = 2\n    -->         , minY = 0\n    -->         , maxY = 1\n    -->         }\n    -->     )\n\n",
-        "type": "Polyline2d.Polyline2d -> Maybe.Maybe BoundingBox2d.BoundingBox2d"
-      },
-      {
-        "name": "fromVertices",
-        "comment": " Construct a polyline from a list of vertices:\n\n    stepShape =\n        Polyline2d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0 )\n            , Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            ]\n\n",
-        "type": "List Point2d.Point2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline2d.length stepShape\n    --> 3\n\n",
-        "type": "Polyline2d.Polyline2d -> Float"
-      },
-      {
-        "name": "mapVertices",
-        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `mapVertices`; for example,\n\n    Polyline2d.mirrorAcross axis\n\nis equivalent to\n\n    Polyline2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
-        "type": "(Point2d.Point2d -> Point2d.Point2d) -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a polyline across the given axis.\n\n    Polyline2d.mirrorAcross Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 2, -1 )\n    -->     ]\n\n",
-        "type": "Axis2d.Axis2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.placeIn localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     ]\n\n",
-        "type": "Frame2d.Frame2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project (flatten) a polyline onto the given axis.\n\n    Polyline2d.projectOnto Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 0 )\n    -->     ]\n\n",
-        "type": "Axis2d.Axis2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.relativeTo localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     ]\n\n",
-        "type": "Frame2d.Frame2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a polyline around the given center point counterclockwise by the\ngiven angle (in radians).\n\n    stepShape\n        |> Polyline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     ]\n\n",
-        "type": "Point2d.Point2d -> Float -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a polyline about a given center point by a given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 0 )\n\n    Polyline2d.scaleAbout point 2 stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 3, 2 )\n    -->     ]\n\n",
-        "type": "Point2d.Point2d -> Float -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "segments",
-        "comment": " Get the individual segments of a polyline.\n\n    Polyline2d.segments stepShape\n    --> [ LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2, 1 )\n    -->     )\n    --> ]\n\n",
-        "type": "Polyline2d.Polyline2d -> List LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    Polyline2d.translateBy displacement stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 4 )\n    -->     ]\n\n",
-        "type": "Vector2d.Vector2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate a polyline in a given direction by a given distance;\n\n    Polyline2d.translateIn direction distance\n\nis equivalent to\n\n    Polyline2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
-        "type": "Direction2d.Direction2d -> Float -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a polyline.\n\n    Polyline2d.vertices stepShape\n    --> [ Point2d.fromCoordinates ( 0, 0 )\n    --> , Point2d.fromCoordinates ( 1, 0 )\n    --> , Point2d.fromCoordinates ( 1, 1 )\n    --> , Point2d.fromCoordinates ( 2, 1 )\n    --> ]\n\n",
-        "type": "Polyline2d.Polyline2d -> List Point2d.Point2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Triangle2d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Triangle2d/icon.svg\" alt=\"Triangle2d\" width=\"160\">\n\nA `Triangle2d` represents a triangle in 2D space, and is defined by its three\nvertices. This module contains triangle-related functionality such as:\n\n  - Finding the area and centroid of triangles\n  - Scaling, rotating, translating and mirroring triangles\n  - Converting triangles between different coordinate systems\n\n@docs Triangle2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, edges, centroid, area, counterclockwiseArea, clockwiseArea, boundingBox, circumcircle\n\n\n# Queries\n\n@docs contains\n\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Triangle2d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.Triangle2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle\n    --> 1.0\n\n",
-        "type": "Triangle2d.Triangle2d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle\n    --> BoundingBox2d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 2\n    -->     , minY = 1\n    -->     , maxY = 3\n    -->     }\n\n",
-        "type": "Triangle2d.Triangle2d -> BoundingBox2d.BoundingBox2d"
-      },
-      {
-        "name": "centroid",
-        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle\n    --> Point2d.fromCoordinates ( 1.3333, 1.6667 )\n\n",
-        "type": "Triangle2d.Triangle2d -> Point2d.Point2d"
-      },
-      {
-        "name": "circumcircle",
-        "comment": " Attempt to find the circumcircle of a triangle, a circle that passes through\neach of the triangle's vertices;\n\n    Triangle2d.circumcircle triangle\n\nis equivalent to\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices triangle\n\n    Circle2d.throughPoints p1 p2 p3\n\nIf the triangle is degenerate (its three vertices are collinear), returns\n`Nothing`.\n\n",
-        "type": "Triangle2d.Triangle2d -> Maybe.Maybe Circle2d.Circle2d"
-      },
-      {
-        "name": "clockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle\n    --> -1.0\n\n",
-        "type": "Triangle2d.Triangle2d -> Float"
-      },
-      {
-        "name": "contains",
-        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d.fromCoordinates ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle\n    --> True\n\n    Triangle2d.contains Point2d.origin exampleTriangle\n    --> False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n\n",
-        "type": "Point2d.Point2d -> Triangle2d.Triangle2d -> Bool"
-      },
-      {
-        "name": "counterclockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle\n    --> 1.0\n\n",
-        "type": "Triangle2d.Triangle2d -> Float"
-      },
-      {
-        "name": "edges",
-        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n\n    --> e1 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 1 )\n    -->         , Point2d.fromCoordinates ( 2, 1 )\n    -->         )\n    -->\n    --> e2 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 2, 1 )\n    -->         , Point2d.fromCoordinates ( 1, 3 )\n    -->         )\n    -->\n    --> e3 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 3 )\n    -->         , Point2d.fromCoordinates ( 1, 1 )\n    -->         )\n\n",
-        "type": "Triangle2d.Triangle2d -> ( LineSegment2d.LineSegment2d , LineSegment2d.LineSegment2d , LineSegment2d.LineSegment2d )"
-      },
-      {
-        "name": "fromVertices",
-        "comment": " Construct a triangle from its three vertices:\n\n    exampleTriangle =\n        Triangle2d.fromVertices\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            , Point2d.fromCoordinates ( 1, 3 )\n            )\n\n",
-        "type": "( Point2d.Point2d, Point2d.Point2d, Point2d.Point2d ) -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "mapVertices",
-        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `mapVertices`; for example,\n\n    Triangle2d.mirrorAcross axis\n\nis equivalent to\n\n    Triangle2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
-        "type": "(Point2d.Point2d -> Point2d.Point2d) -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 3 )\n    -->     )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n\n",
-        "type": "Axis2d.Axis2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 2, 5 )\n    -->     )\n\n",
-        "type": "Frame2d.Frame2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     )\n\n",
-        "type": "Frame2d.Frame2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    exampleTriangle\n        |> Triangle2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 1 )\n    -->     )\n\n",
-        "type": "Point2d.Point2d -> Float -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 6 )\n    -->     )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n\n",
-        "type": "Point2d.Point2d -> Float -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 3, -2 )\n    -->     , Point2d.fromCoordinates ( 4, -2 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n",
-        "type": "Vector2d.Vector2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate a triangle in a given direction by a given distance;\n\n    Triangle2d.translateIn direction distance\n\nis equivalent to\n\n    Triangle2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
-        "type": "Direction2d.Direction2d -> Float -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n\n    --> p1 = Point2d.fromCoordinates ( 1, 1 )\n    --> p2 = Point2d.fromCoordinates ( 2, 1 )\n    --> p3 = Point2d.fromCoordinates ( 1, 3 )\n\n",
-        "type": "Triangle2d.Triangle2d -> ( Point2d.Point2d, Point2d.Point2d, Point2d.Point2d )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "EllipticalArc2d",
     "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/EllipticalArc2d/icon.svg\" alt=\"EllipticalArc2d\" width=\"160\">\n\nAn `EllipticalArc2d` is a section of an `Ellipse2d` with a start and end point.\nThis module includes functionality for\n\n  - Constructing an elliptical arc from its center or end points\n  - Scaling, rotating, translating and mirroring elliptical arcs\n  - Evaluating points and derivative vectors along elliptical arcs\n  - Forming arc length parameterizations of elliptical arcs\n\nThe `startAngle` and `sweptAngle` values referred to below are not actually\nproper angles but instead refer to values of the [ellipse parameter](https://en.wikipedia.org/wiki/Ellipse#Parametric_representation).\nHowever, in simple cases you don't need to worry about the difference - if\n`startAngle` and `sweptAngle` are both multiples of 90 degrees, then you can\ntreat them as actual angles and everything will behave as you expect.\n\n@docs EllipticalArc2d\n\n\n# Constructors\n\n@docs with, fromEndpoints\n\n\n# Properties\n\n@docs startAngle, sweptAngle, startPoint, endPoint\n\nAll remaining properties of elliptical arcs are actually just properties of the\nunderlying ellipse; check out the [Ellipse2d](Ellipse2d) module for details.\n\n@docs centerPoint, axes, xAxis, yAxis, xDirection, yDirection, xRadius, yRadius\n\n\n# Evaluation\n\n@docs pointOn, pointsAt\n@docs Nondegenerate, nondegenerate, fromNondegenerate\n@docs tangentDirection, tangentDirectionsAt, sample, samplesAt\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n\n# Arc length parameterization\n\n@docs ArcLengthParameterized, arcLengthParameterized, arcLength, pointAlong, tangentDirectionAlong, sampleAlong\n\n\n## Low level\n\nAn `ArcLengthParameterized` value is a combination of an\n[`ArcLengthParameterization`](Geometry-ArcLengthParameterization) and an\nunderlying `EllipticalArc2d`. If you need to do something fancy, you can extract\nthese two values separately.\n\n@docs arcLengthParameterization, fromArcLengthParameterized\n\n\n# Differentiation\n\nYou are unlikely to need to use these functions directly, but they are useful if\nyou are writing low-level geometric algorithms.\n\n@docs firstDerivative, firstDerivativesAt, maxSecondDerivativeMagnitude\n\n",
     "aliases": [
@@ -2537,6 +2345,198 @@
         "name": "yRadius",
         "comment": " ",
         "type": "EllipticalArc2d.EllipticalArc2d -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Polyline2d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Polyline2d/icon.svg\" alt=\"Polyline2d\" width=\"160\">\n\nA `Polyline2d` represents a sequence of vertices in 2D connected by line\nsegments. This module contains a variety of polyline-related functionality, such\nas\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\n@docs Polyline2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, segments, length, boundingBox\n\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Polyline2d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.Polyline2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline2d.boundingBox stepShape\n    --> Just\n    -->     (BoundingBox2d.fromExtrema\n    -->         { minX = 0\n    -->         , maxX = 2\n    -->         , minY = 0\n    -->         , maxY = 1\n    -->         }\n    -->     )\n\n",
+        "type": "Polyline2d.Polyline2d -> Maybe.Maybe BoundingBox2d.BoundingBox2d"
+      },
+      {
+        "name": "fromVertices",
+        "comment": " Construct a polyline from a list of vertices:\n\n    stepShape =\n        Polyline2d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0 )\n            , Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            ]\n\n",
+        "type": "List Point2d.Point2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline2d.length stepShape\n    --> 3\n\n",
+        "type": "Polyline2d.Polyline2d -> Float"
+      },
+      {
+        "name": "mapVertices",
+        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `mapVertices`; for example,\n\n    Polyline2d.mirrorAcross axis\n\nis equivalent to\n\n    Polyline2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
+        "type": "(Point2d.Point2d -> Point2d.Point2d) -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a polyline across the given axis.\n\n    Polyline2d.mirrorAcross Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 2, -1 )\n    -->     ]\n\n",
+        "type": "Axis2d.Axis2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.placeIn localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     ]\n\n",
+        "type": "Frame2d.Frame2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project (flatten) a polyline onto the given axis.\n\n    Polyline2d.projectOnto Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 0 )\n    -->     ]\n\n",
+        "type": "Axis2d.Axis2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.relativeTo localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     ]\n\n",
+        "type": "Frame2d.Frame2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a polyline around the given center point counterclockwise by the\ngiven angle (in radians).\n\n    stepShape\n        |> Polyline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     ]\n\n",
+        "type": "Point2d.Point2d -> Float -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a polyline about a given center point by a given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 0 )\n\n    Polyline2d.scaleAbout point 2 stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 3, 2 )\n    -->     ]\n\n",
+        "type": "Point2d.Point2d -> Float -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "segments",
+        "comment": " Get the individual segments of a polyline.\n\n    Polyline2d.segments stepShape\n    --> [ LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2, 1 )\n    -->     )\n    --> ]\n\n",
+        "type": "Polyline2d.Polyline2d -> List LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    Polyline2d.translateBy displacement stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 4 )\n    -->     ]\n\n",
+        "type": "Vector2d.Vector2d -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate a polyline in a given direction by a given distance;\n\n    Polyline2d.translateIn direction distance\n\nis equivalent to\n\n    Polyline2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
+        "type": "Direction2d.Direction2d -> Float -> Polyline2d.Polyline2d -> Polyline2d.Polyline2d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a polyline.\n\n    Polyline2d.vertices stepShape\n    --> [ Point2d.fromCoordinates ( 0, 0 )\n    --> , Point2d.fromCoordinates ( 1, 0 )\n    --> , Point2d.fromCoordinates ( 1, 1 )\n    --> , Point2d.fromCoordinates ( 2, 1 )\n    --> ]\n\n",
+        "type": "Polyline2d.Polyline2d -> List Point2d.Point2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Triangle2d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Triangle2d/icon.svg\" alt=\"Triangle2d\" width=\"160\">\n\nA `Triangle2d` represents a triangle in 2D space, and is defined by its three\nvertices. This module contains triangle-related functionality such as:\n\n  - Finding the area and centroid of triangles\n  - Scaling, rotating, translating and mirroring triangles\n  - Converting triangles between different coordinate systems\n\n@docs Triangle2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, edges, centroid, area, counterclockwiseArea, clockwiseArea, boundingBox, circumcircle\n\n\n# Queries\n\n@docs contains\n\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Triangle2d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.Triangle2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle\n    --> 1.0\n\n",
+        "type": "Triangle2d.Triangle2d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle\n    --> BoundingBox2d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 2\n    -->     , minY = 1\n    -->     , maxY = 3\n    -->     }\n\n",
+        "type": "Triangle2d.Triangle2d -> BoundingBox2d.BoundingBox2d"
+      },
+      {
+        "name": "centroid",
+        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle\n    --> Point2d.fromCoordinates ( 1.3333, 1.6667 )\n\n",
+        "type": "Triangle2d.Triangle2d -> Point2d.Point2d"
+      },
+      {
+        "name": "circumcircle",
+        "comment": " Attempt to find the circumcircle of a triangle, a circle that passes through\neach of the triangle's vertices;\n\n    Triangle2d.circumcircle triangle\n\nis equivalent to\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices triangle\n\n    Circle2d.throughPoints p1 p2 p3\n\nIf the triangle is degenerate (its three vertices are collinear), returns\n`Nothing`.\n\n",
+        "type": "Triangle2d.Triangle2d -> Maybe.Maybe Circle2d.Circle2d"
+      },
+      {
+        "name": "clockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle\n    --> -1.0\n\n",
+        "type": "Triangle2d.Triangle2d -> Float"
+      },
+      {
+        "name": "contains",
+        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d.fromCoordinates ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle\n    --> True\n\n    Triangle2d.contains Point2d.origin exampleTriangle\n    --> False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n\n",
+        "type": "Point2d.Point2d -> Triangle2d.Triangle2d -> Bool"
+      },
+      {
+        "name": "counterclockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle\n    --> 1.0\n\n",
+        "type": "Triangle2d.Triangle2d -> Float"
+      },
+      {
+        "name": "edges",
+        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n\n    --> e1 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 1 )\n    -->         , Point2d.fromCoordinates ( 2, 1 )\n    -->         )\n    -->\n    --> e2 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 2, 1 )\n    -->         , Point2d.fromCoordinates ( 1, 3 )\n    -->         )\n    -->\n    --> e3 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 3 )\n    -->         , Point2d.fromCoordinates ( 1, 1 )\n    -->         )\n\n",
+        "type": "Triangle2d.Triangle2d -> ( LineSegment2d.LineSegment2d , LineSegment2d.LineSegment2d , LineSegment2d.LineSegment2d )"
+      },
+      {
+        "name": "fromVertices",
+        "comment": " Construct a triangle from its three vertices:\n\n    exampleTriangle =\n        Triangle2d.fromVertices\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            , Point2d.fromCoordinates ( 1, 3 )\n            )\n\n",
+        "type": "( Point2d.Point2d, Point2d.Point2d, Point2d.Point2d ) -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "mapVertices",
+        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `mapVertices`; for example,\n\n    Triangle2d.mirrorAcross axis\n\nis equivalent to\n\n    Triangle2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
+        "type": "(Point2d.Point2d -> Point2d.Point2d) -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 3 )\n    -->     )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n\n",
+        "type": "Axis2d.Axis2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 2, 5 )\n    -->     )\n\n",
+        "type": "Frame2d.Frame2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     )\n\n",
+        "type": "Frame2d.Frame2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    exampleTriangle\n        |> Triangle2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 1 )\n    -->     )\n\n",
+        "type": "Point2d.Point2d -> Float -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 6 )\n    -->     )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n\n",
+        "type": "Point2d.Point2d -> Float -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 3, -2 )\n    -->     , Point2d.fromCoordinates ( 4, -2 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n",
+        "type": "Vector2d.Vector2d -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate a triangle in a given direction by a given distance;\n\n    Triangle2d.translateIn direction distance\n\nis equivalent to\n\n    Triangle2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
+        "type": "Direction2d.Direction2d -> Float -> Triangle2d.Triangle2d -> Triangle2d.Triangle2d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n\n    --> p1 = Point2d.fromCoordinates ( 1, 1 )\n    --> p2 = Point2d.fromCoordinates ( 2, 1 )\n    --> p3 = Point2d.fromCoordinates ( 1, 3 )\n\n",
+        "type": "Triangle2d.Triangle2d -> ( Point2d.Point2d, Point2d.Point2d, Point2d.Point2d )"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2852,6 +2852,107 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Ellipse2d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Ellipse2d/icon.svg\" alt=\"Ellipse2d\" width=\"160\">\n\nAn [ellipse](https://en.wikipedia.org/wiki/Ellipse) is defined by a center\npoint, X and Y radius, and X and Y axes (which will always be perpendicular to\neach other). Ellipses are symmetric about their X and Y axes. This module\nincludes functionality for\n\n  - Constructing ellipses\n  - Scaling, rotating and translating ellipses\n  - Converting ellipses between different coordinate systems\n\n@docs Ellipse2d\n\n\n# Constructors\n\n@docs with\n\n\n# Properties\n\n@docs centerPoint, xAxis, yAxis, xDirection, yDirection, axes, xRadius, yRadius, area\n\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Ellipse2d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.Ellipse2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of an ellipse.\n\n    Ellipse2d.area exampleEllipse\n    --> 47.1239\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Float"
+      },
+      {
+        "name": "axes",
+        "comment": " Get the X and Y axes of an ellipse as a `Frame2d`.\n\n    Ellipse2d.axes exampleEllipse\n    --> Frame2d.withXDirection\n    -->     (Direction2d.fromAngle (degrees 30))\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Frame2d.Frame2d"
+      },
+      {
+        "name": "centerPoint",
+        "comment": " Get the center point of an ellipse.\n\n    Ellipse2d.centerPoint exampleEllipse\n    --> Point2d.fromCoordinates ( 10, 10 )\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Point2d.Point2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror an ellipse across a given axis.\n\n    mirroredEllipse =\n        Ellipse2d.mirrorAcross Axis2d.x exampleEllipse\n\n    Ellipse2d.centerPoint mirroredEllipse\n    --> Point2d.fromCoordinates ( 10, -10 )\n\n    Ellipse2d.xDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -30)\n\n    Ellipse2d.yDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -120)\n\nNote that if the axes of the original ellipse form a [right-handed](https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Orientation_and_handedness)\nframe, then the axes of the mirrored ellipse will form a left-handed frame (and\nvice versa).\n\n",
+        "type": "Axis2d.Axis2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take an ellipse considered to be defined in local coordinates relative to a\ngiven reference frame, and return that circle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.placeIn localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 25, 15 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take an ellipse defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.relativeTo localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( -5, 5 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate an ellipse around a given point by a given angle (in radians).\n\n    exampleEllipse\n        |> Ellipse2d.rotateAround Point2d.origin\n            (degrees 45)\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 0, 14.142 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 75)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale an ellipse about a given point by a given scale.\n\n    exampleEllipse\n        |> Ellipse2d.scaleAbout Point2d.origin 3\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 30, 30 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 15\n    -->     , yRadius = 9\n    -->     }\n\n",
+        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate an ellipse by a given displacement.\n\n    exampleEllipse\n        |> Ellipse2d.translateBy\n            (Vector2d.fromComponents ( 5, 10 ))\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 15, 20 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Vector2d.Vector2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate an ellipse in a given direction by a given distance;\n\n    Ellipse2d.translateIn direction distance\n\nis equivalent to\n\n    Ellipse2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
+        "type": "Direction2d.Direction2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "with",
+        "comment": " Construct an ellipse from its center point, X direction, and X and Y radii.\nIf you pass a negative radius, the absolute value will be used.\n\n    exampleEllipse =\n        Ellipse2d.with\n            { centerPoint =\n                Point2d.fromCoordinates ( 10, 10 )\n            , xDirection =\n                Direction2d.fromAngle (degrees 30)\n            , xRadius = 5\n            , yRadius = 3\n            }\n\n",
+        "type": "{ centerPoint : Point2d.Point2d , xDirection : Direction2d.Direction2d , xRadius : Float , yRadius : Float } -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "xAxis",
+        "comment": " Get the X axis of an ellipse.\n\n    Ellipse2d.xAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "xDirection",
+        "comment": " Get the direction of the ellipse's X axis.\n\n    Ellipse2d.xDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 30)\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
+      },
+      {
+        "name": "xRadius",
+        "comment": " Get the radius of an ellipse along its X axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.xRadius exampleEllipse\n    --> 5\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Float"
+      },
+      {
+        "name": "yAxis",
+        "comment": " Get the Y axis of an ellipse.\n\n    Ellipse2d.yAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 120))\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "yDirection",
+        "comment": " Get the direction of an ellipse's Y axis.\n\n    Ellipse2d.yDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 120)\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
+      },
+      {
+        "name": "yRadius",
+        "comment": " Get the radius of an ellipse along its Y axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.yRadius exampleEllipse\n    --> 3\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "LineSegment2d",
     "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/LineSegment2d/icon.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment2d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, perpendicularDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Intersection\n\n@docs intersectionPoint\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
     "aliases": [
@@ -2988,107 +3089,6 @@
         "name": "vector",
         "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d.fromComponents ( 2, 2 )\n\n",
         "type": "LineSegment2d.LineSegment2d -> Vector2d.Vector2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Ellipse2d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Ellipse2d/icon.svg\" alt=\"Ellipse2d\" width=\"160\">\n\nAn [ellipse](https://en.wikipedia.org/wiki/Ellipse) is defined by a center\npoint, X and Y radius, and X and Y axes (which will always be perpendicular to\neach other). Ellipses are symmetric about their X and Y axes. This module\nincludes functionality for\n\n  - Constructing ellipses\n  - Scaling, rotating and translating ellipses\n  - Converting ellipses between different coordinate systems\n\n@docs Ellipse2d\n\n\n# Constructors\n\n@docs with\n\n\n# Properties\n\n@docs centerPoint, xAxis, yAxis, xDirection, yDirection, axes, xRadius, yRadius, area\n\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Ellipse2d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.Ellipse2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of an ellipse.\n\n    Ellipse2d.area exampleEllipse\n    --> 47.1239\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Float"
-      },
-      {
-        "name": "axes",
-        "comment": " Get the X and Y axes of an ellipse as a `Frame2d`.\n\n    Ellipse2d.axes exampleEllipse\n    --> Frame2d.withXDirection\n    -->     (Direction2d.fromAngle (degrees 30))\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Frame2d.Frame2d"
-      },
-      {
-        "name": "centerPoint",
-        "comment": " Get the center point of an ellipse.\n\n    Ellipse2d.centerPoint exampleEllipse\n    --> Point2d.fromCoordinates ( 10, 10 )\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Point2d.Point2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror an ellipse across a given axis.\n\n    mirroredEllipse =\n        Ellipse2d.mirrorAcross Axis2d.x exampleEllipse\n\n    Ellipse2d.centerPoint mirroredEllipse\n    --> Point2d.fromCoordinates ( 10, -10 )\n\n    Ellipse2d.xDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -30)\n\n    Ellipse2d.yDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -120)\n\nNote that if the axes of the original ellipse form a [right-handed](https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Orientation_and_handedness)\nframe, then the axes of the mirrored ellipse will form a left-handed frame (and\nvice versa).\n\n",
-        "type": "Axis2d.Axis2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take an ellipse considered to be defined in local coordinates relative to a\ngiven reference frame, and return that circle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.placeIn localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 25, 15 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take an ellipse defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.relativeTo localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( -5, 5 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate an ellipse around a given point by a given angle (in radians).\n\n    exampleEllipse\n        |> Ellipse2d.rotateAround Point2d.origin\n            (degrees 45)\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 0, 14.142 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 75)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale an ellipse about a given point by a given scale.\n\n    exampleEllipse\n        |> Ellipse2d.scaleAbout Point2d.origin 3\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 30, 30 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 15\n    -->     , yRadius = 9\n    -->     }\n\n",
-        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate an ellipse by a given displacement.\n\n    exampleEllipse\n        |> Ellipse2d.translateBy\n            (Vector2d.fromComponents ( 5, 10 ))\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 15, 20 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Vector2d.Vector2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate an ellipse in a given direction by a given distance;\n\n    Ellipse2d.translateIn direction distance\n\nis equivalent to\n\n    Ellipse2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
-        "type": "Direction2d.Direction2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "with",
-        "comment": " Construct an ellipse from its center point, X direction, and X and Y radii.\nIf you pass a negative radius, the absolute value will be used.\n\n    exampleEllipse =\n        Ellipse2d.with\n            { centerPoint =\n                Point2d.fromCoordinates ( 10, 10 )\n            , xDirection =\n                Direction2d.fromAngle (degrees 30)\n            , xRadius = 5\n            , yRadius = 3\n            }\n\n",
-        "type": "{ centerPoint : Point2d.Point2d , xDirection : Direction2d.Direction2d , xRadius : Float , yRadius : Float } -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "xAxis",
-        "comment": " Get the X axis of an ellipse.\n\n    Ellipse2d.xAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "xDirection",
-        "comment": " Get the direction of the ellipse's X axis.\n\n    Ellipse2d.xDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 30)\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
-      },
-      {
-        "name": "xRadius",
-        "comment": " Get the radius of an ellipse along its X axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.xRadius exampleEllipse\n    --> 5\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Float"
-      },
-      {
-        "name": "yAxis",
-        "comment": " Get the Y axis of an ellipse.\n\n    Ellipse2d.yAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 120))\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "yDirection",
-        "comment": " Get the direction of an ellipse's Y axis.\n\n    Ellipse2d.yDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 120)\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
-      },
-      {
-        "name": "yRadius",
-        "comment": " Get the radius of an ellipse along its Y axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.yRadius exampleEllipse\n    --> 3\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -3754,6 +3754,92 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Axis2d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Axis2d/icon.svg\" alt=\"Axis2d\" width=\"160\">\n\nAn `Axis2d` represents an infinitely long straight line in 2D and is defined by\nan origin point and direction. Axes have several uses, such as:\n\n  - Mirroring across the axis\n  - Projecting onto the axis\n  - Measuring distance along the axis from the origin point\n\n@docs Axis2d\n\n\n# Constants\n\n@docs x, y\n\n\n# Constructors\n\n@docs through, withDirection\n\n\n# Properties\n\n@docs originPoint, direction\n\n\n# Transformations\n\n@docs reverse, moveTo, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Axis2d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.Axis2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "direction",
+        "comment": " Get the direction of an axis.\n\n    Axis2d.direction exampleAxis\n    --> Direction2d.fromAngle (degrees 30)\n\n",
+        "type": "Axis2d.Axis2d -> Direction2d.Direction2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror one axis across another. The axis to mirror across is given first and\nthe axis to mirror is given second.\n\n    Axis2d.mirrorAcross Axis2d.x exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 1, -3 ))\n    -->     (Direction2d.fromAngle (degrees -30))\n\n",
+        "type": "Axis2d.Axis2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "moveTo",
+        "comment": " Move an axis so that it has the given origin point but unchanged direction.\n\n    newOrigin =\n        Point2d.fromCoordinates ( 4, 5 )\n\n    Axis2d.moveTo newOrigin exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 4, 5 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
+        "type": "Point2d.Point2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "originPoint",
+        "comment": " Get the origin point of an axis.\n\n    Axis2d.originPoint exampleAxis\n    --> Point2d.fromCoordinates ( 1, 3 )\n\n",
+        "type": "Axis2d.Axis2d -> Point2d.Point2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take an axis defined in local coordinates relative to a given reference\nframe, and return that axis expressed in global coordinates.\n\n    frame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 2, 3 ))\n\n    Axis2d.placeIn frame exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 3, 6 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
+        "type": "Geometry.Types.Frame2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take an axis defined in global coordinates, and return it expressed in local\ncoordinates relative to a given reference frame.\n\n    frame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 2, 3 ))\n\n    Axis2d.relativeTo frame exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( -1, 0 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
+        "type": "Geometry.Types.Frame2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse the direction of an axis while keeping the same origin point.\n\n    Axis2d.reverse exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 1, 3 ))\n    -->     (Direction2d.fromAngle (degrees -150))\n\n",
+        "type": "Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate an axis around a given center point by a given angle. Rotates the\naxis' origin point around the given point by the given angle and the axis'\ndirection by the given angle.\n\n    exampleAxis\n        |> Axis2d.rotateAround Point2d.origin (degrees 90)\n    --> Axis2d.through (Point2d.fromCoordinates ( -3, 1 ))\n    -->     (Direction2d.fromAngle (degrees 120))\n\n",
+        "type": "Point2d.Point2d -> Float -> Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "through",
+        "comment": " Construct an axis through the given origin point with the given direction.\n\n    exampleAxis =\n        Axis2d.through (Point2d.fromCoordinates ( 1, 3 ))\n            (Direction2d.fromAngle (degrees 30))\n\n",
+        "type": "Point2d.Point2d -> Direction2d.Direction2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate an axis by a given displacement. Applies the given displacement to\nthe axis' origin point and leaves the direction unchanged.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    Axis2d.translateBy displacement exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 3, 6 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
+        "type": "Vector2d.Vector2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate an axis in a given direction by a given distance;\n\n    Axis2d.translateIn direction distance\n\nis equivalent to\n\n    Axis2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
+        "type": "Direction2d.Direction2d -> Float -> Axis2d.Axis2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "withDirection",
+        "comment": " Construct an axis with the given direction, through the given origin point.\nFlipped version of `through`. Having both versions allow you to do different\nthings with partial application:\n\n    -- A list of axes in different directions all passing\n    -- through the same origin point\n    List.map (Axis2d.through point) directions\n\n    -- A list of parallel axes (all having the same\n    -- direction) through different points\n    List.map (Axis2d.withDirection direction) points\n\n",
+        "type": "Direction2d.Direction2d -> Point2d.Point2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "x",
+        "comment": " The global X axis.\n\n    Axis2d.x\n    --> Axis2d.through Point2d.origin Direction2d.x\n\n",
+        "type": "Axis2d.Axis2d"
+      },
+      {
+        "name": "y",
+        "comment": " The global Y axis.\n\n    Axis2d.y\n    --> Axis2d.through Point2d.origin Direction2d.y\n\n",
+        "type": "Axis2d.Axis2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "BoundingBox2d",
     "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/BoundingBox2d/icon.svg\" alt=\"BoundingBox2d\" width=\"160\">\n\nA `BoundingBox2d` is a rectangular box in 2D defined by its minimum and maximum\nX and Y values. It is possible to generate bounding boxes for most geometric\nobjects; for example, [`Triangle2d.boundingBox`](Triangle2d#boundingBox) takes a\n`Triangle2d` and returns a `BoundingBox2d` that contains that triangle. There\nare several use cases where it is more efficient to deal with the bounding box\nof an object than the object itself, such as:\n\n  - Intersection checking: If (for example) the bounding boxes of a line segment\n    and a triangle do not overlap, then the line segment and triangle cannot\n    possibly intersect each other. Expensive intersection checking therefore\n    only has to be performed for line segments and triangles whose bounding\n    boxes _do_ overlap.\n  - 2D rendering: When rendering a 2D scene, any object whose bounding box does\n    not overlap the viewing area must itself be completely outside the viewing\n    area, and therefore does not have to be drawn. This provides a simple form\n    of culling.\n\n@docs BoundingBox2d\n\n\n# Constructors\n\n@docs fromExtrema, singleton, from, hull, intersection, aggregate, containingPoints\n\n\n# Properties\n\n@docs extrema, minX, maxX, minY, maxY, dimensions, midX, midY, centroid\n\n\n# Queries\n\n@docs contains, isContainedIn, intersects, overlappingBy, separatedBy\n\n\n# Transformations\n\n@docs scaleAbout, translateBy, translateIn\n\n",
     "aliases": [
@@ -3885,92 +3971,6 @@
         "name": "translateIn",
         "comment": " Translate a bounding box in a given direction by a given distance;\n\n    BoundingBox2d.translateIn direction distance\n\nis equivalent to\n\n    BoundingBox2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
         "type": "Direction2d.Direction2d -> Float -> BoundingBox2d.BoundingBox2d -> BoundingBox2d.BoundingBox2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Axis2d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Axis2d/icon.svg\" alt=\"Axis2d\" width=\"160\">\n\nAn `Axis2d` represents an infinitely long straight line in 2D and is defined by\nan origin point and direction. Axes have several uses, such as:\n\n  - Mirroring across the axis\n  - Projecting onto the axis\n  - Measuring distance along the axis from the origin point\n\n@docs Axis2d\n\n\n# Constants\n\n@docs x, y\n\n\n# Constructors\n\n@docs through, withDirection\n\n\n# Properties\n\n@docs originPoint, direction\n\n\n# Transformations\n\n@docs reverse, moveTo, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Axis2d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.Axis2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "direction",
-        "comment": " Get the direction of an axis.\n\n    Axis2d.direction exampleAxis\n    --> Direction2d.fromAngle (degrees 30)\n\n",
-        "type": "Axis2d.Axis2d -> Direction2d.Direction2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror one axis across another. The axis to mirror across is given first and\nthe axis to mirror is given second.\n\n    Axis2d.mirrorAcross Axis2d.x exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 1, -3 ))\n    -->     (Direction2d.fromAngle (degrees -30))\n\n",
-        "type": "Axis2d.Axis2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "moveTo",
-        "comment": " Move an axis so that it has the given origin point but unchanged direction.\n\n    newOrigin =\n        Point2d.fromCoordinates ( 4, 5 )\n\n    Axis2d.moveTo newOrigin exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 4, 5 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
-        "type": "Point2d.Point2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "originPoint",
-        "comment": " Get the origin point of an axis.\n\n    Axis2d.originPoint exampleAxis\n    --> Point2d.fromCoordinates ( 1, 3 )\n\n",
-        "type": "Axis2d.Axis2d -> Point2d.Point2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take an axis defined in local coordinates relative to a given reference\nframe, and return that axis expressed in global coordinates.\n\n    frame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 2, 3 ))\n\n    Axis2d.placeIn frame exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 3, 6 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
-        "type": "Geometry.Types.Frame2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take an axis defined in global coordinates, and return it expressed in local\ncoordinates relative to a given reference frame.\n\n    frame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 2, 3 ))\n\n    Axis2d.relativeTo frame exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( -1, 0 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
-        "type": "Geometry.Types.Frame2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse the direction of an axis while keeping the same origin point.\n\n    Axis2d.reverse exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 1, 3 ))\n    -->     (Direction2d.fromAngle (degrees -150))\n\n",
-        "type": "Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate an axis around a given center point by a given angle. Rotates the\naxis' origin point around the given point by the given angle and the axis'\ndirection by the given angle.\n\n    exampleAxis\n        |> Axis2d.rotateAround Point2d.origin (degrees 90)\n    --> Axis2d.through (Point2d.fromCoordinates ( -3, 1 ))\n    -->     (Direction2d.fromAngle (degrees 120))\n\n",
-        "type": "Point2d.Point2d -> Float -> Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "through",
-        "comment": " Construct an axis through the given origin point with the given direction.\n\n    exampleAxis =\n        Axis2d.through (Point2d.fromCoordinates ( 1, 3 ))\n            (Direction2d.fromAngle (degrees 30))\n\n",
-        "type": "Point2d.Point2d -> Direction2d.Direction2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate an axis by a given displacement. Applies the given displacement to\nthe axis' origin point and leaves the direction unchanged.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    Axis2d.translateBy displacement exampleAxis\n    --> Axis2d.through (Point2d.fromCoordinates ( 3, 6 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
-        "type": "Vector2d.Vector2d -> Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate an axis in a given direction by a given distance;\n\n    Axis2d.translateIn direction distance\n\nis equivalent to\n\n    Axis2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
-        "type": "Direction2d.Direction2d -> Float -> Axis2d.Axis2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "withDirection",
-        "comment": " Construct an axis with the given direction, through the given origin point.\nFlipped version of `through`. Having both versions allow you to do different\nthings with partial application:\n\n    -- A list of axes in different directions all passing\n    -- through the same origin point\n    List.map (Axis2d.through point) directions\n\n    -- A list of parallel axes (all having the same\n    -- direction) through different points\n    List.map (Axis2d.withDirection direction) points\n\n",
-        "type": "Direction2d.Direction2d -> Point2d.Point2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "x",
-        "comment": " The global X axis.\n\n    Axis2d.x\n    --> Axis2d.through Point2d.origin Direction2d.x\n\n",
-        "type": "Axis2d.Axis2d"
-      },
-      {
-        "name": "y",
-        "comment": " The global Y axis.\n\n    Axis2d.y\n    --> Axis2d.through Point2d.origin Direction2d.y\n\n",
-        "type": "Axis2d.Axis2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"

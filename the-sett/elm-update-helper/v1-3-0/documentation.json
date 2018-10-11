@@ -14,25 +14,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Update2",
-    "comment": " Convenience function for lifting an update function for an inner model\nand messages into a parent one.\n\n@docs eval, lift\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "eval",
-        "comment": " Allows the output of an update function that returns type:\n\n    (model, Cmd msg)\n\nTo have its model evaluated in order to produce a new model, and to create more\ncommands. The commands returned will be appended to those passed in using\nCmd.batch.\n\nNote that this allows multiple invokations of the same update function to be\ninvoked recursively. Beware of causing infinite loops while doing this.\n\n",
-        "type": "(model -> ( model, Platform.Cmd.Cmd msg )) -> ( model, Platform.Cmd.Cmd msg ) -> ( model, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "lift",
-        "comment": " Lifts an update function of type:\n\n    update : submsg -> submodel -> ( submodel, Cmd submsg )\n\nInto one that returns:\n\n    (model, Cmd  msg)\n\n",
-        "type": "(model -> submodel) -> (submodel -> model -> model) -> (submsg -> msg) -> (submsg -> submodel -> ( submodel, Platform.Cmd.Cmd submsg )) -> submsg -> model -> ( model, Platform.Cmd.Cmd msg )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Update3",
     "comment": " Convenience function for lifting an update function for an inner model and\nmessages, that also returns an additional out parameters into a parent one.\n\n@docs lift\n@docs eval, evalMaybe, evalResult, evalCmds\n@docs mapModel, mapCmd, mapOutMsg\n\n",
     "aliases": [],
@@ -77,6 +58,25 @@
         "name": "mapOutMsg",
         "comment": " Maps over the out message\n",
         "type": "(outMsg -> c) -> ( a, b, outMsg ) -> ( a, b, c )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Update2",
+    "comment": " Convenience function for lifting an update function for an inner model\nand messages into a parent one.\n\n@docs eval, lift\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "eval",
+        "comment": " Allows the output of an update function that returns type:\n\n    (model, Cmd msg)\n\nTo have its model evaluated in order to produce a new model, and to create more\ncommands. The commands returned will be appended to those passed in using\nCmd.batch.\n\nNote that this allows multiple invokations of the same update function to be\ninvoked recursively. Beware of causing infinite loops while doing this.\n\n",
+        "type": "(model -> ( model, Platform.Cmd.Cmd msg )) -> ( model, Platform.Cmd.Cmd msg ) -> ( model, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "lift",
+        "comment": " Lifts an update function of type:\n\n    update : submsg -> submodel -> ( submodel, Cmd submsg )\n\nInto one that returns:\n\n    (model, Cmd  msg)\n\n",
+        "type": "(model -> submodel) -> (submodel -> model -> model) -> (submsg -> msg) -> (submsg -> submodel -> ( submodel, Platform.Cmd.Cmd submsg )) -> submsg -> model -> ( model, Platform.Cmd.Cmd msg )"
       }
     ],
     "generated-with-elm-version": "0.18.0"

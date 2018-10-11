@@ -580,6 +580,154 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Eth.Net",
+    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "NetworkId",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Mainnet",
+            []
+          ],
+          [
+            "Expanse",
+            []
+          ],
+          [
+            "Ropsten",
+            []
+          ],
+          [
+            "Rinkeby",
+            []
+          ],
+          [
+            "RskMain",
+            []
+          ],
+          [
+            "RskTest",
+            []
+          ],
+          [
+            "Kovan",
+            []
+          ],
+          [
+            "ETCMain",
+            []
+          ],
+          [
+            "ETCTest",
+            []
+          ],
+          [
+            "Private",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "clientVersion",
+        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
+      },
+      {
+        "name": "listening",
+        "comment": " Returns true if the node is actively listening for network connections.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
+      },
+      {
+        "name": "networkIdDecoder",
+        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString networkIdDecoder \"1\"          == Ok Mainnet\n    decodeString networkIdDecoder 3            == Ok Ropsten\n    decodeString networkIdDecoder \"five\"       == Err ...\n\n",
+        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
+      },
+      {
+        "name": "networkIdToInt",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Eth.Net.NetworkId -> Int"
+      },
+      {
+        "name": "networkIdToString",
+        "comment": " Get a NetworkId's name\n",
+        "type": "Eth.Net.NetworkId -> String"
+      },
+      {
+        "name": "peerCount",
+        "comment": " Get the number of peers currently connected to the client.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+      },
+      {
+        "name": "toNetworkId",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Int -> Eth.Net.NetworkId"
+      },
+      {
+        "name": "version",
+        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Decode",
+    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "address",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Address"
+      },
+      {
+        "name": "blockHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
+      },
+      {
+        "name": "blockHead",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
+      },
+      {
+        "name": "event",
+        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
+      },
+      {
+        "name": "hex",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Hex"
+      },
+      {
+        "name": "ipfsHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
+      },
+      {
+        "name": "tx",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Tx"
+      },
+      {
+        "name": "txHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.TxHash"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Abi.Decode",
     "comment": " Decode RPC Responses\n\n)\n\n\n# Primitives\n\n@docs AbiDecoder, uint, int, bool, address, string\n\n\n# Bytes\n\n@docs staticBytes, dynamicBytes\n\n\n# Arrays\n\n@docs staticArray, dynamicArray\n\n\n# Special\n\n@docs ipfsHash\n\n\n# Run Decoders\n\n@docs abiDecode, andMap, toElmDecoder, toElmDecoderWithDebug, fromString\n\n\n# Events/Logs\n\n@docs topic, data\n\n",
     "aliases": [],
@@ -678,154 +826,6 @@
         "name": "uint",
         "comment": " ",
         "type": "Abi.Decode.AbiDecoder BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.Decode",
-    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Address"
-      },
-      {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
-      },
-      {
-        "name": "blockHead",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
-      },
-      {
-        "name": "event",
-        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Hex"
-      },
-      {
-        "name": "ipfsHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
-      },
-      {
-        "name": "tx",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Tx"
-      },
-      {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.TxHash"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.Net",
-    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "NetworkId",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Mainnet",
-            []
-          ],
-          [
-            "Expanse",
-            []
-          ],
-          [
-            "Ropsten",
-            []
-          ],
-          [
-            "Rinkeby",
-            []
-          ],
-          [
-            "RskMain",
-            []
-          ],
-          [
-            "RskTest",
-            []
-          ],
-          [
-            "Kovan",
-            []
-          ],
-          [
-            "ETCMain",
-            []
-          ],
-          [
-            "ETCTest",
-            []
-          ],
-          [
-            "Private",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "clientVersion",
-        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
-      },
-      {
-        "name": "listening",
-        "comment": " Returns true if the node is actively listening for network connections.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
-      },
-      {
-        "name": "networkIdDecoder",
-        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString networkIdDecoder \"1\"          == Ok Mainnet\n    decodeString networkIdDecoder 3            == Ok Ropsten\n    decodeString networkIdDecoder \"five\"       == Err ...\n\n",
-        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
-      },
-      {
-        "name": "networkIdToInt",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Eth.Net.NetworkId -> Int"
-      },
-      {
-        "name": "networkIdToString",
-        "comment": " Get a NetworkId's name\n",
-        "type": "Eth.Net.NetworkId -> String"
-      },
-      {
-        "name": "peerCount",
-        "comment": " Get the number of peers currently connected to the client.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
-      },
-      {
-        "name": "toNetworkId",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Int -> Eth.Net.NetworkId"
-      },
-      {
-        "name": "version",
-        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1267,39 +1267,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.RPC",
-    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
-    "aliases": [
-      {
-        "name": "RpcRequest",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "encode",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "toHttpBody",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
-      },
-      {
-        "name": "toTask",
-        "comment": " ",
-        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Units",
     "comment": " Conversions and Helpers\n\n\n# Concise Units\n\nUseful helpers for concise value declarations.\n\n    txParams : Send\n    txParams =\n        { to = Just myContract\n        , from = Nothing\n        , gas = Nothing\n        , gasPrice = Just (gwei 3)\n        , value = Just (eth 3)\n        , data = Just data\n        , nonce = Nothing\n        }\n\n@docs gwei, eth\n\n\n# Precise Units\n\nHelpers for dealing with floats.\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
     "aliases": [],
@@ -1381,6 +1348,39 @@
         "name": "toWei",
         "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
         "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.RPC",
+    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
+    "aliases": [
+      {
+        "name": "RpcRequest",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "encode",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "toHttpBody",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
+      },
+      {
+        "name": "toTask",
+        "comment": " ",
+        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

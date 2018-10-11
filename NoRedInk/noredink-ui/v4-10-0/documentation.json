@@ -1,5 +1,48 @@
 [
   {
+    "name": "Nri.Ui.TextArea.V1",
+    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, writing, contentCreation, Model, generateId, styles\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "{ value : String , autofocus : Bool , onInput : String -> msg , isInError : Bool , autoResize : Bool , placeholder : String , label : String , showLabel : Bool }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "contentCreation",
+        "comment": " Used for Content Creation\n",
+        "type": "Nri.Ui.TextArea.V1.Model msg -> Html.Html msg"
+      },
+      {
+        "name": "generateId",
+        "comment": " ",
+        "type": "String -> String"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.StylesWithAssets Basics.Never Nri.Ui.InputStyles.CssClasses msg (Nri.Ui.InputStyles.Assets r)"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.Ui.TextArea.V1.Model msg -> Html.Html msg"
+      },
+      {
+        "name": "writing",
+        "comment": " Used for Writing Cycles\n",
+        "type": "Nri.Ui.TextArea.V1.Model msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nri.Ui.Outline.V1",
     "comment": " A module for rendering outline layouts.\n\n@docs segment\n@docs node\n@docs NodeLayout\n@docs NodeConfig\n@docs config\n@docs html\n@docs styles\n\n",
     "aliases": [
@@ -52,44 +95,51 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Ui.TextArea.V1",
-    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, writing, contentCreation, Model, generateId, styles\n\n",
+    "name": "Nri.Ui.SegmentedControl.V4",
+    "comment": "\n\n@docs Config, Icon, Option, styles, view, CssClass\n\n",
     "aliases": [
       {
-        "name": "Model",
+        "name": "Config",
         "comment": " ",
         "args": [
+          "a",
           "msg"
         ],
-        "type": "{ value : String , autofocus : Bool , onInput : String -> msg , isInError : Bool , autoResize : Bool , placeholder : String , label : String , showLabel : Bool }"
+        "type": "{ onClick : a -> msg , options : List (Nri.Ui.SegmentedControl.V4.Option a) , selected : a }"
+      },
+      {
+        "name": "Icon",
+        "comment": " ",
+        "args": [],
+        "type": "{ alt : String, icon : Nri.Ui.Icon.V2.IconType }"
+      },
+      {
+        "name": "Option",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ value : a , icon : Maybe.Maybe Nri.Ui.SegmentedControl.V4.Icon , label : String , id : String }"
       }
     ],
-    "types": [],
+    "types": [
+      {
+        "name": "CssClass",
+        "comment": " Classes for styling\n",
+        "args": [],
+        "cases": []
+      }
+    ],
     "values": [
-      {
-        "name": "contentCreation",
-        "comment": " Used for Content Creation\n",
-        "type": "Nri.Ui.TextArea.V1.Model msg -> Html.Html msg"
-      },
-      {
-        "name": "generateId",
-        "comment": " ",
-        "type": "String -> String"
-      },
       {
         "name": "styles",
         "comment": " ",
-        "type": "Nri.Ui.Styles.V1.StylesWithAssets Basics.Never Nri.Ui.InputStyles.CssClasses msg (Nri.Ui.InputStyles.Assets r)"
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.SegmentedControl.V4.CssClass msg"
       },
       {
         "name": "view",
         "comment": " ",
-        "type": "Nri.Ui.TextArea.V1.Model msg -> Html.Html msg"
-      },
-      {
-        "name": "writing",
-        "comment": " Used for Writing Cycles\n",
-        "type": "Nri.Ui.TextArea.V1.Model msg -> Html.Html msg"
+        "type": "Nri.Ui.SegmentedControl.V4.Config a msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -140,56 +190,6 @@
         "name": "view",
         "comment": " ",
         "type": "Nri.Ui.SegmentedControl.V5.Config a msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.SegmentedControl.V4",
-    "comment": "\n\n@docs Config, Icon, Option, styles, view, CssClass\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " ",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "{ onClick : a -> msg , options : List (Nri.Ui.SegmentedControl.V4.Option a) , selected : a }"
-      },
-      {
-        "name": "Icon",
-        "comment": " ",
-        "args": [],
-        "type": "{ alt : String, icon : Nri.Ui.Icon.V2.IconType }"
-      },
-      {
-        "name": "Option",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ value : a , icon : Maybe.Maybe Nri.Ui.SegmentedControl.V4.Icon , label : String , id : String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "CssClass",
-        "comment": " Classes for styling\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.SegmentedControl.V4.CssClass msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.Ui.SegmentedControl.V4.Config a msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -282,213 +282,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Ui.Modal.V1",
-    "comment": "\n\n@docs Model\n@docs info\n@docs styles\n@docs warning\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": "\n\n  - `onDismiss`: If `Nothing`, the modal will not be dismissable\n  - `visibleTitle`: If `False`, the title will still be used for screen readers\n  - `content`: This will be placed in a `width:100%` div in the main area of the modal\n  - `footerContent`: The optional items here will be stacked below the main content area and center-aligned.\n    Commonly you will either give a list of Nri.Ui.Buttons,\n    or an empty list.\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ title : String , visibleTitle : Bool , content : Html.Html msg , footerContent : List (Html.Html msg) , onDismiss : Maybe.Maybe msg , width : Maybe.Maybe Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "info",
-        "comment": " ",
-        "type": "Nri.Ui.Modal.V1.Model msg -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Modal.V1.CssClasses b"
-      },
-      {
-        "name": "warning",
-        "comment": " ",
-        "type": "Nri.Ui.Modal.V1.Model msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Text.Writing.V1",
-    "comment": " Text types for writing:\n\n@docs footnote\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "footnote",
-        "comment": " This is a little note or footnote.\n",
-        "type": "List (Html.Styled.Html msg) -> Html.Styled.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.SegmentedControl.V1",
-    "comment": "\n\n@docs Config, Option, styles, view\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " ",
-        "args": [
-          "a",
-          "msg"
-        ],
-        "type": "{ onClick : a -> msg , options : List (Nri.Ui.SegmentedControl.V1.Option a) , selected : a }"
-      },
-      {
-        "name": "Option",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ value : a, label : String, id : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.SegmentedControl.V1.CssClass msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.Ui.SegmentedControl.V1.Config a msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Palette.V1",
-    "comment": " Predefined color palettes for use in configurable components\n\n@docs Palette, PaletteName\n@docs white, gray, darkGray, blue, darkBlue, purple, turquoise, green, red, aqua, cornflower\n\n",
-    "aliases": [
-      {
-        "name": "Palette",
-        "comment": " ",
-        "args": [],
-        "type": "{ border : Css.Color , background : Css.Color , primary : Css.Color , name : Nri.Ui.Palette.V1.PaletteName }"
-      }
-    ],
-    "types": [
-      {
-        "name": "PaletteName",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Gray",
-            []
-          ],
-          [
-            "DarkGray",
-            []
-          ],
-          [
-            "Blue",
-            []
-          ],
-          [
-            "DarkBlue",
-            []
-          ],
-          [
-            "Purple",
-            []
-          ],
-          [
-            "Turquoise",
-            []
-          ],
-          [
-            "Red",
-            []
-          ],
-          [
-            "Green",
-            []
-          ],
-          [
-            "White",
-            []
-          ],
-          [
-            "Cornflower",
-            []
-          ],
-          [
-            "Aqua",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "aqua",
-        "comment": " Aqua palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "blue",
-        "comment": " Blue palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "cornflower",
-        "comment": " Cornflower palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "darkBlue",
-        "comment": " Dark blue palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "darkGray",
-        "comment": " Dark Gray palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "gray",
-        "comment": " Gray palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "green",
-        "comment": " Green palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "purple",
-        "comment": " Purple palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "red",
-        "comment": " Red palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "turquoise",
-        "comment": " Turquoise palette\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      },
-      {
-        "name": "white",
-        "comment": " White palette (borders are blue)\n",
-        "type": "Nri.Ui.Palette.V1.Palette"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nri.Ui.Text.V1",
     "comment": "\n\n@docs styles\n\n\n## Semantic text types:\n\n@docs caption, heading, mediumBody, smallBody, smallBodyGray, subHeading, smallHeading, tagline\n\n\n## User-generated text styles:\n\n@docs ugMediumBody,ugSmallBody\n\n\n## Text class strings:\n\n@docs captionClassString, mediumBodyClassString, smallBodyClassString\n\n\n## Modifying strings to display nicely:\n\n@docs noWidow\n\n",
     "aliases": [],
@@ -573,184 +366,34 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Ui.Table.V1",
-    "comment": "\n\n@docs Column, custom, string, styles\n\n@docs view, viewWithoutHeader\n\n@docs viewLoading, viewLoadingWithoutHeader\n\n@docs keyframes, keyframeStyles\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Column",
-        "comment": " Closed representation of how to render the header and cells of a column\nin the table\n",
-        "args": [
-          "data",
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "custom",
-        "comment": " A column that renders however you want it to\n",
-        "type": "{ header : Html.Html msg, view : data -> Html.Html msg, width : Int } -> Nri.Ui.Table.V1.Column data msg"
-      },
-      {
-        "name": "keyframeStyles",
-        "comment": " ",
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "keyframes",
-        "comment": " ",
-        "type": "List Nri.Ui.Styles.V1.Keyframe"
-      },
-      {
-        "name": "string",
-        "comment": " A column that renders some aspect of a value as text\n",
-        "type": "{ header : String, value : data -> String, width : Int } -> Nri.Ui.Table.V1.Column data msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Table.V1.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " Displays a table of data based on the provided column definitions\n",
-        "type": "List (Nri.Ui.Table.V1.Column data msg) -> List data -> Html.Html msg"
-      },
-      {
-        "name": "viewLoading",
-        "comment": " Display a table with the given columns but instead of data, show blocked\nout text with an interesting animation. This view lets the user know that\ndata is on its way and what it will look like when it arrives.\n",
-        "type": "List (Nri.Ui.Table.V1.Column data msg) -> Html.Html msg"
-      },
-      {
-        "name": "viewLoadingWithoutHeader",
-        "comment": " Display the loading table without a header row\n",
-        "type": "List (Nri.Ui.Table.V1.Column data msg) -> Html.Html msg"
-      },
-      {
-        "name": "viewWithoutHeader",
-        "comment": " Displays a table of data without a header row\n",
-        "type": "List (Nri.Ui.Table.V1.Column data msg) -> List data -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Tabs.V1",
-    "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
+    "name": "Nri.Ui.Modal.V1",
+    "comment": "\n\n@docs Model\n@docs info\n@docs styles\n@docs warning\n\n",
     "aliases": [
       {
-        "name": "Config",
-        "comment": " ",
-        "args": [
-          "id",
-          "msg"
-        ],
-        "type": "{ title : Maybe.Maybe String , onSelect : id -> msg , tabs : List.Zipper.Zipper (Nri.Ui.Tabs.V1.Tab id) , content : id -> Html.Html msg , alignment : Nri.Ui.Tabs.V1.Alignment }"
-      },
-      {
-        "name": "LinkConfig",
-        "comment": " Configure a set a tab links\n",
+        "name": "Model",
+        "comment": "\n\n  - `onDismiss`: If `Nothing`, the modal will not be dismissable\n  - `visibleTitle`: If `False`, the title will still be used for screen readers\n  - `content`: This will be placed in a `width:100%` div in the main area of the modal\n  - `footerContent`: The optional items here will be stacked below the main content area and center-aligned.\n    Commonly you will either give a list of Nri.Ui.Buttons,\n    or an empty list.\n\n",
         "args": [
           "msg"
         ],
-        "type": "{ title : Maybe.Maybe String , tabs : List.Zipper.Zipper Nri.Ui.Tabs.V1.TabLink , content : Html.Html msg , alignment : Nri.Ui.Tabs.V1.Alignment }"
-      },
-      {
-        "name": "Tab",
-        "comment": " ",
-        "args": [
-          "id"
-        ],
-        "type": "{ label : String, id : id }"
-      },
-      {
-        "name": "TabLink",
-        "comment": " Describe a tab that is meant to link to another page\n",
-        "args": [],
-        "type": "{ label : String, href : Maybe.Maybe String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Alignment",
-        "comment": " Determines whether tabs are centered or floating to the left or right.\n",
-        "args": [],
-        "cases": [
-          [
-            "Left",
-            []
-          ],
-          [
-            "Center",
-            []
-          ],
-          [
-            "Right",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "links",
-        "comment": " View a set of tab links\n",
-        "type": "Nri.Ui.Tabs.V1.LinkConfig msg -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Tabs.V1.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.Ui.Tabs.V1.Config id msg -> Html.Html msg"
-      },
-      {
-        "name": "viewCustom",
-        "comment": " ",
-        "type": "Nri.Ui.Tabs.V1.Config id msg -> (Nri.Ui.Tabs.V1.Tab id -> Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "viewTabDefault",
-        "comment": " ",
-        "type": "Nri.Ui.Tabs.V1.Tab id -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Select.V1",
-    "comment": " Build a select input.\n\n\n# Configure\n\n@docs Config\n\n\n# Render\n\n@docs view, customView\n@docs styles\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " Select-specific Choice.Config\n",
-        "args": [
-          "a"
-        ],
-        "type": "{ choices : List { label : String, value : a }, current : a }"
+        "type": "{ title : String , visibleTitle : Bool , content : Html.Html msg , footerContent : List (Html.Html msg) , onDismiss : Maybe.Maybe msg , width : Maybe.Maybe Int }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "customView",
-        "comment": " A select dropdown with custom attributes.\nThis should be phased out as the new Select style is implemented,\nall pages should use the new, consistent style.\n",
-        "type": "List (Html.Attribute a) -> Nri.Ui.Select.V1.Config a -> Html.Html a"
+        "name": "info",
+        "comment": " ",
+        "type": "Nri.Ui.Modal.V1.Model msg -> Html.Html msg"
       },
       {
         "name": "styles",
         "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Select.V1.CssClasses c"
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Modal.V1.CssClasses b"
       },
       {
-        "name": "view",
-        "comment": " A normal select dropdown\n",
-        "type": "Nri.Ui.Select.V1.Config a -> Html.Html a"
+        "name": "warning",
+        "comment": " ",
+        "type": "Nri.Ui.Modal.V1.Model msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -804,6 +447,76 @@
         "name": "withInvisibleLabel",
         "comment": " ",
         "type": "Nri.Ui.TextInput.V1.Model value msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.SegmentedControl.V1",
+    "comment": "\n\n@docs Config, Option, styles, view\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " ",
+        "args": [
+          "a",
+          "msg"
+        ],
+        "type": "{ onClick : a -> msg , options : List (Nri.Ui.SegmentedControl.V1.Option a) , selected : a }"
+      },
+      {
+        "name": "Option",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ value : a, label : String, id : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.SegmentedControl.V1.CssClass msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.Ui.SegmentedControl.V1.Config a msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Select.V1",
+    "comment": " Build a select input.\n\n\n# Configure\n\n@docs Config\n\n\n# Render\n\n@docs view, customView\n@docs styles\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Select-specific Choice.Config\n",
+        "args": [
+          "a"
+        ],
+        "type": "{ choices : List { label : String, value : a }, current : a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "customView",
+        "comment": " A select dropdown with custom attributes.\nThis should be phased out as the new Select style is implemented,\nall pages should use the new, consistent style.\n",
+        "type": "List (Html.Attribute a) -> Nri.Ui.Select.V1.Config a -> Html.Html a"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Select.V1.CssClasses c"
+      },
+      {
+        "name": "view",
+        "comment": " A normal select dropdown\n",
+        "type": "Nri.Ui.Select.V1.Config a -> Html.Html a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -948,98 +661,64 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Ui.Checkbox.V2",
-    "comment": "\n\n@docs Model, Theme, ColorTheme\n\n@docs view, viewWithLabel, viewAttention, disabled\n@docs IsSelected\n@docs keyframeCss, styles\n\n\n## Premium\n\n@docs PremiumConfig, premium\n\n",
+    "name": "Nri.Ui.Palette.V1",
+    "comment": " Predefined color palettes for use in configurable components\n\n@docs Palette, PaletteName\n@docs white, gray, darkGray, blue, darkBlue, purple, turquoise, green, red, aqua, cornflower\n\n",
     "aliases": [
       {
-        "name": "Model",
-        "comment": "\n\n  - isChecked : Maybe Bool\n      - Just True == Checked (rendered checkmark)\n      - Just False == Not Checked (rendered blank)\n      - Nothing == Indeterminate (rendered dash)\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ identifier : String , label : String , setterMsg : Bool -> msg , isChecked : Maybe.Maybe Bool , disabled : Bool , theme : Nri.Ui.Checkbox.V2.Theme , noOpMsg : msg }"
-      },
-      {
-        "name": "PremiumConfig",
-        "comment": "\n\n  - `onChange`: A message for when the user toggles the checkbox\n  - `onLockedClick`: A message for when the user clicks a checkbox they don't have PremiumLevel for.\n    If you get this message, you should show an `Nri.Ui.Premium.Model.view`\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ label : String , id : String , selected : Nri.Ui.Checkbox.V2.IsSelected , disabled : Bool , teacherPremiumLevel : Nri.Ui.Data.PremiumLevel.PremiumLevel , contentPremiumLevel : Nri.Ui.Data.PremiumLevel.PremiumLevel , showFlagWhenLocked : Bool , onChange : Bool -> msg , onLockedClick : msg , noOpMsg : msg }"
+        "name": "Palette",
+        "comment": " ",
+        "args": [],
+        "type": "{ border : Css.Color , background : Css.Color , primary : Css.Color , name : Nri.Ui.Palette.V1.PaletteName }"
       }
     ],
     "types": [
       {
-        "name": "ColorTheme",
+        "name": "PaletteName",
         "comment": " ",
         "args": [],
         "cases": [
-          [
-            "Default",
-            []
-          ],
           [
             "Gray",
             []
           ],
           [
-            "Orange",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "IsSelected",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Selected",
+            "DarkGray",
             []
           ],
           [
-            "NotSelected",
+            "Blue",
             []
           ],
           [
-            "PartiallySelected",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "Theme",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Square",
-            [
-              "Nri.Ui.Checkbox.V2.ColorTheme"
-            ]
-          ],
-          [
-            "Round",
+            "DarkBlue",
             []
           ],
           [
-            "Locked",
+            "Purple",
             []
           ],
           [
-            "LockOnInside",
+            "Turquoise",
             []
           ],
           [
-            "Unlockable",
+            "Red",
             []
           ],
           [
-            "Disabled",
+            "Green",
             []
           ],
           [
-            "Premium",
+            "White",
+            []
+          ],
+          [
+            "Cornflower",
+            []
+          ],
+          [
+            "Aqua",
             []
           ]
         ]
@@ -1047,39 +726,145 @@
     ],
     "values": [
       {
-        "name": "disabled",
-        "comment": " Show a disabled checkbox.\n",
-        "type": "String -> String -> Accessibility.Html msg"
+        "name": "aqua",
+        "comment": " Aqua palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
       },
       {
-        "name": "keyframeCss",
+        "name": "blue",
+        "comment": " Blue palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "cornflower",
+        "comment": " Cornflower palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "darkBlue",
+        "comment": " Dark blue palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "darkGray",
+        "comment": " Dark Gray palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "gray",
+        "comment": " Gray palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "green",
+        "comment": " Green palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "purple",
+        "comment": " Purple palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "red",
+        "comment": " Red palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "turquoise",
+        "comment": " Turquoise palette\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      },
+      {
+        "name": "white",
+        "comment": " White palette (borders are blue)\n",
+        "type": "Nri.Ui.Palette.V1.Palette"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Tabs.V1",
+    "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
+    "aliases": [
+      {
+        "name": "Config",
         "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Keyframe"
+        "args": [
+          "id",
+          "msg"
+        ],
+        "type": "{ title : Maybe.Maybe String , onSelect : id -> msg , tabs : List.Zipper.Zipper (Nri.Ui.Tabs.V1.Tab id) , content : id -> Html.Html msg , alignment : Nri.Ui.Tabs.V1.Alignment }"
       },
       {
-        "name": "premium",
-        "comment": " A checkbox that should be used for premium content\n\nThis checkbox is locked when the premium level of the content is greater than the premium level of the teacher\n\n",
-        "type": "Nri.Ui.Checkbox.V2.PremiumConfig msg -> Accessibility.Html msg"
+        "name": "LinkConfig",
+        "comment": " Configure a set a tab links\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ title : Maybe.Maybe String , tabs : List.Zipper.Zipper Nri.Ui.Tabs.V1.TabLink , content : Html.Html msg , alignment : Nri.Ui.Tabs.V1.Alignment }"
+      },
+      {
+        "name": "Tab",
+        "comment": " ",
+        "args": [
+          "id"
+        ],
+        "type": "{ label : String, id : id }"
+      },
+      {
+        "name": "TabLink",
+        "comment": " Describe a tab that is meant to link to another page\n",
+        "args": [],
+        "type": "{ label : String, href : Maybe.Maybe String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Alignment",
+        "comment": " Determines whether tabs are centered or floating to the left or right.\n",
+        "args": [],
+        "cases": [
+          [
+            "Left",
+            []
+          ],
+          [
+            "Center",
+            []
+          ],
+          [
+            "Right",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "links",
+        "comment": " View a set of tab links\n",
+        "type": "Nri.Ui.Tabs.V1.LinkConfig msg -> Html.Html msg"
       },
       {
         "name": "styles",
         "comment": " ",
-        "type": "Nri.Ui.Styles.V1.StylesWithAssets Basics.Never Nri.Ui.Checkbox.V2.CssClasses msg (Nri.Ui.Checkbox.V2.Assets r)"
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Tabs.V1.CssClasses msg"
       },
       {
         "name": "view",
-        "comment": " Shows a checkbox (the label is only used for accessibility hints)\n",
-        "type": "Nri.Ui.Checkbox.V2.Model msg -> Accessibility.Html msg"
-      },
-      {
-        "name": "viewAttention",
         "comment": " ",
-        "type": "Nri.Ui.Checkbox.V2.Model msg -> Accessibility.Html msg"
+        "type": "Nri.Ui.Tabs.V1.Config id msg -> Html.Html msg"
       },
       {
-        "name": "viewWithLabel",
-        "comment": " Shows a checkbox and its label text\n",
-        "type": "Nri.Ui.Checkbox.V2.Model msg -> Accessibility.Html msg"
+        "name": "viewCustom",
+        "comment": " ",
+        "type": "Nri.Ui.Tabs.V1.Config id msg -> (Nri.Ui.Tabs.V1.Tab id -> Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "viewTabDefault",
+        "comment": " ",
+        "type": "Nri.Ui.Tabs.V1.Tab id -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1113,6 +898,247 @@
         "name": "view",
         "comment": " A normal select dropdown\n",
         "type": "Nri.Ui.Select.V2.Config a -> Html.Html a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Divider.V1",
+    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Divider.V1.CssClasses msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Table.V1",
+    "comment": "\n\n@docs Column, custom, string, styles\n\n@docs view, viewWithoutHeader\n\n@docs viewLoading, viewLoadingWithoutHeader\n\n@docs keyframes, keyframeStyles\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Column",
+        "comment": " Closed representation of how to render the header and cells of a column\nin the table\n",
+        "args": [
+          "data",
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "custom",
+        "comment": " A column that renders however you want it to\n",
+        "type": "{ header : Html.Html msg, view : data -> Html.Html msg, width : Int } -> Nri.Ui.Table.V1.Column data msg"
+      },
+      {
+        "name": "keyframeStyles",
+        "comment": " ",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "keyframes",
+        "comment": " ",
+        "type": "List Nri.Ui.Styles.V1.Keyframe"
+      },
+      {
+        "name": "string",
+        "comment": " A column that renders some aspect of a value as text\n",
+        "type": "{ header : String, value : data -> String, width : Int } -> Nri.Ui.Table.V1.Column data msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Table.V1.CssClasses msg"
+      },
+      {
+        "name": "view",
+        "comment": " Displays a table of data based on the provided column definitions\n",
+        "type": "List (Nri.Ui.Table.V1.Column data msg) -> List data -> Html.Html msg"
+      },
+      {
+        "name": "viewLoading",
+        "comment": " Display a table with the given columns but instead of data, show blocked\nout text with an interesting animation. This view lets the user know that\ndata is on its way and what it will look like when it arrives.\n",
+        "type": "List (Nri.Ui.Table.V1.Column data msg) -> Html.Html msg"
+      },
+      {
+        "name": "viewLoadingWithoutHeader",
+        "comment": " Display the loading table without a header row\n",
+        "type": "List (Nri.Ui.Table.V1.Column data msg) -> Html.Html msg"
+      },
+      {
+        "name": "viewWithoutHeader",
+        "comment": " Displays a table of data without a header row\n",
+        "type": "List (Nri.Ui.Table.V1.Column data msg) -> List data -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Button.V1",
+    "comment": " Common NoRedInk buttons. For accessibility purposes, buttons that perform an\naction on the current page should be HTML `<button>` elements and are created here\nwith `*Button` functions. Buttons that take the user to a new page should be\nHTML `<a>` elements and are created here with `*Link` functions. Both versions\nshould be able to use the same CSS class in all cases.\n\nThere will generally be a `*Button` and `*Link` version of each button style.\n(These will be created as they are needed.)\n\n\n## Required styles\n\n@docs styles\n\n\n## Common configs\n\n@docs ButtonContent\n@docs ButtonSize\n@docs ButtonState\n@docs ButtonStyle\n\n\n## `<button>` Buttons\n\n@docs button\n\n",
+    "aliases": [
+      {
+        "name": "ButtonContent",
+        "comment": " ButtonContent, often changes based on ButtonState.\nFor example, a button in the \"Success\" state\nmay have a different label than a button in the \"Error\" state\n",
+        "args": [],
+        "type": "{ label : String, state : Nri.Ui.Button.V1.ButtonState }"
+      }
+    ],
+    "types": [
+      {
+        "name": "ButtonSize",
+        "comment": " Sizes for buttons that have button classes\n\nNOTE: if you add a size here, you need to add Css styles using the sizeStyle helper in the styles definition.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Tiny",
+            []
+          ],
+          [
+            "Small",
+            []
+          ],
+          [
+            "Medium",
+            []
+          ],
+          [
+            "Large",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "ButtonState",
+        "comment": " Describes the state of a button. Has consequences for appearance and disabled attribute.\n\n  - Enabled: An enabled button. Takes the appearance of ButtonStyle\n  - Unfulfilled: A button which appears with the InactiveColors palette but is not disabled.\n  - Disabled: A button which appears with the InactiveColors palette and is disabled.\n  - Error: A button which appears with the ErrorColors palette and is not disabled.\n  - Loading: A button which appears with the LoadingColors palette and is disabled\n  - Success: A button which appears with the InactiveColors palette and is disabled\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Enabled",
+            []
+          ],
+          [
+            "Unfulfilled",
+            []
+          ],
+          [
+            "Disabled",
+            []
+          ],
+          [
+            "Error",
+            []
+          ],
+          [
+            "Loading",
+            []
+          ],
+          [
+            "Success",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "ButtonStyle",
+        "comment": " Styleguide-approved styles for your buttons!\n\nNote on borderless buttons:\nA borderless button that performs an action on the current page\nThis button is intended to look like a link.\nOnly use a borderless button when the clickable text in question follows the same layout/margin/padding as a bordered button\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Primary",
+            []
+          ],
+          [
+            "Secondary",
+            []
+          ],
+          [
+            "Borderless",
+            []
+          ],
+          [
+            "Danger",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "button",
+        "comment": " A delightful button which can trigger an effect when clicked!\n\nThis button will trigger the passed-in message if the button state is:\n\n  - Enabled\n  - Unfulfilled\n\nThis button will be Disabled if the button state is:\n\n  - Disabled\n  - Error\n  - Loading\n  - Success\n\n",
+        "type": "Nri.Ui.Button.V1.ButtonConfig msg -> Nri.Ui.Button.V1.ButtonContent -> Accessibility.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " Required CSS styles for `Nri.Ui.Button`.\n",
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Button.V1.CssClasses msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Text.Writing.V1",
+    "comment": " Text types for writing:\n\n@docs footnote\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "footnote",
+        "comment": " This is a little note or footnote.\n",
+        "type": "List (Html.Styled.Html msg) -> Html.Styled.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Dropdown.V1",
+    "comment": "\n\n@docs CssClasses\n@docs ViewOptionEntry\n@docs styles\n@docs view\n@docs viewWithoutLabel\n\n",
+    "aliases": [
+      {
+        "name": "ViewOptionEntry",
+        "comment": " This dropdown has atypical select tag behavior.\n\nThis dropdown, when closed, will display some default text, no matter\nwhat is actually selected.\n\nWhen the dropdown is opened, the first option will display that default text,\nbe selected, and disabled. The option the user has actually chosen's displayText\nwon't show up at all.\n\n",
+        "args": [
+          "a"
+        ],
+        "type": "{ isSelected : Bool, val : a, displayText : String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "CssClasses",
+        "comment": " ",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Dropdown.V1.CssClasses c"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "String -> List (Nri.Ui.Dropdown.V1.ViewOptionEntry a) -> (a -> msg) -> Html.Html msg"
+      },
+      {
+        "name": "viewWithoutLabel",
+        "comment": " ",
+        "type": "String -> List (Nri.Ui.Dropdown.V1.ViewOptionEntry a) -> (a -> msg) -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1550,183 +1576,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Ui.Effects.V1",
-    "comment": " Css mixins reused across Nri modules.\n\n@docs selectionShadow\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "selectionShadow",
-        "comment": " Draw a 2 px thick ochre border around the element to indicate it is\nselected.\n\nThis uses a CSS box shadow to draw what looks like a border. Box shadows are\nperfect for this because they don't affect the elements positioning in any way.\nThis means we can be sure switching the selection shadow on and off is not\ngoing to make the element jump.\n\n",
-        "type": "List Css.Style"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Divider.V1",
-    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Divider.V1.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Dropdown.V1",
-    "comment": "\n\n@docs CssClasses\n@docs ViewOptionEntry\n@docs styles\n@docs view\n@docs viewWithoutLabel\n\n",
-    "aliases": [
-      {
-        "name": "ViewOptionEntry",
-        "comment": " This dropdown has atypical select tag behavior.\n\nThis dropdown, when closed, will display some default text, no matter\nwhat is actually selected.\n\nWhen the dropdown is opened, the first option will display that default text,\nbe selected, and disabled. The option the user has actually chosen's displayText\nwon't show up at all.\n\n",
-        "args": [
-          "a"
-        ],
-        "type": "{ isSelected : Bool, val : a, displayText : String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "CssClasses",
-        "comment": " ",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Dropdown.V1.CssClasses c"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "String -> List (Nri.Ui.Dropdown.V1.ViewOptionEntry a) -> (a -> msg) -> Html.Html msg"
-      },
-      {
-        "name": "viewWithoutLabel",
-        "comment": " ",
-        "type": "String -> List (Nri.Ui.Dropdown.V1.ViewOptionEntry a) -> (a -> msg) -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Button.V1",
-    "comment": " Common NoRedInk buttons. For accessibility purposes, buttons that perform an\naction on the current page should be HTML `<button>` elements and are created here\nwith `*Button` functions. Buttons that take the user to a new page should be\nHTML `<a>` elements and are created here with `*Link` functions. Both versions\nshould be able to use the same CSS class in all cases.\n\nThere will generally be a `*Button` and `*Link` version of each button style.\n(These will be created as they are needed.)\n\n\n## Required styles\n\n@docs styles\n\n\n## Common configs\n\n@docs ButtonContent\n@docs ButtonSize\n@docs ButtonState\n@docs ButtonStyle\n\n\n## `<button>` Buttons\n\n@docs button\n\n",
-    "aliases": [
-      {
-        "name": "ButtonContent",
-        "comment": " ButtonContent, often changes based on ButtonState.\nFor example, a button in the \"Success\" state\nmay have a different label than a button in the \"Error\" state\n",
-        "args": [],
-        "type": "{ label : String, state : Nri.Ui.Button.V1.ButtonState }"
-      }
-    ],
-    "types": [
-      {
-        "name": "ButtonSize",
-        "comment": " Sizes for buttons that have button classes\n\nNOTE: if you add a size here, you need to add Css styles using the sizeStyle helper in the styles definition.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "Tiny",
-            []
-          ],
-          [
-            "Small",
-            []
-          ],
-          [
-            "Medium",
-            []
-          ],
-          [
-            "Large",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "ButtonState",
-        "comment": " Describes the state of a button. Has consequences for appearance and disabled attribute.\n\n  - Enabled: An enabled button. Takes the appearance of ButtonStyle\n  - Unfulfilled: A button which appears with the InactiveColors palette but is not disabled.\n  - Disabled: A button which appears with the InactiveColors palette and is disabled.\n  - Error: A button which appears with the ErrorColors palette and is not disabled.\n  - Loading: A button which appears with the LoadingColors palette and is disabled\n  - Success: A button which appears with the InactiveColors palette and is disabled\n\n",
-        "args": [],
-        "cases": [
-          [
-            "Enabled",
-            []
-          ],
-          [
-            "Unfulfilled",
-            []
-          ],
-          [
-            "Disabled",
-            []
-          ],
-          [
-            "Error",
-            []
-          ],
-          [
-            "Loading",
-            []
-          ],
-          [
-            "Success",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "ButtonStyle",
-        "comment": " Styleguide-approved styles for your buttons!\n\nNote on borderless buttons:\nA borderless button that performs an action on the current page\nThis button is intended to look like a link.\nOnly use a borderless button when the clickable text in question follows the same layout/margin/padding as a bordered button\n\n",
-        "args": [],
-        "cases": [
-          [
-            "Primary",
-            []
-          ],
-          [
-            "Secondary",
-            []
-          ],
-          [
-            "Borderless",
-            []
-          ],
-          [
-            "Danger",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "button",
-        "comment": " A delightful button which can trigger an effect when clicked!\n\nThis button will trigger the passed-in message if the button state is:\n\n  - Enabled\n  - Unfulfilled\n\nThis button will be Disabled if the button state is:\n\n  - Disabled\n  - Error\n  - Loading\n  - Success\n\n",
-        "type": "Nri.Ui.Button.V1.ButtonConfig msg -> Nri.Ui.Button.V1.ButtonContent -> Accessibility.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " Required CSS styles for `Nri.Ui.Button`.\n",
-        "type": "Nri.Ui.Styles.V1.Styles Basics.Never Nri.Ui.Button.V1.CssClasses msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nri.Ui.Icon.V1",
     "comment": "\n\n@docs icon, decorativeIcon, link, linkExternal, button\n@docs IconType, AssignmentType, IconSize\n@docs styles, CssClasses\n@docs Assets\n\n",
     "aliases": [
@@ -2092,6 +1941,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Nri.Ui.Effects.V1",
+    "comment": " Css mixins reused across Nri modules.\n\n@docs selectionShadow\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "selectionShadow",
+        "comment": " Draw a 2 px thick ochre border around the element to indicate it is\nselected.\n\nThis uses a CSS box shadow to draw what looks like a border. Box shadows are\nperfect for this because they don't affect the elements positioning in any way.\nThis means we can be sure switching the selection shadow on and off is not\ngoing to make the element jump.\n\n",
+        "type": "List Css.Style"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nri.Ui.BannerAlert.V1",
     "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
     "aliases": [],
@@ -2116,6 +1979,143 @@
         "name": "success",
         "comment": " A banner for success alerts\n",
         "type": "String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Checkbox.V2",
+    "comment": "\n\n@docs Model, Theme, ColorTheme\n\n@docs view, viewWithLabel, viewAttention, disabled\n@docs IsSelected\n@docs keyframeCss, styles\n\n\n## Premium\n\n@docs PremiumConfig, premium\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": "\n\n  - isChecked : Maybe Bool\n      - Just True == Checked (rendered checkmark)\n      - Just False == Not Checked (rendered blank)\n      - Nothing == Indeterminate (rendered dash)\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ identifier : String , label : String , setterMsg : Bool -> msg , isChecked : Maybe.Maybe Bool , disabled : Bool , theme : Nri.Ui.Checkbox.V2.Theme , noOpMsg : msg }"
+      },
+      {
+        "name": "PremiumConfig",
+        "comment": "\n\n  - `onChange`: A message for when the user toggles the checkbox\n  - `onLockedClick`: A message for when the user clicks a checkbox they don't have PremiumLevel for.\n    If you get this message, you should show an `Nri.Ui.Premium.Model.view`\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ label : String , id : String , selected : Nri.Ui.Checkbox.V2.IsSelected , disabled : Bool , teacherPremiumLevel : Nri.Ui.Data.PremiumLevel.PremiumLevel , contentPremiumLevel : Nri.Ui.Data.PremiumLevel.PremiumLevel , showFlagWhenLocked : Bool , onChange : Bool -> msg , onLockedClick : msg , noOpMsg : msg }"
+      }
+    ],
+    "types": [
+      {
+        "name": "ColorTheme",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Default",
+            []
+          ],
+          [
+            "Gray",
+            []
+          ],
+          [
+            "Orange",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "IsSelected",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Selected",
+            []
+          ],
+          [
+            "NotSelected",
+            []
+          ],
+          [
+            "PartiallySelected",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "Theme",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Square",
+            [
+              "Nri.Ui.Checkbox.V2.ColorTheme"
+            ]
+          ],
+          [
+            "Round",
+            []
+          ],
+          [
+            "Locked",
+            []
+          ],
+          [
+            "LockOnInside",
+            []
+          ],
+          [
+            "Unlockable",
+            []
+          ],
+          [
+            "Disabled",
+            []
+          ],
+          [
+            "Premium",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "disabled",
+        "comment": " Show a disabled checkbox.\n",
+        "type": "String -> String -> Accessibility.Html msg"
+      },
+      {
+        "name": "keyframeCss",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.Keyframe"
+      },
+      {
+        "name": "premium",
+        "comment": " A checkbox that should be used for premium content\n\nThis checkbox is locked when the premium level of the content is greater than the premium level of the teacher\n\n",
+        "type": "Nri.Ui.Checkbox.V2.PremiumConfig msg -> Accessibility.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Ui.Styles.V1.StylesWithAssets Basics.Never Nri.Ui.Checkbox.V2.CssClasses msg (Nri.Ui.Checkbox.V2.Assets r)"
+      },
+      {
+        "name": "view",
+        "comment": " Shows a checkbox (the label is only used for accessibility hints)\n",
+        "type": "Nri.Ui.Checkbox.V2.Model msg -> Accessibility.Html msg"
+      },
+      {
+        "name": "viewAttention",
+        "comment": " ",
+        "type": "Nri.Ui.Checkbox.V2.Model msg -> Accessibility.Html msg"
+      },
+      {
+        "name": "viewWithLabel",
+        "comment": " Shows a checkbox and its label text\n",
+        "type": "Nri.Ui.Checkbox.V2.Model msg -> Accessibility.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2396,6 +2396,49 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Nri.Ui.Colors.Extra",
+    "comment": " Helpers for working with colors.\n\n\n# Conversions\n\n@docs toCoreColor, withAlpha\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toCoreColor",
+        "comment": " Convert a Css.Color into a Color.Color\ntoCoreColor (Css.hex \"#FFFFFF\") -- \"RGBA 255 255 255 1 : Color.Color\"\n",
+        "type": "Css.Color -> Color.Color"
+      },
+      {
+        "name": "withAlpha",
+        "comment": " Add an alpha property to a Css.Color\ngrassland -- \"{ value = \"#56bf74\", color = Compatible, red = 86, green = 191, blue = 116, alpha = 1, warnings = [] } : Css.Color\"\nwithAlpha 0.5 grassland -- \"{ value = \"rgba(86, 191, 116, 0.5)\", color = Compatible, warnings = [], red = 86, green = 191, blue = 116, alpha = 0.5 } : Css.Color\"\n",
+        "type": "Float -> Css.Color -> Css.Color"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Ui.Fonts.V1",
+    "comment": " Fonts for NoRedInk projects\n\n@docs baseFont, quizFont, ugFont\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "baseFont",
+        "comment": " Font for instructions, headers, and pretty much everything else\n",
+        "type": "Css.Style"
+      },
+      {
+        "name": "quizFont",
+        "comment": " Font for question sentences, or most interactable or graded fields\n",
+        "type": "Css.Style"
+      },
+      {
+        "name": "ugFont",
+        "comment": " Font for displaying user-generated content.\n",
+        "type": "Css.Style"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nri.Ui",
     "comment": " A collection of helpers for working with NoRedInk projects\n\n@docs styled\n\n",
     "aliases": [],
@@ -2468,49 +2511,6 @@
         "name": "toString",
         "comment": " Turn a [`Keyframe`](#Keyframe) into a string that can be included in a CSS stylesheet.\n",
         "type": "Nri.Ui.Styles.V1.Keyframe -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Fonts.V1",
-    "comment": " Fonts for NoRedInk projects\n\n@docs baseFont, quizFont, ugFont\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "baseFont",
-        "comment": " Font for instructions, headers, and pretty much everything else\n",
-        "type": "Css.Style"
-      },
-      {
-        "name": "quizFont",
-        "comment": " Font for question sentences, or most interactable or graded fields\n",
-        "type": "Css.Style"
-      },
-      {
-        "name": "ugFont",
-        "comment": " Font for displaying user-generated content.\n",
-        "type": "Css.Style"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Ui.Colors.Extra",
-    "comment": " Helpers for working with colors.\n\n\n# Conversions\n\n@docs toCoreColor, withAlpha\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toCoreColor",
-        "comment": " Convert a Css.Color into a Color.Color\ntoCoreColor (Css.hex \"#FFFFFF\") -- \"RGBA 255 255 255 1 : Color.Color\"\n",
-        "type": "Css.Color -> Color.Color"
-      },
-      {
-        "name": "withAlpha",
-        "comment": " Add an alpha property to a Css.Color\ngrassland -- \"{ value = \"#56bf74\", color = Compatible, red = 86, green = 191, blue = 116, alpha = 1, warnings = [] } : Css.Color\"\nwithAlpha 0.5 grassland -- \"{ value = \"rgba(86, 191, 116, 0.5)\", color = Compatible, warnings = [], red = 86, green = 191, blue = 116, alpha = 0.5 } : Css.Color\"\n",
-        "type": "Float -> Css.Color -> Css.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"

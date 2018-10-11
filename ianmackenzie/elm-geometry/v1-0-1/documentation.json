@@ -1993,6 +1993,240 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "CubicSpline2d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/CubicSpline2d/icon.svg\" alt=\"CubicSpline2d\" width=\"160\">\n\nA `CubicSpline2d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 2D defined by a start point, end point and two control points. This module\ncontains functionality for\n\n  - Constructing splines\n  - Evaluating points and tangent directions along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline2d\n\n\n# Constructors\n\n@docs with, fromEndpoints, fromQuadraticSpline\n\n\n# Properties\n\n@docs startPoint, endPoint, startControlPoint, endControlPoint, startDerivative, endDerivative, boundingBox\n\n\n# Evaluation\n\n@docs pointOn, pointsAt\n@docs Nondegenerate, nondegenerate, fromNondegenerate\n@docs tangentDirection, tangentDirectionsAt, sample, samplesAt\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n\n# Arc length parameterization\n\n@docs ArcLengthParameterized, arcLengthParameterized, arcLength, pointAlong, tangentDirectionAlong, sampleAlong\n\n\n## Low level\n\nAn `ArcLengthParameterized` value is a combination of an\n[`ArcLengthParameterization`](Geometry-ArcLengthParameterization) and an\nunderlying `CubicSpline2d`. If you need to do something fancy, you can extract\nthese two values separately.\n\n@docs arcLengthParameterization, fromArcLengthParameterized\n\n\n# Differentiation\n\nYou are unlikely to need to use these functions directly, but they are useful if\nyou are writing low-level geometric algorithms.\n\n@docs firstDerivative, firstDerivativesAt, secondDerivative, secondDerivativesAt, thirdDerivative, maxSecondDerivativeMagnitude\n\n",
+    "aliases": [
+      {
+        "name": "CubicSpline2d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.CubicSpline2d"
+      }
+    ],
+    "types": [
+      {
+        "name": "ArcLengthParameterized",
+        "comment": " A spline that has been parameterized by arc length.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Nondegenerate",
+        "comment": " If a curve has zero length (consists of just a single point), then we say\nthat it is 'degenerate'. Some operations such as computing tangent directions\nare not defined on degenerate curves.\n\nA `Nondegenerate` value represents a spline that is definitely not degenerate.\nIt is used as input to functions such as `CubicSpline2d.tangentDirection` and\ncan be constructed using `CubicSpline2d.nondegenerate`.\n\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "arcLength",
+        "comment": " Find the total arc length of a spline:\n\n    arcLength =\n        CubicSpline2d.arcLength parameterizedSpline\n\n    arcLength\n    --> 7.0952\n\nIn this example, the result will be accurate to within `1.0e-4` since that was\nthe tolerance used when constructing `parameterizedSpline`.\n\n",
+        "type": "CubicSpline2d.ArcLengthParameterized -> Float"
+      },
+      {
+        "name": "arcLengthParameterization",
+        "comment": " ",
+        "type": "CubicSpline2d.ArcLengthParameterized -> Curve.ArcLengthParameterization.ArcLengthParameterization"
+      },
+      {
+        "name": "arcLengthParameterized",
+        "comment": " Build an arc length parameterization of the given spline, with a given\naccuracy. Generally speaking, all operations on the resulting\n`ArcLengthParameterized` value will be accurate to within the specified maximum\nerror.\n\n    parameterizedSpline =\n        exampleSpline\n            |> CubicSpline2d.arcLengthParameterized\n                { maxError = 1.0e-4 }\n\nThe accuracy of the parameterization affects the accuracy of results returned\nfrom functions such as `arcLength` and `pointAlong`.\n\n",
+        "type": "{ maxError : Float } -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.ArcLengthParameterized"
+      },
+      {
+        "name": "bisect",
+        "comment": " Split a spline into two roughly equal halves.\n\n    CubicSpline2d.bisect exampleSpline\n    --> ( CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 1, 1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2, 2.5 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 3, 2.5 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 4, 2.5 )\n    -->     }\n    --> , CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 4, 2.5 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 5, 2.5 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 2.5 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     }\n    --> )\n\nEquivalent to `CubicSpline2d.splitAt ParameterValue.half`.\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> ( CubicSpline2d.CubicSpline2d, CubicSpline2d.CubicSpline2d )"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Compute a bounding box for a given spline. It is not guaranteed that the\nresult will be the _smallest_ possible bounding box, since for efficiency the\nbounding box is computed from the spline's control points (which cover a larger\narea than the spline itself).\n\n    CubicSpline2d.boundingBox exampleSpline\n    --> BoundingBox2d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 7\n    -->     , minY = 1\n    -->     , maxY = 4\n    -->     }\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> BoundingBox2d.BoundingBox2d"
+      },
+      {
+        "name": "endControlPoint",
+        "comment": " Get the end control point of a spline (the control point next to the\nend point).\n\n    CubicSpline2d.endControlPoint exampleSpline\n    --> Point2d.fromCoordinates ( 5, 1 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
+      },
+      {
+        "name": "endDerivative",
+        "comment": " Get the end derivative of a spline. This is equal to three times the vector\nfrom the spline's end control point to its end point.\n\n    CubicSpline2d.endDerivative exampleSpline\n    --> Vector2d.fromComponents ( 6, 9 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Vector2d.Vector2d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a spline.\n\n    CubicSpline2d.endPoint exampleSpline\n    --> Point2d.fromCoordinates ( 7, 4 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
+      },
+      {
+        "name": "firstDerivative",
+        "comment": " Get the first derivative of a spline at a given parameter value:\n\n    CubicSpline2d.firstDerivative exampleSpline\n        ParameterValue.zero\n    --> Vector2d.fromComponents ( 6, 9 )\n\n    CubicSpline2d.firstDerivative exampleSpline\n        ParameterValue.half\n    --> Vector2d.fromComponents ( 6, 0 )\n\n    CubicSpline2d.firstDerivative exampleSpline\n        ParameterValue.one\n    --> Vector2d.fromComponents ( 6, 9 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Curve.ParameterValue.ParameterValue -> Vector2d.Vector2d"
+      },
+      {
+        "name": "firstDerivativesAt",
+        "comment": " Evaluate the first derivative of a spline at a given set of parameter\nvalues:\n\n    exampleSpline\n        |> CubicSpline2d.firstDerivativesAt\n            (ParameterValue.steps 2)\n    --> [ Vector2d.fromComponents ( 6, 9 )\n    --> , Vector2d.fromComponents ( 6, 0 )\n    --> , Vector2d.fromComponents ( 6, 9 )\n    --> ]\n\n",
+        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> List Vector2d.Vector2d"
+      },
+      {
+        "name": "fromArcLengthParameterized",
+        "comment": " ",
+        "type": "CubicSpline2d.ArcLengthParameterized -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "fromEndpoints",
+        "comment": " Construct a spline from a given start point with a given start derivative,\nto a given end point with a given end derivative, like so:\n\n![Cubic spline from endpoints](https://ianmackenzie.github.io/elm-geometry/1.0.0/CubicSpline2d/fromEndpoints.svg)\n\nThe spline is based on a parameter that ranges from 0 to 1; as a result, in most\ncases the length of each derivative vector should be roughly equal to the length\nof the resulting spline.\n\n",
+        "type": "{ startPoint : Point2d.Point2d , startDerivative : Vector2d.Vector2d , endPoint : Point2d.Point2d , endDerivative : Vector2d.Vector2d } -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "fromNondegenerate",
+        "comment": " Convert a nondegenerate spline back to a general `CubicSpline2d`.\n\n    CubicSpline2d.fromNondegenerate\n        nondegenerateExampleSpline\n    --> exampleSpline\n\n",
+        "type": "CubicSpline2d.Nondegenerate -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "fromQuadraticSpline",
+        "comment": " Convert a quadratic spline into the equivalent cubic spline (every quadratic\nspline can be represented exactly as a cubic spline).\n\n    quadraticSpline =\n        QuadraticSpline2d.with\n            { startPoint =\n                Point2d.fromCoordinates ( 0, 0  )\n            , controlPoint =\n                Point2d.fromCoordinates ( 3, 0 )\n            , endPoint =\n                Point2d.fromCoordinates ( 3, 3 )\n            }\n\n    CubicSpline2d.fromQuadraticSpline quadraticSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 0, 0 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2, 0 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 3, 1 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 3, 3 )\n    -->     }\n\n",
+        "type": "QuadraticSpline2d.QuadraticSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "maxSecondDerivativeMagnitude",
+        "comment": " Find a conservative upper bound on the magnitude of the second derivative of\na spline. This can be useful when determining error bounds for various kinds of\nlinear approximations.\n\n    exampleSpline\n        |> CubicSpline2d.maxSecondDerivativeMagnitude\n    --> 36\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Float"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a spline across an axis.\n\n    CubicSpline2d.mirrorAcross Axis2d.x exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 1, -1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 3, -4 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 5, -1 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 7, -4 )\n    -->     }\n\n",
+        "type": "Axis2d.Axis2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "nondegenerate",
+        "comment": " Attempt to construct a nondegenerate spline from a general `CubicSpline2d`.\nIf the spline is in fact degenerate (consists of a single point), returns an\n`Err` with that point.\n\n    CubicSpline2d.nondegenerate exampleSpline\n    --> Ok nondegenerateExampleSpline\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Result.Result Point2d.Point2d CubicSpline2d.Nondegenerate"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    CubicSpline2d.placeIn localFrame exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 2, 3 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 4, 6 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 3 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 8, 6 )\n    -->     }\n\n",
+        "type": "Frame2d.Frame2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "pointAlong",
+        "comment": " Try to get the point along a spline at a given arc length. For example, to\nget the point a quarter of the way along `exampleSpline`, using `arcLength` as\ncomputed above:\n\n    CubicSpline2d.pointAlong parameterizedSpline\n        (0.25 * arcLength)\n    --> Just (Point2d.fromCoordinates ( 2.2681, 2.2114 ))\n\nNote that this is not the same as evaulating at a parameter value of 0.25:\n\n    CubicSpline2d.pointOn exampleSpline\n        (ParameterValue.clamped 0.25)\n    --> Point2d.fromCoordinates ( 2.5, 2.3125 )\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline, returns `Nothing`.\n\n",
+        "type": "CubicSpline2d.ArcLengthParameterized -> Float -> Maybe.Maybe Point2d.Point2d"
+      },
+      {
+        "name": "pointOn",
+        "comment": " Get the point along a spline at a given parameter value:\n\n    CubicSpline2d.pointOn exampleSpline ParameterValue.zero\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n    CubicSpline2d.pointOn exampleSpline ParameterValue.half\n    --> Point2d.fromCoordinates ( 4, 2.5 )\n\n    CubicSpline2d.pointOn exampleSpline ParameterValue.one\n    --> Point2d.fromCoordinates ( 7, 4 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Curve.ParameterValue.ParameterValue -> Point2d.Point2d"
+      },
+      {
+        "name": "pointsAt",
+        "comment": " Get points along a spline at a given set of parameter values:\n\n    exampleSpline\n        |> CubicSpline2d.pointsAt\n            (ParameterValue.steps 2)\n    --> [ Point2d.fromCoordinates ( 1, 1 )\n    --> , Point2d.fromCoordinates ( 4, 2.5 )\n    --> , Point2d.fromCoordinates ( 7, 4 )\n    --> ]\n\n",
+        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> List Point2d.Point2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    CubicSpline2d.relativeTo localFrame exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 0, -1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2, 2 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 4, -1 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 6, 2 )\n    -->     }\n\n",
+        "type": "Frame2d.Frame2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    CubicSpline2d.reverse exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 5, 1 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 3, 4 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 1, 1 )\n    -->     }\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a spline counterclockwise around a given center point by a given\nangle (in radians).\n\n    exampleSpline\n        |> CubicSpline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( -1, 1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( -4, 3 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( -1, 5 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( -4, 7 )\n    -->     }\n\n",
+        "type": "Point2d.Point2d -> Float -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "sample",
+        "comment": " Get both the point and tangent direction of a nondegenerate spline at a\ngiven parameter value:\n\n    CubicSpline2d.sample nondegenerateExampleSpline\n        ParameterValue.half\n    --> ( Point2d.fromCoordinates ( 4, 2.5 )\n    --> , Direction2d.fromAngle (degrees 0)\n    --> )\n\n",
+        "type": "CubicSpline2d.Nondegenerate -> Curve.ParameterValue.ParameterValue -> ( Point2d.Point2d, Direction2d.Direction2d )"
+      },
+      {
+        "name": "sampleAlong",
+        "comment": " Try to get the point and tangent direction along a spline at a given arc\nlength. To get the point and tangent direction a quarter of the way along\n`exampleSpline`:\n\n    CubicSpline2d.sampleAlong parameterizedSpline\n        (0.25 * arcLength)\n    --> Just\n    -->     ( Point2d.fromCoordinates ( 2.2681, 2.2114 )\n    -->     , Direction2d.fromAngle (degrees 26.5611)\n    -->     )\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline (or if the spline is degenerate), returns `Nothing`.\n\n",
+        "type": "CubicSpline2d.ArcLengthParameterized -> Float -> Maybe.Maybe ( Point2d.Point2d, Direction2d.Direction2d )"
+      },
+      {
+        "name": "samplesAt",
+        "comment": " Get points and tangent directions of a nondegenerate spline at a given set\nof parameter values:\n\n    nondegenerateExampleSpline\n        |> CubicSpline2d.samplesAt\n            (ParameterValue.steps 2)\n    --> [ ( Point2d.fromCoordinates ( 1, 1 )\n    -->   , Direction2d.fromAngle (degrees 56.31)\n    -->   )\n    --> , ( Point2d.fromCoordinates ( 4, 2.5 )\n    -->   , Direction2d.fromAngle (degrees 0)\n    -->   )\n    --> , ( Point2d.fromCoordinates ( 7, 4 )\n    -->   , Direction2d.fromAngle (degrees 56.31)\n    -->   )\n    --> ]\n\n",
+        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.Nondegenerate -> List ( Point2d.Point2d, Direction2d.Direction2d )"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a spline about the given center point by the given scale.\n\n    CubicSpline2d.scaleAbout Point2d.origin 2 exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 2, 2 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 8 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 10, 2 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 14, 8 )\n    -->     }\n\n",
+        "type": "Point2d.Point2d -> Float -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "secondDerivative",
+        "comment": " Evaluate the second derivative of a spline at a given parameter value:\n\n    CubicSpline2d.secondDerivativeAt 0 exampleSpline\n    --> Just (Vector2d.fromComponents ( 0, -36 ))\n\n    CubicSpline2d.secondDerivativeAt 0.5 exampleSpline\n    --> Just (Vector2d.fromComponents ( 0, 0 ))\n\n    CubicSpline2d.secondDerivativeAt 1 exampleSpline\n    --> Just (Vector2d.fromComponents ( 0, 36 ))\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Curve.ParameterValue.ParameterValue -> Vector2d.Vector2d"
+      },
+      {
+        "name": "secondDerivativesAt",
+        "comment": " Evaluate the second derivative of a spline at a given set of parameter\nvalues:\n\n    exampleSpline\n        |> CubicSpline2d.secondDerivativesAt\n            (ParameterValue.steps 2)\n    --> [ Vector2d.fromComponents ( 0, -36 )\n    --> , Vector2d.fromComponents ( 0, 0 )\n    --> , Vector2d.fromComponents ( 0, 36 )\n    --> ]\n\n",
+        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> List Vector2d.Vector2d"
+      },
+      {
+        "name": "splitAt",
+        "comment": " Split a spline at a particular parameter value, resulting in two smaller\nsplines.\n\n    parameterValue =\n        ParameterValue.clamped 0.75\n\n    CubicSpline2d.splitAt parameterValue exampleSpline\n    --> ( CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 1, 1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2.5, 3.25 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 4, 2.125 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 5.5, 2.6875 )\n    -->     }\n    --> , CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 5.5, 2.6875 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 2.875 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 6.5, 3.25 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     }\n    --> )\n\n",
+        "type": "Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> ( CubicSpline2d.CubicSpline2d, CubicSpline2d.CubicSpline2d )"
+      },
+      {
+        "name": "startControlPoint",
+        "comment": " Get the start control point of a spline (the control point next to the\nstart point).\n\n    CubicSpline2d.startControlPoint exampleSpline\n    --> Point2d.fromCoordinates ( 3, 4 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
+      },
+      {
+        "name": "startDerivative",
+        "comment": " Get the start derivative of a spline. This is equal to three times the\nvector from the spline's start point to its start control point.\n\n    CubicSpline2d.startDerivative exampleSpline\n    --> Vector2d.fromComponents ( 6, 9 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Vector2d.Vector2d"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a spline.\n\n    CubicSpline2d.startPoint exampleSpline\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
+      },
+      {
+        "name": "tangentDirection",
+        "comment": " Get the tangent direction to a nondegenerate spline at a given parameter\nvalue:\n\n    CubicSpline2d.tangentDirection\n        nondegenerateExampleSpline\n        ParameterValue.zero\n    --> Direction2d.fromAngle (degrees 56.31)\n\n    CubicSpline2d.tangentDirection\n        nondegenerateExampleSpline\n        ParameterValue.half\n    --> Direction2d.fromAngle (degrees 0)\n\n    CubicSpline2d.tangentDirection\n        nondegenerateExampleSpline\n        ParameterValue.one\n    --> Direction2d.fromAngle (degrees 56.31)\n\n",
+        "type": "CubicSpline2d.Nondegenerate -> Curve.ParameterValue.ParameterValue -> Direction2d.Direction2d"
+      },
+      {
+        "name": "tangentDirectionAlong",
+        "comment": " Try to get the tangent direction along a spline at a given arc length. To\nget the tangent direction a quarter of the way along `exampleSpline`:\n\n    CubicSpline2d.tangentDirectionAlong parameterizedSpline\n        (0.25 * arcLength)\n    --> Just (Direction2d.fromAngle (degrees 26.5611))\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline (or if the spline is degenerate), returns `Nothing`.\n\n",
+        "type": "CubicSpline2d.ArcLengthParameterized -> Float -> Maybe.Maybe Direction2d.Direction2d"
+      },
+      {
+        "name": "tangentDirectionsAt",
+        "comment": " Get tangent directions to a nondegenerate spline at a given set of parameter\nvalues:\n\n    nondegenerateExampleSpline\n        |> CubicSpline2d.tangentDirectionsAt\n            (ParameterValue.steps 2)\n    --> [ Direction2d.fromAngle (degrees 56.31)\n    --> , Direction2d.fromAngle (degrees 0)\n    --> , Direction2d.fromAngle (degrees 56.31)\n    --> ]\n\n",
+        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.Nondegenerate -> List Direction2d.Direction2d"
+      },
+      {
+        "name": "thirdDerivative",
+        "comment": " Get the third derivative of a spline (for a cubic spline, this is a\nconstant):\n\n    CubicSpline2d.thirdDerivative exampleSpline\n    --> Vector2d.fromComponents ( 0, 72 )\n\n",
+        "type": "CubicSpline2d.CubicSpline2d -> Vector2d.Vector2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    CubicSpline2d.translateBy displacement exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 3, 4 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 5, 7 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 9, 7 )\n    -->     }\n\n",
+        "type": "Vector2d.Vector2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate a spline in a given direction by a given distance;\n\n    CubicSpline2d.translateIn direction distance\n\nis equivalent to\n\n    CubicSpline2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
+        "type": "Direction2d.Direction2d -> Float -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "with",
+        "comment": " Construct a spline from its endpoints and control points:\n\n    exampleSpline =\n        CubicSpline2d.with\n            { startPoint =\n                Point2d.fromCoordinates ( 1, 1 )\n            , startControlPoint =\n                Point2d.fromCoordinates ( 3, 4 )\n            , endControlPoint =\n                Point2d.fromCoordinates ( 5, 1 )\n            , endPoint =\n                Point2d.fromCoordinates ( 7, 4 )\n            }\n\n",
+        "type": "{ startPoint : Point2d.Point2d , startControlPoint : Point2d.Point2d , endControlPoint : Point2d.Point2d , endPoint : Point2d.Point2d } -> CubicSpline2d.CubicSpline2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Polyline2d",
     "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Polyline2d/icon.svg\" alt=\"Polyline2d\" width=\"160\">\n\nA `Polyline2d` represents a sequence of vertices in 2D connected by line\nsegments. This module contains a variety of polyline-related functionality, such\nas\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\n@docs Polyline2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, segments, length, boundingBox\n\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
     "aliases": [
@@ -2308,240 +2542,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "CubicSpline2d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/CubicSpline2d/icon.svg\" alt=\"CubicSpline2d\" width=\"160\">\n\nA `CubicSpline2d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 2D defined by a start point, end point and two control points. This module\ncontains functionality for\n\n  - Constructing splines\n  - Evaluating points and tangent directions along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline2d\n\n\n# Constructors\n\n@docs with, fromEndpoints, fromQuadraticSpline\n\n\n# Properties\n\n@docs startPoint, endPoint, startControlPoint, endControlPoint, startDerivative, endDerivative, boundingBox\n\n\n# Evaluation\n\n@docs pointOn, pointsAt\n@docs Nondegenerate, nondegenerate, fromNondegenerate\n@docs tangentDirection, tangentDirectionsAt, sample, samplesAt\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n\n# Arc length parameterization\n\n@docs ArcLengthParameterized, arcLengthParameterized, arcLength, pointAlong, tangentDirectionAlong, sampleAlong\n\n\n## Low level\n\nAn `ArcLengthParameterized` value is a combination of an\n[`ArcLengthParameterization`](Geometry-ArcLengthParameterization) and an\nunderlying `CubicSpline2d`. If you need to do something fancy, you can extract\nthese two values separately.\n\n@docs arcLengthParameterization, fromArcLengthParameterized\n\n\n# Differentiation\n\nYou are unlikely to need to use these functions directly, but they are useful if\nyou are writing low-level geometric algorithms.\n\n@docs firstDerivative, firstDerivativesAt, secondDerivative, secondDerivativesAt, thirdDerivative, maxSecondDerivativeMagnitude\n\n",
-    "aliases": [
-      {
-        "name": "CubicSpline2d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.CubicSpline2d"
-      }
-    ],
-    "types": [
-      {
-        "name": "ArcLengthParameterized",
-        "comment": " A spline that has been parameterized by arc length.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Nondegenerate",
-        "comment": " If a curve has zero length (consists of just a single point), then we say\nthat it is 'degenerate'. Some operations such as computing tangent directions\nare not defined on degenerate curves.\n\nA `Nondegenerate` value represents a spline that is definitely not degenerate.\nIt is used as input to functions such as `CubicSpline2d.tangentDirection` and\ncan be constructed using `CubicSpline2d.nondegenerate`.\n\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "arcLength",
-        "comment": " Find the total arc length of a spline:\n\n    arcLength =\n        CubicSpline2d.arcLength parameterizedSpline\n\n    arcLength\n    --> 7.0952\n\nIn this example, the result will be accurate to within `1.0e-4` since that was\nthe tolerance used when constructing `parameterizedSpline`.\n\n",
-        "type": "CubicSpline2d.ArcLengthParameterized -> Float"
-      },
-      {
-        "name": "arcLengthParameterization",
-        "comment": " ",
-        "type": "CubicSpline2d.ArcLengthParameterized -> Curve.ArcLengthParameterization.ArcLengthParameterization"
-      },
-      {
-        "name": "arcLengthParameterized",
-        "comment": " Build an arc length parameterization of the given spline, with a given\naccuracy. Generally speaking, all operations on the resulting\n`ArcLengthParameterized` value will be accurate to within the specified maximum\nerror.\n\n    parameterizedSpline =\n        exampleSpline\n            |> CubicSpline2d.arcLengthParameterized\n                { maxError = 1.0e-4 }\n\nThe accuracy of the parameterization affects the accuracy of results returned\nfrom functions such as `arcLength` and `pointAlong`.\n\n",
-        "type": "{ maxError : Float } -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.ArcLengthParameterized"
-      },
-      {
-        "name": "bisect",
-        "comment": " Split a spline into two roughly equal halves.\n\n    CubicSpline2d.bisect exampleSpline\n    --> ( CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 1, 1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2, 2.5 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 3, 2.5 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 4, 2.5 )\n    -->     }\n    --> , CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 4, 2.5 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 5, 2.5 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 2.5 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     }\n    --> )\n\nEquivalent to `CubicSpline2d.splitAt ParameterValue.half`.\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> ( CubicSpline2d.CubicSpline2d, CubicSpline2d.CubicSpline2d )"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Compute a bounding box for a given spline. It is not guaranteed that the\nresult will be the _smallest_ possible bounding box, since for efficiency the\nbounding box is computed from the spline's control points (which cover a larger\narea than the spline itself).\n\n    CubicSpline2d.boundingBox exampleSpline\n    --> BoundingBox2d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 7\n    -->     , minY = 1\n    -->     , maxY = 4\n    -->     }\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> BoundingBox2d.BoundingBox2d"
-      },
-      {
-        "name": "endControlPoint",
-        "comment": " Get the end control point of a spline (the control point next to the\nend point).\n\n    CubicSpline2d.endControlPoint exampleSpline\n    --> Point2d.fromCoordinates ( 5, 1 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
-      },
-      {
-        "name": "endDerivative",
-        "comment": " Get the end derivative of a spline. This is equal to three times the vector\nfrom the spline's end control point to its end point.\n\n    CubicSpline2d.endDerivative exampleSpline\n    --> Vector2d.fromComponents ( 6, 9 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Vector2d.Vector2d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a spline.\n\n    CubicSpline2d.endPoint exampleSpline\n    --> Point2d.fromCoordinates ( 7, 4 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
-      },
-      {
-        "name": "firstDerivative",
-        "comment": " Get the first derivative of a spline at a given parameter value:\n\n    CubicSpline2d.firstDerivative exampleSpline\n        ParameterValue.zero\n    --> Vector2d.fromComponents ( 6, 9 )\n\n    CubicSpline2d.firstDerivative exampleSpline\n        ParameterValue.half\n    --> Vector2d.fromComponents ( 6, 0 )\n\n    CubicSpline2d.firstDerivative exampleSpline\n        ParameterValue.one\n    --> Vector2d.fromComponents ( 6, 9 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Curve.ParameterValue.ParameterValue -> Vector2d.Vector2d"
-      },
-      {
-        "name": "firstDerivativesAt",
-        "comment": " Evaluate the first derivative of a spline at a given set of parameter\nvalues:\n\n    exampleSpline\n        |> CubicSpline2d.firstDerivativesAt\n            (ParameterValue.steps 2)\n    --> [ Vector2d.fromComponents ( 6, 9 )\n    --> , Vector2d.fromComponents ( 6, 0 )\n    --> , Vector2d.fromComponents ( 6, 9 )\n    --> ]\n\n",
-        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> List Vector2d.Vector2d"
-      },
-      {
-        "name": "fromArcLengthParameterized",
-        "comment": " ",
-        "type": "CubicSpline2d.ArcLengthParameterized -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "fromEndpoints",
-        "comment": " Construct a spline from a given start point with a given start derivative,\nto a given end point with a given end derivative, like so:\n\n![Cubic spline from endpoints](https://ianmackenzie.github.io/elm-geometry/1.0.0/CubicSpline2d/fromEndpoints.svg)\n\nThe spline is based on a parameter that ranges from 0 to 1; as a result, in most\ncases the length of each derivative vector should be roughly equal to the length\nof the resulting spline.\n\n",
-        "type": "{ startPoint : Point2d.Point2d , startDerivative : Vector2d.Vector2d , endPoint : Point2d.Point2d , endDerivative : Vector2d.Vector2d } -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "fromNondegenerate",
-        "comment": " Convert a nondegenerate spline back to a general `CubicSpline2d`.\n\n    CubicSpline2d.fromNondegenerate\n        nondegenerateExampleSpline\n    --> exampleSpline\n\n",
-        "type": "CubicSpline2d.Nondegenerate -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "fromQuadraticSpline",
-        "comment": " Convert a quadratic spline into the equivalent cubic spline (every quadratic\nspline can be represented exactly as a cubic spline).\n\n    quadraticSpline =\n        QuadraticSpline2d.with\n            { startPoint =\n                Point2d.fromCoordinates ( 0, 0  )\n            , controlPoint =\n                Point2d.fromCoordinates ( 3, 0 )\n            , endPoint =\n                Point2d.fromCoordinates ( 3, 3 )\n            }\n\n    CubicSpline2d.fromQuadraticSpline quadraticSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 0, 0 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2, 0 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 3, 1 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 3, 3 )\n    -->     }\n\n",
-        "type": "QuadraticSpline2d.QuadraticSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "maxSecondDerivativeMagnitude",
-        "comment": " Find a conservative upper bound on the magnitude of the second derivative of\na spline. This can be useful when determining error bounds for various kinds of\nlinear approximations.\n\n    exampleSpline\n        |> CubicSpline2d.maxSecondDerivativeMagnitude\n    --> 36\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Float"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a spline across an axis.\n\n    CubicSpline2d.mirrorAcross Axis2d.x exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 1, -1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 3, -4 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 5, -1 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 7, -4 )\n    -->     }\n\n",
-        "type": "Axis2d.Axis2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "nondegenerate",
-        "comment": " Attempt to construct a nondegenerate spline from a general `CubicSpline2d`.\nIf the spline is in fact degenerate (consists of a single point), returns an\n`Err` with that point.\n\n    CubicSpline2d.nondegenerate exampleSpline\n    --> Ok nondegenerateExampleSpline\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Result.Result Point2d.Point2d CubicSpline2d.Nondegenerate"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    CubicSpline2d.placeIn localFrame exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 2, 3 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 4, 6 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 3 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 8, 6 )\n    -->     }\n\n",
-        "type": "Frame2d.Frame2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "pointAlong",
-        "comment": " Try to get the point along a spline at a given arc length. For example, to\nget the point a quarter of the way along `exampleSpline`, using `arcLength` as\ncomputed above:\n\n    CubicSpline2d.pointAlong parameterizedSpline\n        (0.25 * arcLength)\n    --> Just (Point2d.fromCoordinates ( 2.2681, 2.2114 ))\n\nNote that this is not the same as evaulating at a parameter value of 0.25:\n\n    CubicSpline2d.pointOn exampleSpline\n        (ParameterValue.clamped 0.25)\n    --> Point2d.fromCoordinates ( 2.5, 2.3125 )\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline, returns `Nothing`.\n\n",
-        "type": "CubicSpline2d.ArcLengthParameterized -> Float -> Maybe.Maybe Point2d.Point2d"
-      },
-      {
-        "name": "pointOn",
-        "comment": " Get the point along a spline at a given parameter value:\n\n    CubicSpline2d.pointOn exampleSpline ParameterValue.zero\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n    CubicSpline2d.pointOn exampleSpline ParameterValue.half\n    --> Point2d.fromCoordinates ( 4, 2.5 )\n\n    CubicSpline2d.pointOn exampleSpline ParameterValue.one\n    --> Point2d.fromCoordinates ( 7, 4 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Curve.ParameterValue.ParameterValue -> Point2d.Point2d"
-      },
-      {
-        "name": "pointsAt",
-        "comment": " Get points along a spline at a given set of parameter values:\n\n    exampleSpline\n        |> CubicSpline2d.pointsAt\n            (ParameterValue.steps 2)\n    --> [ Point2d.fromCoordinates ( 1, 1 )\n    --> , Point2d.fromCoordinates ( 4, 2.5 )\n    --> , Point2d.fromCoordinates ( 7, 4 )\n    --> ]\n\n",
-        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> List Point2d.Point2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    CubicSpline2d.relativeTo localFrame exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 0, -1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2, 2 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 4, -1 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 6, 2 )\n    -->     }\n\n",
-        "type": "Frame2d.Frame2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    CubicSpline2d.reverse exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 5, 1 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 3, 4 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 1, 1 )\n    -->     }\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a spline counterclockwise around a given center point by a given\nangle (in radians).\n\n    exampleSpline\n        |> CubicSpline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( -1, 1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( -4, 3 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( -1, 5 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( -4, 7 )\n    -->     }\n\n",
-        "type": "Point2d.Point2d -> Float -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "sample",
-        "comment": " Get both the point and tangent direction of a nondegenerate spline at a\ngiven parameter value:\n\n    CubicSpline2d.sample nondegenerateExampleSpline\n        ParameterValue.half\n    --> ( Point2d.fromCoordinates ( 4, 2.5 )\n    --> , Direction2d.fromAngle (degrees 0)\n    --> )\n\n",
-        "type": "CubicSpline2d.Nondegenerate -> Curve.ParameterValue.ParameterValue -> ( Point2d.Point2d, Direction2d.Direction2d )"
-      },
-      {
-        "name": "sampleAlong",
-        "comment": " Try to get the point and tangent direction along a spline at a given arc\nlength. To get the point and tangent direction a quarter of the way along\n`exampleSpline`:\n\n    CubicSpline2d.sampleAlong parameterizedSpline\n        (0.25 * arcLength)\n    --> Just\n    -->     ( Point2d.fromCoordinates ( 2.2681, 2.2114 )\n    -->     , Direction2d.fromAngle (degrees 26.5611)\n    -->     )\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline (or if the spline is degenerate), returns `Nothing`.\n\n",
-        "type": "CubicSpline2d.ArcLengthParameterized -> Float -> Maybe.Maybe ( Point2d.Point2d, Direction2d.Direction2d )"
-      },
-      {
-        "name": "samplesAt",
-        "comment": " Get points and tangent directions of a nondegenerate spline at a given set\nof parameter values:\n\n    nondegenerateExampleSpline\n        |> CubicSpline2d.samplesAt\n            (ParameterValue.steps 2)\n    --> [ ( Point2d.fromCoordinates ( 1, 1 )\n    -->   , Direction2d.fromAngle (degrees 56.31)\n    -->   )\n    --> , ( Point2d.fromCoordinates ( 4, 2.5 )\n    -->   , Direction2d.fromAngle (degrees 0)\n    -->   )\n    --> , ( Point2d.fromCoordinates ( 7, 4 )\n    -->   , Direction2d.fromAngle (degrees 56.31)\n    -->   )\n    --> ]\n\n",
-        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.Nondegenerate -> List ( Point2d.Point2d, Direction2d.Direction2d )"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a spline about the given center point by the given scale.\n\n    CubicSpline2d.scaleAbout Point2d.origin 2 exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 2, 2 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 8 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 10, 2 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 14, 8 )\n    -->     }\n\n",
-        "type": "Point2d.Point2d -> Float -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "secondDerivative",
-        "comment": " Evaluate the second derivative of a spline at a given parameter value:\n\n    CubicSpline2d.secondDerivativeAt 0 exampleSpline\n    --> Just (Vector2d.fromComponents ( 0, -36 ))\n\n    CubicSpline2d.secondDerivativeAt 0.5 exampleSpline\n    --> Just (Vector2d.fromComponents ( 0, 0 ))\n\n    CubicSpline2d.secondDerivativeAt 1 exampleSpline\n    --> Just (Vector2d.fromComponents ( 0, 36 ))\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Curve.ParameterValue.ParameterValue -> Vector2d.Vector2d"
-      },
-      {
-        "name": "secondDerivativesAt",
-        "comment": " Evaluate the second derivative of a spline at a given set of parameter\nvalues:\n\n    exampleSpline\n        |> CubicSpline2d.secondDerivativesAt\n            (ParameterValue.steps 2)\n    --> [ Vector2d.fromComponents ( 0, -36 )\n    --> , Vector2d.fromComponents ( 0, 0 )\n    --> , Vector2d.fromComponents ( 0, 36 )\n    --> ]\n\n",
-        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> List Vector2d.Vector2d"
-      },
-      {
-        "name": "splitAt",
-        "comment": " Split a spline at a particular parameter value, resulting in two smaller\nsplines.\n\n    parameterValue =\n        ParameterValue.clamped 0.75\n\n    CubicSpline2d.splitAt parameterValue exampleSpline\n    --> ( CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 1, 1 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 2.5, 3.25 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 4, 2.125 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 5.5, 2.6875 )\n    -->     }\n    --> , CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 5.5, 2.6875 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 6, 2.875 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 6.5, 3.25 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     }\n    --> )\n\n",
-        "type": "Curve.ParameterValue.ParameterValue -> CubicSpline2d.CubicSpline2d -> ( CubicSpline2d.CubicSpline2d, CubicSpline2d.CubicSpline2d )"
-      },
-      {
-        "name": "startControlPoint",
-        "comment": " Get the start control point of a spline (the control point next to the\nstart point).\n\n    CubicSpline2d.startControlPoint exampleSpline\n    --> Point2d.fromCoordinates ( 3, 4 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
-      },
-      {
-        "name": "startDerivative",
-        "comment": " Get the start derivative of a spline. This is equal to three times the\nvector from the spline's start point to its start control point.\n\n    CubicSpline2d.startDerivative exampleSpline\n    --> Vector2d.fromComponents ( 6, 9 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Vector2d.Vector2d"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a spline.\n\n    CubicSpline2d.startPoint exampleSpline\n    --> Point2d.fromCoordinates ( 1, 1 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Point2d.Point2d"
-      },
-      {
-        "name": "tangentDirection",
-        "comment": " Get the tangent direction to a nondegenerate spline at a given parameter\nvalue:\n\n    CubicSpline2d.tangentDirection\n        nondegenerateExampleSpline\n        ParameterValue.zero\n    --> Direction2d.fromAngle (degrees 56.31)\n\n    CubicSpline2d.tangentDirection\n        nondegenerateExampleSpline\n        ParameterValue.half\n    --> Direction2d.fromAngle (degrees 0)\n\n    CubicSpline2d.tangentDirection\n        nondegenerateExampleSpline\n        ParameterValue.one\n    --> Direction2d.fromAngle (degrees 56.31)\n\n",
-        "type": "CubicSpline2d.Nondegenerate -> Curve.ParameterValue.ParameterValue -> Direction2d.Direction2d"
-      },
-      {
-        "name": "tangentDirectionAlong",
-        "comment": " Try to get the tangent direction along a spline at a given arc length. To\nget the tangent direction a quarter of the way along `exampleSpline`:\n\n    CubicSpline2d.tangentDirectionAlong parameterizedSpline\n        (0.25 * arcLength)\n    --> Just (Direction2d.fromAngle (degrees 26.5611))\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline (or if the spline is degenerate), returns `Nothing`.\n\n",
-        "type": "CubicSpline2d.ArcLengthParameterized -> Float -> Maybe.Maybe Direction2d.Direction2d"
-      },
-      {
-        "name": "tangentDirectionsAt",
-        "comment": " Get tangent directions to a nondegenerate spline at a given set of parameter\nvalues:\n\n    nondegenerateExampleSpline\n        |> CubicSpline2d.tangentDirectionsAt\n            (ParameterValue.steps 2)\n    --> [ Direction2d.fromAngle (degrees 56.31)\n    --> , Direction2d.fromAngle (degrees 0)\n    --> , Direction2d.fromAngle (degrees 56.31)\n    --> ]\n\n",
-        "type": "List Curve.ParameterValue.ParameterValue -> CubicSpline2d.Nondegenerate -> List Direction2d.Direction2d"
-      },
-      {
-        "name": "thirdDerivative",
-        "comment": " Get the third derivative of a spline (for a cubic spline, this is a\nconstant):\n\n    CubicSpline2d.thirdDerivative exampleSpline\n    --> Vector2d.fromComponents ( 0, 72 )\n\n",
-        "type": "CubicSpline2d.CubicSpline2d -> Vector2d.Vector2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    CubicSpline2d.translateBy displacement exampleSpline\n    --> CubicSpline2d.with\n    -->     { startPoint =\n    -->         Point2d.fromCoordinates ( 3, 4 )\n    -->     , startControlPoint =\n    -->         Point2d.fromCoordinates ( 5, 7 )\n    -->     , endControlPoint =\n    -->         Point2d.fromCoordinates ( 7, 4 )\n    -->     , endPoint =\n    -->         Point2d.fromCoordinates ( 9, 7 )\n    -->     }\n\n",
-        "type": "Vector2d.Vector2d -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate a spline in a given direction by a given distance;\n\n    CubicSpline2d.translateIn direction distance\n\nis equivalent to\n\n    CubicSpline2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
-        "type": "Direction2d.Direction2d -> Float -> CubicSpline2d.CubicSpline2d -> CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "with",
-        "comment": " Construct a spline from its endpoints and control points:\n\n    exampleSpline =\n        CubicSpline2d.with\n            { startPoint =\n                Point2d.fromCoordinates ( 1, 1 )\n            , startControlPoint =\n                Point2d.fromCoordinates ( 3, 4 )\n            , endControlPoint =\n                Point2d.fromCoordinates ( 5, 1 )\n            , endPoint =\n                Point2d.fromCoordinates ( 7, 4 )\n            }\n\n",
-        "type": "{ startPoint : Point2d.Point2d , startControlPoint : Point2d.Point2d , endControlPoint : Point2d.Point2d , endPoint : Point2d.Point2d } -> CubicSpline2d.CubicSpline2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Plane3d",
     "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Plane3d/icon.svg\" alt=\"Plane3d\" width=\"160\">\n\nA `Plane3d` is an infinite flat plane in 3D. It is defined by an origin point\nand normal direction and is useful for several operations including:\n\n  - Mirroring across the plane\n  - Projecting onto the plane\n  - Measuring distance from the plane\n\n@docs Plane3d\n\n\n# Constants\n\n@docs xy, yz, zx\n\n\n# Constructors\n\n@docs through, withNormalDirection, throughPoints\n\n\n# Properties\n\n@docs originPoint, normalDirection, normalAxis\n\n\n# Transformations\n\n@docs offsetBy, reverseNormal, rotateAround, translateBy, translateIn, moveTo, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
     "aliases": [
@@ -2643,147 +2643,6 @@
         "name": "zx",
         "comment": " The global ZX plane, centered at the origin with a normal in the positive Y\ndirection.\n\n    Plane3d.zx\n    --> through Point3d.origin Direction3d.y\n\n",
         "type": "Plane3d.Plane3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "LineSegment2d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/LineSegment2d/icon.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment2d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, perpendicularDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Intersection\n\n@docs intersectionPoint\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "LineSegment2d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.LineSegment2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "along",
-        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment2d.along Axis2d.x 3 5\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 0 )\n    -->     , Point2d.fromCoordinates ( 5, 0 )\n    -->     )\n\n    LineSegment2d.along Axis2d.y 2 -4\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, -4 )\n    -->     )\n\n",
-        "type": "Axis2d.Axis2d -> Float -> Float -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given line segment.\n\n    LineSegment2d.boundingBox exampleLineSegment\n    --> BoundingBox2d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 3\n    -->     , minY = 2\n    -->     , maxY = 4\n    -->     }\n\n",
-        "type": "LineSegment2d.LineSegment2d -> BoundingBox2d.BoundingBox2d"
-      },
-      {
-        "name": "direction",
-        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment2d.direction exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 45))\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Maybe.Maybe Direction2d.Direction2d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a line segment.\n\n    LineSegment2d.endPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 3, 4 )\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Point2d.Point2d"
-      },
-      {
-        "name": "endpoints",
-        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment2d.endpoints lineSegment\n\n",
-        "type": "LineSegment2d.LineSegment2d -> ( Point2d.Point2d, Point2d.Point2d )"
-      },
-      {
-        "name": "from",
-        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment2d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment2d.fromEndpoints ( firstPoint, secondPoint )\n\n",
-        "type": "Point2d.Point2d -> Point2d.Point2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "fromEndpoints",
-        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n\n",
-        "type": "( Point2d.Point2d, Point2d.Point2d ) -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "interpolate",
-        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment2d.interpolate exampleLineSegment 0.25\n    --> Point2d.fromCoordinates ( 1.5, 2.5 )\n\n    LineSegment2d.interpolate exampleLineSegment 1.5\n    --> Point2d.fromCoordinates ( 4, 5 )\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Float -> Point2d.Point2d"
-      },
-      {
-        "name": "intersectionPoint",
-        "comment": " Attempt to find the unique intersection point of two line segments. If there\nis no such point (the two line segments do not touch, or they overlap), returns\n`Nothing`.\n\n    -- 4 corners of a square\n\n    a =\n        Point2d.fromCoordinates ( 0, 0 )\n\n    b =\n        Point2d.fromCoordinates ( 1, 0 )\n\n    c =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    d =\n        Point2d.fromCoordinates ( 0, 1 )\n\n    -- definition of some segments with those points\n\n    ab =\n        LineSegment2d.from a b\n    ...\n\n    -- searching for intersections\n\n    LineSegment2d.intersectionPoint ab bc\n    --> Just (Point2d.fromCoordinates ( 1, 0 ))\n    -- corner point b\n\n    LineSegment2d.intersectionPoint ac bd\n    --> Just (Point2d.fromCoordinates ( 0.5, 0.5 ))\n    -- diagonal crossing at square center\n\n    LineSegment2d.intersectionPoint ab cd\n    --> Nothing -- parallel lines\n\n    LineSegment2d.intersectionPoint ab ab\n    --> Nothing -- collinear lines\n\nNote that if the endpoint of one line segment lies on the other line segment,\nnumerical roundoff means that the intersection may or may not be found. If two\nsegments have a shared endpoint (the two segments meet in something like a 'V',\nwhere the end point of one segment is the start point of the next), that point\nis guaranteed to be returned as the intersection point, but if two segments meet\nin a 'T' shape the intersection point may or may not be found.\n\n",
-        "type": "LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d -> Maybe.Maybe Point2d.Point2d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the length of a line segment.\n\n    LineSegment2d.length exampleLineSegment\n    --> 2.8284\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Float"
-      },
-      {
-        "name": "mapEndpoints",
-        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment2d.projectOnto axis\n\nis equivalent to\n\n    LineSegment2d.mapEndpoints (Point2d.projectOnto axis)\n\n",
-        "type": "(Point2d.Point2d -> Point2d.Point2d) -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "midpoint",
-        "comment": " Get the midpoint of a line segment.\n\n    LineSegment2d.midpoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 2, 3 )\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Point2d.Point2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a line segment across an axis.\n\n    LineSegment2d.mirrorAcross Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 4 )\n    -->     )\n\nNote that the endpoints of a mirrored segment are equal to the mirrored\nendpoints of the original segment, but as a result the normal direction of a\nmirrored segment is the _opposite_ of the mirrored normal direction of the\noriginal segment (since the normal direction is always considered to be 'to the\nleft' of the line segment).\n\n",
-        "type": "Axis2d.Axis2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "perpendicularDirection",
-        "comment": " Get the direction perpendicular to a line segment, pointing to the left. If\nthe line segment has zero length, returns `Nothing`.\n\n    LineSegment2d.perpendicularDirection exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 135))\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Maybe.Maybe Direction2d.Direction2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.placeIn localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
-        "type": "Frame2d.Frame2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a line segment onto an axis.\n\n    LineSegment2d.projectOnto Axis2d.x exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n    LineSegment2d.projectOnto Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, 4 )\n    -->     )\n\n",
-        "type": "Axis2d.Axis2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.relativeTo localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     )\n\n",
-        "type": "Frame2d.Frame2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment2d.reverse exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     )\n\n",
-        "type": "LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a line segment counterclockwise around a given center point by a\ngiven angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -4, 3 )\n    -->     )\n\n",
-        "type": "Point2d.Point2d -> Float -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    LineSegment2d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 7 )\n    -->     )\n\n",
-        "type": "Point2d.Point2d -> Float -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment2d.squaredLength exampleLineSegment\n    --> 8\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Float"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a line segment.\n\n    LineSegment2d.startPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 1, 2 )\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Point2d.Point2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 1, 2 )\n\n    exampleLineSegment\n        |> LineSegment2d.translateBy displacement\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
-        "type": "Vector2d.Vector2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate a line segment in a given direction by a given distance;\n\n    LineSegment2d.translateIn direction distance\n\nis equivalent to\n\n    LineSegment2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
-        "type": "Direction2d.Direction2d -> Float -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "vector",
-        "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d.fromComponents ( 2, 2 )\n\n",
-        "type": "LineSegment2d.LineSegment2d -> Vector2d.Vector2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2895,107 +2754,6 @@
         "name": "withRadius",
         "comment": " Construct a circle from its radius and center point:\n\n    exampleCircle =\n        Circle2d.withRadius 3\n            (Point2d.fromCoordinates ( 1, 2 ))\n\nIf you pass a negative radius, the absolute value will be used.\n\n",
         "type": "Float -> Point2d.Point2d -> Circle2d.Circle2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Ellipse2d",
-    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Ellipse2d/icon.svg\" alt=\"Ellipse2d\" width=\"160\">\n\nAn [ellipse](https://en.wikipedia.org/wiki/Ellipse) is defined by a center\npoint, X and Y radius, and X and Y axes (which will always be perpendicular to\neach other). Ellipses are symmetric about their X and Y axes. This module\nincludes functionality for\n\n  - Constructing ellipses\n  - Scaling, rotating and translating ellipses\n  - Converting ellipses between different coordinate systems\n\n@docs Ellipse2d\n\n\n# Constructors\n\n@docs with\n\n\n# Properties\n\n@docs centerPoint, xAxis, yAxis, xDirection, yDirection, axes, xRadius, yRadius, area\n\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Ellipse2d",
-        "comment": " ",
-        "args": [],
-        "type": "Geometry.Types.Ellipse2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of an ellipse.\n\n    Ellipse2d.area exampleEllipse\n    --> 47.1239\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Float"
-      },
-      {
-        "name": "axes",
-        "comment": " Get the X and Y axes of an ellipse as a `Frame2d`.\n\n    Ellipse2d.axes exampleEllipse\n    --> Frame2d.withXDirection\n    -->     (Direction2d.fromAngle (degrees 30))\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Frame2d.Frame2d"
-      },
-      {
-        "name": "centerPoint",
-        "comment": " Get the center point of an ellipse.\n\n    Ellipse2d.centerPoint exampleEllipse\n    --> Point2d.fromCoordinates ( 10, 10 )\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Point2d.Point2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror an ellipse across a given axis.\n\n    mirroredEllipse =\n        Ellipse2d.mirrorAcross Axis2d.x exampleEllipse\n\n    Ellipse2d.centerPoint mirroredEllipse\n    --> Point2d.fromCoordinates ( 10, -10 )\n\n    Ellipse2d.xDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -30)\n\n    Ellipse2d.yDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -120)\n\nNote that if the axes of the original ellipse form a [right-handed](https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Orientation_and_handedness)\nframe, then the axes of the mirrored ellipse will form a left-handed frame (and\nvice versa).\n\n",
-        "type": "Axis2d.Axis2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take an ellipse considered to be defined in local coordinates relative to a\ngiven reference frame, and return that circle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.placeIn localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 25, 15 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take an ellipse defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.relativeTo localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( -5, 5 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate an ellipse around a given point by a given angle (in radians).\n\n    exampleEllipse\n        |> Ellipse2d.rotateAround Point2d.origin\n            (degrees 45)\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 0, 14.142 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 75)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale an ellipse about a given point by a given scale.\n\n    exampleEllipse\n        |> Ellipse2d.scaleAbout Point2d.origin 3\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 30, 30 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 15\n    -->     , yRadius = 9\n    -->     }\n\n",
-        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate an ellipse by a given displacement.\n\n    exampleEllipse\n        |> Ellipse2d.translateBy\n            (Vector2d.fromComponents ( 5, 10 ))\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 15, 20 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
-        "type": "Vector2d.Vector2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "translateIn",
-        "comment": " Translate an ellipse in a given direction by a given distance;\n\n    Ellipse2d.translateIn direction distance\n\nis equivalent to\n\n    Ellipse2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
-        "type": "Direction2d.Direction2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "with",
-        "comment": " Construct an ellipse from its center point, X direction, and X and Y radii.\nIf you pass a negative radius, the absolute value will be used.\n\n    exampleEllipse =\n        Ellipse2d.with\n            { centerPoint =\n                Point2d.fromCoordinates ( 10, 10 )\n            , xDirection =\n                Direction2d.fromAngle (degrees 30)\n            , xRadius = 5\n            , yRadius = 3\n            }\n\n",
-        "type": "{ centerPoint : Point2d.Point2d , xDirection : Direction2d.Direction2d , xRadius : Float , yRadius : Float } -> Ellipse2d.Ellipse2d"
-      },
-      {
-        "name": "xAxis",
-        "comment": " Get the X axis of an ellipse.\n\n    Ellipse2d.xAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "xDirection",
-        "comment": " Get the direction of the ellipse's X axis.\n\n    Ellipse2d.xDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 30)\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
-      },
-      {
-        "name": "xRadius",
-        "comment": " Get the radius of an ellipse along its X axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.xRadius exampleEllipse\n    --> 5\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Float"
-      },
-      {
-        "name": "yAxis",
-        "comment": " Get the Y axis of an ellipse.\n\n    Ellipse2d.yAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 120))\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
-      },
-      {
-        "name": "yDirection",
-        "comment": " Get the direction of an ellipse's Y axis.\n\n    Ellipse2d.yDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 120)\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
-      },
-      {
-        "name": "yRadius",
-        "comment": " Get the radius of an ellipse along its Y axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.yRadius exampleEllipse\n    --> 3\n\n",
-        "type": "Ellipse2d.Ellipse2d -> Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -3200,6 +2958,248 @@
         "name": "with",
         "comment": " Construct a spline from its start point, control point and end point:\n\n    exampleSpline =\n        QuadraticSpline2d.with\n            { startPoint =\n                Point2d.fromCoordinates ( 1, 1 )\n            , controlPoint =\n                Point2d.fromCoordinates ( 3, 4 )\n            , endPoint =\n                Point2d.fromCoordinates ( 5, 1 )\n            }\n\n",
         "type": "{ startPoint : Point2d.Point2d , controlPoint : Point2d.Point2d , endPoint : Point2d.Point2d } -> QuadraticSpline2d.QuadraticSpline2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "LineSegment2d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/LineSegment2d/icon.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment2d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, perpendicularDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Intersection\n\n@docs intersectionPoint\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "LineSegment2d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.LineSegment2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "along",
+        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment2d.along Axis2d.x 3 5\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 0 )\n    -->     , Point2d.fromCoordinates ( 5, 0 )\n    -->     )\n\n    LineSegment2d.along Axis2d.y 2 -4\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, -4 )\n    -->     )\n\n",
+        "type": "Axis2d.Axis2d -> Float -> Float -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given line segment.\n\n    LineSegment2d.boundingBox exampleLineSegment\n    --> BoundingBox2d.fromExtrema\n    -->     { minX = 1\n    -->     , maxX = 3\n    -->     , minY = 2\n    -->     , maxY = 4\n    -->     }\n\n",
+        "type": "LineSegment2d.LineSegment2d -> BoundingBox2d.BoundingBox2d"
+      },
+      {
+        "name": "direction",
+        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment2d.direction exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 45))\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Maybe.Maybe Direction2d.Direction2d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a line segment.\n\n    LineSegment2d.endPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 3, 4 )\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Point2d.Point2d"
+      },
+      {
+        "name": "endpoints",
+        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment2d.endpoints lineSegment\n\n",
+        "type": "LineSegment2d.LineSegment2d -> ( Point2d.Point2d, Point2d.Point2d )"
+      },
+      {
+        "name": "from",
+        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment2d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment2d.fromEndpoints ( firstPoint, secondPoint )\n\n",
+        "type": "Point2d.Point2d -> Point2d.Point2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "fromEndpoints",
+        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n\n",
+        "type": "( Point2d.Point2d, Point2d.Point2d ) -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "interpolate",
+        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment2d.interpolate exampleLineSegment 0.25\n    --> Point2d.fromCoordinates ( 1.5, 2.5 )\n\n    LineSegment2d.interpolate exampleLineSegment 1.5\n    --> Point2d.fromCoordinates ( 4, 5 )\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Float -> Point2d.Point2d"
+      },
+      {
+        "name": "intersectionPoint",
+        "comment": " Attempt to find the unique intersection point of two line segments. If there\nis no such point (the two line segments do not touch, or they overlap), returns\n`Nothing`.\n\n    -- 4 corners of a square\n\n    a =\n        Point2d.fromCoordinates ( 0, 0 )\n\n    b =\n        Point2d.fromCoordinates ( 1, 0 )\n\n    c =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    d =\n        Point2d.fromCoordinates ( 0, 1 )\n\n    -- definition of some segments with those points\n\n    ab =\n        LineSegment2d.from a b\n    ...\n\n    -- searching for intersections\n\n    LineSegment2d.intersectionPoint ab bc\n    --> Just (Point2d.fromCoordinates ( 1, 0 ))\n    -- corner point b\n\n    LineSegment2d.intersectionPoint ac bd\n    --> Just (Point2d.fromCoordinates ( 0.5, 0.5 ))\n    -- diagonal crossing at square center\n\n    LineSegment2d.intersectionPoint ab cd\n    --> Nothing -- parallel lines\n\n    LineSegment2d.intersectionPoint ab ab\n    --> Nothing -- collinear lines\n\nNote that if the endpoint of one line segment lies on the other line segment,\nnumerical roundoff means that the intersection may or may not be found. If two\nsegments have a shared endpoint (the two segments meet in something like a 'V',\nwhere the end point of one segment is the start point of the next), that point\nis guaranteed to be returned as the intersection point, but if two segments meet\nin a 'T' shape the intersection point may or may not be found.\n\n",
+        "type": "LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d -> Maybe.Maybe Point2d.Point2d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the length of a line segment.\n\n    LineSegment2d.length exampleLineSegment\n    --> 2.8284\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Float"
+      },
+      {
+        "name": "mapEndpoints",
+        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment2d.projectOnto axis\n\nis equivalent to\n\n    LineSegment2d.mapEndpoints (Point2d.projectOnto axis)\n\n",
+        "type": "(Point2d.Point2d -> Point2d.Point2d) -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "midpoint",
+        "comment": " Get the midpoint of a line segment.\n\n    LineSegment2d.midpoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 2, 3 )\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Point2d.Point2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a line segment across an axis.\n\n    LineSegment2d.mirrorAcross Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 4 )\n    -->     )\n\nNote that the endpoints of a mirrored segment are equal to the mirrored\nendpoints of the original segment, but as a result the normal direction of a\nmirrored segment is the _opposite_ of the mirrored normal direction of the\noriginal segment (since the normal direction is always considered to be 'to the\nleft' of the line segment).\n\n",
+        "type": "Axis2d.Axis2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "perpendicularDirection",
+        "comment": " Get the direction perpendicular to a line segment, pointing to the left. If\nthe line segment has zero length, returns `Nothing`.\n\n    LineSegment2d.perpendicularDirection exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 135))\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Maybe.Maybe Direction2d.Direction2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.placeIn localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
+        "type": "Frame2d.Frame2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a line segment onto an axis.\n\n    LineSegment2d.projectOnto Axis2d.x exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n    LineSegment2d.projectOnto Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, 4 )\n    -->     )\n\n",
+        "type": "Axis2d.Axis2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.relativeTo localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     )\n\n",
+        "type": "Frame2d.Frame2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment2d.reverse exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     )\n\n",
+        "type": "LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a line segment counterclockwise around a given center point by a\ngiven angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -4, 3 )\n    -->     )\n\n",
+        "type": "Point2d.Point2d -> Float -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    LineSegment2d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 7 )\n    -->     )\n\n",
+        "type": "Point2d.Point2d -> Float -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "squaredLength",
+        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment2d.squaredLength exampleLineSegment\n    --> 8\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Float"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a line segment.\n\n    LineSegment2d.startPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 1, 2 )\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Point2d.Point2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 1, 2 )\n\n    exampleLineSegment\n        |> LineSegment2d.translateBy displacement\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
+        "type": "Vector2d.Vector2d -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate a line segment in a given direction by a given distance;\n\n    LineSegment2d.translateIn direction distance\n\nis equivalent to\n\n    LineSegment2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
+        "type": "Direction2d.Direction2d -> Float -> LineSegment2d.LineSegment2d -> LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "vector",
+        "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d.fromComponents ( 2, 2 )\n\n",
+        "type": "LineSegment2d.LineSegment2d -> Vector2d.Vector2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Ellipse2d",
+    "comment": " <img src=\"https://ianmackenzie.github.io/elm-geometry/1.0.0/Ellipse2d/icon.svg\" alt=\"Ellipse2d\" width=\"160\">\n\nAn [ellipse](https://en.wikipedia.org/wiki/Ellipse) is defined by a center\npoint, X and Y radius, and X and Y axes (which will always be perpendicular to\neach other). Ellipses are symmetric about their X and Y axes. This module\nincludes functionality for\n\n  - Constructing ellipses\n  - Scaling, rotating and translating ellipses\n  - Converting ellipses between different coordinate systems\n\n@docs Ellipse2d\n\n\n# Constructors\n\n@docs with\n\n\n# Properties\n\n@docs centerPoint, xAxis, yAxis, xDirection, yDirection, axes, xRadius, yRadius, area\n\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, translateIn, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Ellipse2d",
+        "comment": " ",
+        "args": [],
+        "type": "Geometry.Types.Ellipse2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of an ellipse.\n\n    Ellipse2d.area exampleEllipse\n    --> 47.1239\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Float"
+      },
+      {
+        "name": "axes",
+        "comment": " Get the X and Y axes of an ellipse as a `Frame2d`.\n\n    Ellipse2d.axes exampleEllipse\n    --> Frame2d.withXDirection\n    -->     (Direction2d.fromAngle (degrees 30))\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Frame2d.Frame2d"
+      },
+      {
+        "name": "centerPoint",
+        "comment": " Get the center point of an ellipse.\n\n    Ellipse2d.centerPoint exampleEllipse\n    --> Point2d.fromCoordinates ( 10, 10 )\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Point2d.Point2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror an ellipse across a given axis.\n\n    mirroredEllipse =\n        Ellipse2d.mirrorAcross Axis2d.x exampleEllipse\n\n    Ellipse2d.centerPoint mirroredEllipse\n    --> Point2d.fromCoordinates ( 10, -10 )\n\n    Ellipse2d.xDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -30)\n\n    Ellipse2d.yDirection mirroredEllipse\n    --> Direction2d.fromAngle (degrees -120)\n\nNote that if the axes of the original ellipse form a [right-handed](https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Orientation_and_handedness)\nframe, then the axes of the mirrored ellipse will form a left-handed frame (and\nvice versa).\n\n",
+        "type": "Axis2d.Axis2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take an ellipse considered to be defined in local coordinates relative to a\ngiven reference frame, and return that circle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.placeIn localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 25, 15 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take an ellipse defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates (15, 5))\n\n    Ellipse2d.relativeTo localFrame exampleEllipse\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( -5, 5 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Frame2d.Frame2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate an ellipse around a given point by a given angle (in radians).\n\n    exampleEllipse\n        |> Ellipse2d.rotateAround Point2d.origin\n            (degrees 45)\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 0, 14.142 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 75)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale an ellipse about a given point by a given scale.\n\n    exampleEllipse\n        |> Ellipse2d.scaleAbout Point2d.origin 3\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 30, 30 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 15\n    -->     , yRadius = 9\n    -->     }\n\n",
+        "type": "Point2d.Point2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate an ellipse by a given displacement.\n\n    exampleEllipse\n        |> Ellipse2d.translateBy\n            (Vector2d.fromComponents ( 5, 10 ))\n    --> Ellipse2d.with\n    -->     { centerPoint =\n    -->         Point2d.fromCoordinates ( 15, 20 )\n    -->     , xDirection =\n    -->         Direction2d.fromAngle (degrees 30)\n    -->     , xRadius = 5\n    -->     , yRadius = 3\n    -->     }\n\n",
+        "type": "Vector2d.Vector2d -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "translateIn",
+        "comment": " Translate an ellipse in a given direction by a given distance;\n\n    Ellipse2d.translateIn direction distance\n\nis equivalent to\n\n    Ellipse2d.translateBy\n        (Vector2d.withLength distance direction)\n\n",
+        "type": "Direction2d.Direction2d -> Float -> Ellipse2d.Ellipse2d -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "with",
+        "comment": " Construct an ellipse from its center point, X direction, and X and Y radii.\nIf you pass a negative radius, the absolute value will be used.\n\n    exampleEllipse =\n        Ellipse2d.with\n            { centerPoint =\n                Point2d.fromCoordinates ( 10, 10 )\n            , xDirection =\n                Direction2d.fromAngle (degrees 30)\n            , xRadius = 5\n            , yRadius = 3\n            }\n\n",
+        "type": "{ centerPoint : Point2d.Point2d , xDirection : Direction2d.Direction2d , xRadius : Float , yRadius : Float } -> Ellipse2d.Ellipse2d"
+      },
+      {
+        "name": "xAxis",
+        "comment": " Get the X axis of an ellipse.\n\n    Ellipse2d.xAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 30))\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "xDirection",
+        "comment": " Get the direction of the ellipse's X axis.\n\n    Ellipse2d.xDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 30)\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
+      },
+      {
+        "name": "xRadius",
+        "comment": " Get the radius of an ellipse along its X axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.xRadius exampleEllipse\n    --> 5\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Float"
+      },
+      {
+        "name": "yAxis",
+        "comment": " Get the Y axis of an ellipse.\n\n    Ellipse2d.yAxis exampleEllipse\n    --> Axis2d.through\n    -->     (Point2d.fromCoordinates ( 10, 10 ))\n    -->     (Direction2d.fromAngle (degrees 120))\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Axis2d.Axis2d"
+      },
+      {
+        "name": "yDirection",
+        "comment": " Get the direction of an ellipse's Y axis.\n\n    Ellipse2d.yDirection exampleEllipse\n    --> Direction2d.fromAngle (degrees 120)\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Direction2d.Direction2d"
+      },
+      {
+        "name": "yRadius",
+        "comment": " Get the radius of an ellipse along its Y axis. This may be either the\nminimum or maximum radius.\n\n    Ellipse2d.yRadius exampleEllipse\n    --> 3\n\n",
+        "type": "Ellipse2d.Ellipse2d -> Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"

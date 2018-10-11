@@ -112,6 +112,79 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Infer.Monad",
+    "comment": "\n\n\n# Construction\n\n@docs pure, err, Monad, fromResult\n\n\n# Mapping\n\n@docs andThen, map, map2, map3, map4, andMap\n\n\n# Combining\n\n@docs combine, finalValue\n\n",
+    "aliases": [
+      {
+        "name": "Monad",
+        "comment": " Represents a stateful computation that can fail.\n",
+        "args": [
+          "a"
+        ],
+        "type": "State.State Int (Result.Result String a)"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "andMap",
+        "comment": " map over one more value. Arguments are reversed in order to work\nwell with `<|`.\n",
+        "type": "Infer.Monad.Monad y -> Infer.Monad.Monad (y -> z) -> Infer.Monad.Monad z"
+      },
+      {
+        "name": "andThen",
+        "comment": " `andThen` for this particular monad.\n",
+        "type": "(a -> Infer.Monad.Monad b) -> Infer.Monad.Monad a -> Infer.Monad.Monad b"
+      },
+      {
+        "name": "combine",
+        "comment": " Lifts the monads out of a list.\n",
+        "type": "List (Infer.Monad.Monad a) -> Infer.Monad.Monad (List a)"
+      },
+      {
+        "name": "err",
+        "comment": " Represents a failed computation.\n",
+        "type": "String -> Infer.Monad.Monad a"
+      },
+      {
+        "name": "finalValue",
+        "comment": " Computes the value of a computation.\n",
+        "type": "Int -> Infer.Monad.Monad a -> Result.Result String a"
+      },
+      {
+        "name": "fromResult",
+        "comment": " Un-specialize a Result.\n",
+        "type": "Result.Result String a -> Infer.Monad.Monad a"
+      },
+      {
+        "name": "map",
+        "comment": " `map` for this particular monad.\n",
+        "type": "(a -> value) -> Infer.Monad.Monad a -> Infer.Monad.Monad value"
+      },
+      {
+        "name": "map2",
+        "comment": " `map2` for this particular monad.\n",
+        "type": "(a -> b -> c) -> Infer.Monad.Monad a -> Infer.Monad.Monad b -> Infer.Monad.Monad c"
+      },
+      {
+        "name": "map3",
+        "comment": " `map3` for this particular monad.\n",
+        "type": "(a -> b -> c -> d) -> Infer.Monad.Monad a -> Infer.Monad.Monad b -> Infer.Monad.Monad c -> Infer.Monad.Monad d"
+      },
+      {
+        "name": "map4",
+        "comment": " `map4` for this particular monad.\n",
+        "type": "(a -> b -> c -> d -> e) -> Infer.Monad.Monad a -> Infer.Monad.Monad b -> Infer.Monad.Monad c -> Infer.Monad.Monad d -> Infer.Monad.Monad e"
+      },
+      {
+        "name": "pure",
+        "comment": " Put a value into the monad. Will not advance the fresh name supply nor cause an error.\n",
+        "type": "a -> Infer.Monad.Monad a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Infer.Type",
     "comment": "\n\n\n#\n\n@docs Type, RawType, Constraint, unconstrained\n\n\n# Constructors for common primitive types\n\n@docs string, char, bool, int, float\n\n@docs toString\n\n@docs Substitution, substitute, ($)\n\n@docs unify\n\n@docs variables\n\n",
     "aliases": [
@@ -243,79 +316,6 @@
         "name": "variables",
         "comment": " Returns the (free) type variables of the type.\n",
         "type": "Infer.Type.RawType -> Set.Set Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Infer.Monad",
-    "comment": "\n\n\n# Construction\n\n@docs pure, err, Monad, fromResult\n\n\n# Mapping\n\n@docs andThen, map, map2, map3, map4, andMap\n\n\n# Combining\n\n@docs combine, finalValue\n\n",
-    "aliases": [
-      {
-        "name": "Monad",
-        "comment": " Represents a stateful computation that can fail.\n",
-        "args": [
-          "a"
-        ],
-        "type": "State.State Int (Result.Result String a)"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "andMap",
-        "comment": " map over one more value. Arguments are reversed in order to work\nwell with `<|`.\n",
-        "type": "Infer.Monad.Monad y -> Infer.Monad.Monad (y -> z) -> Infer.Monad.Monad z"
-      },
-      {
-        "name": "andThen",
-        "comment": " `andThen` for this particular monad.\n",
-        "type": "(a -> Infer.Monad.Monad b) -> Infer.Monad.Monad a -> Infer.Monad.Monad b"
-      },
-      {
-        "name": "combine",
-        "comment": " Lifts the monads out of a list.\n",
-        "type": "List (Infer.Monad.Monad a) -> Infer.Monad.Monad (List a)"
-      },
-      {
-        "name": "err",
-        "comment": " Represents a failed computation.\n",
-        "type": "String -> Infer.Monad.Monad a"
-      },
-      {
-        "name": "finalValue",
-        "comment": " Computes the value of a computation.\n",
-        "type": "Int -> Infer.Monad.Monad a -> Result.Result String a"
-      },
-      {
-        "name": "fromResult",
-        "comment": " Un-specialize a Result.\n",
-        "type": "Result.Result String a -> Infer.Monad.Monad a"
-      },
-      {
-        "name": "map",
-        "comment": " `map` for this particular monad.\n",
-        "type": "(a -> value) -> Infer.Monad.Monad a -> Infer.Monad.Monad value"
-      },
-      {
-        "name": "map2",
-        "comment": " `map2` for this particular monad.\n",
-        "type": "(a -> b -> c) -> Infer.Monad.Monad a -> Infer.Monad.Monad b -> Infer.Monad.Monad c"
-      },
-      {
-        "name": "map3",
-        "comment": " `map3` for this particular monad.\n",
-        "type": "(a -> b -> c -> d) -> Infer.Monad.Monad a -> Infer.Monad.Monad b -> Infer.Monad.Monad c -> Infer.Monad.Monad d"
-      },
-      {
-        "name": "map4",
-        "comment": " `map4` for this particular monad.\n",
-        "type": "(a -> b -> c -> d -> e) -> Infer.Monad.Monad a -> Infer.Monad.Monad b -> Infer.Monad.Monad c -> Infer.Monad.Monad d -> Infer.Monad.Monad e"
-      },
-      {
-        "name": "pure",
-        "comment": " Put a value into the monad. Will not advance the fresh name supply nor cause an error.\n",
-        "type": "a -> Infer.Monad.Monad a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

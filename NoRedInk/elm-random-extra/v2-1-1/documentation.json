@@ -107,60 +107,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Random.Date",
-    "comment": " List of date Generators\n\n# Generators\n@docs date, day, month, year, hour, hour24, hour12, minute, second\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "date",
-        "comment": " Generate a random date given a start date and an end date.\n",
-        "type": "Date.Date -> Date.Date -> Random.Generator Date.Date"
-      },
-      {
-        "name": "day",
-        "comment": " Generate a random day of the week.\n",
-        "type": "Random.Generator Date.Day"
-      },
-      {
-        "name": "hour",
-        "comment": " Generate a random hour (random int between 0 and 23 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "hour12",
-        "comment": " Generate a random 12-hour day hour (random int between 0 and 11 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "hour24",
-        "comment": " Generate a random 24-hour day hour (random int between 0 and 23 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "minute",
-        "comment": " Generate a random minute (random int between 0 and 59 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "month",
-        "comment": " Generate a random month of the year.\n",
-        "type": "Random.Generator Date.Month"
-      },
-      {
-        "name": "second",
-        "comment": " Generate a random second (random int between 0 and 59 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "year",
-        "comment": " Generate a random year given a start year and end year (alias for `int`)\n",
-        "type": "Int -> Int -> Random.Generator Int"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Random.Task",
     "comment": " List of Task Generators\n\n# Generators\n@docs task, error, spawn\n\n# Timeout Generators\n@docs timeout, rangeLengthTimeout\n\n# Chaining Task Generators\n@docs sequence, parallel, optional\n\n# Generators that communicate with mailboxes\n@docs send, broadcast\n\n",
     "aliases": [],
@@ -215,6 +161,60 @@
         "name": "timeout",
         "comment": " Generate a timeout of given time\n",
         "type": "Time.Time -> Random.Generator (Task.Task error ())"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Random.Date",
+    "comment": " List of date Generators\n\n# Generators\n@docs date, day, month, year, hour, hour24, hour12, minute, second\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "date",
+        "comment": " Generate a random date given a start date and an end date.\n",
+        "type": "Date.Date -> Date.Date -> Random.Generator Date.Date"
+      },
+      {
+        "name": "day",
+        "comment": " Generate a random day of the week.\n",
+        "type": "Random.Generator Date.Day"
+      },
+      {
+        "name": "hour",
+        "comment": " Generate a random hour (random int between 0 and 23 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "hour12",
+        "comment": " Generate a random 12-hour day hour (random int between 0 and 11 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "hour24",
+        "comment": " Generate a random 24-hour day hour (random int between 0 and 23 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "minute",
+        "comment": " Generate a random minute (random int between 0 and 59 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "month",
+        "comment": " Generate a random month of the year.\n",
+        "type": "Random.Generator Date.Month"
+      },
+      {
+        "name": "second",
+        "comment": " Generate a random second (random int between 0 and 59 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "year",
+        "comment": " Generate a random year given a start year and end year (alias for `int`)\n",
+        "type": "Int -> Int -> Random.Generator Int"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -1767,25 +1767,25 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Random.Result",
-    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
+    "name": "Random.Window",
+    "comment": " List of window Generators\n\n# Generators\n@docs windowDimensions, windowWidth, windowHeight\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "error",
-        "comment": " Generate an error result from a random generator of errors\n",
-        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
+        "name": "windowDimensions",
+        "comment": " Generate a random tuple of window dimensions given a minimum screen width, a maximum screen width, a minimum screen height, a maximum screen height\n",
+        "type": "Int -> Int -> Int -> Int -> Random.Generator ( Int, Int )"
       },
       {
-        "name": "ok",
-        "comment": " Generate an ok result from a random generator of values\n",
-        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
+        "name": "windowHeight",
+        "comment": " Generate a random width height value given a minimum screen height and a maximum screen height\n",
+        "type": "Int -> Int -> Random.Generator Int"
       },
       {
-        "name": "result",
-        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
-        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
+        "name": "windowWidth",
+        "comment": " Generate a random window width value given a minimum screen width and a maximum screen width\n",
+        "type": "Int -> Int -> Random.Generator Int"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -1830,25 +1830,25 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Random.Window",
-    "comment": " List of window Generators\n\n# Generators\n@docs windowDimensions, windowWidth, windowHeight\n\n",
+    "name": "Random.Result",
+    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "windowDimensions",
-        "comment": " Generate a random tuple of window dimensions given a minimum screen width, a maximum screen width, a minimum screen height, a maximum screen height\n",
-        "type": "Int -> Int -> Int -> Int -> Random.Generator ( Int, Int )"
+        "name": "error",
+        "comment": " Generate an error result from a random generator of errors\n",
+        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
       },
       {
-        "name": "windowHeight",
-        "comment": " Generate a random width height value given a minimum screen height and a maximum screen height\n",
-        "type": "Int -> Int -> Random.Generator Int"
+        "name": "ok",
+        "comment": " Generate an ok result from a random generator of values\n",
+        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
       },
       {
-        "name": "windowWidth",
-        "comment": " Generate a random window width value given a minimum screen width and a maximum screen width\n",
-        "type": "Int -> Int -> Random.Generator Int"
+        "name": "result",
+        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
+        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
       }
     ],
     "generated-with-elm-version": "0.16.0"

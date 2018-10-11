@@ -318,60 +318,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Prismic.Slice",
-    "comment": "\n\n@docs Slice\n\n@docs oneOf, slice\n\n\n## Deprecated Slices\n\n@docs FieldDecoder, field, group, labelledV1Slice, v1Slice\n\n",
-    "aliases": [
-      {
-        "name": "FieldDecoder",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "Prismic.Internal.Decoder Prismic.Internal.SliceContentV1 a"
-      },
-      {
-        "name": "Slice",
-        "comment": " ",
-        "args": [],
-        "type": "Prismic.Internal.Slice"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "field",
-        "comment": " ",
-        "type": "Prismic.Internal.Decoder Prismic.Internal.Field a -> Prismic.Slice.FieldDecoder a"
-      },
-      {
-        "name": "group",
-        "comment": " ",
-        "type": "Prismic.Internal.Decoder Prismic.Internal.Group a -> Prismic.Slice.FieldDecoder (List a)"
-      },
-      {
-        "name": "labelledV1Slice",
-        "comment": " Decode a (deprecated) old-style slice in a slice zone. The tagger is also passed the slice label.\n\nTODO: custom label decoders?\n\n",
-        "type": "String -> (Maybe.Maybe String -> a -> b) -> Prismic.Slice.FieldDecoder a -> Prismic.Internal.Decoder Prismic.Slice.Slice b"
-      },
-      {
-        "name": "oneOf",
-        "comment": " ",
-        "type": "List (Prismic.Internal.Decoder Prismic.Slice.Slice a) -> Prismic.Internal.Decoder Prismic.Slice.Slice a"
-      },
-      {
-        "name": "slice",
-        "comment": " Decode a slice in a slice zone.\n\nSlices contain a non-repeating zone and a repeating zone. To decode a Slice, you\npass a `Decoder Group a` (for the non-repeating zone) and a `Decoder Group b`\n(for the repeating zone), and you'll get back a `Decoder Slice (a, List b)`.\n\nIf your slice doesn't have one of the zones, you can just ignore it by passing a\ndecoder that always succeeds: `succeed ()`.\n\n",
-        "type": "String -> Prismic.Internal.Decoder Prismic.Internal.Group a -> Prismic.Internal.Decoder Prismic.Internal.Group b -> Prismic.Internal.Decoder Prismic.Slice.Slice ( a, List b )"
-      },
-      {
-        "name": "v1Slice",
-        "comment": " Decode a (deprecated) old-style slice in a slice zone.\n",
-        "type": "String -> (a -> b) -> Prismic.Slice.FieldDecoder a -> Prismic.Internal.Decoder Prismic.Slice.Slice b"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Prismic.Field",
     "comment": "\n\n\n## Field types\n\nYou can create your own Elm types to represent your documents using the\nfollowing components.\n\n@docs Field\n\n\n### Structured Text\n\n@docs StructuredText, StructuredTextBlock\n\n\n### Images\n\n@docs ImageViews, ImageView, ImageDimensions\n\n\n### Embeds\n\n@docs Embed\n\n\n### Links\n\n@docs Link, DocumentReference\n\n\n## Decoding fields\n\n@docs text, structuredText, image, date, link\n\n\n## Viewing fields\n\n@docs structuredTextAsHtml, structuredTextBlockAsHtml\n@docs imageAsHtml, embedAsHtml, linkAsHtml\n@docs LinkResolver, defaultLinkResolver, resolveLink\n\n\n## `StructuredText` helpers\n\n@docs getTitle, getFirstImage, getFirstParagraph, getText, getTexts\n\n",
     "aliases": [
@@ -524,6 +470,60 @@
         "name": "text",
         "comment": " Decode a Text field.\n",
         "type": "Prismic.Internal.Decoder Prismic.Field.Field String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Prismic.Slice",
+    "comment": "\n\n@docs Slice\n\n@docs oneOf, slice\n\n\n## Deprecated Slices\n\n@docs FieldDecoder, field, group, labelledV1Slice, v1Slice\n\n",
+    "aliases": [
+      {
+        "name": "FieldDecoder",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "Prismic.Internal.Decoder Prismic.Internal.SliceContentV1 a"
+      },
+      {
+        "name": "Slice",
+        "comment": " ",
+        "args": [],
+        "type": "Prismic.Internal.Slice"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "field",
+        "comment": " ",
+        "type": "Prismic.Internal.Decoder Prismic.Internal.Field a -> Prismic.Slice.FieldDecoder a"
+      },
+      {
+        "name": "group",
+        "comment": " ",
+        "type": "Prismic.Internal.Decoder Prismic.Internal.Group a -> Prismic.Slice.FieldDecoder (List a)"
+      },
+      {
+        "name": "labelledV1Slice",
+        "comment": " Decode a (deprecated) old-style slice in a slice zone. The tagger is also passed the slice label.\n\nTODO: custom label decoders?\n\n",
+        "type": "String -> (Maybe.Maybe String -> a -> b) -> Prismic.Slice.FieldDecoder a -> Prismic.Internal.Decoder Prismic.Slice.Slice b"
+      },
+      {
+        "name": "oneOf",
+        "comment": " ",
+        "type": "List (Prismic.Internal.Decoder Prismic.Slice.Slice a) -> Prismic.Internal.Decoder Prismic.Slice.Slice a"
+      },
+      {
+        "name": "slice",
+        "comment": " Decode a slice in a slice zone.\n\nSlices contain a non-repeating zone and a repeating zone. To decode a Slice, you\npass a `Decoder Group a` (for the non-repeating zone) and a `Decoder Group b`\n(for the repeating zone), and you'll get back a `Decoder Slice (a, List b)`.\n\nIf your slice doesn't have one of the zones, you can just ignore it by passing a\ndecoder that always succeeds: `succeed ()`.\n\n",
+        "type": "String -> Prismic.Internal.Decoder Prismic.Internal.Group a -> Prismic.Internal.Decoder Prismic.Internal.Group b -> Prismic.Internal.Decoder Prismic.Slice.Slice ( a, List b )"
+      },
+      {
+        "name": "v1Slice",
+        "comment": " Decode a (deprecated) old-style slice in a slice zone.\n",
+        "type": "String -> (a -> b) -> Prismic.Slice.FieldDecoder a -> Prismic.Internal.Decoder Prismic.Slice.Slice b"
       }
     ],
     "generated-with-elm-version": "0.18.0"

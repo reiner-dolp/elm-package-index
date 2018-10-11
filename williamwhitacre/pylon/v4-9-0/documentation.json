@@ -1,5 +1,53 @@
 [
   {
+    "name": "Pylon.DB.Mirror",
+    "comment": " A binding for ElmTextSearch and Pylon.DB.Group.\n\n# Types\n@docs Mirror\n\n# Construction\n@docs mirror\n\n# Getters\n@docs refs, changedRefs, deltas\n\n# Group Mirroring\n@docs attach\n\n# Integration\n@docs commit\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Mirror",
+        "comment": " A document mirror. ",
+        "args": [
+          "doctype"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "attach",
+        "comment": " Synchronize the document store with the contents of a DB group. ",
+        "type": "(String -> rectype -> doctype) -> Pylon.DB.Group.Group (Pylon.DB.Data rectype) -> Pylon.DB.Mirror.Mirror doctype -> Pylon.DB.Mirror.Mirror doctype"
+      },
+      {
+        "name": "changedRefs",
+        "comment": " Get the pending reference dictionary. ",
+        "type": "Pylon.DB.Mirror.Mirror doctype -> Dict.Dict String doctype"
+      },
+      {
+        "name": "commit",
+        "comment": " Accept the current changes. ",
+        "type": "Pylon.DB.Mirror.Mirror doctype -> Pylon.DB.Mirror.Mirror doctype"
+      },
+      {
+        "name": "deltas",
+        "comment": " Get the deltas used to change the reference dictionary. ",
+        "type": "Pylon.DB.Mirror.Mirror doctype -> Dict.Dict String (List ( Pylon.Resource.Resource Pylon.DB.DBError doctype , Pylon.Resource.Resource Pylon.DB.DBError doctype ))"
+      },
+      {
+        "name": "mirror",
+        "comment": " Create a new mirror from a document description. ",
+        "type": "Pylon.DB.Mirror.Mirror doctype"
+      },
+      {
+        "name": "refs",
+        "comment": " Get the current reference dictionary. ",
+        "type": "Pylon.DB.Mirror.Mirror doctype -> Dict.Dict String doctype"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Pylon.DB.Filter",
     "comment": " A binding for ElmTextSearch and Pylon.DB.Group.\n\n# Types\n@docs Filter, FilterFeedback, Document\n\n# Construction\n@docs filter\n\n# Query\n@docs filterQuery, filterQueryIf\n\n# Getters\n@docs getFilterQuery, getFilterResults, getLastFilterResults\n\n# Group Mirroring\n@docs filterMirror\n\n# Update\n@docs filterInputOne\n\n# Dispatch\n@docs filterSync, filterAsyncAs, filterAsync\n",
     "aliases": [
@@ -85,54 +133,6 @@
         "name": "getLastFilterResults",
         "comment": " Get the latest filter results. ",
         "type": "Pylon.DB.Filter.Filter doctype -> Maybe.Maybe (List ( doctype, Float ))"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Pylon.DB.Mirror",
-    "comment": " A binding for ElmTextSearch and Pylon.DB.Group.\n\n# Types\n@docs Mirror\n\n# Construction\n@docs mirror\n\n# Getters\n@docs refs, changedRefs, deltas\n\n# Group Mirroring\n@docs attach\n\n# Integration\n@docs commit\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Mirror",
-        "comment": " A document mirror. ",
-        "args": [
-          "doctype"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "attach",
-        "comment": " Synchronize the document store with the contents of a DB group. ",
-        "type": "(String -> rectype -> doctype) -> Pylon.DB.Group.Group (Pylon.DB.Data rectype) -> Pylon.DB.Mirror.Mirror doctype -> Pylon.DB.Mirror.Mirror doctype"
-      },
-      {
-        "name": "changedRefs",
-        "comment": " Get the pending reference dictionary. ",
-        "type": "Pylon.DB.Mirror.Mirror doctype -> Dict.Dict String doctype"
-      },
-      {
-        "name": "commit",
-        "comment": " Accept the current changes. ",
-        "type": "Pylon.DB.Mirror.Mirror doctype -> Pylon.DB.Mirror.Mirror doctype"
-      },
-      {
-        "name": "deltas",
-        "comment": " Get the deltas used to change the reference dictionary. ",
-        "type": "Pylon.DB.Mirror.Mirror doctype -> Dict.Dict String (List ( Pylon.Resource.Resource Pylon.DB.DBError doctype , Pylon.Resource.Resource Pylon.DB.DBError doctype ))"
-      },
-      {
-        "name": "mirror",
-        "comment": " Create a new mirror from a document description. ",
-        "type": "Pylon.DB.Mirror.Mirror doctype"
-      },
-      {
-        "name": "refs",
-        "comment": " Get the current reference dictionary. ",
-        "type": "Pylon.DB.Mirror.Mirror doctype -> Dict.Dict String doctype"
       }
     ],
     "generated-with-elm-version": "0.16.0"

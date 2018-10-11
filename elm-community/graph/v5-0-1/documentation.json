@@ -1,19 +1,5 @@
 [
   {
-    "name": "Graph.TGF",
-    "comment": " This module provides a means of converting the `Graph` data type into a\nvalid [TGF](https://en.wikipedia.org/wiki/Trivial_Graph_Format) string for\nvisualizing your graph structure.\n\nYou can preview your graph by inserting the generated string into\n[yEd](http://www.yworks.com/products/yed) or other compatible software.\n\n\n# Conversion\n\n@docs output\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "output",
-        "comment": " Converts a `Graph` into a valid TGF string.\n",
-        "type": "(node -> String) -> (edge -> String) -> Graph.Graph node edge -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Graph.DOT",
     "comment": " This module provides a means of converting the `Graph` data type into a\nvalid [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language))\nstring for visualizing your graph structure.\n\nYou can easily preview your graph by inserting the generated string into an\nonline GraphViz tool like <https://dreampuf.github.io/GraphvizOnline/>.\n\nYou can also dynamically draw your graph in your application by sending the\nstring over a port to the javascript version of the GraphViz library,\n<https://github.com/mdaines/viz.js/> (see the examples there fore more\nspecifics on how to embed the generated visualization).\n\n@docs output\n\n\n# Attrs\n\nGraphViz allows for customizing the graph's look via \"Attrs.\"\n\n@docs Styles, Rankdir, defaultStyles, outputWithStyles, outputWithStylesAndAttributes\n\n",
     "aliases": [
@@ -69,6 +55,20 @@
         "name": "outputWithStylesAndAttributes",
         "comment": " Same as `outputWithStyles`, but allows each node and edge to include its\nown attrs. Note that you must supply a conversion function for node and edge\nlabels that return a `Dict String String` of the attribute mappings.\n\nNote that you have to take care of setting the appropriate node and edge labels\nyourself.\n\n",
         "type": "Graph.DOT.Styles -> (n -> Dict.Dict String String) -> (e -> Dict.Dict String String) -> Graph.Graph n e -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Graph.TGF",
+    "comment": " This module provides a means of converting the `Graph` data type into a\nvalid [TGF](https://en.wikipedia.org/wiki/Trivial_Graph_Format) string for\nvisualizing your graph structure.\n\nYou can preview your graph by inserting the generated string into\n[yEd](http://www.yworks.com/products/yed) or other compatible software.\n\n\n# Conversion\n\n@docs output\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "output",
+        "comment": " Converts a `Graph` into a valid TGF string.\n",
+        "type": "(node -> String) -> (edge -> String) -> Graph.Graph node edge -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

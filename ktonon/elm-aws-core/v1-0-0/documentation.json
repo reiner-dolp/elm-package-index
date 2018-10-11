@@ -292,6 +292,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "AWS",
+    "comment": " AWS SDK for elm.\n\nThe elm-aws-core package provides functions and types that facilitate making\nHTTP requests to AWS services. Use it to create user-friendly clients to\nspecific AWS services.\n\n\n## Modules in this package\n\n  - [AWS.Core.Service](AWS-Core-Service): Create a service definition. Every service client should define its own `Service` definition.\n  - [AWS.Core.Credentials](AWS-Core-Credentials): Create AWS credentials used to sign requests.\n  - [AWS.Core.Http](AWS-Core-Http): Create requests, sign, and send them. Signing and sending a request requires both a `Service` and `Credentials`.\n  - [AWS.Core.Enum](AWS-Core-Enum): Many AWS services define enumerations. This small module provides functions to convert from Elm types to string values.\n\n\n## Usage example\n\n    import AWS.Core.Credentials as Credentials\n    import AWS.Core.Http as Http exposing (Method(..))\n    import AWS.Core.Service as Service\n    import Json.Decode\n    import Task\n\n    let\n        creds =\n            Credentials.fromAccessKeys\n                \"ACCESS KEY ID\"\n                \"SECRET ACCESS KEY\"\n        service =\n            Service.defineGlobal\n                \"sts\"\n                \"2011-06-15\"\n                Service.query\n                Service.signV4\n                (Service.setXmlNamespace \"https://sts.amazonaws.com/doc/2011-06-15/\")\n        handler =\n            \\result ->\n                case result of\n                    Ok someValue ->\n                        -- someValue is what you get from the decoder\n                        -- that is provided to the request call below.\n                        -- In this case, it would be an Int because\n                        -- we are using Json.Decode.int as the decoder.\n                        someValue /= -1\n                    Err err ->\n                        -- err is an Http.Error\n                        -- See: http://package.elm-lang.org/packages/elm-lang/http/latest/Http#Error\n                        False\n    in\n    Http.request\n        GET\n        \"/some/path\"\n        Http.emptyBody\n        Json.Decode.int\n        |> Http.send service creds\n        |> Task.attempt handler\n        |> (/=) Cmd.none\n    --> True\n\n@docs version\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "version",
+        "comment": " elm-aws-core package version.\n\n    AWS.version\n    --> \"1.0.0\"\n\n",
+        "type": "String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "AWS.Core.Enum",
     "comment": " Convert AWS enums values to basic values\n\n@docs toString, toFloat\n\n",
     "aliases": [],
@@ -306,20 +320,6 @@
         "name": "toString",
         "comment": " Convert an AWS enum value to a string\n\n    Enum.toString IntegrationType_HTTP_PROXY -- Ok \"HTTP_PROXY\"\n\n",
         "type": "a -> Result.Result String String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "AWS",
-    "comment": " AWS SDK for elm.\n\nThe elm-aws-core package provides functions and types that facilitate making\nHTTP requests to AWS services. Use it to create user-friendly clients to\nspecific AWS services.\n\n\n## Modules in this package\n\n  - [AWS.Core.Service](AWS-Core-Service): Create a service definition. Every service client should define its own `Service` definition.\n  - [AWS.Core.Credentials](AWS-Core-Credentials): Create AWS credentials used to sign requests.\n  - [AWS.Core.Http](AWS-Core-Http): Create requests, sign, and send them. Signing and sending a request requires both a `Service` and `Credentials`.\n  - [AWS.Core.Enum](AWS-Core-Enum): Many AWS services define enumerations. This small module provides functions to convert from Elm types to string values.\n\n\n## Usage example\n\n    import AWS.Core.Credentials as Credentials\n    import AWS.Core.Http as Http exposing (Method(..))\n    import AWS.Core.Service as Service\n    import Json.Decode\n    import Task\n\n    let\n        creds =\n            Credentials.fromAccessKeys\n                \"ACCESS KEY ID\"\n                \"SECRET ACCESS KEY\"\n        service =\n            Service.defineGlobal\n                \"sts\"\n                \"2011-06-15\"\n                Service.query\n                Service.signV4\n                (Service.setXmlNamespace \"https://sts.amazonaws.com/doc/2011-06-15/\")\n        handler =\n            \\result ->\n                case result of\n                    Ok someValue ->\n                        -- someValue is what you get from the decoder\n                        -- that is provided to the request call below.\n                        -- In this case, it would be an Int because\n                        -- we are using Json.Decode.int as the decoder.\n                        someValue /= -1\n                    Err err ->\n                        -- err is an Http.Error\n                        -- See: http://package.elm-lang.org/packages/elm-lang/http/latest/Http#Error\n                        False\n    in\n    Http.request\n        GET\n        \"/some/path\"\n        Http.emptyBody\n        Json.Decode.int\n        |> Http.send service creds\n        |> Task.attempt handler\n        |> (/=) Cmd.none\n    --> True\n\n@docs version\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "version",
-        "comment": " elm-aws-core package version.\n\n    AWS.version\n    --> \"1.0.0\"\n\n",
-        "type": "String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

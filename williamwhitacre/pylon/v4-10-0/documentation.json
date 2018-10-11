@@ -143,90 +143,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Pylon.DB.Meta",
-    "comment": " Subscribe to metadata about connectivity, timestamp offset, and authentication using the\nsame easy to understand pattern set forth in `Pylon.DB`.\n\n# Types\n@docs MetaFeedback, MetaBinding, MetaData\n\n# Special Server Metadata Binding\n@docs nilMetaData, metaBindingTo, metaSendingTo, metaForwardingTo, metaInputOne, metaInput, metaSubscribe\n\n# Getters\n@docs getTimestampOffset, getConnectionStatus, getAuthenticationStatus\n\n# Etc.\n@docs serverTimestampPlaceholder\n\n",
-    "aliases": [
-      {
-        "name": "MetaBinding",
-        "comment": " Server metadata binding. ",
-        "args": [],
-        "type": "{ address : Signal.Address (List Pylon.DB.Meta.MetaFeedback) , location : ElmFire.Location }"
-      },
-      {
-        "name": "MetaData",
-        "comment": " Server metadata record. ",
-        "args": [],
-        "type": "{ timeStampOffset : Pylon.Resource.Resource Pylon.DB.DBError Time.Time , isConnected : Pylon.Resource.Resource Pylon.DB.DBError Bool , authentication : Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication , subscriptions : Pylon.DB.Meta.MetaSubscriptions }"
-      }
-    ],
-    "types": [
-      {
-        "name": "MetaFeedback",
-        "comment": " Feedback for the the server metadata subscription. ",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getAuthenticationStatus",
-        "comment": " Get the resource representing the current authentication status to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication"
-      },
-      {
-        "name": "getConnectionStatus",
-        "comment": " Get the resource representing the current connection status to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Bool"
-      },
-      {
-        "name": "getTimestampOffset",
-        "comment": " Get the resource representing the current timestamp offset to the server. ",
-        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Time.Time"
-      },
-      {
-        "name": "metaBindingTo",
-        "comment": " Create a metadata binding for a firebase location. Should be the root location. ",
-        "type": "ElmFire.Location -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaForwardingTo",
-        "comment": " Add an address to a metadata binding with a forwarding function. ",
-        "type": "(List Pylon.DB.Meta.MetaFeedback -> List action) -> Signal.Address (List action) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaInput",
-        "comment": " Server metadata list update function. ",
-        "type": "List Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "metaInputOne",
-        "comment": " Server metadata single update function. ",
-        "type": "Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "metaSendingTo",
-        "comment": " Add an address to a metadata binding. Unless you do this, feedback will go to a hidden internal\ndrain. ",
-        "type": "Signal.Address (List Pylon.DB.Meta.MetaFeedback) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
-      },
-      {
-        "name": "metaSubscribe",
-        "comment": " Subscribe to the server metadata at your root Firebase location. ",
-        "type": "Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaData -> ( Pylon.DB.Meta.MetaData, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "nilMetaData",
-        "comment": " Empty metadata record. A metadata record should always be initialized to this. ",
-        "type": "Pylon.DB.Meta.MetaData"
-      },
-      {
-        "name": "serverTimestampPlaceholder",
-        "comment": " A placeholder for encoding the server timestamp. ",
-        "type": "Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Pylon.DB.Group",
     "comment": " Nested data. The typing is done such that one can arbitrarily nest groups, trivial data records,\nor even a compatible API fitting the same pattern such that this system is easily extensible.\n\n# Types\n@docs GroupFeedback, GroupBinding, Group\n\n# Direct Group Inquiry\n\n@docs getGroupCurrentData, getGroupDeltaData, getGroupDataResDeltas, getGroupDataResDeltaList, groupDataResDeltaFoldL, groupDataResDeltaFoldR, groupDeriveSub\n\n# Direct Group Manipulation\n\nYou can use these functions to perform nested operations on groups directly. You will need this\nfunctionality to write new items in to a group. Take care, however, that you _do not try to remove\nitems form the group by using `groupRemoveSub` directly._ To effect the remote data, you must\ninvoke the operations provided by `Pylon.DB`.\n\n@docs groupUpdateSub, groupDoSub, groupDoEachSub, groupAddSub, groupRemoveSub\n\n# Convenience Subtype DB.Binding Shortcuts\n@docs dataSubBinding, groupSubBinding\n\n# DB.Binding Construction\n@docs bindingGroupTo, orderGroupBy, sendingGroupTo, forwardingGroupTo\n\n# Group Constructors\n@docs newGroup, voidGroup\n\n# Raw Group Operations\n@docs groupInputOne, groupInput, cancelGroup, resetGroup, cancelAndResetGroup, groupSubscriber\n\n# DB.Data Group Convenience Operations\n@docs groupDataInputOne, groupDataInput, cancelDataGroup, cancelAndResetDataGroup, groupDataSubscriber\n\n",
     "aliases": [
@@ -464,6 +380,90 @@
         "name": "voidGroup",
         "comment": " A new void group item, which is to say that it starts in the cancelled state, so subscriptions\nwill have no effect when reached until a call to `resetGroup`. ",
         "type": "Pylon.DB.Group.Group subtype"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Pylon.DB.Meta",
+    "comment": " Subscribe to metadata about connectivity, timestamp offset, and authentication using the\nsame easy to understand pattern set forth in `Pylon.DB`.\n\n# Types\n@docs MetaFeedback, MetaBinding, MetaData\n\n# Special Server Metadata Binding\n@docs nilMetaData, metaBindingTo, metaSendingTo, metaForwardingTo, metaInputOne, metaInput, metaSubscribe\n\n# Getters\n@docs getTimestampOffset, getConnectionStatus, getAuthenticationStatus\n\n# Etc.\n@docs serverTimestampPlaceholder\n\n",
+    "aliases": [
+      {
+        "name": "MetaBinding",
+        "comment": " Server metadata binding. ",
+        "args": [],
+        "type": "{ address : Signal.Address (List Pylon.DB.Meta.MetaFeedback) , location : ElmFire.Location }"
+      },
+      {
+        "name": "MetaData",
+        "comment": " Server metadata record. ",
+        "args": [],
+        "type": "{ timeStampOffset : Pylon.Resource.Resource Pylon.DB.DBError Time.Time , isConnected : Pylon.Resource.Resource Pylon.DB.DBError Bool , authentication : Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication , subscriptions : Pylon.DB.Meta.MetaSubscriptions }"
+      }
+    ],
+    "types": [
+      {
+        "name": "MetaFeedback",
+        "comment": " Feedback for the the server metadata subscription. ",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getAuthenticationStatus",
+        "comment": " Get the resource representing the current authentication status to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError ElmFire.Auth.Authentication"
+      },
+      {
+        "name": "getConnectionStatus",
+        "comment": " Get the resource representing the current connection status to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Bool"
+      },
+      {
+        "name": "getTimestampOffset",
+        "comment": " Get the resource representing the current timestamp offset to the server. ",
+        "type": "Pylon.DB.Meta.MetaData -> Pylon.Resource.Resource Pylon.DB.DBError Time.Time"
+      },
+      {
+        "name": "metaBindingTo",
+        "comment": " Create a metadata binding for a firebase location. Should be the root location. ",
+        "type": "ElmFire.Location -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaForwardingTo",
+        "comment": " Add an address to a metadata binding with a forwarding function. ",
+        "type": "(List Pylon.DB.Meta.MetaFeedback -> List action) -> Signal.Address (List action) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaInput",
+        "comment": " Server metadata list update function. ",
+        "type": "List Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "metaInputOne",
+        "comment": " Server metadata single update function. ",
+        "type": "Pylon.DB.Meta.MetaFeedback -> Pylon.DB.Meta.MetaData -> Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "metaSendingTo",
+        "comment": " Add an address to a metadata binding. Unless you do this, feedback will go to a hidden internal\ndrain. ",
+        "type": "Signal.Address (List Pylon.DB.Meta.MetaFeedback) -> Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaBinding"
+      },
+      {
+        "name": "metaSubscribe",
+        "comment": " Subscribe to the server metadata at your root Firebase location. ",
+        "type": "Pylon.DB.Meta.MetaBinding -> Pylon.DB.Meta.MetaData -> ( Pylon.DB.Meta.MetaData, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "nilMetaData",
+        "comment": " Empty metadata record. A metadata record should always be initialized to this. ",
+        "type": "Pylon.DB.Meta.MetaData"
+      },
+      {
+        "name": "serverTimestampPlaceholder",
+        "comment": " A placeholder for encoding the server timestamp. ",
+        "type": "Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.16.0"

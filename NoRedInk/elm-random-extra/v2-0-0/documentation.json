@@ -1630,39 +1630,40 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Random.Result",
-    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
+    "name": "Random.Set",
+    "comment": " List of Random Set Generators\n\n# Generators\n@docs empty, singleton, set, notInSet\n\n# Combinators\n@docs select, selectWithDefault\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "error",
-        "comment": " Generate an error result from a random generator of errors\n",
-        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
+        "name": "empty",
+        "comment": " Generator that always returns the empty set\n",
+        "type": "Random.Generator (Set.Set comparable)"
       },
       {
-        "name": "ok",
-        "comment": " Generate an ok result from a random generator of values\n",
-        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
+        "name": "notInSet",
+        "comment": " A generator that creates values not present in a given set.\n",
+        "type": "Set.Set comparable -> Random.Generator comparable -> Random.Generator comparable"
       },
       {
-        "name": "result",
-        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
-        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Random.Order",
-    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
-    "aliases": [],
-    "types": [],
-    "values": [
+        "name": "select",
+        "comment": " Generate values from a set.\nAnalogous to `Random.Extra.select` but with sets\n",
+        "type": "Set.Set comparable -> Random.Generator (Maybe.Maybe comparable)"
+      },
       {
-        "name": "order",
-        "comment": " Generate a random order with equal probability.\n",
-        "type": "Random.Generator Basics.Order"
+        "name": "selectWithDefault",
+        "comment": " Generate values from a set or a default value.\nAnalogous to `Random.Extra.selectWithDefault` but with sets\n",
+        "type": "comparable -> Set.Set comparable -> Random.Generator comparable"
+      },
+      {
+        "name": "set",
+        "comment": " Generate a set of size at most given maxLength from a generator.\n",
+        "type": "Int -> Random.Generator comparable -> Random.Generator (Set.Set comparable)"
+      },
+      {
+        "name": "singleton",
+        "comment": " Generator that creates a singleton set from a generator\n",
+        "type": "Random.Generator comparable -> Random.Generator (Set.Set comparable)"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -1727,64 +1728,15 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Random.Maybe",
-    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
+    "name": "Random.Order",
+    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "maybe",
-        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
-      },
-      {
-        "name": "withDefault",
-        "comment": " Generate values from a maybe generator or a default value.\n",
-        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
-      },
-      {
-        "name": "withDefaultGenerator",
-        "comment": " Generate values from a maybe generator or a default generator.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Random.Set",
-    "comment": " List of Random Set Generators\n\n# Generators\n@docs empty, singleton, set, notInSet\n\n# Combinators\n@docs select, selectWithDefault\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "empty",
-        "comment": " Generator that always returns the empty set\n",
-        "type": "Random.Generator (Set.Set comparable)"
-      },
-      {
-        "name": "notInSet",
-        "comment": " A generator that creates values not present in a given set.\n",
-        "type": "Set.Set comparable -> Random.Generator comparable -> Random.Generator comparable"
-      },
-      {
-        "name": "select",
-        "comment": " Generate values from a set.\nAnalogous to `Random.Extra.select` but with sets\n",
-        "type": "Set.Set comparable -> Random.Generator (Maybe.Maybe comparable)"
-      },
-      {
-        "name": "selectWithDefault",
-        "comment": " Generate values from a set or a default value.\nAnalogous to `Random.Extra.selectWithDefault` but with sets\n",
-        "type": "comparable -> Set.Set comparable -> Random.Generator comparable"
-      },
-      {
-        "name": "set",
-        "comment": " Generate a set of size at most given maxLength from a generator.\n",
-        "type": "Int -> Random.Generator comparable -> Random.Generator (Set.Set comparable)"
-      },
-      {
-        "name": "singleton",
-        "comment": " Generator that creates a singleton set from a generator\n",
-        "type": "Random.Generator comparable -> Random.Generator (Set.Set comparable)"
+        "name": "order",
+        "comment": " Generate a random order with equal probability.\n",
+        "type": "Random.Generator Basics.Order"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -1829,6 +1781,54 @@
         "name": "run",
         "comment": " Create a running signal from an application that follows the Elm Architecture.\nThis is analogous to `application` and works better as it avoids issues with\n`Random.Extra.reduce`.\n\nHow to use:\n\n    main =\n      run initialModel actionGenerator update view\n",
         "type": "model -> Random.Generator action -> (action -> model -> model) -> (model -> view) -> Signal.Signal view"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Random.Maybe",
+    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "maybe",
+        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
+      },
+      {
+        "name": "withDefault",
+        "comment": " Generate values from a maybe generator or a default value.\n",
+        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+      },
+      {
+        "name": "withDefaultGenerator",
+        "comment": " Generate values from a maybe generator or a default generator.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Random.Result",
+    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "error",
+        "comment": " Generate an error result from a random generator of errors\n",
+        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
+      },
+      {
+        "name": "ok",
+        "comment": " Generate an ok result from a random generator of values\n",
+        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
+      },
+      {
+        "name": "result",
+        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
+        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
       }
     ],
     "generated-with-elm-version": "0.16.0"

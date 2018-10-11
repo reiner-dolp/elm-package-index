@@ -82,44 +82,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Phoenix.Push",
-    "comment": "\n\n@docs Push, init, withPayload, onError, onOk\n\n",
-    "aliases": [
-      {
-        "name": "Push",
-        "comment": " Represents a message being pushed to the server\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ event : String , channel : String , payload : Json.Encode.Value , onOk : Maybe.Maybe (Json.Encode.Value -> msg) , onError : Maybe.Maybe (Json.Encode.Value -> msg) }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "init",
-        "comment": " Initializes a push with the given event and channel\n\n    init \"new:msg\" \"rooms:lobby\"\n\n",
-        "type": "String -> String -> Phoenix.Push.Push msg"
-      },
-      {
-        "name": "onError",
-        "comment": " Attaches an error handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onError handlePushError\n\n",
-        "type": "(Json.Encode.Value -> msg) -> Phoenix.Push.Push msg -> Phoenix.Push.Push msg"
-      },
-      {
-        "name": "onOk",
-        "comment": " Attaches a success handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onOk handlePushOk\n\n",
-        "type": "(Json.Encode.Value -> msg) -> Phoenix.Push.Push msg -> Phoenix.Push.Push msg"
-      },
-      {
-        "name": "withPayload",
-        "comment": " Attaches a payload\n\n    payload = JE.object [ (\"body\", JE.string \"Hello World!\") ]\n    init \"new:msg\" \"rooms:lobby\"\n      |> withPayload payload\n\n",
-        "type": "Json.Encode.Value -> Phoenix.Push.Push msg -> Phoenix.Push.Push msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Phoenix.Channel",
     "comment": "\n\n@docs Channel, State, init, withPayload, onError, onClose, onJoin, onJoinError, setState\n\n",
     "aliases": [
@@ -196,6 +158,44 @@
         "name": "withPayload",
         "comment": " Attaches a payload that's used for authentication\n\n    payload = JE.object [ (\"user_id\", JE.string \"123\") ]\n    init \"rooms:lobby\"\n      |> withPayload payload\n\n",
         "type": "Json.Encode.Value -> Phoenix.Channel.Channel msg -> Phoenix.Channel.Channel msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Phoenix.Push",
+    "comment": "\n\n@docs Push, init, withPayload, onError, onOk\n\n",
+    "aliases": [
+      {
+        "name": "Push",
+        "comment": " Represents a message being pushed to the server\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ event : String , channel : String , payload : Json.Encode.Value , onOk : Maybe.Maybe (Json.Encode.Value -> msg) , onError : Maybe.Maybe (Json.Encode.Value -> msg) }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "init",
+        "comment": " Initializes a push with the given event and channel\n\n    init \"new:msg\" \"rooms:lobby\"\n\n",
+        "type": "String -> String -> Phoenix.Push.Push msg"
+      },
+      {
+        "name": "onError",
+        "comment": " Attaches an error handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onError handlePushError\n\n",
+        "type": "(Json.Encode.Value -> msg) -> Phoenix.Push.Push msg -> Phoenix.Push.Push msg"
+      },
+      {
+        "name": "onOk",
+        "comment": " Attaches a success handler\n\n    init \"new:msg\" \"rooms:lobby\"\n      |> onOk handlePushOk\n\n",
+        "type": "(Json.Encode.Value -> msg) -> Phoenix.Push.Push msg -> Phoenix.Push.Push msg"
+      },
+      {
+        "name": "withPayload",
+        "comment": " Attaches a payload\n\n    payload = JE.object [ (\"body\", JE.string \"Hello World!\") ]\n    init \"new:msg\" \"rooms:lobby\"\n      |> withPayload payload\n\n",
+        "type": "Json.Encode.Value -> Phoenix.Push.Push msg -> Phoenix.Push.Push msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

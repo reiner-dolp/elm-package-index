@@ -444,33 +444,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.DistanceMetric",
-    "comment": " Distance metrics are calculated for Anomaly Detection `Sessions`. This is the Mahalanobis Distance of the items in the `DataSet`.\n\n@docs DistanceMetrics, DistanceValue, fromDistanceMetrics\n\n",
-    "aliases": [
-      {
-        "name": "DistanceMetrics",
-        "comment": " Distance Metric information for the `DataSet`, as calculated during the `Session`.\n",
-        "args": [],
-        "type": "{ dataSourceName : String , modelId : String , sessionId : String , sessionName : String , data : Nexosis.Types.Data.Data , pageNumber : Int , pageSize : Int , totalCount : Int , totalPages : Int }"
-      },
-      {
-        "name": "DistanceValue",
-        "comment": " Distance an Anomaly values.\n",
-        "args": [],
-        "type": "{ anomaly : Float, distance : Float }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "fromDistanceMetrics",
-        "comment": " Convenience function to go from a full `DistanceMetrics` response to just a list of `DistanceValue`.\n",
-        "type": "Nexosis.Types.DistanceMetric.DistanceMetrics -> List Nexosis.Types.DistanceMetric.DistanceValue"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nexosis.Types.Columns",
     "comment": " Columns can be configured on the `DataSet` or at session submission time, which tell the machine learning algorithms how to process the data.\n\nRefer to the docs for more information about [ColumnMetadata](https://docs.nexosis.com/guides/column-metadata).\n\n@docs ColumnMetadata, DataType, Role\n\n\n# Stats\n\n@docs ColumnStatsDict, ColumnStats, DistributionShape\n\n",
     "aliases": [
@@ -579,33 +552,44 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.SortParameters",
-    "comment": " Api calls that return lists of results require a sort order and direction in order to determine how the results\nshould be returned.\n\n@docs SortParameters, SortDirection\n\n",
+    "name": "Nexosis.Types.DistanceMetric",
+    "comment": " Distance metrics are calculated for Anomaly Detection `Sessions`. This is the Mahalanobis Distance of the items in the `DataSet`.\n\n@docs DistanceMetrics, DistanceValue, fromDistanceMetrics\n\n",
     "aliases": [
       {
-        "name": "SortParameters",
-        "comment": " The `sortName` that can be used is specific to the endpoint being called.\nRefer to the full [Api documentation](https://developers.nexosis.com/docs/services/98847a3fbbe64f73aa959d3cededb3af/operations/datasets-list-all?) for the list of supported values.\n",
+        "name": "DistanceMetrics",
+        "comment": " Distance Metric information for the `DataSet`, as calculated during the `Session`.\n",
         "args": [],
-        "type": "{ sortName : String , direction : Nexosis.Types.SortParameters.SortDirection }"
-      }
-    ],
-    "types": [
+        "type": "{ dataSourceName : String , modelId : String , sessionId : String , sessionName : String , data : Nexosis.Types.Data.Data , pageNumber : Int , pageSize : Int , totalCount : Int , totalPages : Int }"
+      },
       {
-        "name": "SortDirection",
-        "comment": " Direction in which to return the results.\n",
+        "name": "DistanceValue",
+        "comment": " Distance an Anomaly values.\n",
         "args": [],
-        "cases": [
-          [
-            "Ascending",
-            []
-          ],
-          [
-            "Descending",
-            []
-          ]
-        ]
+        "type": "{ anomaly : Float, distance : Float }"
       }
     ],
+    "types": [],
+    "values": [
+      {
+        "name": "fromDistanceMetrics",
+        "comment": " Convenience function to go from a full `DistanceMetrics` response to just a list of `DistanceValue`.\n",
+        "type": "Nexosis.Types.DistanceMetric.DistanceMetrics -> List Nexosis.Types.DistanceMetric.DistanceValue"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.Link",
+    "comment": " Links are returned on many different endpoint calls, and refer to different related objects in the Api.\n\n@docs Link\n\n",
+    "aliases": [
+      {
+        "name": "Link",
+        "comment": " ",
+        "args": [],
+        "type": "{ rel : String, href : String }"
+      }
+    ],
+    "types": [],
     "values": [],
     "generated-with-elm-version": "0.18.0"
   },
@@ -653,6 +637,183 @@
         ]
       }
     ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.SortParameters",
+    "comment": " Api calls that return lists of results require a sort order and direction in order to determine how the results\nshould be returned.\n\n@docs SortParameters, SortDirection\n\n",
+    "aliases": [
+      {
+        "name": "SortParameters",
+        "comment": " The `sortName` that can be used is specific to the endpoint being called.\nRefer to the full [Api documentation](https://developers.nexosis.com/docs/services/98847a3fbbe64f73aa959d3cededb3af/operations/datasets-list-all?) for the list of supported values.\n",
+        "args": [],
+        "type": "{ sortName : String , direction : Nexosis.Types.SortParameters.SortDirection }"
+      }
+    ],
+    "types": [
+      {
+        "name": "SortDirection",
+        "comment": " Direction in which to return the results.\n",
+        "args": [],
+        "cases": [
+          [
+            "Ascending",
+            []
+          ],
+          [
+            "Descending",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.AggregationStrategy",
+    "comment": " The Aggregation Strategy to use when rolling up time series data. This is an option provided on [ColumnMetadata](Nexosis.Types.Columns#ColumnMetadata).\n\nRefer to the docs for more information about [ColumnMetadata](https://docs.nexosis.com/guides/column-metadata).\n\n@docs AggregationStrategy\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "AggregationStrategy",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Sum",
+            []
+          ],
+          [
+            "Mean",
+            []
+          ],
+          [
+            "Median",
+            []
+          ],
+          [
+            "Mode",
+            []
+          ],
+          [
+            "Min",
+            []
+          ],
+          [
+            "Max",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.Data",
+    "comment": "\n\n@docs Data\n\n",
+    "aliases": [
+      {
+        "name": "Data",
+        "comment": " Alias for a `List` of `Dict String String`. Returned from several different Api calls.\n",
+        "args": [],
+        "type": "List (Dict.Dict String String)"
+      }
+    ],
+    "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.PredictionDomain",
+    "comment": " This specifies the broad class of machine learning algorithms that should be used when running a `Session`.\n\nFor more information about these types can be found [in our documentation](https://docs.nexosis.com/guides/how-it-works#session).\n\n@docs PredictionDomain\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "PredictionDomain",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Regression",
+            []
+          ],
+          [
+            "Classification",
+            []
+          ],
+          [
+            "Forecast",
+            []
+          ],
+          [
+            "Impact",
+            []
+          ],
+          [
+            "Anomalies",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.ImputationStrategy",
+    "comment": " The Imputation Strategy to use when filling in missing values in a `DataSet`. This is an option provided on [ColumnMetadata](Nexosis.Types.Columns#ColumnMetadata).\n\nRefer to the docs for more information about [ColumnMetadata](https://docs.nexosis.com/guides/column-metadata).\n\n@docs ImputationStrategy\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "ImputationStrategy",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Zeroes",
+            []
+          ],
+          [
+            "Mean",
+            []
+          ],
+          [
+            "Median",
+            []
+          ],
+          [
+            "Mode",
+            []
+          ],
+          [
+            "Min",
+            []
+          ],
+          [
+            "Max",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nexosis.Types.Algorithm",
+    "comment": " Details about a machine learning algorithm.\n\n@docs Algorithm\n\n",
+    "aliases": [
+      {
+        "name": "Algorithm",
+        "comment": " ",
+        "args": [],
+        "type": "{ name : String, description : String, key : Maybe.Maybe String }"
+      }
+    ],
+    "types": [],
     "values": [],
     "generated-with-elm-version": "0.18.0"
   },
@@ -712,105 +873,14 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nexosis.Types.PredictionDomain",
-    "comment": " This specifies the broad class of machine learning algorithms that should be used when running a `Session`.\n\nFor more information about these types can be found [in our documentation](https://docs.nexosis.com/guides/how-it-works#session).\n\n@docs PredictionDomain\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "PredictionDomain",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Regression",
-            []
-          ],
-          [
-            "Classification",
-            []
-          ],
-          [
-            "Forecast",
-            []
-          ],
-          [
-            "Impact",
-            []
-          ],
-          [
-            "Anomalies",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.Data",
-    "comment": "\n\n@docs Data\n\n",
+    "name": "Nexosis.Types.ConfusionMatrix",
+    "comment": " Classification `Sessions` will generate a `ConfusionMatrix`, which shows how well the `Model` was able to choose the correct class for a row.\n\n@docs ConfusionMatrix\n\n",
     "aliases": [
       {
-        "name": "Data",
-        "comment": " Alias for a `List` of `Dict String String`. Returned from several different Api calls.\n",
-        "args": [],
-        "type": "List (Dict.Dict String String)"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.ImputationStrategy",
-    "comment": " The Imputation Strategy to use when filling in missing values in a `DataSet`. This is an option provided on [ColumnMetadata](Nexosis.Types.Columns#ColumnMetadata).\n\nRefer to the docs for more information about [ColumnMetadata](https://docs.nexosis.com/guides/column-metadata).\n\n@docs ImputationStrategy\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "ImputationStrategy",
+        "name": "ConfusionMatrix",
         "comment": " ",
         "args": [],
-        "cases": [
-          [
-            "Zeroes",
-            []
-          ],
-          [
-            "Mean",
-            []
-          ],
-          [
-            "Median",
-            []
-          ],
-          [
-            "Mode",
-            []
-          ],
-          [
-            "Min",
-            []
-          ],
-          [
-            "Max",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.Link",
-    "comment": " Links are returned on many different endpoint calls, and refer to different related objects in the Api.\n\n@docs Link\n\n",
-    "aliases": [
-      {
-        "name": "Link",
-        "comment": " ",
-        "args": [],
-        "type": "{ rel : String, href : String }"
+        "type": "{ classes : Array.Array String , confusionMatrix : Array.Array (Array.Array Int) }"
       }
     ],
     "types": [],
@@ -866,76 +936,6 @@
         "type": "Nexosis.ClientConfig -> HttpBuilder.RequestBuilder a -> HttpBuilder.RequestBuilder a"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.ConfusionMatrix",
-    "comment": " Classification `Sessions` will generate a `ConfusionMatrix`, which shows how well the `Model` was able to choose the correct class for a row.\n\n@docs ConfusionMatrix\n\n",
-    "aliases": [
-      {
-        "name": "ConfusionMatrix",
-        "comment": " ",
-        "args": [],
-        "type": "{ classes : Array.Array String , confusionMatrix : Array.Array (Array.Array Int) }"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.AggregationStrategy",
-    "comment": " The Aggregation Strategy to use when rolling up time series data. This is an option provided on [ColumnMetadata](Nexosis.Types.Columns#ColumnMetadata).\n\nRefer to the docs for more information about [ColumnMetadata](https://docs.nexosis.com/guides/column-metadata).\n\n@docs AggregationStrategy\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "AggregationStrategy",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Sum",
-            []
-          ],
-          [
-            "Mean",
-            []
-          ],
-          [
-            "Median",
-            []
-          ],
-          [
-            "Mode",
-            []
-          ],
-          [
-            "Min",
-            []
-          ],
-          [
-            "Max",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nexosis.Types.Algorithm",
-    "comment": " Details about a machine learning algorithm.\n\n@docs Algorithm\n\n",
-    "aliases": [
-      {
-        "name": "Algorithm",
-        "comment": " ",
-        "args": [],
-        "type": "{ name : String, description : String, key : Maybe.Maybe String }"
-      }
-    ],
-    "types": [],
-    "values": [],
     "generated-with-elm-version": "0.18.0"
   }
 ]

@@ -139,77 +139,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Outline",
-    "comment": " A module for rendering outline layouts.\n\n@docs segment\n@docs node\n@docs NodeLayout\n@docs NodeConfig\n@docs config\n@docs html\n@docs styles\n\n",
-    "aliases": [
-      {
-        "name": "NodeConfig",
-        "comment": " Defines how a node should look.\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ label : Html.Html msg , contents : Html.Html msg , children : List (Nri.Outline.NodeLayout msg) , selected : Bool , ghosted : Bool , attrs : List (Html.Attribute msg) }"
-      }
-    ],
-    "types": [
-      {
-        "name": "NodeLayout",
-        "comment": " A wrapper for a node rendered into Html. This type exists to prevent us\nfrom accidentally wrapping a node in a container element before passing it as a\nchild to another node or segment. Such wrapping would break some of our\nstyling, which assumes nodes of the same level are sibblings in the Html tree.\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "config",
-        "comment": " A default node configuration, allowing you to only set the properties you care about.\n\n    node { config | label = \"Claim\" }\n\n",
-        "type": "Nri.Outline.NodeConfig msg"
-      },
-      {
-        "name": "html",
-        "comment": " Wrap any html in a NodeLayout so you can use it as sibling content to nodes.\n\n    segment\n        [ node { config | label = \"This is a node\" }\n        , html (Html.text \"This is some random Html content!\")\n        ]\n\n",
-        "type": "Html.Html msg -> Nri.Outline.NodeLayout msg"
-      },
-      {
-        "name": "node",
-        "comment": " Draw a node of an outline structure. You can draw other nodes inside it and\nconnecting lines will appear.\n\n    node { config | label = \"Claim\" }\n\n",
-        "type": "Nri.Outline.NodeConfig msg -> Nri.Outline.NodeLayout msg"
-      },
-      {
-        "name": "segment",
-        "comment": " A container to draw nodes in.\n\n    segment\n        [ node { config | label = \"First Node\" }\n        , node { config | label = \"Second Node\" }\n        ]\n\n",
-        "type": "List (Nri.Outline.NodeLayout msg) -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " Styles used by outline structures.\n",
-        "type": "Nri.Styles.Styles a Nri.Outline.Style b"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Divider",
-    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nri.Text",
     "comment": " Text types:\n\n@docs caption\n@docs heading\n@docs mediumBody\n@docs smallBody\n@docs smallBodyGray\n@docs subHeading\n@docs tagline\n\nText class strings:\n\n@docs captionClassString\n@docs mediumBodyClassString\n@docs smallBodyClassString\n\n@docs styles\n\nModifying strings to display nicely:\n\n@docs noWidow\n\n",
     "aliases": [],
@@ -312,134 +241,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.TextInput",
-    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": " ",
-        "args": [
-          "value",
-          "msg"
-        ],
-        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
-      }
-    ],
-    "types": [
-      {
-        "name": "InputType",
-        "comment": " ",
-        "args": [
-          "value"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "number",
-        "comment": " An input that allows number entry\n",
-        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
-      },
-      {
-        "name": "text",
-        "comment": " An input that allows text entry\n",
-        "type": "Nri.TextInput.InputType String"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
-      },
-      {
-        "name": "withInvisibleLabel",
-        "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.BannerAlert",
-    "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "error",
-        "comment": " A banner to show error alerts\n",
-        "type": "String -> Html.Html msg"
-      },
-      {
-        "name": "neutral",
-        "comment": " A banner to show neutral alerts\n",
-        "type": "String -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.BannerAlert.CssClasses b"
-      },
-      {
-        "name": "success",
-        "comment": " A banner for success alerts\n",
-        "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Alert",
-    "comment": " UI components that highlight information to the user.\n\n@docs Model\n@docs error\n@docs styles\n@docs success\n@docs tip\n@docs viewResult\n@docs warning\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": " ",
-        "args": [],
-        "type": "{ content : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "error",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Alert.CssClasses msg"
-      },
-      {
-        "name": "success",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      },
-      {
-        "name": "tip",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      },
-      {
-        "name": "viewResult",
-        "comment": " Show either an error or success alert depending on the given Result\n",
-        "type": "Result.Result String String -> Html.Html msg"
-      },
-      {
-        "name": "warning",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nri.Tabs",
     "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
     "aliases": [
@@ -526,20 +327,106 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.TextAreaWithOverlappingLabel",
-    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
-    "aliases": [],
-    "types": [],
+    "name": "Nri.TextInput",
+    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " ",
+        "args": [
+          "value",
+          "msg"
+        ],
+        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
+      }
+    ],
+    "types": [
+      {
+        "name": "InputType",
+        "comment": " ",
+        "args": [
+          "value"
+        ],
+        "cases": []
+      }
+    ],
     "values": [
+      {
+        "name": "number",
+        "comment": " An input that allows number entry\n",
+        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
+      },
       {
         "name": "styles",
         "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
+      },
+      {
+        "name": "text",
+        "comment": " An input that allows text entry\n",
+        "type": "Nri.TextInput.InputType String"
       },
       {
         "name": "view",
         "comment": " ",
-        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+      },
+      {
+        "name": "withInvisibleLabel",
+        "comment": " ",
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Outline",
+    "comment": " A module for rendering outline layouts.\n\n@docs segment\n@docs node\n@docs NodeLayout\n@docs NodeConfig\n@docs config\n@docs html\n@docs styles\n\n",
+    "aliases": [
+      {
+        "name": "NodeConfig",
+        "comment": " Defines how a node should look.\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ label : Html.Html msg , contents : Html.Html msg , children : List (Nri.Outline.NodeLayout msg) , selected : Bool , ghosted : Bool , attrs : List (Html.Attribute msg) }"
+      }
+    ],
+    "types": [
+      {
+        "name": "NodeLayout",
+        "comment": " A wrapper for a node rendered into Html. This type exists to prevent us\nfrom accidentally wrapping a node in a container element before passing it as a\nchild to another node or segment. Such wrapping would break some of our\nstyling, which assumes nodes of the same level are sibblings in the Html tree.\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "config",
+        "comment": " A default node configuration, allowing you to only set the properties you care about.\n\n    node { config | label = \"Claim\" }\n\n",
+        "type": "Nri.Outline.NodeConfig msg"
+      },
+      {
+        "name": "html",
+        "comment": " Wrap any html in a NodeLayout so you can use it as sibling content to nodes.\n\n    segment\n        [ node { config | label = \"This is a node\" }\n        , html (Html.text \"This is some random Html content!\")\n        ]\n\n",
+        "type": "Html.Html msg -> Nri.Outline.NodeLayout msg"
+      },
+      {
+        "name": "node",
+        "comment": " Draw a node of an outline structure. You can draw other nodes inside it and\nconnecting lines will appear.\n\n    node { config | label = \"Claim\" }\n\n",
+        "type": "Nri.Outline.NodeConfig msg -> Nri.Outline.NodeLayout msg"
+      },
+      {
+        "name": "segment",
+        "comment": " A container to draw nodes in.\n\n    segment\n        [ node { config | label = \"First Node\" }\n        , node { config | label = \"Second Node\" }\n        ]\n\n",
+        "type": "List (Nri.Outline.NodeLayout msg) -> Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " Styles used by outline structures.\n",
+        "type": "Nri.Styles.Styles a Nri.Outline.Style b"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -649,15 +536,114 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.Effects",
-    "comment": " Css mixins reused across Nri modules.\n\n@docs selectionShadow\n\n",
+    "name": "Nri.TextAreaWithOverlappingLabel",
+    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "selectionShadow",
-        "comment": " Draw a 2 px thick ochre border around the element to indicate it is\nselected.\n\nThis uses a CSS box shadow to draw what looks like a border. Box shadows are\nperfect for this because they don't affect the elements positioning in any way.\nThis means we can be sure switching the selection shadow on and off is not\ngoing to make the element jump.\n\n",
-        "type": "List Css.Style"
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.BannerAlert",
+    "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "error",
+        "comment": " A banner to show error alerts\n",
+        "type": "String -> Html.Html msg"
+      },
+      {
+        "name": "neutral",
+        "comment": " A banner to show neutral alerts\n",
+        "type": "String -> Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.BannerAlert.CssClasses b"
+      },
+      {
+        "name": "success",
+        "comment": " A banner for success alerts\n",
+        "type": "String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Alert",
+    "comment": " UI components that highlight information to the user.\n\n@docs Model\n@docs error\n@docs styles\n@docs success\n@docs tip\n@docs viewResult\n@docs warning\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " ",
+        "args": [],
+        "type": "{ content : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "error",
+        "comment": " ",
+        "type": "Nri.Alert.Model -> Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Alert.CssClasses msg"
+      },
+      {
+        "name": "success",
+        "comment": " ",
+        "type": "Nri.Alert.Model -> Html.Html msg"
+      },
+      {
+        "name": "tip",
+        "comment": " ",
+        "type": "Nri.Alert.Model -> Html.Html msg"
+      },
+      {
+        "name": "viewResult",
+        "comment": " Show either an error or success alert depending on the given Result\n",
+        "type": "Result.Result String String -> Html.Html msg"
+      },
+      {
+        "name": "warning",
+        "comment": " ",
+        "type": "Nri.Alert.Model -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Divider",
+    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -844,6 +830,20 @@
         "name": "white",
         "comment": " White palette (borders are blue)\n",
         "type": "Nri.Palette.Palette"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Effects",
+    "comment": " Css mixins reused across Nri modules.\n\n@docs selectionShadow\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "selectionShadow",
+        "comment": " Draw a 2 px thick ochre border around the element to indicate it is\nselected.\n\nThis uses a CSS box shadow to draw what looks like a border. Box shadows are\nperfect for this because they don't affect the elements positioning in any way.\nThis means we can be sure switching the selection shadow on and off is not\ngoing to make the element jump.\n\n",
+        "type": "List Css.Style"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -312,261 +312,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Pylon.DB.Tree",
-    "comment": " This module is intended to mirror entire trees of data on firebase.\n\n# Types\n@docs Tree, TreeFeedback, Context, Config, Controller\n\n# Manipulate Context\n@docs context, contextForward, contextSetRoot, pathContext, contextPath, locationContext, contextLocation, contextPrefixSet, contextPrefixGet\n\n# Controller Policies\n@docs controllerSubscribe, controllerManual, controllerData, controllerSubscribeFrom, controllerManualFrom, controllerDataFrom\n\n# Default Configuration\n@docs dbConfig\n\n# Feedback Helpers\n@docs feedbackPath\n\n# Tree\n@docs newTree, cancel, cancelAndReset, subscribe, addPath, removePath, inputOne, step\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " Configuration type for the tree. Configures the subscription, cancellation, input, and\ninitialization functions for the underlying subtype. Takes a policy. This allows you to control the\nsubscription behavior of each node, selecting whether it should be interpreted as a group node or a\nleaf node, and whether or not it should listen for children.\n",
-        "args": [
-          "never",
-          "subtype",
-          "subfeedback"
-        ],
-        "type": "{ subscription : Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> subtype -> ( subtype, List (Pylon.DB.DBTask never) ) , cancellation : Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> subtype -> ( subtype, List (Pylon.DB.DBTask never) ) , subInput : Pylon.DB.Path.Path -> subfeedback -> subtype -> subtype , subInit : Pylon.DB.Path.Path -> subtype , policy : Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller }"
-      },
-      {
-        "name": "Context",
-        "comment": " Specify some context for the tree. This includes the address, the root location of the database,\nand the prefix path to use. The prefix selects the location in the database to mirror. ",
-        "args": [
-          "subfeedback"
-        ],
-        "type": "{ address : Signal.Address (List (Pylon.DB.Tree.TreeFeedback subfeedback)) , rootLocation : ElmFire.Location , prefixPath : Pylon.DB.Path.Path }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Controller",
-        "comment": " Specifies the controller method to use for a given node. ",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Tree",
-        "comment": " A single tree. The tree represents an active record in the database in conjunction with a\nconfiguration (see `Config`) and some context (see `Context`). ",
-        "args": [
-          "subtype"
-        ],
-        "cases": []
-      },
-      {
-        "name": "TreeFeedback",
-        "comment": " Feedback type for a DB.Tree. ",
-        "args": [
-          "subfeedback"
-        ],
-        "cases": [
-          [
-            "FromSub",
-            [
-              "Pylon.DB.Path.Path",
-              "subfeedback"
-            ]
-          ],
-          [
-            "AddSub",
-            [
-              "Pylon.DB.Path.Path"
-            ]
-          ],
-          [
-            "RemoveSub",
-            [
-              "Pylon.DB.Path.Path"
-            ]
-          ],
-          [
-            "ListenAddStart",
-            [
-              "Pylon.DB.Path.Path",
-              "ElmFire.Subscription"
-            ]
-          ],
-          [
-            "ListenAddCancelled",
-            [
-              "Pylon.DB.Path.Path"
-            ]
-          ],
-          [
-            "ListenAddCancelledReset",
-            [
-              "Pylon.DB.Path.Path"
-            ]
-          ],
-          [
-            "ListenAddError",
-            [
-              "Pylon.DB.Path.Path",
-              "Pylon.DB.DBError"
-            ]
-          ],
-          [
-            "ListenRemoveStart",
-            [
-              "Pylon.DB.Path.Path",
-              "ElmFire.Subscription"
-            ]
-          ],
-          [
-            "ListenRemoveCancelled",
-            [
-              "Pylon.DB.Path.Path"
-            ]
-          ],
-          [
-            "ListenRemoveCancelledReset",
-            [
-              "Pylon.DB.Path.Path"
-            ]
-          ],
-          [
-            "ListenRemoveError",
-            [
-              "Pylon.DB.Path.Path",
-              "Pylon.DB.DBError"
-            ]
-          ],
-          [
-            "ReservedFeedback",
-            [
-              "Pylon.DB.Path.Path",
-              "Pylon.DB.Tree.ReservedType"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "addPath",
-        "comment": " ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
-      },
-      {
-        "name": "cancel",
-        "comment": " Cancel at a particular path. ",
-        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> ( Pylon.DB.Tree.Tree subtype, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "cancelAndReset",
-        "comment": " Cancel and reset a particular path. ",
-        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> ( Pylon.DB.Tree.Tree subtype, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "context",
-        "comment": " Create a new context given an address and a location. This defaults to an empty prefix, which\nwill bind the active record at the root database location. ",
-        "type": "Signal.Address (List (Pylon.DB.Tree.TreeFeedback subfeedback)) -> ElmFire.Location -> Pylon.DB.Tree.Context subfeedback"
-      },
-      {
-        "name": "contextForward",
-        "comment": " Create a new context, but with a forwarded address. ",
-        "type": "(List (Pylon.DB.Tree.TreeFeedback subfeedback) -> List action) -> Signal.Address (List action) -> ElmFire.Location -> Pylon.DB.Tree.Context subfeedback"
-      },
-      {
-        "name": "contextLocation",
-        "comment": " Determine the location of a given child path from context, putting the context argument last. ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Context subfeedback -> ElmFire.Location"
-      },
-      {
-        "name": "contextPath",
-        "comment": " Determine the full path of a given child path from context, putting the context argument last. ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "contextPrefixGet",
-        "comment": " Get the prefix path in the context. ",
-        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "contextPrefixSet",
-        "comment": " Set the prefix path in the context. ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Context subfeedback"
-      },
-      {
-        "name": "contextSetRoot",
-        "comment": " Set the root database location. ",
-        "type": "ElmFire.Location -> Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Context subfeedback"
-      },
-      {
-        "name": "controllerData",
-        "comment": " ",
-        "type": "Pylon.DB.Tree.Controller"
-      },
-      {
-        "name": "controllerDataFrom",
-        "comment": " ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller"
-      },
-      {
-        "name": "controllerManual",
-        "comment": " ",
-        "type": "Pylon.DB.Tree.Controller"
-      },
-      {
-        "name": "controllerManualFrom",
-        "comment": " ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller"
-      },
-      {
-        "name": "controllerSubscribe",
-        "comment": " ",
-        "type": "ElmFire.OrderOptions -> Pylon.DB.Tree.Controller"
-      },
-      {
-        "name": "controllerSubscribeFrom",
-        "comment": " ",
-        "type": "Pylon.DB.Path.Path -> ElmFire.OrderOptions -> Pylon.DB.Tree.Controller"
-      },
-      {
-        "name": "dbConfig",
-        "comment": " This is the default configuration designed to work with `DB.Data`. Alternative machines may be\npreferred for odd tasks. ",
-        "type": "Pylon.DB.Config v -> (Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller) -> Pylon.DB.Tree.Config never (Pylon.DB.Data v) (Pylon.DB.Feedback v)"
-      },
-      {
-        "name": "feedbackPath",
-        "comment": " Extract the path of the given feedback. All feedback tags have an associated path in the tree.\nUse this to get it without case destructuring. ",
-        "type": "Pylon.DB.Tree.TreeFeedback subfeedback -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "inputOne",
-        "comment": " ",
-        "type": "Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Tree.TreeFeedback subfeedback -> Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
-      },
-      {
-        "name": "locationContext",
-        "comment": " Determine the location of a given child path from context, putting the path argument last. ",
-        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> ElmFire.Location"
-      },
-      {
-        "name": "newTree",
-        "comment": " A new empty free. ",
-        "type": "Pylon.DB.Tree.Tree subtype"
-      },
-      {
-        "name": "pathContext",
-        "comment": " Determine the full path of a given child path from context, putting the path argument last. ",
-        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "removePath",
-        "comment": " ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
-      },
-      {
-        "name": "step",
-        "comment": " ",
-        "type": "Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
-      },
-      {
-        "name": "subscribe",
-        "comment": " ",
-        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Tree.Tree subtype -> ( Pylon.DB.Tree.Tree subtype, List (Pylon.DB.DBTask never) )"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Pylon.DB.Meta",
     "comment": " Subscribe to metadata about connectivity, timestamp offset, and authentication using the\nsame easy to understand pattern set forth in `Pylon.DB`.\n\n# Types\n@docs MetaFeedback, MetaBinding, MetaData\n\n# Special Server Metadata Binding\n@docs nilMetaData, metaBindingTo, metaSendingTo, metaForwardingTo, metaInputOne, metaInput, metaSubscribe\n\n# Getters\n@docs getTimestampOffset, getConnectionStatus, getAuthenticationStatus\n\n# Etc.\n@docs serverTimestampPlaceholder\n\n",
     "aliases": [
@@ -1236,6 +981,261 @@
         "name": "voidGroup",
         "comment": " A new void group item, which is to say that it starts in the cancelled state, so subscriptions\nwill have no effect when reached until a call to `resetGroup`. ",
         "type": "Pylon.DB.Group.Group subtype"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Pylon.DB.Tree",
+    "comment": " This module is intended to mirror entire trees of data on firebase.\n\n# Types\n@docs Tree, TreeFeedback, Context, Config, Controller\n\n# Manipulate Context\n@docs context, contextForward, contextSetRoot, pathContext, contextPath, locationContext, contextLocation, contextPrefixSet, contextPrefixGet\n\n# Controller Policies\n@docs controllerSubscribe, controllerManual, controllerData, controllerSubscribeFrom, controllerManualFrom, controllerDataFrom\n\n# Default Configuration\n@docs dbConfig\n\n# Feedback Helpers\n@docs feedbackPath\n\n# Tree\n@docs newTree, cancel, cancelAndReset, subscribe, addPath, removePath, inputOne, step\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Configuration type for the tree. Configures the subscription, cancellation, input, and\ninitialization functions for the underlying subtype. Takes a policy. This allows you to control the\nsubscription behavior of each node, selecting whether it should be interpreted as a group node or a\nleaf node, and whether or not it should listen for children.\n",
+        "args": [
+          "never",
+          "subtype",
+          "subfeedback"
+        ],
+        "type": "{ subscription : Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> subtype -> ( subtype, List (Pylon.DB.DBTask never) ) , cancellation : Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> subtype -> ( subtype, List (Pylon.DB.DBTask never) ) , subInput : Pylon.DB.Path.Path -> subfeedback -> subtype -> subtype , subInit : Pylon.DB.Path.Path -> subtype , policy : Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller }"
+      },
+      {
+        "name": "Context",
+        "comment": " Specify some context for the tree. This includes the address, the root location of the database,\nand the prefix path to use. The prefix selects the location in the database to mirror. ",
+        "args": [
+          "subfeedback"
+        ],
+        "type": "{ address : Signal.Address (List (Pylon.DB.Tree.TreeFeedback subfeedback)) , rootLocation : ElmFire.Location , prefixPath : Pylon.DB.Path.Path }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Controller",
+        "comment": " Specifies the controller method to use for a given node. ",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Tree",
+        "comment": " A single tree. The tree represents an active record in the database in conjunction with a\nconfiguration (see `Config`) and some context (see `Context`). ",
+        "args": [
+          "subtype"
+        ],
+        "cases": []
+      },
+      {
+        "name": "TreeFeedback",
+        "comment": " Feedback type for a DB.Tree. ",
+        "args": [
+          "subfeedback"
+        ],
+        "cases": [
+          [
+            "FromSub",
+            [
+              "Pylon.DB.Path.Path",
+              "subfeedback"
+            ]
+          ],
+          [
+            "AddSub",
+            [
+              "Pylon.DB.Path.Path"
+            ]
+          ],
+          [
+            "RemoveSub",
+            [
+              "Pylon.DB.Path.Path"
+            ]
+          ],
+          [
+            "ListenAddStart",
+            [
+              "Pylon.DB.Path.Path",
+              "ElmFire.Subscription"
+            ]
+          ],
+          [
+            "ListenAddCancelled",
+            [
+              "Pylon.DB.Path.Path"
+            ]
+          ],
+          [
+            "ListenAddCancelledReset",
+            [
+              "Pylon.DB.Path.Path"
+            ]
+          ],
+          [
+            "ListenAddError",
+            [
+              "Pylon.DB.Path.Path",
+              "Pylon.DB.DBError"
+            ]
+          ],
+          [
+            "ListenRemoveStart",
+            [
+              "Pylon.DB.Path.Path",
+              "ElmFire.Subscription"
+            ]
+          ],
+          [
+            "ListenRemoveCancelled",
+            [
+              "Pylon.DB.Path.Path"
+            ]
+          ],
+          [
+            "ListenRemoveCancelledReset",
+            [
+              "Pylon.DB.Path.Path"
+            ]
+          ],
+          [
+            "ListenRemoveError",
+            [
+              "Pylon.DB.Path.Path",
+              "Pylon.DB.DBError"
+            ]
+          ],
+          [
+            "ReservedFeedback",
+            [
+              "Pylon.DB.Path.Path",
+              "Pylon.DB.Tree.ReservedType"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "addPath",
+        "comment": " ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
+      },
+      {
+        "name": "cancel",
+        "comment": " Cancel at a particular path. ",
+        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> ( Pylon.DB.Tree.Tree subtype, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "cancelAndReset",
+        "comment": " Cancel and reset a particular path. ",
+        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> ( Pylon.DB.Tree.Tree subtype, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "context",
+        "comment": " Create a new context given an address and a location. This defaults to an empty prefix, which\nwill bind the active record at the root database location. ",
+        "type": "Signal.Address (List (Pylon.DB.Tree.TreeFeedback subfeedback)) -> ElmFire.Location -> Pylon.DB.Tree.Context subfeedback"
+      },
+      {
+        "name": "contextForward",
+        "comment": " Create a new context, but with a forwarded address. ",
+        "type": "(List (Pylon.DB.Tree.TreeFeedback subfeedback) -> List action) -> Signal.Address (List action) -> ElmFire.Location -> Pylon.DB.Tree.Context subfeedback"
+      },
+      {
+        "name": "contextLocation",
+        "comment": " Determine the location of a given child path from context, putting the context argument last. ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Context subfeedback -> ElmFire.Location"
+      },
+      {
+        "name": "contextPath",
+        "comment": " Determine the full path of a given child path from context, putting the context argument last. ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "contextPrefixGet",
+        "comment": " Get the prefix path in the context. ",
+        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "contextPrefixSet",
+        "comment": " Set the prefix path in the context. ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Context subfeedback"
+      },
+      {
+        "name": "contextSetRoot",
+        "comment": " Set the root database location. ",
+        "type": "ElmFire.Location -> Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Context subfeedback"
+      },
+      {
+        "name": "controllerData",
+        "comment": " ",
+        "type": "Pylon.DB.Tree.Controller"
+      },
+      {
+        "name": "controllerDataFrom",
+        "comment": " ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller"
+      },
+      {
+        "name": "controllerManual",
+        "comment": " ",
+        "type": "Pylon.DB.Tree.Controller"
+      },
+      {
+        "name": "controllerManualFrom",
+        "comment": " ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller"
+      },
+      {
+        "name": "controllerSubscribe",
+        "comment": " ",
+        "type": "ElmFire.OrderOptions -> Pylon.DB.Tree.Controller"
+      },
+      {
+        "name": "controllerSubscribeFrom",
+        "comment": " ",
+        "type": "Pylon.DB.Path.Path -> ElmFire.OrderOptions -> Pylon.DB.Tree.Controller"
+      },
+      {
+        "name": "dbConfig",
+        "comment": " This is the default configuration designed to work with `DB.Data`. Alternative machines may be\npreferred for odd tasks. ",
+        "type": "Pylon.DB.Config v -> (Pylon.DB.Path.Path -> Pylon.DB.Tree.Controller) -> Pylon.DB.Tree.Config never (Pylon.DB.Data v) (Pylon.DB.Feedback v)"
+      },
+      {
+        "name": "feedbackPath",
+        "comment": " Extract the path of the given feedback. All feedback tags have an associated path in the tree.\nUse this to get it without case destructuring. ",
+        "type": "Pylon.DB.Tree.TreeFeedback subfeedback -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "inputOne",
+        "comment": " ",
+        "type": "Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Tree.TreeFeedback subfeedback -> Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
+      },
+      {
+        "name": "locationContext",
+        "comment": " Determine the location of a given child path from context, putting the path argument last. ",
+        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> ElmFire.Location"
+      },
+      {
+        "name": "newTree",
+        "comment": " A new empty free. ",
+        "type": "Pylon.DB.Tree.Tree subtype"
+      },
+      {
+        "name": "pathContext",
+        "comment": " Determine the full path of a given child path from context, putting the path argument last. ",
+        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "removePath",
+        "comment": " ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
+      },
+      {
+        "name": "step",
+        "comment": " ",
+        "type": "Pylon.DB.Tree.Tree subtype -> Pylon.DB.Tree.Tree subtype"
+      },
+      {
+        "name": "subscribe",
+        "comment": " ",
+        "type": "Pylon.DB.Tree.Context subfeedback -> Pylon.DB.Tree.Config never subtype subfeedback -> Pylon.DB.Tree.Tree subtype -> ( Pylon.DB.Tree.Tree subtype, List (Pylon.DB.DBTask never) )"
       }
     ],
     "generated-with-elm-version": "0.16.0"

@@ -150,6 +150,133 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Web3.Shh",
+    "comment": " Whipser API\n\n@docs version, post, newIdentity\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "newIdentity",
+        "comment": " ",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Web3.Shh.Types.WhisperId"
+      },
+      {
+        "name": "post",
+        "comment": " ",
+        "type": "Web3.Types.HttpProvider -> Web3.Shh.Types.Post -> Task.Task Http.Error Bool"
+      },
+      {
+        "name": "version",
+        "comment": " ",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Web3.Eth.EventSentry",
+    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, logFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
+    "aliases": [
+      {
+        "name": "FilterKey",
+        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
+        "args": [],
+        "type": "( String, String )"
+      }
+    ],
+    "types": [
+      {
+        "name": "EventSentry",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Msg",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "changeNode",
+        "comment": " ",
+        "type": "String -> Web3.Eth.EventSentry.EventSentry msg -> Web3.Eth.EventSentry.EventSentry msg"
+      },
+      {
+        "name": "init",
+        "comment": " ",
+        "type": "String -> Web3.Eth.EventSentry.EventSentry msg"
+      },
+      {
+        "name": "listen",
+        "comment": " ",
+        "type": "Web3.Eth.EventSentry.EventSentry msg -> (Web3.Eth.EventSentry.Msg msg -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "logFilterKey",
+        "comment": " ",
+        "type": "Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.FilterKey"
+      },
+      {
+        "name": "newBlocks",
+        "comment": " ",
+        "type": "(Web3.Eth.Types.BlockHead -> msg) -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "nextBlock",
+        "comment": " ",
+        "type": "(Web3.Eth.Types.BlockHead -> msg) -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "pendingTxs",
+        "comment": " ",
+        "type": "(Web3.Eth.Types.TxHash -> msg) -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatch",
+        "comment": " ",
+        "type": "Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchNewBlocks",
+        "comment": " ",
+        "type": "Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchPendingTxs",
+        "comment": " ",
+        "type": "Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "update",
+        "comment": " ",
+        "type": "Web3.Eth.EventSentry.Msg msg -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watch",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watchOnce",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "withDebug",
+        "comment": " ",
+        "type": "Web3.Eth.EventSentry.EventSentry msg -> Web3.Eth.EventSentry.EventSentry msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Web3.Eth",
     "comment": " Ethereum RPC Methods\n\nSee the [official docs][rpc-docs] for reference.\n\n[rpc-docs]: [https://github.com/ethereum/wiki/wiki/JSON-RPC]\n\n\n# Contracts\n\n@docs call, estimateGas, getStorageAt, getCode, callAtBlock, getStorageAtBlock, getCodeAtBlock\n\n\n# Transactions\n\n@docs getTx, getTxReceipt, send, sendTx, sendRawTx, getTxByBlockHashAndIndex, getTxByBlockNumberAndIndex\n\n\n# Address/Accounts\n\n@docs getBalance, getTxCount, getBalanceAtBlock, getTxCountAtBlock\n\n\n# Blocks\n\n@docs getBlockNumber, getBlock, getBlockByHash, getBlockWithTxObjs, getBlockByHashWithTxObjs, getBlockTxCount, getBlockTxCountByHash, getUncleCount, getUncleCountByHash, getUncleAtIndex, getUncleByBlockHashAtIndex\n\n\n# Filter/Logs/Events\n\n@docs getLogs, newFilter, newBlockFilter, newPendingTxFilter, getFilterChanges, getFilterLogs, uninstallFilter\n\n\n# Misc\n\n@docs sign, protocolVersion, syncing, coinbase, mining, hashrate, gasPrice, accounts\n\n",
     "aliases": [],
@@ -379,128 +506,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Web3.Eth.EventSentry",
-    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, logFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
-    "aliases": [
-      {
-        "name": "FilterKey",
-        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
-        "args": [],
-        "type": "( String, String )"
-      }
-    ],
-    "types": [
-      {
-        "name": "EventSentry",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Msg",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "changeNode",
-        "comment": " ",
-        "type": "String -> Web3.Eth.EventSentry.EventSentry msg -> Web3.Eth.EventSentry.EventSentry msg"
-      },
-      {
-        "name": "init",
-        "comment": " ",
-        "type": "String -> Web3.Eth.EventSentry.EventSentry msg"
-      },
-      {
-        "name": "listen",
-        "comment": " ",
-        "type": "Web3.Eth.EventSentry.EventSentry msg -> (Web3.Eth.EventSentry.Msg msg -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "logFilterKey",
-        "comment": " ",
-        "type": "Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.FilterKey"
-      },
-      {
-        "name": "newBlocks",
-        "comment": " ",
-        "type": "(Web3.Eth.Types.BlockHead -> msg) -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "nextBlock",
-        "comment": " ",
-        "type": "(Web3.Eth.Types.BlockHead -> msg) -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "pendingTxs",
-        "comment": " ",
-        "type": "(Web3.Eth.Types.TxHash -> msg) -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatch",
-        "comment": " ",
-        "type": "Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchNewBlocks",
-        "comment": " ",
-        "type": "Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchPendingTxs",
-        "comment": " ",
-        "type": "Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "update",
-        "comment": " ",
-        "type": "Web3.Eth.EventSentry.Msg msg -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watch",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watchOnce",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Web3.Eth.Types.LogFilter -> Web3.Eth.EventSentry.EventSentry msg -> ( Web3.Eth.EventSentry.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "withDebug",
-        "comment": " ",
-        "type": "Web3.Eth.EventSentry.EventSentry msg -> Web3.Eth.EventSentry.EventSentry msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Web3.Shh",
-    "comment": " Whipser API\n\n@docs version, post, newIdentity\n\n",
+    "name": "Web3.Shh.Encode",
+    "comment": " Whisper Encoders\n\n@docs post\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "newIdentity",
-        "comment": " ",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Web3.Shh.Types.WhisperId"
-      },
-      {
         "name": "post",
         "comment": " ",
-        "type": "Web3.Types.HttpProvider -> Web3.Shh.Types.Post -> Task.Task Http.Error Bool"
-      },
-      {
-        "name": "version",
-        "comment": " ",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Int"
+        "type": "Web3.Shh.Types.Post -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -545,114 +559,6 @@
         "name": "txHash",
         "comment": " ",
         "type": "Web3.Eth.Types.TxHash -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Web3.Shh.Encode",
-    "comment": " Whisper Encoders\n\n@docs post\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "post",
-        "comment": " ",
-        "type": "Web3.Shh.Types.Post -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Web3.Net",
-    "comment": " Net RPC methods\n@docs version, clientVersion, listening, peerCount, networkId, name, networkIdDecoder, NetworkId\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "NetworkId",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Mainnet",
-            []
-          ],
-          [
-            "Expanse",
-            []
-          ],
-          [
-            "Ropsten",
-            []
-          ],
-          [
-            "Rinkeby",
-            []
-          ],
-          [
-            "RskMain",
-            []
-          ],
-          [
-            "RskTest",
-            []
-          ],
-          [
-            "Kovan",
-            []
-          ],
-          [
-            "ETCMain",
-            []
-          ],
-          [
-            "ETCTest",
-            []
-          ],
-          [
-            "Private",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "clientVersion",
-        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error String"
-      },
-      {
-        "name": "listening",
-        "comment": " Returns true if the node is actively listening for network connections.\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Bool"
-      },
-      {
-        "name": "name",
-        "comment": " Get a NetworkId's name\n",
-        "type": "Web3.Net.NetworkId -> String"
-      },
-      {
-        "name": "networkId",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Int -> Web3.Net.NetworkId"
-      },
-      {
-        "name": "networkIdDecoder",
-        "comment": " Decode a stringy int into it's NetworkId\n",
-        "type": "Json.Decode.Decoder Web3.Net.NetworkId"
-      },
-      {
-        "name": "peerCount",
-        "comment": " Get the number of peers currently connected to the client.\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Int"
-      },
-      {
-        "name": "version",
-        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Web3.Net.NetworkId"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -844,6 +750,124 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Web3.Net",
+    "comment": " Net RPC methods\n@docs version, clientVersion, listening, peerCount, networkId, name, networkIdDecoder, NetworkId\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "NetworkId",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Mainnet",
+            []
+          ],
+          [
+            "Expanse",
+            []
+          ],
+          [
+            "Ropsten",
+            []
+          ],
+          [
+            "Rinkeby",
+            []
+          ],
+          [
+            "RskMain",
+            []
+          ],
+          [
+            "RskTest",
+            []
+          ],
+          [
+            "Kovan",
+            []
+          ],
+          [
+            "ETCMain",
+            []
+          ],
+          [
+            "ETCTest",
+            []
+          ],
+          [
+            "Private",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "clientVersion",
+        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error String"
+      },
+      {
+        "name": "listening",
+        "comment": " Returns true if the node is actively listening for network connections.\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Bool"
+      },
+      {
+        "name": "name",
+        "comment": " Get a NetworkId's name\n",
+        "type": "Web3.Net.NetworkId -> String"
+      },
+      {
+        "name": "networkId",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Int -> Web3.Net.NetworkId"
+      },
+      {
+        "name": "networkIdDecoder",
+        "comment": " Decode a stringy int into it's NetworkId\n",
+        "type": "Json.Decode.Decoder Web3.Net.NetworkId"
+      },
+      {
+        "name": "peerCount",
+        "comment": " Get the number of peers currently connected to the client.\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Int"
+      },
+      {
+        "name": "version",
+        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Web3.Net.NetworkId"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Web3.Encode",
+    "comment": " Encode rudimentary types\n\n@docs bigInt, hex, hexInt\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bigInt",
+        "comment": " ",
+        "type": "BigInt.BigInt -> Json.Encode.Value"
+      },
+      {
+        "name": "hex",
+        "comment": " ",
+        "type": "Web3.Types.Hex -> Json.Encode.Value"
+      },
+      {
+        "name": "hexInt",
+        "comment": " ",
+        "type": "Int -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Web3.Evm.Encode",
     "comment": " Encode before sending RPC Calls\n@docs Encoding, encodeData, encode\n",
     "aliases": [],
@@ -920,30 +944,6 @@
         "name": "encodeData",
         "comment": " ",
         "type": "String -> List Web3.Evm.Encode.Encoding -> Web3.Types.Hex"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Web3.Encode",
-    "comment": " Encode rudimentary types\n\n@docs bigInt, hex, hexInt\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bigInt",
-        "comment": " ",
-        "type": "BigInt.BigInt -> Json.Encode.Value"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Web3.Types.Hex -> Json.Encode.Value"
-      },
-      {
-        "name": "hexInt",
-        "comment": " ",
-        "type": "Int -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"

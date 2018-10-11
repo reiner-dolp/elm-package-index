@@ -92,41 +92,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "DragAndDrop.Divider",
-    "comment": " This module's contents are almost all unexposed right now. This might change in the future,\nwhen you can customize the dividers in your `ReorderList`.\n\n    import DragAndDrop.Divider as Divider\n\n@docs Orientation\n\n\n# Unstable API\n\n@docs viewWith, defaultDivider\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Orientation",
-        "comment": " The orientation the divider is dividing.\n\nThink of a divider as a fine line between elements. It is a horizontal divider,\nwhen the line is horizontal (even though it divides elements vertically).\n\nThis might be really confusing right now can should change in the future.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "Horizontal",
-            []
-          ],
-          [
-            "Vertical",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "defaultDivider",
-        "comment": " A default divider.\n\nShows a fine, black line when hovered and a fine grey line when not hovered.\n\nThe line is oriented the way given as orientation.\n\nApi might change in the future.\n\n",
-        "type": "DragAndDrop.Divider.DividerImage msg"
-      },
-      {
-        "name": "viewWith",
-        "comment": " View a divider\n\n    Divider.viewWith (Divider.defaultDivider isHovered) orientation size attributes\n\nApi might change in the future.\n\n",
-        "type": "(DragAndDrop.Divider.Orientation -> Float -> Html.Html msg) -> DragAndDrop.Divider.ViewFunction msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "DragAndDrop",
     "comment": "\n\n\n# DragAndDrop\n\nThis model is the low-level interface for drag and drop. It can still directly be\nuseful for applications, though.\n\n\n# Model\n\n@docs Model, DraggingData, NotDraggingData, init\n\n\n# Messages\n\n@docs Msg, Event\n\n\n# Updating\n\n@docs updateWithEvents, update, subscriptions\n\n\n# Make Elements draggable/droppable in your View\n\n@docs draggable, droppable, draggableHtml, droppableHtml\n\n\n# Querying the Dragging Model\n\n@docs isDragging, isDraggingId, isHoveringDraggableId, isHoveringDroppableId\n\n",
     "aliases": [
@@ -270,6 +235,41 @@
         "name": "updateWithEvents",
         "comment": " Use this method in your update function to receive `Event`s if\nthe user sucessfully drag-and-dropped an element or failed to do so, etc.\n(see `Event`).\n\nUpdating can be done sticky, that means a drop is successful, even if the user\ndoes not hover the droppable area anymore, but has done so before.\n\nUse it in your update function:\n\n    update : Msg -> Model -> Model\n    update msg model =\n        case DragAndDropMsg dndMsg ->\n            let ( dragModel, maybeEvent ) =\n                    updateWithEvents True dndMsg model.dragModel\n\n                newModel = { model | dragModel = dragModel }\n            in\n            Maybe.withDefault newModel (Maybe.map maybeEvent (updateDrop newModel))\n\n    updateDrop : DragAndDrop.Event CatIdentifier Int -> Model -> Model\n    updateDrop event = ...\n\n",
         "type": "Bool -> DragAndDrop.Msg dragId dropId -> DragAndDrop.Model dragId dropId -> ( DragAndDrop.Model dragId dropId , Maybe.Maybe (DragAndDrop.Event dragId dropId) )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "DragAndDrop.Divider",
+    "comment": " This module's contents are almost all unexposed right now. This might change in the future,\nwhen you can customize the dividers in your `ReorderList`.\n\n    import DragAndDrop.Divider as Divider\n\n@docs Orientation\n\n\n# Unstable API\n\n@docs viewWith, defaultDivider\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Orientation",
+        "comment": " The orientation the divider is dividing.\n\nThink of a divider as a fine line between elements. It is a horizontal divider,\nwhen the line is horizontal (even though it divides elements vertically).\n\nThis might be really confusing right now can should change in the future.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Horizontal",
+            []
+          ],
+          [
+            "Vertical",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "defaultDivider",
+        "comment": " A default divider.\n\nShows a fine, black line when hovered and a fine grey line when not hovered.\n\nThe line is oriented the way given as orientation.\n\nApi might change in the future.\n\n",
+        "type": "DragAndDrop.Divider.DividerImage msg"
+      },
+      {
+        "name": "viewWith",
+        "comment": " View a divider\n\n    Divider.viewWith (Divider.defaultDivider isHovered) orientation size attributes\n\nApi might change in the future.\n\n",
+        "type": "(DragAndDrop.Divider.Orientation -> Float -> Html.Html msg) -> DragAndDrop.Divider.ViewFunction msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

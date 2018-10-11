@@ -72,55 +72,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Color.Convert",
-    "comment": "\n#Convert\nConvert colors to differnt string formats and hexadecimal strings to colors.\n\n@docs colorToCssRgb, colorToCssRgba, colorToCssHsl, colorToCssHsla, colorToHex\n@docs hexToColor, colorToLab, labToColor\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "colorToCssHsl",
-        "comment": "\nConverts a color to an css hsl string.\n\n    colorToCssHsl (hsl 1 1 0.5) -- \"hsl(1, 1, 0.5)\"\n",
-        "type": "Color.Color -> String"
-      },
-      {
-        "name": "colorToCssHsla",
-        "comment": "\nConverts a color to an css hsla string.\n\n    colorToCssHsla (hsla 1 1 0.5 1) -- \"hsla(56, 100%, 50%, 1)\"\n",
-        "type": "Color.Color -> String"
-      },
-      {
-        "name": "colorToCssRgb",
-        "comment": "\nConverts a color to an css rgb string.\n\n    colorToCssRgb (rgb 255 0 0) -- \"rgb(255, 0, 0)\"\n",
-        "type": "Color.Color -> String"
-      },
-      {
-        "name": "colorToCssRgba",
-        "comment": "\nConverts a color to an css rgba string.\n\n    colorToCssRgba (rgba 255 0 0 0.5) -- \"rgba(255, 0, 0, 0.5)\"\n",
-        "type": "Color.Color -> String"
-      },
-      {
-        "name": "colorToHex",
-        "comment": "\nConverts a color to a hexadecimal string.\n\n    colorToHex (rgb 255 0 0) -- \"#ff0000\"\n\n",
-        "type": "Color.Color -> String"
-      },
-      {
-        "name": "colorToLab",
-        "comment": " Convert color to CIELAB- color space\n",
-        "type": "Color.Color -> { l : Float, a : Float, b : Float }"
-      },
-      {
-        "name": "hexToColor",
-        "comment": "\nConverts a string to `Maybe` of color.\n\n    hexToColor \"#ff0000\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"#f00\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"ff0000\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"f00\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"1234\" -- \"Err \\\"Parsing hex regex failed\\\"\"\n\n",
-        "type": "String -> Result.Result String Color.Color"
-      },
-      {
-        "name": "labToColor",
-        "comment": " Convert a color in CIELAB- color space to Elm `Color`\n",
-        "type": "{ l : Float, a : Float, b : Float } -> Color.Color"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Color.Blending",
     "comment": "\n# Blending\nBased on the [Compositing and Blending Level 1](https://www.w3.org/TR/compositing-1/#blending)\n\n@docs multiply, screen, overlay, difference, exclusion, hardlight, softlight, colorBurn, colorDodge, lighten, darken\n",
     "aliases": [],
@@ -273,6 +224,55 @@
         "name": "maximumContrast",
         "comment": "\nReturns the color with the highest contrast to the base color.\n\n    bgColor = Color.darkBlue\n    textOptions = [ Color.white, Color.purple, Color.black ]\n\n    maximumContrast bgColor textOptions -- Just Color.white\n",
         "type": "Color.Color -> List Color.Color -> Maybe.Maybe Color.Color"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Color.Convert",
+    "comment": "\n#Convert\nConvert colors to differnt string formats and hexadecimal strings to colors.\n\n@docs colorToCssRgb, colorToCssRgba, colorToCssHsl, colorToCssHsla, colorToHex\n@docs hexToColor, colorToLab, labToColor\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "colorToCssHsl",
+        "comment": "\nConverts a color to an css hsl string.\n\n    colorToCssHsl (hsl 1 1 0.5) -- \"hsl(1, 1, 0.5)\"\n",
+        "type": "Color.Color -> String"
+      },
+      {
+        "name": "colorToCssHsla",
+        "comment": "\nConverts a color to an css hsla string.\n\n    colorToCssHsla (hsla 1 1 0.5 1) -- \"hsla(56, 100%, 50%, 1)\"\n",
+        "type": "Color.Color -> String"
+      },
+      {
+        "name": "colorToCssRgb",
+        "comment": "\nConverts a color to an css rgb string.\n\n    colorToCssRgb (rgb 255 0 0) -- \"rgb(255, 0, 0)\"\n",
+        "type": "Color.Color -> String"
+      },
+      {
+        "name": "colorToCssRgba",
+        "comment": "\nConverts a color to an css rgba string.\n\n    colorToCssRgba (rgba 255 0 0 0.5) -- \"rgba(255, 0, 0, 0.5)\"\n",
+        "type": "Color.Color -> String"
+      },
+      {
+        "name": "colorToHex",
+        "comment": "\nConverts a color to a hexadecimal string.\n\n    colorToHex (rgb 255 0 0) -- \"#ff0000\"\n\n",
+        "type": "Color.Color -> String"
+      },
+      {
+        "name": "colorToLab",
+        "comment": " Convert color to CIELAB- color space\n",
+        "type": "Color.Color -> { l : Float, a : Float, b : Float }"
+      },
+      {
+        "name": "hexToColor",
+        "comment": "\nConverts a string to `Maybe` of color.\n\n    hexToColor \"#ff0000\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"#f00\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"ff0000\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"f00\" -- \"Ok (RGB 255 0 0)\"\n    hexToColor \"1234\" -- \"Err \\\"Parsing hex regex failed\\\"\"\n\n",
+        "type": "String -> Result.Result String Color.Color"
+      },
+      {
+        "name": "labToColor",
+        "comment": " Convert a color in CIELAB- color space to Elm `Color`\n",
+        "type": "{ l : Float, a : Float, b : Float } -> Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"

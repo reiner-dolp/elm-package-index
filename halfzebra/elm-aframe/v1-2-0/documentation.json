@@ -29,45 +29,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "AFrame.Primitives.Camera",
-    "comment": " CAmera primitive.\n\n# Primitives\n@docs camera\n\n# Attributes\n@docs far, fov, lookControlsEnabled, near, wasdControlsEnabled\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "camera",
-        "comment": " The camera primitive places the user somewhere within the scene.\n\n    camera [] []\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "far",
-        "comment": " Camera frustum far clipping plane.\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "fov",
-        "comment": " Field of view (in degrees).\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "lookControlsEnabled",
-        "comment": " Enable look controls.\n\n    camera [ lookControlsEnabled False ] []\n",
-        "type": "Bool -> Html.Attribute msg"
-      },
-      {
-        "name": "near",
-        "comment": " Camera frustum near clipping plane.\n",
-        "type": "Float -> Html.Attribute msg"
-      },
-      {
-        "name": "wasdControlsEnabled",
-        "comment": " Enable WASD controls for camera.\n\n    camera [ wasdControlsEnabled False ] []\n",
-        "type": "Bool -> Html.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "AFrame.Extra.Physics",
     "comment": " Components for A-Frame physics integration.\n\n# Primitives\n@docs grid\n\n# Primitive attributes\n@docs dynamicBody, staticBody\n\n# Camera attributes\n@docs kinematicBody\n\n",
     "aliases": [],
@@ -97,60 +58,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "AFrame.Animations",
-    "comment": " This module provides a set of functions for declaring A-Frame animations.\n\n# Definition\n@docs animation\n\n# Animation attributes\n@docs attribute_, begin, direction, dur, easing, fill, from, repeat, to\n\n",
+    "name": "AFrame",
+    "comment": " [A-Frame](https://aframe.io/docs/0.2.0/guide/) is a open-source framework for creating 3D and virtual reality experiences on the web.\n\n# Scene\n@docs scene\n\n# Entity\n@docs entity\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "animation",
-        "comment": " Animation declaration.\n\n    box\n        []\n        [ animation\n            [ attribute \"rotation\"\n            , dur 10000\n            , fill \"forwards\"\n            , to \"0 360 0\"\n            , repeat \"indefinite\"\n            ]\n            []\n        ]\n",
+        "name": "entity",
+        "comment": " An entity is represented by the <a-entity> element.\n    As defined in the entity-component-system pattern,\n    entities are placeholder objects to which we plug in components\n    to in order to provide them apperance, behavior, and functionality.\n\n    entity [ rotation 90 0 0 ] []\n",
         "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       },
       {
-        "name": "attribute_",
-        "comment": " Attribute to animate.\n\n    animation [ attribute \"rotation\" ] []\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "begin",
-        "comment": " Delay (in milliseconds) or event name to wait on before beginning animation.\n\n    animation [ begin 5000 ] []\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "direction",
-        "comment": " Direction of the animation (between from and to).\n    One of alternate, alternateReverse, normal, reverse.\n\n    animation [ direction \"reverse\" ] []\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "dur",
-        "comment": " Duration in (milliseconds) of the animation.\n\n    animation [ dur 5000 ] []\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "easing",
-        "comment": " Easing function of the animation.\n\n    animation [ easing \"rotation\" ] []\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "fill",
-        "comment": " Determines effect of animation when not actively in play.\n    One of backwards, both, forwards, none.\n\n    animation [ fill \"rotation\" ] []\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "from",
-        "comment": " Starting value.\n\n    animation [ from \"0 120 0\" ] []\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "repeat",
-        "comment": " Repeat count or indefinite.\n\n    animation [ repeat 5000 ] []\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "to",
-        "comment": " Ending value. Must be specified.\n\n    animation [ to \"0 360 0\" ] []\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "scene",
+        "comment": " A scene is represented by the <a-scene> element.\n    The scene is the global root object,\n    and all entities are contained within the scene.\n\n    main =\n        scene [] [ box [] [] ]\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -295,20 +216,99 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "AFrame",
-    "comment": " [A-Frame](https://aframe.io/docs/0.2.0/guide/) is a open-source framework for creating 3D and virtual reality experiences on the web.\n\n# Scene\n@docs scene\n\n# Entity\n@docs entity\n\n",
+    "name": "AFrame.Primitives.Camera",
+    "comment": " CAmera primitive.\n\n# Primitives\n@docs camera\n\n# Attributes\n@docs far, fov, lookControlsEnabled, near, wasdControlsEnabled\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "entity",
-        "comment": " An entity is represented by the <a-entity> element.\n    As defined in the entity-component-system pattern,\n    entities are placeholder objects to which we plug in components\n    to in order to provide them apperance, behavior, and functionality.\n\n    entity [ rotation 90 0 0 ] []\n",
+        "name": "camera",
+        "comment": " The camera primitive places the user somewhere within the scene.\n\n    camera [] []\n",
         "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       },
       {
-        "name": "scene",
-        "comment": " A scene is represented by the <a-scene> element.\n    The scene is the global root object,\n    and all entities are contained within the scene.\n\n    main =\n        scene [] [ box [] [] ]\n",
+        "name": "far",
+        "comment": " Camera frustum far clipping plane.\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "fov",
+        "comment": " Field of view (in degrees).\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "lookControlsEnabled",
+        "comment": " Enable look controls.\n\n    camera [ lookControlsEnabled False ] []\n",
+        "type": "Bool -> Html.Attribute msg"
+      },
+      {
+        "name": "near",
+        "comment": " Camera frustum near clipping plane.\n",
+        "type": "Float -> Html.Attribute msg"
+      },
+      {
+        "name": "wasdControlsEnabled",
+        "comment": " Enable WASD controls for camera.\n\n    camera [ wasdControlsEnabled False ] []\n",
+        "type": "Bool -> Html.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "AFrame.Animations",
+    "comment": " This module provides a set of functions for declaring A-Frame animations.\n\n# Definition\n@docs animation\n\n# Animation attributes\n@docs attribute_, begin, direction, dur, easing, fill, from, repeat, to\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "animation",
+        "comment": " Animation declaration.\n\n    box\n        []\n        [ animation\n            [ attribute \"rotation\"\n            , dur 10000\n            , fill \"forwards\"\n            , to \"0 360 0\"\n            , repeat \"indefinite\"\n            ]\n            []\n        ]\n",
         "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "attribute_",
+        "comment": " Attribute to animate.\n\n    animation [ attribute \"rotation\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "begin",
+        "comment": " Delay (in milliseconds) or event name to wait on before beginning animation.\n\n    animation [ begin 5000 ] []\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "direction",
+        "comment": " Direction of the animation (between from and to).\n    One of alternate, alternateReverse, normal, reverse.\n\n    animation [ direction \"reverse\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "dur",
+        "comment": " Duration in (milliseconds) of the animation.\n\n    animation [ dur 5000 ] []\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "easing",
+        "comment": " Easing function of the animation.\n\n    animation [ easing \"rotation\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "fill",
+        "comment": " Determines effect of animation when not actively in play.\n    One of backwards, both, forwards, none.\n\n    animation [ fill \"rotation\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "from",
+        "comment": " Starting value.\n\n    animation [ from \"0 120 0\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "repeat",
+        "comment": " Repeat count or indefinite.\n\n    animation [ repeat 5000 ] []\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "to",
+        "comment": " Ending value. Must be specified.\n\n    animation [ to \"0 360 0\" ] []\n",
+        "type": "String -> Html.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

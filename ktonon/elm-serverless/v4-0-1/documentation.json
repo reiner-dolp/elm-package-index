@@ -263,59 +263,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Serverless.Conn.Response",
-    "comment": " Query and update the HTTP response.\n\n@docs Response, Status\n\n\n## Updating\n\n@docs addHeader, setBody, updateBody, setStatus\n\n\n## Misc\n\nThese functions are typically not needed when building an application. They are\nused internally by the framework. They are useful when debugging or writing unit\ntests.\n\n@docs init, encode\n\n",
-    "aliases": [
-      {
-        "name": "Status",
-        "comment": " An HTTP status code.\n",
-        "args": [],
-        "type": "Int"
-      }
-    ],
-    "types": [
-      {
-        "name": "Response",
-        "comment": " An HTTP response.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "addHeader",
-        "comment": " Set a response header.\n\nIf you set the same response header more than once, the second value will\noverride the first.\n\n",
-        "type": "( String, String ) -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
-      },
-      {
-        "name": "encode",
-        "comment": " JSON encode an HTTP response.\n",
-        "type": "Serverless.Conn.Response.Response -> Json.Encode.Value"
-      },
-      {
-        "name": "init",
-        "comment": " A response with an empty body and invalid status.\n",
-        "type": "Serverless.Conn.Response.Response"
-      },
-      {
-        "name": "setBody",
-        "comment": " Set the response body.\n",
-        "type": "Serverless.Conn.Body.Body -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
-      },
-      {
-        "name": "setStatus",
-        "comment": " Set the response HTTP status code.\n",
-        "type": "Serverless.Conn.Response.Status -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
-      },
-      {
-        "name": "updateBody",
-        "comment": " Updates the response body.\n",
-        "type": "(Serverless.Conn.Body.Body -> Serverless.Conn.Body.Body) -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Serverless.Conn.Request",
     "comment": " Query attributes of the HTTP request.\n\n\n## Table of Contents\n\n  - [Request Types](#request-types)\n  - [Routing](#routing)\n  - [Body](#body)\n  - [Other Attributes](#other-attributes)\n\n\n## Request Types\n\n@docs Request, Method, Scheme\n\n\n## Routing\n\nThese attributes are typically involved in routing requests. See the\n[Routing Demo](https://github.com/ktonon/elm-serverless/blob/master/demo/src/Routing/API.elm)\nfor an example.\n\n@docs method, path, queryString\n\n\n## Body\n\nFunctions to access the request body and attempt a cast to a content type. See the\n[Forms Demo](https://github.com/ktonon/elm-serverless/blob/master/demo/src/Forms/API.elm)\nfor an example.\n\n@docs body, asText, asJson\n\n\n## Other Attributes\n\n@docs header, query, endpoint, stage\n\n\n## Misc\n\nThese functions are typically not needed when building an application. They are\nused internally by the framework.\n\n@docs init, decoder, methodDecoder, schemeDecoder\n\n",
     "aliases": [],
@@ -455,6 +402,59 @@
         "name": "stage",
         "comment": " Serverless deployment stage.\n\nSee <https://serverless.com/framework/docs/providers/aws/guide/deploying/>\n\n",
         "type": "Serverless.Conn.Request.Request -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Serverless.Conn.Response",
+    "comment": " Query and update the HTTP response.\n\n@docs Response, Status\n\n\n## Updating\n\n@docs addHeader, setBody, updateBody, setStatus\n\n\n## Misc\n\nThese functions are typically not needed when building an application. They are\nused internally by the framework. They are useful when debugging or writing unit\ntests.\n\n@docs init, encode\n\n",
+    "aliases": [
+      {
+        "name": "Status",
+        "comment": " An HTTP status code.\n",
+        "args": [],
+        "type": "Int"
+      }
+    ],
+    "types": [
+      {
+        "name": "Response",
+        "comment": " An HTTP response.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "addHeader",
+        "comment": " Set a response header.\n\nIf you set the same response header more than once, the second value will\noverride the first.\n\n",
+        "type": "( String, String ) -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
+      },
+      {
+        "name": "encode",
+        "comment": " JSON encode an HTTP response.\n",
+        "type": "Serverless.Conn.Response.Response -> Json.Encode.Value"
+      },
+      {
+        "name": "init",
+        "comment": " A response with an empty body and invalid status.\n",
+        "type": "Serverless.Conn.Response.Response"
+      },
+      {
+        "name": "setBody",
+        "comment": " Set the response body.\n",
+        "type": "Serverless.Conn.Body.Body -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
+      },
+      {
+        "name": "setStatus",
+        "comment": " Set the response HTTP status code.\n",
+        "type": "Serverless.Conn.Response.Status -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
+      },
+      {
+        "name": "updateBody",
+        "comment": " Updates the response body.\n",
+        "type": "(Serverless.Conn.Body.Body -> Serverless.Conn.Body.Body) -> Serverless.Conn.Response.Response -> Serverless.Conn.Response.Response"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -117,6 +117,62 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Svg.Tiles",
+    "comment": " _Disclaimer:_ If you're looking for a plotting library, then please\nuse [elm-plot](https://github.com/terezka/elm-plot) instead, as this library is not\nmade to be user friendly. If you feel like you're missing something in elm-plot,\nyou're welcome to open an issue in the repo and I'll see what I can do\nto accommodate your needs!\n\n---\n\nView for creating tiled maps like heatmaps or choropleths. Note that this return a SVG element not yet wrapped\nin the `svg` tag.\n\n# Composing\n@docs Map, Tile, view\n\n# Helpers\n@docs tileWidth, tileHeight, tileXCoord, tileYCoord, proportion\n\n",
+    "aliases": [
+      {
+        "name": "Map",
+        "comment": " (You can use the helpers for calculating most of these properties. You're welcome.)\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ tiles : List (Svg.Tiles.Tile msg) , tilesPerRow : Int , tileWidth : Float , tileHeight : Float }"
+      },
+      {
+        "name": "Tile",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "{ content : Maybe.Maybe (Svg.Svg msg) , attributes : List (Svg.Attribute msg) , index : Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "proportion",
+        "comment": " For heatmaps. It calculates a value's value relative to all values.\n",
+        "type": "(a -> Float) -> List a -> Float -> Float"
+      },
+      {
+        "name": "tileHeight",
+        "comment": " Pass the __height__ of your map, the __amount of\n tiles in a row__, and the __total number of tiles__,\n and it gives you back the height of a single tile.\n ",
+        "type": "Int -> Int -> Int -> Int"
+      },
+      {
+        "name": "tileWidth",
+        "comment": " Pass the __width__ of your map, and the __amount of\n tiles in a row__, and it gives you back the width of\n a single tile.\n ",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "tileXCoord",
+        "comment": " Pass the __tile width__, the __amount of tiles in a row__, and\n the __tile's index__ and it'll get you it's x-coordinate.\n",
+        "type": "Float -> Int -> Int -> Float"
+      },
+      {
+        "name": "tileYCoord",
+        "comment": " Pass the __tile height__, the __amount of tiles in a row__ and\n the __tile's index__ and it'll get you it's y-coordinate.\n",
+        "type": "Float -> Int -> Int -> Float"
+      },
+      {
+        "name": "view",
+        "comment": " View a map!\n",
+        "type": "Svg.Tiles.Map msg -> Svg.Svg msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Svg.Coordinates",
     "comment": " _Disclaimer:_ If you're looking for a plotting library, then please\nuse [elm-plot](https://github.com/terezka/elm-plot) instead, as this library is not\nmade to be user friendly. If you feel like you're missing something in elm-plot,\nyou're welcome to open an issue in the repo and I'll see what I can do\nto accommodate your needs!\n\n---\n\nThis module contains helpers for cartesian/SVG coordinate translation.\n\n# Plane\n@docs Plane, Axis\n\n# Plane from data\n\nYou may want to produce a plane which fits all your data. For that you need\nto find the minimum and maximum values withing your data in order to calculate\nthe domain and range.\n\n@docs minimum, maximum\n\n    planeFromPoints : List Point -> Plane\n    planeFromPoints points =\n      { x =\n        { marginLower = 10\n        , marginUpper = 10\n        , length = 300\n        , min = minimum .x points\n        , max = maximum .x points\n        }\n      , y =\n        { marginLower = 10\n        , marginUpper = 10\n        , length = 300\n        , min = minimum .y points\n        , max = maximum .y points\n        }\n      }\n\n# Cartesian to SVG\n@docs toSVGX, toSVGY, scaleSVG\n\n# SVG to cartesian\n@docs toCartesianX, toCartesianY, scaleCartesian\n\n# Helpers\n@docs Point, place, placeWithOffset\n\n",
     "aliases": [
@@ -190,62 +246,6 @@
         "name": "toSVGY",
         "comment": " Translate a SVG y-coordinate to its cartesian y-coordinate.\n",
         "type": "Svg.Coordinates.Plane -> Float -> Float"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Svg.Tiles",
-    "comment": " _Disclaimer:_ If you're looking for a plotting library, then please\nuse [elm-plot](https://github.com/terezka/elm-plot) instead, as this library is not\nmade to be user friendly. If you feel like you're missing something in elm-plot,\nyou're welcome to open an issue in the repo and I'll see what I can do\nto accommodate your needs!\n\n---\n\nView for creating tiled maps like heatmaps or choropleths. Note that this return a SVG element not yet wrapped\nin the `svg` tag.\n\n# Composing\n@docs Map, Tile, view\n\n# Helpers\n@docs tileWidth, tileHeight, tileXCoord, tileYCoord, proportion\n\n",
-    "aliases": [
-      {
-        "name": "Map",
-        "comment": " (You can use the helpers for calculating most of these properties. You're welcome.)\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ tiles : List (Svg.Tiles.Tile msg) , tilesPerRow : Int , tileWidth : Float , tileHeight : Float }"
-      },
-      {
-        "name": "Tile",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "type": "{ content : Maybe.Maybe (Svg.Svg msg) , attributes : List (Svg.Attribute msg) , index : Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "proportion",
-        "comment": " For heatmaps. It calculates a value's value relative to all values.\n",
-        "type": "(a -> Float) -> List a -> Float -> Float"
-      },
-      {
-        "name": "tileHeight",
-        "comment": " Pass the __height__ of your map, the __amount of\n tiles in a row__, and the __total number of tiles__,\n and it gives you back the height of a single tile.\n ",
-        "type": "Int -> Int -> Int -> Int"
-      },
-      {
-        "name": "tileWidth",
-        "comment": " Pass the __width__ of your map, and the __amount of\n tiles in a row__, and it gives you back the width of\n a single tile.\n ",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "tileXCoord",
-        "comment": " Pass the __tile width__, the __amount of tiles in a row__, and\n the __tile's index__ and it'll get you it's x-coordinate.\n",
-        "type": "Float -> Int -> Int -> Float"
-      },
-      {
-        "name": "tileYCoord",
-        "comment": " Pass the __tile height__, the __amount of tiles in a row__ and\n the __tile's index__ and it'll get you it's y-coordinate.\n",
-        "type": "Float -> Int -> Int -> Float"
-      },
-      {
-        "name": "view",
-        "comment": " View a map!\n",
-        "type": "Svg.Tiles.Map msg -> Svg.Svg msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

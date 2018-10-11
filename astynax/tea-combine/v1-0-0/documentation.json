@@ -1,5 +1,53 @@
 [
   {
+    "name": "TeaCombine.Pure.Pair",
+    "comment": " Combinators for work with pure programs (those doesn't use @Cmd and @Sub).\n\nTODO: add some great docs\n\n@docs initWith, (<>), updateWith, (<&>)\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "<&>",
+        "comment": " An infix alias for @updateBoth.\n",
+        "type": "TeaCombine.Pure.Update model1 msg1 -> TeaCombine.Pure.Update model2 msg2 -> TeaCombine.Pure.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
+      },
+      {
+        "name": "<>",
+        "comment": " An infix alias for @initWith.\n",
+        "type": "model1 -> model2 -> TeaCombine.Both model1 model2"
+      },
+      {
+        "name": "initWith",
+        "comment": " Inits two sub-models as pair.\n",
+        "type": "model2 -> model1 -> TeaCombine.Both model1 model2"
+      },
+      {
+        "name": "updateWith",
+        "comment": " Updates one of two sub-models using corresponding sub-update function.\n",
+        "type": "TeaCombine.Pure.Update model2 msg2 -> TeaCombine.Pure.Update model1 msg1 -> TeaCombine.Pure.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "TeaCombine.Pure.Many",
+    "comment": " Combinators those help to work with homogenous sets of sub-models\n(in a form of @Array).\n\nTODO: add some great docs\n\n@docs updateEach, updateAll\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "updateAll",
+        "comment": " Updates an @Array of sub-models using a @List of sub-updates.\n",
+        "type": "List (TeaCombine.Pure.Update model msg) -> TeaCombine.Pure.Update (Array.Array model) (TeaCombine.Ix msg)"
+      },
+      {
+        "name": "updateEach",
+        "comment": " Updates each sub-model in @Array using a function\nfrom sub-model index to sub-update.\n",
+        "type": "(Int -> TeaCombine.Pure.Update model msg) -> TeaCombine.Pure.Update (Array.Array model) (TeaCombine.Ix msg)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "TeaCombine.Effectful.Pair",
     "comment": " Combinators for work with effectful programs (those use @Cms and @Sub).\n\nTODO: add some great docs.\n\n@docs initWith, updateWith, subscribeWith, (<>), (<&>), (<+>)\n\n",
     "aliases": [],
@@ -58,51 +106,21 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "TeaCombine.Pure.Pair",
-    "comment": " Combinators for work with pure programs (those doesn't use @Cmd and @Sub).\n\nTODO: add some great docs\n\n@docs initWith, (<>), updateWith, (<&>)\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
+    "name": "TeaCombine.Pure",
+    "comment": " A common stuff for the pure combinators.\n\nTODO: add some great docs.\n\n@docs Update\n\n",
+    "aliases": [
       {
-        "name": "<&>",
-        "comment": " An infix alias for @updateBoth.\n",
-        "type": "TeaCombine.Pure.Update model1 msg1 -> TeaCombine.Pure.Update model2 msg2 -> TeaCombine.Pure.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
-      },
-      {
-        "name": "<>",
-        "comment": " An infix alias for @initWith.\n",
-        "type": "model1 -> model2 -> TeaCombine.Both model1 model2"
-      },
-      {
-        "name": "initWith",
-        "comment": " Inits two sub-models as pair.\n",
-        "type": "model2 -> model1 -> TeaCombine.Both model1 model2"
-      },
-      {
-        "name": "updateWith",
-        "comment": " Updates one of two sub-models using corresponding sub-update function.\n",
-        "type": "TeaCombine.Pure.Update model2 msg2 -> TeaCombine.Pure.Update model1 msg1 -> TeaCombine.Pure.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
+        "name": "Update",
+        "comment": " A type alias for the pure update function.\n",
+        "args": [
+          "model",
+          "msg"
+        ],
+        "type": "msg -> model -> model"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "TeaCombine.Pure.Many",
-    "comment": " Combinators those help to work with homogenous sets of sub-models\n(in a form of @Array).\n\nTODO: add some great docs\n\n@docs updateEach, updateAll\n",
-    "aliases": [],
     "types": [],
-    "values": [
-      {
-        "name": "updateAll",
-        "comment": " Updates an @Array of sub-models using a @List of sub-updates.\n",
-        "type": "List (TeaCombine.Pure.Update model msg) -> TeaCombine.Pure.Update (Array.Array model) (TeaCombine.Ix msg)"
-      },
-      {
-        "name": "updateEach",
-        "comment": " Updates each sub-model in @Array using a function\nfrom sub-model index to sub-update.\n",
-        "type": "(Int -> TeaCombine.Pure.Update model msg) -> TeaCombine.Pure.Update (Array.Array model) (TeaCombine.Ix msg)"
-      }
-    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -126,24 +144,6 @@
           "msg"
         ],
         "type": "msg -> model -> ( model, Platform.Cmd.Cmd msg )"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "TeaCombine.Pure",
-    "comment": " A common stuff for the pure combinators.\n\nTODO: add some great docs.\n\n@docs Update\n\n",
-    "aliases": [
-      {
-        "name": "Update",
-        "comment": " A type alias for the pure update function.\n",
-        "args": [
-          "model",
-          "msg"
-        ],
-        "type": "msg -> model -> model"
       }
     ],
     "types": [],

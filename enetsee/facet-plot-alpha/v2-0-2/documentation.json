@@ -1,5 +1,122 @@
 [
   {
+    "name": "Facet.Plot",
+    "comment": "\n@docs Plot, PlotError\n\n@docs plot, size, width, height\n\n@docs layer\n\n@docs facetGrid, facetRow, facetRowWrap, facetColumn, facetColumnWrap, facetRowFormat,facetColumnFormat\n\n@docs xAxis, yAxis\n\n@docs compile, compileWithTheme\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Plot",
+        "comment": " A `Plot` allows you to combine several layers of `Encodings` along with\n    the corresponding `Legends` and `Axis`.\n\n    In addition, you can specify how the plot should be facetted to create\n    [small multiples](https://en.wikipedia.org/wiki/Small_multiple).\n",
+        "args": [
+          "data",
+          "xdomain",
+          "ydomain",
+          "facetRow",
+          "facetColumn"
+        ],
+        "cases": []
+      },
+      {
+        "name": "PlotError",
+        "comment": " Reasons why plot compilation may have failed\n",
+        "args": [],
+        "cases": [
+          [
+            "NoXAxis",
+            []
+          ],
+          [
+            "NoYAxis",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "compile",
+        "comment": " Compile a plot using the default `Theme`.\n",
+        "type": "Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> List data -> Result.Result (List Facet.Plot.PlotError) ( Facet.Scenegraph.ViewBox, Facet.Scenegraph.Scenegraph )"
+      },
+      {
+        "name": "compileWithTheme",
+        "comment": " Compile a plot with a custom `Theme`.\n",
+        "type": "Facet.Theme.Theme -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> List data -> Result.Result (List Facet.Plot.PlotError) ( Facet.Scenegraph.ViewBox, Facet.Scenegraph.Scenegraph )"
+      },
+      {
+        "name": "facetColumn",
+        "comment": " Generate a column of small multiples using the same scale and axes, allowing\n    them to be easily compared.\n",
+        "type": "{ r | column : Facet.Internal.Field.Field data comparableColumn } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain a comparableColumn"
+      },
+      {
+        "name": "facetColumnFormat",
+        "comment": " ",
+        "type": "(facetColumn -> String) -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "facetColumnWrap",
+        "comment": " Generate columns of small multiples, with a maximum height, using the same\n    scale and axes, allowing them to be easily compared.\n",
+        "type": "{ r | column : Facet.Internal.Field.Field data comparableColumn, maxPerColumn : Int } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain a comparableColumn"
+      },
+      {
+        "name": "facetGrid",
+        "comment": " Generate a grid of small multiples using the same scale and axes\n    , allowing them to be easily compared.\n",
+        "type": "{ r | row : Facet.Internal.Field.Field data comparableRow, column : Facet.Internal.Field.Field data comparableColumn } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain comparableRow comparableColumn"
+      },
+      {
+        "name": "facetRow",
+        "comment": " Generate a row of small multiples using the same scale and axes, allowing\n    them to be easily compared.\n",
+        "type": "{ r | row : Facet.Internal.Field.Field data comparableRow } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain comparableRow b"
+      },
+      {
+        "name": "facetRowFormat",
+        "comment": " Specify how the small multiple labels for each column in a row of\n    small multiples should be formatted\n",
+        "type": "(facetRow -> String) -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "facetRowWrap",
+        "comment": " Generate rows of small multiples, with a maximum length, using the same\n    scale and axes, allowing them to be easily compared.\n",
+        "type": "{ r | row : Facet.Internal.Field.Field data comparableRow, maxPerRow : Int } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain comparableRow b"
+      },
+      {
+        "name": "height",
+        "comment": " Specify the user-space height of a plot\n",
+        "type": "Float -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "layer",
+        "comment": " ",
+        "type": "Facet.Internal.Encoding.Encoding data xdomain ydomain -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "plot",
+        "comment": " An empty `Plot` with an optional title\n",
+        "type": "Maybe.Maybe String -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "size",
+        "comment": " Specify the user-space width and height of a plot\n",
+        "type": "Float -> Float -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "width",
+        "comment": " Specify the user-space width of a plot\n",
+        "type": "Float -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "xAxis",
+        "comment": " ",
+        "type": "Facet.Axis.Axis Facet.Internal.Axis.Vertical xdomain -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      },
+      {
+        "name": "yAxis",
+        "comment": " ",
+        "type": "Facet.Axis.Axis Facet.Internal.Axis.Horizontal ydomain -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Facet.Encoding",
     "comment": "\n\n# Encoding\n@docs Encoding\n\n## Arc\n@docs arc\n\n@docs innerRadius, padAngle\n\n## Area\n@docs vArea, hArea\n\n## Line\n@docs line\n\n## Polygon\n@docs polygon\n\n## Rect\n@docs rect, bar\n@docs cornerRadius\n\n## Rule\n@docs rule\n\n## Symbol\n@docs symbol , point, arrow, cross, square, diamond, trangleUp, triangleDown, triangleLeft, triangleRight , shape\n\n@docs angle\n\n@docs size,sizeConstant\n\n## Text\n@docs text\n@docs relativePosition\n\n## Trail\n@docs trail\n\n## Fill\n@docs fill,fillConstant, fillOpacity, fillOpacityConstant\n\n\n## Stroke\n@docs stroke, strokeConstant,  strokeOpacity,strokeOpacityConstant, strokeWidth, strokeWidthConstant, strokeDash,  strokeDashConstant\n\n@docs tooltip\n\n",
     "aliases": [
@@ -220,123 +337,6 @@
         "name": "vArea",
         "comment": " ",
         "type": "{ a | x : Facet.Channel.PositionalChannel data xdomain, y : Facet.Channel.PositionalChannel data number, interpolate : Facet.Scenegraph.Interpolate.Interpolate, onMissing : Facet.Scenegraph.Mark.Behaviour } -> Facet.Encoding.Encoding data xdomain number"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Facet.Plot",
-    "comment": "\n@docs Plot, PlotError\n\n@docs plot, size, width, height\n\n@docs layer\n\n@docs facetGrid, facetRow, facetRowWrap, facetColumn, facetColumnWrap, facetRowFormat,facetColumnFormat\n\n@docs xAxis, yAxis\n\n@docs compile, compileWithTheme\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Plot",
-        "comment": " A `Plot` allows you to combine several layers of `Encodings` along with\n    the corresponding `Legends` and `Axis`.\n\n    In addition, you can specify how the plot should be facetted to create\n    [small multiples](https://en.wikipedia.org/wiki/Small_multiple).\n",
-        "args": [
-          "data",
-          "xdomain",
-          "ydomain",
-          "facetRow",
-          "facetColumn"
-        ],
-        "cases": []
-      },
-      {
-        "name": "PlotError",
-        "comment": " Reasons why plot compilation may have failed\n",
-        "args": [],
-        "cases": [
-          [
-            "NoXAxis",
-            []
-          ],
-          [
-            "NoYAxis",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "compile",
-        "comment": " Compile a plot using the default `Theme`.\n",
-        "type": "Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> List data -> Result.Result (List Facet.Plot.PlotError) ( Facet.Scenegraph.ViewBox, Facet.Scenegraph.Scenegraph )"
-      },
-      {
-        "name": "compileWithTheme",
-        "comment": " Compile a plot with a custom `Theme`.\n",
-        "type": "Facet.Theme.Theme -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> List data -> Result.Result (List Facet.Plot.PlotError) ( Facet.Scenegraph.ViewBox, Facet.Scenegraph.Scenegraph )"
-      },
-      {
-        "name": "facetColumn",
-        "comment": " Generate a column of small multiples using the same scale and axes, allowing\n    them to be easily compared.\n",
-        "type": "{ r | column : Facet.Internal.Field.Field data comparableColumn } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain a comparableColumn"
-      },
-      {
-        "name": "facetColumnFormat",
-        "comment": " ",
-        "type": "(facetColumn -> String) -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "facetColumnWrap",
-        "comment": " Generate columns of small multiples, with a maximum height, using the same\n    scale and axes, allowing them to be easily compared.\n",
-        "type": "{ r | column : Facet.Internal.Field.Field data comparableColumn, maxPerColumn : Int } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain a comparableColumn"
-      },
-      {
-        "name": "facetGrid",
-        "comment": " Generate a grid of small multiples using the same scale and axes\n    , allowing them to be easily compared.\n",
-        "type": "{ r | row : Facet.Internal.Field.Field data comparableRow, column : Facet.Internal.Field.Field data comparableColumn } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain comparableRow comparableColumn"
-      },
-      {
-        "name": "facetRow",
-        "comment": " Generate a row of small multiples using the same scale and axes, allowing\n    them to be easily compared.\n",
-        "type": "{ r | row : Facet.Internal.Field.Field data comparableRow } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain comparableRow b"
-      },
-      {
-        "name": "facetRowFormat",
-        "comment": " Specify how the small multiple labels for each column in a row of\n    small multiples should be formatted\n",
-        "type": "(facetRow -> String) -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "facetRowWrap",
-        "comment": " Generate rows of small multiples, with a maximum length, using the same\n    scale and axes, allowing them to be easily compared.\n",
-        "type": "{ r | row : Facet.Internal.Field.Field data comparableRow, maxPerRow : Int } -> Facet.Plot.Plot data xdomain ydomain a b -> Facet.Plot.Plot data xdomain ydomain comparableRow b"
-      },
-      {
-        "name": "height",
-        "comment": " Specify the user-space height of a plot\n",
-        "type": "Float -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "layer",
-        "comment": " ",
-        "type": "Facet.Internal.Encoding.Encoding data xdomain ydomain -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "plot",
-        "comment": " An empty `Plot` with an optional title\n",
-        "type": "Maybe.Maybe String -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "size",
-        "comment": " Specify the user-space width and height of a plot\n",
-        "type": "Float -> Float -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "width",
-        "comment": " Specify the user-space width of a plot\n",
-        "type": "Float -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "xAxis",
-        "comment": " ",
-        "type": "Facet.Axis.Axis Facet.Internal.Axis.Vertical xdomain -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
-      },
-      {
-        "name": "yAxis",
-        "comment": " ",
-        "type": "Facet.Axis.Axis Facet.Internal.Axis.Horizontal ydomain -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn -> Facet.Plot.Plot data xdomain ydomain facetRow facetColumn"
       }
     ],
     "generated-with-elm-version": "0.18.0"

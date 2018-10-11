@@ -480,6 +480,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Widgets.Normalize",
+    "comment": " Snippets for normalize browser styling. You should use this snippets with\nCss.Foreign at the beginning of your content. Here is an example:\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Html.text \"My Content\"\n            ]\n\nThe styles are based on [Normalize](https://necolas.github.io/normalize.css/)\n8.0.0. Notable changes:\n\n  - Use of `border-box` and `box-sizing` everywhere.\n  - Make images not selectable by default.\n  - Disable focus outline everywhere.\n  - Disable forced focus outline in select for Firefox.\n\n@docs snippets\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "snippets",
+        "comment": " Browser normalization snippets. Use this with Css.Foreign functions.\n",
+        "type": "List Css.Foreign.Snippet"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Widgets.Form.Elements",
     "comment": " This module expose functions to create references to the elements of the\ncontrols. This allows us to insert custom html elements into the controls or\nadd custom css to them.\n\nFor adding custom style to some parts (elements) of a control we use the\nattribute `css`:\n\n    Form.email { id = \"my-email-input\", description = \"your email\" }\n        [ Attributes.css Elements.label\n            [ Css.backgroundColor Color.green\n            ]\n        ]\n        []\n\nTo insert custom html elements into a control we add them to the last parameter\nof a control:\n\n    Form.email { id = \"my-email-input\", description = \"A description\" }\n        []\n        [ ( Elements.description\n          , Html.text \"My custom description\"\n          )\n        , ( Elements.icon\n          , Html.img [] []\n          )\n        ]\n\n@docs Element, control, description, error, icon, label, option\n\n",
     "aliases": [
@@ -521,20 +535,6 @@
         "name": "option",
         "comment": " A helper useful for creating simple options for select controls.\n\n    Form.select { id = \"my-select\", description = \"A description\" }\n        []\n        [ Elements.option { selected = True, text = \"One\", value = \"1\" }\n        , Elements.option { selected = True, text = \"Two\", value = \"2\" }\n        , Elements.option { selected = True, text = \"Three\", value = \"1\" }\n        , Elements.option { selected = True, text = \"Over 9000\", value = \"9001\" }\n        ]\n\n",
         "type": "{ selected : Bool, text : String, value : String } -> ( Widgets.Form.Elements.Element, Html.Styled.Html msg )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Widgets.Normalize",
-    "comment": " Snippets for normalize browser styling. You should use this snippets with\nCss.Foreign at the beginning of your content. Here is an example:\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Html.text \"My Content\"\n            ]\n\nThe styles are based on [Normalize](https://necolas.github.io/normalize.css/)\n8.0.0. Notable changes:\n\n  - Use of `border-box` and `box-sizing` everywhere.\n  - Make images not selectable by default.\n  - Disable focus outline everywhere.\n  - Disable forced focus outline in select for Firefox.\n\n@docs snippets\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "snippets",
-        "comment": " Browser normalization snippets. Use this with Css.Foreign functions.\n",
-        "type": "List Css.Foreign.Snippet"
       }
     ],
     "generated-with-elm-version": "0.18.0"

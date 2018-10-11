@@ -273,118 +273,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "WebGL.Settings.StencilTest",
-    "comment": " You can read more about stencil-testing in the\n[OpenGL wiki](https://www.khronos.org/opengl/wiki/Stencil_Test)\nor [OpenGL docs](https://www.opengl.org/sdk/docs/man2/xhtml/glStencilFunc.xml).\n\n# Stencil Test\n@docs test\n\n## Tests\n@docs Test, always, equal, never, less, greater, notEqual,\n  lessOrEqual, greaterOrEqual\n\n## Operations\n@docs Operation, replace, keep, zero, increment, decrement, invert,\n  incrementWrap, decrementWrap\n\n# Separate Test\n@docs testSeparate\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Operation",
-        "comment": " Defines how to update the value in the stencil buffer.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Test",
-        "comment": " The `Test` allows you to define how to compare the reference value\nwith the stencil buffer value, in order to set the conditions under which\nthe pixel will be drawn.\n\n    always         -- Always pass\n    equal          -- ref & mask == stencil & mask\n    never          -- Never pass\n    less           -- ref & mask < stencil & mask\n    greater        -- ref & mask > stencil & mask\n    notEqual       -- ref & mask != stencil & mask\n    lessOrEqual    -- ref & mask <= stencil & mask\n    greaterOrEqual -- ref & mask >= stencil & mask\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "always",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "decrement",
-        "comment": " Decrements the current stencil buffer value. Clamps to 0.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      },
-      {
-        "name": "decrementWrap",
-        "comment": " Decrements the current stencil buffer value.\nWraps stencil buffer value to the maximum representable unsigned\nvalue when decrementing a stencil buffer value of zero.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      },
-      {
-        "name": "equal",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "greater",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "greaterOrEqual",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "increment",
-        "comment": " Increments the current stencil buffer value. Clamps to the maximum\nrepresentable unsigned value.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      },
-      {
-        "name": "incrementWrap",
-        "comment": " Increments the current stencil buffer value. Wraps stencil buffer value to\nzero when incrementing the maximum representable unsigned value.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      },
-      {
-        "name": "invert",
-        "comment": " Bitwise inverts the current stencil buffer value.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      },
-      {
-        "name": "keep",
-        "comment": " Keeps the current stencil buffer value. Use this as a noop.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      },
-      {
-        "name": "less",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "lessOrEqual",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "never",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "notEqual",
-        "comment": " ",
-        "type": "WebGL.Settings.StencilTest.Test"
-      },
-      {
-        "name": "replace",
-        "comment": " Sets the stencil buffer value to `ref` from the stencil test.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      },
-      {
-        "name": "test",
-        "comment": " When you need to draw an intercection of two entities, e.g. a reflection in\nthe mirror, you can test against the stencil buffer, that has to be enabled\nwith [`stencil`](WebGL#stencil) option in [`toHtmlWith`](WebGL#toHtmlWith).\n\nStencil test decides if the pixel should be drawn on the screen.\nDepending on the results, it performs one of the following\n[operations](#Operation) on the stencil buffer:\n\n* `fail`—the operation to use when the stencil test fails;\n* `zfail`—the operation to use when the stencil test passes, but the depth\n  test fails;\n* `zpass`—the operation to use when both the stencil test and the depth test\n  pass, or when the stencil test passes and there is no depth buffer or depth\n  testing is disabled.\n\nFor example, draw the mirror `Entity` on the screen and fill the stencil buffer\nwith all 1's:\n\n    test\n        { ref = 1\n        , mask = 0xFF\n        , test = always    -- pass for each pixel\n        , fail = keep      -- noop\n        , zfail = keep     -- noop\n        , zpass = replace  -- write ref to the stencil buffer\n        , writeMask = 0xFF -- enable all stencil bits for writing\n        }\n\nCrop the reflection `Entity` using the values from the stencil buffer:\n\n    test\n        { ref = 1\n        , mask = 0xFF\n        , test = equal  -- pass when the stencil value is equal to ref = 1\n        , fail = keep   -- noop\n        , zfail = keep  -- noop\n        , zpass = keep  -- noop\n        , writeMask = 0 -- disable writing to the stencil buffer\n        }\n\nYou can see the complete example\n[here](https://github.com/elm-community/webgl/blob/master/examples/crate.elm).\n",
-        "type": "{ ref : Int , mask : Int , test : WebGL.Settings.StencilTest.Test , fail : WebGL.Settings.StencilTest.Operation , zfail : WebGL.Settings.StencilTest.Operation , zpass : WebGL.Settings.StencilTest.Operation , writeMask : Int } -> WebGL.Settings.Setting"
-      },
-      {
-        "name": "testSeparate",
-        "comment": " Different options for front and back facing polygons.\n",
-        "type": "{ ref : Int, mask : Int, writeMask : Int } -> { test : WebGL.Settings.StencilTest.Test , fail : WebGL.Settings.StencilTest.Operation , zfail : WebGL.Settings.StencilTest.Operation , zpass : WebGL.Settings.StencilTest.Operation } -> { test : WebGL.Settings.StencilTest.Test , fail : WebGL.Settings.StencilTest.Operation , zfail : WebGL.Settings.StencilTest.Operation , zpass : WebGL.Settings.StencilTest.Operation } -> WebGL.Settings.Setting"
-      },
-      {
-        "name": "zero",
-        "comment": " Sets the stencil buffer value to 0.\n",
-        "type": "WebGL.Settings.StencilTest.Operation"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "WebGL.Settings.DepthTest",
     "comment": " You can read more about depth-testing in the\n[OpenGL wiki](https://www.khronos.org/opengl/wiki/Depth_Test)\nor [OpenGL docs](https://www.opengl.org/sdk/docs/man2/xhtml/glDepthFunc.xml).\n\n# Depth Test\n@docs default\n\n# Custom Tests\n@docs Options, less, never, always, equal, greater, notEqual,\n  lessOrEqual, greaterOrEqual\n",
     "aliases": [
@@ -573,6 +461,118 @@
         "name": "zero",
         "comment": " ",
         "type": "WebGL.Settings.Blend.Factor"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "WebGL.Settings.StencilTest",
+    "comment": " You can read more about stencil-testing in the\n[OpenGL wiki](https://www.khronos.org/opengl/wiki/Stencil_Test)\nor [OpenGL docs](https://www.opengl.org/sdk/docs/man2/xhtml/glStencilFunc.xml).\n\n# Stencil Test\n@docs test\n\n## Tests\n@docs Test, always, equal, never, less, greater, notEqual,\n  lessOrEqual, greaterOrEqual\n\n## Operations\n@docs Operation, replace, keep, zero, increment, decrement, invert,\n  incrementWrap, decrementWrap\n\n# Separate Test\n@docs testSeparate\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Operation",
+        "comment": " Defines how to update the value in the stencil buffer.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Test",
+        "comment": " The `Test` allows you to define how to compare the reference value\nwith the stencil buffer value, in order to set the conditions under which\nthe pixel will be drawn.\n\n    always         -- Always pass\n    equal          -- ref & mask == stencil & mask\n    never          -- Never pass\n    less           -- ref & mask < stencil & mask\n    greater        -- ref & mask > stencil & mask\n    notEqual       -- ref & mask != stencil & mask\n    lessOrEqual    -- ref & mask <= stencil & mask\n    greaterOrEqual -- ref & mask >= stencil & mask\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "always",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "decrement",
+        "comment": " Decrements the current stencil buffer value. Clamps to 0.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
+      },
+      {
+        "name": "decrementWrap",
+        "comment": " Decrements the current stencil buffer value.\nWraps stencil buffer value to the maximum representable unsigned\nvalue when decrementing a stencil buffer value of zero.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
+      },
+      {
+        "name": "equal",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "greater",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "greaterOrEqual",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "increment",
+        "comment": " Increments the current stencil buffer value. Clamps to the maximum\nrepresentable unsigned value.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
+      },
+      {
+        "name": "incrementWrap",
+        "comment": " Increments the current stencil buffer value. Wraps stencil buffer value to\nzero when incrementing the maximum representable unsigned value.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
+      },
+      {
+        "name": "invert",
+        "comment": " Bitwise inverts the current stencil buffer value.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
+      },
+      {
+        "name": "keep",
+        "comment": " Keeps the current stencil buffer value. Use this as a noop.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
+      },
+      {
+        "name": "less",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "lessOrEqual",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "never",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "notEqual",
+        "comment": " ",
+        "type": "WebGL.Settings.StencilTest.Test"
+      },
+      {
+        "name": "replace",
+        "comment": " Sets the stencil buffer value to `ref` from the stencil test.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
+      },
+      {
+        "name": "test",
+        "comment": " When you need to draw an intercection of two entities, e.g. a reflection in\nthe mirror, you can test against the stencil buffer, that has to be enabled\nwith [`stencil`](WebGL#stencil) option in [`toHtmlWith`](WebGL#toHtmlWith).\n\nStencil test decides if the pixel should be drawn on the screen.\nDepending on the results, it performs one of the following\n[operations](#Operation) on the stencil buffer:\n\n* `fail`—the operation to use when the stencil test fails;\n* `zfail`—the operation to use when the stencil test passes, but the depth\n  test fails;\n* `zpass`—the operation to use when both the stencil test and the depth test\n  pass, or when the stencil test passes and there is no depth buffer or depth\n  testing is disabled.\n\nFor example, draw the mirror `Entity` on the screen and fill the stencil buffer\nwith all 1's:\n\n    test\n        { ref = 1\n        , mask = 0xFF\n        , test = always    -- pass for each pixel\n        , fail = keep      -- noop\n        , zfail = keep     -- noop\n        , zpass = replace  -- write ref to the stencil buffer\n        , writeMask = 0xFF -- enable all stencil bits for writing\n        }\n\nCrop the reflection `Entity` using the values from the stencil buffer:\n\n    test\n        { ref = 1\n        , mask = 0xFF\n        , test = equal  -- pass when the stencil value is equal to ref = 1\n        , fail = keep   -- noop\n        , zfail = keep  -- noop\n        , zpass = keep  -- noop\n        , writeMask = 0 -- disable writing to the stencil buffer\n        }\n\nYou can see the complete example\n[here](https://github.com/elm-community/webgl/blob/master/examples/crate.elm).\n",
+        "type": "{ ref : Int , mask : Int , test : WebGL.Settings.StencilTest.Test , fail : WebGL.Settings.StencilTest.Operation , zfail : WebGL.Settings.StencilTest.Operation , zpass : WebGL.Settings.StencilTest.Operation , writeMask : Int } -> WebGL.Settings.Setting"
+      },
+      {
+        "name": "testSeparate",
+        "comment": " Different options for front and back facing polygons.\n",
+        "type": "{ ref : Int, mask : Int, writeMask : Int } -> { test : WebGL.Settings.StencilTest.Test , fail : WebGL.Settings.StencilTest.Operation , zfail : WebGL.Settings.StencilTest.Operation , zpass : WebGL.Settings.StencilTest.Operation } -> { test : WebGL.Settings.StencilTest.Test , fail : WebGL.Settings.StencilTest.Operation , zfail : WebGL.Settings.StencilTest.Operation , zpass : WebGL.Settings.StencilTest.Operation } -> WebGL.Settings.Setting"
+      },
+      {
+        "name": "zero",
+        "comment": " Sets the stencil buffer value to 0.\n",
+        "type": "WebGL.Settings.StencilTest.Operation"
       }
     ],
     "generated-with-elm-version": "0.18.0"

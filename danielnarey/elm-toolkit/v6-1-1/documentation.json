@@ -79,35 +79,56 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Toolkit.Tuple4",
-    "comment": "\n\nHelpers for working with 4-tuples\n\n# Getting values\n@docs first, second, third, fourth\n\n# Mapping functions\n@docs map\n\n",
+    "name": "Toolkit.Result",
+    "comment": "\n\nHelpers for error handling with multiple `Result` values\n\n# Implicit default value\n@docs try\n\n# Zipping\n@docs zip, zip3, zip4, zipList\n\n# Filtering\n@docs filter\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "first",
-        "comment": " Return the first value of a 4-tuple\n",
-        "type": "( a, b, c, d ) -> a"
+        "name": "filter",
+        "comment": " Given a list of `Result` values, return a list containing only the success\nvalues.\n\n    [ Ok 1\n    , Ok 2\n    , Err \"..\"\n    ]\n      |> Toolkit.Result.filter\n\n    --> [1, 2]\n\n",
+        "type": "List (Result.Result x a) -> List a"
       },
       {
-        "name": "fourth",
-        "comment": " Return the fourth value of a 4-tuple\n",
-        "type": "( a, b, c, d ) -> d"
+        "name": "try",
+        "comment": " Apply a function that returns a `Result` value, with the initial value as\nthe default (equivalent to `f x |> Result.withDefault x`). Note that the type\nreturned in an `Ok` result must match the type of the initial value.\n",
+        "type": "(a -> Result.Result x a) -> a -> a"
       },
       {
-        "name": "map",
-        "comment": " Apply a function to all 4 values in a 4-tuple and return the results as a\n4-tuple\n",
-        "type": "(a -> b) -> ( a, a, a, a ) -> ( b, b, b, b )"
+        "name": "zip",
+        "comment": " Given a 2-tuple of `Result` values, if both values are `Ok`, return an `Ok`\nresult containing the 2-tuple of values; otherwise, return an `Err` value.\n\n    (Ok 1, Ok 2)\n      |> Toolkit.Result.zip \"ERROR\"\n\n    --> Ok (1,2)\n\n    (Ok 1, Err \"..\")\n      |> Toolkit.Result.zip \"ERROR\"\n\n    --> Err \"ERROR\"\n\n",
+        "type": "x -> ( Result.Result x a, Result.Result x b ) -> Result.Result x ( a, b )"
       },
       {
-        "name": "second",
-        "comment": " Return the second value of a 4-tuple\n",
-        "type": "( a, b, c, d ) -> b"
+        "name": "zip3",
+        "comment": " Given a 3-tuple of `Result` values, if all three values are `Ok`, return an\n`Ok` result containing the 3-tuple of values; otherwise, return an `Err`\nvalue.\n",
+        "type": "x -> ( Result.Result x a, Result.Result x b, Result.Result x c ) -> Result.Result x ( a, b, c )"
       },
       {
-        "name": "third",
-        "comment": " Return the third value of a 4-tuple\n",
-        "type": "( a, b, c, d ) -> c"
+        "name": "zip4",
+        "comment": " Given a 4-tuple of `Result` values, if all three values are `Ok`, return an\n`Ok` result containing the 4-tuple of values; otherwise, return an `Err`\nvalue.\n",
+        "type": "x -> ( Result.Result x a , Result.Result x b , Result.Result x c , Result.Result x d ) -> Result.Result x ( a, b, c, d )"
+      },
+      {
+        "name": "zipList",
+        "comment": " Given a list of `Result` values, if all values are `Ok`, return an `Ok`\nresult containing the list of values; otherwise, return an error message. When\npassed an empty list, returns `Ok []`.\n\n    [Ok 1, Ok 2]\n      |> Toolkit.Result.zipList \"ERROR\"\n\n    --> Ok [1,2]\n\n    [Ok 1, Err \"..\"]\n      |> Toolkit.Result.zipList \"ERROR\"\n\n    --> Err \"ERROR\"\n\n    []\n      |> Toolkit.Result.zipList \"ERROR\"\n\n    --> Ok []\n\n",
+        "type": "x -> List (Result.Result x a) -> Result.Result x (List a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Toolkit.Tuple.Operators",
+    "comment": "\n\nSome experimental operators for working with 2-tuples\n\n@docs (..|>)\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "..|>",
+        "comment": " Forward operator for\n[Toolkit.Tuple.map](http://package.elm-lang.org/packages/danielnarey/elm-toolkit/latest/Toolkit-Tuple#map)\n\n    (1,2)\n    ..|> (+) 1\n\n    --> (2,3)\n\n",
+        "type": "( a, a ) -> (a -> b) -> ( b, b )",
+        "associativity": "left",
+        "precedence": 0
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -127,35 +148,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Toolkit.Maybe",
-    "comment": "\n\nHelpers for error handling with multiple `Maybe` values\n\n# Zipping\n@docs zip, zip3, zip4, zipList\n\n# Filtering\n@docs filter\n\n",
+    "name": "Toolkit.Compare",
+    "comment": "\n\nHelpers for comparing values\n\n# Intervals\n@docs isInRange, isBetween\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "filter",
-        "comment": " Given a list of `Maybe` values, return a list containing only the defined\nvalues.\n\n    [ Just 1\n    , Just 2\n    , Nothing\n    ]\n      |> Toolkit.Maybe.filter\n\n    --> [1, 2]\n\n",
-        "type": "List (Maybe.Maybe a) -> List a"
+        "name": "isBetween",
+        "comment": " Given an interval and a test value, returns `True` if the test value falls\nstrictly *between* the endpoints of the interval, such that a test value equal\nto one of the endpoints will return `False`\n\n    10\n      |> Toolkit.Compare.isBetween (10, 20)\n\n    --> False\n\n",
+        "type": "( comparable, comparable ) -> comparable -> Bool"
       },
       {
-        "name": "zip",
-        "comment": " Given a 2-tuple of `Maybe` values, if both values are defined, return `Just`\nthe 2-tuple of values; otherwise, return `Nothing`\n\n    (Just 1, Just 2)\n      |> Toolkit.Maybe.zip\n\n    --> Just (1,2)\n\n    (Just 1, Nothing)\n      |> Toolkit.Maybe.zip\n\n    --> Nothing\n\n",
-        "type": "( Maybe.Maybe a, Maybe.Maybe b ) -> Maybe.Maybe ( a, b )"
-      },
-      {
-        "name": "zip3",
-        "comment": " Given a 3-tuple of `Maybe` values, if all three values are defined, return\n`Just` the 3-tuple of values; otherwise, return `Nothing`\n",
-        "type": "( Maybe.Maybe a, Maybe.Maybe b, Maybe.Maybe c ) -> Maybe.Maybe ( a, b, c )"
-      },
-      {
-        "name": "zip4",
-        "comment": " Given a 4-tuple of `Maybe` values, if all four values are defined, return\n`Just` the 4-tuple of values; otherwise, return `Nothing`\n",
-        "type": "( Maybe.Maybe a, Maybe.Maybe b, Maybe.Maybe c, Maybe.Maybe d ) -> Maybe.Maybe ( a, b, c, d )"
-      },
-      {
-        "name": "zipList",
-        "comment": " Given a list of `Maybe` values, if all values are defined, return\n`Just` the list of values; otherwise, return `Nothing`. When passed an empty\nlist, returns `Just` an empty list.\n\n    [Just 1, Just 2]\n      |> Toolkit.Maybe.zipList\n\n    --> Just [1,2]\n\n    [Just 1, Nothing]\n      |> Toolkit.Maybe.zipList\n\n    --> Nothing\n\n    []\n      |> Toolkit.Maybe.zipList\n\n    --> Just []\n\n",
-        "type": "List (Maybe.Maybe a) -> Maybe.Maybe (List a)"
+        "name": "isInRange",
+        "comment": " Given an interval and a test value, returns `True` if the test value falls\nwithin the interval, *including* its endpoints\n\n    10\n      |> Toolkit.Compare.isInRange (10, 20)\n\n    --> True\n\n",
+        "type": "( comparable, comparable ) -> comparable -> Bool"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -284,65 +290,65 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Toolkit.Tuple3",
-    "comment": "\n\nHelpers for working with 3-tuples\n\n# Getting values\n@docs first, second, third\n\n# Mapping functions\n@docs map\n\n",
+    "name": "Toolkit.Tuple4",
+    "comment": "\n\nHelpers for working with 4-tuples\n\n# Getting values\n@docs first, second, third, fourth\n\n# Mapping functions\n@docs map\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
         "name": "first",
-        "comment": " Return the first value of a 3-tuple\n",
-        "type": "( a, b, c ) -> a"
+        "comment": " Return the first value of a 4-tuple\n",
+        "type": "( a, b, c, d ) -> a"
+      },
+      {
+        "name": "fourth",
+        "comment": " Return the fourth value of a 4-tuple\n",
+        "type": "( a, b, c, d ) -> d"
       },
       {
         "name": "map",
-        "comment": " Apply a function to all 3 values in a 3-tuple and return the results as a\n3-tuple\n",
-        "type": "(a -> b) -> ( a, a, a ) -> ( b, b, b )"
+        "comment": " Apply a function to all 4 values in a 4-tuple and return the results as a\n4-tuple\n",
+        "type": "(a -> b) -> ( a, a, a, a ) -> ( b, b, b, b )"
       },
       {
         "name": "second",
-        "comment": " Return the second value of a 3-tuple\n",
-        "type": "( a, b, c ) -> b"
+        "comment": " Return the second value of a 4-tuple\n",
+        "type": "( a, b, c, d ) -> b"
       },
       {
         "name": "third",
-        "comment": " Return the third value of a 3-tuple\n",
-        "type": "( a, b, c ) -> c"
+        "comment": " Return the third value of a 4-tuple\n",
+        "type": "( a, b, c, d ) -> c"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Toolkit.Tuple.Operators",
-    "comment": "\n\nSome experimental operators for working with 2-tuples\n\n@docs (..|>)\n\n",
+    "name": "Toolkit.Result.Operators",
+    "comment": "\n\nSome experimental operators for error handling with `Result` values\n\n@docs (!=), (!|>), (!+>)\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "..|>",
-        "comment": " Forward operator for\n[Toolkit.Tuple.map](http://package.elm-lang.org/packages/danielnarey/elm-toolkit/latest/Toolkit-Tuple#map)\n\n    (1,2)\n    ..|> (+) 1\n\n    --> (2,3)\n\n",
-        "type": "( a, a ) -> (a -> b) -> ( b, b )",
+        "name": "!+>",
+        "comment": " Forward operator for `Result.andThen`\n\n    String.toInt \"1\"\n      !+> always (Err \"ERROR\")\n\n    --> Err \"ERROR\"\n    \n",
+        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b",
         "associativity": "left",
         "precedence": 0
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Toolkit.Compare",
-    "comment": "\n\nHelpers for comparing values\n\n# Intervals\n@docs isInRange, isBetween\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "isBetween",
-        "comment": " Given an interval and a test value, returns `True` if the test value falls\nstrictly *between* the endpoints of the interval, such that a test value equal\nto one of the endpoints will return `False`\n\n    10\n      |> Toolkit.Compare.isBetween (10, 20)\n\n    --> False\n\n",
-        "type": "( comparable, comparable ) -> comparable -> Bool"
       },
       {
-        "name": "isInRange",
-        "comment": " Given an interval and a test value, returns `True` if the test value falls\nwithin the interval, *including* its endpoints\n\n    10\n      |> Toolkit.Compare.isInRange (10, 20)\n\n    --> True\n\n",
-        "type": "( comparable, comparable ) -> comparable -> Bool"
+        "name": "!=",
+        "comment": " Forward operator for `Result.withDefault`\n\n    String.toInt \"123\" != 0\n\n    --> 123\n\n    String.toInt \"abc\" != 0\n\n    --> 0\n\n",
+        "type": "Result.Result x a -> a -> a",
+        "associativity": "left",
+        "precedence": 0
+      },
+      {
+        "name": "!|>",
+        "comment": " Forward operator for `Result.map`\n\n    Ok 4.0\n      !|> sqrt\n\n    --> Ok 2.0\n\n    Err \"bad input\"\n      !|> sqrt\n\n    --> Err \"bad input\"\n\n",
+        "type": "Result.Result x a -> (a -> value) -> Result.Result x value",
+        "associativity": "left",
+        "precedence": 0
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -378,6 +384,69 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Toolkit.Tuple3",
+    "comment": "\n\nHelpers for working with 3-tuples\n\n# Getting values\n@docs first, second, third\n\n# Mapping functions\n@docs map\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "first",
+        "comment": " Return the first value of a 3-tuple\n",
+        "type": "( a, b, c ) -> a"
+      },
+      {
+        "name": "map",
+        "comment": " Apply a function to all 3 values in a 3-tuple and return the results as a\n3-tuple\n",
+        "type": "(a -> b) -> ( a, a, a ) -> ( b, b, b )"
+      },
+      {
+        "name": "second",
+        "comment": " Return the second value of a 3-tuple\n",
+        "type": "( a, b, c ) -> b"
+      },
+      {
+        "name": "third",
+        "comment": " Return the third value of a 3-tuple\n",
+        "type": "( a, b, c ) -> c"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Toolkit.Maybe",
+    "comment": "\n\nHelpers for error handling with multiple `Maybe` values\n\n# Zipping\n@docs zip, zip3, zip4, zipList\n\n# Filtering\n@docs filter\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "filter",
+        "comment": " Given a list of `Maybe` values, return a list containing only the defined\nvalues.\n\n    [ Just 1\n    , Just 2\n    , Nothing\n    ]\n      |> Toolkit.Maybe.filter\n\n    --> [1, 2]\n\n",
+        "type": "List (Maybe.Maybe a) -> List a"
+      },
+      {
+        "name": "zip",
+        "comment": " Given a 2-tuple of `Maybe` values, if both values are defined, return `Just`\nthe 2-tuple of values; otherwise, return `Nothing`\n\n    (Just 1, Just 2)\n      |> Toolkit.Maybe.zip\n\n    --> Just (1,2)\n\n    (Just 1, Nothing)\n      |> Toolkit.Maybe.zip\n\n    --> Nothing\n\n",
+        "type": "( Maybe.Maybe a, Maybe.Maybe b ) -> Maybe.Maybe ( a, b )"
+      },
+      {
+        "name": "zip3",
+        "comment": " Given a 3-tuple of `Maybe` values, if all three values are defined, return\n`Just` the 3-tuple of values; otherwise, return `Nothing`\n",
+        "type": "( Maybe.Maybe a, Maybe.Maybe b, Maybe.Maybe c ) -> Maybe.Maybe ( a, b, c )"
+      },
+      {
+        "name": "zip4",
+        "comment": " Given a 4-tuple of `Maybe` values, if all four values are defined, return\n`Just` the 4-tuple of values; otherwise, return `Nothing`\n",
+        "type": "( Maybe.Maybe a, Maybe.Maybe b, Maybe.Maybe c, Maybe.Maybe d ) -> Maybe.Maybe ( a, b, c, d )"
+      },
+      {
+        "name": "zipList",
+        "comment": " Given a list of `Maybe` values, if all values are defined, return\n`Just` the list of values; otherwise, return `Nothing`. When passed an empty\nlist, returns `Just` an empty list.\n\n    [Just 1, Just 2]\n      |> Toolkit.Maybe.zipList\n\n    --> Just [1,2]\n\n    [Just 1, Nothing]\n      |> Toolkit.Maybe.zipList\n\n    --> Nothing\n\n    []\n      |> Toolkit.Maybe.zipList\n\n    --> Just []\n\n",
+        "type": "List (Maybe.Maybe a) -> Maybe.Maybe (List a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Toolkit.Float",
     "comment": "\n\nHelpers for working with `Float` values\n\n# Rounding\n@docs roundTo\n\n",
     "aliases": [],
@@ -387,45 +456,6 @@
         "name": "roundTo",
         "comment": " Round a `Float` to a given number of decimal places\n\n    pi\n      |> roundTo 2\n\n    --> 3.14\n\n    pi\n      |> roundTo 0\n\n    --> 3\n\n    1234\n      |> roundTo -2\n\n    --> 1200\n\n",
         "type": "Int -> Float -> Float"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Toolkit.Result",
-    "comment": "\n\nHelpers for error handling with multiple `Result` values\n\n# Implicit default value\n@docs try\n\n# Zipping\n@docs zip, zip3, zip4, zipList\n\n# Filtering\n@docs filter\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "filter",
-        "comment": " Given a list of `Result` values, return a list containing only the success\nvalues.\n\n    [ Ok 1\n    , Ok 2\n    , Err \"..\"\n    ]\n      |> Toolkit.Result.filter\n\n    --> [1, 2]\n\n",
-        "type": "List (Result.Result x a) -> List a"
-      },
-      {
-        "name": "try",
-        "comment": " Apply a function that returns a `Result` value, with the initial value as\nthe default (equivalent to `f x |> Result.withDefault x`). Note that the type\nreturned in an `Ok` result must match the type of the initial value.\n",
-        "type": "(a -> Result.Result x a) -> a -> a"
-      },
-      {
-        "name": "zip",
-        "comment": " Given a 2-tuple of `Result` values, if both values are `Ok`, return an `Ok`\nresult containing the 2-tuple of values; otherwise, return an `Err` value.\n\n    (Ok 1, Ok 2)\n      |> Toolkit.Result.zip \"ERROR\"\n\n    --> Ok (1,2)\n\n    (Ok 1, Err \"..\")\n      |> Toolkit.Result.zip \"ERROR\"\n\n    --> Err \"ERROR\"\n\n",
-        "type": "x -> ( Result.Result x a, Result.Result x b ) -> Result.Result x ( a, b )"
-      },
-      {
-        "name": "zip3",
-        "comment": " Given a 3-tuple of `Result` values, if all three values are `Ok`, return an\n`Ok` result containing the 3-tuple of values; otherwise, return an `Err`\nvalue.\n",
-        "type": "x -> ( Result.Result x a, Result.Result x b, Result.Result x c ) -> Result.Result x ( a, b, c )"
-      },
-      {
-        "name": "zip4",
-        "comment": " Given a 4-tuple of `Result` values, if all three values are `Ok`, return an\n`Ok` result containing the 4-tuple of values; otherwise, return an `Err`\nvalue.\n",
-        "type": "x -> ( Result.Result x a , Result.Result x b , Result.Result x c , Result.Result x d ) -> Result.Result x ( a, b, c, d )"
-      },
-      {
-        "name": "zipList",
-        "comment": " Given a list of `Result` values, if all values are `Ok`, return an `Ok`\nresult containing the list of values; otherwise, return an error message. When\npassed an empty list, returns `Ok []`.\n\n    [Ok 1, Ok 2]\n      |> Toolkit.Result.zipList \"ERROR\"\n\n    --> Ok [1,2]\n\n    [Ok 1, Err \"..\"]\n      |> Toolkit.Result.zipList \"ERROR\"\n\n    --> Err \"ERROR\"\n\n    []\n      |> Toolkit.Result.zipList \"ERROR\"\n\n    --> Ok []\n\n",
-        "type": "x -> List (Result.Result x a) -> Result.Result x (List a)"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -475,36 +505,6 @@
         "name": "|::",
         "comment": " Append the item on the RHS to the end of the list on the LHS\n\n    [1]\n      |:: 2\n\n    --> [1,2]\n\n    [1]\n      |:: 2\n      |:: 3\n\n    --> [1,2,3]\n\n",
         "type": "List a -> a -> List a",
-        "associativity": "left",
-        "precedence": 0
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Toolkit.Result.Operators",
-    "comment": "\n\nSome experimental operators for error handling with `Result` values\n\n@docs (!=), (!|>), (!+>)\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "!+>",
-        "comment": " Forward operator for `Result.andThen`\n\n    String.toInt \"1\"\n      !+> always (Err \"ERROR\")\n\n    --> Err \"ERROR\"\n    \n",
-        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b",
-        "associativity": "left",
-        "precedence": 0
-      },
-      {
-        "name": "!=",
-        "comment": " Forward operator for `Result.withDefault`\n\n    String.toInt \"123\" != 0\n\n    --> 123\n\n    String.toInt \"abc\" != 0\n\n    --> 0\n\n",
-        "type": "Result.Result x a -> a -> a",
-        "associativity": "left",
-        "precedence": 0
-      },
-      {
-        "name": "!|>",
-        "comment": " Forward operator for `Result.map`\n\n    Ok 4.0\n      !|> sqrt\n\n    --> Ok 2.0\n\n    Err \"bad input\"\n      !|> sqrt\n\n    --> Err \"bad input\"\n\n",
-        "type": "Result.Result x a -> (a -> value) -> Result.Result x value",
         "associativity": "left",
         "precedence": 0
       }

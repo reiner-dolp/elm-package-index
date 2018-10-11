@@ -26,6 +26,50 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Stylesheet.Combinators",
+    "comment": "\n\n## Semantic constructor functions for combinator and pseudo selectors\n\n# Combinators\n@docs combinedWith, descendantOf, childOf, siblingOf, adjacentTo\n\n# Pseudo Classes and Elements\n@docs pseudoClass, pseudoElement\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "adjacentTo",
+        "comment": " Constructor function to create an adjacent selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"ul\" |> adjacentTo (Tag \"p\")\n\n    --> p + ul\n",
+        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
+      },
+      {
+        "name": "childOf",
+        "comment": " Constructor function to create a child selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"li\" |> childOf (Tag \"ul\")\n\n    --> ul > li\n",
+        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
+      },
+      {
+        "name": "combinedWith",
+        "comment": " Constructor function to combine two selectors; intended to be\nused semantically as a pipeline function\n\n    Tag \"a\" |> combinedWith (Class \"button\")\n\n    --> a.button\n",
+        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
+      },
+      {
+        "name": "descendantOf",
+        "comment": " Constructor function to create a descendent selector; intended to be\nused semantically as a pipeline function\n\n    Tag \"p\" |> descendantOf (Tag \"article\")\n\n    --> article p\n",
+        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
+      },
+      {
+        "name": "pseudoClass",
+        "comment": " Constructor function to create a pseudo class selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"li\" |> pseudoClass \"hover\"\n\n    --> li:hover\n",
+        "type": "String -> Stylesheet.Selector -> Stylesheet.Selector"
+      },
+      {
+        "name": "pseudoElement",
+        "comment": " Constructor function to create a pseudo element selector; intended to be\nused semantically as a pipeline function\n\n    Tag \"li\" |> pseudoElement \"after\"\n\n    --> li::after\n",
+        "type": "String -> Stylesheet.Selector -> Stylesheet.Selector"
+      },
+      {
+        "name": "siblingOf",
+        "comment": " Constructor function to create a sibling selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"ul\" |> siblingOf (Tag \"p\")\n\n    --> p ~ ul\n",
+        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Stylesheet.FontImport",
     "comment": "\n\n## Helpers for importing Google Fonts\n\nSee\n[examples/BasicUse.elm](https://github.com/danielnarey/elm-stylesheet/tree/master/examples)\nfor a full working example.\n\n# Font Family Representation\n@docs FontFamily\n\n# Constructing a Font Family\n@docs newFontFamily, withVariants, addVariant, withSubsets, addSubset\n\n# Adding an Import Directive to a Stylesheet\n@docs importFonts\n\n",
     "aliases": [
@@ -67,50 +111,6 @@
         "name": "withVariants",
         "comment": " Add a list of variants to a font family, *replacing* any existing variants\n",
         "type": "List String -> Stylesheet.FontImport.FontFamily -> Stylesheet.FontImport.FontFamily"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Stylesheet.Combinators",
-    "comment": "\n\n## Semantic constructor functions for combinator and pseudo selectors\n\n# Combinators\n@docs combinedWith, descendantOf, childOf, siblingOf, adjacentTo\n\n# Pseudo Classes and Elements\n@docs pseudoClass, pseudoElement\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "adjacentTo",
-        "comment": " Constructor function to create an adjacent selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"ul\" |> adjacentTo (Tag \"p\")\n\n    --> p + ul\n",
-        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
-      },
-      {
-        "name": "childOf",
-        "comment": " Constructor function to create a child selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"li\" |> childOf (Tag \"ul\")\n\n    --> ul > li\n",
-        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
-      },
-      {
-        "name": "combinedWith",
-        "comment": " Constructor function to combine two selectors; intended to be\nused semantically as a pipeline function\n\n    Tag \"a\" |> combinedWith (Class \"button\")\n\n    --> a.button\n",
-        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
-      },
-      {
-        "name": "descendantOf",
-        "comment": " Constructor function to create a descendent selector; intended to be\nused semantically as a pipeline function\n\n    Tag \"p\" |> descendantOf (Tag \"article\")\n\n    --> article p\n",
-        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
-      },
-      {
-        "name": "pseudoClass",
-        "comment": " Constructor function to create a pseudo class selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"li\" |> pseudoClass \"hover\"\n\n    --> li:hover\n",
-        "type": "String -> Stylesheet.Selector -> Stylesheet.Selector"
-      },
-      {
-        "name": "pseudoElement",
-        "comment": " Constructor function to create a pseudo element selector; intended to be\nused semantically as a pipeline function\n\n    Tag \"li\" |> pseudoElement \"after\"\n\n    --> li::after\n",
-        "type": "String -> Stylesheet.Selector -> Stylesheet.Selector"
-      },
-      {
-        "name": "siblingOf",
-        "comment": " Constructor function to create a sibling selector; intended to be used\nsemantically as a pipeline function\n\n    Tag \"ul\" |> siblingOf (Tag \"p\")\n\n    --> p ~ ul\n",
-        "type": "Stylesheet.Selector -> Stylesheet.Selector -> Stylesheet.Selector"
       }
     ],
     "generated-with-elm-version": "0.18.0"

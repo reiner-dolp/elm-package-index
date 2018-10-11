@@ -1,31 +1,5 @@
 [
   {
-    "name": "Stylesheet.Shorthand",
-    "comment": "\n# Shorthand representation of a CSS rule set\n@docs Shorthand\n\n# Converting from shorthand to standard representations\n@docs toRuleSetList, toStylesheet\n\n",
-    "aliases": [
-      {
-        "name": "Shorthand",
-        "comment": " A simplified rule set record without a media query option\n\n    short =\n      [ { selectors =\n          [ Tag \"body\"\n          , Tag \"button\"\n          , Tag \"input\"\n          , Tag \"select\"\n          , Tag \"textarea\"\n          ]\n        , declarations =\n          [ (\"font-family\", Str \"Roboto\")\n          ]\n        }\n\n      , { selectors =\n          [ Tag \"code\"\n          , Tag \"pre\"\n          ]\n        , declarations =\n          [ (\"font-family\", Str \"Monaco\")\n          ]\n        }\n\n      ]\n\n",
-        "args": [],
-        "type": "{ selectors : List Stylesheet.Selector , declarations : List CssBasics.Declaration }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "toRuleSetList",
-        "comment": " Convert a list of `Shorthand` rule sets to a `RuleSet` list\n\n    short\n      |> toRuleSetList\n",
-        "type": "List Stylesheet.Shorthand.Shorthand -> List Stylesheet.RuleSet"
-      },
-      {
-        "name": "toStylesheet",
-        "comment": " Construct a `Stylesheet` from a list of `Shorthand` rule sets\n\n    short\n      |> toStylesheet\n",
-        "type": "List Stylesheet.Shorthand.Shorthand -> Stylesheet.Stylesheet"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Stylesheet.FontImport",
     "comment": "\n\n## Helpers for importing Google Fonts\n\nSee\n[examples/BasicUse.elm](https://github.com/danielnarey/elm-stylesheet/tree/master/examples)\nfor a full working example.\n\n# Font Family Representation\n@docs FontFamily\n\n# Constructing a Font Family\n@docs newFontFamily, withVariants, addVariant, withSubsets, addSubset\n\n# Adding an Import Directive to a Stylesheet\n@docs importFonts\n\n",
     "aliases": [
@@ -67,6 +41,32 @@
         "name": "withVariants",
         "comment": " Add a list of variants to a font family, *replacing* any existing variants\n",
         "type": "List String -> Stylesheet.FontImport.FontFamily -> Stylesheet.FontImport.FontFamily"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Stylesheet.Shorthand",
+    "comment": "\n# Shorthand representation of a CSS rule set\n@docs Shorthand\n\n# Converting from shorthand to standard representations\n@docs toRuleSetList, toStylesheet\n\n",
+    "aliases": [
+      {
+        "name": "Shorthand",
+        "comment": " A simplified rule set record without a media query option\n\n    short =\n      [ { selectors =\n          [ Tag \"body\"\n          , Tag \"button\"\n          , Tag \"input\"\n          , Tag \"select\"\n          , Tag \"textarea\"\n          ]\n        , declarations =\n          [ (\"font-family\", Str \"Roboto\")\n          ]\n        }\n\n      , { selectors =\n          [ Tag \"code\"\n          , Tag \"pre\"\n          ]\n        , declarations =\n          [ (\"font-family\", Str \"Monaco\")\n          ]\n        }\n\n      ]\n\n",
+        "args": [],
+        "type": "{ selectors : List Stylesheet.Selector , declarations : List CssBasics.Declaration }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "toRuleSetList",
+        "comment": " Convert a list of `Shorthand` rule sets to a `RuleSet` list\n\n    short\n      |> toRuleSetList\n",
+        "type": "List Stylesheet.Shorthand.Shorthand -> List Stylesheet.RuleSet"
+      },
+      {
+        "name": "toStylesheet",
+        "comment": " Construct a `Stylesheet` from a list of `Shorthand` rule sets\n\n    short\n      |> toStylesheet\n",
+        "type": "List Stylesheet.Shorthand.Shorthand -> Stylesheet.Stylesheet"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -80,34 +80,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Input.Text",
-    "comment": " Text input\n\n# View\n@docs input, Options, defaultOptions\n",
-    "aliases": [
-      {
-        "name": "Options",
-        "comment": " Options of the input component.\n\n * `maxLength` is the maximum number of character allowed in this input. Set to `Nothing` for no limit.\n * `onInput` is the Msg tagger for the onInput event.\n * `hasFocus` is an optional Msg tagger for onFocus/onBlur event.\n * `type_` is the type of the HTML input element.\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ maxLength : Maybe.Maybe Int , onInput : String -> msg , hasFocus : Maybe.Maybe (Bool -> msg) , type_ : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Default value for `Options`.\n * `onInput` (type: `String -> msg`) : The onInput Msg tagger\n\nValue:\n\n    { maxLength = Nothing\n    , onInput = onInput\n    , hasFocus = Nothing\n    , type_ = \"text\"\n    }\n\n",
-        "type": "(String -> msg) -> Input.Text.Options msg"
-      },
-      {
-        "name": "input",
-        "comment": " Text input element\n\nExample:\n\n    type Msg = InputUpdated String | FocusUpdated Bool\n\n    Input.Text.input\n        { maxLength = 10\n        , onInput = InputUpdated\n        , hasFocus = Just FocusUpdated\n        }\n        [ class \"textInput\"\n        ...\n        ]\n        model.currentValue\n\n",
-        "type": "Input.Text.Options msg -> List (Html.Attribute msg) -> String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Input.Number",
     "comment": " Number input\n# Options\n@docs StringOptions, Options, defaultStringOptions, defaultOptions\n\n# View\n@docs input, inputString\n",
     "aliases": [
@@ -154,6 +126,34 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Input.Text",
+    "comment": " Text input\n\n# View\n@docs input, Options, defaultOptions\n",
+    "aliases": [
+      {
+        "name": "Options",
+        "comment": " Options of the input component.\n\n * `maxLength` is the maximum number of character allowed in this input. Set to `Nothing` for no limit.\n * `onInput` is the Msg tagger for the onInput event.\n * `hasFocus` is an optional Msg tagger for onFocus/onBlur event.\n * `type_` is the type of the HTML input element.\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ maxLength : Maybe.Maybe Int , onInput : String -> msg , hasFocus : Maybe.Maybe (Bool -> msg) , type_ : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultOptions",
+        "comment": " Default value for `Options`.\n * `onInput` (type: `String -> msg`) : The onInput Msg tagger\n\nValue:\n\n    { maxLength = Nothing\n    , onInput = onInput\n    , hasFocus = Nothing\n    , type_ = \"text\"\n    }\n\n",
+        "type": "(String -> msg) -> Input.Text.Options msg"
+      },
+      {
+        "name": "input",
+        "comment": " Text input element\n\nExample:\n\n    type Msg = InputUpdated String | FocusUpdated Bool\n\n    Input.Text.input\n        { maxLength = 10\n        , onInput = InputUpdated\n        , hasFocus = Just FocusUpdated\n        }\n        [ class \"textInput\"\n        ...\n        ]\n        model.currentValue\n\n",
+        "type": "Input.Text.Options msg -> List (Html.Attribute msg) -> String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Input.BigNumber",
     "comment": " Big Number input.\nThis is a number input for big number values that can't be stored using `Int` and uses `String` instead.\n\n# View\n@docs input, Options, defaultOptions\n",
     "aliases": [
@@ -177,40 +177,6 @@
         "name": "input",
         "comment": " View function\n\nExample:\n\n    type Msg = InputUpdated String | FocusUpdated Bool\n\n    Input.Number.input\n        { onInput = InputUpdated\n        , maxLength = Nothing\n        , maxValue = 1000\n        , minValue = 10\n        , hasFocus = Just FocusUpdated\n        }\n        [ class \"numberInput\"\n        ...\n        ]\n        model.currentValue\n\n",
         "type": "Input.BigNumber.Options msg -> List (Html.Attribute msg) -> String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dropdown",
-    "comment": " Dropdown\n\nOptions\n@docs Item, Options, defaultOptions\n\n# View\n@docs dropdown\n",
-    "aliases": [
-      {
-        "name": "Item",
-        "comment": " Item is the individual content of the dropdown.\n\n * `value` is the item value or `id`\n * `text` is the display text of the dropdown item.\n * `enabled` is a flag to indicate whether the item is enabled or disabled.\n",
-        "args": [],
-        "type": "{ value : String, text : String, enabled : Bool }"
-      },
-      {
-        "name": "Options",
-        "comment": " Options for the dropdown.\n\n * `items` is content of the dropdown.\n * `emptyItem` is the item for when the nothing is selected. Set to `Nothing` for no empty item.\n * `onChange` is the message for when the selected value in the dropdown is changed.\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ items : List Dropdown.Item , emptyItem : Maybe.Maybe Dropdown.Item , onChange : Maybe.Maybe String -> msg }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Default Options, will give you empty dropdown with no empty item\n",
-        "type": "(Maybe.Maybe String -> msg) -> Dropdown.Options msg"
-      },
-      {
-        "name": "dropdown",
-        "comment": " Html element.\n\nPut this in your view's Html content.\nExample:\n\n    type Msg = DropdownChanged String\n\n    Html.div []\n        [ Dropdown.dropdown\n            (Dropdown.defaultOptions DropdownChanged)\n            [ class \"my-dropdown\" ]\n            model.selectedDropdownValue\n        ]\n",
-        "type": "Dropdown.Options msg -> List (Html.Attribute msg) -> Maybe.Maybe String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -245,6 +211,40 @@
         "name": "multiSelect",
         "comment": " Html element.\n\nPut this in your view's Html content.\nExample:\n\n    type Msg = MultiSelectChanged (List String)\n\n    Html.div []\n        [ multiSelect\n            (defaultOptions MultiSelectChanged)\n            [ class \"my-multiSelect\" ]\n            model.selectedValues\n        ]\n",
         "type": "MultiSelect.Options msg -> List (Html.Attribute msg) -> List String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Dropdown",
+    "comment": " Dropdown\n\nOptions\n@docs Item, Options, defaultOptions\n\n# View\n@docs dropdown\n",
+    "aliases": [
+      {
+        "name": "Item",
+        "comment": " Item is the individual content of the dropdown.\n\n * `value` is the item value or `id`\n * `text` is the display text of the dropdown item.\n * `enabled` is a flag to indicate whether the item is enabled or disabled.\n",
+        "args": [],
+        "type": "{ value : String, text : String, enabled : Bool }"
+      },
+      {
+        "name": "Options",
+        "comment": " Options for the dropdown.\n\n * `items` is content of the dropdown.\n * `emptyItem` is the item for when the nothing is selected. Set to `Nothing` for no empty item.\n * `onChange` is the message for when the selected value in the dropdown is changed.\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ items : List Dropdown.Item , emptyItem : Maybe.Maybe Dropdown.Item , onChange : Maybe.Maybe String -> msg }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultOptions",
+        "comment": " Default Options, will give you empty dropdown with no empty item\n",
+        "type": "(Maybe.Maybe String -> msg) -> Dropdown.Options msg"
+      },
+      {
+        "name": "dropdown",
+        "comment": " Html element.\n\nPut this in your view's Html content.\nExample:\n\n    type Msg = DropdownChanged String\n\n    Html.div []\n        [ Dropdown.dropdown\n            (Dropdown.defaultOptions DropdownChanged)\n            [ class \"my-dropdown\" ]\n            model.selectedDropdownValue\n        ]\n",
+        "type": "Dropdown.Options msg -> List (Html.Attribute msg) -> Maybe.Maybe String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

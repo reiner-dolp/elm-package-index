@@ -1,24 +1,5 @@
 [
   {
-    "name": "Json.Encode.Extra",
-    "comment": " Convenience functions for turning Elm values into Json values.\n\n@docs dict, maybe\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "dict",
-        "comment": " Turn a `Dict` into a JSON object.\n\n    import Dict\n\n    Dict.fromList [ ( \"Sue\", 38 ), ( \"Tom\", 42 ) ]\n        |> dict identity int\n        |> encode 0\n    --> \"\"\"{\"Sue\":38,\"Tom\":42}\"\"\"\n\n",
-        "type": "(comparable -> String) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
-      },
-      {
-        "name": "maybe",
-        "comment": " Encode a Maybe value. If the value is `Nothing` it will be encoded as `null`\n\n    import Json.Encode exposing (int, null, encode)\n\n    maybe int (Just 50)\n    --> int 50\n\n    maybe int Nothing\n    --> null\n\n",
-        "type": "(a -> Json.Encode.Value) -> Maybe.Maybe a -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Json.Decode.Extra",
     "comment": " Convenience functions for working with Json\n\nExamples assume the following imports:\n\n    import Json.Decode exposing (..)\n    import Date\n    import Set\n    import Dict\n\n\n# Date\n\n@docs date\n\n\n# Incremental Decoding\n\n@docs andMap, (|:)\n\n\n# List\n\n@docs collection, sequence, combine, indexedList, keys\n\n\n# Set\n\n@docs set\n\n\n# Dict\n\n@docs dict2\n\n\n# Maybe\n\n@docs withDefault, optionalField\n\n\n# Result\n\n@docs fromResult\n\n\n# Encoded strings\n\n@docs parseInt, parseFloat, doubleEncoded\n\n",
     "aliases": [],
@@ -103,6 +84,25 @@
         "name": "|:",
         "comment": " Infix version of `andMap` that makes for a nice DSL when decoding objects.\n\nSee [the `(|:)` docs](https://github.com/elm-community/json-extra/blob/2.0.0/docs/infixAndMap.md)\nfor an explanation of how `(|:)` works and how to use it.\n\n",
         "type": "Json.Decode.Decoder (a -> b) -> Json.Decode.Decoder a -> Json.Decode.Decoder b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Json.Encode.Extra",
+    "comment": " Convenience functions for turning Elm values into Json values.\n\n@docs dict, maybe\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Turn a `Dict` into a JSON object.\n\n    import Dict\n\n    Dict.fromList [ ( \"Sue\", 38 ), ( \"Tom\", 42 ) ]\n        |> dict identity int\n        |> encode 0\n    --> \"\"\"{\"Sue\":38,\"Tom\":42}\"\"\"\n\n",
+        "type": "(comparable -> String) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
+      },
+      {
+        "name": "maybe",
+        "comment": " Encode a Maybe value. If the value is `Nothing` it will be encoded as `null`\n\n    import Json.Encode exposing (int, null, encode)\n\n    maybe int (Just 50)\n    --> int 50\n\n    maybe int Nothing\n    --> null\n\n",
+        "type": "(a -> Json.Encode.Value) -> Maybe.Maybe a -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"

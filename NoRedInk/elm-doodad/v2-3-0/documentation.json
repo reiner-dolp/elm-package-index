@@ -1,5 +1,87 @@
 [
   {
+    "name": "Nri.TextInput",
+    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " ",
+        "args": [
+          "value",
+          "msg"
+        ],
+        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
+      }
+    ],
+    "types": [
+      {
+        "name": "InputType",
+        "comment": " ",
+        "args": [
+          "value"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "number",
+        "comment": " An input that allows number entry\n",
+        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
+      },
+      {
+        "name": "text",
+        "comment": " An input that allows text entry\n",
+        "type": "Nri.TextInput.InputType String"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+      },
+      {
+        "name": "withInvisibleLabel",
+        "comment": " ",
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.BannerAlert",
+    "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "error",
+        "comment": " A banner to show error alerts\n",
+        "type": "String -> Html.Html msg"
+      },
+      {
+        "name": "neutral",
+        "comment": " A banner to show neutral alerts\n",
+        "type": "String -> Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.BannerAlert.CssClasses b"
+      },
+      {
+        "name": "success",
+        "comment": " A banner for success alerts\n",
+        "type": "String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nri.Button",
     "comment": " Common NoRedInk buttons. For accessibility purposes, buttons that perform an\naction on the current page should be HTML `<button>` elements and are created here\nwith `*Button` functions. Buttons that take the user to a new page should be\nHTML `<a>` elements and are created here with `*Link` functions. Both versions\nshould be able to use the same CSS class in all cases.\n\nThere will generally be a `*Button` and `*Link` version of each button style.\n(These will be created as they are needed.)\n\n\n## Required styles\n\n@docs styles\n\n\n## Common configs\n\n@docs ButtonContent\n@docs ButtonSize\n@docs ButtonState\n@docs ButtonStyle\n\n\n## `<button>` Buttons\n\n@docs button\n\n",
     "aliases": [
@@ -104,54 +186,47 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.TextInput",
-    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
+    "name": "Nri.Alert",
+    "comment": " UI components that highlight information to the user.\n\n@docs Model\n@docs error\n@docs styles\n@docs success\n@docs tip\n@docs viewResult\n@docs warning\n\n",
     "aliases": [
       {
         "name": "Model",
         "comment": " ",
-        "args": [
-          "value",
-          "msg"
-        ],
-        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
+        "args": [],
+        "type": "{ content : String }"
       }
     ],
-    "types": [
-      {
-        "name": "InputType",
-        "comment": " ",
-        "args": [
-          "value"
-        ],
-        "cases": []
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "number",
-        "comment": " An input that allows number entry\n",
-        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
+        "name": "error",
+        "comment": " ",
+        "type": "Nri.Alert.Model -> Html.Html msg"
       },
       {
         "name": "styles",
         "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
+        "type": "Nri.Styles.Styles Basics.Never Nri.Alert.CssClasses msg"
       },
       {
-        "name": "text",
-        "comment": " An input that allows text entry\n",
-        "type": "Nri.TextInput.InputType String"
-      },
-      {
-        "name": "view",
+        "name": "success",
         "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+        "type": "Nri.Alert.Model -> Html.Html msg"
       },
       {
-        "name": "withInvisibleLabel",
+        "name": "tip",
         "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+        "type": "Nri.Alert.Model -> Html.Html msg"
+      },
+      {
+        "name": "viewResult",
+        "comment": " Show either an error or success alert depending on the given Result\n",
+        "type": "Result.Result String String -> Html.Html msg"
+      },
+      {
+        "name": "warning",
+        "comment": " ",
+        "type": "Nri.Alert.Model -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -221,81 +296,6 @@
         "name": "tagline",
         "comment": " This is a tagline for a page heading.\n",
         "type": "List (Html.Html msg) -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Alert",
-    "comment": " UI components that highlight information to the user.\n\n@docs Model\n@docs error\n@docs styles\n@docs success\n@docs tip\n@docs viewResult\n@docs warning\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": " ",
-        "args": [],
-        "type": "{ content : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "error",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Alert.CssClasses msg"
-      },
-      {
-        "name": "success",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      },
-      {
-        "name": "tip",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      },
-      {
-        "name": "viewResult",
-        "comment": " Show either an error or success alert depending on the given Result\n",
-        "type": "Result.Result String String -> Html.Html msg"
-      },
-      {
-        "name": "warning",
-        "comment": " ",
-        "type": "Nri.Alert.Model -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.BannerAlert",
-    "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "error",
-        "comment": " A banner to show error alerts\n",
-        "type": "String -> Html.Html msg"
-      },
-      {
-        "name": "neutral",
-        "comment": " A banner to show neutral alerts\n",
-        "type": "String -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.BannerAlert.CssClasses b"
-      },
-      {
-        "name": "success",
-        "comment": " A banner for success alerts\n",
-        "type": "String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

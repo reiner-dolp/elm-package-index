@@ -1,52 +1,53 @@
 [
   {
-    "name": "Nri.Outline",
-    "comment": " A module for rendering outline layouts.\n\n@docs segment\n@docs node\n@docs NodeLayout\n@docs NodeConfig\n@docs config\n@docs html\n@docs styles\n\n",
+    "name": "Nri.TextInput",
+    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
     "aliases": [
       {
-        "name": "NodeConfig",
-        "comment": " Defines how a node should look.\n",
+        "name": "Model",
+        "comment": " ",
         "args": [
+          "value",
           "msg"
         ],
-        "type": "{ label : Html.Html msg , contents : Html.Html msg , children : List (Nri.Outline.NodeLayout msg) , selected : Bool , ghosted : Bool , attrs : List (Html.Attribute msg) }"
+        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
       }
     ],
     "types": [
       {
-        "name": "NodeLayout",
-        "comment": " A wrapper for a node rendered into Html. This type exists to prevent us\nfrom accidentally wrapping a node in a container element before passing it as a\nchild to another node or segment. Such wrapping would break some of our\nstyling, which assumes nodes of the same level are sibblings in the Html tree.\n",
+        "name": "InputType",
+        "comment": " ",
         "args": [
-          "msg"
+          "value"
         ],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "config",
-        "comment": " A default node configuration, allowing you to only set the properties you care about.\n\n    node { config | label = \"Claim\" }\n\n",
-        "type": "Nri.Outline.NodeConfig msg"
-      },
-      {
-        "name": "html",
-        "comment": " Wrap any html in a NodeLayout so you can use it as sibling content to nodes.\n\n    segment\n        [ node { config | label = \"This is a node\" }\n        , html (Html.text \"This is some random Html content!\")\n        ]\n\n",
-        "type": "Html.Html msg -> Nri.Outline.NodeLayout msg"
-      },
-      {
-        "name": "node",
-        "comment": " Draw a node of an outline structure. You can draw other nodes inside it and\nconnecting lines will appear.\n\n    node { config | label = \"Claim\" }\n\n",
-        "type": "Nri.Outline.NodeConfig msg -> Nri.Outline.NodeLayout msg"
-      },
-      {
-        "name": "segment",
-        "comment": " A container to draw nodes in.\n\n    segment\n        [ node { config | label = \"First Node\" }\n        , node { config | label = \"Second Node\" }\n        ]\n\n",
-        "type": "List (Nri.Outline.NodeLayout msg) -> Html.Html msg"
+        "name": "number",
+        "comment": " An input that allows number entry\n",
+        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
       },
       {
         "name": "styles",
-        "comment": " Styles used by outline structures.\n",
-        "type": "Nri.Styles.Styles a Nri.Outline.Style b"
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
+      },
+      {
+        "name": "text",
+        "comment": " An input that allows text entry\n",
+        "type": "Nri.TextInput.InputType String"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+      },
+      {
+        "name": "withInvisibleLabel",
+        "comment": " ",
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -133,6 +134,25 @@
         "name": "viewTabDefault",
         "comment": " ",
         "type": "Nri.Tabs.Tab id -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Divider",
+    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -240,54 +260,72 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.TextInput",
-    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
+    "name": "Nri.Outline",
+    "comment": " A module for rendering outline layouts.\n\n@docs segment\n@docs node\n@docs NodeLayout\n@docs NodeConfig\n@docs config\n@docs html\n@docs styles\n\n",
     "aliases": [
       {
-        "name": "Model",
-        "comment": " ",
+        "name": "NodeConfig",
+        "comment": " Defines how a node should look.\n",
         "args": [
-          "value",
           "msg"
         ],
-        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
+        "type": "{ label : Html.Html msg , contents : Html.Html msg , children : List (Nri.Outline.NodeLayout msg) , selected : Bool , ghosted : Bool , attrs : List (Html.Attribute msg) }"
       }
     ],
     "types": [
       {
-        "name": "InputType",
-        "comment": " ",
+        "name": "NodeLayout",
+        "comment": " A wrapper for a node rendered into Html. This type exists to prevent us\nfrom accidentally wrapping a node in a container element before passing it as a\nchild to another node or segment. Such wrapping would break some of our\nstyling, which assumes nodes of the same level are sibblings in the Html tree.\n",
         "args": [
-          "value"
+          "msg"
         ],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "number",
-        "comment": " An input that allows number entry\n",
-        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
+        "name": "config",
+        "comment": " A default node configuration, allowing you to only set the properties you care about.\n\n    node { config | label = \"Claim\" }\n\n",
+        "type": "Nri.Outline.NodeConfig msg"
+      },
+      {
+        "name": "html",
+        "comment": " Wrap any html in a NodeLayout so you can use it as sibling content to nodes.\n\n    segment\n        [ node { config | label = \"This is a node\" }\n        , html (Html.text \"This is some random Html content!\")\n        ]\n\n",
+        "type": "Html.Html msg -> Nri.Outline.NodeLayout msg"
+      },
+      {
+        "name": "node",
+        "comment": " Draw a node of an outline structure. You can draw other nodes inside it and\nconnecting lines will appear.\n\n    node { config | label = \"Claim\" }\n\n",
+        "type": "Nri.Outline.NodeConfig msg -> Nri.Outline.NodeLayout msg"
+      },
+      {
+        "name": "segment",
+        "comment": " A container to draw nodes in.\n\n    segment\n        [ node { config | label = \"First Node\" }\n        , node { config | label = \"Second Node\" }\n        ]\n\n",
+        "type": "List (Nri.Outline.NodeLayout msg) -> Html.Html msg"
       },
       {
         "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
-      },
+        "comment": " Styles used by outline structures.\n",
+        "type": "Nri.Styles.Styles a Nri.Outline.Style b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.TextAreaWithOverlappingLabel",
+    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
       {
-        "name": "text",
-        "comment": " An input that allows text entry\n",
-        "type": "Nri.TextInput.InputType String"
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
       },
       {
         "name": "view",
         "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
-      },
-      {
-        "name": "withInvisibleLabel",
-        "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -421,44 +459,6 @@
         "name": "success",
         "comment": " A banner for success alerts\n",
         "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Divider",
-    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.TextAreaWithOverlappingLabel",
-    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

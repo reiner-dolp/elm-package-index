@@ -167,6 +167,72 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Game.TwoD.Camera",
+    "comment": "\nA camera to view the game world.\n\n## camera creation\n@docs Camera, fixedArea, fixedWidth, fixedHeight, custom\n\n## manipulate camera\n@docs getPosition, moveBy, moveTo, follow\n\n---\n@docs view, getViewSize\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Camera",
+        "comment": "\nA camera represents how to render the virtual world.\nIt's essentially a transformation from virtual game coordinates to pixel coordinates on the screen.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "custom",
+        "comment": "\nThe custom camera allows you to use a function\nthat maps viewport size (in pixel) to game units.\nE.g. here's an implementation of the fixedWidth camera using custom:\n\n    fixedWidth width =\n        custom (\\(w, h) -> (width, width * h / w))\n\n",
+        "type": "(( Float, Float ) -> ( Float, Float )) -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
+      },
+      {
+        "name": "fixedArea",
+        "comment": "\nA camera that always shows the same area.\nThis is useful in a top down game.\nYou probably want to specify the area as a multiplication of width and height:\n\n    fixedArea (16*10) (x, y)\n\nThis means the camera will always show 160 square units of your game.\nIn practice, this means that on a 16:10 viewport, 16 by 10 units of your game will be visible.\nBut on a 4:3 viewport it would show 14.6 by 10.95 units. (sqrt(16*10*4/3)=14.6, sqrt(16*10*3/4)=10.95)\n",
+        "type": "Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
+      },
+      {
+        "name": "fixedHeight",
+        "comment": "\nA camera that always shows `height` units of your game vertically.\nWell suited for a vertical scroller.\n",
+        "type": "Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
+      },
+      {
+        "name": "fixedWidth",
+        "comment": "\nA camera that always shows `width` units of your game horizontally.\nWell suited for a side-scroller.\n",
+        "type": "Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
+      },
+      {
+        "name": "follow",
+        "comment": "\nSmoothly follow the given target. Use this in your tick function.\n\n    follow 1.5 dt target camera\n\n",
+        "type": "Float -> Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera -> Game.TwoD.Camera.Camera"
+      },
+      {
+        "name": "getPosition",
+        "comment": "\n",
+        "type": "Game.TwoD.Camera.Camera -> ( Float, Float )"
+      },
+      {
+        "name": "getViewSize",
+        "comment": "\nGiven the screen size, gets the width and height in game units\n",
+        "type": "( Float, Float ) -> Game.TwoD.Camera.Camera -> ( Float, Float )"
+      },
+      {
+        "name": "moveBy",
+        "comment": "\nMove a camera by the given vector *relative* to the camera.\n",
+        "type": "( Float, Float ) -> Game.TwoD.Camera.Camera -> Game.TwoD.Camera.Camera"
+      },
+      {
+        "name": "moveTo",
+        "comment": "\nMove a camera to the given location. In *absolute* coordinates.\n",
+        "type": "( Float, Float ) -> Game.TwoD.Camera.Camera -> Game.TwoD.Camera.Camera"
+      },
+      {
+        "name": "view",
+        "comment": "\nGets the transformation that represents how to transform the camera back to the origin.\nThe result of this is used in the vertex shader.\n",
+        "type": "Game.TwoD.Camera.Camera -> ( Float, Float ) -> Math.Matrix4.Mat4"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Game.TwoD.Shaders",
     "comment": "\n\n\n# Standard shaders for WebGL rendering.\n\nYou don't need this module,\nunless you want to write your own vertex or fragment shader\nand a shader from here already provides one half.\n\nOr if you're using WebGL directly.\n\n\n## Vertex shaders\n\n@docs vertColoredShape, vertTexturedRect, vertParallaxScroll\n\n\n## Fragment shaders\n\n@docs fragTextured, fragAnimTextured, fragManualAnimTextured, fragUniColor, fragUniColorCircle, fragUniColorRing\n\n---\n\n\n### useful helper functions\n\n@docs colorToRGBAVector, colorToRGBVector, makeTransform\n\n",
     "aliases": [],
@@ -231,72 +297,6 @@
         "name": "vertTexturedRect",
         "comment": " A simple shader that passes the texture coordinates along for the fragment shader.\nCan be generally used if the fragment shader needs to display texture(s).\n",
         "type": "WebGL.Shader Game.TwoD.Shapes.Vertex { u | transform : Math.Matrix4.Mat4, cameraProj : Math.Matrix4.Mat4 } { vcoord : Math.Vector2.Vec2 }"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Game.TwoD.Camera",
-    "comment": "\nA camera to view the game world.\n\n## camera creation\n@docs Camera, fixedArea, fixedWidth, fixedHeight, custom\n\n## manipulate camera\n@docs getPosition, moveBy, moveTo, follow\n\n---\n@docs view, getViewSize\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Camera",
-        "comment": "\nA camera represents how to render the virtual world.\nIt's essentially a transformation from virtual game coordinates to pixel coordinates on the screen.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "custom",
-        "comment": "\nThe custom camera allows you to use a function\nthat maps viewport size (in pixel) to game units.\nE.g. here's an implementation of the fixedWidth camera using custom:\n\n    fixedWidth width =\n        custom (\\(w, h) -> (width, width * h / w))\n\n",
-        "type": "(( Float, Float ) -> ( Float, Float )) -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
-      },
-      {
-        "name": "fixedArea",
-        "comment": "\nA camera that always shows the same area.\nThis is useful in a top down game.\nYou probably want to specify the area as a multiplication of width and height:\n\n    fixedArea (16*10) (x, y)\n\nThis means the camera will always show 160 square units of your game.\nIn practice, this means that on a 16:10 viewport, 16 by 10 units of your game will be visible.\nBut on a 4:3 viewport it would show 14.6 by 10.95 units. (sqrt(16*10*4/3)=14.6, sqrt(16*10*3/4)=10.95)\n",
-        "type": "Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
-      },
-      {
-        "name": "fixedHeight",
-        "comment": "\nA camera that always shows `height` units of your game vertically.\nWell suited for a vertical scroller.\n",
-        "type": "Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
-      },
-      {
-        "name": "fixedWidth",
-        "comment": "\nA camera that always shows `width` units of your game horizontally.\nWell suited for a side-scroller.\n",
-        "type": "Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera"
-      },
-      {
-        "name": "follow",
-        "comment": "\nSmoothly follow the given target. Use this in your tick function.\n\n    follow 1.5 dt target camera\n\n",
-        "type": "Float -> Float -> ( Float, Float ) -> Game.TwoD.Camera.Camera -> Game.TwoD.Camera.Camera"
-      },
-      {
-        "name": "getPosition",
-        "comment": "\n",
-        "type": "Game.TwoD.Camera.Camera -> ( Float, Float )"
-      },
-      {
-        "name": "getViewSize",
-        "comment": "\nGiven the screen size, gets the width and height in game units\n",
-        "type": "( Float, Float ) -> Game.TwoD.Camera.Camera -> ( Float, Float )"
-      },
-      {
-        "name": "moveBy",
-        "comment": "\nMove a camera by the given vector *relative* to the camera.\n",
-        "type": "( Float, Float ) -> Game.TwoD.Camera.Camera -> Game.TwoD.Camera.Camera"
-      },
-      {
-        "name": "moveTo",
-        "comment": "\nMove a camera to the given location. In *absolute* coordinates.\n",
-        "type": "( Float, Float ) -> Game.TwoD.Camera.Camera -> Game.TwoD.Camera.Camera"
-      },
-      {
-        "name": "view",
-        "comment": "\nGets the transformation that represents how to transform the camera back to the origin.\nThe result of this is used in the vertex shader.\n",
-        "type": "Game.TwoD.Camera.Camera -> ( Float, Float ) -> Math.Matrix4.Mat4"
       }
     ],
     "generated-with-elm-version": "0.18.0"

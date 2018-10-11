@@ -14,35 +14,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.Extended",
-    "comment": " This is an extended version of the Pcg random generator.\nIt offers k dimensional equidistributed random numbers.\n\nIt has a larger space cost than the normal Pcg version, but it also offers a much higher period\n\n@docs initialSeed, config\n\n@docs int, float\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "config",
-        "comment": " The config for the PCG-extended variant\n",
-        "type": "Random.General.Config Random.Pcg.Extended.Seed"
-      },
-      {
-        "name": "float",
-        "comment": " ",
-        "type": "Float -> Float -> Random.Pcg.Extended.Generator Float"
-      },
-      {
-        "name": "initialSeed",
-        "comment": " Seed this generator with some random data.\nBest get this via a flag from `window.crypto.getRandomValues(..)`\n",
-        "type": "Int -> List Int -> Random.Pcg.Extended.Seed"
-      },
-      {
-        "name": "int",
-        "comment": " ",
-        "type": "Int -> Int -> Random.Pcg.Extended.Generator Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Random.Pcg",
     "comment": " Generate psuedo-random numbers and values, by constructing\n[generators](#Generator) for them. There are a bunch of basic generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier generators\nwith functions like [`list`](#list) and [`map`](#map).\n\nYou run a `Generator` by calling the [`step`](#step) function, which\nalso takes a random [`Seed`](#Seed), and passes back a new seed. You should\nnever use the same seed twice because you will get the same result! If you need\nrandom values over time, you should store the most recent seed in your model.\nAlternatively, use [`generate`](#generate) to obtain random values from the Elm\nruntime.\n\nThis is an implementation of [PCG](http://www.pcg-random.org/) by M. E. O'Neil,\nand is not cryptographically secure.\n\n\n# Getting Started\n\n@docs initialSeed, step, generate\n\n\n# Basic Generators\n\n@docs Generator, bool, int, float, oneIn, sample\n\n\n# Combining Generators\n\n@docs pair, list, maybe, choice, choices, frequency\n\n\n# Custom Generators\n\n@docs constant, map, map2, map3, map4, map5, andMap, andThen, filter\n\n\n# Working With Seeds\n\n@docs Seed, independentSeed, fastForward, toJson, fromJson\n\n\n# Constants\n\n@docs minInt, maxInt\n\n",
     "aliases": [
@@ -207,6 +178,35 @@
         "name": "toJson",
         "comment": " Serialize a seed as a [JSON\nvalue](http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Encode#Value)\nto be sent out a port, stored in local storage, and so on. The seed can be\nrecovered using `fromJson`.\n\nDo not inspect or change the resulting JSON value.\n\n",
         "type": "Random.Pcg.Seed -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.Extended",
+    "comment": " This is an extended version of the Pcg random generator.\nIt offers k dimensional equidistributed random numbers.\n\nIt has a larger space cost than the normal Pcg version, but it also offers a much higher period\n\n@docs initialSeed, config\n\n@docs int, float\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "config",
+        "comment": " The config for the PCG-extended variant\n",
+        "type": "Random.General.Config Random.Pcg.Extended.Seed"
+      },
+      {
+        "name": "float",
+        "comment": " ",
+        "type": "Float -> Float -> Random.Pcg.Extended.Generator Float"
+      },
+      {
+        "name": "initialSeed",
+        "comment": " Seed this generator with some random data.\nBest get this via a flag from `window.crypto.getRandomValues(..)`\n",
+        "type": "Int -> List Int -> Random.Pcg.Extended.Seed"
+      },
+      {
+        "name": "int",
+        "comment": " ",
+        "type": "Int -> Int -> Random.Pcg.Extended.Generator Int"
       }
     ],
     "generated-with-elm-version": "0.18.0"

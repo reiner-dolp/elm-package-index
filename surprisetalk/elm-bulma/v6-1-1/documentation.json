@@ -1531,130 +1531,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bulma.Columns",
-    "comment": " A simple way to build responsive grids.\n\n# Columns\nLearn more about columnar grids in the [official docs](http://bulma.io/documentation/grid/columns/).\n\n    myGrid : Html msg\n    myGrid\n      = columns myColumnsModifiers []\n        [ column myColumnModifiers [] \n          [ text \"First Column\"\n          ]\n        , column myColumnModifiers [] \n          [ text \"Second Column\"\n          ]\n        , column myColumnModifiers [] \n          [ text \"Third Column\"\n          ]\n        ]\n\n@docs ColumnsModifiers, Display, Gap, columnsModifiers\n@docs columns\n\n## Column\n@docs Column, ColumnModifiers, Offset, columnModifiers, narrowColumnModifiers\n@docs column\n\n",
-    "aliases": [
-      {
-        "name": "Column",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "ColumnModifiers",
-        "comment": " The `widths` field requires a `Maybe Width` for each device size.\n`Nothing` will create a narrow column for that device range.\n",
-        "args": [],
-        "type": "{ offset : Bulma.Modifiers.Width , widths : Bulma.Modifiers.Devices (Maybe.Maybe Bulma.Modifiers.Width) }"
-      },
-      {
-        "name": "ColumnsModifiers",
-        "comment": " ",
-        "args": [],
-        "type": "{ multiline : Bool , gap : Bulma.Columns.Gap , display : Bulma.Columns.Display , centered : Bool }"
-      },
-      {
-        "name": "Offset",
-        "comment": " ",
-        "args": [],
-        "type": "Bulma.Modifiers.Width"
-      }
-    ],
-    "types": [
-      {
-        "name": "Display",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "MobileAndBeyond",
-            []
-          ],
-          [
-            "TabletAndBeyond",
-            []
-          ],
-          [
-            "DesktopAndBeyond",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "Gap",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Gap0",
-            []
-          ],
-          [
-            "Gap1",
-            []
-          ],
-          [
-            "Gap2",
-            []
-          ],
-          [
-            "Gap3",
-            []
-          ],
-          [
-            "Gap4",
-            []
-          ],
-          [
-            "Gap5",
-            []
-          ],
-          [
-            "Gap6",
-            []
-          ],
-          [
-            "Gap7",
-            []
-          ],
-          [
-            "Gap8",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "column",
-        "comment": " A column element that is meant to be placed in `columns`.\n\n    myColumn : Html msg\n    myColumn\n      = column myColumnModifiers []\n        [ h1 [] [ text \"Lorem\" ]\n        , h2 [] [ text \"ipsum\" ]\n        , h3 [] [ text \"dolor\" ]\n        , h4 [] [ text \"sit\" ]\n        , h5 [] [ text \"amet\" ]\n        ]\n",
-        "type": "Bulma.Columns.ColumnModifiers -> List (Html.Attribute msg) -> List (Html.Html msg) -> Bulma.Columns.Column msg"
-      },
-      {
-        "name": "columnModifiers",
-        "comment": " Default offsets and widths for an individiual column. \nThe offset defaults to `Auto`. Each device defaults to `Just Auto`. \n",
-        "type": "Bulma.Columns.ColumnModifiers"
-      },
-      {
-        "name": "columns",
-        "comment": " Make a columnar grid! The widths of all your columns should be no greater than twelve.\n",
-        "type": "Bulma.Columns.ColumnsModifiers -> List (Html.Attribute msg) -> List (Bulma.Columns.Column msg) -> Html.Html msg"
-      },
-      {
-        "name": "columnsModifiers",
-        "comment": " Default column attributes.\n\n    myColumnsModifiers : ColumnsModifiers\n    myColumnsModifiers \n      = { multiline          = False\n        , gapless            = False             \n        , display            = TabletAndBeyond\n        , centered           = False\n        }\n    \n    myColumnsModifiers == columnsModifiers\n",
-        "type": "Bulma.Columns.ColumnsModifiers"
-      },
-      {
-        "name": "narrowColumnModifiers",
-        "comment": " Default offsets and widths for an individiual column. \nThe offset defaults to `Auto`. Each device defaults to `Nothing`. \n",
-        "type": "Bulma.Columns.ColumnModifiers"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Bulma.Elements",
     "comment": " \n# Table of Contents\n- [Box](#box)\n- [Button](#button)\n- [Content](#content)\n- [Delete](#delete)\n- [Icon](#icon)\n- [Image](#image)\n- [Notification](#notification)\n- [Progress](#progress)\n- [Table](#table)\n- [Tag](#tag)\n- [Title](#title)\n\n# Box\n@docs Box\n@docs box\n\n# Button\n@docs Button, ButtonModifiers, buttonModifiers\n@docs button, easyButton\n@docs buttons, connectedButtons \n\n# Content\n@docs Content\n@docs content\n\n# Delete\n@docs Delete\n@docs delete, easyDelete\n\n# Icon\n@docs Icon, IconBody\n@docs icon\n\n# Image\n@docs Image, ImageSize, ImageShape \n@docs image, easyImage, easyPlaceholderImage\n\n# Notification\n@docs Notification\n@docs notification, notificationWithDelete\n\n# Progress\n@docs Progress, ProgressModifiers, progressModifiers\n@docs progress, easyProgress\n\n# Table\n@docs Table, TableModifiers, tableModifiers\n@docs table\n\n## Table Partition\n@docs TablePartition\n@docs tableBody, tableHead, tableFoot\n\n### Table Row\n@docs TableRow, IsHighlighted\n@docs tableRow\n\n#### Table Cell\n@docs TableCell\n@docs tableCell, tableCellHead\n\n# Tag\n@docs Tag, TagModifiers, tagModifiers\n@docs tag, easyTag, deleteTag\n@docs roundedTag, easyRoundedTag\n@docs tagWithDelete, easyTagWithDelete, easyRoundedTagWithDelete\n\n## Tags\n@docs tags\n@docs multitag\n\n# Title\n@docs Title, TitleSize\n@docs title, subtitle\n\n## Title Pair\n@docs TitleSpacing \n@docs easyTitleWithSubtitle\n",
     "aliases": [
@@ -2122,6 +1998,130 @@
         "name": "title",
         "comment": "\n    myTitle : Html msg\n    myTitle\n      = title H1 [] \n        [ text \"Hullo\"\n        ]\n",
         "type": "Bulma.Elements.TitleSize -> List (Html.Attribute msg) -> List (Html.Html msg) -> Bulma.Elements.Title msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bulma.Columns",
+    "comment": " A simple way to build responsive grids.\n\n# Columns\nLearn more about columnar grids in the [official docs](http://bulma.io/documentation/grid/columns/).\n\n    myGrid : Html msg\n    myGrid\n      = columns myColumnsModifiers []\n        [ column myColumnModifiers [] \n          [ text \"First Column\"\n          ]\n        , column myColumnModifiers [] \n          [ text \"Second Column\"\n          ]\n        , column myColumnModifiers [] \n          [ text \"Third Column\"\n          ]\n        ]\n\n@docs ColumnsModifiers, Display, Gap, columnsModifiers\n@docs columns\n\n## Column\n@docs Column, ColumnModifiers, Offset, columnModifiers, narrowColumnModifiers\n@docs column\n\n",
+    "aliases": [
+      {
+        "name": "Column",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "ColumnModifiers",
+        "comment": " The `widths` field requires a `Maybe Width` for each device size.\n`Nothing` will create a narrow column for that device range.\n",
+        "args": [],
+        "type": "{ offset : Bulma.Modifiers.Width , widths : Bulma.Modifiers.Devices (Maybe.Maybe Bulma.Modifiers.Width) }"
+      },
+      {
+        "name": "ColumnsModifiers",
+        "comment": " ",
+        "args": [],
+        "type": "{ multiline : Bool , gap : Bulma.Columns.Gap , display : Bulma.Columns.Display , centered : Bool }"
+      },
+      {
+        "name": "Offset",
+        "comment": " ",
+        "args": [],
+        "type": "Bulma.Modifiers.Width"
+      }
+    ],
+    "types": [
+      {
+        "name": "Display",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "MobileAndBeyond",
+            []
+          ],
+          [
+            "TabletAndBeyond",
+            []
+          ],
+          [
+            "DesktopAndBeyond",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "Gap",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Gap0",
+            []
+          ],
+          [
+            "Gap1",
+            []
+          ],
+          [
+            "Gap2",
+            []
+          ],
+          [
+            "Gap3",
+            []
+          ],
+          [
+            "Gap4",
+            []
+          ],
+          [
+            "Gap5",
+            []
+          ],
+          [
+            "Gap6",
+            []
+          ],
+          [
+            "Gap7",
+            []
+          ],
+          [
+            "Gap8",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "column",
+        "comment": " A column element that is meant to be placed in `columns`.\n\n    myColumn : Html msg\n    myColumn\n      = column myColumnModifiers []\n        [ h1 [] [ text \"Lorem\" ]\n        , h2 [] [ text \"ipsum\" ]\n        , h3 [] [ text \"dolor\" ]\n        , h4 [] [ text \"sit\" ]\n        , h5 [] [ text \"amet\" ]\n        ]\n",
+        "type": "Bulma.Columns.ColumnModifiers -> List (Html.Attribute msg) -> List (Html.Html msg) -> Bulma.Columns.Column msg"
+      },
+      {
+        "name": "columnModifiers",
+        "comment": " Default offsets and widths for an individiual column. \nThe offset defaults to `Auto`. Each device defaults to `Just Auto`. \n",
+        "type": "Bulma.Columns.ColumnModifiers"
+      },
+      {
+        "name": "columns",
+        "comment": " Make a columnar grid! The widths of all your columns should be no greater than twelve.\n",
+        "type": "Bulma.Columns.ColumnsModifiers -> List (Html.Attribute msg) -> List (Bulma.Columns.Column msg) -> Html.Html msg"
+      },
+      {
+        "name": "columnsModifiers",
+        "comment": " Default column attributes.\n\n    myColumnsModifiers : ColumnsModifiers\n    myColumnsModifiers \n      = { multiline          = False\n        , gapless            = False             \n        , display            = TabletAndBeyond\n        , centered           = False\n        }\n    \n    myColumnsModifiers == columnsModifiers\n",
+        "type": "Bulma.Columns.ColumnsModifiers"
+      },
+      {
+        "name": "narrowColumnModifiers",
+        "comment": " Default offsets and widths for an individiual column. \nThe offset defaults to `Auto`. Each device defaults to `Nothing`. \n",
+        "type": "Bulma.Columns.ColumnModifiers"
       }
     ],
     "generated-with-elm-version": "0.18.0"

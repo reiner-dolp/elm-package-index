@@ -111,30 +111,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Html.String.Lazy",
-    "comment": "\n\n\n# 🔥 This isn't actually lazy in this library..\n\n.. because we can't keep track of the model without existential types. It just\neagerly evaluates. This set of function is here to serve as a drop-in\nreplacement.\n\n@docs lazy, lazy2, lazy3\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "lazy",
-        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n\n",
-        "type": "(a -> Html.String.Html msg) -> a -> Html.String.Html msg"
-      },
-      {
-        "name": "lazy2",
-        "comment": " Same as `lazy` but checks on two arguments.\n",
-        "type": "(a -> b -> Html.String.Html msg) -> a -> b -> Html.String.Html msg"
-      },
-      {
-        "name": "lazy3",
-        "comment": " Same as `lazy` but checks on three arguments.\n",
-        "type": "(a -> b -> c -> Html.String.Html msg) -> a -> b -> c -> Html.String.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Html.String.Keyed",
     "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n\nWhen you use a keyed node, every child is paired with a string identifier. This\nmakes it possible for the underlying diffing algorithm to reuse nodes more\nefficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs ol, ul\n\n",
     "aliases": [],
@@ -154,6 +130,30 @@
         "name": "ul",
         "comment": " ",
         "type": "List (Html.String.Attribute msg) -> List ( String, Html.String.Html msg ) -> Html.String.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Html.String.Lazy",
+    "comment": "\n\n\n# 🔥 This isn't actually lazy in this library..\n\n.. because we can't keep track of the model without existential types. It just\neagerly evaluates. This set of function is here to serve as a drop-in\nreplacement.\n\n@docs lazy, lazy2, lazy3\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n\n",
+        "type": "(a -> Html.String.Html msg) -> a -> Html.String.Html msg"
+      },
+      {
+        "name": "lazy2",
+        "comment": " Same as `lazy` but checks on two arguments.\n",
+        "type": "(a -> b -> Html.String.Html msg) -> a -> b -> Html.String.Html msg"
+      },
+      {
+        "name": "lazy3",
+        "comment": " Same as `lazy` but checks on three arguments.\n",
+        "type": "(a -> b -> c -> Html.String.Html msg) -> a -> b -> c -> Html.String.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

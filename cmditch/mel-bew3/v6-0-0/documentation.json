@@ -256,6 +256,105 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Eth.Net",
+    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toId, idToInt, idToString, idDecoder\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "NetworkId",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Mainnet",
+            []
+          ],
+          [
+            "Expanse",
+            []
+          ],
+          [
+            "Ropsten",
+            []
+          ],
+          [
+            "Rinkeby",
+            []
+          ],
+          [
+            "RskMain",
+            []
+          ],
+          [
+            "RskTest",
+            []
+          ],
+          [
+            "Kovan",
+            []
+          ],
+          [
+            "ETCMain",
+            []
+          ],
+          [
+            "ETCTest",
+            []
+          ],
+          [
+            "Private",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "clientVersion",
+        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
+      },
+      {
+        "name": "idDecoder",
+        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString idDecoder \"1\"          == Ok Mainnet\n    decodeString idDecoder 3            == Ok Ropsten\n    decodeString idDecoder \"five\"       == Err ...\n\n",
+        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
+      },
+      {
+        "name": "idToInt",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Eth.Net.NetworkId -> Int"
+      },
+      {
+        "name": "idToString",
+        "comment": " Get a NetworkId's name\n",
+        "type": "Eth.Net.NetworkId -> String"
+      },
+      {
+        "name": "listening",
+        "comment": " Returns true if the node is actively listening for network connections.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
+      },
+      {
+        "name": "peerCount",
+        "comment": " Get the number of peers currently connected to the client.\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+      },
+      {
+        "name": "toId",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Int -> Eth.Net.NetworkId"
+      },
+      {
+        "name": "version",
+        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Shh",
     "comment": " Whipser API (Use at your own risk! Under Construction)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
     "aliases": [
@@ -298,6 +397,104 @@
         "name": "whisperIdToString",
         "comment": " ",
         "type": "Shh.WhisperId -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Evm.Decode",
+    "comment": " Decode RPC Responses\n\n\n# Primitives\n\n@docs EvmDecoder, uint, bool, address, string\n\n\n# Bytes\n\n@docs staticBytes, dynamicBytes\n\n\n# Arrays\n\n@docs staticArray, dynamicArray\n\n\n# Special\n\n@docs ipfsHash\n\n\n# Run Decoders\n\n@docs evmDecode, andMap, toElmDecoder, toElmDecoderWithDebug, fromString\n\n\n# Events/Logs\n\n@docs topic, data\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "EvmDecoder",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "address",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder Eth.Types.Address"
+      },
+      {
+        "name": "andMap",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder a -> Evm.Decode.EvmDecoder (a -> b) -> Evm.Decode.EvmDecoder b"
+      },
+      {
+        "name": "bool",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder Bool"
+      },
+      {
+        "name": "data",
+        "comment": " Useful for decoding data withing events/logs.\n",
+        "type": "Int -> Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "dynamicArray",
+        "comment": " Decode Dynamically Sized Arrays\n(dArray address) == address[]\n",
+        "type": "Evm.Decode.EvmDecoder a -> Evm.Decode.EvmDecoder (List a)"
+      },
+      {
+        "name": "dynamicBytes",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder String"
+      },
+      {
+        "name": "evmDecode",
+        "comment": " Similar to Json.Decode.Pipeline.decode\nalso a synonym for Json.Decode.succeed\n",
+        "type": "a -> Evm.Decode.EvmDecoder a"
+      },
+      {
+        "name": "fromString",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder a -> String -> Result.Result String a"
+      },
+      {
+        "name": "ipfsHash",
+        "comment": " Decodes bytes32 into IPFS Hash (assuming use of 32 byte sha256)\nNot IPFS future proof. See <https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes>\n",
+        "type": "Evm.Decode.EvmDecoder Eth.Types.IPFSHash"
+      },
+      {
+        "name": "staticArray",
+        "comment": " Decode Statically Sized Arrays\n(sArray 10 uint) == uint256[10]\n",
+        "type": "Int -> Evm.Decode.EvmDecoder a -> Evm.Decode.EvmDecoder (List a)"
+      },
+      {
+        "name": "staticBytes",
+        "comment": " ",
+        "type": "Int -> Evm.Decode.EvmDecoder String"
+      },
+      {
+        "name": "string",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder String"
+      },
+      {
+        "name": "toElmDecoder",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "toElmDecoderWithDebug",
+        "comment": " ",
+        "type": "String -> Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "topic",
+        "comment": " Useful for decoding data withing events/logs.\n",
+        "type": "Int -> Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "uint",
+        "comment": " ",
+        "type": "Evm.Decode.EvmDecoder BigInt.BigInt"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -566,203 +763,6 @@
         "name": "txHash",
         "comment": " ",
         "type": "Json.Decode.Decoder Eth.Types.TxHash"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Evm.Decode",
-    "comment": " Decode RPC Responses\n\n\n# Primitives\n\n@docs EvmDecoder, uint, bool, address, string\n\n\n# Bytes\n\n@docs staticBytes, dynamicBytes\n\n\n# Arrays\n\n@docs staticArray, dynamicArray\n\n\n# Special\n\n@docs ipfsHash\n\n\n# Run Decoders\n\n@docs evmDecode, andMap, toElmDecoder, toElmDecoderWithDebug, fromString\n\n\n# Events/Logs\n\n@docs topic, data\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "EvmDecoder",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder Eth.Types.Address"
-      },
-      {
-        "name": "andMap",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder a -> Evm.Decode.EvmDecoder (a -> b) -> Evm.Decode.EvmDecoder b"
-      },
-      {
-        "name": "bool",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder Bool"
-      },
-      {
-        "name": "data",
-        "comment": " Useful for decoding data withing events/logs.\n",
-        "type": "Int -> Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "dynamicArray",
-        "comment": " Decode Dynamically Sized Arrays\n(dArray address) == address[]\n",
-        "type": "Evm.Decode.EvmDecoder a -> Evm.Decode.EvmDecoder (List a)"
-      },
-      {
-        "name": "dynamicBytes",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder String"
-      },
-      {
-        "name": "evmDecode",
-        "comment": " Similar to Json.Decode.Pipeline.decode\nalso a synonym for Json.Decode.succeed\n",
-        "type": "a -> Evm.Decode.EvmDecoder a"
-      },
-      {
-        "name": "fromString",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder a -> String -> Result.Result String a"
-      },
-      {
-        "name": "ipfsHash",
-        "comment": " Decodes bytes32 into IPFS Hash (assuming use of 32 byte sha256)\nNot IPFS future proof. See <https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes>\n",
-        "type": "Evm.Decode.EvmDecoder Eth.Types.IPFSHash"
-      },
-      {
-        "name": "staticArray",
-        "comment": " Decode Statically Sized Arrays\n(sArray 10 uint) == uint256[10]\n",
-        "type": "Int -> Evm.Decode.EvmDecoder a -> Evm.Decode.EvmDecoder (List a)"
-      },
-      {
-        "name": "staticBytes",
-        "comment": " ",
-        "type": "Int -> Evm.Decode.EvmDecoder String"
-      },
-      {
-        "name": "string",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder String"
-      },
-      {
-        "name": "toElmDecoder",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "toElmDecoderWithDebug",
-        "comment": " ",
-        "type": "String -> Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "topic",
-        "comment": " Useful for decoding data withing events/logs.\n",
-        "type": "Int -> Evm.Decode.EvmDecoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "uint",
-        "comment": " ",
-        "type": "Evm.Decode.EvmDecoder BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.Net",
-    "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toId, idToInt, idToString, idDecoder\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "NetworkId",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Mainnet",
-            []
-          ],
-          [
-            "Expanse",
-            []
-          ],
-          [
-            "Ropsten",
-            []
-          ],
-          [
-            "Rinkeby",
-            []
-          ],
-          [
-            "RskMain",
-            []
-          ],
-          [
-            "RskTest",
-            []
-          ],
-          [
-            "Kovan",
-            []
-          ],
-          [
-            "ETCMain",
-            []
-          ],
-          [
-            "ETCTest",
-            []
-          ],
-          [
-            "Private",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "clientVersion",
-        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error String"
-      },
-      {
-        "name": "idDecoder",
-        "comment": " Decode a JSON stringy int or JSON int to a NetworkId\n\n    decodeString idDecoder \"1\"          == Ok Mainnet\n    decodeString idDecoder 3            == Ok Ropsten\n    decodeString idDecoder \"five\"       == Err ...\n\n",
-        "type": "Json.Decode.Decoder Eth.Net.NetworkId"
-      },
-      {
-        "name": "idToInt",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Eth.Net.NetworkId -> Int"
-      },
-      {
-        "name": "idToString",
-        "comment": " Get a NetworkId's name\n",
-        "type": "Eth.Net.NetworkId -> String"
-      },
-      {
-        "name": "listening",
-        "comment": " Returns true if the node is actively listening for network connections.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Bool"
-      },
-      {
-        "name": "peerCount",
-        "comment": " Get the number of peers currently connected to the client.\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
-      },
-      {
-        "name": "toId",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Int -> Eth.Net.NetworkId"
-      },
-      {
-        "name": "version",
-        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Eth.Net.NetworkId"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1183,6 +1183,39 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Eth.RPC",
+    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
+    "aliases": [
+      {
+        "name": "RpcRequest",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "encode",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "toHttpBody",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
+      },
+      {
+        "name": "toTask",
+        "comment": " ",
+        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Eth.Units",
     "comment": " Conversions and Helpers\n\n\n# Units\n\n@docs gwei, eth\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
     "aliases": [],
@@ -1264,39 +1297,6 @@
         "name": "toWei",
         "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
         "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.RPC",
-    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
-    "aliases": [
-      {
-        "name": "RpcRequest",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "encode",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "toHttpBody",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
-      },
-      {
-        "name": "toTask",
-        "comment": " ",
-        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

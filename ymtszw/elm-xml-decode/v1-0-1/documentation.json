@@ -1,24 +1,5 @@
 [
   {
-    "name": "Xml.Decode.Extra",
-    "comment": " Xml decoder module sharing the spirit of [`Json.Decode.Extra`][jde].\n\n[jde]: http://package.elm-lang.org/packages/elm-community/json-extra/latest/Json-Decode-Extra\n\nUses [`(|:)`](#|:) infix operator that allows writing decoders in sequential style like so:\n\n    import Xml.Decode exposing (Decoder, succeed, path, single, list, string, int)\n\n    applicativeDecoder : Decoder ( String, List Int )\n    applicativeDecoder =\n        succeed (,)\n            |: path [ \"path\", \"to\", \"string\", \"value\" ] (single string)\n            |: path [ \"path\", \"to\", \"int\", \"values\" ] (list int)\n\n    Xml.Decode.run applicativeDecoder\n        \"\"\"\n        <root>\n            <path>\n                <to>\n                    <string>\n                        <value>SomeString</value>\n                    </string>\n                    <int>\n                        <values>1</values>\n                        <values>2</values>\n                    </int>\n                </to>\n            </path>\n        </root>\n        \"\"\"\n    --> Ok ( \"SomeString\", [ 1, 2 ] )\n\nBenefit of this style is it leverages standard decoders from [`Xml.Decode`](./Xml-Decode),\nso you only have to import [`(|:)`](#|:).\n\nAlso, this style can be considered \"Applicative\" style of sequential application.\n`(|:)` is essentially [Applicative's `(<*>)`][ap].\n\n[ap]: http://hackage.haskell.org/package/base-4.10.0.0/docs/Control-Applicative.html#v:-60--42--62-\n\n\n# Sequential Decoding\n\n@docs andMap, (|:)\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "andMap",
-        "comment": " Equivalent to [`Json.Decode.Extra.andMap`][jdeam], allows writing XML decoders in sequential style.\n\n    import Xml.Decode exposing (succeed, string)\n\n    Xml.Decode.run (andMap string (succeed identity)) \"<root>string</root>\"\n    --> Ok \"string\"\n\n[jdeam]: http://package.elm-lang.org/packages/elm-community/json-extra/latest/Json-Decode-Extra#andMap\n\n",
-        "type": "Xml.Decode.Decoder a -> Xml.Decode.Decoder (a -> b) -> Xml.Decode.Decoder b"
-      },
-      {
-        "name": "|:",
-        "comment": " Equivalent to [`Json.Decode.Extra.(|:)`][jde|:], infix version of [`andMap`](#andMap).\n\n[jde|:]: http://package.elm-lang.org/packages/elm-community/json-extra/latest/Json-Decode-Extra#|:\n\n",
-        "type": "Xml.Decode.Decoder (a -> b) -> Xml.Decode.Decoder a -> Xml.Decode.Decoder b"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Xml.Decode.Pipeline",
     "comment": " Xml decoder module sharing the spirit of [`Json.Decode.Pipeline`][jdp].\n\n[jdp]: http://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest/Json-Decode-Pipeline\n\nLeverages basic `(|>)` operator by [`requiredPath`](#requiredPath),\n[`optionalPath`](#optionalPath) and [`possiblePath`](#possiblePath),\nallowing DSL style decoder composition.\n\n    import Xml.Decode exposing (Decoder, succeed, single, list, string, int)\n\n    pipelineDecoder : Decoder ( String, List Int )\n    pipelineDecoder =\n        succeed (,)\n            |> requiredPath [ \"path\", \"to\", \"string\", \"value\" ] (single string)\n            |> requiredPath [ \"path\", \"to\", \"int\", \"values\" ] (list int)\n\n    Xml.Decode.run pipelineDecoder\n        \"\"\"\n        <root>\n            <path>\n                <to>\n                    <string>\n                        <value>SomeString</value>\n                    </string>\n                    <int>\n                        <values>1</values>\n                        <values>2</values>\n                    </int>\n                </to>\n            </path>\n        </root>\n        \"\"\"\n    --> Ok ( \"SomeString\", [ 1, 2 ] )\n\nBenefit of this style is it uses `Basic.|>`\nso you do not have to import non-standard infix operator.\n\n\n# Pipeline Node Locaters\n\n@docs requiredPath, optionalPath, possiblePath\n\n",
     "aliases": [],
@@ -38,6 +19,25 @@
         "name": "requiredPath",
         "comment": " Decodes value at required XML path.\n",
         "type": "List String -> Xml.Decode.ListDecoder a -> Xml.Decode.Decoder (a -> b) -> Xml.Decode.Decoder b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Xml.Decode.Extra",
+    "comment": " Xml decoder module sharing the spirit of [`Json.Decode.Extra`][jde].\n\n[jde]: http://package.elm-lang.org/packages/elm-community/json-extra/latest/Json-Decode-Extra\n\nUses [`(|:)`](#|:) infix operator that allows writing decoders in sequential style like so:\n\n    import Xml.Decode exposing (Decoder, succeed, path, single, list, string, int)\n\n    applicativeDecoder : Decoder ( String, List Int )\n    applicativeDecoder =\n        succeed (,)\n            |: path [ \"path\", \"to\", \"string\", \"value\" ] (single string)\n            |: path [ \"path\", \"to\", \"int\", \"values\" ] (list int)\n\n    Xml.Decode.run applicativeDecoder\n        \"\"\"\n        <root>\n            <path>\n                <to>\n                    <string>\n                        <value>SomeString</value>\n                    </string>\n                    <int>\n                        <values>1</values>\n                        <values>2</values>\n                    </int>\n                </to>\n            </path>\n        </root>\n        \"\"\"\n    --> Ok ( \"SomeString\", [ 1, 2 ] )\n\nBenefit of this style is it leverages standard decoders from [`Xml.Decode`](./Xml-Decode),\nso you only have to import [`(|:)`](#|:).\n\nAlso, this style can be considered \"Applicative\" style of sequential application.\n`(|:)` is essentially [Applicative's `(<*>)`][ap].\n\n[ap]: http://hackage.haskell.org/package/base-4.10.0.0/docs/Control-Applicative.html#v:-60--42--62-\n\n\n# Sequential Decoding\n\n@docs andMap, (|:)\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andMap",
+        "comment": " Equivalent to [`Json.Decode.Extra.andMap`][jdeam], allows writing XML decoders in sequential style.\n\n    import Xml.Decode exposing (succeed, string)\n\n    Xml.Decode.run (andMap string (succeed identity)) \"<root>string</root>\"\n    --> Ok \"string\"\n\n[jdeam]: http://package.elm-lang.org/packages/elm-community/json-extra/latest/Json-Decode-Extra#andMap\n\n",
+        "type": "Xml.Decode.Decoder a -> Xml.Decode.Decoder (a -> b) -> Xml.Decode.Decoder b"
+      },
+      {
+        "name": "|:",
+        "comment": " Equivalent to [`Json.Decode.Extra.(|:)`][jde|:], infix version of [`andMap`](#andMap).\n\n[jde|:]: http://package.elm-lang.org/packages/elm-community/json-extra/latest/Json-Decode-Extra#|:\n\n",
+        "type": "Xml.Decode.Decoder (a -> b) -> Xml.Decode.Decoder a -> Xml.Decode.Decoder b"
       }
     ],
     "generated-with-elm-version": "0.18.0"

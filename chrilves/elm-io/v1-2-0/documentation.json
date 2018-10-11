@@ -223,35 +223,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "CmdM.Infix",
-    "comment": "Infix notation for `CmdM`\n@docs (<$>), (>>=), (<*>), (<+>)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "<$>",
-        "comment": "Infix notation for *CmdM.map*.",
-        "type": "CmdM.CmdM a -> (a -> b) -> CmdM.CmdM b"
-      },
-      {
-        "name": "<*>",
-        "comment": "Infix notation for *CmdM.ap*.",
-        "type": "CmdM.CmdM (a -> b) -> CmdM.CmdM a -> CmdM.CmdM b"
-      },
-      {
-        "name": "<+>",
-        "comment": "Infix notation for *CmdM.combine*.",
-        "type": "CmdM.CmdM a -> CmdM.CmdM a -> CmdM.CmdM a"
-      },
-      {
-        "name": ">>=",
-        "comment": "Infix notation for *CmdM.bind*.",
-        "type": "CmdM.CmdM a -> (a -> CmdM.CmdM b) -> CmdM.CmdM b"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Select",
     "comment": " Selects are a lot like lenses but in a select\nfrom type *a* to *b*, the *a* part may not exist\nin *b*.\n\n@docs Select, lift, nothing, compose, congruence\n",
     "aliases": [
@@ -300,6 +271,69 @@
         "name": "<°>",
         "comment": "Infix notation for *Lens.compose*.",
         "type": "Lens.Lens a b -> Lens.Lens b c -> Lens.Lens a c"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "CmdM.Infix",
+    "comment": "Infix notation for `CmdM`\n@docs (<$>), (>>=), (<*>), (<+>)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "<$>",
+        "comment": "Infix notation for *CmdM.map*.",
+        "type": "CmdM.CmdM a -> (a -> b) -> CmdM.CmdM b"
+      },
+      {
+        "name": "<*>",
+        "comment": "Infix notation for *CmdM.ap*.",
+        "type": "CmdM.CmdM (a -> b) -> CmdM.CmdM a -> CmdM.CmdM b"
+      },
+      {
+        "name": "<+>",
+        "comment": "Infix notation for *CmdM.combine*.",
+        "type": "CmdM.CmdM a -> CmdM.CmdM a -> CmdM.CmdM a"
+      },
+      {
+        "name": ">>=",
+        "comment": "Infix notation for *CmdM.bind*.",
+        "type": "CmdM.CmdM a -> (a -> CmdM.CmdM b) -> CmdM.CmdM b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lens",
+    "comment": " Imagine the type `a = {name: String, age : Int}`.\nIf you want to access the *age* part of this type\nor modify only the *age* this is simple you would use\n**Elm** syntax like `x.age` or `{x | age = 7 }` to ease\nthe process.\n\nNow imagine that the *a* is much much more complex, like\na record whose fields are also records and so on for 10 levels.\nElm does not have buitin syntax to ease this case. That's\nwhere lenses comes in.\n\nA lens is like zooming on a part of a type, enabling to access\nor modify this part with ease. It is strongly related to Huet's\nzipper.\n\nTake the a lens of type `Lens a b`. It enable to access the *a*\npart of *b* and modify it simply. The benefits of lenses is they\ncompose naturally.\n\n@docs Lens, lift, compose, congruence\n",
+    "aliases": [
+      {
+        "name": "Lens",
+        "comment": " The type of a lens ",
+        "args": [
+          "a",
+          "b"
+        ],
+        "type": "b -> ( a, a -> b )"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "compose",
+        "comment": " Compose two lenses.",
+        "type": "Lens.Lens a b -> Lens.Lens b c -> Lens.Lens a c"
+      },
+      {
+        "name": "congruence",
+        "comment": " If you have a lens from *a* to *b* and a function on *a*\nthen you get a function on *b*.\n",
+        "type": "Lens.Lens a b -> (a -> a) -> b -> b"
+      },
+      {
+        "name": "lift",
+        "comment": " Build a lens from an equivalence between types *a* and *b*.",
+        "type": "(a -> b) -> (b -> a) -> Lens.Lens a b"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -424,40 +458,6 @@
         "name": "vDomProgramWithFlags",
         "comment": "Port of *VirtualDom.programWithFlags* with *CmdM* (also works with *Html*).",
         "type": "{ init : flags -> ( model, CmdM.CmdM msg ) , update : msg -> model -> ( model, CmdM.CmdM msg ) , subscriptions : model -> Platform.Sub.Sub (CmdM.CmdM msg) , view : model -> VirtualDom.Node (CmdM.CmdM msg) } -> CmdM.Program flags model msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lens",
-    "comment": " Imagine the type `a = {name: String, age : Int}`.\nIf you want to access the *age* part of this type\nor modify only the *age* this is simple you would use\n**Elm** syntax like `x.age` or `{x | age = 7 }` to ease\nthe process.\n\nNow imagine that the *a* is much much more complex, like\na record whose fields are also records and so on for 10 levels.\nElm does not have buitin syntax to ease this case. That's\nwhere lenses comes in.\n\nA lens is like zooming on a part of a type, enabling to access\nor modify this part with ease. It is strongly related to Huet's\nzipper.\n\nTake the a lens of type `Lens a b`. It enable to access the *a*\npart of *b* and modify it simply. The benefits of lenses is they\ncompose naturally.\n\n@docs Lens, lift, compose, congruence\n",
-    "aliases": [
-      {
-        "name": "Lens",
-        "comment": " The type of a lens ",
-        "args": [
-          "a",
-          "b"
-        ],
-        "type": "b -> ( a, a -> b )"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "compose",
-        "comment": " Compose two lenses.",
-        "type": "Lens.Lens a b -> Lens.Lens b c -> Lens.Lens a c"
-      },
-      {
-        "name": "congruence",
-        "comment": " If you have a lens from *a* to *b* and a function on *a*\nthen you get a function on *b*.\n",
-        "type": "Lens.Lens a b -> (a -> a) -> b -> b"
-      },
-      {
-        "name": "lift",
-        "comment": " Build a lens from an equivalence between types *a* and *b*.",
-        "type": "(a -> b) -> (b -> a) -> Lens.Lens a b"
       }
     ],
     "generated-with-elm-version": "0.18.0"

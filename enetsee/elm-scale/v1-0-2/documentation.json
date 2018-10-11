@@ -28,6 +28,46 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Scale.Ordinal.Band",
+    "comment": "\n@docs Band, Config, band, customBand , defaultConfig\n",
+    "aliases": [
+      {
+        "name": "Band",
+        "comment": " ",
+        "args": [
+          "a",
+          "domain"
+        ],
+        "type": "{ a | domain : List domain, range : ( Float, Float ), config : Maybe.Maybe Scale.Ordinal.Band.Config }"
+      },
+      {
+        "name": "Config",
+        "comment": " ",
+        "args": [],
+        "type": "{ paddingInner : Float , paddingOuter : Float , align : Float , round : Bool }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "band",
+        "comment": " Construct an ordinal scale from an ordinal, comparable, domain\n    and a continuous range. Based on :\n    https://github.com/vega/vega-scale/blob/master/src/scaleBand.js\n",
+        "type": "Scale.Ordinal.Band.Band a comparableDomain -> Scale.Ordinal.Ordinal comparableDomain Float"
+      },
+      {
+        "name": "customBand",
+        "comment": " Construct an ordinal scale from an ordinal, non-comparable, domain\n    and a continuous range. Based on :\n    https://github.com/vega/vega-scale/blob/master/src/scaleBand.js\n",
+        "type": "Scale.Ordinal.Band.Band a domain -> Scale.Ordinal.Ordinal domain Float"
+      },
+      {
+        "name": "defaultConfig",
+        "comment": " ",
+        "type": "Scale.Ordinal.Band.Config"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Scale.Sequential.RGBBasis",
     "comment": "\n@docs RGBBasis , rgbBasis\n",
     "aliases": [
@@ -153,41 +193,51 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Ordinal.Band",
-    "comment": "\n@docs Band, Config, band, customBand , defaultConfig\n",
+    "name": "Scale.Ordinal.Custom",
+    "comment": "\n@docs Custom, custom\n",
     "aliases": [
       {
-        "name": "Band",
+        "name": "Custom",
         "comment": " ",
         "args": [
           "a",
-          "domain"
+          "domain",
+          "range"
         ],
-        "type": "{ a | domain : List domain, range : ( Float, Float ), config : Maybe.Maybe Scale.Ordinal.Band.Config }"
-      },
-      {
-        "name": "Config",
-        "comment": " ",
-        "args": [],
-        "type": "{ paddingInner : Float , paddingOuter : Float , align : Float , round : Bool }"
+        "type": "{ a | domain : List domain, range : List range }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "band",
-        "comment": " Construct an ordinal scale from an ordinal, comparable, domain\n    and a continuous range. Based on :\n    https://github.com/vega/vega-scale/blob/master/src/scaleBand.js\n",
-        "type": "Scale.Ordinal.Band.Band a comparableDomain -> Scale.Ordinal.Ordinal comparableDomain Float"
-      },
-      {
-        "name": "customBand",
-        "comment": " Construct an ordinal scale from an ordinal, non-comparable, domain\n    and a continuous range. Based on :\n    https://github.com/vega/vega-scale/blob/master/src/scaleBand.js\n",
-        "type": "Scale.Ordinal.Band.Band a domain -> Scale.Ordinal.Ordinal domain Float"
-      },
-      {
-        "name": "defaultConfig",
+        "name": "custom",
         "comment": " ",
-        "type": "Scale.Ordinal.Band.Config"
+        "type": "Scale.Ordinal.Custom.Custom a domain range -> Scale.Ordinal.Ordinal domain range"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Ordinal.Comparable",
+    "comment": "\n@docs Comparable, comparable\n",
+    "aliases": [
+      {
+        "name": "Comparable",
+        "comment": " ",
+        "args": [
+          "a",
+          "comparableDomain",
+          "range"
+        ],
+        "type": "{ a | domain : List comparableDomain, range : List range }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "comparable",
+        "comment": " ",
+        "type": "Scale.Ordinal.Comparable.Comparable a comparableDomain range -> Scale.Ordinal.Ordinal comparableDomain range"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -266,84 +316,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Ordinal.Custom",
-    "comment": "\n@docs Custom, custom\n",
-    "aliases": [
-      {
-        "name": "Custom",
-        "comment": " ",
-        "args": [
-          "a",
-          "domain",
-          "range"
-        ],
-        "type": "{ a | domain : List domain, range : List range }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "custom",
-        "comment": " ",
-        "type": "Scale.Ordinal.Custom.Custom a domain range -> Scale.Ordinal.Ordinal domain range"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Scale.Ordinal.Comparable",
-    "comment": "\n@docs Comparable, comparable\n",
-    "aliases": [
-      {
-        "name": "Comparable",
-        "comment": " ",
-        "args": [
-          "a",
-          "comparableDomain",
-          "range"
-        ],
-        "type": "{ a | domain : List comparableDomain, range : List range }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "comparable",
-        "comment": " ",
-        "type": "Scale.Ordinal.Comparable.Comparable a comparableDomain range -> Scale.Ordinal.Ordinal comparableDomain range"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Scale.Config",
-    "comment": " Scale Configuration\n\n@docs OutsideDomain\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "OutsideDomain",
-        "comment": " Options for the behavior of a `Scale` when the value it is applied to lies\noutside of the defined domain\n",
-        "args": [],
-        "cases": [
-          [
-            "Clamp",
-            []
-          ],
-          [
-            "Discard",
-            []
-          ],
-          [
-            "Allow",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Scale.Ordinal",
     "comment": "\n@docs Ordinal, ordinal, scale, ticks\n",
     "aliases": [],
@@ -375,6 +347,34 @@
         "type": "Scale.Ordinal.Ordinal domain range -> a -> List domain"
       }
     ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Config",
+    "comment": " Scale Configuration\n\n@docs OutsideDomain\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "OutsideDomain",
+        "comment": " Options for the behavior of a `Scale` when the value it is applied to lies\noutside of the defined domain\n",
+        "args": [],
+        "cases": [
+          [
+            "Clamp",
+            []
+          ],
+          [
+            "Discard",
+            []
+          ],
+          [
+            "Allow",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   }
 ]

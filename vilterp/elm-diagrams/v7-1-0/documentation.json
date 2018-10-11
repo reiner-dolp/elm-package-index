@@ -48,84 +48,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Diagrams.Interact",
-    "comment": " An abstraction for making diagrams which change as a function of the mouse.\n\nAttach `ActionSet`s (see `Diagrams.Actions`) to diagrams with `Core.tagWithActions`;\nthen use `interactFold` or `update` to process mouse interaction. Mouse state (what \nis being clicked on, etc) is wrapped up inside an `InteractionState` value.\n\n`updateModel` can be used to push in updates from external sources.\n\nLook at GraphEditor for an example. (TODO: better docs / tutorial; explore using\nMailboxes to push out updates)\n\n# Function Types\n@docs RenderFunc, UpdateFunc\n\n# Interaction\n@docs InteractionState, MouseState, initInteractState\n@docs initMouseState, interactFold, update, updateModel\n@docs processMouseEvent\n\n",
-    "aliases": [
-      {
-        "name": "InteractionState",
-        "comment": "",
-        "args": [
-          "m",
-          "t",
-          "a"
-        ],
-        "type": "{ mouseState : Diagrams.Interact.MouseState t a , diagram : Diagrams.Type.Diagram t a , modelState : m , renderFunc : Diagrams.Interact.RenderFunc m t a , updateFunc : Diagrams.Interact.UpdateFunc m a }"
-      },
-      {
-        "name": "MouseState",
-        "comment": "",
-        "args": [
-          "t",
-          "a"
-        ],
-        "type": "{ isDown : Bool , overPickedTags : List (Diagrams.Interact.PickedTag t a) , overPathsOnMouseDown : Maybe.Maybe (List (List t)) }"
-      },
-      {
-        "name": "RenderFunc",
-        "comment": "",
-        "args": [
-          "m",
-          "t",
-          "a"
-        ],
-        "type": "m -> Diagrams.Type.Diagram t a"
-      },
-      {
-        "name": "UpdateFunc",
-        "comment": "",
-        "args": [
-          "m",
-          "a"
-        ],
-        "type": "a -> m -> m"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "initInteractState",
-        "comment": "",
-        "type": "Diagrams.Interact.UpdateFunc m a -> Diagrams.Interact.RenderFunc m t a -> m -> Diagrams.Interact.InteractionState m t a"
-      },
-      {
-        "name": "initMouseState",
-        "comment": "",
-        "type": "Diagrams.Interact.MouseState t a"
-      },
-      {
-        "name": "interactFold",
-        "comment": " One top-level interface to this module. Given\n- how to update the state (type `m`) given an action (type `a`),\n- how to render a diagram given the state,\n- and how to compute the location of the collage on screen from the window dimensions,\nReturn a signal of diagrams.\n\nSince it returns a signal, you should only use it if this is the top-level interaction of your app; i.e.\nyou aren't making a component that's nestable inside others as in the Elm Architecture. To make a component,\nuse `update` to build an update function.\n",
-        "type": "Diagrams.Interact.UpdateFunc m a -> Diagrams.Interact.RenderFunc m t a -> Diagrams.Wiring.CollageLocFunc -> m -> Signal.Signal (Diagrams.Type.Diagram t a)"
-      },
-      {
-        "name": "processMouseEvent",
-        "comment": " Given diagram with mouse state (`MouseDiagram`), mouse event, and dimensions of collage, return\nnew `MouseDiagram` with list of actions triggered by this mouse event. ",
-        "type": "Diagrams.Type.Diagram t a -> Diagrams.Interact.MouseState t a -> Diagrams.Wiring.PrimMouseEvent -> ( Diagrams.Interact.MouseState t a, List a )"
-      },
-      {
-        "name": "update",
-        "comment": " Function to update the interaction state, given an event (probably from `Diagrams.Wiring`'s `makeUpdateStream`)\n-- the other top-level interface. ",
-        "type": "( Diagrams.Wiring.CollageLocation, Diagrams.Wiring.PrimMouseEvent ) -> Diagrams.Interact.InteractionState m t a -> Diagrams.Interact.InteractionState m t a"
-      },
-      {
-        "name": "updateModel",
-        "comment": "",
-        "type": "(m -> m) -> Diagrams.Interact.InteractionState m t a -> Diagrams.Interact.InteractionState m t a"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Diagrams.Align",
     "comment": "\n# Relative Positioning\n@docs beside, above, atop, hcat, vcat, zcat\n\n# Moving the origin\n@docs alignLeft, alignRight, alignTop, alignBottom, alignCenter, hAlign, vAlign\n\n# Aligning lists of diagrams\n@docs HAlign, VAlign, hcatA, vcatA\n",
     "aliases": [],
@@ -241,6 +163,113 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Diagrams.Interact",
+    "comment": " An abstraction for making diagrams which change as a function of the mouse.\n\nAttach `ActionSet`s (see `Diagrams.Actions`) to diagrams with `Core.tagWithActions`;\nthen use `interactFold` or `update` to process mouse interaction. Mouse state (what \nis being clicked on, etc) is wrapped up inside an `InteractionState` value.\n\n`updateModel` can be used to push in updates from external sources.\n\nLook at GraphEditor for an example. (TODO: better docs / tutorial; explore using\nMailboxes to push out updates)\n\n# Function Types\n@docs RenderFunc, UpdateFunc\n\n# Interaction\n@docs InteractionState, MouseState, initInteractState\n@docs initMouseState, interactFold, update, updateModel\n@docs processMouseEvent\n\n",
+    "aliases": [
+      {
+        "name": "InteractionState",
+        "comment": "",
+        "args": [
+          "m",
+          "t",
+          "a"
+        ],
+        "type": "{ mouseState : Diagrams.Interact.MouseState t a , diagram : Diagrams.Type.Diagram t a , modelState : m , renderFunc : Diagrams.Interact.RenderFunc m t a , updateFunc : Diagrams.Interact.UpdateFunc m a }"
+      },
+      {
+        "name": "MouseState",
+        "comment": "",
+        "args": [
+          "t",
+          "a"
+        ],
+        "type": "{ isDown : Bool , overPickedTags : List (Diagrams.Interact.PickedTag t a) , overPathsOnMouseDown : Maybe.Maybe (List (List t)) }"
+      },
+      {
+        "name": "RenderFunc",
+        "comment": "",
+        "args": [
+          "m",
+          "t",
+          "a"
+        ],
+        "type": "m -> Diagrams.Type.Diagram t a"
+      },
+      {
+        "name": "UpdateFunc",
+        "comment": "",
+        "args": [
+          "m",
+          "a"
+        ],
+        "type": "a -> m -> m"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "initInteractState",
+        "comment": "",
+        "type": "Diagrams.Interact.UpdateFunc m a -> Diagrams.Interact.RenderFunc m t a -> m -> Diagrams.Interact.InteractionState m t a"
+      },
+      {
+        "name": "initMouseState",
+        "comment": "",
+        "type": "Diagrams.Interact.MouseState t a"
+      },
+      {
+        "name": "interactFold",
+        "comment": " One top-level interface to this module. Given\n- how to update the state (type `m`) given an action (type `a`),\n- how to render a diagram given the state,\n- and how to compute the location of the collage on screen from the window dimensions,\nReturn a signal of diagrams.\n\nSince it returns a signal, you should only use it if this is the top-level interaction of your app; i.e.\nyou aren't making a component that's nestable inside others as in the Elm Architecture. To make a component,\nuse `update` to build an update function.\n",
+        "type": "Diagrams.Interact.UpdateFunc m a -> Diagrams.Interact.RenderFunc m t a -> Diagrams.Wiring.CollageLocFunc -> m -> Signal.Signal (Diagrams.Type.Diagram t a)"
+      },
+      {
+        "name": "processMouseEvent",
+        "comment": " Given diagram with mouse state (`MouseDiagram`), mouse event, and dimensions of collage, return\nnew `MouseDiagram` with list of actions triggered by this mouse event. ",
+        "type": "Diagrams.Type.Diagram t a -> Diagrams.Interact.MouseState t a -> Diagrams.Wiring.PrimMouseEvent -> ( Diagrams.Interact.MouseState t a, List a )"
+      },
+      {
+        "name": "update",
+        "comment": " Function to update the interaction state, given an event (probably from `Diagrams.Wiring`'s `makeUpdateStream`)\n-- the other top-level interface. ",
+        "type": "( Diagrams.Wiring.CollageLocation, Diagrams.Wiring.PrimMouseEvent ) -> Diagrams.Interact.InteractionState m t a -> Diagrams.Interact.InteractionState m t a"
+      },
+      {
+        "name": "updateModel",
+        "comment": "",
+        "type": "(m -> m) -> Diagrams.Interact.InteractionState m t a -> Diagrams.Interact.InteractionState m t a"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Diagrams.Envelope",
+    "comment": "\n@docs envelope, width, height, boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "boundingBox",
+        "comment": " Box formed by taking the envelope in all directions. ",
+        "type": "Diagrams.Type.Diagram t a -> Diagrams.Geom.BBox"
+      },
+      {
+        "name": "envelope",
+        "comment": " Given a diagram and a Direction, return the distance in that direction from the origin\nto the closest line perpendicular to that direction which doesn't intersect the content of\nthe diagram. See the [Haskell diagrams docs][hd] for a visual explanation.\n\n [hd]: http://projects.haskell.org/diagrams/doc/manual.html#envelopes-and-local-vector-spaces\n",
+        "type": "Diagrams.Geom.Direction -> Diagrams.Type.Diagram t a -> Float"
+      },
+      {
+        "name": "height",
+        "comment": "",
+        "type": "Diagrams.Type.Diagram t a -> Float"
+      },
+      {
+        "name": "width",
+        "comment": "",
+        "type": "Diagrams.Type.Diagram t a -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Diagrams.Query",
     "comment": " Retreive information about laid-out diagrams.\n\n# Pick\n@docs pick, PickTree\n\n# Get Coordinates\n@docs getCoords, TagPath\n",
     "aliases": [
@@ -296,6 +325,20 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Diagrams.Bezier",
+    "comment": " Generate bezier paths as lists of points.\nAdapted from [this gist](https://gist.github.com/irrwitz/968b9762819974c92c9f).\n\n@docs bezier\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bezier",
+        "comment": " Given four points a, cp1, cp2, b, return path diagram which is a bezier\ncurve from a to b, using cp1 and cp2 as control points. ",
+        "type": "Diagrams.Geom.Point -> Diagrams.Geom.Point -> Diagrams.Geom.Point -> Diagrams.Geom.Point -> Graphics.Collage.LineStyle -> Diagrams.Type.Diagram t a"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Diagrams.FullWindow",
     "comment": " Utilities for when you just want to get a diagram on the whole screen.\n\nSee `Diagrams.Wiring` docs for more info on `CollageLocation`s.\n\n@docs fullWindowCollageLocFunc, fullWindowCollageLoc, fullWindowUpdates, fullWindowMain, fullWindowView\n",
     "aliases": [],
@@ -325,49 +368,6 @@
         "name": "fullWindowView",
         "comment": "",
         "type": "( Int, Int ) -> Diagrams.Type.Diagram t a -> Graphics.Element.Element"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Diagrams.Envelope",
-    "comment": "\n@docs envelope, width, height, boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "boundingBox",
-        "comment": " Box formed by taking the envelope in all directions. ",
-        "type": "Diagrams.Type.Diagram t a -> Diagrams.Geom.BBox"
-      },
-      {
-        "name": "envelope",
-        "comment": " Given a diagram and a Direction, return the distance in that direction from the origin\nto the closest line perpendicular to that direction which doesn't intersect the content of\nthe diagram. See the [Haskell diagrams docs][hd] for a visual explanation.\n\n [hd]: http://projects.haskell.org/diagrams/doc/manual.html#envelopes-and-local-vector-spaces\n",
-        "type": "Diagrams.Geom.Direction -> Diagrams.Type.Diagram t a -> Float"
-      },
-      {
-        "name": "height",
-        "comment": "",
-        "type": "Diagrams.Type.Diagram t a -> Float"
-      },
-      {
-        "name": "width",
-        "comment": "",
-        "type": "Diagrams.Type.Diagram t a -> Float"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Diagrams.Bezier",
-    "comment": " Generate bezier paths as lists of points.\nAdapted from [this gist](https://gist.github.com/irrwitz/968b9762819974c92c9f).\n\n@docs bezier\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bezier",
-        "comment": " Given four points a, cp1, cp2, b, return path diagram which is a bezier\ncurve from a to b, using cp1 and cp2 as control points. ",
-        "type": "Diagrams.Geom.Point -> Diagrams.Geom.Point -> Diagrams.Geom.Point -> Diagrams.Geom.Point -> Graphics.Collage.LineStyle -> Diagrams.Type.Diagram t a"
       }
     ],
     "generated-with-elm-version": "0.16.0"

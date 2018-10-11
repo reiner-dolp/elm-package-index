@@ -1,5 +1,21 @@
 [
   {
+    "name": "Update.Extra.Infix",
+    "comment": " Infix versions of functions in Update.Extra\n\n@docs (:>)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": ":>",
+        "comment": " An infix version of Update.Extra.andThen.  Easy to remember because the\ncolon in the symbol represents piping two things through the chain (model and commands!).\n",
+        "type": "( model, Platform.Cmd.Cmd msg ) -> (model -> ( model, Platform.Cmd.Cmd msg )) -> ( model, Platform.Cmd.Cmd msg )",
+        "associativity": "left",
+        "precedence": 0
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Update.Extra",
     "comment": " Convenience functions for working with updates in Elm\n\n@docs andThen\n@docs filter\n@docs updateModel\n@docs addCmd\n@docs mapCmd\n@docs sequence\n@docs identity\n",
     "aliases": [],
@@ -39,22 +55,6 @@
         "name": "updateModel",
         "comment": " Allows you to update the model in an update pipeline.\n\nFor example\n\n    update msg model = model ! []\n      |> updateModel \\model -> { model | a = 1 }\n      |> updateModel \\model -> { model | b = 2 }\n",
         "type": "(model -> model) -> ( model, Platform.Cmd.Cmd msg ) -> ( model, Platform.Cmd.Cmd msg )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Update.Extra.Infix",
-    "comment": " Infix versions of functions in Update.Extra\n\n@docs (:>)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": ":>",
-        "comment": " An infix version of Update.Extra.andThen.  Easy to remember because the\ncolon in the symbol represents piping two things through the chain (model and commands!).\n",
-        "type": "( model, Platform.Cmd.Cmd msg ) -> (model -> ( model, Platform.Cmd.Cmd msg )) -> ( model, Platform.Cmd.Cmd msg )",
-        "associativity": "left",
-        "precedence": 0
       }
     ],
     "generated-with-elm-version": "0.18.0"
