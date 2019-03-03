@@ -422,110 +422,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Matrix2",
-    "comment": "\n@docs Float2x2, Mat2\n\n## General operations\n\n@docs map, map2, foldl, foldr\n\n## Math\n\n@docs identity, fromRows, fromColumns\n\n@docs add, sub, mul, elementWiseMul, mulByConst, transpose, mulVector\n\n## Other\n\n@docs almostEqual, maxNorm\n\n",
-    "aliases": [
-      {
-        "name": "Float2x2",
-        "comment": " ",
-        "args": [],
-        "type": "Matrix2.Mat2 Float"
-      },
-      {
-        "name": "Mat2",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "( Vector2.Vec2 a, Vector2.Vec2 a )"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "add",
-        "comment": " Matrix addition.\n\n    |a b|   |e f|   |a+e b+f|\n    |c d| + |g h| = |c+g d+h|\n",
-        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
-      },
-      {
-        "name": "almostEqual",
-        "comment": "\nThis checks whether `|A - B| < eps`.\n\n    almostEqual eps a b\n\nThis is useful for testing, see the tests of this library for how this makes testing easy.\n\nSince any definition of a norm can be used for this, it uses the simple `maxNorm`\n",
-        "type": "Float -> Matrix2.Float2x2 -> Matrix2.Float2x2 -> Bool"
-      },
-      {
-        "name": "elementWiseMul",
-        "comment": " Element wise multiplication. Also called Hadamard product, Schur product or entrywise product.\n\n    |a b|    |e f|   |ae bf|\n    |c d| .* |g h| = |cg dh|\n",
-        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
-      },
-      {
-        "name": "foldl",
-        "comment": " ",
-        "type": "(elem -> acc -> acc) -> acc -> Matrix2.Mat2 elem -> acc"
-      },
-      {
-        "name": "foldr",
-        "comment": " ",
-        "type": "(elem -> acc -> acc) -> acc -> Matrix2.Mat2 elem -> acc"
-      },
-      {
-        "name": "fromColumns",
-        "comment": " Construct a matrix from columns.\n\n    fromColumns (1,2) (3,4) == ((1,3),(2,4))\n",
-        "type": "Vector2.Float2 -> Vector2.Float2 -> Matrix2.Float2x2"
-      },
-      {
-        "name": "fromRows",
-        "comment": " Construct a matrix from rows.\n\n    fromRows (1,2) (3,4) == ((1,2),(3,4))\n\n",
-        "type": "Vector2.Float2 -> Vector2.Float2 -> Matrix2.Float2x2"
-      },
-      {
-        "name": "identity",
-        "comment": " The identity matrix.\n\n    I = |1 0|\n        |0 1|\n\n    I*A = A = A*I\n",
-        "type": "Matrix2.Float2x2"
-      },
-      {
-        "name": "map",
-        "comment": "\n    elementsSquared = map (\\x -> x^2)\n",
-        "type": "(a -> b) -> Matrix2.Mat2 a -> Matrix2.Mat2 b"
-      },
-      {
-        "name": "map2",
-        "comment": "\n    elementWiseDivision = map2 (/)\n",
-        "type": "(a -> b -> c) -> Matrix2.Mat2 a -> Matrix2.Mat2 b -> Matrix2.Mat2 c"
-      },
-      {
-        "name": "maxNorm",
-        "comment": " The max norm. This is the biggest element of a matrix.\nUseful for fuzz testing.\n",
-        "type": "Matrix2.Float2x2 -> Float"
-      },
-      {
-        "name": "mul",
-        "comment": " Matrix multiplication.\n\n`A*B`\n",
-        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
-      },
-      {
-        "name": "mulByConst",
-        "comment": " `a*A`\nMultiply a matrix by a constant\n",
-        "type": "Float -> Matrix2.Float2x2 -> Matrix2.Float2x2"
-      },
-      {
-        "name": "mulVector",
-        "comment": " Matrix-vector multiplication.\n\n          |a b| |x|   |ax+by|\n    A*v = |c d|*|y| = |cx+dy|\n",
-        "type": "Matrix2.Float2x2 -> Vector2.Float2 -> Vector2.Float2"
-      },
-      {
-        "name": "sub",
-        "comment": " Matrix subtraction.\n\n`A - B`\n",
-        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
-      },
-      {
-        "name": "transpose",
-        "comment": " The transpose.\nFlips a matrix along it's diagonal.\n\n    |a b|T  |a c|\n    |c d| = |b d|\n\n",
-        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Vector3",
     "comment": "\n@docs Float3, Vec3\n\n@docs fromV2, setX, setY, setZ, getX, getY, getZ, map, map2, foldl, foldr\n\n@docs add, sub, negate, scale, divideBy\n\n@docs dot, cross, length, lengthSquared, normalize, directionFromTo, distance, distanceSquared, angle, project, reject\n",
     "aliases": [
@@ -680,6 +576,110 @@
         "name": "sub",
         "comment": " `v - w`\n\n    sub (4,6,1) (3,-1,-4) == (1,7,5)\n",
         "type": "Vector3.Float3 -> Vector3.Float3 -> Vector3.Float3"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Matrix2",
+    "comment": "\n@docs Float2x2, Mat2\n\n## General operations\n\n@docs map, map2, foldl, foldr\n\n## Math\n\n@docs identity, fromRows, fromColumns\n\n@docs add, sub, mul, elementWiseMul, mulByConst, transpose, mulVector\n\n## Other\n\n@docs almostEqual, maxNorm\n\n",
+    "aliases": [
+      {
+        "name": "Float2x2",
+        "comment": " ",
+        "args": [],
+        "type": "Matrix2.Mat2 Float"
+      },
+      {
+        "name": "Mat2",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "( Vector2.Vec2 a, Vector2.Vec2 a )"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "add",
+        "comment": " Matrix addition.\n\n    |a b|   |e f|   |a+e b+f|\n    |c d| + |g h| = |c+g d+h|\n",
+        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
+      },
+      {
+        "name": "almostEqual",
+        "comment": "\nThis checks whether `|A - B| < eps`.\n\n    almostEqual eps a b\n\nThis is useful for testing, see the tests of this library for how this makes testing easy.\n\nSince any definition of a norm can be used for this, it uses the simple `maxNorm`\n",
+        "type": "Float -> Matrix2.Float2x2 -> Matrix2.Float2x2 -> Bool"
+      },
+      {
+        "name": "elementWiseMul",
+        "comment": " Element wise multiplication. Also called Hadamard product, Schur product or entrywise product.\n\n    |a b|    |e f|   |ae bf|\n    |c d| .* |g h| = |cg dh|\n",
+        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
+      },
+      {
+        "name": "foldl",
+        "comment": " ",
+        "type": "(elem -> acc -> acc) -> acc -> Matrix2.Mat2 elem -> acc"
+      },
+      {
+        "name": "foldr",
+        "comment": " ",
+        "type": "(elem -> acc -> acc) -> acc -> Matrix2.Mat2 elem -> acc"
+      },
+      {
+        "name": "fromColumns",
+        "comment": " Construct a matrix from columns.\n\n    fromColumns (1,2) (3,4) == ((1,3),(2,4))\n",
+        "type": "Vector2.Float2 -> Vector2.Float2 -> Matrix2.Float2x2"
+      },
+      {
+        "name": "fromRows",
+        "comment": " Construct a matrix from rows.\n\n    fromRows (1,2) (3,4) == ((1,2),(3,4))\n\n",
+        "type": "Vector2.Float2 -> Vector2.Float2 -> Matrix2.Float2x2"
+      },
+      {
+        "name": "identity",
+        "comment": " The identity matrix.\n\n    I = |1 0|\n        |0 1|\n\n    I*A = A = A*I\n",
+        "type": "Matrix2.Float2x2"
+      },
+      {
+        "name": "map",
+        "comment": "\n    elementsSquared = map (\\x -> x^2)\n",
+        "type": "(a -> b) -> Matrix2.Mat2 a -> Matrix2.Mat2 b"
+      },
+      {
+        "name": "map2",
+        "comment": "\n    elementWiseDivision = map2 (/)\n",
+        "type": "(a -> b -> c) -> Matrix2.Mat2 a -> Matrix2.Mat2 b -> Matrix2.Mat2 c"
+      },
+      {
+        "name": "maxNorm",
+        "comment": " The max norm. This is the biggest element of a matrix.\nUseful for fuzz testing.\n",
+        "type": "Matrix2.Float2x2 -> Float"
+      },
+      {
+        "name": "mul",
+        "comment": " Matrix multiplication.\n\n`A*B`\n",
+        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
+      },
+      {
+        "name": "mulByConst",
+        "comment": " `a*A`\nMultiply a matrix by a constant\n",
+        "type": "Float -> Matrix2.Float2x2 -> Matrix2.Float2x2"
+      },
+      {
+        "name": "mulVector",
+        "comment": " Matrix-vector multiplication.\n\n          |a b| |x|   |ax+by|\n    A*v = |c d|*|y| = |cx+dy|\n",
+        "type": "Matrix2.Float2x2 -> Vector2.Float2 -> Vector2.Float2"
+      },
+      {
+        "name": "sub",
+        "comment": " Matrix subtraction.\n\n`A - B`\n",
+        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2 -> Matrix2.Float2x2"
+      },
+      {
+        "name": "transpose",
+        "comment": " The transpose.\nFlips a matrix along it's diagonal.\n\n    |a b|T  |a c|\n    |c d| = |b d|\n\n",
+        "type": "Matrix2.Float2x2 -> Matrix2.Float2x2"
       }
     ],
     "generated-with-elm-version": "0.18.0"

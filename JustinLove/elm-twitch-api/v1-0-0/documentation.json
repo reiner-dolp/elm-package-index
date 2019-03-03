@@ -182,30 +182,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Twitch.Helix",
-    "comment": " Helpers for sending Http requests to the Twitch Helix (\"new Twitch API\") endpoints.\n\n# Send a Request\n@docs send\n\n# Header Helpers\nUseful if you need to make your own Http call with additional headers.\n@docs twitchHeaders, authHeaders\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "authHeaders",
-        "comment": " Creates the oauth header, given an oauth token.\n",
-        "type": "Maybe.Maybe String -> List Http.Header"
-      },
-      {
-        "name": "send",
-        "comment": " Send a basic request to the Twitch Helix (\"new Twitch API\") endpoints. Lightweight wrapper around Http, so you can go back to basics if something else is needed. Auth is an token received from an oauth loop.\n\n    fetchUserByNameUrl : String -> String\n    fetchUserByNameUrl login =\n      \"https://api.twitch.tv/helix/users?login=\" ++ login\n\n    fetchUserByName : String -> Cmd Msg\n    fetchUserByName login =\n      Twitch.Helix.send <|\n        { clientId = TwitchId.clientId\n        , auth = Nothing\n        , decoder = Twitch.Helix.Decode.users\n        , tagger = User\n        , url = (fetchUserByNameUrl login)\n        }\n",
-        "type": "{ clientId : String , auth : Maybe.Maybe String , decoder : Json.Decode.Decoder a , tagger : Result.Result Http.Error a -> msg , url : String } -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "twitchHeaders",
-        "comment": " Creates the client-id and outh headers.\n\n    Twitch.Helix.twitchHeaders clientId auth\n",
-        "type": "String -> Maybe.Maybe String -> List Http.Header"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Twitch.Tmi.Decode",
     "comment": " Decoders for the TMI API at `tmi.twitch.tv/hosts` Note that this is an unofficial API, requests should be made with Http.send rather than Twitch.Helix.send. Furthermore, TMI does not provide cross-origin headers, so a cross-origin proxy may be required.\n\n\n@docs Host, hosts, sampleHost\n",
     "aliases": [
@@ -253,6 +229,30 @@
         "name": "sampleClip",
         "comment": " Sample data\n",
         "type": "String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Twitch.Helix",
+    "comment": " Helpers for sending Http requests to the Twitch Helix (\"new Twitch API\") endpoints.\n\n# Send a Request\n@docs send\n\n# Header Helpers\nUseful if you need to make your own Http call with additional headers.\n@docs twitchHeaders, authHeaders\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "authHeaders",
+        "comment": " Creates the oauth header, given an oauth token.\n",
+        "type": "Maybe.Maybe String -> List Http.Header"
+      },
+      {
+        "name": "send",
+        "comment": " Send a basic request to the Twitch Helix (\"new Twitch API\") endpoints. Lightweight wrapper around Http, so you can go back to basics if something else is needed. Auth is an token received from an oauth loop.\n\n    fetchUserByNameUrl : String -> String\n    fetchUserByNameUrl login =\n      \"https://api.twitch.tv/helix/users?login=\" ++ login\n\n    fetchUserByName : String -> Cmd Msg\n    fetchUserByName login =\n      Twitch.Helix.send <|\n        { clientId = TwitchId.clientId\n        , auth = Nothing\n        , decoder = Twitch.Helix.Decode.users\n        , tagger = User\n        , url = (fetchUserByNameUrl login)\n        }\n",
+        "type": "{ clientId : String , auth : Maybe.Maybe String , decoder : Json.Decode.Decoder a , tagger : Result.Result Http.Error a -> msg , url : String } -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "twitchHeaders",
+        "comment": " Creates the client-id and outh headers.\n\n    Twitch.Helix.twitchHeaders clientId auth\n",
+        "type": "String -> Maybe.Maybe String -> List Http.Header"
       }
     ],
     "generated-with-elm-version": "0.18.0"

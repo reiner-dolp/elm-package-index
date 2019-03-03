@@ -1,5 +1,64 @@
 [
   {
+    "name": "Check.Test",
+    "comment": " Submodule providing integration with elm-test.\n\n# Generate unit tests\n@docs test, assert\n\n# Multi-arity\n@docs test2, test3, test4, test5, assert2, assert3, assert4, assert5\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "assert",
+        "comment": " Assert that a given predicate always yields true for a given investigator.\nAnalogous to `claimTrue`.\n",
+        "type": "String -> (a -> Bool) -> Check.Investigator.Investigator a -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "assert2",
+        "comment": "",
+        "type": "String -> (a -> b -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "assert3",
+        "comment": "",
+        "type": "String -> (a -> b -> c -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "assert4",
+        "comment": "",
+        "type": "String -> (a -> b -> c -> d -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "assert5",
+        "comment": "",
+        "type": "String -> (a -> b -> c -> d -> e -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Check.Investigator.Investigator e -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "test",
+        "comment": " Analogous to `claim`. Will generate a given number of unit tests for given\nactual and expected statements. If a unit tests fails, `test` will also generate\nan additional test representing a minimal input using shrinking.\n",
+        "type": "String -> (a -> b) -> (a -> b) -> Check.Investigator.Investigator a -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "test2",
+        "comment": "",
+        "type": "String -> (a -> b -> c) -> (a -> b -> c) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "test3",
+        "comment": "",
+        "type": "String -> (a -> b -> c -> d) -> (a -> b -> c -> d) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "test4",
+        "comment": "",
+        "type": "String -> (a -> b -> c -> d -> e) -> (a -> b -> c -> d -> e) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Int -> Random.Seed -> ElmTest.Test"
+      },
+      {
+        "name": "test5",
+        "comment": "",
+        "type": "String -> (a -> b -> c -> d -> e -> f) -> (a -> b -> c -> d -> e -> f) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Check.Investigator.Investigator e -> Int -> Random.Seed -> ElmTest.Test"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Check",
     "comment": " Property Based Testing module in Elm.\n\n# Make a claim\n@docs claim, claimTrue, claimFalse\n\n# Check a claim\n@docs quickCheck, check\n\n# Group claims into a suite\n@docs suite\n\n# Types\n@docs Claim, Evidence, UnitEvidence, SuccessOptions, FailureOptions\n\n# Multi-arity claims\n@docs claim2, claim2True, claim2False, claim3, claim3True, claim3False, claim4, claim4True, claim4False, claim5, claim5True, claim5False\n\n# DSL\n\n`elm-check` provides a shorthand DSL for authoring claims. The goal of this\nDSL is to help improve readability and encode intent in the phrasing of your\ntest code.\n\nWith the DSL, claims read as either:\n\n1. claim - (string) - that - (actual) - is - (expected) - for - (investigator)\n2. claim - (string) - true - (predicate) - for - (investigator)\n3. claim - (string) - false - (predicate) - for - (investigator)\n\n\n**Example:**\n\n    claim_multiplication_by_one_noop =\n      claim\n        \"Multiplying by one does not change a number\"\n      `true`\n        (\\n -> n * 1 == n)\n      `for`\n        int\n\n    claim_reverse_append =\n      claim\n        \"Append then reverse is equivalent to reverse then append\"\n      `that`\n        (\\(l1, l2) -> List.reverse (l1 ++ l2))\n      `is`\n        (\\(l1, l2) -> List.reverse l1 ++ List.reverse l2)\n      `for`\n        tuple (list int, list int)\n\n\nIt is important to note that, if you wish to deal with multi-arity functions\nusing this DSL, you must deal explicitly in tuples.\n\n*Warning: The DSL follows a very strict format. Deviating from this format will\nyield potentially unintelligible type errors. While not all of the type errors\nare strictly necessary, they are there to ensure that the test is authored in\na uniform way. As a result, the following functions have horrendous type\nsignatures and you are better off ignoring them.*\n\n@docs that, is, for, true, false\n\n",
     "aliases": [
@@ -180,65 +239,6 @@
         "name": "true",
         "comment": "",
         "type": "((a -> Bool) -> (a -> Bool) -> Check.Investigator.Investigator a -> Check.Claim) -> (a -> Bool) -> Check.Investigator.Investigator a -> Check.Claim"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Check.Test",
-    "comment": " Submodule providing integration with elm-test.\n\n# Generate unit tests\n@docs test, assert\n\n# Multi-arity\n@docs test2, test3, test4, test5, assert2, assert3, assert4, assert5\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "assert",
-        "comment": " Assert that a given predicate always yields true for a given investigator.\nAnalogous to `claimTrue`.\n",
-        "type": "String -> (a -> Bool) -> Check.Investigator.Investigator a -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "assert2",
-        "comment": "",
-        "type": "String -> (a -> b -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "assert3",
-        "comment": "",
-        "type": "String -> (a -> b -> c -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "assert4",
-        "comment": "",
-        "type": "String -> (a -> b -> c -> d -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "assert5",
-        "comment": "",
-        "type": "String -> (a -> b -> c -> d -> e -> Bool) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Check.Investigator.Investigator e -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "test",
-        "comment": " Analogous to `claim`. Will generate a given number of unit tests for given\nactual and expected statements. If a unit tests fails, `test` will also generate\nan additional test representing a minimal input using shrinking.\n",
-        "type": "String -> (a -> b) -> (a -> b) -> Check.Investigator.Investigator a -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "test2",
-        "comment": "",
-        "type": "String -> (a -> b -> c) -> (a -> b -> c) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "test3",
-        "comment": "",
-        "type": "String -> (a -> b -> c -> d) -> (a -> b -> c -> d) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "test4",
-        "comment": "",
-        "type": "String -> (a -> b -> c -> d -> e) -> (a -> b -> c -> d -> e) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Int -> Random.Seed -> ElmTest.Test"
-      },
-      {
-        "name": "test5",
-        "comment": "",
-        "type": "String -> (a -> b -> c -> d -> e -> f) -> (a -> b -> c -> d -> e -> f) -> Check.Investigator.Investigator a -> Check.Investigator.Investigator b -> Check.Investigator.Investigator c -> Check.Investigator.Investigator d -> Check.Investigator.Investigator e -> Int -> Random.Seed -> ElmTest.Test"
       }
     ],
     "generated-with-elm-version": "0.16.0"

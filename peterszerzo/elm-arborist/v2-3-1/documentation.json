@@ -157,6 +157,47 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Arborist.Context",
+    "comment": " This module defines the node view context, an object passed to the [NodeView](#NodeView) function responsible for rendering individual nodes within a tree's layout. It holds information such as the node's parent, siblings, hover state etc.\n\nEffective tree editors need to give the users feedback on whether the node they're about to create is valid, or if it creates conflicts with its surrounding nodes based on your domain's rules. Imagine modeling a conversation as a tree structure, where a set of sibling nodes answer a question represented in the common parent. Would you allow two nodes representing the answer 'no'? By having access to the context when defining how nodes should look, you can render these error messages flexibly to the user.\n\nThe best part: at no point will you have to think about traversing a recursive tree structure. Just work with a simple summary record handed down to you in context.\n\n@docs Context, NodeState\n\n",
+    "aliases": [
+      {
+        "name": "Context",
+        "comment": " View context. Contains the following fields:\n\n  - `parent`: the item at the parent, not available for the root node\n  - `siblings`: a list of all direct siblings\n  - `children`: a list of all direct children\n  - `state`: node [state](#NodeState)\n\n",
+        "args": [
+          "item"
+        ],
+        "type": "{ parent : Maybe.Maybe item , siblings : List item , children : List item , state : Arborist.Context.NodeState }"
+      }
+    ],
+    "types": [
+      {
+        "name": "NodeState",
+        "comment": " The state of a node at a given time. May be normal one of the following:\n\n  - `Normal`: node in rest state\n  - `Hovered`: a hovered over node\n  - `Active`: an activated node. Overrides hover\n  - `DropTarget`: indicates that a swap or insert of the dragged subtree will take place at this node upon release\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Normal",
+            []
+          ],
+          [
+            "Active",
+            []
+          ],
+          [
+            "Hovered",
+            []
+          ],
+          [
+            "DropTarget",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Arborist.Tree",
     "comment": " A tiny tiny tree module. Only a few utility methods are provided here - after all, if you want to manupilate the tree, you should probably do so using the interface 🤓.\n\n\n# Type\n\n@docs Tree\n\n\n# Json\n\n@docs decoder, encoder\n\n\n# Methods\n\n@docs depth, flatten, map\n\n",
     "aliases": [],
@@ -209,47 +250,6 @@
         "type": "(a -> b) -> Arborist.Tree.Tree a -> Arborist.Tree.Tree b"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Arborist.Context",
-    "comment": " This module defines the node view context, an object passed to the [NodeView](#NodeView) function responsible for rendering individual nodes within a tree's layout. It holds information such as the node's parent, siblings, hover state etc.\n\nEffective tree editors need to give the users feedback on whether the node they're about to create is valid, or if it creates conflicts with its surrounding nodes based on your domain's rules. Imagine modeling a conversation as a tree structure, where a set of sibling nodes answer a question represented in the common parent. Would you allow two nodes representing the answer 'no'? By having access to the context when defining how nodes should look, you can render these error messages flexibly to the user.\n\nThe best part: at no point will you have to think about traversing a recursive tree structure. Just work with a simple summary record handed down to you in context.\n\n@docs Context, NodeState\n\n",
-    "aliases": [
-      {
-        "name": "Context",
-        "comment": " View context. Contains the following fields:\n\n  - `parent`: the item at the parent, not available for the root node\n  - `siblings`: a list of all direct siblings\n  - `children`: a list of all direct children\n  - `state`: node [state](#NodeState)\n\n",
-        "args": [
-          "item"
-        ],
-        "type": "{ parent : Maybe.Maybe item , siblings : List item , children : List item , state : Arborist.Context.NodeState }"
-      }
-    ],
-    "types": [
-      {
-        "name": "NodeState",
-        "comment": " The state of a node at a given time. May be normal one of the following:\n\n  - `Normal`: node in rest state\n  - `Hovered`: a hovered over node\n  - `Active`: an activated node. Overrides hover\n  - `DropTarget`: indicates that a swap or insert of the dragged subtree will take place at this node upon release\n\n",
-        "args": [],
-        "cases": [
-          [
-            "Normal",
-            []
-          ],
-          [
-            "Active",
-            []
-          ],
-          [
-            "Hovered",
-            []
-          ],
-          [
-            "DropTarget",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
     "generated-with-elm-version": "0.18.0"
   }
 ]

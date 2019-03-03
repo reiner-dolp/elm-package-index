@@ -164,6 +164,79 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Element.Keyed",
+    "comment": " Notes from the `Html.Keyed` on how keyed works:\n\n    A keyed node helps optimize cases where children are getting added, moved, removed, etc. Common examples include:\n\n        - The user can delete items from a list.\n        - The user can create new items in a list.\n        - You can sort a list based on name or date or whatever.\n\n    When you use a keyed node, every child is paired with a string identifier. This makes it possible for the underlying diffing algorithm to reuse nodes more efficiently.\n\nThis means if a key is changed between renders, then the diffing step will be skipped and the node will be forced to rerender.\n\n@docs el, column, row\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "column",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
+      },
+      {
+        "name": "el",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> ( String, Element.Element msg ) -> Element.Element msg"
+      },
+      {
+        "name": "row",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Region",
+    "comment": "\n\n\n# Region Annotations\n\nThis module is meant to make accessibility easy! They're sign posts that accessibility software like screen readers can use to navigate your app.\n\nAll you have to do is add them to elements in your app where you see fit.\n\nHere's an example of annotating your navigation area:\n\n    import Element.Area as Area\n\n    myNavigation =\n        Element.row [ Area.navigation ]\n            [-- ..your navigation links\n            ]\n\n@docs mainContent, navigation, heading, aside, footer\n\n@docs description\n\n@docs announce, announceUrgently\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "announce",
+        "comment": " Screen readers will announce when changes to this element are made.\n",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "announceUrgently",
+        "comment": " Screen readers will announce changes to this element and potentially interrupt any other announcement.\n",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "aside",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "description",
+        "comment": " ",
+        "type": "String -> Element.Attribute msg"
+      },
+      {
+        "name": "footer",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "heading",
+        "comment": " This will mark an element as `h1`, `h2`, etc where possible.\n\nThough it's also smart enough to not conflict with existing nodes.\n\nSo, this code\n\n    link [ Area.heading 1 ]\n        { url = \"http://fruits.com\"\n        , label = text \"Best site ever\"\n        }\n\nwill generate\n\n    <a href=\"http://fruits.com\">\n        <h1>Best site ever</h1>\n    </a>\n\n",
+        "type": "Int -> Element.Attribute msg"
+      },
+      {
+        "name": "mainContent",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "navigation",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Element.Events",
     "comment": "\n\n\n# Mouse Events\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseMove\n\n\n# Focus Events\n\n@docs onFocus, onLoseFocus\n\n",
     "aliases": [],
@@ -218,6 +291,80 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Element.Border",
+    "comment": " Border Properties\n\n@docs color\n\n\n# Border Widths\n\n@docs width, widthXY, widthEach\n\n\n# Border Styles\n\n@docs solid, dashed, dotted\n\n\n# Rounded Corners\n\n@docs rounded, roundEach\n\n\n# Shadows\n\n@docs glow, innerGlow, shadow, innerShadow\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "color",
+        "comment": " ",
+        "type": "Color.Color -> Element.Attr decorative msg"
+      },
+      {
+        "name": "dashed",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "dotted",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "glow",
+        "comment": " A simple glow by specifying the color and size.\n",
+        "type": "Color.Color -> Float -> Element.Attr decorative msg"
+      },
+      {
+        "name": "innerGlow",
+        "comment": " ",
+        "type": "Color.Color -> Float -> Element.Attr decorative msg"
+      },
+      {
+        "name": "innerShadow",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Element.Attr decorative msg"
+      },
+      {
+        "name": "roundEach",
+        "comment": " ",
+        "type": "{ topLeft : Int , topRight : Int , bottomLeft : Int , bottomRight : Int } -> Element.Attribute msg"
+      },
+      {
+        "name": "rounded",
+        "comment": " Round all corners.\n",
+        "type": "Int -> Element.Attribute msg"
+      },
+      {
+        "name": "shadow",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ) , blur : Float , size : Float , color : Color.Color } -> Element.Attr decorative msg"
+      },
+      {
+        "name": "solid",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "width",
+        "comment": " ",
+        "type": "Int -> Element.Attribute msg"
+      },
+      {
+        "name": "widthEach",
+        "comment": " ",
+        "type": "{ bottom : Int, left : Int, right : Int, top : Int } -> Element.Attribute msg"
+      },
+      {
+        "name": "widthXY",
+        "comment": " Set horizontal and vertical borders.\n",
+        "type": "Int -> Int -> Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Element.Background",
     "comment": "\n\n@docs color, gradient\n\n\n# Images\n\n@docs image, uncropped, tiled, tiledX, tiledY\n\n**Note** if you want more control over a background image than is provided here, you should try just using a normal `Element.image` with something like `Element.behind`.\n\n",
     "aliases": [],
@@ -257,30 +404,6 @@
         "name": "uncropped",
         "comment": " A centered background image that keeps it's natural propostions, but scales to fit the space.\n",
         "type": "String -> Element.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Element.Keyed",
-    "comment": " Notes from the `Html.Keyed` on how keyed works:\n\n    A keyed node helps optimize cases where children are getting added, moved, removed, etc. Common examples include:\n\n        - The user can delete items from a list.\n        - The user can create new items in a list.\n        - You can sort a list based on name or date or whatever.\n\n    When you use a keyed node, every child is paired with a string identifier. This makes it possible for the underlying diffing algorithm to reuse nodes more efficiently.\n\nThis means if a key is changed between renders, then the diffing step will be skipped and the node will be forced to rerender.\n\n@docs el, column, row\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "column",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
-      },
-      {
-        "name": "el",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> ( String, Element.Element msg ) -> Element.Element msg"
-      },
-      {
-        "name": "row",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -442,129 +565,6 @@
         "name": "wordSpacing",
         "comment": " In `px`.\n",
         "type": "Float -> Element.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Element.Border",
-    "comment": " Border Properties\n\n@docs color\n\n\n# Border Widths\n\n@docs width, widthXY, widthEach\n\n\n# Border Styles\n\n@docs solid, dashed, dotted\n\n\n# Rounded Corners\n\n@docs rounded, roundEach\n\n\n# Shadows\n\n@docs glow, innerGlow, shadow, innerShadow\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "color",
-        "comment": " ",
-        "type": "Color.Color -> Element.Attr decorative msg"
-      },
-      {
-        "name": "dashed",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "dotted",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "glow",
-        "comment": " A simple glow by specifying the color and size.\n",
-        "type": "Color.Color -> Float -> Element.Attr decorative msg"
-      },
-      {
-        "name": "innerGlow",
-        "comment": " ",
-        "type": "Color.Color -> Float -> Element.Attr decorative msg"
-      },
-      {
-        "name": "innerShadow",
-        "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Element.Attr decorative msg"
-      },
-      {
-        "name": "roundEach",
-        "comment": " ",
-        "type": "{ topLeft : Int , topRight : Int , bottomLeft : Int , bottomRight : Int } -> Element.Attribute msg"
-      },
-      {
-        "name": "rounded",
-        "comment": " Round all corners.\n",
-        "type": "Int -> Element.Attribute msg"
-      },
-      {
-        "name": "shadow",
-        "comment": " ",
-        "type": "{ offset : ( Float, Float ) , blur : Float , size : Float , color : Color.Color } -> Element.Attr decorative msg"
-      },
-      {
-        "name": "solid",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "width",
-        "comment": " ",
-        "type": "Int -> Element.Attribute msg"
-      },
-      {
-        "name": "widthEach",
-        "comment": " ",
-        "type": "{ bottom : Int, left : Int, right : Int, top : Int } -> Element.Attribute msg"
-      },
-      {
-        "name": "widthXY",
-        "comment": " Set horizontal and vertical borders.\n",
-        "type": "Int -> Int -> Element.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Element.Region",
-    "comment": "\n\n\n# Region Annotations\n\nThis module is meant to make accessibility easy! They're sign posts that accessibility software like screen readers can use to navigate your app.\n\nAll you have to do is add them to elements in your app where you see fit.\n\nHere's an example of annotating your navigation area:\n\n    import Element.Area as Area\n\n    myNavigation =\n        Element.row [ Area.navigation ]\n            [-- ..your navigation links\n            ]\n\n@docs mainContent, navigation, heading, aside, footer\n\n@docs description\n\n@docs announce, announceUrgently\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "announce",
-        "comment": " Screen readers will announce when changes to this element are made.\n",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "announceUrgently",
-        "comment": " Screen readers will announce changes to this element and potentially interrupt any other announcement.\n",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "aside",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "description",
-        "comment": " ",
-        "type": "String -> Element.Attribute msg"
-      },
-      {
-        "name": "footer",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "heading",
-        "comment": " This will mark an element as `h1`, `h2`, etc where possible.\n\nThough it's also smart enough to not conflict with existing nodes.\n\nSo, this code\n\n    link [ Area.heading 1 ]\n        { url = \"http://fruits.com\"\n        , label = text \"Best site ever\"\n        }\n\nwill generate\n\n    <a href=\"http://fruits.com\">\n        <h1>Best site ever</h1>\n    </a>\n\n",
-        "type": "Int -> Element.Attribute msg"
-      },
-      {
-        "name": "mainContent",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "navigation",
-        "comment": " ",
-        "type": "Element.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

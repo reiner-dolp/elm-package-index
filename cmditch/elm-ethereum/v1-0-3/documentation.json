@@ -580,55 +580,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Decode",
-    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Address"
-      },
-      {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
-      },
-      {
-        "name": "blockHead",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
-      },
-      {
-        "name": "event",
-        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Hex"
-      },
-      {
-        "name": "ipfsHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
-      },
-      {
-        "name": "tx",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Tx"
-      },
-      {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.TxHash"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Net",
     "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
     "aliases": [],
@@ -826,6 +777,55 @@
         "name": "uint",
         "comment": " ",
         "type": "Abi.Decode.AbiDecoder BigInt.BigInt"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Decode",
+    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "address",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Address"
+      },
+      {
+        "name": "blockHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
+      },
+      {
+        "name": "blockHead",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
+      },
+      {
+        "name": "event",
+        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
+      },
+      {
+        "name": "hex",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Hex"
+      },
+      {
+        "name": "ipfsHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
+      },
+      {
+        "name": "tx",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Tx"
+      },
+      {
+        "name": "txHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.TxHash"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1112,6 +1112,125 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Eth.RPC",
+    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
+    "aliases": [
+      {
+        "name": "RpcRequest",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "encode",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "toHttpBody",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
+      },
+      {
+        "name": "toTask",
+        "comment": " ",
+        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Units",
+    "comment": " Conversions and Helpers\n\n\n# Concise Units\n\nUseful helpers for concise value declarations.\n\n    txParams : Send\n    txParams =\n        { to = Just myContract\n        , from = Nothing\n        , gas = Nothing\n        , gasPrice = Just (gwei 3)\n        , value = Just (eth 3)\n        , data = Just data\n        , nonce = Nothing\n        }\n\n@docs gwei, eth\n\n\n# Precise Units\n\nHelpers for dealing with floats.\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "EthUnit",
+        "comment": " Eth Unit\nUseful for displaying to, and taking user input from, the UI\n",
+        "args": [],
+        "cases": [
+          [
+            "Wei",
+            []
+          ],
+          [
+            "Kwei",
+            []
+          ],
+          [
+            "Mwei",
+            []
+          ],
+          [
+            "Gwei",
+            []
+          ],
+          [
+            "Microether",
+            []
+          ],
+          [
+            "Milliether",
+            []
+          ],
+          [
+            "Ether",
+            []
+          ],
+          [
+            "Kether",
+            []
+          ],
+          [
+            "Mether",
+            []
+          ],
+          [
+            "Gether",
+            []
+          ],
+          [
+            "Tether",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "bigIntToWei",
+        "comment": " Convert a given BigInt EthUnit to it's Wei equivalent\n",
+        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> BigInt.BigInt"
+      },
+      {
+        "name": "eth",
+        "comment": " ",
+        "type": "Int -> BigInt.BigInt"
+      },
+      {
+        "name": "fromWei",
+        "comment": " Convert stringy Wei to a given EthUnit\n\n    fromWei Gwei (BigInt.fromInt 123456789) == \"0.123456789\"\n    fromWei Ether (BigInt.fromInt 123456789) == \"0.000000000123456789\"\n\n**Note** Do not pass anything larger than MAX_SAFE_INTEGER into BigInt.fromInt\nMAX_SAFE_INTEGER == 9007199254740991\n\n",
+        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> String"
+      },
+      {
+        "name": "gwei",
+        "comment": " ",
+        "type": "Int -> BigInt.BigInt"
+      },
+      {
+        "name": "toWei",
+        "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
+        "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Eth.Types",
     "comment": " Types\n\n\n# Simple\n\n@docs Address, TxHash, BlockHash, Hex\n\n\n# Complex\n\n@docs Call, Send, Tx, TxReceipt, BlockId, Block, Uncle, BlockHead, Log, Event, LogFilter, SyncStatus\n\n\n# Misc\n\n@docs HttpProvider, WebsocketProvider, FilterId, IPFSHash\n\n",
     "aliases": [
@@ -1264,125 +1383,6 @@
       }
     ],
     "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.Units",
-    "comment": " Conversions and Helpers\n\n\n# Concise Units\n\nUseful helpers for concise value declarations.\n\n    txParams : Send\n    txParams =\n        { to = Just myContract\n        , from = Nothing\n        , gas = Nothing\n        , gasPrice = Just (gwei 3)\n        , value = Just (eth 3)\n        , data = Just data\n        , nonce = Nothing\n        }\n\n@docs gwei, eth\n\n\n# Precise Units\n\nHelpers for dealing with floats.\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "EthUnit",
-        "comment": " Eth Unit\nUseful for displaying to, and taking user input from, the UI\n",
-        "args": [],
-        "cases": [
-          [
-            "Wei",
-            []
-          ],
-          [
-            "Kwei",
-            []
-          ],
-          [
-            "Mwei",
-            []
-          ],
-          [
-            "Gwei",
-            []
-          ],
-          [
-            "Microether",
-            []
-          ],
-          [
-            "Milliether",
-            []
-          ],
-          [
-            "Ether",
-            []
-          ],
-          [
-            "Kether",
-            []
-          ],
-          [
-            "Mether",
-            []
-          ],
-          [
-            "Gether",
-            []
-          ],
-          [
-            "Tether",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "bigIntToWei",
-        "comment": " Convert a given BigInt EthUnit to it's Wei equivalent\n",
-        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> BigInt.BigInt"
-      },
-      {
-        "name": "eth",
-        "comment": " ",
-        "type": "Int -> BigInt.BigInt"
-      },
-      {
-        "name": "fromWei",
-        "comment": " Convert stringy Wei to a given EthUnit\n\n    fromWei Gwei (BigInt.fromInt 123456789) == \"0.123456789\"\n    fromWei Ether (BigInt.fromInt 123456789) == \"0.000000000123456789\"\n\n**Note** Do not pass anything larger than MAX_SAFE_INTEGER into BigInt.fromInt\nMAX_SAFE_INTEGER == 9007199254740991\n\n",
-        "type": "Eth.Units.EthUnit -> BigInt.BigInt -> String"
-      },
-      {
-        "name": "gwei",
-        "comment": " ",
-        "type": "Int -> BigInt.BigInt"
-      },
-      {
-        "name": "toWei",
-        "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
-        "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.RPC",
-    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
-    "aliases": [
-      {
-        "name": "RpcRequest",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "encode",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "toHttpBody",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
-      },
-      {
-        "name": "toTask",
-        "comment": " ",
-        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
-      }
-    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]

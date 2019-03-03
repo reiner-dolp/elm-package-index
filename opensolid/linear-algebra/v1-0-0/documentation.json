@@ -43,6 +43,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.LinearAlgebra.Frame3d",
+    "comment": " Conversion functions for `Frame3d`.\n\n@docs toMat4\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toMat4",
+        "comment": " Convert a `Frame3d` to a `Mat4`. The resulting matrix can be thought of in\na couple of ways:\n\n  - It is the transformation matrix that takes the global XYZ frame and\n    transforms it to the given frame\n  - It is the transformation matrix from local coordinates in the given frame\n    to global coordinates\n\nThe first bullet implies that something like\n\n    Frame3d.xyz\n        |> Frame3d.translateBy displacement\n        |> Frame3d.rotateAround axis angle\n        |> Frame3d.mirrorAcross plane\n        |> Frame3d.toMat4\n\ngives you a transformation matrix that is equivalent to applying the given\ndisplacement, then the given rotation, then the given mirror. The second bullet\nmeans that, for example,\n\n    Point3d.placeIn frame\n\nis equivalent to\n\n    Point3d.transformBy (Frame3d.toMat4 frame)\n\nand\n\n    Point3d.relativeTo frame\n\nis equivalent to\n\n    Point3d.transformBy (Matrix4.inverseOrthonormal (Frame3d.toMat4 frame))\n\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> Math.Matrix4.Mat4"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.LinearAlgebra.Point3d",
     "comment": " Conversion and transformation functions for `Point3d`.\n\n@docs toVec3, fromVec3, transformBy\n\n",
     "aliases": [],
@@ -86,20 +100,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.LinearAlgebra.Direction3d",
-    "comment": " Conversion functions for `Direction3d`.\n\n@docs toVec3\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toVec3",
-        "comment": " Convert a `Direction3d` to a `Vec3`.\n\n    Direction3d.toVec3 Direction3d.y\n    --> Vector3.vec3 0 1 0\n\n",
-        "type": "OpenSolid.Geometry.Types.Direction3d -> Math.Vector3.Vec3"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.LinearAlgebra.Direction2d",
     "comment": " Conversion functions for `Direction2d`.\n\n@docs toVec2\n\n",
     "aliases": [],
@@ -114,15 +114,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.LinearAlgebra.Frame3d",
-    "comment": " Conversion functions for `Frame3d`.\n\n@docs toMat4\n\n",
+    "name": "OpenSolid.LinearAlgebra.Direction3d",
+    "comment": " Conversion functions for `Direction3d`.\n\n@docs toVec3\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "toMat4",
-        "comment": " Convert a `Frame3d` to a `Mat4`. The resulting matrix can be thought of in\na couple of ways:\n\n  - It is the transformation matrix that takes the global XYZ frame and\n    transforms it to the given frame\n  - It is the transformation matrix from local coordinates in the given frame\n    to global coordinates\n\nThe first bullet implies that something like\n\n    Frame3d.xyz\n        |> Frame3d.translateBy displacement\n        |> Frame3d.rotateAround axis angle\n        |> Frame3d.mirrorAcross plane\n        |> Frame3d.toMat4\n\ngives you a transformation matrix that is equivalent to applying the given\ndisplacement, then the given rotation, then the given mirror. The second bullet\nmeans that, for example,\n\n    Point3d.placeIn frame\n\nis equivalent to\n\n    Point3d.transformBy (Frame3d.toMat4 frame)\n\nand\n\n    Point3d.relativeTo frame\n\nis equivalent to\n\n    Point3d.transformBy (Matrix4.inverseOrthonormal (Frame3d.toMat4 frame))\n\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> Math.Matrix4.Mat4"
+        "name": "toVec3",
+        "comment": " Convert a `Direction3d` to a `Vec3`.\n\n    Direction3d.toVec3 Direction3d.y\n    --> Vector3.vec3 0 1 0\n\n",
+        "type": "OpenSolid.Geometry.Types.Direction3d -> Math.Vector3.Vec3"
       }
     ],
     "generated-with-elm-version": "0.18.0"

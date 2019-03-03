@@ -69,88 +69,112 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "AFrame.Extra.Physics",
-    "comment": " Components for A-Frame physics integration.\n\n# Primitives\n@docs grid\n\n# Primitive attributes\n@docs dynamicBody, staticBody\n\n# Camera attributes\n@docs kinematicBody\n\n",
+    "name": "AFrame.Primitives.Light",
+    "comment": " Light primitive.\n\n# Primitives\n@docs light\n\n# Attributes\n@docs type_, intensity\n\n# Types\n@docs Light\n\n",
     "aliases": [],
-    "types": [],
-    "values": [
+    "types": [
       {
-        "name": "dynamicBody",
-        "comment": " A freely-moving object.\n    Dynamic bodies have mass, collide with other objects,\n    bounce or slow during collisions, and fall if gravity is enabled.\n\n    box [ dynamicBody ] []\n",
-        "type": "Html.Attribute msg"
-      },
-      {
-        "name": "grid",
-        "comment": " Floor.\n\n    grid [ staticBody ] []\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "kinematicBody",
-        "comment": " Player-controlled body, which can move but is not affected (directly)\n    by the physics engine. Intended for use on the player's model.\n    Gravity and collisions are simulated,\n    without giving full control to the physics engine.\n\n    box [ kinematicBody ] []\n",
-        "type": "Html.Attribute msg"
-      },
-      {
-        "name": "staticBody",
-        "comment": " A fixed-position or animated object.\n    Other objects may collide with static bodies,\n    but static bodies themselves are unaffected by gravity and collisions.\n\n    box [ staticBody ] []\n",
-        "type": "Html.Attribute msg"
+        "name": "Light",
+        "comment": " Different kinds of lights\n",
+        "args": [],
+        "cases": [
+          [
+            "Ambient",
+            []
+          ],
+          [
+            "Directional",
+            []
+          ],
+          [
+            "Hemisphere",
+            []
+          ],
+          [
+            "Point",
+            []
+          ],
+          [
+            "Spot",
+            []
+          ]
+        ]
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "AFrame",
-    "comment": " [A-Frame](https://aframe.io/docs/0.2.0/guide/) is an open-source framework for creating 3D and virtual reality experiences on the web.\n\n# Scene\n@docs scene\n\n# Entity\n@docs entity\n\n",
-    "aliases": [],
-    "types": [],
     "values": [
       {
-        "name": "entity",
-        "comment": " An entity is represented by the <a-entity> element.\n    As defined in the entity-component-system pattern,\n    entities are placeholder objects to which we plug in components\n    to in order to provide them apperance, behavior, and functionality.\n\n    entity [ rotation 90 0 0 ] []\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "scene",
-        "comment": " A scene is represented by the <a-scene> element.\n    The scene is the global root object,\n    and all entities are contained within the scene.\n\n    main =\n        scene [] [ box [] [] ]\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "AFrame.Primitives.Camera",
-    "comment": " Camera primitive.\n\n# Primitives\n@docs camera\n\n# Attributes\n@docs far, fov, lookControlsEnabled, near, wasdControlsEnabled\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "camera",
-        "comment": " The camera primitive places the user somewhere within the scene.\n\n    camera [] []\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "far",
-        "comment": " Camera frustum far clipping plane.\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "fov",
-        "comment": " Field of view (in degrees).\n",
-        "type": "Int -> Html.Attribute msg"
-      },
-      {
-        "name": "lookControlsEnabled",
-        "comment": " Enable look controls.\n\n    camera [ lookControlsEnabled False ] []\n",
-        "type": "Bool -> Html.Attribute msg"
-      },
-      {
-        "name": "near",
-        "comment": " Camera frustum near clipping plane.\n",
+        "name": "intensity",
+        "comment": " Light strength.\n",
         "type": "Float -> Html.Attribute msg"
       },
       {
-        "name": "wasdControlsEnabled",
-        "comment": " Enable WASD controls for camera.\n\n    camera [ wasdControlsEnabled False ] []\n",
-        "type": "Bool -> Html.Attribute msg"
+        "name": "light",
+        "comment": " The light primitive adjusts the lighting setup of the scene.\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "type_",
+        "comment": " Set light type.\n\n  Check https://aframe.io/docs/0.5.0/components/light.html#properties to get more information about the different kinds of lights\n",
+        "type": "AFrame.Primitives.Light.Light -> Html.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "AFrame.Animations",
+    "comment": " This module provides a set of functions for declaring A-Frame animations.\n\n# Definition\n@docs animation\n\n# Animation attributes\n@docs attribute_, begin, direction, dur, easing, fill, from, repeat, to\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "animation",
+        "comment": " Animation declaration.\n\n    box\n        []\n        [ animation\n            [ attribute \"rotation\"\n            , dur 10000\n            , fill \"forwards\"\n            , to \"0 360 0\"\n            , repeat \"indefinite\"\n            ]\n            []\n        ]\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "attribute_",
+        "comment": " Attribute to animate.\n\n    animation [ attribute \"rotation\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "begin",
+        "comment": " Delay (in milliseconds) or event name to wait on before beginning animation.\n\n    animation [ begin 5000 ] []\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "direction",
+        "comment": " Direction of the animation (between from and to).\n    One of alternate, alternateReverse, normal, reverse.\n\n    animation [ direction \"reverse\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "dur",
+        "comment": " Duration in (milliseconds) of the animation.\n\n    animation [ dur 5000 ] []\n",
+        "type": "Int -> Html.Attribute msg"
+      },
+      {
+        "name": "easing",
+        "comment": " Easing function of the animation.\n\n    animation [ easing \"rotation\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "fill",
+        "comment": " Determines effect of animation when not actively in play.\n    One of backwards, both, forwards, none.\n\n    animation [ fill \"rotation\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "from",
+        "comment": " Starting value.\n\n    animation [ from \"0 120 0\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "repeat",
+        "comment": " Repeat count or indefinite.\n\n    animation [ repeat \"5000\" ] []\n",
+        "type": "String -> Html.Attribute msg"
+      },
+      {
+        "name": "to",
+        "comment": " Ending value. Must be specified.\n\n    animation [ to \"0 360 0\" ] []\n",
+        "type": "String -> Html.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -329,112 +353,88 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "AFrame.Primitives.Light",
-    "comment": " Light primitive.\n\n# Primitives\n@docs light\n\n# Attributes\n@docs type_, intensity\n\n# Types\n@docs Light\n\n",
+    "name": "AFrame",
+    "comment": " [A-Frame](https://aframe.io/docs/0.2.0/guide/) is an open-source framework for creating 3D and virtual reality experiences on the web.\n\n# Scene\n@docs scene\n\n# Entity\n@docs entity\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "Light",
-        "comment": " Different kinds of lights\n",
-        "args": [],
-        "cases": [
-          [
-            "Ambient",
-            []
-          ],
-          [
-            "Directional",
-            []
-          ],
-          [
-            "Hemisphere",
-            []
-          ],
-          [
-            "Point",
-            []
-          ],
-          [
-            "Spot",
-            []
-          ]
-        ]
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "intensity",
-        "comment": " Light strength.\n",
-        "type": "Float -> Html.Attribute msg"
-      },
-      {
-        "name": "light",
-        "comment": " The light primitive adjusts the lighting setup of the scene.\n",
+        "name": "entity",
+        "comment": " An entity is represented by the <a-entity> element.\n    As defined in the entity-component-system pattern,\n    entities are placeholder objects to which we plug in components\n    to in order to provide them apperance, behavior, and functionality.\n\n    entity [ rotation 90 0 0 ] []\n",
         "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       },
       {
-        "name": "type_",
-        "comment": " Set light type.\n\n  Check https://aframe.io/docs/0.5.0/components/light.html#properties to get more information about the different kinds of lights\n",
-        "type": "AFrame.Primitives.Light.Light -> Html.Attribute msg"
+        "name": "scene",
+        "comment": " A scene is represented by the <a-scene> element.\n    The scene is the global root object,\n    and all entities are contained within the scene.\n\n    main =\n        scene [] [ box [] [] ]\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "AFrame.Animations",
-    "comment": " This module provides a set of functions for declaring A-Frame animations.\n\n# Definition\n@docs animation\n\n# Animation attributes\n@docs attribute_, begin, direction, dur, easing, fill, from, repeat, to\n\n",
+    "name": "AFrame.Primitives.Camera",
+    "comment": " Camera primitive.\n\n# Primitives\n@docs camera\n\n# Attributes\n@docs far, fov, lookControlsEnabled, near, wasdControlsEnabled\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "animation",
-        "comment": " Animation declaration.\n\n    box\n        []\n        [ animation\n            [ attribute \"rotation\"\n            , dur 10000\n            , fill \"forwards\"\n            , to \"0 360 0\"\n            , repeat \"indefinite\"\n            ]\n            []\n        ]\n",
+        "name": "camera",
+        "comment": " The camera primitive places the user somewhere within the scene.\n\n    camera [] []\n",
         "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       },
       {
-        "name": "attribute_",
-        "comment": " Attribute to animate.\n\n    animation [ attribute \"rotation\" ] []\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "begin",
-        "comment": " Delay (in milliseconds) or event name to wait on before beginning animation.\n\n    animation [ begin 5000 ] []\n",
+        "name": "far",
+        "comment": " Camera frustum far clipping plane.\n",
         "type": "Int -> Html.Attribute msg"
       },
       {
-        "name": "direction",
-        "comment": " Direction of the animation (between from and to).\n    One of alternate, alternateReverse, normal, reverse.\n\n    animation [ direction \"reverse\" ] []\n",
-        "type": "String -> Html.Attribute msg"
-      },
-      {
-        "name": "dur",
-        "comment": " Duration in (milliseconds) of the animation.\n\n    animation [ dur 5000 ] []\n",
+        "name": "fov",
+        "comment": " Field of view (in degrees).\n",
         "type": "Int -> Html.Attribute msg"
       },
       {
-        "name": "easing",
-        "comment": " Easing function of the animation.\n\n    animation [ easing \"rotation\" ] []\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "lookControlsEnabled",
+        "comment": " Enable look controls.\n\n    camera [ lookControlsEnabled False ] []\n",
+        "type": "Bool -> Html.Attribute msg"
       },
       {
-        "name": "fill",
-        "comment": " Determines effect of animation when not actively in play.\n    One of backwards, both, forwards, none.\n\n    animation [ fill \"rotation\" ] []\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "near",
+        "comment": " Camera frustum near clipping plane.\n",
+        "type": "Float -> Html.Attribute msg"
       },
       {
-        "name": "from",
-        "comment": " Starting value.\n\n    animation [ from \"0 120 0\" ] []\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "wasdControlsEnabled",
+        "comment": " Enable WASD controls for camera.\n\n    camera [ wasdControlsEnabled False ] []\n",
+        "type": "Bool -> Html.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "AFrame.Extra.Physics",
+    "comment": " Components for A-Frame physics integration.\n\n# Primitives\n@docs grid\n\n# Primitive attributes\n@docs dynamicBody, staticBody\n\n# Camera attributes\n@docs kinematicBody\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dynamicBody",
+        "comment": " A freely-moving object.\n    Dynamic bodies have mass, collide with other objects,\n    bounce or slow during collisions, and fall if gravity is enabled.\n\n    box [ dynamicBody ] []\n",
+        "type": "Html.Attribute msg"
       },
       {
-        "name": "repeat",
-        "comment": " Repeat count or indefinite.\n\n    animation [ repeat \"5000\" ] []\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "grid",
+        "comment": " Floor.\n\n    grid [ staticBody ] []\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       },
       {
-        "name": "to",
-        "comment": " Ending value. Must be specified.\n\n    animation [ to \"0 360 0\" ] []\n",
-        "type": "String -> Html.Attribute msg"
+        "name": "kinematicBody",
+        "comment": " Player-controlled body, which can move but is not affected (directly)\n    by the physics engine. Intended for use on the player's model.\n    Gravity and collisions are simulated,\n    without giving full control to the physics engine.\n\n    box [ kinematicBody ] []\n",
+        "type": "Html.Attribute msg"
+      },
+      {
+        "name": "staticBody",
+        "comment": " A fixed-position or animated object.\n    Other objects may collide with static bodies,\n    but static bodies themselves are unaffected by gravity and collisions.\n\n    box [ staticBody ] []\n",
+        "type": "Html.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

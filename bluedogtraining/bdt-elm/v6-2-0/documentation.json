@@ -138,251 +138,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.Select",
-    "comment": " This module is useful if you want to add a Select Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a Select.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySelect Select.Msg\n",
-        "args": [
-          "option"
-        ],
-        "type": "Form.Select.Internal.Msg option"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a Select.Model to your model.\n\n    type Title\n        = Mr\n        | Ms\n        | Dr\n\n    type alias MyModel =\n        { mySelect : Select.Model Title\n        }\n",
-        "args": [
-          "option"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the select in your update function, to set focus etc.\n",
-        "type": "Form.Select.View option -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialOption",
-        "comment": " Get the initial option of your select.\n",
-        "type": "Form.Select.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.Select.Model option -> Bool"
-      },
-      {
-        "name": "getIsOpen",
-        "comment": " Whether this select is currently open.\n",
-        "type": "Form.Select.Model option -> Bool"
-      },
-      {
-        "name": "getSelectedOption",
-        "comment": " Get the current option of your select. This is what you'd use to display the data somewhere outside of your select,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.Select.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "init",
-        "comment": " Add a Select.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { mySelect = Select.init [Mr, Ms, Dr]\n        }\n",
-        "type": "List option -> Form.Select.Model option"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your Select.Model.\n",
-        "type": "Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an Select.View into Html Select.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect\n                |> Select.render\n                |> Html.map UpdateMySelect\n            ]\n",
-        "type": "Form.Select.View option -> Html.Html (Form.Select.Internal.Msg option)"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your Select.Model.\n",
-        "type": "Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "setDefaultLabel",
-        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
-        "type": "String -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setInitialOption",
-        "comment": " Set the initial option of your Select.Model.\n",
-        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "setIsClearable",
-        "comment": " Set whether your select is clearable (x icon).\n",
-        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your select is in error mode (red border).\n",
-        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your select is locked (disabled).\n",
-        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setIsOptionDisabled",
-        "comment": " This function allows you to disable specific options.\n",
-        "type": "(option -> Bool) -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "setSelectedOption",
-        "comment": " Change the option of your Select.Model.\n",
-        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
-      },
-      {
-        "name": "setToLabel",
-        "comment": " Set how your options are printed to the screen.\n",
-        "type": "(option -> String) -> Form.Select.View option -> Form.Select.View option"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        Select.update selectMsg mode.mySelect\n                in\n                    { model | mySelect = newSelect } ! [ cmd ]\n",
-        "type": "Form.Select.Internal.Msg option -> Form.Select.Model option -> ( Form.Select.Model option , Platform.Cmd.Cmd (Form.Select.Internal.Msg option) )"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an Select.Model into an Select.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.Select.Model option -> Form.Select.View option"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Form.TextArea",
-    "comment": " This module is useful if you want to add an TextArea Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue, setSubstituteTabs, setReplacements\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a TextArea.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyTextArea TextArea.Msg\n",
-        "args": [],
-        "type": "Form.TextArea.Internal.Msg"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a TextArea.Model to your model.\n\n    type alias MyModel =\n        { myTextArea : TextArea.Model\n        }\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
-        "type": "Form.TextArea.View -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialValue",
-        "comment": " Get the initial value of your input.\n",
-        "type": "Form.TextArea.Model -> String"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.TextArea.Model -> Bool"
-      },
-      {
-        "name": "getValue",
-        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.TextArea.Model -> String"
-      },
-      {
-        "name": "init",
-        "comment": " Add a TextArea.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myTextArea = TextArea.init -- optionally pipe into State Setters\n        }\n",
-        "type": "Form.TextArea.Model"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your TextArea.Model.\n",
-        "type": "Form.TextArea.Model -> Form.TextArea.Model"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an TextArea.View into Html TextArea.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea\n                |> TextArea.render\n                |> Html.map UpdateMyTextArea\n            ]\n",
-        "type": "Form.TextArea.View -> Html.Html Form.TextArea.Internal.Msg"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your TextArea.Model.\n",
-        "type": "Form.TextArea.Model -> Form.TextArea.Model"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
-      },
-      {
-        "name": "setInitialValue",
-        "comment": " Set the initial value of your TextArea.Model.\n",
-        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your input is in error mode (red border).\n",
-        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your input is locked (disabled).\n",
-        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
-      },
-      {
-        "name": "setMaxLength",
-        "comment": " Set the max length for your input string.\n",
-        "type": "Int -> Form.TextArea.View -> Form.TextArea.View"
-      },
-      {
-        "name": "setPlaceholder",
-        "comment": " Set a placeholder for your input.\n",
-        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
-      },
-      {
-        "name": "setReplacements",
-        "comment": " Set a ist of string that should be replaced.\n",
-        "type": "List ( String, String ) -> Form.TextArea.Model -> Form.TextArea.Model"
-      },
-      {
-        "name": "setSubstituteTabs",
-        "comment": " Set whether the `tab` should insert spaces instead of tabbing out of the field.\n",
-        "type": "Bool -> Form.TextArea.Model -> Form.TextArea.Model"
-      },
-      {
-        "name": "setValue",
-        "comment": " Change the value of your TextArea.Model.\n",
-        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyTextArea inputMsg ->\n                { model | myTextArea = TextArea.update inputMsg mode.myTextArea } ! []\n",
-        "type": "Form.TextArea.Internal.Msg -> Form.TextArea.Model -> Form.TextArea.Model"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an TextArea.Model into an TextArea.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.TextArea.Model -> Form.TextArea.View"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Form.SearchSelect",
     "comment": " This module is useful if you want to add a Select Form element to your app,\nwith the options being searchable and coming from the backend.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
     "aliases": [
@@ -510,6 +265,251 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Form.TextArea",
+    "comment": " This module is useful if you want to add an TextArea Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue, setSubstituteTabs, setReplacements\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a TextArea.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyTextArea TextArea.Msg\n",
+        "args": [],
+        "type": "Form.TextArea.Internal.Msg"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a TextArea.Model to your model.\n\n    type alias MyModel =\n        { myTextArea : TextArea.Model\n        }\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
+        "type": "Form.TextArea.View -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialValue",
+        "comment": " Get the initial value of your input.\n",
+        "type": "Form.TextArea.Model -> String"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.TextArea.Model -> Bool"
+      },
+      {
+        "name": "getValue",
+        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.TextArea.Model -> String"
+      },
+      {
+        "name": "init",
+        "comment": " Add a TextArea.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myTextArea = TextArea.init -- optionally pipe into State Setters\n        }\n",
+        "type": "Form.TextArea.Model"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your TextArea.Model.\n",
+        "type": "Form.TextArea.Model -> Form.TextArea.Model"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an TextArea.View into Html TextArea.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea\n                |> TextArea.render\n                |> Html.map UpdateMyTextArea\n            ]\n",
+        "type": "Form.TextArea.View -> Html.Html Form.TextArea.Internal.Msg"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your TextArea.Model.\n",
+        "type": "Form.TextArea.Model -> Form.TextArea.Model"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
+      },
+      {
+        "name": "setInitialValue",
+        "comment": " Set the initial value of your TextArea.Model.\n",
+        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your input is in error mode (red border).\n",
+        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your input is locked (disabled).\n",
+        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
+      },
+      {
+        "name": "setMaxLength",
+        "comment": " Set the max length for your input string.\n",
+        "type": "Int -> Form.TextArea.View -> Form.TextArea.View"
+      },
+      {
+        "name": "setPlaceholder",
+        "comment": " Set a placeholder for your input.\n",
+        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
+      },
+      {
+        "name": "setReplacements",
+        "comment": " Set a ist of string that should be replaced.\n",
+        "type": "List ( String, String ) -> Form.TextArea.Model -> Form.TextArea.Model"
+      },
+      {
+        "name": "setSubstituteTabs",
+        "comment": " Set whether the `tab` should insert spaces instead of tabbing out of the field.\n",
+        "type": "Bool -> Form.TextArea.Model -> Form.TextArea.Model"
+      },
+      {
+        "name": "setValue",
+        "comment": " Change the value of your TextArea.Model.\n",
+        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyTextArea inputMsg ->\n                { model | myTextArea = TextArea.update inputMsg mode.myTextArea } ! []\n",
+        "type": "Form.TextArea.Internal.Msg -> Form.TextArea.Model -> Form.TextArea.Model"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an TextArea.Model into an TextArea.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.TextArea.Model -> Form.TextArea.View"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.MultiSelect",
+    "comment": " This module is useful if you want to add a MultiSelect Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOptions, setSelectedOptions, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOptions, getSelectedOptions, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a MultiSelect.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyMultiSelect MultiSelect.Msg\n",
+        "args": [
+          "option"
+        ],
+        "type": "Form.MultiSelect.Internal.Msg option"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a MultiSelect.Model to your model.\n\n    type MusicGenre\n        = Rock\n        | Jazz\n        | Blues\n        | Metal\n\n    type alias MyModel =\n        { myMultiSelect : MultiSelect.Model MusicGenre\n        }\n",
+        "args": [
+          "option"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the select in your update function, to set focus etc.\n",
+        "type": "Form.MultiSelect.View option -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialOptions",
+        "comment": " Get the initial option of your select.\n",
+        "type": "Form.MultiSelect.Model option -> List option"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.MultiSelect.Model option -> Bool"
+      },
+      {
+        "name": "getIsOpen",
+        "comment": " Whether this select is currently open.\n",
+        "type": "Form.MultiSelect.Model option -> Bool"
+      },
+      {
+        "name": "getSelectedOptions",
+        "comment": " Get the current option of your select. This is what you'd use to display the data somewhere outside of your select,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.MultiSelect.Model option -> List option"
+      },
+      {
+        "name": "init",
+        "comment": " Add a MultiSelect.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myMultiSelect = MultiSelect.init <| Nonempty Rock [Jazz, Blues, Metal]\n        }\n",
+        "type": "List.Nonempty.Nonempty option -> Form.MultiSelect.Model option"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your MultiSelect.Model.\n",
+        "type": "Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an MultiSelect.View into Html MultiSelect.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ MultiSelect.view model.myMultiSelect\n                |> MultiSelect.render\n                |> Html.map UpdateMyMultiSelect\n            ]\n",
+        "type": "Form.MultiSelect.View option -> Html.Html (Form.MultiSelect.Internal.Msg option)"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your MultiSelect.Model.\n",
+        "type": "Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
+      },
+      {
+        "name": "setDefaultLabel",
+        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
+        "type": "String -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
+      },
+      {
+        "name": "setInitialOptions",
+        "comment": " Set the initial option of your MultiSelect.Model.\n",
+        "type": "List option -> Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
+      },
+      {
+        "name": "setIsClearable",
+        "comment": " Set whether your select is clearable (x icon).\n",
+        "type": "Bool -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your select is in error mode (red border).\n",
+        "type": "Bool -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your select is locked (disabled).\n",
+        "type": "Bool -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
+      },
+      {
+        "name": "setIsOptionDisabled",
+        "comment": " This function allows you to disable specific options.\n",
+        "type": "(option -> Bool) -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
+      },
+      {
+        "name": "setSelectedOptions",
+        "comment": " Change the option of your MultiSelect.Model.\n",
+        "type": "List option -> Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
+      },
+      {
+        "name": "setToLabel",
+        "comment": " Set how your options are printed to the screen.\n",
+        "type": "(option -> String) -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyMultiSelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        MultiSelect.update selectMsg mode.myMultiSelect\n                in\n                    { model | myMultiSelect = newSelect } ! [ cmd ]\n",
+        "type": "Form.MultiSelect.Internal.Msg option -> Form.MultiSelect.Model option -> ( Form.MultiSelect.Model option , Platform.Cmd.Cmd (Form.MultiSelect.Internal.Msg option) )"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an MultiSelect.Model into an MultiSelect.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ MultiSelect.view model.myMultiSelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.MultiSelect.Model option -> Form.MultiSelect.View option"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Form.IntInput",
     "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
     "aliases": [
@@ -613,6 +613,133 @@
         "name": "view",
         "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
         "type": "Form.IntInput.Model -> Form.IntInput.View"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.Select",
+    "comment": " This module is useful if you want to add a Select Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a Select.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySelect Select.Msg\n",
+        "args": [
+          "option"
+        ],
+        "type": "Form.Select.Internal.Msg option"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a Select.Model to your model.\n\n    type Title\n        = Mr\n        | Ms\n        | Dr\n\n    type alias MyModel =\n        { mySelect : Select.Model Title\n        }\n",
+        "args": [
+          "option"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the select in your update function, to set focus etc.\n",
+        "type": "Form.Select.View option -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialOption",
+        "comment": " Get the initial option of your select.\n",
+        "type": "Form.Select.Model option -> Maybe.Maybe option"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.Select.Model option -> Bool"
+      },
+      {
+        "name": "getIsOpen",
+        "comment": " Whether this select is currently open.\n",
+        "type": "Form.Select.Model option -> Bool"
+      },
+      {
+        "name": "getSelectedOption",
+        "comment": " Get the current option of your select. This is what you'd use to display the data somewhere outside of your select,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.Select.Model option -> Maybe.Maybe option"
+      },
+      {
+        "name": "init",
+        "comment": " Add a Select.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { mySelect = Select.init [Mr, Ms, Dr]\n        }\n",
+        "type": "List option -> Form.Select.Model option"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your Select.Model.\n",
+        "type": "Form.Select.Model option -> Form.Select.Model option"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an Select.View into Html Select.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect\n                |> Select.render\n                |> Html.map UpdateMySelect\n            ]\n",
+        "type": "Form.Select.View option -> Html.Html (Form.Select.Internal.Msg option)"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your Select.Model.\n",
+        "type": "Form.Select.Model option -> Form.Select.Model option"
+      },
+      {
+        "name": "setDefaultLabel",
+        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
+        "type": "String -> Form.Select.View option -> Form.Select.View option"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.Select.View option -> Form.Select.View option"
+      },
+      {
+        "name": "setInitialOption",
+        "comment": " Set the initial option of your Select.Model.\n",
+        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
+      },
+      {
+        "name": "setIsClearable",
+        "comment": " Set whether your select is clearable (x icon).\n",
+        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your select is in error mode (red border).\n",
+        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your select is locked (disabled).\n",
+        "type": "Bool -> Form.Select.View option -> Form.Select.View option"
+      },
+      {
+        "name": "setIsOptionDisabled",
+        "comment": " This function allows you to disable specific options.\n",
+        "type": "(option -> Bool) -> Form.Select.View option -> Form.Select.View option"
+      },
+      {
+        "name": "setSelectedOption",
+        "comment": " Change the option of your Select.Model.\n",
+        "type": "Maybe.Maybe option -> Form.Select.Model option -> Form.Select.Model option"
+      },
+      {
+        "name": "setToLabel",
+        "comment": " Set how your options are printed to the screen.\n",
+        "type": "(option -> String) -> Form.Select.View option -> Form.Select.View option"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        Select.update selectMsg mode.mySelect\n                in\n                    { model | mySelect = newSelect } ! [ cmd ]\n",
+        "type": "Form.Select.Internal.Msg option -> Form.Select.Model option -> ( Form.Select.Model option , Platform.Cmd.Cmd (Form.Select.Internal.Msg option) )"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an Select.Model into an Select.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Select.view model.mySelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.Select.Model option -> Form.Select.View option"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -859,133 +986,6 @@
         "name": "view",
         "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
         "type": "Form.FloatInput.Model -> Form.FloatInput.View"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Form.MultiSelect",
-    "comment": " This module is useful if you want to add a MultiSelect Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOptions, setSelectedOptions, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOptions, getSelectedOptions, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a MultiSelect.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyMultiSelect MultiSelect.Msg\n",
-        "args": [
-          "option"
-        ],
-        "type": "Form.MultiSelect.Internal.Msg option"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a MultiSelect.Model to your model.\n\n    type MusicGenre\n        = Rock\n        | Jazz\n        | Blues\n        | Metal\n\n    type alias MyModel =\n        { myMultiSelect : MultiSelect.Model MusicGenre\n        }\n",
-        "args": [
-          "option"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the select in your update function, to set focus etc.\n",
-        "type": "Form.MultiSelect.View option -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialOptions",
-        "comment": " Get the initial option of your select.\n",
-        "type": "Form.MultiSelect.Model option -> List option"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.MultiSelect.Model option -> Bool"
-      },
-      {
-        "name": "getIsOpen",
-        "comment": " Whether this select is currently open.\n",
-        "type": "Form.MultiSelect.Model option -> Bool"
-      },
-      {
-        "name": "getSelectedOptions",
-        "comment": " Get the current option of your select. This is what you'd use to display the data somewhere outside of your select,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.MultiSelect.Model option -> List option"
-      },
-      {
-        "name": "init",
-        "comment": " Add a MultiSelect.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myMultiSelect = MultiSelect.init <| Nonempty Rock [Jazz, Blues, Metal]\n        }\n",
-        "type": "List.Nonempty.Nonempty option -> Form.MultiSelect.Model option"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your MultiSelect.Model.\n",
-        "type": "Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an MultiSelect.View into Html MultiSelect.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ MultiSelect.view model.myMultiSelect\n                |> MultiSelect.render\n                |> Html.map UpdateMyMultiSelect\n            ]\n",
-        "type": "Form.MultiSelect.View option -> Html.Html (Form.MultiSelect.Internal.Msg option)"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your MultiSelect.Model.\n",
-        "type": "Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
-      },
-      {
-        "name": "setDefaultLabel",
-        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
-        "type": "String -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
-      },
-      {
-        "name": "setInitialOptions",
-        "comment": " Set the initial option of your MultiSelect.Model.\n",
-        "type": "List option -> Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
-      },
-      {
-        "name": "setIsClearable",
-        "comment": " Set whether your select is clearable (x icon).\n",
-        "type": "Bool -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your select is in error mode (red border).\n",
-        "type": "Bool -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your select is locked (disabled).\n",
-        "type": "Bool -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
-      },
-      {
-        "name": "setIsOptionDisabled",
-        "comment": " This function allows you to disable specific options.\n",
-        "type": "(option -> Bool) -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
-      },
-      {
-        "name": "setSelectedOptions",
-        "comment": " Change the option of your MultiSelect.Model.\n",
-        "type": "List option -> Form.MultiSelect.Model option -> Form.MultiSelect.Model option"
-      },
-      {
-        "name": "setToLabel",
-        "comment": " Set how your options are printed to the screen.\n",
-        "type": "(option -> String) -> Form.MultiSelect.View option -> Form.MultiSelect.View option"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyMultiSelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        MultiSelect.update selectMsg mode.myMultiSelect\n                in\n                    { model | myMultiSelect = newSelect } ! [ cmd ]\n",
-        "type": "Form.MultiSelect.Internal.Msg option -> Form.MultiSelect.Model option -> ( Form.MultiSelect.Model option , Platform.Cmd.Cmd (Form.MultiSelect.Internal.Msg option) )"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an MultiSelect.Model into an MultiSelect.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ MultiSelect.view model.myMultiSelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.MultiSelect.Model option -> Form.MultiSelect.View option"
       }
     ],
     "generated-with-elm-version": "0.18.0"

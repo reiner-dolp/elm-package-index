@@ -29,30 +29,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Ui.Modifier",
-    "comment": "\n\n# Customizing UI Elements: Modifier Classes\nModifier classes change the style properties of UI elements, like color, size,\nand spacing, and may add responsive styling via CSS media queries.\n[Bulma CSS](http://bulma.io/documentation/modifiers/syntax/)\nincludes modifier classes for many elements, or you can define your own using a\ncustom stylesheet.\n\n## Generic functions for adding modifiers\n@docs add, addList, conditional\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "add",
-        "comment": " Add a single modifier class to a UI element\n\n    myElement\n      |> Ui.Modifier.add \"has-text-centered\"\n\n",
-        "type": "String -> Ui.Element msg -> Ui.Element msg"
-      },
-      {
-        "name": "addList",
-        "comment": " Add a list of modifier classes to a UI element\n\n    myElement\n      |> Ui.Modifier.addList\n        [ \"box\"\n        , \"has-text-centered\"\n        ]\n\n",
-        "type": "List String -> Ui.Element msg -> Ui.Element msg"
-      },
-      {
-        "name": "conditional",
-        "comment": " Conditionally add a modifier class if the boolean argument is `True`\n\n    myElement\n      |> Ui.Modifier.conditional\n        ( \"has-text-centered\"\n        , myElement\n          |> Dom.Element.hasClass \"box\"\n\n        )\n        \n",
-        "type": "( String, Bool ) -> Ui.Element msg -> Ui.Element msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Ui.Style",
     "comment": "\n\n# Customizing UI Elements: Style Modifications\nIn the Modular UI package, element constructors apply Bulma CSS classes\nautomatically in order to generate default styling when `bulma.css` is loaded as\nan external resource. If you are using Bulma, look and feel of standard UI\nelements and components can be modified by\n[customizing variables in Sass](https://bulma.io/documentation/overview/customize/)\nand recompiling the Bulma source files to CSS. The functions in this module\nmay be used to where necessary to override default styling or further\ncustomize the appearance and behavior of individual elements and components. In\ngeneral, it is preferable to change defaults rather than overriding them so as\nto avoid redundancies and performance lags. (See\n[below](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/1.0.0/Ui-Style#discussion-are-there-performance-costs-to-setting-style-properties-on-individual-elements-)\nfor further discussion of performance issues related to setting styles on\nindividual elements).\n\n## Generic functions for adding style modifications\n@docs add, addList\n\n## Helpers for common style modifications\n@docs color, backgroundColor, border, borderRadius, boxShadow\n\n\n## Discussion: Are there performance costs to setting style properties on individual elements?\n\n__Short answer:__\n\nOnly when many elements in your document have style properties in common that\ncould be\n[rendered more efficiently](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model#css_object_model_cssom)\nby defining CSS classes.\n\n__Long answer:__\n\nFor historical and organizational reasons, standard practice in web development\nhas been to separate style rules from content markup by loading external CSS\nresources rather than inlining style declarations in HTML. While there may be\nbenefits to performance and maintainability when style rules are defined for\nclasses rather than individual elements, loading external CSS resources\n[blocks page rendering](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css),\nso in some cases there is a\n[performance justification](https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery)\nfor inserting style declarations into markup.\n\nThe\n[preferred way](https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery#example)\nto include CSS within standard HTML markup is to insert a `<style>` tag in the\ndocument's `<head>`, but this may result in slower page loads if there is a\nlarge chunk of CSS to parse, so the `<style>` tag should be reserved for\ncritical styling of above-the-fold content.\n\nUsing the HTML *style* attribute to set CSS properties on individual elements is\n[presently discouraged](https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery#CSSattributes)\nfor the sake of maintainability, but also because inline styles in HTML markup\nare blocked where\n[Content Security Policy](https://en.wikipedia.org/wiki/Content_Security_Policy)\nis invoked.\n\nHowever, when working in a compile-to-JavaScript framework like Elm, these\nconcerns seem not to apply. When you set an element's style attribute in an Elm\nprogram, the styling is part of an external script, not part of the HTML source.\nThis means that styles applied to individual elements in an Elm program's view\ncode will not be blocked when Content Security Policy is invoked (unless your\nentire Elm script is blocked, but there is a\n[simple workaround](https://mixandgo.com/blog/writing-a-chrome-extension-with-elm#security-policy)\nfor that).\n\nAs for maintainability, a functional langauge like Elm arguably has\nadvantages over a CSS preprocessor like Sass or Less because of the absence of\nglobal variables in funcitonal languages. Global variables can make debugging,\nrefactoring, or changing behavior more time consuming because of the effort\ninvolved in determining where in the codebase a particular value has been\ndefined. Elm allows the programmer to generate functional style rules that can\nbe passed to view functions as named variables, combined with one another like\nmixins, or generated dynamically given input parameters. The only downside of\nusing Elm to maintain styles is that any preprocessing of style variables has to\nbe done on-the-fly when the script is loaded in the browser, but that extra\nprocessing time should be weighted against the time it would take to parse and\nrender external CSS.\n\nAll of that said, working with an existing CSS framework can greatly simplify\nthe user-interface design process, which is why I have incorporated Bulma\nclasses into Modular UI. My recommendation is to use classes defined in external\nCSS for basic styling of standard UI elements and components, and then to\ncustomize the look and behavior of individual elements/components by setting\ntheir *style* attributes in Elm. For maintainability, it is helpful to define\nstyle variables in a separate module and then to import those named functions\ninto your view module(s). This approach maintains a \"separation of concerns\"\nbecause style variables and rules are just inputs to view functions, and they\ncan be modified without changing any of your other view code.\n\n",
     "aliases": [],
@@ -97,59 +73,49 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Ui.Text",
-    "comment": "\n\n# Content Element: Text\nThis module contains helpers for assembling text content that may include links\nand font style variations. It provides an alternative to Markdown syntax that\nis still fairly concise, while offering more control over text appearance via\nCSS modifier classes.\n\n## Basic\n@docs plain, link\n\n## Typography Helpers\n@docs italic, bold, semibold, light\n\n",
+    "name": "Ui.Modifier",
+    "comment": "\n\n# Customizing UI Elements: Modifier Classes\nModifier classes change the style properties of UI elements, like color, size,\nand spacing, and may add responsive styling via CSS media queries.\n[Bulma CSS](http://bulma.io/documentation/modifiers/syntax/)\nincludes modifier classes for many elements, or you can define your own using a\ncustom stylesheet.\n\n## Generic functions for adding modifiers\n@docs add, addList, conditional\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "bold",
-        "comment": " Construct text that will display with a bold font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.bold\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-bold\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-bold*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
-        "type": "String -> Ui.Element msg"
+        "name": "add",
+        "comment": " Add a single modifier class to a UI element\n\n    myElement\n      |> Ui.Modifier.add \"has-text-centered\"\n\n",
+        "type": "String -> Ui.Element msg -> Ui.Element msg"
       },
       {
-        "name": "italic",
-        "comment": " Construct text that will display as italic\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.italic\n      |> Ui.render\n\n    --> <span class=\"is-italic\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.is-italic*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
-        "type": "String -> Ui.Element msg"
+        "name": "addList",
+        "comment": " Add a list of modifier classes to a UI element\n\n    myElement\n      |> Ui.Modifier.addList\n        [ \"box\"\n        , \"has-text-centered\"\n        ]\n\n",
+        "type": "List String -> Ui.Element msg -> Ui.Element msg"
       },
       {
-        "name": "light",
-        "comment": " Construct text that will display with a light font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.light\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-light\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-light*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
-        "type": "String -> Ui.Element msg"
-      },
-      {
-        "name": "link",
-        "comment": " Construct text that will link to some URI. The boolean argument indicates\nwhether the link should open in a new window.\n\n    \"Click here to download\"\n      |> Ui.Text.link (\"http://example.com/files/myfile.pdf\", True)\n      |> Ui.render\n\n    --> <a href=\"http://example.com/files/myfile.pdf\" target=\"_blank\">Click here to download</a>\n\n+ __HTML tag__: `<a>`\n+ __Element class__: none\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
-        "type": "( String, Bool ) -> String -> Ui.Element msg"
-      },
-      {
-        "name": "plain",
-        "comment": " Construct plain inline text\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.plain\n      |> Ui.render\n\n    --> <span>Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
-        "type": "String -> Ui.Element msg"
-      },
-      {
-        "name": "semibold",
-        "comment": " Construct text that will display with a semibold font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.semibold\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-semibold\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-semibold*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
-        "type": "String -> Ui.Element msg"
+        "name": "conditional",
+        "comment": " Conditionally add a modifier class if the boolean argument is `True`\n\n    myElement\n      |> Ui.Modifier.conditional\n        ( \"has-text-centered\"\n        , myElement\n          |> Dom.Element.hasClass \"box\"\n\n        )\n        \n",
+        "type": "( String, Bool ) -> Ui.Element msg -> Ui.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Ui.Heading",
-    "comment": "\n\n# Content Element: Heading\nUsing the *.title* and *.subtitle* element classes gives greater control over\nthe ranking and appearance of headings by making HTML markup independent of\nfont-size rendering. With Bulma CSS, size modifier classes can be used to set\ndifferent title and subtitle sizes for different parts of a page.\n\n@docs title, subtitle\n\n",
+    "name": "Ui.Source",
+    "comment": "\n\n# Content Element: Source\nThis module contains helpers to embed external content into your page layout,\nwith built-in features for web accessibility. The embedding elements are\nassigned the *.source* class to allow for custom styling.\n\n@docs object, iframe, embed\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "subtitle",
-        "comment": " Construct a subtitle heading\n\n    \"My Subtitle\"\n      |> Ui.Element.subtitle \"h2\"\n      |> Ui.Modifier.add \"is-6\"\n      |> Ui.render\n\n    --> <h2 class=\"subtitle is-6\">My Subtitle</h2>\n\n+ __HTML tag__: variable (use `<h2>` to `<h6>`, or `<p>`)\n+ __ARIA role__: default\n+ __Element class__: *.subtitle*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/title/#sizes),\n[spacing](http://bulma.io/documentation/elements/title/#sizes),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/title/\n\n",
-        "type": "String -> String -> Ui.Element msg"
+        "name": "embed",
+        "comment": " Construct an object element to display content from an external source. The\nfirst argument gives the URL or relative file path and the second argument\nspecifies the media type (see\nhttps://www.iana.org/assignments/media-types/media-types.xhtml\nfor a list of media type codes).\n\n    ( \"flash/animation.swf\"\n    , \"application/x-shockwave-flash\"\n    , \"Play an interactive Flash animation\"\n    )\n      |> Ui.Source.embed\n      |> Ui.render\n\n    --> <embed class=\"source\" src=\"flash/animation.swf\" type=\"application/x-shockwave-flash\" role=\"application\" aria-label=\"Play an interactive Flash animation\">\n\n+ __HTML tag__: `<embed>`\n+ __ARIA role__: *application*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
+        "type": "( String, String, String ) -> Ui.Element msg"
       },
       {
-        "name": "title",
-        "comment": " Construct a title heading\n\n    \"My Title\"\n      |> Ui.Heading.title \"h1\"\n      |> Ui.Modifier.add \"is-4\"\n      |> Ui.render\n\n    --> <h1 class=\"title is-4\">My Title</h1>\n\n+ __HTML tag__: variable (use `<h1>` to `<h6>`, or `<p>`)\n+ __ARIA role__: default\n+ __Element class__: *.title*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/title/#sizes),\n[spacing](http://bulma.io/documentation/elements/title/#sizes),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/title/\n\n",
-        "type": "String -> String -> Ui.Element msg"
+        "name": "iframe",
+        "comment": " Construct an iframe element to display content from an HTML source. The\nstring argument gives the URL or relative file path to the source.\n\n    { path = \"http://elm-lang.org\"\n    , altText = \"The Elm language home page\"\n    )\n      |> Ui.Source.iframe\n      |> Ui.Render\n\n    --> <iframe class=\"source\" src=\"http://elm-lang.org\" role=\"document\" aria-label=\"The Elm language home page\"></iframe>\n\n+ __HTML tag__: `<iframe>`\n+ __ARIA role__: *document*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
+        "type": "{ path : String, altText : String } -> Ui.Element msg"
+      },
+      {
+        "name": "object",
+        "comment": " Construct an object element to display content from an external source. The\nfirst argument gives the URL or relative file path, the second argument\nspecifies the\n[media type](https://www.iana.org/assignments/media-types/media-types.xhtml),\nand the third argument provides a content label for screen readers. A link to\nopen the source in a new window is generated as a fallback if the content fails\nto load.\n\n    { path = \"files/myfile.pdf\"\n    , mediaType = \"application/pdf\"\n    , altText = \"Load report from PDF file\"\n    )\n      |> Ui.Source.object\n      |> Ui.render\n\n    --> <object class=\"source\" data=\"files/myfile.pdf\" type=\"application/pdf\" role=\"document\" aria-label=\"Load report from PDF file\">\n    --    <p>Click to load in a new window:\n    --      <a href=\"files/myfile.pdf\" target=\"_blank\">files/myfile.pdf</a>\n    --    </p>\n    --  </object>\n\n+ __HTML tag__: `<object>`\n+ __ARIA role__: *document*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
+        "type": "{ path : String, mediaType : String, altText : String } -> Ui.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -189,25 +155,35 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Ui.Source",
-    "comment": "\n\n# Content Element: Source\nThis module contains helpers to embed external content into your page layout,\nwith built-in features for web accessibility. The embedding elements are\nassigned the *.source* class to allow for custom styling.\n\n@docs object, iframe, embed\n\n",
+    "name": "Ui.Media",
+    "comment": "\n\n# Content Element: Media\nThis module contains helpers to insert images and other media content into your\npage layout, with built-in features for web accessibility. The image constructor\napplies the *.image* Bulma element class, which is helpful for positioning\nand images and provides a set of fixed and responsive size modifiers. Other\nmedia content types that are not supported by Bulma are assigned class names\nfor custom styling.\n\n## Media Elements\n@docs image, svg, video, audio\n\n## Adding a Caption\n@docs withCaption\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "embed",
-        "comment": " Construct an object element to display content from an external source. The\nfirst argument gives the URL or relative file path and the second argument\nspecifies the media type (see\nhttps://www.iana.org/assignments/media-types/media-types.xhtml\nfor a list of media type codes).\n\n    ( \"flash/animation.swf\"\n    , \"application/x-shockwave-flash\"\n    , \"Play an interactive Flash animation\"\n    )\n      |> Ui.Source.embed\n      |> Ui.render\n\n    --> <embed class=\"source\" src=\"flash/animation.swf\" type=\"application/x-shockwave-flash\" role=\"application\" aria-label=\"Play an interactive Flash animation\">\n\n+ __HTML tag__: `<embed>`\n+ __ARIA role__: *application*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
-        "type": "( String, String, String ) -> Ui.Element msg"
+        "name": "audio",
+        "comment": " Construct audio content, with an automatically generated error message as a\nfallback. Several source files may be listed to ensure that the audio is\nplayable in all modern browsers. The second string in each tuple gives the\n[media type code](https://www.iana.org/assignments/media-types/media-types.xhtml)\nof the file. The boolean argument indicates whether controls should be\ndisplayed.\n\n    { sourceList =\n      [ (\"horse.ogg\", \"audio/ogg\")\n      , (\"horse.mp3\", \"audio/mpeg\")\n      ]\n\n    , hasControls = True\n\n    }\n      |> Ui.Media.audio\n      |> Ui.render\n\n\n    --> <figure>\n    --    <audio controls role=\"application\">\n    --      <source src=\"horse.ogg\" type=\"audio/ogg\">\n    --      <source src=\"horse.mp3\" type=\"audio/mpeg\">\n    --      <p>Audio file 'horse.ogg' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'audio/ogg' files.</p>\n    --      <p>Audio file 'horse.mp3' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'audio/mpeg' files.</p>\n    --    </audio>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<audio>` > `<source>`\n+ __ARIA roles__: *figure* (default) > *application*\n+ __Element class__: *.audio*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.audio* is not a Bulma element class)\n\n",
+        "type": "{ sourceList : List ( String, String ), hasControls : Bool } -> Ui.Element msg"
       },
       {
-        "name": "iframe",
-        "comment": " Construct an iframe element to display content from an HTML source. The\nstring argument gives the URL or relative file path to the source.\n\n    { path = \"http://elm-lang.org\"\n    , altText = \"The Elm language home page\"\n    )\n      |> Ui.Source.iframe\n      |> Ui.Render\n\n    --> <iframe class=\"source\" src=\"http://elm-lang.org\" role=\"document\" aria-label=\"The Elm language home page\"></iframe>\n\n+ __HTML tag__: `<iframe>`\n+ __ARIA role__: *document*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
+        "name": "image",
+        "comment": " Construct image content (typically from a JPEG or PNG source), with alt\ntext for screen readers\n\n    { path = \"http://bulma.io/images/placeholders/128x128.png\"\n    , altText = \"This is a placeholder\"\n    }\n      |> Ui.Media.image\n      |> Ui.Modifier.add \"is-128x128\"\n      |> Ui.render\n\n    --> <figure class=\"image is-128x128\">\n    --    <img src=\"http://bulma.io/images/placeholders/128x128.png\" alt=\"This is a placeholder\">\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<img>`\n+ __ARIA roles__: *figure* > *img* (defaults)\n+ __Element class__: *.image*\n+ __Available modifiers__: size ([fixed](https://bulma.io/documentation/elements/image/#fixed-square-images),\n [responsive](https://bulma.io/documentation/elements/image/#responsive-images-with-ratios))\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/image/\n\n",
         "type": "{ path : String, altText : String } -> Ui.Element msg"
       },
       {
-        "name": "object",
-        "comment": " Construct an object element to display content from an external source. The\nfirst argument gives the URL or relative file path, the second argument\nspecifies the\n[media type](https://www.iana.org/assignments/media-types/media-types.xhtml),\nand the third argument provides a content label for screen readers. A link to\nopen the source in a new window is generated as a fallback if the content fails\nto load.\n\n    { path = \"files/myfile.pdf\"\n    , mediaType = \"application/pdf\"\n    , altText = \"Load report from PDF file\"\n    )\n      |> Ui.Source.object\n      |> Ui.render\n\n    --> <object class=\"source\" data=\"files/myfile.pdf\" type=\"application/pdf\" role=\"document\" aria-label=\"Load report from PDF file\">\n    --    <p>Click to load in a new window:\n    --      <a href=\"files/myfile.pdf\" target=\"_blank\">files/myfile.pdf</a>\n    --    </p>\n    --  </object>\n\n+ __HTML tag__: `<object>`\n+ __ARIA role__: *document*\n+ __Element class__: *.source*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.source* is not a Bulma element class)\n\n",
-        "type": "{ path : String, mediaType : String, altText : String } -> Ui.Element msg"
+        "name": "svg",
+        "comment": " Construct SVG content, with a raster image fallback for older browsers and\nalt text for screen readers\n\n    { path = \"logo.svg\"\n    , fallback = \"logo.png\"\n    , altText = \"Company Logo\"\n    }\n      |> Ui.Media.svg\n      |> Ui.render\n\n    --> <figure class=\"svg-object\">\n    --    <object data=\"logo.svg\" type=\"image/svg+xml\">\n    --      <img src=\"logo.png\" alt=\"Company Name\">\n    --    </object>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<object>` > `<img>`\n+ __ARIA roles__: *figure* > *img* (defaults)\n+ __Element class__: *.svg-object*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.svg-object* is not a Bulma element class)\n\n",
+        "type": "{ path : String, fallback : String, altText : String } -> Ui.Element msg"
+      },
+      {
+        "name": "video",
+        "comment": " Construct video content, with an automatically generated error message as a\nfallback. Several source files may be listed to ensure that the video is\nplayable in all modern browsers. The second string in each tuple gives the\n[media type code](https://www.iana.org/assignments/media-types/media-types.xhtml)\nof the file. The `hasControls` argument indicates whether controls should be\ndisplayed in the video frame.\n\n    { sourceList =\n      [ (\"movie.mp4\", \"video/mp4\")\n      , (\"movie.ogg\", \"video/ogg\")\n      ]\n\n    , hasControls = True\n\n    }\n      |> Ui.Media.video\n      |> Ui.render\n\n\n    --> <figure class=\"video\">\n    --    <video controls role=\"application\">\n    --      <source src=\"movie.mp4\" type=\"video/mp4\">\n    --      <source src=\"movie.ogg\" type=\"video/ogg\">\n    --      <p>Video file 'movie.mp4' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'video/mp4' files.</p>\n    --      <p>Video file 'movie.ogg' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'video/ogg' files.</p>\n    --    </video>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<video>` > `<source>`\n+ __ARIA roles__: *figure* (default) > *application*\n+ __Element class__: *.video*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.video* is not a Bulma element class)\n\n",
+        "type": "{ sourceList : List ( String, String ), hasControls : Bool } -> Ui.Element msg"
+      },
+      {
+        "name": "withCaption",
+        "comment": " Add a figure caption to a media element. The `id` argument is a unique\ninteger that is used to generate an *id* attribute for the caption so that\nit can be identified for screen readers as labelling the media element.\n\n    { path = \"http://bulma.io/images/placeholders/128x128.png\"\n    , altText = \"This is a placeholder\"\n    }\n      |> Ui.Media.image\n      |> Ui.Modifier.add \"is-128x128\"\n      |> Ui.Media.withCaption\n        { id = 1\n        , text = \"This image is 128 px by 128 px.\"\n        }\n\n      |> Ui.render\n\n    --> <figure class=\"image is-128x128\" aria-labelledby=\"caption-1\">\n    --    <img src=\"http://bulma.io/images/placeholders/128x128.png\" alt=\"This is a placeholder\">\n    --    <figcaption id=\"caption-1\">This image is 128 px x 128 px.</figcaption>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<figcaption>`\n+ __ARIA attribute__: *aria-labelledby* (caption is identified as the visible label for the figure element)\n\n",
+        "type": "{ id : Int, text : String } -> Ui.Element msg -> Ui.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -291,50 +267,40 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Ui.Action",
-    "comment": "\n\n# Customizing UI Elements: User Actions\nUser actions are DOM events like clicks, key presses, and other mouse gestures\nthat do not capture text or numeric input. Handlers for user actions can be\nadded to any UI element using the functions in this module (for capturing input,\nsee\n[Ui.Input](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Input)).\n\nTo add a user-action handler to an element, you must specify the\n[event name](https://developer.mozilla.org/en-US/docs/Web/Events)\nand the message that you want to be sent to your Elm program's update function\nwhen the event is triggered. To handle keyboard actions, you will also have to\nspecify the\n[key value](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)\nof interest, which you can do using one of the helper functions below.\n\n\n## Generic functions for constructing user-action handlers\n@docs add, addList\n\n## Helpers for common mouse actions\n@docs onClick, onMouseOver, onMouseOut\n\n## Helpers for keyboard actions\n@docs onKeyPress, onKeyDown, onKeyUp\n\n",
+    "name": "Ui.Text",
+    "comment": "\n\n# Content Element: Text\nThis module contains helpers for assembling text content that may include links\nand font style variations. It provides an alternative to Markdown syntax that\nis still fairly concise, while offering more control over text appearance via\nCSS modifier classes.\n\n## Basic\n@docs plain, link\n\n## Typography Helpers\n@docs italic, bold, semibold, light\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "add",
-        "comment": " Add a single action to a UI element\n\n    myElement\n      |> Ui.Action.add (\"click\", DoSomething)\n\n",
-        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
+        "name": "bold",
+        "comment": " Construct text that will display with a bold font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.bold\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-bold\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-bold*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+        "type": "String -> Ui.Element msg"
       },
       {
-        "name": "addList",
-        "comment": " Add a list of actions to a UI element\n\n    myElement\n      |> Ui.Action.addList\n        [ (\"mouseover\", DoSomething)\n        , (\"click\", DoSomethingElse)\n        ]\n\n",
-        "type": "List ( String, msg ) -> Ui.Element msg -> Ui.Element msg"
+        "name": "italic",
+        "comment": " Construct text that will display as italic\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.italic\n      |> Ui.render\n\n    --> <span class=\"is-italic\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.is-italic*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+        "type": "String -> Ui.Element msg"
       },
       {
-        "name": "onClick",
-        "comment": " Convience function to construct a handler for a \"click\" event\n\n    myElement\n      |> Ui.Action.onClick DoSomething\n\n",
-        "type": "msg -> Ui.Element msg -> Ui.Element msg"
+        "name": "light",
+        "comment": " Construct text that will display with a light font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.light\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-light\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-light*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+        "type": "String -> Ui.Element msg"
       },
       {
-        "name": "onKeyDown",
-        "comment": " Helper to construct a handler for a\n[keydown](http://developer.mozilla.org/en-US/docs/Web/Events/keydown)\nevent, where you only want the message to be triggered by a particular key\nbeing pressed down. The string argument gives the keyboard value of interest,\nwhich must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyDown (\"ArrowUp\", DoSomething)\n\n",
-        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
+        "name": "link",
+        "comment": " Construct text that will link to some URI. The boolean argument indicates\nwhether the link should open in a new window.\n\n    \"Click here to download\"\n      |> Ui.Text.link (\"http://example.com/files/myfile.pdf\", True)\n      |> Ui.render\n\n    --> <a href=\"http://example.com/files/myfile.pdf\" target=\"_blank\">Click here to download</a>\n\n+ __HTML tag__: `<a>`\n+ __Element class__: none\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+        "type": "( String, Bool ) -> String -> Ui.Element msg"
       },
       {
-        "name": "onKeyPress",
-        "comment": " Helper to construct a handler for a\n[keypress](http://developer.mozilla.org/en-US/docs/Web/Events/keypress)\nevent, where you only want the message to be triggered by a particular key\nbeing in pressed position. The string argument gives the keyboard value of\ninterest, which must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyPress (\"Enter\", DoSomething)\n\n",
-        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
+        "name": "plain",
+        "comment": " Construct plain inline text\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.plain\n      |> Ui.render\n\n    --> <span>Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+        "type": "String -> Ui.Element msg"
       },
       {
-        "name": "onKeyUp",
-        "comment": " Helper to construct a handler for a\n[keyup](http://developer.mozilla.org/en-US/docs/Web/Events/keyup)\nevent, where you only want the message to be triggered by a particular key\nbeing released from pressed position. The string argument gives the keyboard\nvalue of interest, which must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyUp (\"ArrowUp\", DoSomething)\n\n",
-        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
-      },
-      {
-        "name": "onMouseOut",
-        "comment": " Convience function to construct a handler for a \"mouseout\" event\n\n    myElement\n      |> Ui.Action.onMouseOut DoSomething\n\n",
-        "type": "msg -> Ui.Element msg -> Ui.Element msg"
-      },
-      {
-        "name": "onMouseOver",
-        "comment": " Convience function to construct a handler for a \"mouseover\" event\n\n    myElement\n      |> Ui.Action.onMouseOver DoSomething\n\n",
-        "type": "msg -> Ui.Element msg -> Ui.Element msg"
+        "name": "semibold",
+        "comment": " Construct text that will display with a semibold font-weight\n\n    \"Time to make the donuts!\"\n      |> Ui.Text.semibold\n      |> Ui.render\n\n    --> <span class=\"has-text-weight-semibold\">Time to make the donuts!</span>\n\n+ __HTML tag__: `<span>`\n+ __Element class__: none\n+ __Modifier classes__: *.has-text-weight-semibold*\n+ __Available modifiers__: [size](http://bulma.io/documentation/modifiers/typography-helpers/#size),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/modifiers/typography-helpers/\n\n",
+        "type": "String -> Ui.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -394,35 +360,69 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Ui.Media",
-    "comment": "\n\n# Content Element: Media\nThis module contains helpers to insert images and other media content into your\npage layout, with built-in features for web accessibility. The image constructor\napplies the *.image* Bulma element class, which is helpful for positioning\nand images and provides a set of fixed and responsive size modifiers. Other\nmedia content types that are not supported by Bulma are assigned class names\nfor custom styling.\n\n## Media Elements\n@docs image, svg, video, audio\n\n## Adding a Caption\n@docs withCaption\n\n",
+    "name": "Ui.Action",
+    "comment": "\n\n# Customizing UI Elements: User Actions\nUser actions are DOM events like clicks, key presses, and other mouse gestures\nthat do not capture text or numeric input. Handlers for user actions can be\nadded to any UI element using the functions in this module (for capturing input,\nsee\n[Ui.Input](http://package.elm-lang.org/packages/danielnarey/elm-modular-ui/latest/Ui-Input)).\n\nTo add a user-action handler to an element, you must specify the\n[event name](https://developer.mozilla.org/en-US/docs/Web/Events)\nand the message that you want to be sent to your Elm program's update function\nwhen the event is triggered. To handle keyboard actions, you will also have to\nspecify the\n[key value](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)\nof interest, which you can do using one of the helper functions below.\n\n\n## Generic functions for constructing user-action handlers\n@docs add, addList\n\n## Helpers for common mouse actions\n@docs onClick, onMouseOver, onMouseOut\n\n## Helpers for keyboard actions\n@docs onKeyPress, onKeyDown, onKeyUp\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "audio",
-        "comment": " Construct audio content, with an automatically generated error message as a\nfallback. Several source files may be listed to ensure that the audio is\nplayable in all modern browsers. The second string in each tuple gives the\n[media type code](https://www.iana.org/assignments/media-types/media-types.xhtml)\nof the file. The boolean argument indicates whether controls should be\ndisplayed.\n\n    { sourceList =\n      [ (\"horse.ogg\", \"audio/ogg\")\n      , (\"horse.mp3\", \"audio/mpeg\")\n      ]\n\n    , hasControls = True\n\n    }\n      |> Ui.Media.audio\n      |> Ui.render\n\n\n    --> <figure>\n    --    <audio controls role=\"application\">\n    --      <source src=\"horse.ogg\" type=\"audio/ogg\">\n    --      <source src=\"horse.mp3\" type=\"audio/mpeg\">\n    --      <p>Audio file 'horse.ogg' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'audio/ogg' files.</p>\n    --      <p>Audio file 'horse.mp3' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'audio/mpeg' files.</p>\n    --    </audio>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<audio>` > `<source>`\n+ __ARIA roles__: *figure* (default) > *application*\n+ __Element class__: *.audio*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.audio* is not a Bulma element class)\n\n",
-        "type": "{ sourceList : List ( String, String ), hasControls : Bool } -> Ui.Element msg"
+        "name": "add",
+        "comment": " Add a single action to a UI element\n\n    myElement\n      |> Ui.Action.add (\"click\", DoSomething)\n\n",
+        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
       },
       {
-        "name": "image",
-        "comment": " Construct image content (typically from a JPEG or PNG source), with alt\ntext for screen readers\n\n    { path = \"http://bulma.io/images/placeholders/128x128.png\"\n    , altText = \"This is a placeholder\"\n    }\n      |> Ui.Media.image\n      |> Ui.Modifier.add \"is-128x128\"\n      |> Ui.render\n\n    --> <figure class=\"image is-128x128\">\n    --    <img src=\"http://bulma.io/images/placeholders/128x128.png\" alt=\"This is a placeholder\">\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<img>`\n+ __ARIA roles__: *figure* > *img* (defaults)\n+ __Element class__: *.image*\n+ __Available modifiers__: size ([fixed](https://bulma.io/documentation/elements/image/#fixed-square-images),\n [responsive](https://bulma.io/documentation/elements/image/#responsive-images-with-ratios))\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/image/\n\n",
-        "type": "{ path : String, altText : String } -> Ui.Element msg"
+        "name": "addList",
+        "comment": " Add a list of actions to a UI element\n\n    myElement\n      |> Ui.Action.addList\n        [ (\"mouseover\", DoSomething)\n        , (\"click\", DoSomethingElse)\n        ]\n\n",
+        "type": "List ( String, msg ) -> Ui.Element msg -> Ui.Element msg"
       },
       {
-        "name": "svg",
-        "comment": " Construct SVG content, with a raster image fallback for older browsers and\nalt text for screen readers\n\n    { path = \"logo.svg\"\n    , fallback = \"logo.png\"\n    , altText = \"Company Logo\"\n    }\n      |> Ui.Media.svg\n      |> Ui.render\n\n    --> <figure class=\"svg-object\">\n    --    <object data=\"logo.svg\" type=\"image/svg+xml\">\n    --      <img src=\"logo.png\" alt=\"Company Name\">\n    --    </object>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<object>` > `<img>`\n+ __ARIA roles__: *figure* > *img* (defaults)\n+ __Element class__: *.svg-object*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.svg-object* is not a Bulma element class)\n\n",
-        "type": "{ path : String, fallback : String, altText : String } -> Ui.Element msg"
+        "name": "onClick",
+        "comment": " Convience function to construct a handler for a \"click\" event\n\n    myElement\n      |> Ui.Action.onClick DoSomething\n\n",
+        "type": "msg -> Ui.Element msg -> Ui.Element msg"
       },
       {
-        "name": "video",
-        "comment": " Construct video content, with an automatically generated error message as a\nfallback. Several source files may be listed to ensure that the video is\nplayable in all modern browsers. The second string in each tuple gives the\n[media type code](https://www.iana.org/assignments/media-types/media-types.xhtml)\nof the file. The `hasControls` argument indicates whether controls should be\ndisplayed in the video frame.\n\n    { sourceList =\n      [ (\"movie.mp4\", \"video/mp4\")\n      , (\"movie.ogg\", \"video/ogg\")\n      ]\n\n    , hasControls = True\n\n    }\n      |> Ui.Media.video\n      |> Ui.render\n\n\n    --> <figure class=\"video\">\n    --    <video controls role=\"application\">\n    --      <source src=\"movie.mp4\" type=\"video/mp4\">\n    --      <source src=\"movie.ogg\" type=\"video/ogg\">\n    --      <p>Video file 'movie.mp4' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'video/mp4' files.</p>\n    --      <p>Video file 'movie.ogg' cannot be loaded. Verify that your browser\n    --      is up to date and can play 'video/ogg' files.</p>\n    --    </video>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<video>` > `<source>`\n+ __ARIA roles__: *figure* (default) > *application*\n+ __Element class__: *.video*\n+ __Available modifiers__: none\n+ __Bulma CSS reference__: none (*.video* is not a Bulma element class)\n\n",
-        "type": "{ sourceList : List ( String, String ), hasControls : Bool } -> Ui.Element msg"
+        "name": "onKeyDown",
+        "comment": " Helper to construct a handler for a\n[keydown](http://developer.mozilla.org/en-US/docs/Web/Events/keydown)\nevent, where you only want the message to be triggered by a particular key\nbeing pressed down. The string argument gives the keyboard value of interest,\nwhich must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyDown (\"ArrowUp\", DoSomething)\n\n",
+        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
       },
       {
-        "name": "withCaption",
-        "comment": " Add a figure caption to a media element. The `id` argument is a unique\ninteger that is used to generate an *id* attribute for the caption so that\nit can be identified for screen readers as labelling the media element.\n\n    { path = \"http://bulma.io/images/placeholders/128x128.png\"\n    , altText = \"This is a placeholder\"\n    }\n      |> Ui.Media.image\n      |> Ui.Modifier.add \"is-128x128\"\n      |> Ui.Media.withCaption\n        { id = 1\n        , text = \"This image is 128 px by 128 px.\"\n        }\n\n      |> Ui.render\n\n    --> <figure class=\"image is-128x128\" aria-labelledby=\"caption-1\">\n    --    <img src=\"http://bulma.io/images/placeholders/128x128.png\" alt=\"This is a placeholder\">\n    --    <figcaption id=\"caption-1\">This image is 128 px x 128 px.</figcaption>\n    --  </figure>\n\n+ __HTML tags__: `<figure>` > `<figcaption>`\n+ __ARIA attribute__: *aria-labelledby* (caption is identified as the visible label for the figure element)\n\n",
-        "type": "{ id : Int, text : String } -> Ui.Element msg -> Ui.Element msg"
+        "name": "onKeyPress",
+        "comment": " Helper to construct a handler for a\n[keypress](http://developer.mozilla.org/en-US/docs/Web/Events/keypress)\nevent, where you only want the message to be triggered by a particular key\nbeing in pressed position. The string argument gives the keyboard value of\ninterest, which must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyPress (\"Enter\", DoSomething)\n\n",
+        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
+      },
+      {
+        "name": "onKeyUp",
+        "comment": " Helper to construct a handler for a\n[keyup](http://developer.mozilla.org/en-US/docs/Web/Events/keyup)\nevent, where you only want the message to be triggered by a particular key\nbeing released from pressed position. The string argument gives the keyboard\nvalue of interest, which must specified by one of the following:\n  + If the pressed key has a printed representation, the returned value is a\n  non-empty Unicode character string containing the printable representation of\n  the key.\n  + If the pressed key is a control or special character, the returned value\n  is one of the pre-defined key values in this\n  [table](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).\n\n    myElement\n      |> Ui.Action.onKeyUp (\"ArrowUp\", DoSomething)\n\n",
+        "type": "( String, msg ) -> Ui.Element msg -> Ui.Element msg"
+      },
+      {
+        "name": "onMouseOut",
+        "comment": " Convience function to construct a handler for a \"mouseout\" event\n\n    myElement\n      |> Ui.Action.onMouseOut DoSomething\n\n",
+        "type": "msg -> Ui.Element msg -> Ui.Element msg"
+      },
+      {
+        "name": "onMouseOver",
+        "comment": " Convience function to construct a handler for a \"mouseover\" event\n\n    myElement\n      |> Ui.Action.onMouseOver DoSomething\n\n",
+        "type": "msg -> Ui.Element msg -> Ui.Element msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Ui.Heading",
+    "comment": "\n\n# Content Element: Heading\nUsing the *.title* and *.subtitle* element classes gives greater control over\nthe ranking and appearance of headings by making HTML markup independent of\nfont-size rendering. With Bulma CSS, size modifier classes can be used to set\ndifferent title and subtitle sizes for different parts of a page.\n\n@docs title, subtitle\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "subtitle",
+        "comment": " Construct a subtitle heading\n\n    \"My Subtitle\"\n      |> Ui.Element.subtitle \"h2\"\n      |> Ui.Modifier.add \"is-6\"\n      |> Ui.render\n\n    --> <h2 class=\"subtitle is-6\">My Subtitle</h2>\n\n+ __HTML tag__: variable (use `<h2>` to `<h6>`, or `<p>`)\n+ __ARIA role__: default\n+ __Element class__: *.subtitle*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/title/#sizes),\n[spacing](http://bulma.io/documentation/elements/title/#sizes),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/title/\n\n",
+        "type": "String -> String -> Ui.Element msg"
+      },
+      {
+        "name": "title",
+        "comment": " Construct a title heading\n\n    \"My Title\"\n      |> Ui.Heading.title \"h1\"\n      |> Ui.Modifier.add \"is-4\"\n      |> Ui.render\n\n    --> <h1 class=\"title is-4\">My Title</h1>\n\n+ __HTML tag__: variable (use `<h1>` to `<h6>`, or `<p>`)\n+ __ARIA role__: default\n+ __Element class__: *.title*\n+ __Available modifiers__: [size](http://bulma.io/documentation/elements/title/#sizes),\n[spacing](http://bulma.io/documentation/elements/title/#sizes),\n[color](http://bulma.io/documentation/modifiers/typography-helpers/#colors),\n[alignment](http://bulma.io/documentation/modifiers/typography-helpers/#alignment),\n[weight](http://bulma.io/documentation/modifiers/typography-helpers/#text-weight),\n[character style](http://bulma.io/documentation/modifiers/typography-helpers/#text-transformation)\n+ __Bulma CSS reference__: http://bulma.io/documentation/elements/title/\n\n",
+        "type": "String -> String -> Ui.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

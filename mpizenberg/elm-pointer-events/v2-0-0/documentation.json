@@ -1,56 +1,5 @@
 [
   {
-    "name": "Wheel",
-    "comment": " Handling wheel events.\n\n@docs Event, DeltaMode\n\n\n# Basic Usage\n\n@docs onWheel\n\n\n# Advanced Usage\n\n@docs onWithOptions, eventDecoder\n\n",
-    "aliases": [
-      {
-        "name": "Event",
-        "comment": " Type that get returned by a browser wheel event.\nIts purpose is to provide all useful properties of JavaScript\n[WheelEvent] in the context of the elm programming language.\n\n`deltaX` and `deltaZ` properties are not provided by default\nsince not compatible with Safari.\nIf you really need them, you can very easily build your own wheel event\ndecoder by extending this one,\nor looking at the source code of this module and recoding one.\n\n[WheelEvent]: https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent\n\n",
-        "args": [],
-        "type": "{ mouseEvent : Mouse.Event , deltaY : Float , deltaMode : Wheel.DeltaMode }"
-      }
-    ],
-    "types": [
-      {
-        "name": "DeltaMode",
-        "comment": " The deltaMode property of a Wheel event.\n",
-        "args": [],
-        "cases": [
-          [
-            "DeltaPixel",
-            []
-          ],
-          [
-            "DeltaLine",
-            []
-          ],
-          [
-            "DeltaPage",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "eventDecoder",
-        "comment": " Wheel event decoder.\nIt is provided in case you want to extend this `Wheel.Event` type with\nnon provided properties (like `deltaX`, `deltaZ`).\n",
-        "type": "Json.Decode.Decoder Wheel.Event"
-      },
-      {
-        "name": "onWheel",
-        "comment": " Listen to `wheel` events.\nLet's say that we have a message type like this:\n\n    type Msg\n        = ZoomIn\n        | ZoomOut\n\nAnd we want to zoom in or out on an element depending on a wheel event:\n\n    chooseZoom : Wheel.Event -> Msg\n    chooseZoom wheelEvent =\n        if wheelEvent.deltaY > 0 then\n            ZoomOut\n        else\n            ZoomIn\n\n    div\n        [ Wheel.onWheel chooseZoom ]\n        [ text \"some zoomable area like an image\" ]\n\n",
-        "type": "(Wheel.Event -> msg) -> Html.Attribute msg"
-      },
-      {
-        "name": "onWithOptions",
-        "comment": " Enable personalization of html events options (prevent default and stop propagation)\nin case the default options do not fit your needs.\nThe `Options` type here is the standard [`Html.Events.Options`][html-options] type.\nYou can change options like follows:\n\n    onWheel : (Wheel.Event -> msg) -> Html.Attribute msg\n    onWheel =\n        { stopPropagation = False, preventDefault = True }\n            |> Wheel.onWithOptions\n\n[html-options]: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events#Options\n\n",
-        "type": "Html.Events.Options -> (Wheel.Event -> msg) -> Html.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Pointer",
     "comment": " Handling pointer events.\n\n@docs Event, DeviceType, ContactDetails\n\n\n# Basic Usage\n\n@docs onDown, onMove, onUp, onCancel, onOver, onEnter, onOut, onLeave\n\n\n# Advanced Usage\n\n@docs onWithOptions, eventDecoder\n\n",
     "aliases": [
@@ -125,6 +74,57 @@
         "name": "onWithOptions",
         "comment": " Choose the pointer event to listen to, and specify the event options.\n\nThe `Options` type here is the standard [`Html.Events.Options`][html-options] type.\nIf for some reason the default behavior of this lib\n(stop propagation and prevent default) does not fit your needs,\nyou can change it with for example:\n\n    myOnDown : (Pointer.Event -> msg) -> Html.Attribute msg\n    myOnDown =\n        { stopPropagation = False, preventDefault = True }\n            |> Pointer.onWithOptions \"pointerdown\"\n\n[html-options]: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events#Options\n\n",
         "type": "String -> Html.Events.Options -> (Pointer.Event -> msg) -> Html.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Wheel",
+    "comment": " Handling wheel events.\n\n@docs Event, DeltaMode\n\n\n# Basic Usage\n\n@docs onWheel\n\n\n# Advanced Usage\n\n@docs onWithOptions, eventDecoder\n\n",
+    "aliases": [
+      {
+        "name": "Event",
+        "comment": " Type that get returned by a browser wheel event.\nIts purpose is to provide all useful properties of JavaScript\n[WheelEvent] in the context of the elm programming language.\n\n`deltaX` and `deltaZ` properties are not provided by default\nsince not compatible with Safari.\nIf you really need them, you can very easily build your own wheel event\ndecoder by extending this one,\nor looking at the source code of this module and recoding one.\n\n[WheelEvent]: https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent\n\n",
+        "args": [],
+        "type": "{ mouseEvent : Mouse.Event , deltaY : Float , deltaMode : Wheel.DeltaMode }"
+      }
+    ],
+    "types": [
+      {
+        "name": "DeltaMode",
+        "comment": " The deltaMode property of a Wheel event.\n",
+        "args": [],
+        "cases": [
+          [
+            "DeltaPixel",
+            []
+          ],
+          [
+            "DeltaLine",
+            []
+          ],
+          [
+            "DeltaPage",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "eventDecoder",
+        "comment": " Wheel event decoder.\nIt is provided in case you want to extend this `Wheel.Event` type with\nnon provided properties (like `deltaX`, `deltaZ`).\n",
+        "type": "Json.Decode.Decoder Wheel.Event"
+      },
+      {
+        "name": "onWheel",
+        "comment": " Listen to `wheel` events.\nLet's say that we have a message type like this:\n\n    type Msg\n        = ZoomIn\n        | ZoomOut\n\nAnd we want to zoom in or out on an element depending on a wheel event:\n\n    chooseZoom : Wheel.Event -> Msg\n    chooseZoom wheelEvent =\n        if wheelEvent.deltaY > 0 then\n            ZoomOut\n        else\n            ZoomIn\n\n    div\n        [ Wheel.onWheel chooseZoom ]\n        [ text \"some zoomable area like an image\" ]\n\n",
+        "type": "(Wheel.Event -> msg) -> Html.Attribute msg"
+      },
+      {
+        "name": "onWithOptions",
+        "comment": " Enable personalization of html events options (prevent default and stop propagation)\nin case the default options do not fit your needs.\nThe `Options` type here is the standard [`Html.Events.Options`][html-options] type.\nYou can change options like follows:\n\n    onWheel : (Wheel.Event -> msg) -> Html.Attribute msg\n    onWheel =\n        { stopPropagation = False, preventDefault = True }\n            |> Wheel.onWithOptions\n\n[html-options]: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events#Options\n\n",
+        "type": "Html.Events.Options -> (Wheel.Event -> msg) -> Html.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

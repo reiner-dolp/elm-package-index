@@ -504,6 +504,37 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "StyledHtml.Css",
+    "comment": " This modules allows you to define and combine styles for Styled Html.\n\n\n# Defining named classes\n@docs Class, makeClass\n\n# Combining selectors\n@docs selector, andClass\n",
+    "aliases": [
+      {
+        "name": "Class",
+        "comment": " This describes a Styled Html class.\n",
+        "args": [],
+        "type": "StyledHtml.Private.Class"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "andClass",
+        "comment": " This is used to select a Styled Html Class.\n\n    buttonClass =\n        StyledHtml.Css.makeClass \"button\" [] []\n\n    inputClass =\n        StyledHtml.Css.makeClass \"input\"\n          [ \"border: 1px solid #b1b1b1\" ]\n          [ StyledHtml.Css.andClass buttonClass\n            [ \"border: 2px solid #b1b1b1\"\n            , \"cursor: pointer\"\n            ]\n            []\n          ]\n\nwill produce the rules:\n\n    .button_932D {\n    }\n\n    .input_21F1 {\n      border: 1px solid #b1b1b1;\n    }\n\n    .input_21F1.button_932D {\n      border: 2px solid #b1b1b1;\n      cursor: pointer;\n    }\n",
+        "type": "StyledHtml.Css.Class -> List StyledHtml.Private.StyleSnippet -> List (List StyledHtml.Private.Rule) -> List StyledHtml.Private.Rule"
+      },
+      {
+        "name": "makeClass",
+        "comment": " Defines a new styled html `Class`.\n\nThe first argument is the name to use as a base for the class name.\nUnder the hood, this base name will be extended with a hash string of the class rules.\n\nThe second argument is a list of style attributes to apply directly to the class, and\nthe third argument can be used to make composite selections.\n\n    modalContainerClass =\n      StyledHtml.Css.makeClass \"modal-container\"\n        [ \"display: flex\"\n        , \"justify-content: center\"\n        ]\n        [ StyledHtml.Css.selector \" .close-icon\"\n            [ \"width: 12px\" ]\n            []\n        ]\n\nwill produce the rules:\n\n    .modal-container_D783 {\n        display: flex;\n        justify-content: center;\n    }\n\n    .modal-container_D783 .close-icon {\n        width: 12px;\n    }\n",
+        "type": "String -> List StyledHtml.Private.StyleSnippet -> List (List StyledHtml.Private.Rule) -> StyledHtml.Css.Class"
+      },
+      {
+        "name": "selector",
+        "comment": " Creates a new CSS rule (extending the parent rule) with the given CSS selector.\n\n    buttonClass =\n      StyledHtml.Css.makeClass \"button\"\n        [ \"border: 2px solid grey\" ]\n        [ StyledHtml.Css.selector \":hover\"\n          [ \"background-color: grey\"\n          , \"border: 2px solid black\"\n          ]\n          [ StyledHtml.Css.selector \" svg.icon\"\n            [ \"fill: red\" ]\n            []\n          ]\n        ]\n\nwill result in these rules:\n\n    .button_37A2B {\n      border: 2px solid black;\n    }\n\n    .button_37A2B:hover {\n      background-color: grey;\n      border: 2px solid black;\n    }\n\n    .button_37A2B:hover svg.icon {\n      fill: red;\n    }\n",
+        "type": "String -> List StyledHtml.Private.StyleSnippet -> List (List StyledHtml.Private.Rule) -> List StyledHtml.Private.Rule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "StyledHtml.Events",
     "comment": " This module is pretty much the same as [Html.Events](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events)\n\n# Mouse Helpers\n@docs onClick, onDoubleClick,\n      onMouseDown, onMouseUp,\n      onMouseEnter, onMouseLeave,\n      onMouseOver, onMouseOut\n# Form Helpers\n@docs onInput, onCheck, onSubmit\n# Focus Helpers\n@docs onBlur, onFocus\n# Custom Event Handlers\n@docs on, onWithOptions, Options, defaultOptions\n# Custom Decoders\n@docs targetValue, targetChecked, keyCode\n",
     "aliases": [
@@ -610,37 +641,6 @@
         "name": "targetValue",
         "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n    import Json.Decode as Json\n    onInput : (String -> msg) -> Attribute msg\n    onInput tagger =\n      on \"input\" (Json.map tagger targetValue)\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n",
         "type": "Json.Decode.Decoder String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "StyledHtml.Css",
-    "comment": " This modules allows you to define and combine styles for Styled Html.\n\n\n# Defining named classes\n@docs Class, makeClass\n\n# Combining selectors\n@docs selector, andClass\n",
-    "aliases": [
-      {
-        "name": "Class",
-        "comment": " This describes a Styled Html class.\n",
-        "args": [],
-        "type": "StyledHtml.Private.Class"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "andClass",
-        "comment": " This is used to select a Styled Html Class.\n\n    buttonClass =\n        StyledHtml.Css.makeClass \"button\" [] []\n\n    inputClass =\n        StyledHtml.Css.makeClass \"input\"\n          [ \"border: 1px solid #b1b1b1\" ]\n          [ StyledHtml.Css.andClass buttonClass\n            [ \"border: 2px solid #b1b1b1\"\n            , \"cursor: pointer\"\n            ]\n            []\n          ]\n\nwill produce the rules:\n\n    .button_932D {\n    }\n\n    .input_21F1 {\n      border: 1px solid #b1b1b1;\n    }\n\n    .input_21F1.button_932D {\n      border: 2px solid #b1b1b1;\n      cursor: pointer;\n    }\n",
-        "type": "StyledHtml.Css.Class -> List StyledHtml.Private.StyleSnippet -> List (List StyledHtml.Private.Rule) -> List StyledHtml.Private.Rule"
-      },
-      {
-        "name": "makeClass",
-        "comment": " Defines a new styled html `Class`.\n\nThe first argument is the name to use as a base for the class name.\nUnder the hood, this base name will be extended with a hash string of the class rules.\n\nThe second argument is a list of style attributes to apply directly to the class, and\nthe third argument can be used to make composite selections.\n\n    modalContainerClass =\n      StyledHtml.Css.makeClass \"modal-container\"\n        [ \"display: flex\"\n        , \"justify-content: center\"\n        ]\n        [ StyledHtml.Css.selector \" .close-icon\"\n            [ \"width: 12px\" ]\n            []\n        ]\n\nwill produce the rules:\n\n    .modal-container_D783 {\n        display: flex;\n        justify-content: center;\n    }\n\n    .modal-container_D783 .close-icon {\n        width: 12px;\n    }\n",
-        "type": "String -> List StyledHtml.Private.StyleSnippet -> List (List StyledHtml.Private.Rule) -> StyledHtml.Css.Class"
-      },
-      {
-        "name": "selector",
-        "comment": " Creates a new CSS rule (extending the parent rule) with the given CSS selector.\n\n    buttonClass =\n      StyledHtml.Css.makeClass \"button\"\n        [ \"border: 2px solid grey\" ]\n        [ StyledHtml.Css.selector \":hover\"\n          [ \"background-color: grey\"\n          , \"border: 2px solid black\"\n          ]\n          [ StyledHtml.Css.selector \" svg.icon\"\n            [ \"fill: red\" ]\n            []\n          ]\n        ]\n\nwill result in these rules:\n\n    .button_37A2B {\n      border: 2px solid black;\n    }\n\n    .button_37A2B:hover {\n      background-color: grey;\n      border: 2px solid black;\n    }\n\n    .button_37A2B:hover svg.icon {\n      fill: red;\n    }\n",
-        "type": "String -> List StyledHtml.Private.StyleSnippet -> List (List StyledHtml.Private.Rule) -> List StyledHtml.Private.Rule"
       }
     ],
     "generated-with-elm-version": "0.18.0"

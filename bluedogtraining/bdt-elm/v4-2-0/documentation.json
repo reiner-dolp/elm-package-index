@@ -265,131 +265,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.SearchSelect",
-    "comment": " This module is useful if you want to add a Select Form element to your app,\nwith the options being searchable and coming from the backend.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a SearchSelect.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySearchSelect SearchSelect.Msg\n",
-        "args": [],
-        "type": "Form.SearchSelect.Internal.Msg"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a SearchSelect.Model to your model.\n\n    type alias MyModel =\n        { mySearchSelect : SearchSelect.Model String\n        }\n",
-        "args": [
-          "option"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the search select in your update function, to set focus etc.\n",
-        "type": "Form.SearchSelect.View option -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialOption",
-        "comment": " Get the initial option of your search-select.\n",
-        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your search-select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.SearchSelect.Model option -> Bool"
-      },
-      {
-        "name": "getIsOpen",
-        "comment": " Whether this select is currently open.\n",
-        "type": "Form.SearchSelect.Model option -> Bool"
-      },
-      {
-        "name": "getSelectedOption",
-        "comment": " Get the current option of your search-select. This is what you'd use to display the data somewhere outside of your search-select,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
-      },
-      {
-        "name": "init",
-        "comment": " Init a SearchSelect.Model in your model.\n\n      myInitialModel : MyModel\n      myInitialModel =\n          { mySearchSelect = SearchSelect.init \"https://example.com/search\" Decode.string\n          }\n  ",
-        "type": "String -> Json.Decode.Decoder option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your SearchSelect.Model.\n",
-        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an SearchSelect.View into Html SearchSelect.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect\n                |> SearchSelect.render\n                |> Html.map UpdateMySearchSelect\n            ]\n",
-        "type": "Form.SearchSelect.View option -> Html.Styled.Html (Form.SearchSelect.Internal.Msg option)"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your SearchSelect.Model.\n",
-        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "setDefaultLabel",
-        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
-        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your search-select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setInitialOption",
-        "comment": " Set the initial option of your SearchSelect.Model.\n",
-        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "setIsClearable",
-        "comment": " Set whether your search-select is clearable (x icon).\n",
-        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your search-select is in error mode (red border).\n",
-        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your search-select is locked (disabled).\n",
-        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setIsOptionDisabled",
-        "comment": " This function allows you to disable specific options.\n",
-        "type": "(option -> Bool) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "setSelectedOption",
-        "comment": " Change the option of your SearchSelect.Model.\n",
-        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
-      },
-      {
-        "name": "setToLabel",
-        "comment": " Set how your options are printed to the screen.\n",
-        "type": "(option -> String) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySearchSelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        SearchSelect.update selectMsg mode.mySearchSelect\n                in\n                    { model | mySearchSelect = newSelect } ! [ cmd ]\n",
-        "type": "Form.SearchSelect.Internal.Msg option -> Form.SearchSelect.Model option -> ( Form.SearchSelect.Model option , Platform.Cmd.Cmd (Form.SearchSelect.Internal.Msg option) )"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an SearchSelect.Model into an SearchSelect.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.View option"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Form.Input",
     "comment": " This module is useful if you want to add an Input Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Type Setters\n@docs setTextType, setEmailType, setPasswordType, setTelType, setNumberType\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
     "aliases": [
@@ -739,6 +614,131 @@
         "name": "view",
         "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
         "type": "Form.FloatInput.Model -> Form.FloatInput.View"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.SearchSelect",
+    "comment": " This module is useful if you want to add a Select Form element to your app,\nwith the options being searchable and coming from the backend.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialOption, setSelectedOption, setIsOptionDisabled\n\n# View Setters\n@docs setIsError, setIsLocked, setIsClearable, setDefaultLabel, setToLabel, setId\n\n# Getters\n@docs getIsChanged, getIsOpen, getInitialOption, getSelectedOption, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a SearchSelect.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMySearchSelect SearchSelect.Msg\n",
+        "args": [],
+        "type": "Form.SearchSelect.Internal.Msg"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a SearchSelect.Model to your model.\n\n    type alias MyModel =\n        { mySearchSelect : SearchSelect.Model String\n        }\n",
+        "args": [
+          "option"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the search select in your update function, to set focus etc.\n",
+        "type": "Form.SearchSelect.View option -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialOption",
+        "comment": " Get the initial option of your search-select.\n",
+        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your search-select was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.SearchSelect.Model option -> Bool"
+      },
+      {
+        "name": "getIsOpen",
+        "comment": " Whether this select is currently open.\n",
+        "type": "Form.SearchSelect.Model option -> Bool"
+      },
+      {
+        "name": "getSelectedOption",
+        "comment": " Get the current option of your search-select. This is what you'd use to display the data somewhere outside of your search-select,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.SearchSelect.Model option -> Maybe.Maybe option"
+      },
+      {
+        "name": "init",
+        "comment": " Init a SearchSelect.Model in your model.\n\n      myInitialModel : MyModel\n      myInitialModel =\n          { mySearchSelect = SearchSelect.init \"https://example.com/search\" Decode.string\n          }\n  ",
+        "type": "String -> Json.Decode.Decoder option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your SearchSelect.Model.\n",
+        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an SearchSelect.View into Html SearchSelect.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect\n                |> SearchSelect.render\n                |> Html.map UpdateMySearchSelect\n            ]\n",
+        "type": "Form.SearchSelect.View option -> Html.Styled.Html (Form.SearchSelect.Internal.Msg option)"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your SearchSelect.Model.\n",
+        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "setDefaultLabel",
+        "comment": " Set the default label, for example (-- NOTHING SELECTED --).\n",
+        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your search-select an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setInitialOption",
+        "comment": " Set the initial option of your SearchSelect.Model.\n",
+        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "setIsClearable",
+        "comment": " Set whether your search-select is clearable (x icon).\n",
+        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your search-select is in error mode (red border).\n",
+        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your search-select is locked (disabled).\n",
+        "type": "Bool -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setIsOptionDisabled",
+        "comment": " This function allows you to disable specific options.\n",
+        "type": "(option -> Bool) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "setSelectedOption",
+        "comment": " Change the option of your SearchSelect.Model.\n",
+        "type": "Maybe.Maybe option -> Form.SearchSelect.Model option -> Form.SearchSelect.Model option"
+      },
+      {
+        "name": "setToLabel",
+        "comment": " Set how your options are printed to the screen.\n",
+        "type": "(option -> String) -> Form.SearchSelect.View option -> Form.SearchSelect.View option"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMySearchSelect selectMsg ->\n                let\n                    (newSelect, cmd) =\n                        SearchSelect.update selectMsg mode.mySearchSelect\n                in\n                    { model | mySearchSelect = newSelect } ! [ cmd ]\n",
+        "type": "Form.SearchSelect.Internal.Msg option -> Form.SearchSelect.Model option -> ( Form.SearchSelect.Model option , Platform.Cmd.Cmd (Form.SearchSelect.Internal.Msg option) )"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an SearchSelect.Model into an SearchSelect.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.SearchSelect.Model option -> Form.SearchSelect.View option"
       }
     ],
     "generated-with-elm-version": "0.18.0"

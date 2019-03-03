@@ -1,5 +1,54 @@
 [
   {
+    "name": "Xml.Encode",
+    "comment": "\n    Use this module for turning your Elm data into an `Xml` representation that can be either\n    queried or decoded, or turned into a string.\n\n@docs encode\n\n@docs string, int, float, bool, object, null, list\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bool",
+        "comment": " Encode a bool\n    >>> bool True |> encode 0\n    \"true\"\n\n    >>> bool True |> encode 0\n    \"true\"\n",
+        "type": "Bool -> Xml.Value"
+      },
+      {
+        "name": "encode",
+        "comment": " Take a value, then generate a string from it\n",
+        "type": "Int -> Xml.Value -> String"
+      },
+      {
+        "name": "float",
+        "comment": " Encode a float\n    >>> float 1.576 |> encode 0\n    \"1.576\"\n",
+        "type": "Float -> Xml.Value"
+      },
+      {
+        "name": "int",
+        "comment": " Encode an int\n    >>> int 15 |> encode 0\n    \"15\"\n",
+        "type": "Int -> Xml.Value"
+      },
+      {
+        "name": "list",
+        "comment": " Encode a list of nodes, e.g\n    >>> import Dict\n    >>> list [ object [ (\"Root\", Dict.empty, null) ], int 5 ] |> encode 0\n    \"<Root></Root>\\n5\"\n",
+        "type": "List Xml.Value -> Xml.Value"
+      },
+      {
+        "name": "null",
+        "comment": " Empty contents\n    >>> null |> encode 0\n    \"\"\n",
+        "type": "Xml.Value"
+      },
+      {
+        "name": "object",
+        "comment": " Encode an \"object\" (a tag)\n",
+        "type": "List ( String, Dict.Dict String Xml.Value, Xml.Value ) -> Xml.Value"
+      },
+      {
+        "name": "string",
+        "comment": " Encode a string\n    >>> string \"hello\" |> encode 0\n    \"hello\"\n",
+        "type": "String -> Xml.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Xml.Query",
     "comment": "\n\n# Search the parsed XML\n\n@docs tags, contains\n\n@docs tag, collect, default\n\n@docs string, int, float, bool\n",
     "aliases": [],
@@ -49,55 +98,6 @@
         "name": "tags",
         "comment": " Search an XML value for any tags matching\n\n    >>> import Xml exposing (Value(..))\n    >>> import Xml.Encode exposing (object, null, encode)\n    >>> import Dict\n    >>> object [ (\"name\", Dict.empty, null)] |> tags \"name\"\n    [Tag \"name\" Dict.empty (Object []) ]\n\n",
         "type": "String -> Xml.Value -> List Xml.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Xml.Encode",
-    "comment": "\n    Use this module for turning your Elm data into an `Xml` representation that can be either\n    queried or decoded, or turned into a string.\n\n@docs encode\n\n@docs string, int, float, bool, object, null, list\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bool",
-        "comment": " Encode a bool\n    >>> bool True |> encode 0\n    \"true\"\n\n    >>> bool True |> encode 0\n    \"true\"\n",
-        "type": "Bool -> Xml.Value"
-      },
-      {
-        "name": "encode",
-        "comment": " Take a value, then generate a string from it\n",
-        "type": "Int -> Xml.Value -> String"
-      },
-      {
-        "name": "float",
-        "comment": " Encode a float\n    >>> float 1.576 |> encode 0\n    \"1.576\"\n",
-        "type": "Float -> Xml.Value"
-      },
-      {
-        "name": "int",
-        "comment": " Encode an int\n    >>> int 15 |> encode 0\n    \"15\"\n",
-        "type": "Int -> Xml.Value"
-      },
-      {
-        "name": "list",
-        "comment": " Encode a list of nodes, e.g\n    >>> import Dict\n    >>> list [ object [ (\"Root\", Dict.empty, null) ], int 5 ] |> encode 0\n    \"<Root></Root>\\n5\"\n",
-        "type": "List Xml.Value -> Xml.Value"
-      },
-      {
-        "name": "null",
-        "comment": " Empty contents\n    >>> null |> encode 0\n    \"\"\n",
-        "type": "Xml.Value"
-      },
-      {
-        "name": "object",
-        "comment": " Encode an \"object\" (a tag)\n",
-        "type": "List ( String, Dict.Dict String Xml.Value, Xml.Value ) -> Xml.Value"
-      },
-      {
-        "name": "string",
-        "comment": " Encode a string\n    >>> string \"hello\" |> encode 0\n    \"hello\"\n",
-        "type": "String -> Xml.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -1,63 +1,5 @@
 [
   {
-    "name": "Queue",
-    "comment": "\n\n# Creating Queues\n@docs Queue, empty\n# Getting first\n@docs first\n# Enqueuing/Dequeuing\n@docs enq, deq, requeue, enqMany, enqManyFromFunction\n# To List\n@docs toList\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Queue",
-        "comment": " A Queue containing items of type `a`.\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "deq",
-        "comment": " Dequeues an item from the Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.deq\n      -- == (Just 1, Queue.empty)\n",
-        "type": "Queue.Queue a -> ( Maybe.Maybe a, Queue.Queue a )"
-      },
-      {
-        "name": "empty",
-        "comment": " Creates an empty Queue.\n\n    Queue.empty\n",
-        "type": "Queue.Queue a"
-      },
-      {
-        "name": "enq",
-        "comment": " Enqueues an item to the Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.toList\n      -- == [1]\n",
-        "type": "a -> Queue.Queue a -> Queue.Queue a"
-      },
-      {
-        "name": "enqMany",
-        "comment": " Enqueue count copies of the same item\n\n    Queue.empty\n    |> Queue.pushMany item 3\n    |> Queue.toList\n    -- == [ item, item, item ]\n",
-        "type": "a -> Int -> Queue.Queue a -> Queue.Queue a"
-      },
-      {
-        "name": "enqManyFromFunction",
-        "comment": " Call passed function count times and enqueue each result\n\n    Queue.empty\n    |> Queue.pushMany (\\() -> item) 3\n    |> Queue.toList\n    -- == [ item, item, item ]\n",
-        "type": "(() -> a) -> Int -> Queue.Queue a -> Queue.Queue a"
-      },
-      {
-        "name": "first",
-        "comment": " Gets first item of Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.first\n      -- == Just 1\n",
-        "type": "Queue.Queue a -> Maybe.Maybe a"
-      },
-      {
-        "name": "requeue",
-        "comment": " Dequeue, call a function with to process, and then enqueue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.enq 3\n    |> Queue.requeue increment\n    |> Queue.toList\n    -- == [ 3, 2 ]\n",
-        "type": "(a -> a) -> Queue.Queue a -> Queue.Queue a"
-      },
-      {
-        "name": "toList",
-        "comment": " Converts a Queue into a List.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.enq 2\n    |> Queue.toList\n      -- == [1, 2]\n",
-        "type": "Queue.Queue a -> List a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Stack",
     "comment": "\n\n# Creating Stacks\n@docs Stack, empty\n# Getting top\n@docs top\n# Pushing/Popping\n@docs push, pop, pushMany, pushManyFromFunction, restack\n# Append\n@docs append\n# To List\n@docs toList\n# From List\n@docs fromList\n\n",
     "aliases": [],
@@ -121,6 +63,64 @@
         "name": "top",
         "comment": " Gets the top of the Stack.\n\n    Stack.empty\n    |> Stack.push 1\n    |> Stack.top\n      -- == Just 1\n",
         "type": "Stack.Stack a -> Maybe.Maybe a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Queue",
+    "comment": "\n\n# Creating Queues\n@docs Queue, empty\n# Getting first\n@docs first\n# Enqueuing/Dequeuing\n@docs enq, deq, requeue, enqMany, enqManyFromFunction\n# To List\n@docs toList\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Queue",
+        "comment": " A Queue containing items of type `a`.\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "deq",
+        "comment": " Dequeues an item from the Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.deq\n      -- == (Just 1, Queue.empty)\n",
+        "type": "Queue.Queue a -> ( Maybe.Maybe a, Queue.Queue a )"
+      },
+      {
+        "name": "empty",
+        "comment": " Creates an empty Queue.\n\n    Queue.empty\n",
+        "type": "Queue.Queue a"
+      },
+      {
+        "name": "enq",
+        "comment": " Enqueues an item to the Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.toList\n      -- == [1]\n",
+        "type": "a -> Queue.Queue a -> Queue.Queue a"
+      },
+      {
+        "name": "enqMany",
+        "comment": " Enqueue count copies of the same item\n\n    Queue.empty\n    |> Queue.pushMany item 3\n    |> Queue.toList\n    -- == [ item, item, item ]\n",
+        "type": "a -> Int -> Queue.Queue a -> Queue.Queue a"
+      },
+      {
+        "name": "enqManyFromFunction",
+        "comment": " Call passed function count times and enqueue each result\n\n    Queue.empty\n    |> Queue.pushMany (\\() -> item) 3\n    |> Queue.toList\n    -- == [ item, item, item ]\n",
+        "type": "(() -> a) -> Int -> Queue.Queue a -> Queue.Queue a"
+      },
+      {
+        "name": "first",
+        "comment": " Gets first item of Queue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.first\n      -- == Just 1\n",
+        "type": "Queue.Queue a -> Maybe.Maybe a"
+      },
+      {
+        "name": "requeue",
+        "comment": " Dequeue, call a function with to process, and then enqueue.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.enq 3\n    |> Queue.requeue increment\n    |> Queue.toList\n    -- == [ 3, 2 ]\n",
+        "type": "(a -> a) -> Queue.Queue a -> Queue.Queue a"
+      },
+      {
+        "name": "toList",
+        "comment": " Converts a Queue into a List.\n\n    Queue.empty\n    |> Queue.enq 1\n    |> Queue.enq 2\n    |> Queue.toList\n      -- == [1, 2]\n",
+        "type": "Queue.Queue a -> List a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

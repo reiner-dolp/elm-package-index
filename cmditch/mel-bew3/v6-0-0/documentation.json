@@ -156,101 +156,48 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Sentry.Event",
-    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
-    "aliases": [],
-    "types": [
+    "name": "Shh",
+    "comment": " Whipser API (Use at your own risk! Under Construction)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
+    "aliases": [
       {
-        "name": "EventSentry",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "FilterKey",
-        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Msg",
+        "name": "Post",
         "comment": " ",
         "args": [],
-        "cases": []
+        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
+      },
+      {
+        "name": "WhisperId",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Types.WhisperId"
       }
     ],
+    "types": [],
     "values": [
       {
-        "name": "changeNode",
+        "name": "newIdentity",
         "comment": " ",
-        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
       },
       {
-        "name": "init",
+        "name": "post",
         "comment": " ",
-        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
+        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
       },
       {
-        "name": "listen",
+        "name": "toWhisperId",
         "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
+        "type": "String -> Result.Result String Shh.WhisperId"
       },
       {
-        "name": "newBlocks",
+        "name": "version",
         "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
       },
       {
-        "name": "nextBlock",
+        "name": "whisperIdToString",
         "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "pendingTxs",
-        "comment": " ",
-        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "toFilterKey",
-        "comment": " ",
-        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
-      },
-      {
-        "name": "unWatch",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchNewBlocks",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchPendingTxs",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "update",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watch",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watchOnce",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "withDebug",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+        "type": "Shh.WhisperId -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -355,48 +302,135 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Shh",
-    "comment": " Whipser API (Use at your own risk! Under Construction)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
-    "aliases": [
+    "name": "Eth.Sentry.Event",
+    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
+    "aliases": [],
+    "types": [
       {
-        "name": "Post",
+        "name": "EventSentry",
         "comment": " ",
-        "args": [],
-        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
+        "args": [
+          "msg"
+        ],
+        "cases": []
       },
       {
-        "name": "WhisperId",
+        "name": "FilterKey",
+        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Msg",
         "comment": " ",
         "args": [],
-        "type": "Internal.Types.WhisperId"
+        "cases": []
       }
     ],
+    "values": [
+      {
+        "name": "changeNode",
+        "comment": " ",
+        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+      },
+      {
+        "name": "init",
+        "comment": " ",
+        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
+      },
+      {
+        "name": "listen",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "newBlocks",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "nextBlock",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "pendingTxs",
+        "comment": " ",
+        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "toFilterKey",
+        "comment": " ",
+        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
+      },
+      {
+        "name": "unWatch",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchNewBlocks",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchPendingTxs",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "update",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watch",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watchOnce",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "withDebug",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Decode",
+    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, event\n\n",
+    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "newIdentity",
+        "name": "address",
         "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
+        "type": "Json.Decode.Decoder Eth.Types.Address"
       },
       {
-        "name": "post",
+        "name": "blockHash",
         "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
+        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
       },
       {
-        "name": "toWhisperId",
+        "name": "event",
         "comment": " ",
-        "type": "String -> Result.Result String Shh.WhisperId"
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
       },
       {
-        "name": "version",
+        "name": "hex",
         "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+        "type": "Json.Decode.Decoder Eth.Types.Hex"
       },
       {
-        "name": "whisperIdToString",
+        "name": "txHash",
         "comment": " ",
-        "type": "Shh.WhisperId -> String"
+        "type": "Json.Decode.Decoder Eth.Types.TxHash"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -729,40 +763,6 @@
         "name": "uninstallFilter",
         "comment": " Uninstalls a filter with given id.\nShould always be called when watch is no longer needed.\nAdditonally Filters timeout when they aren't requested with eth_getFilterChanges for a period of time.\n",
         "type": "Eth.Types.HttpProvider -> Eth.Types.FilterId -> Task.Task Http.Error Eth.Types.FilterId"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.Decode",
-    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, event\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Address"
-      },
-      {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
-      },
-      {
-        "name": "event",
-        "comment": " ",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Hex"
-      },
-      {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.TxHash"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1183,39 +1183,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.RPC",
-    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
-    "aliases": [
-      {
-        "name": "RpcRequest",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "encode",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "toHttpBody",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
-      },
-      {
-        "name": "toTask",
-        "comment": " ",
-        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Units",
     "comment": " Conversions and Helpers\n\n\n# Units\n\n@docs gwei, eth\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
     "aliases": [],
@@ -1297,6 +1264,39 @@
         "name": "toWei",
         "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
         "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.RPC",
+    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
+    "aliases": [
+      {
+        "name": "RpcRequest",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "encode",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "toHttpBody",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
+      },
+      {
+        "name": "toTask",
+        "comment": " ",
+        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -182,40 +182,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "MultiSelect",
-    "comment": " MultiSelect\n\n`<select>` element with multiple selection.\nThis will properly give you the selected values for `onChange` event since the core `onChange` on `select` doesn't.\n\nOptions\n@docs Item, Options, defaultOptions\n\n# View\n@docs multiSelect\n",
-    "aliases": [
-      {
-        "name": "Item",
-        "comment": " Item is the individual content of the dropdown.\n\n * `value` is the item value or `id`\n * `text` is the display text of the multi-select item.\n * `enabled` is a flag to indicate whether the item is enabled or disabled.\n",
-        "args": [],
-        "type": "{ value : String, text : String, enabled : Bool }"
-      },
-      {
-        "name": "Options",
-        "comment": " Options for the dropdown.\n\n * `items` is content of the dropdown.\n * `onChange` is the message for when the selected value in the multi-select is changed.\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ items : List MultiSelect.Item, onChange : List String -> msg }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Default Options, will give you empty multi-select with no empty item\n",
-        "type": "(List String -> msg) -> MultiSelect.Options msg"
-      },
-      {
-        "name": "multiSelect",
-        "comment": " Html element.\n\nPut this in your view's Html content.\nExample:\n\n    type Msg = MultiSelectChanged (List String)\n\n    Html.div []\n        [ multiSelect\n            (defaultOptions MultiSelectChanged)\n            [ class \"my-multiSelect\" ]\n            model.selectedValues\n        ]\n",
-        "type": "MultiSelect.Options msg -> List (Html.Attribute msg) -> List String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Dropdown",
     "comment": " Dropdown\n\nOptions\n@docs Item, Options, defaultOptions\n\n# View\n@docs dropdown\n",
     "aliases": [
@@ -245,6 +211,40 @@
         "name": "dropdown",
         "comment": " Html element.\n\nPut this in your view's Html content.\nExample:\n\n    type Msg = DropdownChanged String\n\n    Html.div []\n        [ Dropdown.dropdown\n            (Dropdown.defaultOptions DropdownChanged)\n            [ class \"my-dropdown\" ]\n            model.selectedDropdownValue\n        ]\n",
         "type": "Dropdown.Options msg -> List (Html.Attribute msg) -> Maybe.Maybe String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "MultiSelect",
+    "comment": " MultiSelect\n\n`<select>` element with multiple selection.\nThis will properly give you the selected values for `onChange` event since the core `onChange` on `select` doesn't.\n\nOptions\n@docs Item, Options, defaultOptions\n\n# View\n@docs multiSelect\n",
+    "aliases": [
+      {
+        "name": "Item",
+        "comment": " Item is the individual content of the dropdown.\n\n * `value` is the item value or `id`\n * `text` is the display text of the multi-select item.\n * `enabled` is a flag to indicate whether the item is enabled or disabled.\n",
+        "args": [],
+        "type": "{ value : String, text : String, enabled : Bool }"
+      },
+      {
+        "name": "Options",
+        "comment": " Options for the dropdown.\n\n * `items` is content of the dropdown.\n * `onChange` is the message for when the selected value in the multi-select is changed.\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ items : List MultiSelect.Item, onChange : List String -> msg }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultOptions",
+        "comment": " Default Options, will give you empty multi-select with no empty item\n",
+        "type": "(List String -> msg) -> MultiSelect.Options msg"
+      },
+      {
+        "name": "multiSelect",
+        "comment": " Html element.\n\nPut this in your view's Html content.\nExample:\n\n    type Msg = MultiSelectChanged (List String)\n\n    Html.div []\n        [ multiSelect\n            (defaultOptions MultiSelectChanged)\n            [ class \"my-multiSelect\" ]\n            model.selectedValues\n        ]\n",
+        "type": "MultiSelect.Options msg -> List (Html.Attribute msg) -> List String -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -138,20 +138,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.TextArea",
-    "comment": " This module is useful if you want to add an TextArea Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
+    "name": "Form.IntInput",
+    "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
     "aliases": [
       {
         "name": "Msg",
-        "comment": " Add a TextArea.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyTextArea TextArea.Msg\n",
+        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
         "args": [],
-        "type": "Form.TextArea.Internal.Msg"
+        "type": "Form.IntInput.Internal.Msg"
       }
     ],
     "types": [
       {
         "name": "Model",
-        "comment": " Add a TextArea.Model to your model.\n\n    type alias MyModel =\n        { myTextArea : TextArea.Model\n        }\n",
+        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
         "args": [],
         "cases": []
       }
@@ -160,87 +160,87 @@
       {
         "name": "getId",
         "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
-        "type": "Form.TextArea.View -> Maybe.Maybe String"
+        "type": "Form.IntInput.View -> Maybe.Maybe String"
       },
       {
         "name": "getInitialValue",
         "comment": " Get the initial value of your input.\n",
-        "type": "Form.TextArea.Model -> String"
+        "type": "Form.IntInput.Model -> Maybe.Maybe Int"
       },
       {
         "name": "getIsChanged",
         "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.TextArea.Model -> Bool"
+        "type": "Form.IntInput.Model -> Bool"
       },
       {
         "name": "getValue",
         "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.TextArea.Model -> String"
+        "type": "Form.IntInput.Model -> Maybe.Maybe Int"
       },
       {
         "name": "init",
-        "comment": " Add a TextArea.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myTextArea = TextArea.init -- optionally pipe into State Setters\n        }\n",
-        "type": "Form.TextArea.Model"
+        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
+        "type": "Form.IntInput.Model"
       },
       {
         "name": "reInitialise",
-        "comment": " ReInitialise your TextArea.Model.\n",
-        "type": "Form.TextArea.Model -> Form.TextArea.Model"
+        "comment": " ReInitialise your Input.Model.\n",
+        "type": "Form.IntInput.Model -> Form.IntInput.Model"
       },
       {
         "name": "render",
-        "comment": " Transforms an TextArea.View into Html TextArea.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea\n                |> TextArea.render\n                |> Html.map UpdateMyTextArea\n            ]\n",
-        "type": "Form.TextArea.View -> Html.Html Form.TextArea.Internal.Msg"
+        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
+        "type": "Form.IntInput.View -> Html.Html Form.IntInput.Internal.Msg"
       },
       {
         "name": "reset",
-        "comment": " Reset your TextArea.Model.\n",
-        "type": "Form.TextArea.Model -> Form.TextArea.Model"
+        "comment": " Reset your Input.Model.\n",
+        "type": "Form.IntInput.Model -> Form.IntInput.Model"
       },
       {
         "name": "setId",
         "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
+        "type": "String -> Form.IntInput.View -> Form.IntInput.View"
       },
       {
         "name": "setInitialValue",
-        "comment": " Set the initial value of your TextArea.Model.\n",
-        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
+        "comment": " Set the initial value of your Input.Model.\n",
+        "type": "Int -> Form.IntInput.Model -> Form.IntInput.Model"
       },
       {
         "name": "setIsError",
         "comment": " Set whether your input is in error mode (red border).\n",
-        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
+        "type": "Bool -> Form.IntInput.View -> Form.IntInput.View"
       },
       {
         "name": "setIsLocked",
         "comment": " Set whether your input is locked (disabled).\n",
-        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
+        "type": "Bool -> Form.IntInput.View -> Form.IntInput.View"
       },
       {
         "name": "setMaxLength",
         "comment": " Set the max length for your input string.\n",
-        "type": "Int -> Form.TextArea.View -> Form.TextArea.View"
+        "type": "Int -> Form.IntInput.View -> Form.IntInput.View"
       },
       {
         "name": "setPlaceholder",
         "comment": " Set a placeholder for your input.\n",
-        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
+        "type": "String -> Form.IntInput.View -> Form.IntInput.View"
       },
       {
         "name": "setValue",
-        "comment": " Change the value of your TextArea.Model.\n",
-        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
+        "comment": " Change the value of your Input.Model.\n",
+        "type": "Int -> Form.IntInput.Model -> Form.IntInput.Model"
       },
       {
         "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyTextArea inputMsg ->\n                { model | myTextArea = TextArea.update inputMsg mode.myTextArea } ! []\n",
-        "type": "Form.TextArea.Internal.Msg -> Form.TextArea.Model -> Form.TextArea.Model"
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
+        "type": "Form.IntInput.Internal.Msg -> Form.IntInput.Model -> Form.IntInput.Model"
       },
       {
         "name": "view",
-        "comment": " Transform an TextArea.Model into an TextArea.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.TextArea.Model -> Form.TextArea.View"
+        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.IntInput.Model -> Form.IntInput.View"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -368,6 +368,252 @@
         "name": "view",
         "comment": " Transform an SearchSelect.Model into an SearchSelect.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ SearchSelect.view model.mySearchSelect -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
         "type": "Form.SearchSelect.Model option -> Form.SearchSelect.View option"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.Input",
+    "comment": " This module is useful if you want to add an Input Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Type Setters\n@docs setTextType, setEmailType, setPasswordType, setTelType, setNumberType\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
+        "args": [],
+        "type": "Form.Input.Internal.Msg"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
+        "type": "Form.Input.View -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialValue",
+        "comment": " Get the initial value of your input.\n",
+        "type": "Form.Input.Model -> String"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.Input.Model -> Bool"
+      },
+      {
+        "name": "getValue",
+        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.Input.Model -> String"
+      },
+      {
+        "name": "init",
+        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
+        "type": "Form.Input.Model"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your Input.Model.\n",
+        "type": "Form.Input.Model -> Form.Input.Model"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
+        "type": "Form.Input.View -> Html.Html Form.Input.Internal.Msg"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your Input.Model.\n",
+        "type": "Form.Input.Model -> Form.Input.Model"
+      },
+      {
+        "name": "setEmailType",
+        "comment": " Set the type_ of your input to \"email\"\n",
+        "type": "Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setInitialValue",
+        "comment": " Set the initial value of your Input.Model.\n",
+        "type": "String -> Form.Input.Model -> Form.Input.Model"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your input is in error mode (red border).\n",
+        "type": "Bool -> Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your input is locked (disabled).\n",
+        "type": "Bool -> Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setMaxLength",
+        "comment": " Set the max length for your input string.\n",
+        "type": "Int -> Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setNumberType",
+        "comment": " Set the type_ of your input to \"number\"\n",
+        "type": "Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setPasswordType",
+        "comment": " Set the type_ of your input to \"password\"\n",
+        "type": "Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setPlaceholder",
+        "comment": " Set a placeholder for your input.\n",
+        "type": "String -> Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setTelType",
+        "comment": " Set the type_ of your input to \"tel\"\n",
+        "type": "Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setTextType",
+        "comment": " Set the type_ of your input to \"text\"\n",
+        "type": "Form.Input.View -> Form.Input.View"
+      },
+      {
+        "name": "setValue",
+        "comment": " Change the value of your Input.Model.\n",
+        "type": "String -> Form.Input.Model -> Form.Input.Model"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
+        "type": "Form.Input.Internal.Msg -> Form.Input.Model -> Form.Input.Model"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.Input.Model -> Form.Input.View"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Form.FloatInput",
+    "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue, setDecimal\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
+    "aliases": [
+      {
+        "name": "Msg",
+        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
+        "args": [],
+        "type": "Form.FloatInput.Internal.Msg"
+      }
+    ],
+    "types": [
+      {
+        "name": "Model",
+        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "getId",
+        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
+        "type": "Form.FloatInput.View -> Maybe.Maybe String"
+      },
+      {
+        "name": "getInitialValue",
+        "comment": " Get the initial value of your input.\n",
+        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
+      },
+      {
+        "name": "getIsChanged",
+        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
+        "type": "Form.FloatInput.Model -> Bool"
+      },
+      {
+        "name": "getValue",
+        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
+        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
+      },
+      {
+        "name": "init",
+        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
+        "type": "Form.FloatInput.Model"
+      },
+      {
+        "name": "reInitialise",
+        "comment": " ReInitialise your FloatInput.Model.\n",
+        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "render",
+        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
+        "type": "Form.FloatInput.View -> Html.Html Form.FloatInput.Internal.Msg"
+      },
+      {
+        "name": "reset",
+        "comment": " Reset your FloatInput.Model.\n",
+        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "setDecimal",
+        "comment": " Change the number of decimal places of your FloatInput.Model.\n",
+        "type": "Int -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "setId",
+        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
+        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setInitialValue",
+        "comment": " Set the initial value of your FloatInput.Model.\n",
+        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "setIsError",
+        "comment": " Set whether your input is in error mode (red border).\n",
+        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setIsLocked",
+        "comment": " Set whether your input is locked (disabled).\n",
+        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setMaxLength",
+        "comment": " Set the max length for your input string.\n",
+        "type": "Int -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setPlaceholder",
+        "comment": " Set a placeholder for your input.\n",
+        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
+      },
+      {
+        "name": "setValue",
+        "comment": " Change the value of your FloatInput.Model.\n",
+        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "update",
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
+        "type": "Form.FloatInput.Internal.Msg -> Form.FloatInput.Model -> Form.FloatInput.Model"
+      },
+      {
+        "name": "view",
+        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.FloatInput.Model -> Form.FloatInput.View"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -627,20 +873,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.Input",
-    "comment": " This module is useful if you want to add an Input Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Type Setters\n@docs setTextType, setEmailType, setPasswordType, setTelType, setNumberType\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
+    "name": "Form.TextArea",
+    "comment": " This module is useful if you want to add an TextArea Form element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
     "aliases": [
       {
         "name": "Msg",
-        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
+        "comment": " Add a TextArea.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyTextArea TextArea.Msg\n",
         "args": [],
-        "type": "Form.Input.Internal.Msg"
+        "type": "Form.TextArea.Internal.Msg"
       }
     ],
     "types": [
       {
         "name": "Model",
-        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
+        "comment": " Add a TextArea.Model to your model.\n\n    type alias MyModel =\n        { myTextArea : TextArea.Model\n        }\n",
         "args": [],
         "cases": []
       }
@@ -649,350 +895,89 @@
       {
         "name": "getId",
         "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
-        "type": "Form.Input.View -> Maybe.Maybe String"
+        "type": "Form.TextArea.View -> Maybe.Maybe String"
       },
       {
         "name": "getInitialValue",
         "comment": " Get the initial value of your input.\n",
-        "type": "Form.Input.Model -> String"
+        "type": "Form.TextArea.Model -> String"
       },
       {
         "name": "getIsChanged",
         "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.Input.Model -> Bool"
+        "type": "Form.TextArea.Model -> Bool"
       },
       {
         "name": "getValue",
         "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.Input.Model -> String"
+        "type": "Form.TextArea.Model -> String"
       },
       {
         "name": "init",
-        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
-        "type": "Form.Input.Model"
+        "comment": " Add a TextArea.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myTextArea = TextArea.init -- optionally pipe into State Setters\n        }\n",
+        "type": "Form.TextArea.Model"
       },
       {
         "name": "reInitialise",
-        "comment": " ReInitialise your Input.Model.\n",
-        "type": "Form.Input.Model -> Form.Input.Model"
+        "comment": " ReInitialise your TextArea.Model.\n",
+        "type": "Form.TextArea.Model -> Form.TextArea.Model"
       },
       {
         "name": "render",
-        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
-        "type": "Form.Input.View -> Html.Html Form.Input.Internal.Msg"
+        "comment": " Transforms an TextArea.View into Html TextArea.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea\n                |> TextArea.render\n                |> Html.map UpdateMyTextArea\n            ]\n",
+        "type": "Form.TextArea.View -> Html.Html Form.TextArea.Internal.Msg"
       },
       {
         "name": "reset",
-        "comment": " Reset your Input.Model.\n",
-        "type": "Form.Input.Model -> Form.Input.Model"
-      },
-      {
-        "name": "setEmailType",
-        "comment": " Set the type_ of your input to \"email\"\n",
-        "type": "Form.Input.View -> Form.Input.View"
+        "comment": " Reset your TextArea.Model.\n",
+        "type": "Form.TextArea.Model -> Form.TextArea.Model"
       },
       {
         "name": "setId",
         "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.Input.View -> Form.Input.View"
+        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
       },
       {
         "name": "setInitialValue",
-        "comment": " Set the initial value of your Input.Model.\n",
-        "type": "String -> Form.Input.Model -> Form.Input.Model"
+        "comment": " Set the initial value of your TextArea.Model.\n",
+        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
       },
       {
         "name": "setIsError",
         "comment": " Set whether your input is in error mode (red border).\n",
-        "type": "Bool -> Form.Input.View -> Form.Input.View"
+        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
       },
       {
         "name": "setIsLocked",
         "comment": " Set whether your input is locked (disabled).\n",
-        "type": "Bool -> Form.Input.View -> Form.Input.View"
+        "type": "Bool -> Form.TextArea.View -> Form.TextArea.View"
       },
       {
         "name": "setMaxLength",
         "comment": " Set the max length for your input string.\n",
-        "type": "Int -> Form.Input.View -> Form.Input.View"
-      },
-      {
-        "name": "setNumberType",
-        "comment": " Set the type_ of your input to \"number\"\n",
-        "type": "Form.Input.View -> Form.Input.View"
-      },
-      {
-        "name": "setPasswordType",
-        "comment": " Set the type_ of your input to \"password\"\n",
-        "type": "Form.Input.View -> Form.Input.View"
+        "type": "Int -> Form.TextArea.View -> Form.TextArea.View"
       },
       {
         "name": "setPlaceholder",
         "comment": " Set a placeholder for your input.\n",
-        "type": "String -> Form.Input.View -> Form.Input.View"
-      },
-      {
-        "name": "setTelType",
-        "comment": " Set the type_ of your input to \"tel\"\n",
-        "type": "Form.Input.View -> Form.Input.View"
-      },
-      {
-        "name": "setTextType",
-        "comment": " Set the type_ of your input to \"text\"\n",
-        "type": "Form.Input.View -> Form.Input.View"
+        "type": "String -> Form.TextArea.View -> Form.TextArea.View"
       },
       {
         "name": "setValue",
-        "comment": " Change the value of your Input.Model.\n",
-        "type": "String -> Form.Input.Model -> Form.Input.Model"
+        "comment": " Change the value of your TextArea.Model.\n",
+        "type": "String -> Form.TextArea.Model -> Form.TextArea.Model"
       },
       {
         "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
-        "type": "Form.Input.Internal.Msg -> Form.Input.Model -> Form.Input.Model"
+        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyTextArea inputMsg ->\n                { model | myTextArea = TextArea.update inputMsg mode.myTextArea } ! []\n",
+        "type": "Form.TextArea.Internal.Msg -> Form.TextArea.Model -> Form.TextArea.Model"
       },
       {
         "name": "view",
-        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.Input.Model -> Form.Input.View"
+        "comment": " Transform an TextArea.Model into an TextArea.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ TextArea.view model.myTextArea -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
+        "type": "Form.TextArea.Model -> Form.TextArea.View"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Form.FloatInput",
-    "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue, setDecimal\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
-        "args": [],
-        "type": "Form.FloatInput.Internal.Msg"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
-        "type": "Form.FloatInput.View -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialValue",
-        "comment": " Get the initial value of your input.\n",
-        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.FloatInput.Model -> Bool"
-      },
-      {
-        "name": "getValue",
-        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.FloatInput.Model -> Maybe.Maybe Float"
-      },
-      {
-        "name": "init",
-        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
-        "type": "Form.FloatInput.Model"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your FloatInput.Model.\n",
-        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
-        "type": "Form.FloatInput.View -> Html.Html Form.FloatInput.Internal.Msg"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your FloatInput.Model.\n",
-        "type": "Form.FloatInput.Model -> Form.FloatInput.Model"
-      },
-      {
-        "name": "setDecimal",
-        "comment": " Change the number of decimal places of your FloatInput.Model.\n",
-        "type": "Int -> Form.FloatInput.Model -> Form.FloatInput.Model"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
-      },
-      {
-        "name": "setInitialValue",
-        "comment": " Set the initial value of your FloatInput.Model.\n",
-        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your input is in error mode (red border).\n",
-        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your input is locked (disabled).\n",
-        "type": "Bool -> Form.FloatInput.View -> Form.FloatInput.View"
-      },
-      {
-        "name": "setMaxLength",
-        "comment": " Set the max length for your input string.\n",
-        "type": "Int -> Form.FloatInput.View -> Form.FloatInput.View"
-      },
-      {
-        "name": "setPlaceholder",
-        "comment": " Set a placeholder for your input.\n",
-        "type": "String -> Form.FloatInput.View -> Form.FloatInput.View"
-      },
-      {
-        "name": "setValue",
-        "comment": " Change the value of your FloatInput.Model.\n",
-        "type": "Float -> Form.FloatInput.Model -> Form.FloatInput.Model"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
-        "type": "Form.FloatInput.Internal.Msg -> Form.FloatInput.Model -> Form.FloatInput.Model"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.FloatInput.Model -> Form.FloatInput.View"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Form.IntInput",
-    "comment": " This module is useful if you want to add an Integer based Input element to your app.\n\n# Initialise and update\n@docs Model, init, Msg, update\n\n# View and render\n@docs view, render\n\n# State Setters\n@docs reInitialise, reset, setInitialValue, setValue\n\n# View Setters\n@docs setPlaceholder, setMaxLength, setIsError, setIsLocked, setId\n\n# Getters\n@docs getInitialValue, getValue, getIsChanged, getId\n\n",
-    "aliases": [
-      {
-        "name": "Msg",
-        "comment": " Add a Input.Msg to your Msg.\n\n    type MyMsg\n        = UpdateMyInput Input.Msg\n",
-        "args": [],
-        "type": "Form.IntInput.Internal.Msg"
-      }
-    ],
-    "types": [
-      {
-        "name": "Model",
-        "comment": " Add a Input.Model to your model.\n\n    type alias MyModel =\n        { myInput : Input.Model\n        }\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "getId",
-        "comment": " Useful if you need the id of the input in your update function, so set focus etc.\n",
-        "type": "Form.IntInput.View -> Maybe.Maybe String"
-      },
-      {
-        "name": "getInitialValue",
-        "comment": " Get the initial value of your input.\n",
-        "type": "Form.IntInput.Model -> Maybe.Maybe Int"
-      },
-      {
-        "name": "getIsChanged",
-        "comment": " Whether your input was changed. Useful if you want to disable save buttons unless there were changes etc.\n",
-        "type": "Form.IntInput.Model -> Bool"
-      },
-      {
-        "name": "getValue",
-        "comment": " Get the current value of your input. This is what you'd use to display the data somewhere outside of your input,\nor to send the data to the backend for example etc.\n",
-        "type": "Form.IntInput.Model -> Maybe.Maybe Int"
-      },
-      {
-        "name": "init",
-        "comment": " Add a Input.Model to your model.\n\n    myInitialModel : MyModel\n    myInitialModel =\n        { myInput = Input.init -- optionally pipe into State Setters\n        }\n",
-        "type": "Form.IntInput.Model"
-      },
-      {
-        "name": "reInitialise",
-        "comment": " ReInitialise your Input.Model.\n",
-        "type": "Form.IntInput.Model -> Form.IntInput.Model"
-      },
-      {
-        "name": "render",
-        "comment": " Transforms an Input.View into Html Input.Msg\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput\n                |> Input.render\n                |> Html.map UpdateMyInput\n            ]\n",
-        "type": "Form.IntInput.View -> Html.Html Form.IntInput.Internal.Msg"
-      },
-      {
-        "name": "reset",
-        "comment": " Reset your Input.Model.\n",
-        "type": "Form.IntInput.Model -> Form.IntInput.Model"
-      },
-      {
-        "name": "setId",
-        "comment": " Give your input an id. Can be useful for DOM selectors (focus, WebComponents etc.)\n",
-        "type": "String -> Form.IntInput.View -> Form.IntInput.View"
-      },
-      {
-        "name": "setInitialValue",
-        "comment": " Set the initial value of your Input.Model.\n",
-        "type": "Int -> Form.IntInput.Model -> Form.IntInput.Model"
-      },
-      {
-        "name": "setIsError",
-        "comment": " Set whether your input is in error mode (red border).\n",
-        "type": "Bool -> Form.IntInput.View -> Form.IntInput.View"
-      },
-      {
-        "name": "setIsLocked",
-        "comment": " Set whether your input is locked (disabled).\n",
-        "type": "Bool -> Form.IntInput.View -> Form.IntInput.View"
-      },
-      {
-        "name": "setMaxLength",
-        "comment": " Set the max length for your input string.\n",
-        "type": "Int -> Form.IntInput.View -> Form.IntInput.View"
-      },
-      {
-        "name": "setPlaceholder",
-        "comment": " Set a placeholder for your input.\n",
-        "type": "String -> Form.IntInput.View -> Form.IntInput.View"
-      },
-      {
-        "name": "setValue",
-        "comment": " Change the value of your Input.Model.\n",
-        "type": "Int -> Form.IntInput.Model -> Form.IntInput.Model"
-      },
-      {
-        "name": "update",
-        "comment": " Use in your update function.\n\n    myUpdate : Msg -> Model -> (Model, Cmd Msg)\n    myUpdate msg model =\n        case msg of\n            UpdateMyInput inputMsg ->\n                { model | myInput = Input.update inputMsg mode.myInput } ! []\n",
-        "type": "Form.IntInput.Internal.Msg -> Form.IntInput.Model -> Form.IntInput.Model"
-      },
-      {
-        "name": "view",
-        "comment": " Transform an Input.Model into an Input.View, which allows us to pipe View Setters on it.\n\n    myView : Model -> Html Msg\n    myView model =\n        div\n            []\n            [ Input.view model.myInput -- pipe view setters here, for example |> setIsLocked 'your logic here'\n            ]\n",
-        "type": "Form.IntInput.Model -> Form.IntInput.View"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "InfixPrecedence",
-    "comment": " This module is useful to allow multiple modules to declare their own (?) infix function.\n\n# Definition\n@docs InfixPrecedence\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "InfixPrecedence",
-        "comment": " This type is ony here to satisfy elm packages. Can't be created or used.\n\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -1041,6 +1026,21 @@
         "type": "a -> Resettable.Resettable a -> Resettable.Resettable a"
       }
     ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "InfixPrecedence",
+    "comment": " This module is useful to allow multiple modules to declare their own (?) infix function.\n\n# Definition\n@docs InfixPrecedence\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "InfixPrecedence",
+        "comment": " This type is ony here to satisfy elm packages. Can't be created or used.\n\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   }
 ]

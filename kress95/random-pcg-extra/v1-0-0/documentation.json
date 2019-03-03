@@ -1,19 +1,5 @@
 [
   {
-    "name": "Random.Pcg.Order",
-    "comment": " An extra random generator for the `Order` type.\n\n@docs order\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "order",
-        "comment": " Generate a random order with equal probability.\n",
-        "type": "Random.Pcg.Generator Basics.Order"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Random.Pcg.Set",
     "comment": " Extra randomized functions on sets.\n\n# Create a Set\n@docs set\n\n# Create a Generator\n@docs sample\n\n# Modify a Generator\n@docs notInSet\n\n",
     "aliases": [],
@@ -33,6 +19,20 @@
         "name": "set",
         "comment": " Generate a set of at most the given size from a generator.\n\nThe size of a generated set is limited both by the integer provided and the\nnumber of unique values the generator can produce. It is very likely, but not\nguaranteed, that generated sets will be as big as the smaller of these two limits.\n",
         "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator (Set.Set comparable)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.Order",
+    "comment": " An extra random generator for the `Order` type.\n\n@docs order\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "order",
+        "comment": " Generate a random order with equal probability.\n",
+        "type": "Random.Pcg.Generator Basics.Order"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1236,6 +1236,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Random.Pcg.List",
+    "comment": " Extra randomized functions on lists.\n\n# Work with a List\n@docs choose, shuffle\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "choose",
+        "comment": " Sample without replacement: produce a randomly selected element of the\nlist, and the list with that element omitted. If the list is empty, the\nselected element will be `Nothing`.\n",
+        "type": "List a -> Random.Pcg.Generator ( Maybe.Maybe a, List a )"
+      },
+      {
+        "name": "shuffle",
+        "comment": " Shuffle the list using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
+        "type": "List a -> Random.Pcg.Generator (List a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Random.Pcg.Array",
     "comment": " Extra randomized functions on arrays.\n\n# Create an Array\n@docs array, rangeLengthArray\n\n# Work with an Array\n@docs sample, choose, shuffle\n\n",
     "aliases": [],
@@ -1270,25 +1289,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.List",
-    "comment": " Extra randomized functions on lists.\n\n# Work with a List\n@docs choose, shuffle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "choose",
-        "comment": " Sample without replacement: produce a randomly selected element of the\nlist, and the list with that element omitted. If the list is empty, the\nselected element will be `Nothing`.\n",
-        "type": "List a -> Random.Pcg.Generator ( Maybe.Maybe a, List a )"
-      },
-      {
-        "name": "shuffle",
-        "comment": " Shuffle the list using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
-        "type": "List a -> Random.Pcg.Generator (List a)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Random.Pcg.String",
     "comment": " Extra randomized functions on strings.\n\n# Create a String\n@docs string, rangeLengthString\n\n",
     "aliases": [],
@@ -1303,25 +1303,6 @@
         "name": "string",
         "comment": " Generate a random string of a given length with a given character generator\n\n    fiveLetterEnglishWord = string 5 Random.Pcg.Char.english\n",
         "type": "Int -> Random.Pcg.Generator Char -> Random.Pcg.Generator String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Random.Pcg.Dict",
-    "comment": " Extra randomized functions on dicts.\n\n# Generators\n@docs dict, rangeLengthDict\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "dict",
-        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
-        "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
-      },
-      {
-        "name": "rangeLengthDict",
-        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1356,60 +1337,6 @@
         "name": "positiveInt",
         "comment": " A generator that generates a positive int\n",
         "type": "Random.Pcg.Generator Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Random.Pcg.Color",
-    "comment": " Extra randomized functions on colors.\n\n# Random.Pcg Colors by Components\n@docs rgb, rgba, hsl, hsla\n\n# Random.Pcg Colors by Shade\n@docs greyscale, grayscale, red, green, blue\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "blue",
-        "comment": " Generate a random shade of blue.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "grayscale",
-        "comment": " Alias for greyscale.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "green",
-        "comment": " Generate a random shade of green.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "greyscale",
-        "comment": " Generate a random shade of grey\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "hsl",
-        "comment": " Generate a random non-transparent color by random HSL values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "hsla",
-        "comment": " Generate a random transparent color by random HSLA values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "red",
-        "comment": " Generate a random shade of red.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "rgb",
-        "comment": " Generate a random non-transparent color by random RGB values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
-      },
-      {
-        "name": "rgba",
-        "comment": " Generate a random transparent color by random RGBA values.\n",
-        "type": "Random.Pcg.Generator Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1509,6 +1436,79 @@
         "name": "sample",
         "comment": " Given a list, choose an element uniformly at random. `Nothing` is only\nproduced if the list is empty.\n\n    type Direction = North | South | East | West\n\n    direction : Generator Direction\n    direction =\n      sample [North, South, East, West]\n        |> map (Maybe.withDefault North)\n\n",
         "type": "List a -> Random.Pcg.Generator (Maybe.Maybe a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.Color",
+    "comment": " Extra randomized functions on colors.\n\n# Random.Pcg Colors by Components\n@docs rgb, rgba, hsl, hsla\n\n# Random.Pcg Colors by Shade\n@docs greyscale, grayscale, red, green, blue\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "blue",
+        "comment": " Generate a random shade of blue.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "grayscale",
+        "comment": " Alias for greyscale.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "green",
+        "comment": " Generate a random shade of green.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "greyscale",
+        "comment": " Generate a random shade of grey\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "hsl",
+        "comment": " Generate a random non-transparent color by random HSL values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "hsla",
+        "comment": " Generate a random transparent color by random HSLA values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "red",
+        "comment": " Generate a random shade of red.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "rgb",
+        "comment": " Generate a random non-transparent color by random RGB values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      },
+      {
+        "name": "rgba",
+        "comment": " Generate a random transparent color by random RGBA values.\n",
+        "type": "Random.Pcg.Generator Color.Color"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.Dict",
+    "comment": " Extra randomized functions on dicts.\n\n# Generators\n@docs dict, rangeLengthDict\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
+        "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
+      },
+      {
+        "name": "rangeLengthDict",
+        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
       }
     ],
     "generated-with-elm-version": "0.18.0"

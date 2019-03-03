@@ -1,44 +1,5 @@
 [
   {
-    "name": "TeaCombine.Effectful.Pair",
-    "comment": " Combinators for work with effectful programs (those use @Cms and @Sub).\n\nTODO: add some great docs.\n\n@docs initWith, updateWith, subscribeWith, (<>), (<&>), (<+>)\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "<&>",
-        "comment": " An infix alias for @updateWith.\n",
-        "type": "TeaCombine.Effectful.Update model1 msg1 -> TeaCombine.Effectful.Update model2 msg2 -> TeaCombine.Effectful.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
-      },
-      {
-        "name": "<+>",
-        "comment": " An infix alias for @subscribeWith.\n",
-        "type": "TeaCombine.Effectful.Subscription model1 msg1 -> TeaCombine.Effectful.Subscription model2 msg2 -> TeaCombine.Effectful.Subscription (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
-      },
-      {
-        "name": "<>",
-        "comment": " An infix alias for @initWith.\n",
-        "type": "( model1, Platform.Cmd.Cmd msg1 ) -> ( model2, Platform.Cmd.Cmd msg2 ) -> ( TeaCombine.Both model1 model2 , Platform.Cmd.Cmd (Either.Either msg1 msg2) )"
-      },
-      {
-        "name": "initWith",
-        "comment": " Inits both models (with Cmds).\n",
-        "type": "( model2, Platform.Cmd.Cmd msg2 ) -> ( model1, Platform.Cmd.Cmd msg1 ) -> ( TeaCombine.Both model1 model2 , Platform.Cmd.Cmd (Either.Either msg1 msg2) )"
-      },
-      {
-        "name": "subscribeWith",
-        "comment": " Combines two subscriptions.\n",
-        "type": "TeaCombine.Effectful.Subscription model2 msg2 -> TeaCombine.Effectful.Subscription model1 msg1 -> TeaCombine.Effectful.Subscription (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
-      },
-      {
-        "name": "updateWith",
-        "comment": " Updates one of two submodels using corresponding subupdate function.\n",
-        "type": "TeaCombine.Effectful.Update model2 msg2 -> TeaCombine.Effectful.Update model1 msg1 -> TeaCombine.Effectful.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "TeaCombine.Pure.Pair",
     "comment": " Combinators for work with pure programs (those doesn't use @Cmd and @Sub).\n\nTODO: add some great docs\n\n@docs initWith, (<>), updateWith, (<&>)\n\n",
     "aliases": [],
@@ -82,6 +43,45 @@
         "name": "updateEach",
         "comment": " Updates each sub-model in @Array using a function\nfrom sub-model index to sub-update.\n",
         "type": "(Int -> TeaCombine.Pure.Update model msg) -> TeaCombine.Pure.Update (Array.Array model) (TeaCombine.Ix msg)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "TeaCombine.Effectful.Pair",
+    "comment": " Combinators for work with effectful programs (those use @Cms and @Sub).\n\nTODO: add some great docs.\n\n@docs initWith, updateWith, subscribeWith, (<>), (<&>), (<+>)\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "<&>",
+        "comment": " An infix alias for @updateWith.\n",
+        "type": "TeaCombine.Effectful.Update model1 msg1 -> TeaCombine.Effectful.Update model2 msg2 -> TeaCombine.Effectful.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
+      },
+      {
+        "name": "<+>",
+        "comment": " An infix alias for @subscribeWith.\n",
+        "type": "TeaCombine.Effectful.Subscription model1 msg1 -> TeaCombine.Effectful.Subscription model2 msg2 -> TeaCombine.Effectful.Subscription (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
+      },
+      {
+        "name": "<>",
+        "comment": " An infix alias for @initWith.\n",
+        "type": "( model1, Platform.Cmd.Cmd msg1 ) -> ( model2, Platform.Cmd.Cmd msg2 ) -> ( TeaCombine.Both model1 model2 , Platform.Cmd.Cmd (Either.Either msg1 msg2) )"
+      },
+      {
+        "name": "initWith",
+        "comment": " Inits both models (with Cmds).\n",
+        "type": "( model2, Platform.Cmd.Cmd msg2 ) -> ( model1, Platform.Cmd.Cmd msg1 ) -> ( TeaCombine.Both model1 model2 , Platform.Cmd.Cmd (Either.Either msg1 msg2) )"
+      },
+      {
+        "name": "subscribeWith",
+        "comment": " Combines two subscriptions.\n",
+        "type": "TeaCombine.Effectful.Subscription model2 msg2 -> TeaCombine.Effectful.Subscription model1 msg1 -> TeaCombine.Effectful.Subscription (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
+      },
+      {
+        "name": "updateWith",
+        "comment": " Updates one of two submodels using corresponding subupdate function.\n",
+        "type": "TeaCombine.Effectful.Update model2 msg2 -> TeaCombine.Effectful.Update model1 msg1 -> TeaCombine.Effectful.Update (TeaCombine.Both model1 model2) (Either.Either msg1 msg2)"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -231,24 +231,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "TeaCombine.Pure",
-    "comment": " A common stuff for the pure combinators.\n\nTODO: add some great docs.\n\n@docs Update\n\n",
-    "aliases": [
-      {
-        "name": "Update",
-        "comment": " A type alias for the pure update function.\n",
-        "args": [
-          "model",
-          "msg"
-        ],
-        "type": "msg -> model -> model"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "TeaCombine.Effectful",
     "comment": " A common types for the effectful cominators.\n\nTODO: add some great docs.\n\n@docs Update, Subscription\n\n",
     "aliases": [
@@ -269,6 +251,24 @@
           "msg"
         ],
         "type": "msg -> model -> ( model, Platform.Cmd.Cmd msg )"
+      }
+    ],
+    "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "TeaCombine.Pure",
+    "comment": " A common stuff for the pure combinators.\n\nTODO: add some great docs.\n\n@docs Update\n\n",
+    "aliases": [
+      {
+        "name": "Update",
+        "comment": " A type alias for the pure update function.\n",
+        "args": [
+          "model",
+          "msg"
+        ],
+        "type": "msg -> model -> model"
       }
     ],
     "types": [],

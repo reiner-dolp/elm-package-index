@@ -1606,6 +1606,20 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Random.Order",
+    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "order",
+        "comment": " Generate a random order with equal probability.\n",
+        "type": "Random.Generator Basics.Order"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Random.Window",
     "comment": " List of window Generators\n\n# Generators\n@docs windowDimensions, windowWidth, windowHeight\n\n",
     "aliases": [],
@@ -1728,15 +1742,25 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Random.Order",
-    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
+    "name": "Random.Maybe",
+    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "order",
-        "comment": " Generate a random order with equal probability.\n",
-        "type": "Random.Generator Basics.Order"
+        "name": "maybe",
+        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
+      },
+      {
+        "name": "withDefault",
+        "comment": " Generate values from a maybe generator or a default value.\n",
+        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+      },
+      {
+        "name": "withDefaultGenerator",
+        "comment": " Generate values from a maybe generator or a default generator.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -1781,30 +1805,6 @@
         "name": "run",
         "comment": " Create a running signal from an application that follows the Elm Architecture.\nThis is analogous to `application` and works better as it avoids issues with\n`Random.Extra.reduce`.\n\nHow to use:\n\n    main =\n      run initialModel actionGenerator update view\n",
         "type": "model -> Random.Generator action -> (action -> model -> model) -> (model -> view) -> Signal.Signal view"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Random.Maybe",
-    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "maybe",
-        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
-      },
-      {
-        "name": "withDefault",
-        "comment": " Generate values from a maybe generator or a default value.\n",
-        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
-      },
-      {
-        "name": "withDefaultGenerator",
-        "comment": " Generate values from a maybe generator or a default generator.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
       }
     ],
     "generated-with-elm-version": "0.16.0"

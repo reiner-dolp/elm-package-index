@@ -1,43 +1,5 @@
 [
   {
-    "name": "Flags.App",
-    "comment": "\n\n\n# Create an app with flags\n\n@docs Config, Application, application\n\n",
-    "aliases": [
-      {
-        "name": "Application",
-        "comment": " ",
-        "args": [
-          "app",
-          "route",
-          "page",
-          "msg"
-        ],
-        "type": "Platform.Program Json.Decode.Value (Flags.App.Model route app page) (Flags.App.Msg route msg)"
-      },
-      {
-        "name": "Config",
-        "comment": " Almost identitcal to `App.Config`, except for some important differences:\n\n    - `init` takes flags.\n    - `decoder` decodes your flags\n    - `broken` gives you the decoding error and returns a page.\n\nNote: Want to handle decoding errors your own way? Just set `decoder`\nto `Json.succeed` and have your `init` take a `Json.Value` which you can\nthen decode for real however you like.\n\n",
-        "args": [
-          "flags",
-          "app",
-          "route",
-          "page",
-          "msg"
-        ],
-        "type": "{ init : flags -> app , decoder : Json.Decode.Decoder flags , broken : String -> ( page, Platform.Cmd.Cmd msg ) , parser : UrlParser.Parser (route -> route) route , composer : route -> String , load : Result.Result Navigation.Location route -> app -> ( page, Platform.Cmd.Cmd msg ) , save : page -> app -> app , update : msg -> page -> ( page, Platform.Cmd.Cmd msg ) , view : page -> Html.Html msg , subscriptions : page -> Platform.Sub.Sub msg }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "application",
-        "comment": " Create a single page app with flags\n",
-        "type": "Flags.App.Config flags app route page msg -> Flags.App.Application app route page msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "App",
     "comment": "\n\n\n# Create an app\n\n@docs Config, Application, application\n\n\n# Link helpers\n\n@docs link, button\n\n",
     "aliases": [
@@ -80,6 +42,44 @@
         "name": "link",
         "comment": " A link which prevents default.\n",
         "type": "(route -> String) -> (route -> msg) -> route -> List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Flags.App",
+    "comment": "\n\n\n# Create an app with flags\n\n@docs Config, Application, application\n\n",
+    "aliases": [
+      {
+        "name": "Application",
+        "comment": " ",
+        "args": [
+          "app",
+          "route",
+          "page",
+          "msg"
+        ],
+        "type": "Platform.Program Json.Decode.Value (Flags.App.Model route app page) (Flags.App.Msg route msg)"
+      },
+      {
+        "name": "Config",
+        "comment": " Almost identitcal to `App.Config`, except for some important differences:\n\n    - `init` takes flags.\n    - `decoder` decodes your flags\n    - `broken` gives you the decoding error and returns a page.\n\nNote: Want to handle decoding errors your own way? Just set `decoder`\nto `Json.succeed` and have your `init` take a `Json.Value` which you can\nthen decode for real however you like.\n\n",
+        "args": [
+          "flags",
+          "app",
+          "route",
+          "page",
+          "msg"
+        ],
+        "type": "{ init : flags -> app , decoder : Json.Decode.Decoder flags , broken : String -> ( page, Platform.Cmd.Cmd msg ) , parser : UrlParser.Parser (route -> route) route , composer : route -> String , load : Result.Result Navigation.Location route -> app -> ( page, Platform.Cmd.Cmd msg ) , save : page -> app -> app , update : msg -> page -> ( page, Platform.Cmd.Cmd msg ) , view : page -> Html.Html msg , subscriptions : page -> Platform.Sub.Sub msg }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "application",
+        "comment": " Create a single page app with flags\n",
+        "type": "Flags.App.Config flags app route page msg -> Flags.App.Application app route page msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

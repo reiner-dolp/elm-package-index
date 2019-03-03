@@ -134,6 +134,92 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Tuple019",
+    "comment": " Elm 0.19 added `pair` and `mapBoth`.\n\n@docs pair, mapBoth\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "mapBoth",
+        "comment": " Transform both parts of a tuple.\n\n    mapBoth String.reverse sqrt  (\"stressed\", 16) --> (\"desserts\", 4)\n\n    mapBoth String.length negate (\"stressed\", 16) --> (8, -16)\n\n",
+        "type": "(a -> x) -> (b -> y) -> ( a, b ) -> ( x, y )"
+      },
+      {
+        "name": "pair",
+        "comment": " Create a 2-tuple.\n\n    pair 3 4 --> (3, 4)\n\n    zip : List a -> List b -> List (a, b)\n    zip xs ys =\n      List.map2 Tuple.pair xs ys\n\n",
+        "type": "a -> b -> ( a, b )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random017",
+    "comment": " Like in other modules, the paramenters of `andThen` were flipped in Elm\n0.18.\n\n@docs andThen\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain random operations, threading through the seed. In the following\nexample, we will generate a random letter by putting together uppercase and\nlowercase letters.\n\n    letter : Generator Char\n    letter =\n      bool `andThen` \\b ->\n        if b then uppercaseLetter else lowercaseLetter\n\n    -- bool : Generator Bool\n    -- uppercaseLetter : Generator Char\n    -- lowercaseLetter : Generator Char\n",
+        "type": "Random.Generator a -> (a -> Random.Generator b) -> Random.Generator b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Maybe017",
+    "comment": " Some functions from Elm 0.17\n\n@docs andThen, oneOf\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain together many computations that may fail. It is helpful to see its\ndefinition:\n\n    andThen : Maybe a -> (a -> Maybe b) -> Maybe b\n    andThen maybe callback =\n        case maybe of\n            Just value ->\n                callback value\n\n            Nothing ->\n                Nothing\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`head : List Int -> Maybe Int`) to get the\nfirst month from a `List` and then make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Maybe Int\n    toValidMonth month =\n        if month >= 1 && month <= 12 then\n            Just month\n        else\n            Nothing\n\n    getFirstMonth : List Int -> Maybe Int\n    getFirstMonth months =\n        head months `andThen` toValidMonth\n\nIf `head` fails and results in `Nothing` (because the `List` was `empty`),\nthis entire chain of operations will short-circuit and result in `Nothing`.\nIf `toValidMonth` results in `Nothing`, again the chain of computations\nwill result in `Nothing`.\n\n",
+        "type": "Maybe.Maybe a -> (a -> Maybe.Maybe b) -> Maybe.Maybe b"
+      },
+      {
+        "name": "oneOf",
+        "comment": " Pick the first `Maybe` that actually has a value. Useful when you want to\ntry a couple different things, but there is no default value.\n\n    oneOf [ Nothing, Just 42, Just 71 ] == Just 42\n    oneOf [ Nothing, Nothing, Just 71 ] == Just 71\n    oneOf [ Nothing, Nothing, Nothing ] == Nothing\n\n",
+        "type": "List (Maybe.Maybe a) -> Maybe.Maybe a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "String019",
+    "comment": " Elm 0.19 added several new functions, and changed the\nsignature for `toInt` and `toFloat`.\n\n@docs replace, fromInt, fromFloat\n@docs toInt, toFloat\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fromFloat",
+        "comment": " Convert a `Float` to a `String`.\n\n    fromFloat 123 --> \"123\"\n\n    fromFloat -42 --> \"-42\"\n\n    fromFloat 3.9 --> \"3.9\"\n\nCheck out [`Debug.toString`](Debug#toString) to convert _any_ value to a string\nfor debugging purposes.\n\n",
+        "type": "Float -> String"
+      },
+      {
+        "name": "fromInt",
+        "comment": " Convert an `Int` to a `String`.\n\n    fromInt 123 --> \"123\"\n\n    fromInt -42 --> \"-42\"\n\nCheck out [`Debug.toString`](Debug#toString) to convert _any_ value to a string\nfor debugging purposes.\n\n",
+        "type": "Int -> String"
+      },
+      {
+        "name": "replace",
+        "comment": " Replace all occurrences of some substring.\n\n    replace \".\" \"-\" \"Json.Decode.succeed\" --> \"Json-Decode-succeed\"\n\n    replace \",\" \"/\" \"a,b,c,d,e\" --> \"a/b/c/d/e\"\n\n**Note:** If you need more advanced replacements, check out the\n[`elm/parser`][parser] or [`elm/regex`][regex] package.\n\n[parser]: /packages/elm/parser/latest\n[regex]: /packages/elm/regex/latest\n\n",
+        "type": "String -> String -> String -> String"
+      },
+      {
+        "name": "toFloat",
+        "comment": " Try to convert a string into a float, failing on improperly formatted strings.\n\n    String019.toFloat \"123\" --> Just 123.0\n\n    String019.toFloat \"-42\" --> Just -42.0\n\n    String019.toFloat \"3.1\" --> Just 3.1\n\n    String019.toFloat \"31a\" --> Nothing\n\nIf you are extracting a number from some raw user input, you will typically\nwant to use [`Maybe.withDefault`](Maybe#withDefault) to handle bad data:\n\n    Maybe.withDefault 0 (String019.toFloat \"42.5\") --> 42.5\n\n    Maybe.withDefault 0 (String019.toFloat \"cats\") --> 0\n\n",
+        "type": "String -> Maybe.Maybe Float"
+      },
+      {
+        "name": "toInt",
+        "comment": " Try to convert a string into an int, failing on improperly formatted strings.\n\n    String019.toInt \"123\" --> Just 123\n\n    String019.toInt \"-42\" --> Just -42\n\n    String019.toInt \"3.1\" --> Nothing\n\n    String019.toInt \"31a\" --> Nothing\n\nIf you are extracting a number from some raw user input, you will typically\nwant to use [`Maybe.withDefault`](Maybe#withDefault) to handle bad data:\n\n    Maybe.withDefault 0 (String019.toInt \"42\") --> 42\n\n    Maybe.withDefault 0 (String019.toInt \"ab\") --> 0\n\n",
+        "type": "String -> Maybe.Maybe Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Regex019",
     "comment": " `Regex` was moved to a separate package in Elm 0.19, and the\nAPI had some significant changes. Those changes are back-ported here, so much\nas is possible.\n\n@docs fromString, fromStringWith, Options, never\n\n@docs split, splitAtMost, find, findAtMost\n\n",
     "aliases": [
@@ -180,6 +266,97 @@
         "name": "splitAtMost",
         "comment": " Just like `split` but it stops after some number of matches.\n\nA library like [`elm/parser`][parser] will probably lead to better code in\nthe long run.\n\n[parser]: /packages/elm/parser/latest\n\n",
         "type": "Int -> Regex.Regex -> String -> List String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Result017",
+    "comment": " `formatError` was renamed to `mapError` in Elm 0.18, and\nthe parameters of `andThen` were flipped.\n\n@docs andThen, formatError\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain together a sequence of computations that may fail. It is helpful\nto see its definition:\n\n    andThen : Result e a -> (a -> Result e b) -> Result e b\n    andThen result callback =\n        case result of\n          Ok value -> callback value\n          Err msg -> Err msg\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`toInt : String -> Result String Int`) to parse\na month and make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Result String Int\n    toValidMonth month =\n        if month >= 1 && month <= 12\n            then Ok month\n            else Err \"months must be between 1 and 12\"\n\n    toMonth : String -> Result String Int\n    toMonth rawString =\n        toInt rawString `andThen` toValidMonth\n\n    -- toMonth \"4\" == Ok 4\n    -- toMonth \"9\" == Ok 9\n    -- toMonth \"a\" == Err \"cannot parse to an Int\"\n    -- toMonth \"0\" == Err \"months must be between 1 and 12\"\n\nThis allows us to come out of a chain of operations with quite a specific error\nmessage. It is often best to create a custom type that explicitly represents\nthe exact ways your computation may fail. This way it is easy to handle in your\ncode.\n",
+        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b"
+      },
+      {
+        "name": "formatError",
+        "comment": " Format the error value of a result. If the result is `Ok`, it stays exactly\nthe same, but if the result is an `Err` we will format the error. For example,\nsay the errors we get have too much information:\n\n    parseInt : String -> Result ParseError Int\n\n    type alias ParseError =\n        { message : String\n        , code : Int\n        , position : (Int,Int)\n        }\n\n    formatError .message (parseInt \"123\") == Ok 123\n    formatError .message (parseInt \"abc\") == Err \"char 'a' is not a number\"\n",
+        "type": "(error1 -> error2) -> Result.Result error1 a -> Result.Result error2 a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Basics017",
+    "comment": " Several functions from Elm 0.17 were moved to other modules in Elm 0.18, so\nhere they are!\n\n@docs fst, snd\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fst",
+        "comment": " Given a 2-tuple, returns the first value.\n",
+        "type": "( a, b ) -> a"
+      },
+      {
+        "name": "snd",
+        "comment": " Given a 2-tuple, returns the second value.\n",
+        "type": "( a, b ) -> b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random019",
+    "comment": " Elm 0.19 moved `Random` to a separate module and added several functions\nto the API. Those functions are provided here.\n\nElm 0.19 also improved the basic algorithm for randomness. That is not\nimplemented here -- so, this is the Elm 0.18 algorithm with the Elm 0.19 API.\nIf you want something closer to the Elm 0.19 algorithm in Elm 0.18, then\nconsider using\n[mgold/elm-random-pcg](https://package.elm-lang.org/packages/mgold/elm-random-pcg/latest)\n\n@docs uniform, weighted, constant, lazy, independentSeed\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "constant",
+        "comment": " Generate the same value every time.\n\n    import Random\n\n    alwaysFour : Random.Generator Int\n    alwaysFour =\n        Random.constant 4\n\nThink of it as picking from a hat with only one thing in it. It is weird,\nbut it can be useful with [`elm-community/random-extra`][extra] which has\ntons of nice helpers.\n\n[extra]: /packages/elm-community/random-extra/latest\n\n",
+        "type": "a -> Random.Generator a"
+      },
+      {
+        "name": "independentSeed",
+        "comment": " A generator that produces a seed that is independent of any other seed in\nthe program. These seeds will generate their own unique sequences of random\nvalues. They are useful when you need an unknown amount of randomness _later_\nbut can request only a fixed amount of randomness _now_.\n\n> It does not seem possible to implement Elm 0.19's exact algorithm in an Elm\n> 0.18 user package. So, what is implemented here is an approximation of what Elm\n> 0.19 does, and probably does not have the same quality of randomness.\n\n",
+        "type": "Random.Generator Random.Seed"
+      },
+      {
+        "name": "lazy",
+        "comment": " Helper for defining self-recursive generators. Say we want to generate a\nrandom number of probabilities:\n\n    import Random\n\n    probabilities : Random.Generator (List Float)\n    probabilities =\n        Random.andThen identity <|\n            Random.uniform\n                (Random.constant [])\n                [ Random.map2 (::)\n                    (Random.float 0 1)\n                    (Random.lazy (\\_ -> probabilities))\n                ]\n\nIn 50% of cases we end the list. In 50% of cases we generate a probability and\nadd it onto a random number of probabilities. The `lazy` call is crucial\nbecause it means we do not unroll the generator unless we need to.\n\nThis is a pretty subtle issue, so I recommend reading more about it\n[here](https://elm-lang.org/hints/0.19.0/bad-recursion)!\n\n**Note:** You can delay evaluation with `andThen` too. The thing that matters\nis that you have a function call that delays the creation of the generator!\n\n",
+        "type": "(() -> Random.Generator a) -> Random.Generator a"
+      },
+      {
+        "name": "uniform",
+        "comment": " Generate values with equal probability. Say we want a random suit for some\ncards:\n\n    import Random\n\n    type Suit\n        = Diamond\n        | Club\n        | Heart\n        | Spade\n\n    suit : Random.Generator Suit\n    suit =\n        Random.uniform Diamond [ Club, Heart, Spade ]\n\nThat generator produces all `Suit` values with equal probability, 25% each.\n\n**Note:** Why not have `uniform : List a -> Generator a` as the API? It looks\na little prettier in code, but it leads to an awkward question. What do you do\nwith `uniform []`? How can it produce an `Int` or `Float`? The current API\nguarantees that we always have _at least_ one value, so we never run into that\nquestion!\n\n",
+        "type": "a -> List a -> Random.Generator a"
+      },
+      {
+        "name": "weighted",
+        "comment": " Generate values with a _weighted_ probability. Say we want to simulate a\n[loaded die](https://en.wikipedia.org/wiki/Dice#Loaded_dice) that lands\non ⚄ and ⚅ more often than the other faces:\n\n    import Random\n\n    type Face\n        = One\n        | Two\n        | Three\n        | Four\n        | Five\n        | Six\n\n    roll : Random.Generator Face\n    roll =\n        Random.weighted\n            ( 10, One )\n            [ ( 10, Two )\n            , ( 10, Three )\n            , ( 10, Four )\n            , ( 20, Five )\n            , ( 40, Six )\n            ]\n\nSo there is a 40% chance of getting `Six`, a 20% chance of getting `Five`, and\nthen a 10% chance for each of the remaining faces.\n\n**Note:** I made the weights add up to 100, but that is not necessary. I always\nadd up your weights into a `total`, and from there, the probablity of each case\nis `weight / total`. Negative weights do not really make sense, so I just flip\nthem to be positive.\n\n",
+        "type": "( Float, a ) -> List ( Float, a ) -> Random.Generator a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Debug019",
+    "comment": " Elm 0.19 moved `toString` to the `Debug` module, and renamed\n`crash` to `todo`.\n\n@docs toString, todo\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toString",
+        "comment": " Turn any kind of value into a string.\n\n    Debug019.toString 42                --> \"42\"\n\n    Debug019.toString [1,2]             --> \"[1,2]\"\n\n    Debug019.toString ('a', \"cat\", 13)  --> \"('a',\\\"cat\\\",13)\"\n\n    Debug019.toString \"he said, \\\"hi\\\"\" --> \"\\\"he said, \\\\\\\"hi\\\\\\\"\\\"\"\n\nNotice that with strings, this is not the `identity` function. It escapes\ncharacters so if you say `Html.text (toString \"he said, \\\"hi\\\"\")` it will\nshow `\"he said, \\\"hi\\\"\"` rather than `he said, \"hi\"`. This makes it nice\nfor viewing Elm data structures.\n\n",
+        "type": "a -> String"
+      },
+      {
+        "name": "todo",
+        "comment": " This is a placeholder for code that you will write later.\n\nFor example, if you are working with a large union type and have partially\ncompleted a case expression, it may make sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.todo \"handle Captain and Seagull\"\n\nThe Elm compiler recognizes each `Debug.todo` so if you run into it, you get\nan **uncatchable runtime exception** that includes the module name and line\nnumber.\n\n**Note:** For the equivalent of try/catch error handling in Elm, use modules\nlike [`Maybe`](#Maybe) and [`Result`](#Result) which guarantee that no error\ngoes unhandled!\n\n",
+        "type": "String -> a"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -234,159 +411,39 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Basics017",
-    "comment": " Several functions from Elm 0.17 were moved to other modules in Elm 0.18, so\nhere they are!\n\n@docs fst, snd\n\n",
+    "name": "Json.Encode019",
+    "comment": " Elm 0.19 moved this module to a separate package, and added\na couple of new encoders.\n\n@docs dict, set\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "fst",
-        "comment": " Given a 2-tuple, returns the first value.\n",
-        "type": "( a, b ) -> a"
+        "name": "dict",
+        "comment": " Turn a `Dict` into a JSON object.\n\n    import Dict\n    import Json.Encode as Encode\n\n    Dict.fromList [ (\"Tom\",42), (\"Sue\", 38) ]\n        |> dict identity Encode.int\n        |> Encode.encode 0\n        --> \"\"\"{\"Tom\":42,\"Sue\":38}\"\"\"\n\n",
+        "type": "(comparable -> String) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
       },
       {
-        "name": "snd",
-        "comment": " Given a 2-tuple, returns the second value.\n",
-        "type": "( a, b ) -> b"
+        "name": "set",
+        "comment": " Turn an `Set` into a JSON array.\n\n    import Json.Encode as Encode\n    import Set\n\n    Set.fromList [ 42, 38 ]\n        |> set Encode.int\n        |> Encode.encode 0\n        --> \"[38,42]\"\n\n",
+        "type": "(comparable -> Json.Encode.Value) -> Set.Set comparable -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Tuple019",
-    "comment": " Elm 0.19 added `pair` and `mapBoth`.\n\n@docs pair, mapBoth\n\n",
+    "name": "Basics019",
+    "comment": " Elm 0.19 renamed these two functions, so here they are with their\nnew names.\n\n@docs modBy, remainderBy\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "mapBoth",
-        "comment": " Transform both parts of a tuple.\n\n    mapBoth String.reverse sqrt  (\"stressed\", 16) --> (\"desserts\", 4)\n\n    mapBoth String.length negate (\"stressed\", 16) --> (8, -16)\n\n",
-        "type": "(a -> x) -> (b -> y) -> ( a, b ) -> ( x, y )"
+        "name": "modBy",
+        "comment": " Perform [modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic).\nA common trick is to use (n mod 2) to detect even and odd numbers:\n\n    modBy 2 0 --> 0\n\n    modBy 2 1 --> 1\n\n    modBy 2 2 --> 0\n\n    modBy 2 3 --> 1\n\nOur `modBy` function works in the typical mathematical way when you run into\nnegative numbers:\n\n    List.map (modBy 4)\n        [ -5, -4, -3, -2, -1,  0,  1,  2,  3,  4,  5 ]\n        --> [  3,  0,  1,  2,  3,  0,  1,  2,  3,  0,  1 ]\n\nUse [`remainderBy`](#remainderBy) for a different treatment of negative numbers,\nor read Daan Leijen’s [Division and Modulus for Computer Scientists][dm] for more\ninformation.\n\n[dm]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf\n\n",
+        "type": "Int -> Int -> Int"
       },
       {
-        "name": "pair",
-        "comment": " Create a 2-tuple.\n\n    pair 3 4 --> (3, 4)\n\n    zip : List a -> List b -> List (a, b)\n    zip xs ys =\n      List.map2 Tuple.pair xs ys\n\n",
-        "type": "a -> b -> ( a, b )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Result017",
-    "comment": " `formatError` was renamed to `mapError` in Elm 0.18, and\nthe parameters of `andThen` were flipped.\n\n@docs andThen, formatError\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "andThen",
-        "comment": " Chain together a sequence of computations that may fail. It is helpful\nto see its definition:\n\n    andThen : Result e a -> (a -> Result e b) -> Result e b\n    andThen result callback =\n        case result of\n          Ok value -> callback value\n          Err msg -> Err msg\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`toInt : String -> Result String Int`) to parse\na month and make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Result String Int\n    toValidMonth month =\n        if month >= 1 && month <= 12\n            then Ok month\n            else Err \"months must be between 1 and 12\"\n\n    toMonth : String -> Result String Int\n    toMonth rawString =\n        toInt rawString `andThen` toValidMonth\n\n    -- toMonth \"4\" == Ok 4\n    -- toMonth \"9\" == Ok 9\n    -- toMonth \"a\" == Err \"cannot parse to an Int\"\n    -- toMonth \"0\" == Err \"months must be between 1 and 12\"\n\nThis allows us to come out of a chain of operations with quite a specific error\nmessage. It is often best to create a custom type that explicitly represents\nthe exact ways your computation may fail. This way it is easy to handle in your\ncode.\n",
-        "type": "Result.Result x a -> (a -> Result.Result x b) -> Result.Result x b"
-      },
-      {
-        "name": "formatError",
-        "comment": " Format the error value of a result. If the result is `Ok`, it stays exactly\nthe same, but if the result is an `Err` we will format the error. For example,\nsay the errors we get have too much information:\n\n    parseInt : String -> Result ParseError Int\n\n    type alias ParseError =\n        { message : String\n        , code : Int\n        , position : (Int,Int)\n        }\n\n    formatError .message (parseInt \"123\") == Ok 123\n    formatError .message (parseInt \"abc\") == Err \"char 'a' is not a number\"\n",
-        "type": "(error1 -> error2) -> Result.Result error1 a -> Result.Result error2 a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "String019",
-    "comment": " Elm 0.19 added several new functions, and changed the\nsignature for `toInt` and `toFloat`.\n\n@docs replace, fromInt, fromFloat\n@docs toInt, toFloat\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "fromFloat",
-        "comment": " Convert a `Float` to a `String`.\n\n    fromFloat 123 --> \"123\"\n\n    fromFloat -42 --> \"-42\"\n\n    fromFloat 3.9 --> \"3.9\"\n\nCheck out [`Debug.toString`](Debug#toString) to convert _any_ value to a string\nfor debugging purposes.\n\n",
-        "type": "Float -> String"
-      },
-      {
-        "name": "fromInt",
-        "comment": " Convert an `Int` to a `String`.\n\n    fromInt 123 --> \"123\"\n\n    fromInt -42 --> \"-42\"\n\nCheck out [`Debug.toString`](Debug#toString) to convert _any_ value to a string\nfor debugging purposes.\n\n",
-        "type": "Int -> String"
-      },
-      {
-        "name": "replace",
-        "comment": " Replace all occurrences of some substring.\n\n    replace \".\" \"-\" \"Json.Decode.succeed\" --> \"Json-Decode-succeed\"\n\n    replace \",\" \"/\" \"a,b,c,d,e\" --> \"a/b/c/d/e\"\n\n**Note:** If you need more advanced replacements, check out the\n[`elm/parser`][parser] or [`elm/regex`][regex] package.\n\n[parser]: /packages/elm/parser/latest\n[regex]: /packages/elm/regex/latest\n\n",
-        "type": "String -> String -> String -> String"
-      },
-      {
-        "name": "toFloat",
-        "comment": " Try to convert a string into a float, failing on improperly formatted strings.\n\n    String019.toFloat \"123\" --> Just 123.0\n\n    String019.toFloat \"-42\" --> Just -42.0\n\n    String019.toFloat \"3.1\" --> Just 3.1\n\n    String019.toFloat \"31a\" --> Nothing\n\nIf you are extracting a number from some raw user input, you will typically\nwant to use [`Maybe.withDefault`](Maybe#withDefault) to handle bad data:\n\n    Maybe.withDefault 0 (String019.toFloat \"42.5\") --> 42.5\n\n    Maybe.withDefault 0 (String019.toFloat \"cats\") --> 0\n\n",
-        "type": "String -> Maybe.Maybe Float"
-      },
-      {
-        "name": "toInt",
-        "comment": " Try to convert a string into an int, failing on improperly formatted strings.\n\n    String019.toInt \"123\" --> Just 123\n\n    String019.toInt \"-42\" --> Just -42\n\n    String019.toInt \"3.1\" --> Nothing\n\n    String019.toInt \"31a\" --> Nothing\n\nIf you are extracting a number from some raw user input, you will typically\nwant to use [`Maybe.withDefault`](Maybe#withDefault) to handle bad data:\n\n    Maybe.withDefault 0 (String019.toInt \"42\") --> 42\n\n    Maybe.withDefault 0 (String019.toInt \"ab\") --> 0\n\n",
-        "type": "String -> Maybe.Maybe Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Random017",
-    "comment": " Like in other modules, the paramenters of `andThen` were flipped in Elm\n0.18.\n\n@docs andThen\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "andThen",
-        "comment": " Chain random operations, threading through the seed. In the following\nexample, we will generate a random letter by putting together uppercase and\nlowercase letters.\n\n    letter : Generator Char\n    letter =\n      bool `andThen` \\b ->\n        if b then uppercaseLetter else lowercaseLetter\n\n    -- bool : Generator Bool\n    -- uppercaseLetter : Generator Char\n    -- lowercaseLetter : Generator Char\n",
-        "type": "Random.Generator a -> (a -> Random.Generator b) -> Random.Generator b"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Random019",
-    "comment": " Elm 0.19 moved `Random` to a separate module and added several functions\nto the API. Those functions are provided here.\n\nElm 0.19 also improved the basic algorithm for randomness. That is not\nimplemented here -- so, this is the Elm 0.18 algorithm with the Elm 0.19 API.\nIf you want something closer to the Elm 0.19 algorithm in Elm 0.18, then\nconsider using\n[mgold/elm-random-pcg](https://package.elm-lang.org/packages/mgold/elm-random-pcg/latest)\n\n@docs uniform, weighted, constant, lazy, independentSeed\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "constant",
-        "comment": " Generate the same value every time.\n\n    import Random\n\n    alwaysFour : Random.Generator Int\n    alwaysFour =\n        Random.constant 4\n\nThink of it as picking from a hat with only one thing in it. It is weird,\nbut it can be useful with [`elm-community/random-extra`][extra] which has\ntons of nice helpers.\n\n[extra]: /packages/elm-community/random-extra/latest\n\n",
-        "type": "a -> Random.Generator a"
-      },
-      {
-        "name": "independentSeed",
-        "comment": " A generator that produces a seed that is independent of any other seed in\nthe program. These seeds will generate their own unique sequences of random\nvalues. They are useful when you need an unknown amount of randomness _later_\nbut can request only a fixed amount of randomness _now_.\n\n> It does not seem possible to implement Elm 0.19's exact algorithm in an Elm\n> 0.18 user package. So, what is implemented here is an approximation of what Elm\n> 0.19 does, and probably does not have the same quality of randomness.\n\n",
-        "type": "Random.Generator Random.Seed"
-      },
-      {
-        "name": "lazy",
-        "comment": " Helper for defining self-recursive generators. Say we want to generate a\nrandom number of probabilities:\n\n    import Random\n\n    probabilities : Random.Generator (List Float)\n    probabilities =\n        Random.andThen identity <|\n            Random.uniform\n                (Random.constant [])\n                [ Random.map2 (::)\n                    (Random.float 0 1)\n                    (Random.lazy (\\_ -> probabilities))\n                ]\n\nIn 50% of cases we end the list. In 50% of cases we generate a probability and\nadd it onto a random number of probabilities. The `lazy` call is crucial\nbecause it means we do not unroll the generator unless we need to.\n\nThis is a pretty subtle issue, so I recommend reading more about it\n[here](https://elm-lang.org/hints/0.19.0/bad-recursion)!\n\n**Note:** You can delay evaluation with `andThen` too. The thing that matters\nis that you have a function call that delays the creation of the generator!\n\n",
-        "type": "(() -> Random.Generator a) -> Random.Generator a"
-      },
-      {
-        "name": "uniform",
-        "comment": " Generate values with equal probability. Say we want a random suit for some\ncards:\n\n    import Random\n\n    type Suit\n        = Diamond\n        | Club\n        | Heart\n        | Spade\n\n    suit : Random.Generator Suit\n    suit =\n        Random.uniform Diamond [ Club, Heart, Spade ]\n\nThat generator produces all `Suit` values with equal probability, 25% each.\n\n**Note:** Why not have `uniform : List a -> Generator a` as the API? It looks\na little prettier in code, but it leads to an awkward question. What do you do\nwith `uniform []`? How can it produce an `Int` or `Float`? The current API\nguarantees that we always have _at least_ one value, so we never run into that\nquestion!\n\n",
-        "type": "a -> List a -> Random.Generator a"
-      },
-      {
-        "name": "weighted",
-        "comment": " Generate values with a _weighted_ probability. Say we want to simulate a\n[loaded die](https://en.wikipedia.org/wiki/Dice#Loaded_dice) that lands\non ⚄ and ⚅ more often than the other faces:\n\n    import Random\n\n    type Face\n        = One\n        | Two\n        | Three\n        | Four\n        | Five\n        | Six\n\n    roll : Random.Generator Face\n    roll =\n        Random.weighted\n            ( 10, One )\n            [ ( 10, Two )\n            , ( 10, Three )\n            , ( 10, Four )\n            , ( 20, Five )\n            , ( 40, Six )\n            ]\n\nSo there is a 40% chance of getting `Six`, a 20% chance of getting `Five`, and\nthen a 10% chance for each of the remaining faces.\n\n**Note:** I made the weights add up to 100, but that is not necessary. I always\nadd up your weights into a `total`, and from there, the probablity of each case\nis `weight / total`. Negative weights do not really make sense, so I just flip\nthem to be positive.\n\n",
-        "type": "( Float, a ) -> List ( Float, a ) -> Random.Generator a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Maybe017",
-    "comment": " Some functions from Elm 0.17\n\n@docs andThen, oneOf\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "andThen",
-        "comment": " Chain together many computations that may fail. It is helpful to see its\ndefinition:\n\n    andThen : Maybe a -> (a -> Maybe b) -> Maybe b\n    andThen maybe callback =\n        case maybe of\n            Just value ->\n                callback value\n\n            Nothing ->\n                Nothing\n\nThis means we only continue with the callback if things are going well. For\nexample, say you need to use (`head : List Int -> Maybe Int`) to get the\nfirst month from a `List` and then make sure it is between 1 and 12:\n\n    toValidMonth : Int -> Maybe Int\n    toValidMonth month =\n        if month >= 1 && month <= 12 then\n            Just month\n        else\n            Nothing\n\n    getFirstMonth : List Int -> Maybe Int\n    getFirstMonth months =\n        head months `andThen` toValidMonth\n\nIf `head` fails and results in `Nothing` (because the `List` was `empty`),\nthis entire chain of operations will short-circuit and result in `Nothing`.\nIf `toValidMonth` results in `Nothing`, again the chain of computations\nwill result in `Nothing`.\n\n",
-        "type": "Maybe.Maybe a -> (a -> Maybe.Maybe b) -> Maybe.Maybe b"
-      },
-      {
-        "name": "oneOf",
-        "comment": " Pick the first `Maybe` that actually has a value. Useful when you want to\ntry a couple different things, but there is no default value.\n\n    oneOf [ Nothing, Just 42, Just 71 ] == Just 42\n    oneOf [ Nothing, Nothing, Just 71 ] == Just 71\n    oneOf [ Nothing, Nothing, Nothing ] == Nothing\n\n",
-        "type": "List (Maybe.Maybe a) -> Maybe.Maybe a"
+        "name": "remainderBy",
+        "comment": " Get the remainder after division. Here are bunch of examples of dividing by four:\n\n    List.map (remainderBy 4)\n        [ -5, -4, -3, -2, -1,  0,  1,  2,  3,  4,  5 ]\n        --> [ -1,  0, -3, -2, -1,  0,  1,  2,  3,  0,  1 ]\n\nUse [`modBy`](#modBy) for a different treatment of negative numbers,\nor read Daan Leijen’s [Division and Modulus for Computer Scientists][dm] for more\ninformation.\n\n[dm]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf\n\n",
+        "type": "Int -> Int -> Int"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -496,25 +553,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Json.Encode019",
-    "comment": " Elm 0.19 moved this module to a separate package, and added\na couple of new encoders.\n\n@docs dict, set\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "dict",
-        "comment": " Turn a `Dict` into a JSON object.\n\n    import Dict\n    import Json.Encode as Encode\n\n    Dict.fromList [ (\"Tom\",42), (\"Sue\", 38) ]\n        |> dict identity Encode.int\n        |> Encode.encode 0\n        --> \"\"\"{\"Tom\":42,\"Sue\":38}\"\"\"\n\n",
-        "type": "(comparable -> String) -> (v -> Json.Encode.Value) -> Dict.Dict comparable v -> Json.Encode.Value"
-      },
-      {
-        "name": "set",
-        "comment": " Turn an `Set` into a JSON array.\n\n    import Json.Encode as Encode\n    import Set\n\n    Set.fromList [ 42, 38 ]\n        |> set Encode.int\n        |> Encode.encode 0\n        --> \"[38,42]\"\n\n",
-        "type": "(comparable -> Json.Encode.Value) -> Set.Set comparable -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Platform019",
     "comment": " In Elm 0.19, `programWithFlags` was renamed `worker`.\n\n@docs worker\n\n",
     "aliases": [],
@@ -548,25 +586,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Debug019",
-    "comment": " Elm 0.19 moved `toString` to the `Debug` module, and renamed\n`crash` to `todo`.\n\n@docs toString, todo\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toString",
-        "comment": " Turn any kind of value into a string.\n\n    Debug019.toString 42                --> \"42\"\n\n    Debug019.toString [1,2]             --> \"[1,2]\"\n\n    Debug019.toString ('a', \"cat\", 13)  --> \"('a',\\\"cat\\\",13)\"\n\n    Debug019.toString \"he said, \\\"hi\\\"\" --> \"\\\"he said, \\\\\\\"hi\\\\\\\"\\\"\"\n\nNotice that with strings, this is not the `identity` function. It escapes\ncharacters so if you say `Html.text (toString \"he said, \\\"hi\\\"\")` it will\nshow `\"he said, \\\"hi\\\"\"` rather than `he said, \"hi\"`. This makes it nice\nfor viewing Elm data structures.\n\n",
-        "type": "a -> String"
-      },
-      {
-        "name": "todo",
-        "comment": " This is a placeholder for code that you will write later.\n\nFor example, if you are working with a large union type and have partially\ncompleted a case expression, it may make sense to do this:\n\n    type Entity = Ship | Fish | Captain | Seagull\n\n    drawEntity entity =\n      case entity of\n        Ship ->\n          ...\n\n        Fish ->\n          ...\n\n        _ ->\n          Debug.todo \"handle Captain and Seagull\"\n\nThe Elm compiler recognizes each `Debug.todo` so if you run into it, you get\nan **uncatchable runtime exception** that includes the module name and line\nnumber.\n\n**Note:** For the equivalent of try/catch error handling in Elm, use modules\nlike [`Maybe`](#Maybe) and [`Result`](#Result) which guarantee that no error\ngoes unhandled!\n\n",
-        "type": "String -> a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Bitwise017",
     "comment": " Elm 0.18 replaced some functions from Elm 0.17 with flipped versions.\nSo, here are the original unfipped versions.\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n\n",
     "aliases": [],
@@ -585,25 +604,6 @@
       {
         "name": "shiftRightLogical",
         "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n    32 `shiftRightLogical` 1 == 16\n    32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n\n",
-        "type": "Int -> Int -> Int"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Basics019",
-    "comment": " Elm 0.19 renamed these two functions, so here they are with their\nnew names.\n\n@docs modBy, remainderBy\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "modBy",
-        "comment": " Perform [modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic).\nA common trick is to use (n mod 2) to detect even and odd numbers:\n\n    modBy 2 0 --> 0\n\n    modBy 2 1 --> 1\n\n    modBy 2 2 --> 0\n\n    modBy 2 3 --> 1\n\nOur `modBy` function works in the typical mathematical way when you run into\nnegative numbers:\n\n    List.map (modBy 4)\n        [ -5, -4, -3, -2, -1,  0,  1,  2,  3,  4,  5 ]\n        --> [  3,  0,  1,  2,  3,  0,  1,  2,  3,  0,  1 ]\n\nUse [`remainderBy`](#remainderBy) for a different treatment of negative numbers,\nor read Daan Leijen’s [Division and Modulus for Computer Scientists][dm] for more\ninformation.\n\n[dm]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf\n\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "remainderBy",
-        "comment": " Get the remainder after division. Here are bunch of examples of dividing by four:\n\n    List.map (remainderBy 4)\n        [ -5, -4, -3, -2, -1,  0,  1,  2,  3,  4,  5 ]\n        --> [ -1,  0, -3, -2, -1,  0,  1,  2,  3,  0,  1 ]\n\nUse [`modBy`](#modBy) for a different treatment of negative numbers,\nor read Daan Leijen’s [Division and Modulus for Computer Scientists][dm] for more\ninformation.\n\n[dm]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf\n\n",
         "type": "Int -> Int -> Int"
       }
     ],

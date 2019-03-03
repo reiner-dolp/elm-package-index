@@ -155,183 +155,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Nri.TextInput",
-    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
-    "aliases": [
-      {
-        "name": "Model",
-        "comment": " ",
-        "args": [
-          "value",
-          "msg"
-        ],
-        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
-      }
-    ],
-    "types": [
-      {
-        "name": "InputType",
-        "comment": " ",
-        "args": [
-          "value"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "number",
-        "comment": " An input that allows number entry\n",
-        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
-      },
-      {
-        "name": "text",
-        "comment": " An input that allows text entry\n",
-        "type": "Nri.TextInput.InputType String"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
-      },
-      {
-        "name": "withInvisibleLabel",
-        "comment": " ",
-        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Divider",
-    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.TextAreaWithOverlappingLabel",
-    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Tabs",
-    "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " ",
-        "args": [
-          "id",
-          "msg"
-        ],
-        "type": "{ title : Maybe.Maybe String , onSelect : id -> msg , tabs : List.Zipper.Zipper (Nri.Tabs.Tab id) , content : id -> Html.Html msg , alignment : Nri.Tabs.Alignment }"
-      },
-      {
-        "name": "LinkConfig",
-        "comment": " Configure a set a tab links\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ title : Maybe.Maybe String , tabs : List.Zipper.Zipper Nri.Tabs.TabLink , content : Html.Html msg , alignment : Nri.Tabs.Alignment }"
-      },
-      {
-        "name": "Tab",
-        "comment": " ",
-        "args": [
-          "id"
-        ],
-        "type": "{ label : String, id : id }"
-      },
-      {
-        "name": "TabLink",
-        "comment": " Describe a tab that is meant to link to another page\n",
-        "args": [],
-        "type": "{ label : String, href : Maybe.Maybe String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Alignment",
-        "comment": " Determines whether tabs are centered or floating to the left or right.\n",
-        "args": [],
-        "cases": [
-          [
-            "Left",
-            []
-          ],
-          [
-            "Center",
-            []
-          ],
-          [
-            "Right",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "links",
-        "comment": " View a set of tab links\n",
-        "type": "Nri.Tabs.LinkConfig msg -> Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " ",
-        "type": "Nri.Styles.Styles Basics.Never Nri.Tabs.CssClasses msg"
-      },
-      {
-        "name": "view",
-        "comment": " ",
-        "type": "Nri.Tabs.Config id msg -> Html.Html msg"
-      },
-      {
-        "name": "viewCustom",
-        "comment": " ",
-        "type": "Nri.Tabs.Config id msg -> (Nri.Tabs.Tab id -> Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "viewTabDefault",
-        "comment": " ",
-        "type": "Nri.Tabs.Tab id -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Nri.Button",
     "comment": " Common NoRedInk buttons. For accessibility purposes, buttons that perform an\naction on the current page should be HTML `<button>` elements and are created here\nwith `*Button` functions. Buttons that take the user to a new page should be\nHTML `<a>` elements and are created here with `*Link` functions. Both versions\nshould be able to use the same CSS class in all cases.\n\nThere will generally be a `*Button` and `*Link` version of each button style.\n(These will be created as they are needed.)\n\n\n## Required styles\n\n@docs styles\n\n\n## Common configs\n\n@docs ButtonContent\n@docs ButtonSize\n@docs ButtonState\n@docs ButtonStyle\n\n\n## `<button>` Buttons\n\n@docs button\n\n",
     "aliases": [
@@ -436,6 +259,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Nri.TextAreaWithOverlappingLabel",
+    "comment": "\n\n\n## The Nri styleguide-specified textarea with overlapping label\n\n@docs view, styles\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextAreaWithOverlappingLabel.CssClass msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.TextAreaWithOverlappingLabel.Model msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Nri.BannerAlert",
     "comment": "\n\n@docs error\n@docs neutral\n@docs styles\n@docs success\n\n",
     "aliases": [],
@@ -459,6 +301,164 @@
       {
         "name": "success",
         "comment": " A banner for success alerts\n",
+        "type": "String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Tabs",
+    "comment": "\n\n@docs Alignment\n@docs Config\n@docs LinkConfig\n@docs Tab\n@docs TabLink\n@docs links\n@docs styles\n@docs view\n@docs viewCustom\n\n\n## Defaults\n\n@docs viewTabDefault\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " ",
+        "args": [
+          "id",
+          "msg"
+        ],
+        "type": "{ title : Maybe.Maybe String , onSelect : id -> msg , tabs : List.Zipper.Zipper (Nri.Tabs.Tab id) , content : id -> Html.Html msg , alignment : Nri.Tabs.Alignment }"
+      },
+      {
+        "name": "LinkConfig",
+        "comment": " Configure a set a tab links\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ title : Maybe.Maybe String , tabs : List.Zipper.Zipper Nri.Tabs.TabLink , content : Html.Html msg , alignment : Nri.Tabs.Alignment }"
+      },
+      {
+        "name": "Tab",
+        "comment": " ",
+        "args": [
+          "id"
+        ],
+        "type": "{ label : String, id : id }"
+      },
+      {
+        "name": "TabLink",
+        "comment": " Describe a tab that is meant to link to another page\n",
+        "args": [],
+        "type": "{ label : String, href : Maybe.Maybe String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Alignment",
+        "comment": " Determines whether tabs are centered or floating to the left or right.\n",
+        "args": [],
+        "cases": [
+          [
+            "Left",
+            []
+          ],
+          [
+            "Center",
+            []
+          ],
+          [
+            "Right",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "links",
+        "comment": " View a set of tab links\n",
+        "type": "Nri.Tabs.LinkConfig msg -> Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Tabs.CssClasses msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.Tabs.Config id msg -> Html.Html msg"
+      },
+      {
+        "name": "viewCustom",
+        "comment": " ",
+        "type": "Nri.Tabs.Config id msg -> (Nri.Tabs.Tab id -> Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "viewTabDefault",
+        "comment": " ",
+        "type": "Nri.Tabs.Tab id -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.TextInput",
+    "comment": "\n\n@docs InputType\n@docs Model\n@docs styles\n@docs view\n@docs withInvisibleLabel\n\n\n## Input types\n\n@docs number\n@docs text\n\n",
+    "aliases": [
+      {
+        "name": "Model",
+        "comment": " ",
+        "args": [
+          "value",
+          "msg"
+        ],
+        "type": "{ label : String , isInError : Bool , onInput : value -> msg , placeholder : String , value : value , autofocus : Bool , type_ : Nri.TextInput.InputType value }"
+      }
+    ],
+    "types": [
+      {
+        "name": "InputType",
+        "comment": " ",
+        "args": [
+          "value"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "number",
+        "comment": " An input that allows number entry\n",
+        "type": "Nri.TextInput.InputType (Maybe.Maybe Int)"
+      },
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.TextInput.CssClasses msg"
+      },
+      {
+        "name": "text",
+        "comment": " An input that allows text entry\n",
+        "type": "Nri.TextInput.InputType String"
+      },
+      {
+        "name": "view",
+        "comment": " ",
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+      },
+      {
+        "name": "withInvisibleLabel",
+        "comment": " ",
+        "type": "Nri.TextInput.Model value msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Divider",
+    "comment": " <https://staging.noredink.com/style_guide#ui/src/Nri/Divider.elm>\n\n@docs styles, view\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "styles",
+        "comment": " ",
+        "type": "Nri.Styles.Styles Basics.Never Nri.Divider.CssClasses msg"
+      },
+      {
+        "name": "view",
+        "comment": " ",
         "type": "String -> Html.Html msg"
       }
     ],
@@ -506,53 +506,6 @@
         "name": "warning",
         "comment": " ",
         "type": "Nri.Alert.Model -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Nri.Styles",
-    "comment": " Simplifies using elm-css in modules that expose views\n\n\n## Creating namespaces stylesheets\n\n@docs Styles, styles, stylesWithExtraStylesheets\n\n\n## Helpers for CSS\n\n\n### Keyframe animations\n\n@docs Keyframe, keyframes, toString\n\n",
-    "aliases": [
-      {
-        "name": "Styles",
-        "comment": "\n\n  - `css`: The resulting stylesheets to add to `Nri.Css.Site`\n  - `id`, `class`, `classList`: The Html.Attribute helper functions\n\n",
-        "args": [
-          "id",
-          "class",
-          "msg"
-        ],
-        "type": "{ css : List Css.Stylesheet , id : id -> Html.Attribute msg , class : List class -> Html.Attribute msg , classList : List ( class, Bool ) -> Html.Attribute msg , div : class -> List (Html.Html msg) -> Html.Html msg , span : class -> List (Html.Html msg) -> Html.Html msg }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Keyframe",
-        "comment": " A CSS keyframe animation that will have vendor prefixes automatically added.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "keyframes",
-        "comment": " Create a CSS keyframe animation with appropriate vendor prefixes\n",
-        "type": "String -> List ( String, String ) -> Nri.Styles.Keyframe"
-      },
-      {
-        "name": "styles",
-        "comment": " Use this instead of Html.CssHelpers.\nThis will help you make sure you don't mismatch the namespace you're using.\n\n    { css, class } =\n        Nri.Styles.styles \"Nri-MyWidget-\"\n            [ Css.class Container\n                [ backgroundColor Nri.Colors.ochre ]\n            ]\n\n",
-        "type": "String -> List Css.Snippet -> Nri.Styles.Styles id class msg"
-      },
-      {
-        "name": "stylesWithExtraStylesheets",
-        "comment": " Use this instead of [`styles`](#styles) if you need to\ninclude Css.Stylesheets from external packages,\nor if you need to add styles without a namespace.\nRemember, all stylesheets given here will be included\non all pages of the site.\n",
-        "type": "String -> List Css.Stylesheet -> List Css.Snippet -> Nri.Styles.Styles id class msg"
-      },
-      {
-        "name": "toString",
-        "comment": " Turn a [`Keyframe`](#Keyframe) into a string that can be included in a CSS stylesheet.\n",
-        "type": "Nri.Styles.Keyframe -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -676,6 +629,53 @@
         "name": "white",
         "comment": " White palette (borders are blue)\n",
         "type": "Nri.Palette.Palette"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Nri.Styles",
+    "comment": " Simplifies using elm-css in modules that expose views\n\n\n## Creating namespaces stylesheets\n\n@docs Styles, styles, stylesWithExtraStylesheets\n\n\n## Helpers for CSS\n\n\n### Keyframe animations\n\n@docs Keyframe, keyframes, toString\n\n",
+    "aliases": [
+      {
+        "name": "Styles",
+        "comment": "\n\n  - `css`: The resulting stylesheets to add to `Nri.Css.Site`\n  - `id`, `class`, `classList`: The Html.Attribute helper functions\n\n",
+        "args": [
+          "id",
+          "class",
+          "msg"
+        ],
+        "type": "{ css : List Css.Stylesheet , id : id -> Html.Attribute msg , class : List class -> Html.Attribute msg , classList : List ( class, Bool ) -> Html.Attribute msg , div : class -> List (Html.Html msg) -> Html.Html msg , span : class -> List (Html.Html msg) -> Html.Html msg }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Keyframe",
+        "comment": " A CSS keyframe animation that will have vendor prefixes automatically added.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "keyframes",
+        "comment": " Create a CSS keyframe animation with appropriate vendor prefixes\n",
+        "type": "String -> List ( String, String ) -> Nri.Styles.Keyframe"
+      },
+      {
+        "name": "styles",
+        "comment": " Use this instead of Html.CssHelpers.\nThis will help you make sure you don't mismatch the namespace you're using.\n\n    { css, class } =\n        Nri.Styles.styles \"Nri-MyWidget-\"\n            [ Css.class Container\n                [ backgroundColor Nri.Colors.ochre ]\n            ]\n\n",
+        "type": "String -> List Css.Snippet -> Nri.Styles.Styles id class msg"
+      },
+      {
+        "name": "stylesWithExtraStylesheets",
+        "comment": " Use this instead of [`styles`](#styles) if you need to\ninclude Css.Stylesheets from external packages,\nor if you need to add styles without a namespace.\nRemember, all stylesheets given here will be included\non all pages of the site.\n",
+        "type": "String -> List Css.Stylesheet -> List Css.Snippet -> Nri.Styles.Styles id class msg"
+      },
+      {
+        "name": "toString",
+        "comment": " Turn a [`Keyframe`](#Keyframe) into a string that can be included in a CSS stylesheet.\n",
+        "type": "Nri.Styles.Keyframe -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

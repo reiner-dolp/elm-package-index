@@ -1,24 +1,5 @@
 [
   {
-    "name": "JsonApi.Decode",
-    "comment": " Library for decoding JSONAPI-compliant payloads\n\n@docs document, errors\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "document",
-        "comment": " Decode a JSONAPI-compliant payload.\n",
-        "type": "Json.Decode.Decoder JsonApi.Data.Document"
-      },
-      {
-        "name": "errors",
-        "comment": " Decode the errors returned from a JSON API-compliant server.\n",
-        "type": "Json.Decode.Decoder (List JsonApi.ErrorObject)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "JsonApi.Resources",
     "comment": " Helper functions for working with a single JsonApi Resource\n\n# Common Helpers\n@docs id, attributes, attribute, links, relatedResource, relatedResourceCollection,\n      meta, relatedLinks, relatedMeta, build, withAttributes, withRelationship, withRelationships, withUuid\n",
     "aliases": [],
@@ -98,15 +79,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "JsonApi.Encode",
-    "comment": " Functions for encoding JSON API resources to Json\n\n@docs clientResource\n\n",
+    "name": "JsonApi.Decode",
+    "comment": " Library for decoding JSONAPI-compliant payloads\n\n@docs document, errors\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "clientResource",
-        "comment": " Encode a resource constructed on the client to a JSON API-compliant value\n    see: http://jsonapi.org/format/#crud-creating\n",
-        "type": "JsonApi.Data.ClientResource -> Json.Encode.Value"
+        "name": "document",
+        "comment": " Decode a JSONAPI-compliant payload.\n",
+        "type": "Json.Decode.Decoder JsonApi.Data.Document"
+      },
+      {
+        "name": "errors",
+        "comment": " Decode the errors returned from a JSON API-compliant server.\n",
+        "type": "Json.Decode.Decoder (List JsonApi.ErrorObject)"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -141,6 +127,20 @@
         "name": "primaryResourceCollection",
         "comment": " Retrieve a collection of primary resources from a decoded Document.\n    This function assumes a collection primary resources and will return an Err\n    if the document contains a singular primary resource.\n",
         "type": "JsonApi.Data.Document -> Result.Result String (List JsonApi.Data.Resource)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "JsonApi.Encode",
+    "comment": " Functions for encoding JSON API resources to Json\n\n@docs clientResource\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "clientResource",
+        "comment": " Encode a resource constructed on the client to a JSON API-compliant value\n    see: http://jsonapi.org/format/#crud-creating\n",
+        "type": "JsonApi.Data.ClientResource -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"

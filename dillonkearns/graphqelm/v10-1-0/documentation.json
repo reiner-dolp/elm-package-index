@@ -164,40 +164,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Graphqelm.Document",
-    "comment": " You'll usually want to use `Graphqelm.Http` to perform your queries directly.\nThis package provides low-level functions for generating GraphQL documents that\nare helpful for debugging and demo purposes.\n\n@docs serializeQuery, serializeMutation, serializeSubscription, serializeQueryForUrl, decoder\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "decoder",
-        "comment": " Decoder a response from the server. This low-level function shouldn't be needed\nin the majority of cases. Instead, the high-level functions in `Graphqelm.Http`\nshould be used.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo typeLock -> Json.Decode.Decoder decodesTo"
-      },
-      {
-        "name": "serializeMutation",
-        "comment": " Serialize a mutation selection set into a string for a GraphQL endpoint.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootMutation -> String"
-      },
-      {
-        "name": "serializeQuery",
-        "comment": " Serialize a query selection set into a string for a GraphQL endpoint.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
-      },
-      {
-        "name": "serializeQueryForUrl",
-        "comment": " Serialize a query selection set into a string with minimal whitespace. For\nuse with a GET request as a query param.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
-      },
-      {
-        "name": "serializeSubscription",
-        "comment": " Serialize a subscription selection set into a string for a GraphQL endpoint.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootSubscription -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Graphqelm.Internal.Builder.Object",
     "comment": " **WARNING** `Graphqelm.Interal` modules are used by the `graphqelm` command line\ncode generator tool. They should not be consumed through hand-written code.\n\nInternal functions for use by auto-generated code from the `graphqelm` CLI.\n@docs fieldDecoder, selection, selectionField, interfaceSelection, unionSelection\n\n",
     "aliases": [],
@@ -227,6 +193,40 @@
         "name": "unionSelection",
         "comment": " Used to create the `selection` functions in auto-generated code for unions.\n",
         "type": "List (Graphqelm.SelectionSet.FragmentSelectionSet typeSpecific typeLock) -> (Maybe.Maybe typeSpecific -> a) -> Graphqelm.SelectionSet.SelectionSet a typeLock"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Graphqelm.Document",
+    "comment": " You'll usually want to use `Graphqelm.Http` to perform your queries directly.\nThis package provides low-level functions for generating GraphQL documents that\nare helpful for debugging and demo purposes.\n\n@docs serializeQuery, serializeMutation, serializeSubscription, serializeQueryForUrl, decoder\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "decoder",
+        "comment": " Decoder a response from the server. This low-level function shouldn't be needed\nin the majority of cases. Instead, the high-level functions in `Graphqelm.Http`\nshould be used.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo typeLock -> Json.Decode.Decoder decodesTo"
+      },
+      {
+        "name": "serializeMutation",
+        "comment": " Serialize a mutation selection set into a string for a GraphQL endpoint.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootMutation -> String"
+      },
+      {
+        "name": "serializeQuery",
+        "comment": " Serialize a query selection set into a string for a GraphQL endpoint.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
+      },
+      {
+        "name": "serializeQueryForUrl",
+        "comment": " Serialize a query selection set into a string with minimal whitespace. For\nuse with a GET request as a query param.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
+      },
+      {
+        "name": "serializeSubscription",
+        "comment": " Serialize a subscription selection set into a string for a GraphQL endpoint.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootSubscription -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -454,6 +454,33 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Graphqelm.Operation",
+    "comment": " This module contains types used to annotate top-level queries which can be\nbuilt up using functions in code generated by the `graphqelm` command line tool\nand sent using functions in the `Graphqelm.Http` module.\n\n@docs RootMutation, RootQuery, RootSubscription\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "RootMutation",
+        "comment": " Type for top-level mutations which can be sent using functions\nfrom `Graphqelm.Http`.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "RootQuery",
+        "comment": " Type for top-level queries which can be sent using functions\nfrom `Graphqelm.Http`.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "RootSubscription",
+        "comment": " Type for top-level mutations which can be sent using functions\nfrom `Graphqelm.Http`.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Graphqelm.Subscription.Protocol",
     "comment": " You will need a Protocol data structure that fills in the low-level details about\nyour server's GraphQL Subscription protocol. Ideally these will be published here,\nor in an external package by community members so that the protocols for each framework\nis easily accessible, less error-prone, and more stable.\n\n@docs Protocol, phoenixAbsinthe, rails, Response\n\n",
     "aliases": [
@@ -570,33 +597,6 @@
         "type": "Json.Decode.Decoder (List Graphqelm.Http.GraphqlError.GraphqlError)"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Graphqelm.Operation",
-    "comment": " This module contains types used to annotate top-level queries which can be\nbuilt up using functions in code generated by the `graphqelm` command line tool\nand sent using functions in the `Graphqelm.Http` module.\n\n@docs RootMutation, RootQuery, RootSubscription\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "RootMutation",
-        "comment": " Type for top-level mutations which can be sent using functions\nfrom `Graphqelm.Http`.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "RootQuery",
-        "comment": " Type for top-level queries which can be sent using functions\nfrom `Graphqelm.Http`.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "RootSubscription",
-        "comment": " Type for top-level mutations which can be sent using functions\nfrom `Graphqelm.Http`.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [],
     "generated-with-elm-version": "0.18.0"
   }
 ]

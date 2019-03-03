@@ -118,30 +118,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "ElmArk.Api",
-    "comment": " Sends API calls to the ark network\n\n# Environments\n@docs mainNet, devNet\n\n# Requests\n@docs send\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "devNet",
-        "comment": " Contains the URL and required headers for making\na request to the Ark dev/test network\n\n    devNet == { url = \"http://167.114.29.52:4002/\"\n    , headers =\n        [ (header \"nethash\" \"578e820911f24e039733b45e4882b73e301f813a0d2c31330dafda84534ffa23\")\n        , (header \"version\" \"1.1.1\")\n        , (header \"port\" \"4002\")\n        ]\n    }\n",
-        "type": "ElmArk.Api.Model.RequestHead"
-      },
-      {
-        "name": "mainNet",
-        "comment": " Contains the URL and required headers for making\na request to the Ark mainnet\n\nArk main net, refers to this IP\n\"http://37.59.129.164:4001/\"\n\n    mainNet == { url = \"https://api.arknode.net/\"\n    , headers =\n        [ (header \"nethash\" \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\")\n        , (header \"version\" \"1.0.1\")\n        , (header \"port\" \"4001\")\n        ]\n    }\n",
-        "type": "ElmArk.Api.Model.RequestHead"
-      },
-      {
-        "name": "send",
-        "comment": " Sends the HTTP request\n\n    mainNet\n        |> getBalance \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n        |> send ReceiveAccountBalance decodeBalance\n",
-        "type": "(Result.Result Http.Error a -> msg) -> Json.Decode.Decoder a -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody ) -> Platform.Cmd.Cmd msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "ElmArk.Account",
     "comment": " Handles building requests for the account endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs Balance, PublicKey, DelegateFee, Delegates, Delegate, Accounts, Account, TopAccounts, TopAccount\n\n\n# Requests\n\n@docs getBalance, getPublicKey, getDelegateFee, getDelegates, getAccount, getTopAccounts\n\n\n# JSON\n\n@docs encodeBalance, decodeBalance, encodePublicKey, decodePublicKey, encodeDelegateFee, decodeDelegateFee, encodeDelegate, decodeDelegate, encodeDelegates, decodeDelegates, encodeAccounts, decodeAccounts, encodeAccount, decodeAccount, encodeTopAccounts, decodeTopAccounts, encodeTopAccount, decodeTopAccount\n\n",
     "aliases": [
@@ -321,6 +297,30 @@
         "name": "getTopAccounts",
         "comment": " Get a list of top accounts\n\n    mainNet\n        |> getTopAccounts\n\n",
         "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmArk.Api",
+    "comment": " Sends API calls to the ark network\n\n# Environments\n@docs mainNet, devNet\n\n# Requests\n@docs send\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "devNet",
+        "comment": " Contains the URL and required headers for making\na request to the Ark dev/test network\n\n    devNet == { url = \"http://167.114.29.52:4002/\"\n    , headers =\n        [ (header \"nethash\" \"578e820911f24e039733b45e4882b73e301f813a0d2c31330dafda84534ffa23\")\n        , (header \"version\" \"1.1.1\")\n        , (header \"port\" \"4002\")\n        ]\n    }\n",
+        "type": "ElmArk.Api.Model.RequestHead"
+      },
+      {
+        "name": "mainNet",
+        "comment": " Contains the URL and required headers for making\na request to the Ark mainnet\n\nArk main net, refers to this IP\n\"http://37.59.129.164:4001/\"\n\n    mainNet == { url = \"https://api.arknode.net/\"\n    , headers =\n        [ (header \"nethash\" \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\")\n        , (header \"version\" \"1.0.1\")\n        , (header \"port\" \"4001\")\n        ]\n    }\n",
+        "type": "ElmArk.Api.Model.RequestHead"
+      },
+      {
+        "name": "send",
+        "comment": " Sends the HTTP request\n\n    mainNet\n        |> getBalance \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n        |> send ReceiveAccountBalance decodeBalance\n",
+        "type": "(Result.Result Http.Error a -> msg) -> Json.Decode.Decoder a -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody ) -> Platform.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

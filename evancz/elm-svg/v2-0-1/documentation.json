@@ -1,29 +1,5 @@
 [
   {
-    "name": "Svg.Lazy",
-    "comment": " Since all Elm functions are pure we have a guarantee that the same input\nwill always result in the same output. This module gives us tools to be lazy\nabout building `Svg` that utilize this fact.\n\nRather than immediately applying functions to their arguments, the `lazy`\nfunctions just bundle the function and arguments up for later. When diffing\nthe old and new virtual DOM, it checks to see if all the arguments are equal.\nIf so, it skips calling the function!\n\nThis is a really cheap test and often makes things a lot faster, but definitely\nbenchmark to be sure!\n\n@docs lazy, lazy2, lazy3\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "lazy",
-        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
-        "type": "(a -> Svg.Svg) -> a -> Svg.Svg"
-      },
-      {
-        "name": "lazy2",
-        "comment": " Same as `lazy` but checks on two arguments.\n",
-        "type": "(a -> b -> Svg.Svg) -> a -> b -> Svg.Svg"
-      },
-      {
-        "name": "lazy3",
-        "comment": " Same as `lazy` but checks on three arguments.\n",
-        "type": "(a -> b -> c -> Svg.Svg) -> a -> b -> c -> Svg.Svg"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Svg.Events",
     "comment": "\n\n# Animation event attributes\n@docs onBegin, onEnd, onRepeat\n\n# Document event attributes\n@docs onAbort, onError, onResize, onScroll, onLoad, onUnload, onZoom\n\n# Graphical event attributes\n@docs onActivate, onClick, onFocusIn, onFocusOut, onMouseDown, onMouseMove,\n  onMouseOut, onMouseOver, onMouseUp\n\n",
     "aliases": [],
@@ -123,6 +99,30 @@
         "name": "onZoom",
         "comment": "",
         "type": "Signal.Message -> Svg.Attribute"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Svg.Lazy",
+    "comment": " Since all Elm functions are pure we have a guarantee that the same input\nwill always result in the same output. This module gives us tools to be lazy\nabout building `Svg` that utilize this fact.\n\nRather than immediately applying functions to their arguments, the `lazy`\nfunctions just bundle the function and arguments up for later. When diffing\nthe old and new virtual DOM, it checks to see if all the arguments are equal.\nIf so, it skips calling the function!\n\nThis is a really cheap test and often makes things a lot faster, but definitely\nbenchmark to be sure!\n\n@docs lazy, lazy2, lazy3\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " A performance optimization that delays the building of virtual DOM nodes.\n\nCalling `(view model)` will definitely build some virtual DOM, perhaps a lot of\nit. Calling `(lazy view model)` delays the call until later. During diffing, we\ncan check to see if `model` is referentially equal to the previous value used,\nand if so, we just stop. No need to build up the tree structure and diff it,\nwe know if the input to `view` is the same, the output must be the same!\n",
+        "type": "(a -> Svg.Svg) -> a -> Svg.Svg"
+      },
+      {
+        "name": "lazy2",
+        "comment": " Same as `lazy` but checks on two arguments.\n",
+        "type": "(a -> b -> Svg.Svg) -> a -> b -> Svg.Svg"
+      },
+      {
+        "name": "lazy3",
+        "comment": " Same as `lazy` but checks on three arguments.\n",
+        "type": "(a -> b -> c -> Svg.Svg) -> a -> b -> c -> Svg.Svg"
       }
     ],
     "generated-with-elm-version": "0.16.0"

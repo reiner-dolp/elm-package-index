@@ -19,30 +19,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Dom.Lazy",
-    "comment": " Support for the VirtualDom `lazy` optimization\n\nFrom *elm-lang/html* documentation:\n\n> Since all Elm functions are pure we have a guarantee that the same input\n> will always result in the same output. This module gives us tools to be lazy\n> about building `Html` that utilize this fact.\n>\n> Rather than immediately applying functions to their arguments, the `lazy`\n> functions just bundle the function and arguments up for later. When diffing\n> the old and new virtual Dom, it checks to see if all the arguments are equal.\n> If so, it skips calling the function!\n>\n> This is a really cheap test and often makes things a lot faster, but definitely\n> benchmark to be sure!\"\n\n@docs toNode, container, eval\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "container",
-        "comment": " Apply `Dom.Lazy.toNode` to all of the child nodes when constructing an\nelement container\n",
-        "type": "String -> List (Dom.Element msg) -> Dom.Element msg"
-      },
-      {
-        "name": "eval",
-        "comment": " Alias for `VirtualDom.lazy`\n",
-        "type": "(a -> Dom.Node msg) -> a -> Dom.Node msg"
-      },
-      {
-        "name": "toNode",
-        "comment": " A lazy version of `Dom.Element.toNode`\n",
-        "type": "Dom.Element msg -> VirtualDom.Node msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Dom.Svg",
     "comment": "\n\nThis module contains helper functions for constructing `Dom.Element`\nrecords with the SVG namespace designation. Use these functions for any SVG\ntags in your DOM.\n\n# Dom.Node constructors\nThese constructors wrap `VirtualDom.node`, with the same pattern as the\nfunctions in the Dom.Node module\n@docs leaf, textWrapper, container\n\n# Dom.Element constructors\n@docs element, wrapNodes\n",
     "aliases": [],
@@ -77,6 +53,54 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Dom.Lazy",
+    "comment": " Support for the VirtualDom `lazy` optimization\n\nFrom *elm-lang/html* documentation:\n\n> Since all Elm functions are pure we have a guarantee that the same input\n> will always result in the same output. This module gives us tools to be lazy\n> about building `Html` that utilize this fact.\n>\n> Rather than immediately applying functions to their arguments, the `lazy`\n> functions just bundle the function and arguments up for later. When diffing\n> the old and new virtual Dom, it checks to see if all the arguments are equal.\n> If so, it skips calling the function!\n>\n> This is a really cheap test and often makes things a lot faster, but definitely\n> benchmark to be sure!\"\n\n@docs toNode, container, eval\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "container",
+        "comment": " Apply `Dom.Lazy.toNode` to all of the child nodes when constructing an\nelement container\n",
+        "type": "String -> List (Dom.Element msg) -> Dom.Element msg"
+      },
+      {
+        "name": "eval",
+        "comment": " Alias for `VirtualDom.lazy`\n",
+        "type": "(a -> Dom.Node msg) -> a -> Dom.Node msg"
+      },
+      {
+        "name": "toNode",
+        "comment": " A lazy version of `Dom.Element.toNode`\n",
+        "type": "Dom.Element msg -> VirtualDom.Node msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Dom.Node",
+    "comment": " Construct native `VirtualDom` nodes\n\nUsing the constructors in this module is the more efficient way of building your\nElm program's Dom, but unlike Dom.Element records, native `VirtualDom` nodes\ncannot be modified (within an Elm program) after they are constructed.\n\n@docs leaf, textWrapper, container\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "container",
+        "comment": " Construct a node that contains other nodes; the first argument gives the\ntag, the second argument gives a list of attributes, and the third argument\ngives a list of child nodes\n\nThis function is just an alias for `VirtualDom.node`.\n\n    [ \"Hello World!\"\n      |> Dom.Node.textWrapper \"p\" []\n    ]\n      |> Dom.Node.container \"div\" []\n\n",
+        "type": "String -> List (Dom.Property msg) -> List (Dom.Node msg) -> Dom.Node msg"
+      },
+      {
+        "name": "leaf",
+        "comment": " Construct a leaf node (a node without children); the first argument gives\nthe tag and the second argument gives a list of attributes\n\nThis function is an alias for `VirtualDom.node` with an empty list of child\nnodes.\n\n    Dom.Node.leaf \"hr\" []\n\n",
+        "type": "String -> List (Dom.Property msg) -> Dom.Node msg"
+      },
+      {
+        "name": "textWrapper",
+        "comment": " Construct a node that wraps text; the first argument gives the tag, the\nsecond argument gives a list of attributes, and the third argument gives the\ninternal text\n\nThis function is an alias for `VirtualDom.node` with a single text node as the\nonly child.\n\n    \"Hello World!\"\n      |> Dom.Node.textWrapper \"p\" []\n\n",
+        "type": "String -> List (Dom.Property msg) -> String -> Dom.Node msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Dom.Text",
     "comment": " Construct a text node\n\n@docs node\n",
     "aliases": [],
@@ -86,20 +110,6 @@
         "name": "node",
         "comment": " Alias for `VirtualDom.text`\n",
         "type": "String -> Dom.Node msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dom.Style",
-    "comment": " Construct a `style` property from a list of style declarations\n\n@docs toProperty\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toProperty",
-        "comment": " Alias for `VirtualDom.style`\n",
-        "type": "List ( String, String ) -> Dom.Property msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -219,39 +229,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Dom.Class",
-    "comment": " Construct a `className` property from a list of classes\n\n@docs toProperty\n\n",
+    "name": "Dom.Style",
+    "comment": " Construct a `style` property from a list of style declarations\n\n@docs toProperty\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
         "name": "toProperty",
-        "comment": " Bundles up a list of class names and returns a `Dom.Property`\n",
-        "type": "List String -> Dom.Property msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dom.Node",
-    "comment": " Construct native `VirtualDom` nodes\n\nUsing the constructors in this module is the more efficient way of building your\nElm program's Dom, but unlike Dom.Element records, native `VirtualDom` nodes\ncannot be modified (within an Elm program) after they are constructed.\n\n@docs leaf, textWrapper, container\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "container",
-        "comment": " Construct a node that contains other nodes; the first argument gives the\ntag, the second argument gives a list of attributes, and the third argument\ngives a list of child nodes\n\nThis function is just an alias for `VirtualDom.node`.\n\n    [ \"Hello World!\"\n      |> Dom.Node.textWrapper \"p\" []\n    ]\n      |> Dom.Node.container \"div\" []\n\n",
-        "type": "String -> List (Dom.Property msg) -> List (Dom.Node msg) -> Dom.Node msg"
-      },
-      {
-        "name": "leaf",
-        "comment": " Construct a leaf node (a node without children); the first argument gives\nthe tag and the second argument gives a list of attributes\n\nThis function is an alias for `VirtualDom.node` with an empty list of child\nnodes.\n\n    Dom.Node.leaf \"hr\" []\n\n",
-        "type": "String -> List (Dom.Property msg) -> Dom.Node msg"
-      },
-      {
-        "name": "textWrapper",
-        "comment": " Construct a node that wraps text; the first argument gives the tag, the\nsecond argument gives a list of attributes, and the third argument gives the\ninternal text\n\nThis function is an alias for `VirtualDom.node` with a single text node as the\nonly child.\n\n    \"Hello World!\"\n      |> Dom.Node.textWrapper \"p\" []\n\n",
-        "type": "String -> List (Dom.Property msg) -> String -> Dom.Node msg"
+        "comment": " Alias for `VirtualDom.style`\n",
+        "type": "List ( String, String ) -> Dom.Property msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -321,6 +307,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Dom.Class",
+    "comment": " Construct a `className` property from a list of classes\n\n@docs toProperty\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "toProperty",
+        "comment": " Bundles up a list of class names and returns a `Dom.Property`\n",
+        "type": "List String -> Dom.Property msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Dom.Event",
     "comment": " The functions in this module may be used to construct event attributes,\nas described [here](https://developer.mozilla.org/en-US/docs/Web/Events).\n\nSee the\n[Elm Architecture](https://guide.elm-lang.org/architecture/)\ndocumentation to find out more about how events are handled in Elm.\n\n@docs action, capture, submit, custom, customWithOptions\n\n",
     "aliases": [],
@@ -350,64 +350,6 @@
         "name": "submit",
         "comment": " Sometimes, instead of capturing input as the user enters it, it is\npreferable to wait until a set of input fields have been completed, then\ncollect all of the input values at once. The `submit` event on an HTML `<form>`\nprovides an easy way to do this, but the Elm Architecture currently lacks a\nstandard approach to capturing input in response to a `submit` event. This\nfunction offers one solution.\n\nThe function works by taking a list of id strings corresponding to the `id`\nattributes of the form's input elements and constructing a decoder that will\ncapture input from all of the fields at once in response to a `submit` event.\nThe input is sent to the Elm program's update function as a `Dict` with the\nid strings as the keys.\n\nHere's another abbreviated example:\n\n    type Msg\n      = SubmitForm (Dict String String)\n\n    formElementIds =\n      [ \"name\"\n      , \"address\"\n      , \"city\"\n      , \"state\"\n      , \"zip\"\n      , \"email\"\n      ]\n\n    myForm =\n      formElements\n        |> Dom.Element.container \"form\"\n        |> Dom.Element.withAttributes\n          [ formElementIds\n            |> Dom.Event.submit SubmitForm\n          ]\n\n",
         "type": "(Dict.Dict String String -> msg) -> List String -> VirtualDom.Property msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dom.Attribute",
-    "comment": "\n\nSet the value of a\n[content attribute](http://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)\n\nThe functions in this module wrap `VirtualDom.attribute`, which should always\nbe used when setting attributes on SVG nodes and may also be used to set\nnonstandard HTML attributes.\n\nSee\n[here](https://stackoverflow.com/questions/3919291/when-to-use-setattribute-vs-attribute-in-javascript)\nfor some background on when to use the functions in this module versus the\nfunctions in `Dom.Property`.\n\n@docs string, int, float, namespaced\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "float",
-        "comment": " Set an attribute by giving its value as a floating point number, which will\nbe converted to a string; the first argument gives the *value* and the second\nargument gives the *key*\n\n    myShapeElement\n      |> Dom.Element.addAttribute\n        ( \"stroke-width\"\n          |> Dom.Attribute.float 0.5\n        )\n\n",
-        "type": "Float -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "int",
-        "comment": " Set an attribute by giving its value as an integer, which will be converted\nto a string; the first argument gives the *value* and the second argument gives\nthe *key*\n\n    \"Hello World!\"\n      |> Dom.Svg.textWrapper \"text\"\n        [ \"x\"\n          |> Dom.Attribute.int 200\n        , \"y\"\n          |> Dom.Attribute.int 200\n        ]\n\n",
-        "type": "Int -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "namespaced",
-        "comment": " Set an attribute in a given namespace; the first argument gives the\nnamespace prefix and URL, the second argument is the value, and the third\nargument is the key\n\n    \"script\"\n      |> Dom.Element.leaf\n      |> Dom.Element.withAttributes\n        [ \"href\"\n          |> Dom.Attribute.namespaced (\"xlink\", \"http://www.w3.org/1999/xlink\") \"cool-script.js\"\n        , \"type\"\n          |> Dom.Attribute.string \"text/ecmascript\"\n        ]\n\nSee\n[here](https://developer.mozilla.org/en-US/docs/Web/SVG/Namespaces_Crash_Course)\nfor an explanation of the use of namespaces in XML generally, and in SVG more\nspecifically.\n\n",
-        "type": "( String, String ) -> String -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "string",
-        "comment": " Set an attribute by giving its value as a string; the first argument gives\nthe *value* and the second argument gives the *key*\n\n    myGraphics\n      |> Dom.Svg.container \"svg\"\n        [ \"viewbox\"\n          |> Dom.Attribute.string \"0 0 400 400\"\n        ]\n\n",
-        "type": "String -> String -> VirtualDom.Property msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Dom.Property",
-    "comment": "\n\nSet the value of an\n[IDL attribute](http://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)\n(a.k.a. \"JavaScript property\").\n\nThe functions in this module wrap `VirtualDom.property`.\n\nSee\n[here](https://stackoverflow.com/questions/3919291/when-to-use-setattribute-vs-attribute-in-javascript)\nfor some background on when to use the functions in this module versus the\nfunctions in `Dom.Attribute`.\n\n@docs bool, string, int, float\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bool",
-        "comment": " Set a property that takes a boolean value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"controls\"\n      |> Dom.Property.bool True\n    ]\n      |> Dom.Node.leaf \"video\"\n\n",
-        "type": "Bool -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "float",
-        "comment": " Set a property that takes a floating point value; the first argument gives\nthe *value* and the second argument gives the *key*\n\n    [ \"type\"\n      |> Dom.Property.string \"number\"\n    , \"min\"\n      |> Dom.Property.int 0\n    , \"max\"\n      |> Dom.Property.int 1\n    , \"step\"\n      |> Dom.Property.float 0.1\n    ]\n      |> Dom.Node.leaf \"input\"\n\n",
-        "type": "Float -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "int",
-        "comment": " Set a property that takes an integer value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"rows\"\n      |> Dom.Property.int 10\n    ]\n      |> Dom.Node.leaf \"textarea\"\n\n\n",
-        "type": "Int -> String -> VirtualDom.Property msg"
-      },
-      {
-        "name": "string",
-        "comment": " Set a property that takes a string value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    \"Hello World!\"\n      |> Dom.Element.textWrapper \"p\"\n      |> Dom.Element.withAttributes\n        [ \"title\"\n          |> Dom.Property.string \"Hello, again!\"\n        ]\n\n",
-        "type": "String -> String -> VirtualDom.Property msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -443,6 +385,64 @@
     ],
     "types": [],
     "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Dom.Property",
+    "comment": "\n\nSet the value of an\n[IDL attribute](http://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)\n(a.k.a. \"JavaScript property\").\n\nThe functions in this module wrap `VirtualDom.property`.\n\nSee\n[here](https://stackoverflow.com/questions/3919291/when-to-use-setattribute-vs-attribute-in-javascript)\nfor some background on when to use the functions in this module versus the\nfunctions in `Dom.Attribute`.\n\n@docs bool, string, int, float\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bool",
+        "comment": " Set a property that takes a boolean value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"controls\"\n      |> Dom.Property.bool True\n    ]\n      |> Dom.Node.leaf \"video\"\n\n",
+        "type": "Bool -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "float",
+        "comment": " Set a property that takes a floating point value; the first argument gives\nthe *value* and the second argument gives the *key*\n\n    [ \"type\"\n      |> Dom.Property.string \"number\"\n    , \"min\"\n      |> Dom.Property.int 0\n    , \"max\"\n      |> Dom.Property.int 1\n    , \"step\"\n      |> Dom.Property.float 0.1\n    ]\n      |> Dom.Node.leaf \"input\"\n\n",
+        "type": "Float -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "int",
+        "comment": " Set a property that takes an integer value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    [ \"rows\"\n      |> Dom.Property.int 10\n    ]\n      |> Dom.Node.leaf \"textarea\"\n\n\n",
+        "type": "Int -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "string",
+        "comment": " Set a property that takes a string value; the first argument gives the\n*value* and the second argument gives the *key*\n\n    \"Hello World!\"\n      |> Dom.Element.textWrapper \"p\"\n      |> Dom.Element.withAttributes\n        [ \"title\"\n          |> Dom.Property.string \"Hello, again!\"\n        ]\n\n",
+        "type": "String -> String -> VirtualDom.Property msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Dom.Attribute",
+    "comment": "\n\nSet the value of a\n[content attribute](http://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Content_versus_IDL_attributes)\n\nThe functions in this module wrap `VirtualDom.attribute`, which should always\nbe used when setting attributes on SVG nodes and may also be used to set\nnonstandard HTML attributes.\n\nSee\n[here](https://stackoverflow.com/questions/3919291/when-to-use-setattribute-vs-attribute-in-javascript)\nfor some background on when to use the functions in this module versus the\nfunctions in `Dom.Property`.\n\n@docs string, int, float, namespaced\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "float",
+        "comment": " Set an attribute by giving its value as a floating point number, which will\nbe converted to a string; the first argument gives the *value* and the second\nargument gives the *key*\n\n    myShapeElement\n      |> Dom.Element.addAttribute\n        ( \"stroke-width\"\n          |> Dom.Attribute.float 0.5\n        )\n\n",
+        "type": "Float -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "int",
+        "comment": " Set an attribute by giving its value as an integer, which will be converted\nto a string; the first argument gives the *value* and the second argument gives\nthe *key*\n\n    \"Hello World!\"\n      |> Dom.Svg.textWrapper \"text\"\n        [ \"x\"\n          |> Dom.Attribute.int 200\n        , \"y\"\n          |> Dom.Attribute.int 200\n        ]\n\n",
+        "type": "Int -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "namespaced",
+        "comment": " Set an attribute in a given namespace; the first argument gives the\nnamespace prefix and URL, the second argument is the value, and the third\nargument is the key\n\n    \"script\"\n      |> Dom.Element.leaf\n      |> Dom.Element.withAttributes\n        [ \"href\"\n          |> Dom.Attribute.namespaced (\"xlink\", \"http://www.w3.org/1999/xlink\") \"cool-script.js\"\n        , \"type\"\n          |> Dom.Attribute.string \"text/ecmascript\"\n        ]\n\nSee\n[here](https://developer.mozilla.org/en-US/docs/Web/SVG/Namespaces_Crash_Course)\nfor an explanation of the use of namespaces in XML generally, and in SVG more\nspecifically.\n\n",
+        "type": "( String, String ) -> String -> String -> VirtualDom.Property msg"
+      },
+      {
+        "name": "string",
+        "comment": " Set an attribute by giving its value as a string; the first argument gives\nthe *value* and the second argument gives the *key*\n\n    myGraphics\n      |> Dom.Svg.container \"svg\"\n        [ \"viewbox\"\n          |> Dom.Attribute.string \"0 0 400 400\"\n        ]\n\n",
+        "type": "String -> String -> VirtualDom.Property msg"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]

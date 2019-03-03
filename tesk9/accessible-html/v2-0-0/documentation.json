@@ -904,60 +904,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Accessibility.Landmark",
-    "comment": " [On page regions.](https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html)\n\nLandmarks help your users to navigate your site by giving them \"landmarks\" to\nthe regions they might want to see. Are they trying the `search` the site? Do\nthey want to access the `main` content? Do they want information about the content,\nlike copyright and legal notices--`contentInfo`, if you will?\n\nLandmarks keep your users from being overwhelmed by a slew of information to sift through\nor from being bored by need to tab through the same old set of unlabeled links on\nevery single page of your site.\n\nGenerally, these landmark tags are implicit in HTML5. The default landmark roles\nare specified [here](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/HTML5.html).\n`search` does not have a corresponding HTML5 tag.\n\n@docs banner, complementary, contentInfo, form, main_, navigation, search, application, region\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "application",
-        "comment": " Declare a region as a web application.\nBe careful with this one--see <https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html>.\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "banner",
-        "comment": " This banner should have the page title in it. In HTML5, the `header` element\ngenerally is implicitly a `banner`. (For specifics on what DOM relationships will\naffect this default behavior, please check out [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/banner.html).)\n\n    import Accessibility as Html exposing (Html, div, h1, img, text)\n    import Accessibility.Landmark exposing (banner)\n    import Html.Attributes exposing (src)\n\n    view : Html msg\n    view =\n        div\n            [ banner ]\n            [ h1 [] [ text \"Such Site!\" ]\n            , img \"Such Logo!\" [ src \"logo.png\" ]\n            ]\n\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "complementary",
-        "comment": " \"Complements\" the main content. If there are more than one complementary elements\non the page, please be sure to use `labeledBy` to point to the heading of each\ncomplementary element.\n\nThe HTML5 `aside` tag has this role by default (you still need to use `labeledBy`\nif there are more than one asides!).\n\nCheck out [W3's docs for `complementary`](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/complementary.html)--\nnote that you can toggle the \"Show Landmarks\" button at the top of the page\nto see a real example of using the complementary role!\n\n    import Accessibility as Html exposing (Html, div, text)\n    import Accessibility.Aria exposing (labeledBy)\n    import Accessibility.Landmark exposing (complementary)\n\n    view : Html msg\n    view =\n        div []\n            [ div\n                [ complementary, labeledBy \"extra-thoughts\" ]\n                [ h2 [ id \"extra-thoughts\" ] [ text \"Extra thoughts...\" ]\n                , text \"some content\"\n                ]\n            , div\n                [ complementary, labeledBy \"related-docs\" ]\n                [ h2 [ id \"related-docs\" ] [ text \"Related Documentation\" ] ]\n            ]\n\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "contentInfo",
-        "comment": " Copyrights, privacy statements, etc. There ought only be one element with the\ncontent info role per page.\n\nYou may already have a content info element role fulfilled\non your page via the HTML5 `footer` element--as long as its context is the `body`, not\na `section` or `main` or what-have-you (see [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/contentinfo.html) for the full list).\n\n    div [ contentInfo ]\n        [ h2 []\n            [ text \"Link to the Privacy Statement You Probably Really Should Read Someday\" ]\n        ]\n\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "form",
-        "comment": " A form container. The HTML5 alternative is to use a `form` element with a `name`.\n\nFor examples, please see [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/form.html).\n\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "main_",
-        "comment": " Main content in a document. (There should only be one--if you require more than\none element with role main, make sure each is labeled. See [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/main.html).)\n\nHTML5's `main` tag is implicitly role `main`.\n\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "navigation",
-        "comment": " Navigation--wrap lists of links intended to help your users navigate your site\nin an element with this role or use HTML5's `nav` tag.\n\nIf there's more than one `nav` list on a given page, please make sure that the\nnavigation is labeled (what kinds of links should your users expect to find in\nthis list?). For examples of how to do this using the `labeledBy` property,\ncheck out [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/navigation.html).\n\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "region",
-        "comment": " Prefer the other Landmark options to `region`. Be sure to add a name when using this attribute!\n",
-        "type": "Html.Attribute Basics.Never"
-      },
-      {
-        "name": "search",
-        "comment": " A search input. [W3 docs](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/search.html?)\n\nIf you're going to learn about an ARIA Landmark role, this is the one to know,\nas HTML5 does NOT have a corresponding element! Add this property to forms to signify\nthat they describe search functionality.\n\nAs ever, if there's more than one search element on the page, please be sure to label.\n\n    import Accessibility exposing (Html, button, form, inputText, labelBefore, text)\n    import Accessibility.Landmark exposing (search)\n    import Html.Attributes exposing (type_)\n    import Html.Events exposing (onChange)\n\n    type Msg\n        = Search String\n\n    view : String -> Html Msg\n    view value =\n        form [ search ]\n            [ labelBefore []\n                (text \"Search for something good\")\n                (inputText value [ onChange Search ])\n            , button [ type_ \"submit\" ] [ text \"Search\" ]\n            ]\n\n",
-        "type": "Html.Attribute Basics.Never"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Accessibility.Widget",
     "comment": "\n\n\n## Widget States and Properties\n\nSome of these are also globally available, including: `busy`, `disabled`, `grabbed`, `hidden`, `invalid`.\n\n\n### Inputs\n\n@docs required, label\n\n\n### Button\n\n@docs pressed\n\n\n### TextBox\n\n@docs multiLine\n\n\n#### Auto-complete behavior:\n\nSee [the autocomplete spec](https://www.w3.org/TR/wai-aria-1.1/#aria-autocomplete).\n@docs autoCompleteInline, autoCompleteList, autoCompleteBoth\n\n\n### Selection\n\n@docs checked, selected, indeterminate\n\n\n### Validity\n\n@docs invalid, invalidGrammar, invalidSpelling\n\n\n### Interactability\n\n@docs expanded, hidden, readOnly, disabled\n\n\n### Pop-Ups\n\n@docs modal\n\nPop-ups are supported for all elements (but not meant for use on tooltips).\n\nThe pop-up itself needs to have a containing element with one of these roles:\n`menu`, `listbox`, `tree`, `grid`, or `dialog`, and the pop-up value must match.\nThat is, use `hasMenuPopUp` if the pop-up container has a role of `menu`.\n\nSee [the spec](https://www.w3.org/TR/wai-aria-1.1/#aria-haspopup).\n\n@docs hasMenuPopUp, hasListBoxPopUp, hasTreePopUp, hasGridPopUp, hasDialogPopUp\n\n\n### Orientation and Range Widgets\n\n@docs orientationHorizontal, orientationVertical, valueMin, valueMax, valueNow, valueText\n\n\n### Table Sort-by-column\n\n@docs sortAscending, sortDescending, sortCustom, sortNone\n\n\n### Misc\n\n@docs multiSelectable\n\n\n### Page Hierarchy\n\n@docs level\n\n",
     "aliases": [],
@@ -1276,6 +1222,60 @@
         "name": "setSize",
         "comment": " Supported by list-y elements: `article`, `listItem`, `menuItem`, `option`,\n`radio`, `tab`, `menuitemcheckbox`, `menuitemradio`, and `treeItem`.\n\n`setSize` indicates the total number of items in a set where not all the items are\ncurrently present in the DOM.\n\n",
         "type": "Int -> Html.Attribute Basics.Never"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Accessibility.Landmark",
+    "comment": " [On page regions.](https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html)\n\nLandmarks help your users to navigate your site by giving them \"landmarks\" to\nthe regions they might want to see. Are they trying the `search` the site? Do\nthey want to access the `main` content? Do they want information about the content,\nlike copyright and legal notices--`contentInfo`, if you will?\n\nLandmarks keep your users from being overwhelmed by a slew of information to sift through\nor from being bored by need to tab through the same old set of unlabeled links on\nevery single page of your site.\n\nGenerally, these landmark tags are implicit in HTML5. The default landmark roles\nare specified [here](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/HTML5.html).\n`search` does not have a corresponding HTML5 tag.\n\n@docs banner, complementary, contentInfo, form, main_, navigation, search, application, region\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "application",
+        "comment": " Declare a region as a web application.\nBe careful with this one--see <https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html>.\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "banner",
+        "comment": " This banner should have the page title in it. In HTML5, the `header` element\ngenerally is implicitly a `banner`. (For specifics on what DOM relationships will\naffect this default behavior, please check out [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/banner.html).)\n\n    import Accessibility as Html exposing (Html, div, h1, img, text)\n    import Accessibility.Landmark exposing (banner)\n    import Html.Attributes exposing (src)\n\n    view : Html msg\n    view =\n        div\n            [ banner ]\n            [ h1 [] [ text \"Such Site!\" ]\n            , img \"Such Logo!\" [ src \"logo.png\" ]\n            ]\n\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "complementary",
+        "comment": " \"Complements\" the main content. If there are more than one complementary elements\non the page, please be sure to use `labeledBy` to point to the heading of each\ncomplementary element.\n\nThe HTML5 `aside` tag has this role by default (you still need to use `labeledBy`\nif there are more than one asides!).\n\nCheck out [W3's docs for `complementary`](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/complementary.html)--\nnote that you can toggle the \"Show Landmarks\" button at the top of the page\nto see a real example of using the complementary role!\n\n    import Accessibility as Html exposing (Html, div, text)\n    import Accessibility.Aria exposing (labeledBy)\n    import Accessibility.Landmark exposing (complementary)\n\n    view : Html msg\n    view =\n        div []\n            [ div\n                [ complementary, labeledBy \"extra-thoughts\" ]\n                [ h2 [ id \"extra-thoughts\" ] [ text \"Extra thoughts...\" ]\n                , text \"some content\"\n                ]\n            , div\n                [ complementary, labeledBy \"related-docs\" ]\n                [ h2 [ id \"related-docs\" ] [ text \"Related Documentation\" ] ]\n            ]\n\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "contentInfo",
+        "comment": " Copyrights, privacy statements, etc. There ought only be one element with the\ncontent info role per page.\n\nYou may already have a content info element role fulfilled\non your page via the HTML5 `footer` element--as long as its context is the `body`, not\na `section` or `main` or what-have-you (see [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/contentinfo.html) for the full list).\n\n    div [ contentInfo ]\n        [ h2 []\n            [ text \"Link to the Privacy Statement You Probably Really Should Read Someday\" ]\n        ]\n\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "form",
+        "comment": " A form container. The HTML5 alternative is to use a `form` element with a `name`.\n\nFor examples, please see [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/form.html).\n\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "main_",
+        "comment": " Main content in a document. (There should only be one--if you require more than\none element with role main, make sure each is labeled. See [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/main.html).)\n\nHTML5's `main` tag is implicitly role `main`.\n\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "navigation",
+        "comment": " Navigation--wrap lists of links intended to help your users navigate your site\nin an element with this role or use HTML5's `nav` tag.\n\nIf there's more than one `nav` list on a given page, please make sure that the\nnavigation is labeled (what kinds of links should your users expect to find in\nthis list?). For examples of how to do this using the `labeledBy` property,\ncheck out [W3](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/navigation.html).\n\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "region",
+        "comment": " Prefer the other Landmark options to `region`. Be sure to add a name when using this attribute!\n",
+        "type": "Html.Attribute Basics.Never"
+      },
+      {
+        "name": "search",
+        "comment": " A search input. [W3 docs](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/search.html?)\n\nIf you're going to learn about an ARIA Landmark role, this is the one to know,\nas HTML5 does NOT have a corresponding element! Add this property to forms to signify\nthat they describe search functionality.\n\nAs ever, if there's more than one search element on the page, please be sure to label.\n\n    import Accessibility exposing (Html, button, form, inputText, labelBefore, text)\n    import Accessibility.Landmark exposing (search)\n    import Html.Attributes exposing (type_)\n    import Html.Events exposing (onChange)\n\n    type Msg\n        = Search String\n\n    view : String -> Html Msg\n    view value =\n        form [ search ]\n            [ labelBefore []\n                (text \"Search for something good\")\n                (inputText value [ onChange Search ])\n            , button [ type_ \"submit\" ] [ text \"Search\" ]\n            ]\n\n",
+        "type": "Html.Attribute Basics.Never"
       }
     ],
     "generated-with-elm-version": "0.18.0"

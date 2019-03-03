@@ -1,130 +1,5 @@
 [
   {
-    "name": "Encode",
-    "comment": " Encode Elm values to EDN elements.\n\nYou can mostly just use this the way you use\n<a href=\"http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Encode\">Json.Encode</a>\nto encode JSON values.\n\n\n# Basics\n\n@docs Element, encode\n\n\n# Encoding basic types\n\n@docs string, int, bool, float, symbol, keyword\n\n\n# Containers\n\n@docs list\n\n\n# Objects and tags\n\n@docs object, mustObject, tagged, mustTagged\n\n\n# Symbols\n\n@docs Symbol, toSymbol, mustSymbol\n@docs Keyword, toKeyword, mustKeyword\n@docs Tag, toTag, mustTag\n\n",
-    "aliases": [
-      {
-        "name": "Element",
-        "comment": " An EDN element.\n\nThis can be encoded to a `String` via [`encode`](encode).\n\n",
-        "args": [],
-        "type": "Types.Element"
-      }
-    ],
-    "types": [
-      {
-        "name": "Keyword",
-        "comment": " An EDN keyword. You can make these from strings using\n`toKeyword` or `mustKeyword`.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Symbol",
-        "comment": " An EDN symbol. You can make these from strings using\n`toSymbol` or `mustSymbol`.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Tag",
-        "comment": " An EDN tag. You can make these from strings using\n`toTag` or `mustTag`.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "bool",
-        "comment": " Make an EDN bool from an Elm `Bool`.\n",
-        "type": "Bool -> Encode.Element"
-      },
-      {
-        "name": "encode",
-        "comment": " Encode an EDN element to EDN.\n\n    encode (list [int 5, string \"hello\"])\n    --> \"\"\"(5 \"hello\")\"\"\"\n\n",
-        "type": "Encode.Element -> String"
-      },
-      {
-        "name": "float",
-        "comment": " Make an EDN floating point number from an Elm `Float`.\n",
-        "type": "Float -> Encode.Element"
-      },
-      {
-        "name": "int",
-        "comment": " Make an EDN integer from an Elm `Int`.\n",
-        "type": "Int -> Encode.Element"
-      },
-      {
-        "name": "keyword",
-        "comment": " Make an EDN keyword from a `Keyword`.\n\n    encode <| keyword  <| mustKeyword \"nil\"\n    --> \":nil\"\n\n",
-        "type": "Encode.Keyword -> Encode.Element"
-      },
-      {
-        "name": "list",
-        "comment": " Make an EDN list from an Elm `List` of EDN elements.\n",
-        "type": "List Encode.Element -> Encode.Element"
-      },
-      {
-        "name": "mustKeyword",
-        "comment": " Create a `Keyword` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
-        "type": "String -> Encode.Keyword"
-      },
-      {
-        "name": "mustObject",
-        "comment": " Make an EDN object (map from keyword to element) from a list of\npairs of field name string and field value. This will crash if any of\nthe field names are not valid EDN symbols.\n\n    encode (mustObject [ (\"x\", float 1.5), (\"y\", float 0.0) ])\n    --> \"{:x 1.5, :y 0.0}\"\n\n",
-        "type": "List ( String, Encode.Element ) -> Encode.Element"
-      },
-      {
-        "name": "mustSymbol",
-        "comment": " Create a `Symbol` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
-        "type": "String -> Encode.Symbol"
-      },
-      {
-        "name": "mustTag",
-        "comment": " Create a `Tag` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
-        "type": "String -> Encode.Tag"
-      },
-      {
-        "name": "mustTagged",
-        "comment": " Make a tagged EDN element from a `String` and an element.\nThis will crash if the tag is not a valid EDN symbol.\n\n    type ID\n        = UserID Int\n        | Email String\n\n    encode <| list <|\n        List.map (\\id -> case id of\n            UserID i -> mustTagged \"my/uid\" (int i)\n            Email e  -> mustTagged \"my/email\" (string e)\n        ) [ UserID 5, Email \"alice@example.com\" ]\n    --> \"\"\"(#my/uid 5 #my/email \"alice@example.com\")\"\"\"\n\n",
-        "type": "String -> Encode.Element -> Encode.Element"
-      },
-      {
-        "name": "object",
-        "comment": " Make an EDN object (map from keyword to element) from a list of\npairs of field name symbol and field value.\n\n    case (toKeyword \"x\", toKeyword \"y\") of\n        (Just x, Just y)\n            -> encode (object [ (x, float 1.5), (y, float 0.0) ])\n        _   -> \"\"\n    --> \"{:x 1.5, :y 0.0}\"\n\n",
-        "type": "List ( Encode.Keyword, Encode.Element ) -> Encode.Element"
-      },
-      {
-        "name": "string",
-        "comment": " Make an EDN string from an Elm `String`.\n",
-        "type": "String -> Encode.Element"
-      },
-      {
-        "name": "symbol",
-        "comment": " Make an EDN symbol from a `Symbol`.\n",
-        "type": "Encode.Symbol -> Encode.Element"
-      },
-      {
-        "name": "tagged",
-        "comment": " Make a tagged EDN element from a tag and an element.\n",
-        "type": "Encode.Tag -> Encode.Element -> Encode.Element"
-      },
-      {
-        "name": "toKeyword",
-        "comment": " Create a `Keyword` from an Elm `String`. This allows the\nsame strings as `toSymbol`, in addition to `\"nil\"`, `\"true\"`\nand `\"false\"`.\n",
-        "type": "String -> Maybe.Maybe Encode.Keyword"
-      },
-      {
-        "name": "toSymbol",
-        "comment": " Create a `Symbol` from an Elm `String`. This will fail\nand return `Nothing` if the string is not a valid symbol, compare\nthe [EDN spec](https://github.com/edn-format/edn#symbols).\n\n`nil`, `true` and `false` are not valid symbols.\n\n",
-        "type": "String -> Maybe.Maybe Encode.Symbol"
-      },
-      {
-        "name": "toTag",
-        "comment": " Create a `Tag` from an Elm `String`. This allows the\nsame strings as `toSymbol`, in addition to `\"nil\"`, `\"true\"`\nand `\"false\"`.\n",
-        "type": "String -> Maybe.Maybe Encode.Tag"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Decode",
     "comment": " Build decoders for [EDN](https://github.com/edn-format/edn) elements.\n\nYou can mostly just use this the way you use\n<a href=\"http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\">Json.Decode</a>\nto decode JSON values.\n\n\n# Primitives\n\n@docs Decoder\n@docs bool, int, float, string, char\n@docs nil, symbol, keyword\n\n\n# Data Structures\n\n@docs optional, list, vector, set, keyValuePairs, dict\n@docs index\n\n\n# Object Primitives\n\n@docs field, optionalField\n@docs tagged\n@docs at\n\n\n# Inconsistent Structure\n\n@docs oneOf\n\n\n# Run Decoders\n\n@docs decodeString\n\n\n# Mapping\n\n@docs map, map2, map3, map4, map5, map6, map7, map8\n\n\n# Fancy Decoding\n\n@docs lazy, succeed, fail, andThen\n\n\n# Custom Types\n\n@docs tag, instant, uuid\n\n",
     "aliases": [
@@ -318,6 +193,131 @@
         "name": "vector",
         "comment": " Decode an EDN vector into an Elm `List`.\n\n    decodeString (vector int) \"[2 2]\"\n    --> Ok [2, 2]\n\n",
         "type": "Decode.Decoder a -> Decode.Decoder (List a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Encode",
+    "comment": " Encode Elm values to EDN elements.\n\nYou can mostly just use this the way you use\n<a href=\"http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Encode\">Json.Encode</a>\nto encode JSON values.\n\n\n# Basics\n\n@docs Element, encode\n\n\n# Encoding basic types\n\n@docs string, int, bool, float, symbol, keyword\n\n\n# Containers\n\n@docs list\n\n\n# Objects and tags\n\n@docs object, mustObject, tagged, mustTagged\n\n\n# Symbols\n\n@docs Symbol, toSymbol, mustSymbol\n@docs Keyword, toKeyword, mustKeyword\n@docs Tag, toTag, mustTag\n\n",
+    "aliases": [
+      {
+        "name": "Element",
+        "comment": " An EDN element.\n\nThis can be encoded to a `String` via [`encode`](encode).\n\n",
+        "args": [],
+        "type": "Types.Element"
+      }
+    ],
+    "types": [
+      {
+        "name": "Keyword",
+        "comment": " An EDN keyword. You can make these from strings using\n`toKeyword` or `mustKeyword`.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Symbol",
+        "comment": " An EDN symbol. You can make these from strings using\n`toSymbol` or `mustSymbol`.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Tag",
+        "comment": " An EDN tag. You can make these from strings using\n`toTag` or `mustTag`.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "bool",
+        "comment": " Make an EDN bool from an Elm `Bool`.\n",
+        "type": "Bool -> Encode.Element"
+      },
+      {
+        "name": "encode",
+        "comment": " Encode an EDN element to EDN.\n\n    encode (list [int 5, string \"hello\"])\n    --> \"\"\"(5 \"hello\")\"\"\"\n\n",
+        "type": "Encode.Element -> String"
+      },
+      {
+        "name": "float",
+        "comment": " Make an EDN floating point number from an Elm `Float`.\n",
+        "type": "Float -> Encode.Element"
+      },
+      {
+        "name": "int",
+        "comment": " Make an EDN integer from an Elm `Int`.\n",
+        "type": "Int -> Encode.Element"
+      },
+      {
+        "name": "keyword",
+        "comment": " Make an EDN keyword from a `Keyword`.\n\n    encode <| keyword  <| mustKeyword \"nil\"\n    --> \":nil\"\n\n",
+        "type": "Encode.Keyword -> Encode.Element"
+      },
+      {
+        "name": "list",
+        "comment": " Make an EDN list from an Elm `List` of EDN elements.\n",
+        "type": "List Encode.Element -> Encode.Element"
+      },
+      {
+        "name": "mustKeyword",
+        "comment": " Create a `Keyword` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
+        "type": "String -> Encode.Keyword"
+      },
+      {
+        "name": "mustObject",
+        "comment": " Make an EDN object (map from keyword to element) from a list of\npairs of field name string and field value. This will crash if any of\nthe field names are not valid EDN symbols.\n\n    encode (mustObject [ (\"x\", float 1.5), (\"y\", float 0.0) ])\n    --> \"{:x 1.5, :y 0.0}\"\n\n",
+        "type": "List ( String, Encode.Element ) -> Encode.Element"
+      },
+      {
+        "name": "mustSymbol",
+        "comment": " Create a `Symbol` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
+        "type": "String -> Encode.Symbol"
+      },
+      {
+        "name": "mustTag",
+        "comment": " Create a `Tag` from an Elm `String`, crashing if\nit is not a valid symbol.\n",
+        "type": "String -> Encode.Tag"
+      },
+      {
+        "name": "mustTagged",
+        "comment": " Make a tagged EDN element from a `String` and an element.\nThis will crash if the tag is not a valid EDN symbol.\n\n    type ID\n        = UserID Int\n        | Email String\n\n    encode <| list <|\n        List.map (\\id -> case id of\n            UserID i -> mustTagged \"my/uid\" (int i)\n            Email e  -> mustTagged \"my/email\" (string e)\n        ) [ UserID 5, Email \"alice@example.com\" ]\n    --> \"\"\"(#my/uid 5 #my/email \"alice@example.com\")\"\"\"\n\n",
+        "type": "String -> Encode.Element -> Encode.Element"
+      },
+      {
+        "name": "object",
+        "comment": " Make an EDN object (map from keyword to element) from a list of\npairs of field name symbol and field value.\n\n    case (toKeyword \"x\", toKeyword \"y\") of\n        (Just x, Just y)\n            -> encode (object [ (x, float 1.5), (y, float 0.0) ])\n        _   -> \"\"\n    --> \"{:x 1.5, :y 0.0}\"\n\n",
+        "type": "List ( Encode.Keyword, Encode.Element ) -> Encode.Element"
+      },
+      {
+        "name": "string",
+        "comment": " Make an EDN string from an Elm `String`.\n",
+        "type": "String -> Encode.Element"
+      },
+      {
+        "name": "symbol",
+        "comment": " Make an EDN symbol from a `Symbol`.\n",
+        "type": "Encode.Symbol -> Encode.Element"
+      },
+      {
+        "name": "tagged",
+        "comment": " Make a tagged EDN element from a tag and an element.\n",
+        "type": "Encode.Tag -> Encode.Element -> Encode.Element"
+      },
+      {
+        "name": "toKeyword",
+        "comment": " Create a `Keyword` from an Elm `String`. This allows the\nsame strings as `toSymbol`, in addition to `\"nil\"`, `\"true\"`\nand `\"false\"`.\n",
+        "type": "String -> Maybe.Maybe Encode.Keyword"
+      },
+      {
+        "name": "toSymbol",
+        "comment": " Create a `Symbol` from an Elm `String`. This will fail\nand return `Nothing` if the string is not a valid symbol, compare\nthe [EDN spec](https://github.com/edn-format/edn#symbols).\n\n`nil`, `true` and `false` are not valid symbols.\n\n",
+        "type": "String -> Maybe.Maybe Encode.Symbol"
+      },
+      {
+        "name": "toTag",
+        "comment": " Create a `Tag` from an Elm `String`. This allows the\nsame strings as `toSymbol`, in addition to `\"nil\"`, `\"true\"`\nand `\"false\"`.\n",
+        "type": "String -> Maybe.Maybe Encode.Tag"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -164,6 +164,35 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Graphqelm.Document",
+    "comment": " You'll usually want to use `Graphqelm.Http` to perform your queries directly.\nThis package provides low-level functions for generating GraphQL documents that\nare helpful for debugging and demo purposes.\n\n@docs serializeQuery, serializeMutation, serializeSubscription, serializeQueryForUrl\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "serializeMutation",
+        "comment": " Serialize a mutation selection set into a string for a GraphQL endpoint.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootMutation -> String"
+      },
+      {
+        "name": "serializeQuery",
+        "comment": " Serialize a query selection set into a string for a GraphQL endpoint.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
+      },
+      {
+        "name": "serializeQueryForUrl",
+        "comment": " Serialize a query selection set into a string with minimal whitespace. For\nuse with a GET request as a query param.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
+      },
+      {
+        "name": "serializeSubscription",
+        "comment": " Serialize a subscription selection set into a string for a GraphQL endpoint.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootSubscription -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Graphqelm.Internal.Builder.Object",
     "comment": " **WARNING** `Graphqelm.Interal` modules are used by the `graphqelm` command line\ncode generator tool. They should not be consumed through hand-written code.\n\nInternal functions for use by auto-generated code from the `graphqelm` CLI.\n@docs fieldDecoder, selection, selectionField, interfaceSelection, unionSelection\n\n",
     "aliases": [],
@@ -193,35 +222,6 @@
         "name": "unionSelection",
         "comment": " Used to create the `selection` functions in auto-generated code for unions.\n",
         "type": "List (Graphqelm.SelectionSet.FragmentSelectionSet typeSpecific typeLock) -> (Maybe.Maybe typeSpecific -> a) -> Graphqelm.SelectionSet.SelectionSet a typeLock"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Graphqelm.Document",
-    "comment": " You'll usually want to use `Graphqelm.Http` to perform your queries directly.\nThis package provides low-level functions for generating GraphQL documents that\nare helpful for debugging and demo purposes.\n\n@docs serializeQuery, serializeMutation, serializeSubscription, serializeQueryForUrl\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "serializeMutation",
-        "comment": " Serialize a mutation selection set into a string for a GraphQL endpoint.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootMutation -> String"
-      },
-      {
-        "name": "serializeQuery",
-        "comment": " Serialize a query selection set into a string for a GraphQL endpoint.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
-      },
-      {
-        "name": "serializeQueryForUrl",
-        "comment": " Serialize a query selection set into a string with minimal whitespace. For\nuse with a GET request as a query param.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootQuery -> String"
-      },
-      {
-        "name": "serializeSubscription",
-        "comment": " Serialize a subscription selection set into a string for a GraphQL endpoint.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Graphqelm.Operation.RootSubscription -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -434,44 +434,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Graphqelm.OptionalArgument",
-    "comment": "\n\n@docs OptionalArgument\n@docs fromMaybe\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "OptionalArgument",
-        "comment": " This type is used to create values to pass in optional arguments.\n\n      import Api.Enum.Episode as Episode exposing (Episode)\n      import Api.Query as Query\n      import Graphqelm.Operation exposing (RootQuery)\n      import Graphqelm.OptionalArgument exposing (OptionalArgument(Null, Present))\n      import Graphqelm.SelectionSet exposing (SelectionSet, with)\n\n\n      query : SelectionSet Response RootQuery\n      query =\n          Query.selection Response\n              |> with (Query.human { id = \"1004\" } human)\n              |> with (Query.human { id = \"1001\" } human)\n              |> with\n                  (Query.hero\n                      (\\optionals ->\n                          { optionals\n                              | episode = Present Episode.EMPIRE\n                          }\n                      )\n                      hero\n                  )\n\nAn optional argument can be either present, absent, or null, so using a Maybe does not\nfully capture the GraphQL concept of an optional argument. For example, you could have\na mutation that deletes an entry if a null argument is provided, or does nothing if\nthe argument is absent. See\n[The official GraphQL spec section on null](http://facebook.github.io/graphql/October2016/#sec-Null-Value)\nfor details.\n\n",
-        "args": [
-          "a"
-        ],
-        "cases": [
-          [
-            "Present",
-            [
-              "a"
-            ]
-          ],
-          [
-            "Absent",
-            []
-          ],
-          [
-            "Null",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "fromMaybe",
-        "comment": " Convert a `Maybe` to an OptionalArgument.\n",
-        "type": "Maybe.Maybe a -> Graphqelm.OptionalArgument.OptionalArgument a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Graphqelm.Operation",
     "comment": " This module contains types used to annotate top-level queries which can be\nbuilt up using functions in code generated by the `graphqelm` command line tool\nand sent using functions in the `Graphqelm.Http` module.\n\n@docs RootMutation, RootQuery, RootSubscription\n\n",
     "aliases": [],
@@ -496,33 +458,6 @@
       }
     ],
     "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Graphqelm.Http.GraphqlError",
-    "comment": "\n\n@docs GraphqlError, decoder, Location\n\n",
-    "aliases": [
-      {
-        "name": "GraphqlError",
-        "comment": " Represents an error from the GraphQL endpoint. Also see `Graphqelm.Http`.\n\nThe code generated by Graphqelm\nguarantees that your requests are valid according to the server's schema, so\nthe two cases where you will get a GraphqlError are 1) when there is an implicit\nconstraint that the schema doesn't specify, or 2) when your generated code is\nout of date with the schema.\n\nSee the\n[Errors section in the GraphQL spec](http://facebook.github.io/graphql/October2016/#sec-Errors).\nfor more details about GraphQL errors.\n\n",
-        "args": [],
-        "type": "{ message : String , locations : Maybe.Maybe (List Graphqelm.Http.GraphqlError.Location) , details : Dict.Dict String Json.Decode.Value }"
-      },
-      {
-        "name": "Location",
-        "comment": " The location in the GraphQL query document where the error occured\n",
-        "args": [],
-        "type": "{ line : Int, column : Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "decoder",
-        "comment": " For internal use only.\n",
-        "type": "Json.Decode.Decoder (List Graphqelm.Http.GraphqlError.GraphqlError)"
-      }
-    ],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -575,6 +510,71 @@
         "name": "rails",
         "comment": " `Protocol` for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby/).\n",
         "type": "Graphqelm.Subscription.Protocol.Protocol subscriptionDecodesTo"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Graphqelm.OptionalArgument",
+    "comment": "\n\n@docs OptionalArgument\n@docs fromMaybe\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "OptionalArgument",
+        "comment": " This type is used to create values to pass in optional arguments.\n\n      import Api.Enum.Episode as Episode exposing (Episode)\n      import Api.Query as Query\n      import Graphqelm.Operation exposing (RootQuery)\n      import Graphqelm.OptionalArgument exposing (OptionalArgument(Null, Present))\n      import Graphqelm.SelectionSet exposing (SelectionSet, with)\n\n\n      query : SelectionSet Response RootQuery\n      query =\n          Query.selection Response\n              |> with (Query.human { id = \"1004\" } human)\n              |> with (Query.human { id = \"1001\" } human)\n              |> with\n                  (Query.hero\n                      (\\optionals ->\n                          { optionals\n                              | episode = Present Episode.EMPIRE\n                          }\n                      )\n                      hero\n                  )\n\nAn optional argument can be either present, absent, or null, so using a Maybe does not\nfully capture the GraphQL concept of an optional argument. For example, you could have\na mutation that deletes an entry if a null argument is provided, or does nothing if\nthe argument is absent. See\n[The official GraphQL spec section on null](http://facebook.github.io/graphql/October2016/#sec-Null-Value)\nfor details.\n\n",
+        "args": [
+          "a"
+        ],
+        "cases": [
+          [
+            "Present",
+            [
+              "a"
+            ]
+          ],
+          [
+            "Absent",
+            []
+          ],
+          [
+            "Null",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "fromMaybe",
+        "comment": " Convert a `Maybe` to an OptionalArgument.\n",
+        "type": "Maybe.Maybe a -> Graphqelm.OptionalArgument.OptionalArgument a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Graphqelm.Http.GraphqlError",
+    "comment": "\n\n@docs GraphqlError, decoder, Location\n\n",
+    "aliases": [
+      {
+        "name": "GraphqlError",
+        "comment": " Represents an error from the GraphQL endpoint. Also see `Graphqelm.Http`.\n\nThe code generated by Graphqelm\nguarantees that your requests are valid according to the server's schema, so\nthe two cases where you will get a GraphqlError are 1) when there is an implicit\nconstraint that the schema doesn't specify, or 2) when your generated code is\nout of date with the schema.\n\nSee the\n[Errors section in the GraphQL spec](http://facebook.github.io/graphql/October2016/#sec-Errors).\nfor more details about GraphQL errors.\n\n",
+        "args": [],
+        "type": "{ message : String , locations : Maybe.Maybe (List Graphqelm.Http.GraphqlError.Location) , details : Dict.Dict String Json.Decode.Value }"
+      },
+      {
+        "name": "Location",
+        "comment": " The location in the GraphQL query document where the error occured\n",
+        "args": [],
+        "type": "{ line : Int, column : Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decoder",
+        "comment": " For internal use only.\n",
+        "type": "Json.Decode.Decoder (List Graphqelm.Http.GraphqlError.GraphqlError)"
       }
     ],
     "generated-with-elm-version": "0.18.0"

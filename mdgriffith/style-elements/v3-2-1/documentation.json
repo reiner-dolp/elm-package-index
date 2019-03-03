@@ -448,228 +448,35 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Font",
-    "comment": " Font Properties\n\nMeant to be imported as:\n\n    import Style.Font as Font\n\n@docs typeface, size, lineHeight, letterSpacing, wordSpacing, alignLeft, alignRight, center, justify, justifyAll\n\n@docs wrap, pre, preWrap, preLine, noWrap\n\n@docs uppercase, capitalize, lowercase, underline, strike, italic, bold, weight, light\n\n",
+    "name": "Style.Sheet",
+    "comment": " Combine and mix child stylesheets.\n\n@docs ChildSheet, merge, map, mix\n\n",
     "aliases": [],
-    "types": [],
-    "values": [
+    "types": [
       {
-        "name": "alignLeft",
-        "comment": " Align the font to the left.\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "alignRight",
-        "comment": " Align the font to the right.\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "bold",
+        "name": "ChildSheet",
         "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "capitalize",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "center",
-        "comment": " Align font center.\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "italic",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "justify",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "justifyAll",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "letterSpacing",
-        "comment": " In `px`.\n",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "light",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "lineHeight",
-        "comment": " Given as a ratio of the `Font.size`.\n",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "lowercase",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "noWrap",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "pre",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "preLine",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "preWrap",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "size",
-        "comment": " Font size specified in `px`\n",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "strike",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "typeface",
-        "comment": " ",
-        "type": "List String -> Style.Property class variation"
-      },
-      {
-        "name": "underline",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "uppercase",
-        "comment": " ",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "weight",
-        "comment": " ",
-        "type": "Int -> Style.Property class variation"
-      },
-      {
-        "name": "wordSpacing",
-        "comment": " In `px`.\n",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "wrap",
-        "comment": " Renders as \"white-space:normal\", which is the standard wrapping behavior you're probably used to.\n",
-        "type": "Style.Property class variation"
+        "args": [
+          "class",
+          "variation"
+        ],
+        "cases": []
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Style.Shadow",
-    "comment": " Shadows\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nThese are for when you want to specify shadows manually. They're meant to be specified in a shadow stack using `Style.shadows`:\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Style.shadows\n            [ Shadow.inset\n                { offset = ( 0, 0 )\n                , size = 5\n                , blur = 2\n                , color = Color.blue\n                }\n            ]\n        ]\n\n@docs box, drop, inset, text\n\n",
-    "aliases": [],
-    "types": [],
     "values": [
       {
-        "name": "box",
+        "name": "map",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+        "type": "(class -> parent) -> (variation -> parentVariation) -> List (Style.Style class variation) -> Style.Sheet.ChildSheet parent parentVariation"
       },
       {
-        "name": "deep",
-        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
-        "type": "Style.Property class variation"
+        "name": "merge",
+        "comment": " Merge a child stylesheet into a parent.\n",
+        "type": "Style.Sheet.ChildSheet class variation -> Style.Style class variation"
       },
       {
-        "name": "drop",
+        "name": "mix",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
-      },
-      {
-        "name": "glow",
-        "comment": " A simple glow by specifying the color and size.\n",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      },
-      {
-        "name": "innerGlow",
-        "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      },
-      {
-        "name": "inset",
-        "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
-      },
-      {
-        "name": "simple",
-        "comment": " A nice preset box shadow.\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "text",
-        "comment": " ",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
-      },
-      {
-        "name": "textGlow",
-        "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Style.Color",
-    "comment": " Set Colors for your style.\n\nMeant to be imported as\n\n    import Style.Color as Color\n\n@docs text, background, border, cursor, decoration, selection, placeholder\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "background",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "border",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "cursor",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "decoration",
-        "comment": " Text decoration color.\n",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "placeholder",
-        "comment": " The color of the input `placeholder` element.\n",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "selection",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "text",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
+        "type": "List (Style.Style class variation) -> Style.Style class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -843,35 +650,124 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Sheet",
-    "comment": " Combine and mix child stylesheets.\n\n@docs ChildSheet, merge, map, mix\n\n",
+    "name": "Style.Border",
+    "comment": " Border Properties\n\n\n# Border Widths\n\n@docs none, all, left, right, top, bottom\n\n\n# Border Styles\n\n@docs solid, dashed, dotted\n\n\n# Rounded Border\n\n@docs rounded, roundTopLeft, roundTopRight, roundBottomRight, roundBottomLeft\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "ChildSheet",
-        "comment": " ",
-        "args": [
-          "class",
-          "variation"
-        ],
-        "cases": []
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "map",
+        "name": "all",
         "comment": " ",
-        "type": "(class -> parent) -> (variation -> parentVariation) -> List (Style.Style class variation) -> Style.Sheet.ChildSheet parent parentVariation"
+        "type": "Float -> Style.Property class variation"
       },
       {
-        "name": "merge",
-        "comment": " Merge a child stylesheet into a parent.\n",
-        "type": "Style.Sheet.ChildSheet class variation -> Style.Style class variation"
+        "name": "bottom",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
       },
       {
-        "name": "mix",
+        "name": "dashed",
         "comment": " ",
-        "type": "List (Style.Style class variation) -> Style.Style class variation"
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "dotted",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "left",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "none",
+        "comment": " No Borders\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "right",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "roundBottomLeft",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "roundBottomRight",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "roundTopLeft",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "roundTopRight",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "rounded",
+        "comment": " Round all corners.\n",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "solid",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "top",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Color",
+    "comment": " Set Colors for your style.\n\nMeant to be imported as\n\n    import Style.Color as Color\n\n@docs text, background, border, cursor, decoration, selection, placeholder\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "background",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "border",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "cursor",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "decoration",
+        "comment": " Text decoration color.\n",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "placeholder",
+        "comment": " The color of the input `placeholder` element.\n",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "selection",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "text",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1592,80 +1488,184 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Border",
-    "comment": " Border Properties\n\n\n# Border Widths\n\n@docs none, all, left, right, top, bottom\n\n\n# Border Styles\n\n@docs solid, dashed, dotted\n\n\n# Rounded Border\n\n@docs rounded, roundTopLeft, roundTopRight, roundBottomRight, roundBottomLeft\n\n",
+    "name": "Style.Shadow",
+    "comment": " Shadows\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nThese are for when you want to specify shadows manually. They're meant to be specified in a shadow stack using `Style.shadows`:\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Style.shadows\n            [ Shadow.inset\n                { offset = ( 0, 0 )\n                , size = 5\n                , blur = 2\n                , color = Color.blue\n                }\n            ]\n        ]\n\n@docs box, drop, inset, text\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "all",
+        "name": "box",
         "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
       },
       {
-        "name": "bottom",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "name": "deep",
+        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
+        "type": "Style.Property class variation"
       },
       {
-        "name": "dashed",
+        "name": "drop",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "glow",
+        "comment": " A simple glow by specifying the color and size.\n",
+        "type": "Color.Color -> Float -> Style.Property class variation"
+      },
+      {
+        "name": "innerGlow",
+        "comment": " ",
+        "type": "Color.Color -> Float -> Style.Property class variation"
+      },
+      {
+        "name": "inset",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "simple",
+        "comment": " A nice preset box shadow.\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "text",
+        "comment": " ",
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "textGlow",
+        "comment": " ",
+        "type": "Color.Color -> Float -> Style.Property class variation"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Font",
+    "comment": " Font Properties\n\nMeant to be imported as:\n\n    import Style.Font as Font\n\n@docs typeface, size, lineHeight, letterSpacing, wordSpacing, alignLeft, alignRight, center, justify, justifyAll\n\n@docs wrap, pre, preWrap, preLine, noWrap\n\n@docs uppercase, capitalize, lowercase, underline, strike, italic, bold, weight, light\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "alignLeft",
+        "comment": " Align the font to the left.\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "alignRight",
+        "comment": " Align the font to the right.\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "bold",
         "comment": " ",
         "type": "Style.Property class variation"
       },
       {
-        "name": "dotted",
+        "name": "capitalize",
         "comment": " ",
         "type": "Style.Property class variation"
       },
       {
-        "name": "left",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "none",
-        "comment": " No Borders\n",
+        "name": "center",
+        "comment": " Align font center.\n",
         "type": "Style.Property class variation"
       },
       {
-        "name": "right",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "roundBottomLeft",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "roundBottomRight",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "roundTopLeft",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "roundTopRight",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "rounded",
-        "comment": " Round all corners.\n",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "solid",
+        "name": "italic",
         "comment": " ",
         "type": "Style.Property class variation"
       },
       {
-        "name": "top",
+        "name": "justify",
         "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "justifyAll",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "letterSpacing",
+        "comment": " In `px`.\n",
         "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "light",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "lineHeight",
+        "comment": " Given as a ratio of the `Font.size`.\n",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "lowercase",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "noWrap",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "pre",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "preLine",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "preWrap",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "size",
+        "comment": " Font size specified in `px`\n",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "strike",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "typeface",
+        "comment": " ",
+        "type": "List String -> Style.Property class variation"
+      },
+      {
+        "name": "underline",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "uppercase",
+        "comment": " ",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "weight",
+        "comment": " ",
+        "type": "Int -> Style.Property class variation"
+      },
+      {
+        "name": "wordSpacing",
+        "comment": " In `px`.\n",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "wrap",
+        "comment": " Renders as \"white-space:normal\", which is the standard wrapping behavior you're probably used to.\n",
+        "type": "Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -95,70 +95,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Pylon.DB.Legacy.Group",
-    "comment": " This is being kept in a seperate legacy module where it will not clutter things. Since a lot\nof code is based on it for now, it is being kept intact. Do not use this module if you are not already\nheavily invested in an existing project that uses these.\n\n@docs bindingGroupTo, dataRebasedBinding, dataSubBinding, forwardingGroupTo, groupDataSubscriber, groupRebasedBinding, groupRebasedDataSubscriber, groupSubBinding, groupSubscriber, orderGroupBy, sendingGroupTo\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bindingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConstruct a new incomplete group binding from a ElmFire Firebase location. ",
-        "type": "ElmFire.Location -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "dataRebasedBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding uses the key of the discovered item to get a child at a diffeent location than\nthat of the group binding. A good example would be a subscription that tracks a group of users,\nbut actually pulls data from a global profiles list. ",
-        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
-      },
-      {
-        "name": "dataSubBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nconcrete data. Note that if you are using the `groupDataSubscriber` convenience function, then this\nis already invoked internally, making the task of bindin a group of concrete records even easier. ",
-        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
-      },
-      {
-        "name": "forwardingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions with a transformation function for forwarding. If\nthis is not applied to the binding, no feedback will be recieved. ",
-        "type": "(List (Pylon.DB.Group.GroupFeedback subfeedback) -> List action) -> Signal.Address (List action) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "groupDataSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
-        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "groupRebasedBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding for nested groups. ",
-        "type": "ElmFire.Location -> ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
-      },
-      {
-        "name": "groupRebasedDataSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
-        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "groupSubBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nnested groups. ",
-        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
-      },
-      {
-        "name": "groupSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nThis is the old subscription primitive, and is quite a bit more limited. For testing purposes,\nit has been implemented in terms of `groupIntegrate` and `groupSubscription`. `groupIntegrate` is\nmuch more powerful, and takes a list of \"sourcing\" functions like `groupSubscription`. ",
-        "type": "(subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (subbinding -> subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (Pylon.DB.Legacy.Group.GroupBinding subfeedback -> String -> subbinding) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Group.Group subtype -> ( Pylon.DB.Group.Group subtype, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "orderGroupBy",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nGive an ordering for the group subscription's internal query. Note that this _will not order the\nresulting key-value dictionary_, but it is still useful because it will have an effect on which\nresults are produced by the Firebase API in the event that limiting is used, which is the case for\nmost practical applications. ",
-        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "sendingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions. If this is not applied to the binding, no feedback\nwill be recieved. ",
-        "type": "Signal.Address (List (Pylon.DB.Group.GroupFeedback subfeedback)) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Pylon.DB.Mirror",
     "comment": " A binding for ElmTextSearch and Pylon.DB.Group.\n\n# Types\n@docs Mirror\n\n# Construction\n@docs mirror\n\n# Getters\n@docs getRef, refs, changedRefs, deltas, isEmpty, isChangedEmpty\n\n# Mirroring\n@docs each, refresh, resynch, attach, attachSynch, attachDelta, attachFilterSynch, attachFilterDelta\n\n# Dataflow\n@docs forward, forwardPast, filterForward, sort, filterSort, multiSort\n\n# Control\n@docs inject, commit\n\n# Group Binding\n@docs bindMirror, bindMirrorRaw, groupMirror, groupMirror, groupMirrorSynch, dataGroupMirror, dataGroupMirrorSynch\n\n",
     "aliases": [],
@@ -317,6 +253,70 @@
         "name": "sort",
         "comment": " Sort the documents in a mirror in to buckets. ",
         "type": "(String -> doctype -> String) -> Pylon.DB.Mirror.Mirror doctype -> Pylon.DB.Mirror.Mirror (Pylon.DB.Mirror.Mirror doctype) -> Pylon.DB.Mirror.Mirror (Pylon.DB.Mirror.Mirror doctype)"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Pylon.DB.Legacy.Group",
+    "comment": " This is being kept in a seperate legacy module where it will not clutter things. Since a lot\nof code is based on it for now, it is being kept intact. Do not use this module if you are not already\nheavily invested in an existing project that uses these.\n\n@docs bindingGroupTo, dataRebasedBinding, dataSubBinding, forwardingGroupTo, groupDataSubscriber, groupRebasedBinding, groupRebasedDataSubscriber, groupSubBinding, groupSubscriber, orderGroupBy, sendingGroupTo\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bindingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConstruct a new incomplete group binding from a ElmFire Firebase location. ",
+        "type": "ElmFire.Location -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "dataRebasedBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding uses the key of the discovered item to get a child at a diffeent location than\nthat of the group binding. A good example would be a subscription that tracks a group of users,\nbut actually pulls data from a global profiles list. ",
+        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
+      },
+      {
+        "name": "dataSubBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nconcrete data. Note that if you are using the `groupDataSubscriber` convenience function, then this\nis already invoked internally, making the task of bindin a group of concrete records even easier. ",
+        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
+      },
+      {
+        "name": "forwardingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions with a transformation function for forwarding. If\nthis is not applied to the binding, no feedback will be recieved. ",
+        "type": "(List (Pylon.DB.Group.GroupFeedback subfeedback) -> List action) -> Signal.Address (List action) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "groupDataSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
+        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "groupRebasedBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding for nested groups. ",
+        "type": "ElmFire.Location -> ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
+      },
+      {
+        "name": "groupRebasedDataSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
+        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "groupSubBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nnested groups. ",
+        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
+      },
+      {
+        "name": "groupSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nThis is the old subscription primitive, and is quite a bit more limited. For testing purposes,\nit has been implemented in terms of `groupIntegrate` and `groupSubscription`. `groupIntegrate` is\nmuch more powerful, and takes a list of \"sourcing\" functions like `groupSubscription`. ",
+        "type": "(subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (subbinding -> subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (Pylon.DB.Legacy.Group.GroupBinding subfeedback -> String -> subbinding) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Group.Group subtype -> ( Pylon.DB.Group.Group subtype, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "orderGroupBy",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nGive an ordering for the group subscription's internal query. Note that this _will not order the\nresulting key-value dictionary_, but it is still useful because it will have an effect on which\nresults are produced by the Firebase API in the event that limiting is used, which is the case for\nmost practical applications. ",
+        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "sendingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions. If this is not applied to the binding, no feedback\nwill be recieved. ",
+        "type": "Signal.Address (List (Pylon.DB.Group.GroupFeedback subfeedback)) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -1588,6 +1588,326 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Pylon.Resource",
+    "comment": " Resource types and reductions. Heavily pruned from Scaffold predecessor to give only what has\nbeen tested, used in practice, and proven useful.\n\n# Resource Type\n\nThis type represents a single remote resource in such a way that it's state can be easily reduced\nto a more abstract representation, either for another part of the system, or the user's view itself.\n\nWe export the tags as well so as to allow the user easy case destructuring.\n@docs Resource\n\n\n# Resource Constructors\n@docs def, pending, undecided, void, unknown\n\n\n# Predicate Composition\n@docs isAll, isAny\n\n\n# Predicates\n@docs isKnown, isNotKnown, isPending, isNotPending, isNotUndecided, isNotUnknown, isNotVoid, isUndecided, isUnknown, isVoid\n\n\n# Reduction\n@docs therefore, otherwise, decideBy, assumeIf, assumeIfNot, assumeInCase, deriveIf, deriveKnown\n\n\n# Interop with Result and Maybe\n@docs maybeKnown, maybeOr, resultOr\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Resource",
+        "comment": " A resource item. ",
+        "args": [
+          "errortype",
+          "v"
+        ],
+        "cases": [
+          [
+            "Unknown",
+            []
+          ],
+          [
+            "Pending",
+            []
+          ],
+          [
+            "Void",
+            []
+          ],
+          [
+            "Undecided",
+            [
+              "errortype"
+            ]
+          ],
+          [
+            "Known",
+            [
+              "v"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "assumeIf",
+        "comment": " If the given predicate is satisfied, the result will be known to the the given value, otherwise\nthe given resource will be given unchanged. ",
+        "type": "(Pylon.Resource.Resource errortype v -> Bool) -> v -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "assumeIfNot",
+        "comment": " Negation of assumeIf. ",
+        "type": "(Pylon.Resource.Resource errortype v -> Bool) -> v -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "assumeInCase",
+        "comment": " In the case that the provided function returns `Just x`, the resource shall be known as that\nvalue, otherwise the Resource shall remain unchanged.  ",
+        "type": "(Pylon.Resource.Resource errortype v -> Maybe.Maybe v) -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "decideBy",
+        "comment": " If the resource is an undecided resource, then the given  ",
+        "type": "(errortype -> Pylon.Resource.Resource errortype v) -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "def",
+        "comment": "  ",
+        "type": "v -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "deriveIf",
+        "comment": " If the predicate is true, apply the given transformation to get a new resource. ",
+        "type": "(Pylon.Resource.Resource errortype v' -> Bool) -> (Pylon.Resource.Resource errortype v' -> Pylon.Resource.Resource errortype v') -> Pylon.Resource.Resource errortype v' -> Pylon.Resource.Resource errortype v'"
+      },
+      {
+        "name": "deriveKnown",
+        "comment": " If the resource is known, then use the given function to create an entirely new replacement resource,\notherwise carry the state to the new resource. This always transforms the type because no other states\ncarry the value type. ",
+        "type": "(v -> Pylon.Resource.Resource errortype v') -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v'"
+      },
+      {
+        "name": "isAll",
+        "comment": " True if _all_ of the given predicates is True, otherwise False. ",
+        "type": "List (Pylon.Resource.Resource errortype v -> Bool) -> Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isAny",
+        "comment": " True if _any_ of the given predicates is True, otherwise False. ",
+        "type": "List (Pylon.Resource.Resource errortype v -> Bool) -> Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isKnown",
+        "comment": " True if the resource is known. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isNotKnown",
+        "comment": " False if the resource is known. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isNotPending",
+        "comment": " False if the resource is pending. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isNotUndecided",
+        "comment": " False if the resource is undecided. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isNotUnknown",
+        "comment": " False if the resource is unknown. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isNotVoid",
+        "comment": " False if the resource is void. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isPending",
+        "comment": " True if the resource is pending. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isUndecided",
+        "comment": " True if the resource is undecided. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isUnknown",
+        "comment": " True if the resource is unknown. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "isVoid",
+        "comment": " True if the resource is void. ",
+        "type": "Pylon.Resource.Resource errortype v -> Bool"
+      },
+      {
+        "name": "maybeKnown",
+        "comment": " If a resource is known, then give Just it's value, otherwise Nothing. ",
+        "type": "Pylon.Resource.Resource errortype v' -> Maybe.Maybe v'"
+      },
+      {
+        "name": "maybeOr",
+        "comment": " ",
+        "type": "Pylon.Resource.Resource errortype v -> Maybe.Maybe v -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "otherwise",
+        "comment": " In the event that the given resource is not a simple `def`, we replace it with a different simple\nresource. ",
+        "type": "v' -> Pylon.Resource.Resource errortype v' -> v'"
+      },
+      {
+        "name": "pending",
+        "comment": "  ",
+        "type": "Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "resultOr",
+        "comment": "  ",
+        "type": "(errortype -> Pylon.Resource.Resource errortype v) -> Result.Result errortype v -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "therefore",
+        "comment": " Given a resource of value type v, create a resource of value type v' by transforming the\nknown value or group using some function (v -> v'). NOTE that this will create an entirely new\nresouce structure, and thus any pending changes will be integrated immediately. If you wish to\npreserve deltas for the purpose of mirroring and efficient data flow, then one should be using\ndeltaTo in order to transform just the changes. ",
+        "type": "(v -> v') -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v'"
+      },
+      {
+        "name": "undecided",
+        "comment": "  ",
+        "type": "errortype -> Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "unknown",
+        "comment": "  ",
+        "type": "Pylon.Resource.Resource errortype v"
+      },
+      {
+        "name": "void",
+        "comment": "  ",
+        "type": "Pylon.Resource.Resource errortype v"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Pylon.DB.Path",
+    "comment": " This path module is designed to work with Pylon.DB.Tree and ElmFire.\n\nPaths must be manipulated using this API. You can transform ElmFire locations with paths.\n\n# Path Type\n@docs Path\n\n# Constructors\n@docs base, single\n\n# List Conversion\n@docs toList, fromList, toStack, fromStack\n\n# Inquiry\n@docs countElements, top, last, first, depth\n\n# Walking\n@docs child, parent, push, pop, up, truncate\n\n# Special Operations\n@docs foldBase, foldTop, join\n\n# Manipulations for `ElmFire.Location`\n@docs childPath, childLocation, absoluteLocation\n\n# Comparisons\n@docs isSame\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Path",
+        "comment": " Opaque type representing a path. ",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "absoluteLocation",
+        "comment": " Given the ElmFire root location used by your application (it will be rooted just in case) and a\npath, give a location that represents it as an absolute path in to your database. ",
+        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
+      },
+      {
+        "name": "base",
+        "comment": " A base path. Represents no path. ",
+        "type": "Pylon.DB.Path.Path"
+      },
+      {
+        "name": "child",
+        "comment": " Append a new last element to the path. Synonym: `push` ",
+        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "childLocation",
+        "comment": " Given an ElmFire location and a path adjust the location relative to it's current position. ",
+        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
+      },
+      {
+        "name": "childPath",
+        "comment": " Take two paths, setting the first as the child path of the second. ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "countElements",
+        "comment": " Count of the elements in the path. ",
+        "type": "Pylon.DB.Path.Path -> Int"
+      },
+      {
+        "name": "depth",
+        "comment": " Synonym for countElements. ",
+        "type": "Pylon.DB.Path.Path -> Int"
+      },
+      {
+        "name": "first",
+        "comment": " Get first element of the path. NOTE: _O(n)_ ",
+        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
+      },
+      {
+        "name": "foldBase",
+        "comment": " Fold over a path's elements from the _base_. ",
+        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
+      },
+      {
+        "name": "foldTop",
+        "comment": " Fold over a path's elements from the _top_. ",
+        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
+      },
+      {
+        "name": "fromList",
+        "comment": " Create a path from a list of strings, ordered from the base to the top. ",
+        "type": "List String -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "fromStack",
+        "comment": " Set the internal stack. ",
+        "type": "List String -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "isSame",
+        "comment": " Compare two paths for equality. ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Bool"
+      },
+      {
+        "name": "join",
+        "comment": " Join the path elements with a glue delimiter, like `List.join`. ",
+        "type": "String -> Pylon.DB.Path.Path -> String"
+      },
+      {
+        "name": "last",
+        "comment": " Get the last element of the path. NOTE : _O(1)_ ",
+        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
+      },
+      {
+        "name": "parent",
+        "comment": " Remove the last element from the path. Synonym: `pop` ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "pop",
+        "comment": " Pop an element from the end of the path. Synonym: `parent` ",
+        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "push",
+        "comment": " Push an element to the end of the path. Synonym: `child` ",
+        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "single",
+        "comment": " A path with a single element. ",
+        "type": "String -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "toList",
+        "comment": " Interpret the path as a list of strings ordered from base to top. ",
+        "type": "Pylon.DB.Path.Path -> List String"
+      },
+      {
+        "name": "toStack",
+        "comment": " Get the internal stack. ",
+        "type": "Pylon.DB.Path.Path -> List String"
+      },
+      {
+        "name": "top",
+        "comment": " Get the last element of the path. Synonym for last. NOTE : _O(1)_ ",
+        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
+      },
+      {
+        "name": "truncate",
+        "comment": " Truncate the path to _n_ members by popping until that element count is attained. ",
+        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      },
+      {
+        "name": "up",
+        "comment": " Go up in the path by _n_ parents. Some equivalencies:\n\n  Path.up 1 mypath == Path.parent mypath == Path.pop mypath\n  Path.up (Path.countElements mypath) mypath = Path.base\n\nSynonym : `popMany`\n",
+        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Pylon.App",
     "comment": " Application module. Similar to StartApp, but with a few extra utilities. Heavily pruned and\nsimplified with respect to it's predecessor in Scaffold. No longer suffers from heinous type\nbloat.\n\n\n# Configuration And Application Structures\n\nThe basic building blocks of the application top level.\n\n@docs Options, Config, Output\n\n\n# Task Types\n\n@docs Dispatch, ActionTask, FinalTask\n\n\n# Task List Dispatch Methods\n\n@docs parallel, sequence\n\n\n# Constructing Options\n\n@docs defaultOptions, optionsDispatchMethod, optionsRunInputsOnStartup\n\n\n# Configuration DSL\n\nCumulatively build a configuration using this convenient DSL, starting either from a `nilConfig`\nor starting from a `configWithOptions`. The latter can be very nice for flowing right in to building\na configuration from building an `Options` struct.\n\n@docs nilConfig, configWithOptions, configOptions, configInit, configUpdateList, configUpdate, configStage, configPresent, configInput, configListInput, configRawInput\n\n# Chaining Effectors\n\nEffectors are functions which give a pair, the first element of which is the of the same type as the\nlast argument, and the second element of which is some list of tasks. Chaining is a useful way to\noperate on a single model with a sequence of actions, all of which might produce tasks. We use\nlists of tasks so that we can elegantly account for the case where no tasks are produced as well as\npossibly producing a number of tasks to execute. Such task lists can be either explicitly reduced\nby the user using `finalizeTasks`, or they can be converted to `ActionTask`s and returned to the\ntop level, where the configured `Dispatch` method is used to run the tasks.\n\n@docs chain, chainIf, chainWhile, chainSub, chainSubIf, chainSubMaybe, chainFinalizingEach, asEffector, mappedEffector, noEffect, doEffect, finalizedEffector\n\n\n# Task Manipulation\n\nSend the results of tasks to addresses, and dispatch them. Use of existing task primitives to handle\nsituations outside the scope of simply sending/forwarding results to the app's mailbox address and\ndetermining their order of execution is encouraged, so that a repeat of the awful `agent` DSL\nfrom Pylon's predecessor Scaffold is not repeated.\n\n@docs promoteActions, handleErrors, mapErrors, sendActions, forwardActions, sendErrorActions, sendResultActions, finalizeTasks, finalizeTask, thenDo, thenDoNothing\n\n\n# Running The Application\n\n`run` will allow you to run an application given an initial model and view with a configuration.\n`doCycle` exposes the internal functionality used by run, with a little syntactic sugar.\n\n@docs doCycle, run\n\n\n# Manipulating Sub Models\n@docs doSubUpdate, doSubStage, doSubPresent, doSubCycle\n\n",
     "aliases": [
@@ -1869,326 +2189,6 @@
         "name": "thenDoNothing",
         "comment": " Turn any task in to an `ActionTask` without actually performing any actions. This is good for\ntransforming tasks that need to be returned from the top level of the application which have already\nbeen finalized, so the types simply have to match. It should be noted that empty action lists do\nnot trigger any update, staging, or presentation, and as such a busy loop caused by repeated\ndispatchment of empty action tasks will not occur. ",
         "type": "Task.Task errortype r -> Pylon.App.ActionTask errortype a"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Pylon.DB.Path",
-    "comment": " This path module is designed to work with Pylon.DB.Tree and ElmFire.\n\nPaths must be manipulated using this API. You can transform ElmFire locations with paths.\n\n# Path Type\n@docs Path\n\n# Constructors\n@docs base, single\n\n# List Conversion\n@docs toList, fromList, toStack, fromStack\n\n# Inquiry\n@docs countElements, top, last, first, depth\n\n# Walking\n@docs child, parent, push, pop, up, truncate\n\n# Special Operations\n@docs foldBase, foldTop, join\n\n# Manipulations for `ElmFire.Location`\n@docs childPath, childLocation, absoluteLocation\n\n# Comparisons\n@docs isSame\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Path",
-        "comment": " Opaque type representing a path. ",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "absoluteLocation",
-        "comment": " Given the ElmFire root location used by your application (it will be rooted just in case) and a\npath, give a location that represents it as an absolute path in to your database. ",
-        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
-      },
-      {
-        "name": "base",
-        "comment": " A base path. Represents no path. ",
-        "type": "Pylon.DB.Path.Path"
-      },
-      {
-        "name": "child",
-        "comment": " Append a new last element to the path. Synonym: `push` ",
-        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "childLocation",
-        "comment": " Given an ElmFire location and a path adjust the location relative to it's current position. ",
-        "type": "ElmFire.Location -> Pylon.DB.Path.Path -> ElmFire.Location"
-      },
-      {
-        "name": "childPath",
-        "comment": " Take two paths, setting the first as the child path of the second. ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "countElements",
-        "comment": " Count of the elements in the path. ",
-        "type": "Pylon.DB.Path.Path -> Int"
-      },
-      {
-        "name": "depth",
-        "comment": " Synonym for countElements. ",
-        "type": "Pylon.DB.Path.Path -> Int"
-      },
-      {
-        "name": "first",
-        "comment": " Get first element of the path. NOTE: _O(n)_ ",
-        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
-      },
-      {
-        "name": "foldBase",
-        "comment": " Fold over a path's elements from the _base_. ",
-        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
-      },
-      {
-        "name": "foldTop",
-        "comment": " Fold over a path's elements from the _top_. ",
-        "type": "(String -> typeout -> typeout) -> typeout -> Pylon.DB.Path.Path -> typeout"
-      },
-      {
-        "name": "fromList",
-        "comment": " Create a path from a list of strings, ordered from the base to the top. ",
-        "type": "List String -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "fromStack",
-        "comment": " Set the internal stack. ",
-        "type": "List String -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "isSame",
-        "comment": " Compare two paths for equality. ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path -> Bool"
-      },
-      {
-        "name": "join",
-        "comment": " Join the path elements with a glue delimiter, like `List.join`. ",
-        "type": "String -> Pylon.DB.Path.Path -> String"
-      },
-      {
-        "name": "last",
-        "comment": " Get the last element of the path. NOTE : _O(1)_ ",
-        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
-      },
-      {
-        "name": "parent",
-        "comment": " Remove the last element from the path. Synonym: `pop` ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "pop",
-        "comment": " Pop an element from the end of the path. Synonym: `parent` ",
-        "type": "Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "push",
-        "comment": " Push an element to the end of the path. Synonym: `child` ",
-        "type": "String -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "single",
-        "comment": " A path with a single element. ",
-        "type": "String -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "toList",
-        "comment": " Interpret the path as a list of strings ordered from base to top. ",
-        "type": "Pylon.DB.Path.Path -> List String"
-      },
-      {
-        "name": "toStack",
-        "comment": " Get the internal stack. ",
-        "type": "Pylon.DB.Path.Path -> List String"
-      },
-      {
-        "name": "top",
-        "comment": " Get the last element of the path. Synonym for last. NOTE : _O(1)_ ",
-        "type": "Pylon.DB.Path.Path -> Maybe.Maybe String"
-      },
-      {
-        "name": "truncate",
-        "comment": " Truncate the path to _n_ members by popping until that element count is attained. ",
-        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      },
-      {
-        "name": "up",
-        "comment": " Go up in the path by _n_ parents. Some equivalencies:\n\n  Path.up 1 mypath == Path.parent mypath == Path.pop mypath\n  Path.up (Path.countElements mypath) mypath = Path.base\n\nSynonym : `popMany`\n",
-        "type": "Int -> Pylon.DB.Path.Path -> Pylon.DB.Path.Path"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Pylon.Resource",
-    "comment": " Resource types and reductions. Heavily pruned from Scaffold predecessor to give only what has\nbeen tested, used in practice, and proven useful.\n\n# Resource Type\n\nThis type represents a single remote resource in such a way that it's state can be easily reduced\nto a more abstract representation, either for another part of the system, or the user's view itself.\n\nWe export the tags as well so as to allow the user easy case destructuring.\n@docs Resource\n\n\n# Resource Constructors\n@docs def, pending, undecided, void, unknown\n\n\n# Predicate Composition\n@docs isAll, isAny\n\n\n# Predicates\n@docs isKnown, isNotKnown, isPending, isNotPending, isNotUndecided, isNotUnknown, isNotVoid, isUndecided, isUnknown, isVoid\n\n\n# Reduction\n@docs therefore, otherwise, decideBy, assumeIf, assumeIfNot, assumeInCase, deriveIf, deriveKnown\n\n\n# Interop with Result and Maybe\n@docs maybeKnown, maybeOr, resultOr\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Resource",
-        "comment": " A resource item. ",
-        "args": [
-          "errortype",
-          "v"
-        ],
-        "cases": [
-          [
-            "Unknown",
-            []
-          ],
-          [
-            "Pending",
-            []
-          ],
-          [
-            "Void",
-            []
-          ],
-          [
-            "Undecided",
-            [
-              "errortype"
-            ]
-          ],
-          [
-            "Known",
-            [
-              "v"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "assumeIf",
-        "comment": " If the given predicate is satisfied, the result will be known to the the given value, otherwise\nthe given resource will be given unchanged. ",
-        "type": "(Pylon.Resource.Resource errortype v -> Bool) -> v -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "assumeIfNot",
-        "comment": " Negation of assumeIf. ",
-        "type": "(Pylon.Resource.Resource errortype v -> Bool) -> v -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "assumeInCase",
-        "comment": " In the case that the provided function returns `Just x`, the resource shall be known as that\nvalue, otherwise the Resource shall remain unchanged.  ",
-        "type": "(Pylon.Resource.Resource errortype v -> Maybe.Maybe v) -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "decideBy",
-        "comment": " If the resource is an undecided resource, then the given  ",
-        "type": "(errortype -> Pylon.Resource.Resource errortype v) -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "def",
-        "comment": "  ",
-        "type": "v -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "deriveIf",
-        "comment": " If the predicate is true, apply the given transformation to get a new resource. ",
-        "type": "(Pylon.Resource.Resource errortype v' -> Bool) -> (Pylon.Resource.Resource errortype v' -> Pylon.Resource.Resource errortype v') -> Pylon.Resource.Resource errortype v' -> Pylon.Resource.Resource errortype v'"
-      },
-      {
-        "name": "deriveKnown",
-        "comment": " If the resource is known, then use the given function to create an entirely new replacement resource,\notherwise carry the state to the new resource. This always transforms the type because no other states\ncarry the value type. ",
-        "type": "(v -> Pylon.Resource.Resource errortype v') -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v'"
-      },
-      {
-        "name": "isAll",
-        "comment": " True if _all_ of the given predicates is True, otherwise False. ",
-        "type": "List (Pylon.Resource.Resource errortype v -> Bool) -> Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isAny",
-        "comment": " True if _any_ of the given predicates is True, otherwise False. ",
-        "type": "List (Pylon.Resource.Resource errortype v -> Bool) -> Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isKnown",
-        "comment": " True if the resource is known. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isNotKnown",
-        "comment": " False if the resource is known. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isNotPending",
-        "comment": " False if the resource is pending. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isNotUndecided",
-        "comment": " False if the resource is undecided. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isNotUnknown",
-        "comment": " False if the resource is unknown. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isNotVoid",
-        "comment": " False if the resource is void. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isPending",
-        "comment": " True if the resource is pending. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isUndecided",
-        "comment": " True if the resource is undecided. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isUnknown",
-        "comment": " True if the resource is unknown. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "isVoid",
-        "comment": " True if the resource is void. ",
-        "type": "Pylon.Resource.Resource errortype v -> Bool"
-      },
-      {
-        "name": "maybeKnown",
-        "comment": " If a resource is known, then give Just it's value, otherwise Nothing. ",
-        "type": "Pylon.Resource.Resource errortype v' -> Maybe.Maybe v'"
-      },
-      {
-        "name": "maybeOr",
-        "comment": " ",
-        "type": "Pylon.Resource.Resource errortype v -> Maybe.Maybe v -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "otherwise",
-        "comment": " In the event that the given resource is not a simple `def`, we replace it with a different simple\nresource. ",
-        "type": "v' -> Pylon.Resource.Resource errortype v' -> v'"
-      },
-      {
-        "name": "pending",
-        "comment": "  ",
-        "type": "Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "resultOr",
-        "comment": "  ",
-        "type": "(errortype -> Pylon.Resource.Resource errortype v) -> Result.Result errortype v -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "therefore",
-        "comment": " Given a resource of value type v, create a resource of value type v' by transforming the\nknown value or group using some function (v -> v'). NOTE that this will create an entirely new\nresouce structure, and thus any pending changes will be integrated immediately. If you wish to\npreserve deltas for the purpose of mirroring and efficient data flow, then one should be using\ndeltaTo in order to transform just the changes. ",
-        "type": "(v -> v') -> Pylon.Resource.Resource errortype v -> Pylon.Resource.Resource errortype v'"
-      },
-      {
-        "name": "undecided",
-        "comment": "  ",
-        "type": "errortype -> Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "unknown",
-        "comment": "  ",
-        "type": "Pylon.Resource.Resource errortype v"
-      },
-      {
-        "name": "void",
-        "comment": "  ",
-        "type": "Pylon.Resource.Resource errortype v"
       }
     ],
     "generated-with-elm-version": "0.16.0"

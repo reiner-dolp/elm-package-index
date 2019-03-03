@@ -1,32 +1,105 @@
 [
   {
-    "name": "CarwowTheme.ProductListing",
-    "comment": " ProductListing\n\n\n# Exports\n\n@docs featuredView, condensedView, ProductListing, OptionProperties\n\n",
+    "name": "CarwowTheme.Pagination",
+    "comment": " Filters\n\n\n# Exports\n\n@docs PaginationProperties, view\n\n",
     "aliases": [
       {
-        "name": "OptionProperties",
-        "comment": " Placeholder\n",
+        "name": "PaginationProperties",
+        "comment": " Properties for the pagination component\n",
         "args": [],
-        "type": "{ name : String, value : String, icon : String }"
-      },
-      {
-        "name": "ProductListing",
-        "comment": " Placeholder\n",
-        "args": [],
-        "type": "{ id : Int , image : Maybe.Maybe String , make : String , model : String , derivativeName : String , options : List CarwowTheme.ProductListing.OptionProperties , price : CarwowTheme.ProductListing.PricingProperties , dealer : CarwowTheme.ProductListing.DealerProperties }"
+        "type": "{ totalCount : Int , totalPages : Int , perPage : Int , currentPage : Int }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "condensedView",
+        "name": "view",
+        "comment": " Helper to render the component\n",
+        "type": "CarwowTheme.Pagination.PaginationProperties -> (Int -> msg) -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "CarwowTheme.Drawer",
+    "comment": " Drawer\n\n\n# Exports\n\n@docs Model, Properties, Msg, init, view, subscriptions, update, Action, State\n\n",
+    "aliases": [
+      {
+        "name": "Model",
         "comment": " Placeholder\n",
-        "type": "CarwowTheme.ProductListing.ProductListing -> Html.Html msg -> Html.Html msg"
+        "args": [],
+        "type": "{ id : String, state : CarwowTheme.Drawer.State }"
       },
       {
-        "name": "featuredView",
+        "name": "Properties",
         "comment": " Placeholder\n",
-        "type": "CarwowTheme.ProductListing.ProductListing -> Html.Html msg -> Html.Html msg -> Html.Html msg"
+        "args": [
+          "msg"
+        ],
+        "type": "{ body : Html.Html msg, title : String }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Action",
+        "comment": " Placeholder\n",
+        "args": [],
+        "cases": [
+          [
+            "Open",
+            []
+          ],
+          [
+            "Close",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "Msg",
+        "comment": " Placeholder\n",
+        "args": [],
+        "cases": [
+          [
+            "Toggle",
+            [
+              "CarwowTheme.Drawer.Action"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "State",
+        "comment": " Placeholder\n",
+        "args": [],
+        "cases": [
+          [
+            "Opened",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "init",
+        "comment": " Placeholder\n",
+        "type": "String -> CarwowTheme.Drawer.Model"
+      },
+      {
+        "name": "subscriptions",
+        "comment": " Placeholder\n",
+        "type": "CarwowTheme.Drawer.Model -> Platform.Sub.Sub CarwowTheme.Drawer.Msg"
+      },
+      {
+        "name": "update",
+        "comment": " Placeholder\n",
+        "type": "CarwowTheme.Drawer.Msg -> CarwowTheme.Drawer.Model -> ( CarwowTheme.Drawer.Model , Platform.Cmd.Cmd CarwowTheme.Drawer.Msg )"
+      },
+      {
+        "name": "view",
+        "comment": " Placeholder\n",
+        "type": "CarwowTheme.Drawer.Model -> CarwowTheme.Drawer.Properties msg -> msg -> msg -> Html.Html msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -136,6 +209,38 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "CarwowTheme.ProductListing",
+    "comment": " ProductListing\n\n\n# Exports\n\n@docs featuredView, condensedView, ProductListing, OptionProperties\n\n",
+    "aliases": [
+      {
+        "name": "OptionProperties",
+        "comment": " Placeholder\n",
+        "args": [],
+        "type": "{ name : String, value : String, icon : String }"
+      },
+      {
+        "name": "ProductListing",
+        "comment": " Placeholder\n",
+        "args": [],
+        "type": "{ id : Int , image : Maybe.Maybe String , make : String , model : String , derivativeName : String , options : List CarwowTheme.ProductListing.OptionProperties , price : CarwowTheme.ProductListing.PricingProperties , dealer : CarwowTheme.ProductListing.DealerProperties }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "condensedView",
+        "comment": " Placeholder\n",
+        "type": "CarwowTheme.ProductListing.ProductListing -> Html.Html msg -> Html.Html msg"
+      },
+      {
+        "name": "featuredView",
+        "comment": " Placeholder\n",
+        "type": "CarwowTheme.ProductListing.ProductListing -> Html.Html msg -> Html.Html msg -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "CarwowTheme.Modal",
     "comment": " Displays modal window\n\n\n# Exported\n\n@docs ModalProperties, Model, Msg, PaddingStyle, init, linkView, subscriptions, update, view\n\n",
     "aliases": [
@@ -214,106 +319,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "CarwowTheme.Pagination",
-    "comment": " Filters\n\n\n# Exports\n\n@docs PaginationProperties, view\n\n",
-    "aliases": [
-      {
-        "name": "PaginationProperties",
-        "comment": " Properties for the pagination component\n",
-        "args": [],
-        "type": "{ totalCount : Int , totalPages : Int , perPage : Int , currentPage : Int }"
-      }
-    ],
+    "name": "CarwowTheme.EmptyState",
+    "comment": " EmptyState\n\n\n# Exports\n\n@docs emptyState\n\n",
+    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "view",
-        "comment": " Helper to render the component\n",
-        "type": "CarwowTheme.Pagination.PaginationProperties -> (Int -> msg) -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "CarwowTheme.Drawer",
-    "comment": " Drawer\n\n\n# Exports\n\n@docs Model, Properties, Msg, init, view, subscriptions, update, Action, State\n\n",
-    "aliases": [
-      {
-        "name": "Model",
+        "name": "emptyState",
         "comment": " Placeholder\n",
-        "args": [],
-        "type": "{ id : String, state : CarwowTheme.Drawer.State }"
-      },
-      {
-        "name": "Properties",
-        "comment": " Placeholder\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ body : Html.Html msg, title : String }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Action",
-        "comment": " Placeholder\n",
-        "args": [],
-        "cases": [
-          [
-            "Open",
-            []
-          ],
-          [
-            "Close",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "Msg",
-        "comment": " Placeholder\n",
-        "args": [],
-        "cases": [
-          [
-            "Toggle",
-            [
-              "CarwowTheme.Drawer.Action"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "State",
-        "comment": " Placeholder\n",
-        "args": [],
-        "cases": [
-          [
-            "Opened",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "init",
-        "comment": " Placeholder\n",
-        "type": "String -> CarwowTheme.Drawer.Model"
-      },
-      {
-        "name": "subscriptions",
-        "comment": " Placeholder\n",
-        "type": "CarwowTheme.Drawer.Model -> Platform.Sub.Sub CarwowTheme.Drawer.Msg"
-      },
-      {
-        "name": "update",
-        "comment": " Placeholder\n",
-        "type": "CarwowTheme.Drawer.Msg -> CarwowTheme.Drawer.Model -> ( CarwowTheme.Drawer.Model , Platform.Cmd.Cmd CarwowTheme.Drawer.Msg )"
-      },
-      {
-        "name": "view",
-        "comment": " Placeholder\n",
-        "type": "CarwowTheme.Drawer.Model -> CarwowTheme.Drawer.Properties msg -> msg -> msg -> Html.Html msg -> Html.Html msg"
+        "type": "String -> String -> Html.Html msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -333,20 +347,6 @@
         "name": "makeIcon",
         "comment": " Embeds a Make icon, with the given make slug and optional properties\n",
         "type": "String -> Maybe.Maybe CarwowTheme.Icons.Properties -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "CarwowTheme.EmptyState",
-    "comment": " EmptyState\n\n\n# Exports\n\n@docs emptyState\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "emptyState",
-        "comment": " Placeholder\n",
-        "type": "String -> String -> Html.Html msg -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

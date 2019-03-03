@@ -474,6 +474,184 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.CubicSpline3d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/cubicSpline3d.svg\" alt=\"CubicSpline3d\" width=\"160\">\n\nA `CubicSpline3d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 3D defined by four control points. This module contains functionality for\n\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline3d\n\n\n# Constructors\n\n@docs fromControlPoints, hermite, on, fromQuadraticSpline\n\n\n# Properties\n\n@docs controlPoints, startPoint, endPoint, startDerivative, endDerivative\n\n\n# Evaluation\n\n@docs pointOn, derivative, evaluate\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n\n# Arc length parameterization\n\n@docs ArcLengthParameterized, arcLengthParameterized, arcLength, pointAlong, tangentAlong, arcLengthToParameterValue, parameterValueToArcLength\n\n\n# Low level\n\nLow level functionality that you are unlikely to need to use directly.\n\n@docs derivativeMagnitude, maxSecondDerivativeMagnitude\n\n",
+    "aliases": [
+      {
+        "name": "CubicSpline3d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.CubicSpline3d"
+      }
+    ],
+    "types": [
+      {
+        "name": "ArcLengthParameterized",
+        "comment": " A spline that has been parameterized by arc length.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "arcLength",
+        "comment": " Find the total arc length of a spline. This will be accurate to within the\ntolerance given when calling `arcLengthParameterized`.\n\n    arcLength : Float\n    arcLength =\n        CubicSpline3d.arcLength parameterizedSpline\n\n    arcLength\n    --> 4.3303\n\n",
+        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float"
+      },
+      {
+        "name": "arcLengthParameterized",
+        "comment": " Build an arc length parameterization of the given spline, within\na given tolerance. Generally speaking, all operations on the resulting\n`ArcLengthParameterized` value will be accurate to within the given arc length\ntolerance.\n\n    tolerance =\n        1.0e-4\n\n    parameterizedSpline =\n        CubicSpline3d.arcLengthParameterized\n            tolerance\n            exampleSpline\n\n",
+        "type": "Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.ArcLengthParameterized"
+      },
+      {
+        "name": "arcLengthToParameterValue",
+        "comment": " Try to get the parameter value along a spline at a given arc length. If the\ngiven arc length is less than zero or greater than the arc length of the spline,\nreturns `Nothing`.\n\n    CubicSpline3d.arcLengthToParameterValue\n        parameterizedSpline\n        (arcLength / 4)\n    --> Just 0.2177\n\n",
+        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe Float"
+      },
+      {
+        "name": "bisect",
+        "comment": " Split a spline into two roughly equal halves. Equivalent to `splitAt 0.5`.\n\n    CubicSpline3d.bisect exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1.5, 1 )\n    -->     , Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     , Point3d.fromCoordinates ( 3, 2.5, 1.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
+      },
+      {
+        "name": "controlPoints",
+        "comment": " Get the control points of a spline as a tuple.\n\n    ( p1, p2, p3, p4 ) =\n        CubicSpline3d.controlPoints exampleSpline\n\n\n    --> p1 = Point3d.fromCoordinates ( 1, 1, 1 )\n    --> p2 = Point3d.fromCoordinates ( 3, 1, 1 )\n    --> p3 = Point3d.fromCoordinates ( 3, 3, 1 )\n    --> p4 = Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d )"
+      },
+      {
+        "name": "derivative",
+        "comment": " Get the deriative value at a point along a spline, based on a parameter that\nranges from 0 to 1. A parameter value of 0 corresponds to the start derivative\nof the spline and a value of 1 corresponds to the end derivative.\n\n    CubicSpline3d.derivative exampleSpline 0\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n    CubicSpline3d.derivative exampleSpline 0.5\n    --> Vector3d.fromComponents ( 1.5, 3, 1.5 )\n\n    CubicSpline3d.derivative exampleSpline 1\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\nNote that the derivative interpolates linearly from end to end.\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Vector3d.Vector3d"
+      },
+      {
+        "name": "derivativeMagnitude",
+        "comment": " Find the magnitude of the derivative to a spline at a particular parameter\nvalue;\n\n    CubicSpline3d.derivativeMagnitude spline t\n\nis equivalent to\n\n    Vector3d.length (CubicSpline3d.derivative spline t)\n\nbut more efficient since it avoids any intermediate `Vector3d` allocation.\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> Float"
+      },
+      {
+        "name": "endDerivative",
+        "comment": " Get the end derivative of a spline. This is equal to three times the vector\nfrom the spline's third control point to its fourth.\n\n    CubicSpline3d.endDerivative exampleSpline\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a spline. This is equal to the spline's last control\npoint.\n\n    CubicSpline3d.endPoint exampleSpline\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "evaluate",
+        "comment": " Evaluate a spline at a given parameter value, returning the point on the\nspline at that parameter value and the derivative with respect to that parameter\nvalue;\n\n    CubicSpline3d.evaluate spline t\n\nis equivalent to\n\n    ( CubicSpline3d.pointOn spline t\n    , CubicSpline3d.derivative spline t\n    )\n\nbut is more efficient.\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d )"
+      },
+      {
+        "name": "fromControlPoints",
+        "comment": " Construct a spline from its four control points:\n\n    exampleSpline =\n        CubicSpline3d.fromControlPoints\n            ( Point3d.fromCoordinates ( 1, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 3 )\n            )\n\n",
+        "type": "( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "fromQuadraticSpline",
+        "comment": " Convert a quadratic spline into the equivalent cubic spline (every quadratic\nspline can be represented exactly as a cubic spline).\n\n    quadraticSpline =\n        QuadraticSpline3d.fromControlPoints\n            ( Point3d.fromCoordinates ( 0, 0, 0  )\n            , Point3d.fromCoordinates ( 3, 0, 0 )\n            , Point3d.fromCoordinates ( 3, 3, 0 )\n            )\n\n    CubicSpline3d.fromQuadraticSpline quadraticSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     )\n\n",
+        "type": "OpenSolid.QuadraticSpline3d.QuadraticSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "hermite",
+        "comment": " Construct a spline in Hermite form, from the position and derivative values\nat its start and end points, like so:\n\n![Hermite cubic spline](https://opensolid.github.io/images/geometry/1.2/hermiteCubicSpline.svg)\n\nThe spline is based on a parameter that ranges from 0 to 1; as a result, in most\ncases the length of each derivative vector should be roughly equal to the length\nof the resulting spline.\n\n",
+        "type": "( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "maxSecondDerivativeMagnitude",
+        "comment": " Find an upper bound on the magnitude of the second derivative of a spline.\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a spline across a plane.\n\n    CubicSpline3d.mirrorAcross Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -3 )\n    -->     )\n\n",
+        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "on",
+        "comment": " Construct a 3D spline lying _on_ a sketch plane by providing a 2D spline\nspecified in XY coordinates _within_ the sketch plane.\n\n    CubicSpline3d.on SketchPlane3d.xz <|\n        CubicSpline2d.fromControlPoints\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            , Point2d.fromCoordinates ( 5, 1 )\n            , Point2d.fromCoordinates ( 7, 4 )\n            )\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 0, 4 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 7, 0, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline2d.CubicSpline2d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "parameterValueToArcLength",
+        "comment": " Try to get the arc length along a spline at a given parameter value. If the\ngiven parameter value is less than zero or greater than one, returns `Nothing`.\n\n    CubicSpline3d.parameterValueToArcLength\n        parameterizedSpline\n        0.25\n    --> Just 1.2163\n\n",
+        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe Float"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.placeIn localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "pointAlong",
+        "comment": " Try to get the point along a spline at a given arc length. For example, to\nget the point a quarter of the way along `exampleSpline`:\n\n    CubicSpline3d.pointAlong parameterizedSpline\n        (arcLength / 4)\n    --> Just <|\n    -->     Point3d.fromCoordinates\n    -->         ( 2.0425, 1.2431, 1.0206 )\n\nNote that this is not the same as evaulating at a parameter value of 1/4:\n\n    CubicSpline3d.pointOn exampleSpline 0.25\n    --> Point3d.fromCoordinates ( 2.1563, 1.3125, 1.0313 )\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline, `Nothing` is returned.\n\n",
+        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "pointOn",
+        "comment": " Get a point along a spline, based on a parameter that ranges from 0 to 1. A\nparameter value of 0 corresponds to the start point of the spline and a value of\n1 corresponds to the end point.\n\n    CubicSpline3d.pointOn exampleSpline 0\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n    CubicSpline3d.pointOn exampleSpline 0.5\n    --> Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n\n    CubicSpline3d.pointOn exampleSpline 1\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a spline into a given sketch plane. Conceptually, this finds the\n[orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the spline onto the plane and then expresses the projected spline in 2D\nsketch coordinates.\n\n    exampleSpline\n        |> CubicSpline3d.projectInto SketchPlane3d.yz\n    --> CubicSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline2d.CubicSpline2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a spline onto a plane.\n\n    CubicSpline3d.projectOnto Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     )\n\n",
+        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.relativeTo localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 0, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 0 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    CubicSpline3d.reverse exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a spline counterclockwise around a given axis by a given angle (in\nradians).\n\n    exampleSpline\n        |> CubicSpline3d.rotateAround Axis3d.z (degrees 90)\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( -1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( -1, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.Axis3d.Axis3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a spline about the given center point by the given scale.\n\n    CubicSpline3d.scaleAbout Point3d.origin 2 exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point3d.Point3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      },
+      {
+        "name": "splitAt",
+        "comment": " Split a spline at a particular parameter value (in the range 0 to 1),\nresulting in two smaller splines.\n\n    CubicSpline3d.splitAt 0.75 exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.88, 2.13, 1 )\n    -->     , Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     , Point3d.fromCoordinates ( 3, 2.88, 2.13 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
+        "type": "Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
+      },
+      {
+        "name": "startDerivative",
+        "comment": " Get the start derivative of a spline. This is equal to three times the\nvector from the spline's first control point to its second.\n\n    CubicSpline3d.startDerivative exampleSpline\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a spline. This is equal to the spline's first control\npoint.\n\n    CubicSpline3d.startPoint exampleSpline\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n",
+        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "tangentAlong",
+        "comment": " Try to get the tangent direction along a spline at a given arc length. To\nget the tangent direction a quarter of the way along `exampleSpline`:\n\n    CubicSpline3d.tangentAlong parameterizedSpline\n        (arcLength / 4)\n    --> Just <|\n    -->     Direction3d.with\n    -->         { azimuth = degrees 29.0995\n    -->         , elevation = degrees 3.8713\n    -->         }\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline (or if the derivative of the spline happens to be exactly zero at the\ngiven arc length), `Nothing` is returned.\n\n",
+        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe OpenSolid.Direction3d.Direction3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 2, 3, 1 )\n\n    CubicSpline3d.translateBy displacement exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.Vector3d.Vector3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.Triangle3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle3d.svg\" alt=\"Triangle3d\" width=\"160\">\n\nA `Triangle3d` represents a triangle in 3D space, and is defined by its three\nvertices. This module contains triangle-related functionality such as:\n\n  - Finding the area and centroid of triangles\n  - Scaling, rotating, translating, mirroring and projecting triangles\n  - Converting triangles between different coordinate systems\n\n@docs Triangle3d\n\n\n# Constructors\n\n@docs fromVertices, on\n\n\n# Properties\n\n@docs vertices, edges, centroid, area, normalDirection, boundingBox, circumcircle\n\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn, projectInto\n\n",
     "aliases": [
@@ -671,184 +849,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.CubicSpline3d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/cubicSpline3d.svg\" alt=\"CubicSpline3d\" width=\"160\">\n\nA `CubicSpline3d` is a cubic [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)\nin 3D defined by four control points. This module contains functionality for\n\n  - Evaluating points and derivatives along a spline\n  - Scaling, rotating, translating or mirroring a spline\n  - Converting a spline between local and global coordinates in different\n    reference frames\n\n@docs CubicSpline3d\n\n\n# Constructors\n\n@docs fromControlPoints, hermite, on, fromQuadraticSpline\n\n\n# Properties\n\n@docs controlPoints, startPoint, endPoint, startDerivative, endDerivative\n\n\n# Evaluation\n\n@docs pointOn, derivative, evaluate\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn, projectInto\n\n\n# Subdivision\n\n@docs bisect, splitAt\n\n\n# Arc length parameterization\n\n@docs ArcLengthParameterized, arcLengthParameterized, arcLength, pointAlong, tangentAlong, arcLengthToParameterValue, parameterValueToArcLength\n\n\n# Low level\n\nLow level functionality that you are unlikely to need to use directly.\n\n@docs derivativeMagnitude, maxSecondDerivativeMagnitude\n\n",
-    "aliases": [
-      {
-        "name": "CubicSpline3d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.CubicSpline3d"
-      }
-    ],
-    "types": [
-      {
-        "name": "ArcLengthParameterized",
-        "comment": " A spline that has been parameterized by arc length.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "arcLength",
-        "comment": " Find the total arc length of a spline. This will be accurate to within the\ntolerance given when calling `arcLengthParameterized`.\n\n    arcLength : Float\n    arcLength =\n        CubicSpline3d.arcLength parameterizedSpline\n\n    arcLength\n    --> 4.3303\n\n",
-        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float"
-      },
-      {
-        "name": "arcLengthParameterized",
-        "comment": " Build an arc length parameterization of the given spline, within\na given tolerance. Generally speaking, all operations on the resulting\n`ArcLengthParameterized` value will be accurate to within the given arc length\ntolerance.\n\n    tolerance =\n        1.0e-4\n\n    parameterizedSpline =\n        CubicSpline3d.arcLengthParameterized\n            tolerance\n            exampleSpline\n\n",
-        "type": "Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.ArcLengthParameterized"
-      },
-      {
-        "name": "arcLengthToParameterValue",
-        "comment": " Try to get the parameter value along a spline at a given arc length. If the\ngiven arc length is less than zero or greater than the arc length of the spline,\nreturns `Nothing`.\n\n    CubicSpline3d.arcLengthToParameterValue\n        parameterizedSpline\n        (arcLength / 4)\n    --> Just 0.2177\n\n",
-        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe Float"
-      },
-      {
-        "name": "bisect",
-        "comment": " Split a spline into two roughly equal halves. Equivalent to `splitAt 0.5`.\n\n    CubicSpline3d.bisect exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1.5, 1 )\n    -->     , Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n    -->     , Point3d.fromCoordinates ( 3, 2.5, 1.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
-      },
-      {
-        "name": "controlPoints",
-        "comment": " Get the control points of a spline as a tuple.\n\n    ( p1, p2, p3, p4 ) =\n        CubicSpline3d.controlPoints exampleSpline\n\n\n    --> p1 = Point3d.fromCoordinates ( 1, 1, 1 )\n    --> p2 = Point3d.fromCoordinates ( 3, 1, 1 )\n    --> p3 = Point3d.fromCoordinates ( 3, 3, 1 )\n    --> p4 = Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d )"
-      },
-      {
-        "name": "derivative",
-        "comment": " Get the deriative value at a point along a spline, based on a parameter that\nranges from 0 to 1. A parameter value of 0 corresponds to the start derivative\nof the spline and a value of 1 corresponds to the end derivative.\n\n    CubicSpline3d.derivative exampleSpline 0\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n    CubicSpline3d.derivative exampleSpline 0.5\n    --> Vector3d.fromComponents ( 1.5, 3, 1.5 )\n\n    CubicSpline3d.derivative exampleSpline 1\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\nNote that the derivative interpolates linearly from end to end.\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Vector3d.Vector3d"
-      },
-      {
-        "name": "derivativeMagnitude",
-        "comment": " Find the magnitude of the derivative to a spline at a particular parameter\nvalue;\n\n    CubicSpline3d.derivativeMagnitude spline t\n\nis equivalent to\n\n    Vector3d.length (CubicSpline3d.derivative spline t)\n\nbut more efficient since it avoids any intermediate `Vector3d` allocation.\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> Float"
-      },
-      {
-        "name": "endDerivative",
-        "comment": " Get the end derivative of a spline. This is equal to three times the vector\nfrom the spline's third control point to its fourth.\n\n    CubicSpline3d.endDerivative exampleSpline\n    --> Vector3d.fromComponents ( 0, 0, 6 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a spline. This is equal to the spline's last control\npoint.\n\n    CubicSpline3d.endPoint exampleSpline\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "evaluate",
-        "comment": " Evaluate a spline at a given parameter value, returning the point on the\nspline at that parameter value and the derivative with respect to that parameter\nvalue;\n\n    CubicSpline3d.evaluate spline t\n\nis equivalent to\n\n    ( CubicSpline3d.pointOn spline t\n    , CubicSpline3d.derivative spline t\n    )\n\nbut is more efficient.\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d )"
-      },
-      {
-        "name": "fromControlPoints",
-        "comment": " Construct a spline from its four control points:\n\n    exampleSpline =\n        CubicSpline3d.fromControlPoints\n            ( Point3d.fromCoordinates ( 1, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 1, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 1 )\n            , Point3d.fromCoordinates ( 3, 3, 3 )\n            )\n\n",
-        "type": "( OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d , OpenSolid.Point3d.Point3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "fromQuadraticSpline",
-        "comment": " Convert a quadratic spline into the equivalent cubic spline (every quadratic\nspline can be represented exactly as a cubic spline).\n\n    quadraticSpline =\n        QuadraticSpline3d.fromControlPoints\n            ( Point3d.fromCoordinates ( 0, 0, 0  )\n            , Point3d.fromCoordinates ( 3, 0, 0 )\n            , Point3d.fromCoordinates ( 3, 3, 0 )\n            )\n\n    CubicSpline3d.fromQuadraticSpline quadraticSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 2, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     )\n\n",
-        "type": "OpenSolid.QuadraticSpline3d.QuadraticSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "hermite",
-        "comment": " Construct a spline in Hermite form, from the position and derivative values\nat its start and end points, like so:\n\n![Hermite cubic spline](https://opensolid.github.io/images/geometry/1.2/hermiteCubicSpline.svg)\n\nThe spline is based on a parameter that ranges from 0 to 1; as a result, in most\ncases the length of each derivative vector should be roughly equal to the length\nof the resulting spline.\n\n",
-        "type": "( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> ( OpenSolid.Point3d.Point3d, OpenSolid.Vector3d.Vector3d ) -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "maxSecondDerivativeMagnitude",
-        "comment": " Find an upper bound on the magnitude of the second derivative of a spline.\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a spline across a plane.\n\n    CubicSpline3d.mirrorAcross Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -1 )\n    -->     , Point3d.fromCoordinates ( 3, 3, -3 )\n    -->     )\n\n",
-        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "on",
-        "comment": " Construct a 3D spline lying _on_ a sketch plane by providing a 2D spline\nspecified in XY coordinates _within_ the sketch plane.\n\n    CubicSpline3d.on SketchPlane3d.xz <|\n        CubicSpline2d.fromControlPoints\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            , Point2d.fromCoordinates ( 5, 1 )\n            , Point2d.fromCoordinates ( 7, 4 )\n            )\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 0, 4 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 1 )\n    -->     , Point3d.fromCoordinates ( 7, 0, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline2d.CubicSpline2d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "parameterValueToArcLength",
-        "comment": " Try to get the arc length along a spline at a given parameter value. If the\ngiven parameter value is less than zero or greater than one, returns `Nothing`.\n\n    CubicSpline3d.parameterValueToArcLength\n        parameterizedSpline\n        0.25\n    --> Just 1.2163\n\n",
-        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe Float"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a spline considered to be defined in local coordinates relative to a\ngiven reference frame, and return that spline expressed in global coordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.placeIn localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 3, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 4 )\n    -->     , Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "pointAlong",
-        "comment": " Try to get the point along a spline at a given arc length. For example, to\nget the point a quarter of the way along `exampleSpline`:\n\n    CubicSpline3d.pointAlong parameterizedSpline\n        (arcLength / 4)\n    --> Just <|\n    -->     Point3d.fromCoordinates\n    -->         ( 2.0425, 1.2431, 1.0206 )\n\nNote that this is not the same as evaulating at a parameter value of 1/4:\n\n    CubicSpline3d.pointOn exampleSpline 0.25\n    --> Point3d.fromCoordinates ( 2.1563, 1.3125, 1.0313 )\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline, `Nothing` is returned.\n\n",
-        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "pointOn",
-        "comment": " Get a point along a spline, based on a parameter that ranges from 0 to 1. A\nparameter value of 0 corresponds to the start point of the spline and a value of\n1 corresponds to the end point.\n\n    CubicSpline3d.pointOn exampleSpline 0\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n    CubicSpline3d.pointOn exampleSpline 0.5\n    --> Point3d.fromCoordinates ( 2.75, 2, 1.25 )\n\n    CubicSpline3d.pointOn exampleSpline 1\n    --> Point3d.fromCoordinates ( 3, 3, 3 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> Float -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a spline into a given sketch plane. Conceptually, this finds the\n[orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the spline onto the plane and then expresses the projected spline in 2D\nsketch coordinates.\n\n    exampleSpline\n        |> CubicSpline3d.projectInto SketchPlane3d.yz\n    --> CubicSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline2d.CubicSpline2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a spline onto a plane.\n\n    CubicSpline3d.projectOnto Plane3d.xy exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 0 )\n    -->     )\n\n",
-        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a spline defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    CubicSpline3d.relativeTo localFrame exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 0, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, -1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, -2 )\n    -->     , Point3d.fromCoordinates ( 2, 1, 0 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a spline so that the start point becomes the end point, and vice\nversa.\n\n    CubicSpline3d.reverse exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( 3, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a spline counterclockwise around a given axis by a given angle (in\nradians).\n\n    exampleSpline\n        |> CubicSpline3d.rotateAround Axis3d.z (degrees 90)\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( -1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( -1, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 1 )\n    -->     , Point3d.fromCoordinates ( -3, 3, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.Axis3d.Axis3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a spline about the given center point by the given scale.\n\n    CubicSpline3d.scaleAbout Point3d.origin 2 exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 2, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 6, 6, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point3d.Point3d -> Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      },
-      {
-        "name": "splitAt",
-        "comment": " Split a spline at a particular parameter value (in the range 0 to 1),\nresulting in two smaller splines.\n\n    CubicSpline3d.splitAt 0.75 exampleSpline\n    --> ( CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 1, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.5, 1, 1 )\n    -->     , Point3d.fromCoordinates ( 2.88, 2.13, 1 )\n    -->     , Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     )\n    --> , CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 2.97, 2.69, 1.84 )\n    -->     , Point3d.fromCoordinates ( 3, 2.88, 2.13 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 2.5 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n    --> )\n\n",
-        "type": "Float -> OpenSolid.CubicSpline3d.CubicSpline3d -> ( OpenSolid.CubicSpline3d.CubicSpline3d , OpenSolid.CubicSpline3d.CubicSpline3d )"
-      },
-      {
-        "name": "startDerivative",
-        "comment": " Get the start derivative of a spline. This is equal to three times the\nvector from the spline's first control point to its second.\n\n    CubicSpline3d.startDerivative exampleSpline\n    --> Vector3d.fromComponents ( 6, 0, 0 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Vector3d.Vector3d"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a spline. This is equal to the spline's first control\npoint.\n\n    CubicSpline3d.startPoint exampleSpline\n    --> Point3d.fromCoordinates ( 1, 1, 1 )\n\n",
-        "type": "OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "tangentAlong",
-        "comment": " Try to get the tangent direction along a spline at a given arc length. To\nget the tangent direction a quarter of the way along `exampleSpline`:\n\n    CubicSpline3d.tangentAlong parameterizedSpline\n        (arcLength / 4)\n    --> Just <|\n    -->     Direction3d.with\n    -->         { azimuth = degrees 29.0995\n    -->         , elevation = degrees 3.8713\n    -->         }\n\nIf the given arc length is less than zero or greater than the arc length of the\nspline (or if the derivative of the spline happens to be exactly zero at the\ngiven arc length), `Nothing` is returned.\n\n",
-        "type": "OpenSolid.CubicSpline3d.ArcLengthParameterized -> Float -> Maybe.Maybe OpenSolid.Direction3d.Direction3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 2, 3, 1 )\n\n    CubicSpline3d.translateBy displacement exampleSpline\n    --> CubicSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.Vector3d.Vector3d -> OpenSolid.CubicSpline3d.CubicSpline3d -> OpenSolid.CubicSpline3d.CubicSpline3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.Sphere3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/sphere3d.svg\" alt=\"Sphere3d\" width=\"160\">\n\nA `Sphere3d` is defined by its center point and radius. This module contains\nfunctionality for:\n\n  - Constructing spheres through points\n  - Scaling, rotating and translating spheres\n  - Extracting sphere properties like center point and volume\n\n@docs Sphere3d\n\n\n# Constants\n\n@docs unit\n\n\n# Constructors\n\n@docs with, throughPoints\n\n\n# Properties\n\n@docs centerPoint, radius, diameter, volume, surfaceArea, circumference, boundingBox\n\n\n# Queries\n\n@docs contains\n\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, projectInto\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
     "aliases": [
@@ -955,147 +955,6 @@
         "name": "with",
         "comment": " Construct a sphere from its center point and radius:\n\n    exampleSphere =\n        Sphere3d.with\n            { centerPoint =\n                Point3d.fromCoordinates ( 1, 2, 1 )\n            , radius = 3\n            }\n\nA negative radius will be interpreted as positive (the absolute value will be\nused).\n\n",
         "type": "{ centerPoint : OpenSolid.Point3d.Point3d, radius : Float } -> OpenSolid.Sphere3d.Sphere3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.LineSegment3d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment3d.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment3d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along, on\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, normalDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn, projectInto\n\n",
-    "aliases": [
-      {
-        "name": "LineSegment3d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.LineSegment3d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "along",
-        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment3d.along Axis3d.x 3 5\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 3, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 0 )\n    -->     )\n\n    LineSegment3d.along Axis3d.y 2 -4\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 0 )\n    -->     , Point3d.fromCoordinates ( 0, -4, 0 )\n    -->     )\n\n",
-        "type": "OpenSolid.Axis3d.Axis3d -> Float -> Float -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a line segment.\n\n    LineSegment3d.boundingBox exampleLineSegment\n    --> BoundingBox3d.with\n    -->     { minX = 1\n    -->     , maxX = 4\n    -->     , minY = 2\n    -->     , maxY = 5\n    -->     , minZ = 3\n    -->     , maxZ = 6\n    -->     }\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.BoundingBox3d.BoundingBox3d"
-      },
-      {
-        "name": "direction",
-        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment3d.direction exampleLineSegment\n    --> Just\n    -->    (Direction3d.with\n    -->        { azimuth = degrees 45\n    -->        , elevation = degrees 35.26\n    -->        }\n    -->    )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Maybe.Maybe OpenSolid.Direction3d.Direction3d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a line segment.\n\n    LineSegment3d.endPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 4, 5, 6 )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "endpoints",
-        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment3d.endpoints lineSegment\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> ( OpenSolid.Point3d.Point3d, OpenSolid.Point3d.Point3d )"
-      },
-      {
-        "name": "from",
-        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment3d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment3d.fromEndpoints ( firstPoint, secondPoint )\n\n",
-        "type": "OpenSolid.Point3d.Point3d -> OpenSolid.Point3d.Point3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "fromEndpoints",
-        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment3d.fromEndpoints\n            ( Point3d.fromCoordinates ( 1, 2, 3 )\n            , Point3d.fromCoordinates ( 4, 5, 6 )\n            )\n\n",
-        "type": "( OpenSolid.Point3d.Point3d, OpenSolid.Point3d.Point3d ) -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "interpolate",
-        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment3d.interpolate exampleLineSegment (1 / 3)\n    --> Point3d.fromCoordinates ( 2, 4, 5 )\n\n    LineSegment3d.interpolate exampleLineSegment (-1 / 3)\n    --> Point3d.fromCoordinates ( 0, 1, 2 )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Float -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the length of a line segment.\n\n    LineSegment3d.length exampleLineSegment\n    --> 5.1962\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Float"
-      },
-      {
-        "name": "mapEndpoints",
-        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment3d.projectOnto plane\n\nis equivalent to\n\n    LineSegment3d.mapEndpoints (Point3d.projectOnto plane)\n\n",
-        "type": "(OpenSolid.Point3d.Point3d -> OpenSolid.Point3d.Point3d) -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "midpoint",
-        "comment": " Get the midpoint of a line segment.\n\n    LineSegment3d.midpoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 2.5, 3.5, 4.5 )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a line segment across a plane.\n\n    exampleLineSegment\n        |> LineSegment3d.mirrorAcross Plane3d.xy\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 2, -3 )\n    -->     , Point3d.fromCoordinates ( 4, 5, -6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "normalDirection",
-        "comment": " Get an arbitrary direction perpendicular to a line segment. If the line\nsegment has zero length, returns `Nothing`.\n\n    LineSegment3d.normalDirection exampleLineSegment\n    --> Just\n    -->    (Direction3d.with\n    -->        { azimuth = degrees -90\n    -->        , elevation = degrees 45\n    -->        }\n    -->    )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Maybe.Maybe OpenSolid.Direction3d.Direction3d"
-      },
-      {
-        "name": "on",
-        "comment": " Construct a 3D line segment lying _on_ a sketch plane by providing a 2D line\nsegment specified in XY coordinates _within_ the sketch plane.\n\n    LineSegment3d.on SketchPlane3d.yz <|\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 1, 2 )\n    -->     , Point3d.fromCoordinates ( 0, 3, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.placeIn localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a line segment into a given sketch plane. Conceptually, this finds\nthe [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the line segment onto the plane and then expresses the projected line segment\nin 2D sketch coordinates.\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.xy\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 5 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.yz\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 6 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.zx\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 6, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a line segment onto a plane.\n\n    LineSegment3d.projectOnto Plane3d.yz exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 0, 5, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.relativeTo localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment3d.reverse exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a line segment around a given axis by a given angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment3d.rotateAround Axis3d.z (degrees 90)\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     , Point3d.fromCoordinates ( -5, 4, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Axis3d.Axis3d -> Float -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point3d.fromCoordinates ( 1, 1, 1 )\n\n    LineSegment3d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 3, 5 )\n    -->     , Point3d.fromCoordinates ( 7, 9, 11 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point3d.Point3d -> Float -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment3d.squaredLength exampleLineSegment\n    --> 27\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Float"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a line segment.\n\n    LineSegment3d.startPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 1, 2, 3 )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Point3d.Point3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 1, 2, 3 )\n\n    exampleLineSegment\n        |> LineSegment3d.translateBy displacement\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
-        "type": "OpenSolid.Vector3d.Vector3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
-      },
-      {
-        "name": "vector",
-        "comment": " Get the vector from a line segment's start point to its end point.\n\n    LineSegment3d.vector exampleLineSegment\n    --> Vector3d.fromComponents ( 2, 2, 2 )\n\n",
-        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Vector3d.Vector3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1264,6 +1123,147 @@
         "name": "translateBy",
         "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 2, 3, 1 )\n\n    exampleSpline\n        |> QuadraticSpline3d.translateBy displacement\n    --> QuadraticSpline3d.fromControlPoints\n    -->     ( Point3d.fromCoordinates ( 3, 4, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 5, 2 )\n    -->     , Point3d.fromCoordinates ( 5, 6, 4 )\n    -->     )\n\n",
         "type": "OpenSolid.Vector3d.Vector3d -> OpenSolid.QuadraticSpline3d.QuadraticSpline3d -> OpenSolid.QuadraticSpline3d.QuadraticSpline3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.LineSegment3d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment3d.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment3d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along, on\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, normalDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn, projectInto\n\n",
+    "aliases": [
+      {
+        "name": "LineSegment3d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.LineSegment3d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "along",
+        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment3d.along Axis3d.x 3 5\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 3, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 5, 0, 0 )\n    -->     )\n\n    LineSegment3d.along Axis3d.y 2 -4\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 0 )\n    -->     , Point3d.fromCoordinates ( 0, -4, 0 )\n    -->     )\n\n",
+        "type": "OpenSolid.Axis3d.Axis3d -> Float -> Float -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a line segment.\n\n    LineSegment3d.boundingBox exampleLineSegment\n    --> BoundingBox3d.with\n    -->     { minX = 1\n    -->     , maxX = 4\n    -->     , minY = 2\n    -->     , maxY = 5\n    -->     , minZ = 3\n    -->     , maxZ = 6\n    -->     }\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.BoundingBox3d.BoundingBox3d"
+      },
+      {
+        "name": "direction",
+        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment3d.direction exampleLineSegment\n    --> Just\n    -->    (Direction3d.with\n    -->        { azimuth = degrees 45\n    -->        , elevation = degrees 35.26\n    -->        }\n    -->    )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Maybe.Maybe OpenSolid.Direction3d.Direction3d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a line segment.\n\n    LineSegment3d.endPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 4, 5, 6 )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "endpoints",
+        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment3d.endpoints lineSegment\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> ( OpenSolid.Point3d.Point3d, OpenSolid.Point3d.Point3d )"
+      },
+      {
+        "name": "from",
+        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment3d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment3d.fromEndpoints ( firstPoint, secondPoint )\n\n",
+        "type": "OpenSolid.Point3d.Point3d -> OpenSolid.Point3d.Point3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "fromEndpoints",
+        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment3d.fromEndpoints\n            ( Point3d.fromCoordinates ( 1, 2, 3 )\n            , Point3d.fromCoordinates ( 4, 5, 6 )\n            )\n\n",
+        "type": "( OpenSolid.Point3d.Point3d, OpenSolid.Point3d.Point3d ) -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "interpolate",
+        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment3d.interpolate exampleLineSegment (1 / 3)\n    --> Point3d.fromCoordinates ( 2, 4, 5 )\n\n    LineSegment3d.interpolate exampleLineSegment (-1 / 3)\n    --> Point3d.fromCoordinates ( 0, 1, 2 )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Float -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the length of a line segment.\n\n    LineSegment3d.length exampleLineSegment\n    --> 5.1962\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Float"
+      },
+      {
+        "name": "mapEndpoints",
+        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment3d.projectOnto plane\n\nis equivalent to\n\n    LineSegment3d.mapEndpoints (Point3d.projectOnto plane)\n\n",
+        "type": "(OpenSolid.Point3d.Point3d -> OpenSolid.Point3d.Point3d) -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "midpoint",
+        "comment": " Get the midpoint of a line segment.\n\n    LineSegment3d.midpoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 2.5, 3.5, 4.5 )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a line segment across a plane.\n\n    exampleLineSegment\n        |> LineSegment3d.mirrorAcross Plane3d.xy\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 2, -3 )\n    -->     , Point3d.fromCoordinates ( 4, 5, -6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "normalDirection",
+        "comment": " Get an arbitrary direction perpendicular to a line segment. If the line\nsegment has zero length, returns `Nothing`.\n\n    LineSegment3d.normalDirection exampleLineSegment\n    --> Just\n    -->    (Direction3d.with\n    -->        { azimuth = degrees -90\n    -->        , elevation = degrees 45\n    -->        }\n    -->    )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Maybe.Maybe OpenSolid.Direction3d.Direction3d"
+      },
+      {
+        "name": "on",
+        "comment": " Construct a 3D line segment lying _on_ a sketch plane by providing a 2D line\nsegment specified in XY coordinates _within_ the sketch plane.\n\n    LineSegment3d.on SketchPlane3d.yz <|\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 1, 2 )\n    -->     , Point3d.fromCoordinates ( 0, 3, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.placeIn localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a line segment into a given sketch plane. Conceptually, this finds\nthe [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof the line segment onto the plane and then expresses the projected line segment\nin 2D sketch coordinates.\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.xy\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 5 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.yz\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 6 )\n    -->     )\n\n    exampleLineSegment\n        |> LineSegment3d.projectInto SketchPlane3d.zx\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 1 )\n    -->     , Point2d.fromCoordinates ( 6, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.SketchPlane3d.SketchPlane3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Find the [orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)\nof a line segment onto a plane.\n\n    LineSegment3d.projectOnto Plane3d.yz exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 2, 3 )\n    -->     , Point3d.fromCoordinates ( 0, 5, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Plane3d.Plane3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.atPoint\n            (Point3d.fromCoordinates ( 1, 2, 3 ))\n\n    LineSegment3d.relativeTo localFrame exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 0, 0, 0 )\n    -->     , Point3d.fromCoordinates ( 3, 3, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame3d.Frame3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment3d.reverse exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 4, 5, 6 )\n    -->     , Point3d.fromCoordinates ( 1, 2, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a line segment around a given axis by a given angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment3d.rotateAround Axis3d.z (degrees 90)\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( -2, 1, 3 )\n    -->     , Point3d.fromCoordinates ( -5, 4, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Axis3d.Axis3d -> Float -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point3d.fromCoordinates ( 1, 1, 1 )\n\n    LineSegment3d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 1, 3, 5 )\n    -->     , Point3d.fromCoordinates ( 7, 9, 11 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point3d.Point3d -> Float -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "squaredLength",
+        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment3d.squaredLength exampleLineSegment\n    --> 27\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> Float"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a line segment.\n\n    LineSegment3d.startPoint exampleLineSegment\n    --> Point3d.fromCoordinates ( 1, 2, 3 )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Point3d.Point3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector3d.fromComponents ( 1, 2, 3 )\n\n    exampleLineSegment\n        |> LineSegment3d.translateBy displacement\n    --> LineSegment3d.fromEndpoints\n    -->     ( Point3d.fromCoordinates ( 2, 4, 6 )\n    -->     , Point3d.fromCoordinates ( 5, 7, 9 )\n    -->     )\n\n",
+        "type": "OpenSolid.Vector3d.Vector3d -> OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.LineSegment3d.LineSegment3d"
+      },
+      {
+        "name": "vector",
+        "comment": " Get the vector from a line segment's start point to its end point.\n\n    LineSegment3d.vector exampleLineSegment\n    --> Vector3d.fromComponents ( 2, 2, 2 )\n\n",
+        "type": "OpenSolid.LineSegment3d.LineSegment3d -> OpenSolid.Vector3d.Vector3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1971,6 +1971,188 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.Triangle2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle2d.svg\" alt=\"Triangle2d\" width=\"160\">\n\nA `Triangle2d` represents a triangle in 2D space, and is defined by its three\nvertices. This module contains triangle-related functionality such as:\n\n  - Finding the area and centroid of triangles\n  - Scaling, rotating, translating and mirroring triangles\n  - Converting triangles between different coordinate systems\n\n@docs Triangle2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, edges, centroid, area, counterclockwiseArea, clockwiseArea, boundingBox, circumcircle\n\n\n# Queries\n\n@docs contains\n\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, mapVertices\n\n\n# Coordinate conversions\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Triangle2d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.Triangle2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle\n    --> 1.0\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle\n    --> BoundingBox2d.with\n    -->     { minX = 1\n    -->     , maxX = 2\n    -->     , minY = 1\n    -->     , maxY = 3\n    -->     }\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> OpenSolid.BoundingBox2d.BoundingBox2d"
+      },
+      {
+        "name": "centroid",
+        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle\n    --> Point2d.fromCoordinates ( 1.3333, 1.6667 )\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "circumcircle",
+        "comment": " Attempt to find the circumcircle of a triangle, a circle that passes through\neach of the triangle's vertices;\n\n    Triangle2d.circumcircle triangle\n\nis equivalent to\n\n    Circle2d.throughPoints (Triangle2d.vertices triangle)\n\nIf the triangle is degenerate (its three vertices are collinear), returns\n`Nothing`.\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> Maybe.Maybe OpenSolid.Circle2d.Circle2d"
+      },
+      {
+        "name": "clockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle\n    --> -1.0\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> Float"
+      },
+      {
+        "name": "contains",
+        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d.fromCoordinates ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle\n    --> True\n\n    Triangle2d.contains Point2d.origin exampleTriangle\n    --> False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> OpenSolid.Triangle2d.Triangle2d -> Bool"
+      },
+      {
+        "name": "counterclockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle\n    --> 1.0\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> Float"
+      },
+      {
+        "name": "edges",
+        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n\n    --> e1 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 1 )\n    -->         , Point2d.fromCoordinates ( 2, 1 )\n    -->         )\n    -->\n    --> e2 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 2, 1 )\n    -->         , Point2d.fromCoordinates ( 1, 3 )\n    -->         )\n    -->\n    --> e3 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 3 )\n    -->         , Point2d.fromCoordinates ( 1, 1 )\n    -->         )\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> ( OpenSolid.LineSegment2d.LineSegment2d , OpenSolid.LineSegment2d.LineSegment2d , OpenSolid.LineSegment2d.LineSegment2d )"
+      },
+      {
+        "name": "fromVertices",
+        "comment": " Construct a triangle from its three vertices:\n\n    exampleTriangle =\n        Triangle2d.fromVertices\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            , Point2d.fromCoordinates ( 1, 3 )\n            )\n\n",
+        "type": "( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d ) -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "mapVertices",
+        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `mapVertices`; for example,\n\n    Triangle2d.mirrorAcross axis\n\nis equivalent to\n\n    Triangle2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
+        "type": "(OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d) -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 3 )\n    -->     )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n\n",
+        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 2, 5 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    exampleTriangle\n        |> Triangle2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 1 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 6 )\n    -->     )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 3, -2 )\n    -->     , Point2d.fromCoordinates ( 4, -2 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n",
+        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n\n    --> p1 = Point2d.fromCoordinates ( 1, 1 )\n    --> p2 = Point2d.fromCoordinates ( 2, 1 )\n    --> p3 = Point2d.fromCoordinates ( 1, 3 )\n\n",
+        "type": "OpenSolid.Triangle2d.Triangle2d -> ( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.Polyline2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/polyline2d.svg\" alt=\"Polyline2d\" width=\"160\">\n\nA `Polyline2d` represents a sequence of vertices in 2D connected by line\nsegments. This module contains a variety of polyline-related functionality, such\nas\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\n@docs Polyline2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, segments, length, boundingBox\n\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "Polyline2d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.Polyline2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline2d.boundingBox stepShape\n    --> Just\n    -->     (BoundingBox2d.with\n    -->         { minX = 0\n    -->         , maxX = 2\n    -->         , minY = 0\n    -->         , maxY = 1\n    -->         }\n    -->     )\n\n",
+        "type": "OpenSolid.Polyline2d.Polyline2d -> Maybe.Maybe OpenSolid.BoundingBox2d.BoundingBox2d"
+      },
+      {
+        "name": "fromVertices",
+        "comment": " Construct a polyline from a list of vertices:\n\n    stepShape =\n        Polyline2d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0 )\n            , Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            ]\n\n",
+        "type": "List OpenSolid.Point2d.Point2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline2d.length stepShape\n    --> 3\n\n",
+        "type": "OpenSolid.Polyline2d.Polyline2d -> Float"
+      },
+      {
+        "name": "mapVertices",
+        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `mapVertices`; for example,\n\n    Polyline2d.mirrorAcross axis\n\nis equivalent to\n\n    Polyline2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
+        "type": "(OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d) -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a polyline across the given axis.\n\n    Polyline2d.mirrorAcross Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 2, -1 )\n    -->     ]\n\n",
+        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.placeIn localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     ]\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project (flatten) a polyline onto the given axis.\n\n    Polyline2d.projectOnto Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 0 )\n    -->     ]\n\n",
+        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.relativeTo localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     ]\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a polyline around the given center point counterclockwise by the\ngiven angle (in radians).\n\n    stepShape\n        |> Polyline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     ]\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a polyline about a given center point by a given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 0 )\n\n    Polyline2d.scaleAbout point 2 stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 3, 2 )\n    -->     ]\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "segments",
+        "comment": " Get the individual segments of a polyline.\n\n    Polyline2d.segments stepShape\n    --> [ LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2, 1 )\n    -->     )\n    --> ]\n\n",
+        "type": "OpenSolid.Polyline2d.Polyline2d -> List OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    Polyline2d.translateBy displacement stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 4 )\n    -->     ]\n\n",
+        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a polyline.\n\n    Polyline2d.vertices stepShape\n    --> [ Point2d.fromCoordinates ( 0, 0 )\n    --> , Point2d.fromCoordinates ( 1, 0 )\n    --> , Point2d.fromCoordinates ( 1, 1 )\n    --> , Point2d.fromCoordinates ( 2, 1 )\n    --> ]\n\n",
+        "type": "OpenSolid.Polyline2d.Polyline2d -> List OpenSolid.Point2d.Point2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.EllipticalArc2d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/ellipticalArc2d.svg\" alt=\"EllipticalArc2d\" width=\"160\">\n\nAn `EllipticalArc2d` is a section of an `Ellipse2d` with a start and end point.\nThis module includes functionality for\n\n  - Constructing an elliptical arc from its center or end points\n  - Scaling, rotating, translating and mirroring elliptical arcs\n  - Evaluating points and derivative vectors along elliptical arcs\n  - Forming arc length parameterizations of elliptical arcs\n\nThe `startAngle` and `sweptAngle` values referred to below are not actually\nproper angles but instead refer to values of the [ellipse parameter](https://en.wikipedia.org/wiki/Ellipse#Parametric_representation).\nHowever, in simple cases you don't need to worry about the difference - if\n`startAngle` and `sweptAngle` are both multiples of 90 degrees, then you can\ntreat them as actual angles and everything will work out.\n\n@docs EllipticalArc2d\n\n\n# Constructors\n\n@docs with, fromEndpoints, SweptAngle, smallPositive, smallNegative, largePositive, largeNegative\n\n\n# Properties\n\n@docs startAngle, sweptAngle, startPoint, endPoint\n\nAll remaining properties of elliptical arcs are actually just properties of the\nunderlying ellipse; check out the [Ellipse2d](OpenSolid-Ellipse2d) module for\ndetails.\n\n@docs centerPoint, axes, xAxis, yAxis, xDirection, yDirection, xRadius, yRadius\n\n\n# Evaluation\n\n@docs pointOn, derivative\n\n\n# Transformations\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n\n# Arc length parameterization\n\n@docs ArcLengthParameterized, arcLengthParameterized, arcLength, pointAlong, tangentAlong, arcLengthToParameterValue, parameterValueToArcLength\n\n\n# Low level\n\nLow level functionality that you are unlikely to need to use directly.\n\n@docs derivativeMagnitude, maxSecondDerivativeMagnitude\n\n",
     "aliases": [
@@ -2338,188 +2520,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Triangle2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle2d.svg\" alt=\"Triangle2d\" width=\"160\">\n\nA `Triangle2d` represents a triangle in 2D space, and is defined by its three\nvertices. This module contains triangle-related functionality such as:\n\n  - Finding the area and centroid of triangles\n  - Scaling, rotating, translating and mirroring triangles\n  - Converting triangles between different coordinate systems\n\n@docs Triangle2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, edges, centroid, area, counterclockwiseArea, clockwiseArea, boundingBox, circumcircle\n\n\n# Queries\n\n@docs contains\n\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, mapVertices\n\n\n# Coordinate conversions\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Triangle2d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.Triangle2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle\n    --> 1.0\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle\n    --> BoundingBox2d.with\n    -->     { minX = 1\n    -->     , maxX = 2\n    -->     , minY = 1\n    -->     , maxY = 3\n    -->     }\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> OpenSolid.BoundingBox2d.BoundingBox2d"
-      },
-      {
-        "name": "centroid",
-        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle\n    --> Point2d.fromCoordinates ( 1.3333, 1.6667 )\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "circumcircle",
-        "comment": " Attempt to find the circumcircle of a triangle, a circle that passes through\neach of the triangle's vertices;\n\n    Triangle2d.circumcircle triangle\n\nis equivalent to\n\n    Circle2d.throughPoints (Triangle2d.vertices triangle)\n\nIf the triangle is degenerate (its three vertices are collinear), returns\n`Nothing`.\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> Maybe.Maybe OpenSolid.Circle2d.Circle2d"
-      },
-      {
-        "name": "clockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle\n    --> -1.0\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> Float"
-      },
-      {
-        "name": "contains",
-        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d.fromCoordinates ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle\n    --> True\n\n    Triangle2d.contains Point2d.origin exampleTriangle\n    --> False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> OpenSolid.Triangle2d.Triangle2d -> Bool"
-      },
-      {
-        "name": "counterclockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle\n    --> 1.0\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> Float"
-      },
-      {
-        "name": "edges",
-        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n\n    --> e1 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 1 )\n    -->         , Point2d.fromCoordinates ( 2, 1 )\n    -->         )\n    -->\n    --> e2 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 2, 1 )\n    -->         , Point2d.fromCoordinates ( 1, 3 )\n    -->         )\n    -->\n    --> e3 =\n    -->     LineSegment2d.fromEndpoints\n    -->         ( Point2d.fromCoordinates ( 1, 3 )\n    -->         , Point2d.fromCoordinates ( 1, 1 )\n    -->         )\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> ( OpenSolid.LineSegment2d.LineSegment2d , OpenSolid.LineSegment2d.LineSegment2d , OpenSolid.LineSegment2d.LineSegment2d )"
-      },
-      {
-        "name": "fromVertices",
-        "comment": " Construct a triangle from its three vertices:\n\n    exampleTriangle =\n        Triangle2d.fromVertices\n            ( Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            , Point2d.fromCoordinates ( 1, 3 )\n            )\n\n",
-        "type": "( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d ) -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "mapVertices",
-        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `mapVertices`; for example,\n\n    Triangle2d.mirrorAcross axis\n\nis equivalent to\n\n    Triangle2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
-        "type": "(OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d) -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 3 )\n    -->     )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n\n",
-        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 2, 5 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    exampleTriangle\n        |> Triangle2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 1 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 4, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 6 )\n    -->     )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle\n    --> Triangle2d.fromVertices\n    -->     ( Point2d.fromCoordinates ( 3, -2 )\n    -->     , Point2d.fromCoordinates ( 4, -2 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n",
-        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.Triangle2d.Triangle2d -> OpenSolid.Triangle2d.Triangle2d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n\n    --> p1 = Point2d.fromCoordinates ( 1, 1 )\n    --> p2 = Point2d.fromCoordinates ( 2, 1 )\n    --> p3 = Point2d.fromCoordinates ( 1, 3 )\n\n",
-        "type": "OpenSolid.Triangle2d.Triangle2d -> ( OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d , OpenSolid.Point2d.Point2d )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.Polyline2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/polyline2d.svg\" alt=\"Polyline2d\" width=\"160\">\n\nA `Polyline2d` represents a sequence of vertices in 2D connected by line\nsegments. This module contains a variety of polyline-related functionality, such\nas\n\n  - Computing the length of polylines\n  - Scaling, rotating, translating and mirroring polylines\n  - Converting polylines between different coordinate systems\n\n@docs Polyline2d\n\n\n# Constructors\n\n@docs fromVertices\n\n\n# Properties\n\n@docs vertices, segments, length, boundingBox\n\n\n# Transformations\n\nTransforming a polyline is equivalent to transforming each of its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapVertices\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "Polyline2d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.Polyline2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given polyline. Returns `Nothing`\nif the polyline has no vertices.\n\n    Polyline2d.boundingBox stepShape\n    --> Just\n    -->     (BoundingBox2d.with\n    -->         { minX = 0\n    -->         , maxX = 2\n    -->         , minY = 0\n    -->         , maxY = 1\n    -->         }\n    -->     )\n\n",
-        "type": "OpenSolid.Polyline2d.Polyline2d -> Maybe.Maybe OpenSolid.BoundingBox2d.BoundingBox2d"
-      },
-      {
-        "name": "fromVertices",
-        "comment": " Construct a polyline from a list of vertices:\n\n    stepShape =\n        Polyline2d.fromVertices\n            [ Point2d.fromCoordinates ( 0, 0 )\n            , Point2d.fromCoordinates ( 1, 0 )\n            , Point2d.fromCoordinates ( 1, 1 )\n            , Point2d.fromCoordinates ( 2, 1 )\n            ]\n\n",
-        "type": "List OpenSolid.Point2d.Point2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the overall length of a polyline (the sum of the lengths of its\nsegments).\n\n    Polyline2d.length stepShape\n    --> 3\n\n",
-        "type": "OpenSolid.Polyline2d.Polyline2d -> Float"
-      },
-      {
-        "name": "mapVertices",
-        "comment": " Transform each vertex of a polyline by the given function. All other\ntransformations can be defined in terms of `mapVertices`; for example,\n\n    Polyline2d.mirrorAcross axis\n\nis equivalent to\n\n    Polyline2d.mapVertices (Point2d.mirrorAcross axis)\n\n",
-        "type": "(OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d) -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a polyline across the given axis.\n\n    Polyline2d.mirrorAcross Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     , Point2d.fromCoordinates ( 2, -1 )\n    -->     ]\n\n",
-        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a polyline considered to be defined in local coordinates relative\nto a given reference frame, and return that polyline expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.placeIn localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     , Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     ]\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project (flatten) a polyline onto the given axis.\n\n    Polyline2d.projectOnto Axis2d.x stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 0 )\n    -->     ]\n\n",
-        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a polyline defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    Polyline2d.relativeTo localFrame stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -2 )\n    -->     , Point2d.fromCoordinates ( 0, -1 )\n    -->     , Point2d.fromCoordinates ( 1, -1 )\n    -->     ]\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a polyline around the given center point counterclockwise by the\ngiven angle (in radians).\n\n    stepShape\n        |> Polyline2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 0, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 1 )\n    -->     , Point2d.fromCoordinates ( -1, 2 )\n    -->     ]\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a polyline about a given center point by a given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 0 )\n\n    Polyline2d.scaleAbout point 2 stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( -1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     , Point2d.fromCoordinates ( 3, 2 )\n    -->     ]\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "segments",
-        "comment": " Get the individual segments of a polyline.\n\n    Polyline2d.segments stepShape\n    --> [ LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 0 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 1, 1 )\n    -->     )\n    --> , LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 1 )\n    -->     , Point2d.fromCoordinates ( 2, 1 )\n    -->     )\n    --> ]\n\n",
-        "type": "OpenSolid.Polyline2d.Polyline2d -> List OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a polyline by the given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    Polyline2d.translateBy displacement stepShape\n    --> Polyline2d.fromVertices\n    -->     [ Point2d.fromCoordinates ( 2, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 3 )\n    -->     , Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 4 )\n    -->     ]\n\n",
-        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.Polyline2d.Polyline2d -> OpenSolid.Polyline2d.Polyline2d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a polyline.\n\n    Polyline2d.vertices stepShape\n    --> [ Point2d.fromCoordinates ( 0, 0 )\n    --> , Point2d.fromCoordinates ( 1, 0 )\n    --> , Point2d.fromCoordinates ( 1, 1 )\n    --> , Point2d.fromCoordinates ( 2, 1 )\n    --> ]\n\n",
-        "type": "OpenSolid.Polyline2d.Polyline2d -> List OpenSolid.Point2d.Point2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.Plane3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/plane3d.svg\" alt=\"Plane3d\" width=\"160\">\n\nA `Plane3d` is an infinite flat plane in 3D. It is defined by an origin point\nand normal direction and is useful for several operations including:\n\n  - Mirroring across the plane\n  - Projecting onto the plane\n  - Measuring distance from the plane\n\n@docs Plane3d\n\n\n# Constants\n\n@docs xy, yz, zx\n\n\n# Constructors\n\n@docs with, throughPoints\n\n\n# Properties\n\n@docs originPoint, normalDirection, normalAxis\n\n\n# Transformations\n\n@docs offsetBy, flip, rotateAround, translateBy, moveTo, mirrorAcross\n\n\n# Coordinate conversions\n\n@docs relativeTo, placeIn\n\n",
     "aliases": [
@@ -2611,6 +2611,142 @@
         "name": "zx",
         "comment": " The global ZX plane, centered at the origin with a normal in the positive Y\ndirection.\n\n    Plane3d.zx\n    --> Plane3d.with\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.y\n    -->     }\n\n",
         "type": "OpenSolid.Plane3d.Plane3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.LineSegment2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment2d.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment2d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, normalDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Intersection\n\n@docs intersectionPoint\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n",
+    "aliases": [
+      {
+        "name": "LineSegment2d",
+        "comment": " ",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.LineSegment2d"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "along",
+        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment2d.along Axis2d.x 3 5\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 0 )\n    -->     , Point2d.fromCoordinates ( 5, 0 )\n    -->     )\n\n    LineSegment2d.along Axis2d.y 2 -4\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, -4 )\n    -->     )\n\n",
+        "type": "OpenSolid.Axis2d.Axis2d -> Float -> Float -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given line segment.\n\n    LineSegment2d.boundingBox exampleLineSegment\n    --> BoundingBox2d.with\n    -->     { minX = 1\n    -->     , maxX = 3\n    -->     , minY = 2\n    -->     , maxY = 4\n    -->     }\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.BoundingBox2d.BoundingBox2d"
+      },
+      {
+        "name": "direction",
+        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment2d.direction exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 45))\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Maybe.Maybe OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "endPoint",
+        "comment": " Get the end point of a line segment.\n\n    LineSegment2d.endPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 3, 4 )\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "endpoints",
+        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment2d.endpoints lineSegment\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> ( OpenSolid.Point2d.Point2d, OpenSolid.Point2d.Point2d )"
+      },
+      {
+        "name": "from",
+        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment2d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment2d.fromEndpoints ( firstPoint, secondPoint )\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "fromEndpoints",
+        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n\n",
+        "type": "( OpenSolid.Point2d.Point2d, OpenSolid.Point2d.Point2d ) -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "interpolate",
+        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment2d.interpolate exampleLineSegment 0.25\n    --> Point2d.fromCoordinates ( 1.5, 2.5 )\n\n    LineSegment2d.interpolate exampleLineSegment 1.5\n    --> Point2d.fromCoordinates ( 4, 5 )\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Float -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "intersectionPoint",
+        "comment": " Attempt to find the unique intersection point of two line segments. If there\nis no such point (the two line segments do not touch, or they overlap), returns\n`Nothing`.\n\n    -- 4 corners of a square\n    ( a, b, c, d ) =\n        ( Point2d.fromCoordinates ( 0, 0 )\n        , Point2d.fromCoordinates ( 1, 0 )\n        , Point2d.fromCoordinates ( 1, 1 )\n        , Point2d.fromCoordinates ( 0, 1 )\n        )\n\n    -- definition of some segments with those points\n    ab =\n        LineSegment2d.from a b\n    ...\n\n    -- searching for intersections\n\n    LineSegment2d.intersectionPoint ab bc\n    --> Just (Point2d.fromCoordinates ( 1, 0 ))\n    -- corner point b\n\n    LineSegment2d.intersectionPoint ac bd\n    --> Just (Point2d.fromCoordinates ( 0.5, 0.5 ))\n    -- diagonal crossing at square center\n\n    LineSegment2d.intersectionPoint ab cd\n    --> Nothing -- parallel lines\n\n    LineSegment2d.intersectionPoint ab ab\n    --> Nothing -- collinear lines\n\nNote that if the endpoint of one line segment lies on the other line segment,\nnumerical roundoff means that the intersection may or may not be found. If two\nsegments have a shared endpoint (the two segments meet in something like a 'V',\nwhere the end point of one segment is the start point of the next), that point\nis guaranteed to be returned as the intersection point, but if two segments meet\nin a 'T' shape the intersection point may or may not be found.\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d -> Maybe.Maybe OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "length",
+        "comment": " Get the length of a line segment.\n\n    LineSegment2d.length exampleLineSegment\n    --> 2.8284\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Float"
+      },
+      {
+        "name": "mapEndpoints",
+        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment2d.projectOnto axis\n\nis equivalent to\n\n    LineSegment2d.mapEndpoints (Point2d.projectOnto axis)\n\n",
+        "type": "(OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d) -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "midpoint",
+        "comment": " Get the midpoint of a line segment.\n\n    LineSegment2d.midpoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 2, 3 )\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a line segment across an axis.\n\n    LineSegment2d.mirrorAcross Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 4 )\n    -->     )\n\nNote that the endpoints of a mirrored segment are equal to the mirrored\nendpoints of the original segment, but as a result the normal direction of a\nmirrored segment is the _opposite_ of the mirrored normal direction of the\noriginal segment (since the normal direction is always considered to be 'to the\nleft' of the line segment).\n\n",
+        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "normalDirection",
+        "comment": " Get the direction perpendicular to a line segment, pointing to the left. If\nthe line segment has zero length, returns `Nothing`.\n\n    LineSegment2d.normalDirection exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 135))\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Maybe.Maybe OpenSolid.Direction2d.Direction2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.placeIn localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a line segment onto an axis.\n\n    LineSegment2d.projectOnto Axis2d.x exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n    LineSegment2d.projectOnto Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, 4 )\n    -->     )\n\n",
+        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.relativeTo localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     )\n\n",
+        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment2d.reverse exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     )\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a line segment counterclockwise around a given center point by a\ngiven angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -4, 3 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    LineSegment2d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 7 )\n    -->     )\n\n",
+        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "squaredLength",
+        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment2d.squaredLength exampleLineSegment\n    --> 8\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Float"
+      },
+      {
+        "name": "startPoint",
+        "comment": " Get the start point of a line segment.\n\n    LineSegment2d.startPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 1, 2 )\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Point2d.Point2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 1, 2 )\n\n    exampleLineSegment\n        |> LineSegment2d.translateBy displacement\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
+        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
+      },
+      {
+        "name": "vector",
+        "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d.fromComponents ( 2, 2 )\n\n",
+        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Vector2d.Vector2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2860,142 +2996,6 @@
         "name": "translateBy",
         "comment": " Translate a spline by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 2, 3 )\n\n    exampleSpline\n        |> QuadraticSpline2d.translateBy displacement\n    --> QuadraticSpline2d.fromControlPoints\n    -->     ( Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 5, 7 )\n    -->     , Point2d.fromCoordinates ( 7, 4 )\n    -->     )\n\n",
         "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d -> OpenSolid.QuadraticSpline2d.QuadraticSpline2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.LineSegment2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment2d.svg\" alt=\"LineSegment2d\" width=\"160\">\n\nA `LineSegment2d` is a line between two points in 2D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\n@docs LineSegment2d\n\n\n# Constructors\n\n@docs fromEndpoints, from, along\n\n\n# Properties\n\n@docs startPoint, endPoint, endpoints, midpoint, length, squaredLength, direction, normalDirection, vector, boundingBox\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Intersection\n\n@docs intersectionPoint\n\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs reverse, scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, mapEndpoints\n\n\n# Coordinate conversions\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n",
-    "aliases": [
-      {
-        "name": "LineSegment2d",
-        "comment": " ",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.LineSegment2d"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "along",
-        "comment": " Construct a line segment lying on the given axis, with its endpoints at the\ngiven distances from the axis' origin point.\n\n    LineSegment2d.along Axis2d.x 3 5\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 0 )\n    -->     , Point2d.fromCoordinates ( 5, 0 )\n    -->     )\n\n    LineSegment2d.along Axis2d.y 2 -4\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, -4 )\n    -->     )\n\n",
-        "type": "OpenSolid.Axis2d.Axis2d -> Float -> Float -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given line segment.\n\n    LineSegment2d.boundingBox exampleLineSegment\n    --> BoundingBox2d.with\n    -->     { minX = 1\n    -->     , maxX = 3\n    -->     , minY = 2\n    -->     , maxY = 4\n    -->     }\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.BoundingBox2d.BoundingBox2d"
-      },
-      {
-        "name": "direction",
-        "comment": " Get the direction from a line segment's start point to its end point. If the\nline segment has zero length (the start and end points are the same), returns\n`Nothing`.\n\n    LineSegment2d.direction exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 45))\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Maybe.Maybe OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "endPoint",
-        "comment": " Get the end point of a line segment.\n\n    LineSegment2d.endPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 3, 4 )\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "endpoints",
-        "comment": " Get the endpoints of a line segment as a tuple.\n\n    ( p1, p2 ) =\n        LineSegment2d.endpoints lineSegment\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> ( OpenSolid.Point2d.Point2d, OpenSolid.Point2d.Point2d )"
-      },
-      {
-        "name": "from",
-        "comment": " Construct a line segment from the first point to the second;\n\n    LineSegment2d.from firstPoint secondPoint\n\nis equivalent to\n\n    LineSegment2d.fromEndpoints ( firstPoint, secondPoint )\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "fromEndpoints",
-        "comment": " Construct a line segment from its two endpoints:\n\n    exampleLineSegment =\n        LineSegment2d.fromEndpoints\n            ( Point2d.fromCoordinates ( 1, 2 )\n            , Point2d.fromCoordinates ( 3, 4 )\n            )\n\n",
-        "type": "( OpenSolid.Point2d.Point2d, OpenSolid.Point2d.Point2d ) -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "interpolate",
-        "comment": " Interpolate a line segment between its start and end points; a value of 0.0\ncorresponds to the start point of the line segment, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its end point. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    LineSegment2d.interpolate exampleLineSegment 0.25\n    --> Point2d.fromCoordinates ( 1.5, 2.5 )\n\n    LineSegment2d.interpolate exampleLineSegment 1.5\n    --> Point2d.fromCoordinates ( 4, 5 )\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Float -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "intersectionPoint",
-        "comment": " Attempt to find the unique intersection point of two line segments. If there\nis no such point (the two line segments do not touch, or they overlap), returns\n`Nothing`.\n\n    -- 4 corners of a square\n    ( a, b, c, d ) =\n        ( Point2d.fromCoordinates ( 0, 0 )\n        , Point2d.fromCoordinates ( 1, 0 )\n        , Point2d.fromCoordinates ( 1, 1 )\n        , Point2d.fromCoordinates ( 0, 1 )\n        )\n\n    -- definition of some segments with those points\n    ab =\n        LineSegment2d.from a b\n    ...\n\n    -- searching for intersections\n\n    LineSegment2d.intersectionPoint ab bc\n    --> Just (Point2d.fromCoordinates ( 1, 0 ))\n    -- corner point b\n\n    LineSegment2d.intersectionPoint ac bd\n    --> Just (Point2d.fromCoordinates ( 0.5, 0.5 ))\n    -- diagonal crossing at square center\n\n    LineSegment2d.intersectionPoint ab cd\n    --> Nothing -- parallel lines\n\n    LineSegment2d.intersectionPoint ab ab\n    --> Nothing -- collinear lines\n\nNote that if the endpoint of one line segment lies on the other line segment,\nnumerical roundoff means that the intersection may or may not be found. If two\nsegments have a shared endpoint (the two segments meet in something like a 'V',\nwhere the end point of one segment is the start point of the next), that point\nis guaranteed to be returned as the intersection point, but if two segments meet\nin a 'T' shape the intersection point may or may not be found.\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d -> Maybe.Maybe OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "length",
-        "comment": " Get the length of a line segment.\n\n    LineSegment2d.length exampleLineSegment\n    --> 2.8284\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Float"
-      },
-      {
-        "name": "mapEndpoints",
-        "comment": " Transform the start and end points of a line segment by a given function\nand create a new line segment from the resulting points. Most other\ntransformation functions can be defined in terms of `mapEndpoints`; for example,\n\n    LineSegment2d.projectOnto axis\n\nis equivalent to\n\n    LineSegment2d.mapEndpoints (Point2d.projectOnto axis)\n\n",
-        "type": "(OpenSolid.Point2d.Point2d -> OpenSolid.Point2d.Point2d) -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "midpoint",
-        "comment": " Get the midpoint of a line segment.\n\n    LineSegment2d.midpoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 2, 3 )\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a line segment across an axis.\n\n    LineSegment2d.mirrorAcross Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -1, 2 )\n    -->     , Point2d.fromCoordinates ( -3, 4 )\n    -->     )\n\nNote that the endpoints of a mirrored segment are equal to the mirrored\nendpoints of the original segment, but as a result the normal direction of a\nmirrored segment is the _opposite_ of the mirrored normal direction of the\noriginal segment (since the normal direction is always considered to be 'to the\nleft' of the line segment).\n\n",
-        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "normalDirection",
-        "comment": " Get the direction perpendicular to a line segment, pointing to the left. If\nthe line segment has zero length, returns `Nothing`.\n\n    LineSegment2d.normalDirection exampleLineSegment\n    --> Just (Direction2d.fromAngle (degrees 135))\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Maybe.Maybe OpenSolid.Direction2d.Direction2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a line segment considered to be defined in local coordinates relative\nto a given reference frame, and return that line segment expressed in global\ncoordinates.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.placeIn localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a line segment onto an axis.\n\n    LineSegment2d.projectOnto Axis2d.x exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 0 )\n    -->     , Point2d.fromCoordinates ( 3, 0 )\n    -->     )\n\n    LineSegment2d.projectOnto Axis2d.y exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 2 )\n    -->     , Point2d.fromCoordinates ( 0, 4 )\n    -->     )\n\n",
-        "type": "OpenSolid.Axis2d.Axis2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a line segment defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.atPoint (Point2d.fromCoordinates ( 1, 2 ))\n\n    LineSegment2d.relativeTo localFrame exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 0, 0 )\n    -->     , Point2d.fromCoordinates ( 2, 2 )\n    -->     )\n\n",
-        "type": "OpenSolid.Frame2d.Frame2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a line segment, swapping its start and end points.\n\n    LineSegment2d.reverse exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 3, 4 )\n    -->     , Point2d.fromCoordinates ( 1, 2 )\n    -->     )\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a line segment counterclockwise around a given center point by a\ngiven angle (in radians).\n\n    exampleLineSegment\n        |> LineSegment2d.rotateAround Point2d.origin\n            (degrees 90)\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( -2, 1 )\n    -->     , Point2d.fromCoordinates ( -4, 3 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a line segment about the given center point by the given scale.\n\n    point =\n        Point2d.fromCoordinates ( 1, 1 )\n\n    LineSegment2d.scaleAbout point 2 exampleLineSegment\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 1, 3 )\n    -->     , Point2d.fromCoordinates ( 5, 7 )\n    -->     )\n\n",
-        "type": "OpenSolid.Point2d.Point2d -> Float -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a line segment. Slightly more efficient than\n`length` since it avoids a square root.\n\n    LineSegment2d.squaredLength exampleLineSegment\n    --> 8\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> Float"
-      },
-      {
-        "name": "startPoint",
-        "comment": " Get the start point of a line segment.\n\n    LineSegment2d.startPoint exampleLineSegment\n    --> Point2d.fromCoordinates ( 1, 2 )\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Point2d.Point2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a line segment by a given displacement.\n\n    displacement =\n        Vector2d.fromComponents ( 1, 2 )\n\n    exampleLineSegment\n        |> LineSegment2d.translateBy displacement\n    --> LineSegment2d.fromEndpoints\n    -->     ( Point2d.fromCoordinates ( 2, 4 )\n    -->     , Point2d.fromCoordinates ( 4, 6 )\n    -->     )\n\n",
-        "type": "OpenSolid.Vector2d.Vector2d -> OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.LineSegment2d.LineSegment2d"
-      },
-      {
-        "name": "vector",
-        "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d.fromComponents ( 2, 2 )\n\n",
-        "type": "OpenSolid.LineSegment2d.LineSegment2d -> OpenSolid.Vector2d.Vector2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -4487,102 +4487,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Interval",
-    "comment": "\n\n@docs Interval\n\n\n# Constructors\n\n@docs with, singleton, hull, intersection, hullOf\n\n\n# Properties\n\n@docs extrema, minValue, maxValue, midpoint, width\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Arithmetic\n\n@docs sin, cos\n\n\n# Queries\n\n@docs contains, intersects, isContainedIn\n\n",
-    "aliases": [
-      {
-        "name": "Interval",
-        "comment": " Represents a bounded interval with a minimum and maximum value, for example\nthe interval from 3 to 5.\n",
-        "args": [],
-        "type": "OpenSolid.Geometry.Internal.Interval"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "contains",
-        "comment": " Check if an interval contains a given value.\n\n    Interval.contains 0 exampleInterval\n    --> True\n\n    Interval.contains 10 exampleInterval\n    --> False\n\nThe minimum and maximum values of an interval are considered to be contained in\nthe interval, although if you are relying on this then there is a good chance\nyour code is vulnerable to numerical roundoff!\n\n    Interval.contains -1 exampleInterval\n    --> True\n\n",
-        "type": "Float -> OpenSolid.Interval.Interval -> Bool"
-      },
-      {
-        "name": "cos",
-        "comment": " Get the image of cos(x) applied on the interval.\n\n    Interval.with { minValue = -pi / 2, maxValue = pi / 2}\n        |> Interval.cos\n    --> Interval.with { minValue = 0, maxValue = 1 }\n\n",
-        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval"
-      },
-      {
-        "name": "extrema",
-        "comment": " Get the minimum and maximum values of an interval as a single record. Useful\nwhen combined with destructuring:\n\n    { minValue, maxValue } =\n        Interval.extrema exampleInterval\n\n\n    --> minValue = -1\n    --> maxValue = 5\n\n",
-        "type": "OpenSolid.Interval.Interval -> { minValue : Float, maxValue : Float }"
-      },
-      {
-        "name": "hull",
-        "comment": " Construct an interval containing both of the given intervals.\n\n    firstInterval =\n        Interval.with { minValue = 1, maxValue = 2 }\n\n    secondInterval =\n        Interval.with { minValue = 3, maxValue = 6 }\n\n    Interval.hull firstInterval secondInterval\n    --> Interval.with { minValue = 1, maxValue = 6 }\n\n",
-        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval"
-      },
-      {
-        "name": "hullOf",
-        "comment": " Construct an interval containing all of the intervals in the given list. If\nthe list is empty, returns `Nothing`.\n\n    Interval.hullOf\n        [ Interval.singleton 2\n        , Interval.with { minValue = 3, maxValue = 4 }\n        ]\n    --> Just (Interval.with { minValue = 2, maxValue = 4 })\n\n    Interval.hullOf []\n    --> Nothing\n\n",
-        "type": "List OpenSolid.Interval.Interval -> Maybe.Maybe OpenSolid.Interval.Interval"
-      },
-      {
-        "name": "interpolate",
-        "comment": " Interpolate an interval from its minimum to its maximum value; a value of\n0.0 corresponds to the minimum value of the interval, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its maximum value. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    Interval.interpolate 0 exampleInterval\n    --> -1\n\n    Interval.interpolate 0.75 exampleInterval\n    --> 3.5\n\n    Interval.interpolate -0.5 exampleInterval\n    --> -4\n\n",
-        "type": "Float -> OpenSolid.Interval.Interval -> Float"
-      },
-      {
-        "name": "intersection",
-        "comment": " Attempt to construct an interval containing all the values common to both\ngiven intervals. If the intervals do not intersect, returns `Nothing`.\n\n    firstInterval =\n        Interval.with { minValue = 1, maxValue = 3 }\n\n    secondInterval =\n        Interval.with { minValue = 2, maxValue = 5 }\n\n    thirdInterval =\n        Interval.with { minValue = 4, maxValue = 7 }\n\n    Interval.intersection firstInterval secondInterval\n    --> Just (Interval.with { minValue = 2, maxValue = 3 })\n\n    Interval.intersection firstInterval thirdInterval\n    --> Nothing\n\nIf the two intervals just touch, a singleton interval will be returned:\n\n    Interval.intersection\n        (Interval.with { minValue = 1, maxValue = 2 })\n        (Interval.with { minValue = 2, maxValue = 3 })\n    --> Just (Interval.with { minValue = 2, maxValue = 2})\n\n",
-        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> Maybe.Maybe OpenSolid.Interval.Interval"
-      },
-      {
-        "name": "intersects",
-        "comment": " Check if two intervals touch or overlap (have any values in common).\n\n    Interval.with { minValue = 0, maxValue = 10 }\n        |> Interval.intersects exampleInterval\n    --> True\n\n    Interval.with { minValue = 10, maxValue = 20 }\n        |> Interval.intersects exampleInterval\n    --> False\n\nIntervals that just touch each other are considered to intersect (this is\nconsistent with `intersection` which will return a zero-width interval for the\nintersection of two just-touching intervals):\n\n    Interval.with { minValue = -3, maxValue = -1 }\n        |> Interval.intersects exampleInterval\n    --> True\n\nAs with `contains`, though, if you are relying on this then there is a good\nchance your code is vulnerable to numerical roundoff!\n\n",
-        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> Bool"
-      },
-      {
-        "name": "isContainedIn",
-        "comment": " Check if the second interval is fully contained in the first.\n\n    -- Note that here exampleInterval is actually the\n    -- *second* interval due to how |> works\n    exampleInterval\n        |> Interval.isContainedIn\n            (Interval.with\n                { minValue = 0\n                , maxValue = 10\n                }\n            )\n    --> False\n\n    exampleInterval\n        |> Interval.isContainedIn\n            (Interval.with\n                { minValue = -10\n                , maxValue = 10\n                }\n            )\n    --> True\n\n",
-        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> Bool"
-      },
-      {
-        "name": "maxValue",
-        "comment": " Get the maximum value of an interval.\n\n    Interval.maxValue exampleInterval\n    --> 5\n\n",
-        "type": "OpenSolid.Interval.Interval -> Float"
-      },
-      {
-        "name": "midpoint",
-        "comment": " Get the midpoint of an interval.\n\n    Interval.midpoint exampleInterval\n    --> 2\n\n",
-        "type": "OpenSolid.Interval.Interval -> Float"
-      },
-      {
-        "name": "minValue",
-        "comment": " Get the minimum value of an interval.\n\n    Interval.minValue exampleInterval\n    --> -1\n\n",
-        "type": "OpenSolid.Interval.Interval -> Float"
-      },
-      {
-        "name": "sin",
-        "comment": " Get the image of sin(x) applied on the interval.\n\n    Interval.with { minValue = -pi / 2, maxValue = pi / 2}\n        |> Interval.sin\n    --> Interval.with { minValue = -1, maxValue = 1 }\n\n",
-        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval"
-      },
-      {
-        "name": "singleton",
-        "comment": " Construct a zero-width interval containing a single value.\n\n    Interval.singleton 3\n    --> Interval.with { minValue = 3, maxValue = 3 }\n\n",
-        "type": "Float -> OpenSolid.Interval.Interval"
-      },
-      {
-        "name": "width",
-        "comment": " Get the width of an interval.\n\n    Interval.width exampleInterval\n    --> 6\n\n",
-        "type": "OpenSolid.Interval.Interval -> Float"
-      },
-      {
-        "name": "with",
-        "comment": " Construct an interval with the given minimum and maximum values. They should\nbe provided in the correct order but will be flipped if necessary to result in a\nvalid interval.\n\n    exampleInterval =\n        Interval.with { minValue = -1, maxValue = 5 }\n\n",
-        "type": "{ minValue : Float, maxValue : Float } -> OpenSolid.Interval.Interval"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.Vector2d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector2d.svg\" alt=\"Vector2d\" width=\"160\">\n\nA `Vector2d` represents a quantity such as a displacement or velocity in 2D, and\nis defined by its X and Y components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point2d`\nand `Direction2d` than `Vector2d`, and much code can avoid working directly with\n`Vector2d` values at all!\n\n@docs Vector2d\n\n\n# Constants\n\n@docs zero\n\nAlthough there are no predefined constants for the vectors with components\n(1,&nbsp;0) and (0,&nbsp;1), in most cases you will actually want their\n`Direction2d` versions [`Direction2d.x`](OpenSolid-Direction2d#x) and\n[`Direction2d.y`](OpenSolid-Direction2d#y).\n\n\n# Constructors\n\n@docs fromComponents, fromPolarComponents, from, with, perpendicularTo, interpolateFrom\n\n\n# Properties\n\n@docs components, xComponent, yComponent, polarComponents, length, squaredLength, direction, lengthAndDirection\n\n\n# Comparison\n\n@docs equalWithin\n\n\n# Measurement\n\n@docs componentIn\n\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n\n# Transformations\n\nNote that for `mirrorAcross` and `projectOnto`, only the direction of the axis\naffects the result, since vectors are position-independent. Think of\nmirroring/projecting a vector across/onto an axis as moving the vector so its\ntail is on the axis, then mirroring/projecting its tip across/onto the axis.\n\n@docs flip, normalize, scaleBy, rotateBy, mirrorAcross, projectionIn, projectOnto\n\n\n# Coordinate conversions\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate conversions\nof vectors depend only on the orientations of the relevant frames, not the\npositions of their origin points.\n\nFor the examples, assume the following frame has been defined:\n\n    rotatedFrame =\n        Frame2d.rotateBy (degrees 30) Frame2d.xy\n\n@docs relativeTo, placeIn\n\n",
     "aliases": [
@@ -4744,6 +4648,102 @@
         "name": "zero",
         "comment": " The zero vector.\n\n    Vector2d.zero\n    --> Vector2d.fromComponents ( 0, 0 )\n\n",
         "type": "OpenSolid.Vector2d.Vector2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.Interval",
+    "comment": "\n\n@docs Interval\n\n\n# Constructors\n\n@docs with, singleton, hull, intersection, hullOf\n\n\n# Properties\n\n@docs extrema, minValue, maxValue, midpoint, width\n\n\n# Interpolation\n\n@docs interpolate\n\n\n# Arithmetic\n\n@docs sin, cos\n\n\n# Queries\n\n@docs contains, intersects, isContainedIn\n\n",
+    "aliases": [
+      {
+        "name": "Interval",
+        "comment": " Represents a bounded interval with a minimum and maximum value, for example\nthe interval from 3 to 5.\n",
+        "args": [],
+        "type": "OpenSolid.Geometry.Internal.Interval"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "contains",
+        "comment": " Check if an interval contains a given value.\n\n    Interval.contains 0 exampleInterval\n    --> True\n\n    Interval.contains 10 exampleInterval\n    --> False\n\nThe minimum and maximum values of an interval are considered to be contained in\nthe interval, although if you are relying on this then there is a good chance\nyour code is vulnerable to numerical roundoff!\n\n    Interval.contains -1 exampleInterval\n    --> True\n\n",
+        "type": "Float -> OpenSolid.Interval.Interval -> Bool"
+      },
+      {
+        "name": "cos",
+        "comment": " Get the image of cos(x) applied on the interval.\n\n    Interval.with { minValue = -pi / 2, maxValue = pi / 2}\n        |> Interval.cos\n    --> Interval.with { minValue = 0, maxValue = 1 }\n\n",
+        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval"
+      },
+      {
+        "name": "extrema",
+        "comment": " Get the minimum and maximum values of an interval as a single record. Useful\nwhen combined with destructuring:\n\n    { minValue, maxValue } =\n        Interval.extrema exampleInterval\n\n\n    --> minValue = -1\n    --> maxValue = 5\n\n",
+        "type": "OpenSolid.Interval.Interval -> { minValue : Float, maxValue : Float }"
+      },
+      {
+        "name": "hull",
+        "comment": " Construct an interval containing both of the given intervals.\n\n    firstInterval =\n        Interval.with { minValue = 1, maxValue = 2 }\n\n    secondInterval =\n        Interval.with { minValue = 3, maxValue = 6 }\n\n    Interval.hull firstInterval secondInterval\n    --> Interval.with { minValue = 1, maxValue = 6 }\n\n",
+        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval"
+      },
+      {
+        "name": "hullOf",
+        "comment": " Construct an interval containing all of the intervals in the given list. If\nthe list is empty, returns `Nothing`.\n\n    Interval.hullOf\n        [ Interval.singleton 2\n        , Interval.with { minValue = 3, maxValue = 4 }\n        ]\n    --> Just (Interval.with { minValue = 2, maxValue = 4 })\n\n    Interval.hullOf []\n    --> Nothing\n\n",
+        "type": "List OpenSolid.Interval.Interval -> Maybe.Maybe OpenSolid.Interval.Interval"
+      },
+      {
+        "name": "interpolate",
+        "comment": " Interpolate an interval from its minimum to its maximum value; a value of\n0.0 corresponds to the minimum value of the interval, a value of 0.5 corresponds\nto its midpoint and a value of 1.0 corresponds to its maximum value. Values less\nthan 0.0 or greater than 1.0 can be used to extrapolate.\n\n    Interval.interpolate 0 exampleInterval\n    --> -1\n\n    Interval.interpolate 0.75 exampleInterval\n    --> 3.5\n\n    Interval.interpolate -0.5 exampleInterval\n    --> -4\n\n",
+        "type": "Float -> OpenSolid.Interval.Interval -> Float"
+      },
+      {
+        "name": "intersection",
+        "comment": " Attempt to construct an interval containing all the values common to both\ngiven intervals. If the intervals do not intersect, returns `Nothing`.\n\n    firstInterval =\n        Interval.with { minValue = 1, maxValue = 3 }\n\n    secondInterval =\n        Interval.with { minValue = 2, maxValue = 5 }\n\n    thirdInterval =\n        Interval.with { minValue = 4, maxValue = 7 }\n\n    Interval.intersection firstInterval secondInterval\n    --> Just (Interval.with { minValue = 2, maxValue = 3 })\n\n    Interval.intersection firstInterval thirdInterval\n    --> Nothing\n\nIf the two intervals just touch, a singleton interval will be returned:\n\n    Interval.intersection\n        (Interval.with { minValue = 1, maxValue = 2 })\n        (Interval.with { minValue = 2, maxValue = 3 })\n    --> Just (Interval.with { minValue = 2, maxValue = 2})\n\n",
+        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> Maybe.Maybe OpenSolid.Interval.Interval"
+      },
+      {
+        "name": "intersects",
+        "comment": " Check if two intervals touch or overlap (have any values in common).\n\n    Interval.with { minValue = 0, maxValue = 10 }\n        |> Interval.intersects exampleInterval\n    --> True\n\n    Interval.with { minValue = 10, maxValue = 20 }\n        |> Interval.intersects exampleInterval\n    --> False\n\nIntervals that just touch each other are considered to intersect (this is\nconsistent with `intersection` which will return a zero-width interval for the\nintersection of two just-touching intervals):\n\n    Interval.with { minValue = -3, maxValue = -1 }\n        |> Interval.intersects exampleInterval\n    --> True\n\nAs with `contains`, though, if you are relying on this then there is a good\nchance your code is vulnerable to numerical roundoff!\n\n",
+        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> Bool"
+      },
+      {
+        "name": "isContainedIn",
+        "comment": " Check if the second interval is fully contained in the first.\n\n    -- Note that here exampleInterval is actually the\n    -- *second* interval due to how |> works\n    exampleInterval\n        |> Interval.isContainedIn\n            (Interval.with\n                { minValue = 0\n                , maxValue = 10\n                }\n            )\n    --> False\n\n    exampleInterval\n        |> Interval.isContainedIn\n            (Interval.with\n                { minValue = -10\n                , maxValue = 10\n                }\n            )\n    --> True\n\n",
+        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval -> Bool"
+      },
+      {
+        "name": "maxValue",
+        "comment": " Get the maximum value of an interval.\n\n    Interval.maxValue exampleInterval\n    --> 5\n\n",
+        "type": "OpenSolid.Interval.Interval -> Float"
+      },
+      {
+        "name": "midpoint",
+        "comment": " Get the midpoint of an interval.\n\n    Interval.midpoint exampleInterval\n    --> 2\n\n",
+        "type": "OpenSolid.Interval.Interval -> Float"
+      },
+      {
+        "name": "minValue",
+        "comment": " Get the minimum value of an interval.\n\n    Interval.minValue exampleInterval\n    --> -1\n\n",
+        "type": "OpenSolid.Interval.Interval -> Float"
+      },
+      {
+        "name": "sin",
+        "comment": " Get the image of sin(x) applied on the interval.\n\n    Interval.with { minValue = -pi / 2, maxValue = pi / 2}\n        |> Interval.sin\n    --> Interval.with { minValue = -1, maxValue = 1 }\n\n",
+        "type": "OpenSolid.Interval.Interval -> OpenSolid.Interval.Interval"
+      },
+      {
+        "name": "singleton",
+        "comment": " Construct a zero-width interval containing a single value.\n\n    Interval.singleton 3\n    --> Interval.with { minValue = 3, maxValue = 3 }\n\n",
+        "type": "Float -> OpenSolid.Interval.Interval"
+      },
+      {
+        "name": "width",
+        "comment": " Get the width of an interval.\n\n    Interval.width exampleInterval\n    --> 6\n\n",
+        "type": "OpenSolid.Interval.Interval -> Float"
+      },
+      {
+        "name": "with",
+        "comment": " Construct an interval with the given minimum and maximum values. They should\nbe provided in the correct order but will be flipped if necessary to result in a\nvalid interval.\n\n    exampleInterval =\n        Interval.with { minValue = -1, maxValue = 5 }\n\n",
+        "type": "{ minValue : Float, maxValue : Float } -> OpenSolid.Interval.Interval"
       }
     ],
     "generated-with-elm-version": "0.18.0"

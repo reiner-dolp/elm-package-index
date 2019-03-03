@@ -268,593 +268,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "ElmArk.Transaction",
-    "comment": " Handles building requests for the transaction endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs GetTransaction, Transaction, Asset, Transactions\n\n\n# Requests\n\n@docs getTransaction, getTransactions, getUnconfirmedTransactions, getUnconfirmedTransaction\n\n\n# JSON\n\n@docs decodeGetTransaction, encodeGetTransaction, decodeTransaction, encodeTransaction, encodeAsset, decodeAsset\n\n",
-    "aliases": [
-      {
-        "name": "Asset",
-        "comment": " Asset portion of the transaction record\nJSON Sample:\n```\n{\n    \"votes\": [\n        \"+03d9ed6e7f29daf12ef925d4ce5753aade23c8cfd52a0427240fb30ad6ec232fed\"\n    ]\n}\n```\n",
-        "args": [],
-        "type": "{ votes : List String }"
-      },
-      {
-        "name": "GetTransaction",
-        "comment": " Record representing the getTransaction response\nSample JSON:\n\n       {\n           \"success\": true,\n           \"transaction\": {\n               \"id\": \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\",\n               \"blockid\": \"6119254423291710282\",\n               \"height\": 2411892,\n               \"type\": 0,\n               \"timestamp\": 19468149,\n               \"amount\": 1,\n               \"fee\": 10000000,\n               \"vendorField\": \"turnip\",\n               \"senderId\": \"Aasu14aTs9ipZdy1FMv7ay1Vqn3jPskA8t\",\n               \"recipientId\": \"AFuNopRKj2VwhaTWQraZgPTT5nofXskBTN\",\n               \"senderPublicKey\": \"02c7455bebeadde04728441e0f57f82f972155c088252bf7c1365eb0dc84fbf5de\",\n               \"signature\": \"3044022030ded9cd7a1cf37f6ae85b35fd478502c916d493ecb1c6df8b1a8392323559d3022040a45aac97a6d915bc19f9ad3927395e3240dacb1b81ad00d871182e4fa130b7\",\n               \"asset\": {},\n               \"confirmations\": 544505\n           }\n       }\n\n",
-        "args": [],
-        "type": "{ success : Bool, transaction : ElmArk.Transaction.Transaction }"
-      },
-      {
-        "name": "Transaction",
-        "comment": " Transaction is the transaction field of the GetTransaction record\nSample JSON:\n\n    {\n               \"id\": \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\",\n               \"blockid\": \"6119254423291710282\",\n               \"height\": 2411892,\n               \"type\": 0,\n               \"timestamp\": 19468149,\n               \"amount\": 1,\n               \"fee\": 10000000,\n               \"vendorField\": \"turnip\",\n               \"senderId\": \"Aasu14aTs9ipZdy1FMv7ay1Vqn3jPskA8t\",\n               \"recipientId\": \"AFuNopRKj2VwhaTWQraZgPTT5nofXskBTN\",\n               \"senderPublicKey\": \"02c7455bebeadde04728441e0f57f82f972155c088252bf7c1365eb0dc84fbf5de\",\n               \"signature\": \"3044022030ded9cd7a1cf37f6ae85b35fd478502c916d493ecb1c6df8b1a8392323559d3022040a45aac97a6d915bc19f9ad3927395e3240dacb1b81ad00d871182e4fa130b7\",\n               \"asset\": {},\n               \"confirmations\": 544505\n           }\n\n",
-        "args": [],
-        "type": "{ id : String , blockid : String , height : Int , transactionType : Int , timestamp : Int , amount : Int , fee : Int , vendorField : String , senderId : String , recipientId : String , senderPublicKey : String , signature : String , asset : ElmArk.Transaction.Asset , confirmations : Int }"
-      },
-      {
-        "name": "Transactions",
-        "comment": " The response returned by getTransactions call\nSample JSON:\n```\n{\n    \"success\": true,\n    \"transactions\": [\n        {\n            \"id\": \"02ae724d4192f703d8469ff9f260f7bb98bbe63f566f777fe9cd7a4c5f3908d1\",\n            \"blockid\": \"6721080189078847369\",\n            \"type\": 3,\n            \"timestamp\": 20075314,\n            \"amount\": 0,\n            \"fee\": 100000000,\n            \"senderId\": \"AKbQwaxiBAEpYKwQne9DJGoQETrYzSZ4ir\",\n            \"recipientId\": \"AKbQwaxiBAEpYKwQne9DJGoQETrYzSZ4ir\",\n            \"senderPublicKey\": \"02720f075a369d4b956fcfc2d2d712f8caeb0a1de77f6b768e6ae1c55432fd2d4d\",\n            \"signature\": \"3045022100dc3fba3d44ddb42eacbac1c9a293066cc8232d3a6eea680984f0909401fdc00b02200f250d111042621c025de49f1b1e830eb6a766964f90ef9beaf044e6554e18ff\",\n            \"asset\": {\n                \"votes\": [\n                    \"+03d9ed6e7f29daf12ef925d4ce5753aade23c8cfd52a0427240fb30ad6ec232fed\"\n                ]\n            },\n            \"confirmations\": 470431\n        }\n    ],\n    \"count\": \"475011\"\n\n}\n```\n",
-        "args": [],
-        "type": "{ success : Bool , transactions : List ElmArk.Transaction.Transaction , count : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "decodeAsset",
-        "comment": " Parse JSON into Asset record\n",
-        "type": "Json.Decode.Decoder ElmArk.Transaction.Asset"
-      },
-      {
-        "name": "decodeGetTransaction",
-        "comment": " Parse JSON into GetTransaction record\n",
-        "type": "Json.Decode.Decoder ElmArk.Transaction.GetTransaction"
-      },
-      {
-        "name": "decodeTransaction",
-        "comment": " Parse JSON into Transaction record\n",
-        "type": "Json.Decode.Decoder ElmArk.Transaction.Transaction"
-      },
-      {
-        "name": "encodeAsset",
-        "comment": " Turn Asset record into JSON\n",
-        "type": "ElmArk.Transaction.Asset -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeGetTransaction",
-        "comment": " Turn GetTransaction into JSON string\n",
-        "type": "ElmArk.Transaction.GetTransaction -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeTransaction",
-        "comment": " Turn Transaction into JSON string\n",
-        "type": "ElmArk.Transaction.Transaction -> Json.Encode.Value"
-      },
-      {
-        "name": "getTransaction",
-        "comment": " Get the current fee for generating a signature\n\n    mainNet\n        |> getTransaction \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getTransactions",
-        "comment": " Get the current fee for generating a signature\n  Available Parameters: blockId, limit, type, orderBy, offset, senderPublicKey,\n    vendorField, ownerPublicKey, ownerADdress, senderId, recipientId, amount, fee\n\n    mainNet\n        |> getTransactions [(\"limit\", \"10\"), (\"orderBy\", \"amount\")]\n\n",
-        "type": "List ( String, String ) -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getUnconfirmedTransaction",
-        "comment": " Get an unconfirmed transaction\n\n    mainNet\n        |> getUnconfirmedTransaction \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getUnconfirmedTransactions",
-        "comment": " Get all unconfirmed transactions\n\n    mainNet\n        |> getUnconfirmedTransactions\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ElmArk.Peer",
-    "comment": " Handles building requests for the peer endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs Peer, Peers, GetPeer, PeerVersion\n\n\n# Requests\n\n@docs getPeers, getPeer, getPeerVersion\n\n\n# JSON\n\n@docs decodePeer, decodePeers, encodePeer, encodePeers, decodeGetPeer, encodeGetPeer, decodePeerVersion, encodePeerVersion\n\n",
-    "aliases": [
-      {
-        "name": "GetPeer",
-        "comment": " GetPeer is the record for the response of getPeer\nSample JSON:\n\n    {\n        \"success\": true,\n        \"peer\": {\n            \"ip\": \"54.38.48.170\",\n            \"port\": 4001,\n            \"version\": \"1.0.2\",\n            \"errors\": 6,\n            \"os\": \"linux4.4.0-104-generic\",\n            \"height\": 2953767,\n            \"status\": \"ETIMEOUT\",\n            \"delay\": 1060\n        }\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, peer : ElmArk.Peer.Peer }"
-      },
-      {
-        "name": "Peer",
-        "comment": " Peer record for making up the list of peers in getPeers response\nSample JSON:\n\n    {\n        \"ip\": \"185.183.156.115\",\n        \"port\": 4001,\n        \"version\": \"1.0.2\",\n        \"errors\": 0,\n        \"os\": \"linux4.4.0-104-generic\",\n        \"height\": 2956067,\n        \"status\": \"OK\",\n        \"delay\": 199\n    }\n\n",
-        "args": [],
-        "type": "{ ip : String , inboundPort : Int , version : String , errors : Int , os : String , height : Int , status : String , delay : Int }"
-      },
-      {
-        "name": "PeerVersion",
-        "comment": " PeerVersion is the record representing the JSON response of getPeer\nSample JSON:\n\n    {\n        \"success\": true,\n        \"version\": \"1.0.2\",\n        \"build\": \"\"\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, version : String, build : String }"
-      },
-      {
-        "name": "Peers",
-        "comment": " List of peers returned by getPeers\nSample JSON:\n\n    {\n        \"success\": true,\n        \"peers\": [\n            {\n                \"ip\": \"54.38.48.170\",\n                \"port\": 4001,\n                \"version\": \"1.0.2\",\n                \"errors\": 1,\n                \"os\": \"linux4.4.0-104-generic\",\n                \"height\": 2953767,\n                \"status\": \"OK\",\n                \"delay\": 463\n            },\n            {\n                \"ip\": \"185.183.156.115\",\n                \"port\": 4001,\n                \"version\": \"1.0.2\",\n                \"errors\": 0,\n                \"os\": \"linux4.4.0-104-generic\",\n                \"height\": 2956067,\n                \"status\": \"OK\",\n                \"delay\": 199\n            }\n        ]\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, peers : List ElmArk.Peer.Peer }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "decodeGetPeer",
-        "comment": " Parse JSON into GetPeer record\n",
-        "type": "Json.Decode.Decoder ElmArk.Peer.GetPeer"
-      },
-      {
-        "name": "decodePeer",
-        "comment": " Parse JSON into Peer record\n",
-        "type": "Json.Decode.Decoder ElmArk.Peer.Peer"
-      },
-      {
-        "name": "decodePeerVersion",
-        "comment": " Parses JSON into PeerVersion record\n",
-        "type": "Json.Decode.Decoder ElmArk.Peer.PeerVersion"
-      },
-      {
-        "name": "decodePeers",
-        "comment": " Parse JSON into Peers record\n",
-        "type": "Json.Decode.Decoder ElmArk.Peer.Peers"
-      },
-      {
-        "name": "encodeGetPeer",
-        "comment": " Turn GetPeer record into JSON string\n",
-        "type": "ElmArk.Peer.GetPeer -> Json.Encode.Value"
-      },
-      {
-        "name": "encodePeer",
-        "comment": " Turn Peer record into JSON string\n",
-        "type": "ElmArk.Peer.Peer -> Json.Encode.Value"
-      },
-      {
-        "name": "encodePeerVersion",
-        "comment": " Turn PeerVersion record into JSON string\n",
-        "type": "ElmArk.Peer.PeerVersion -> Json.Encode.Value"
-      },
-      {
-        "name": "encodePeers",
-        "comment": " Turn Peers record into JSON\n",
-        "type": "ElmArk.Peer.Peers -> Json.Encode.Value"
-      },
-      {
-        "name": "getPeer",
-        "comment": " Get a single peer by IP and port\n\n    mainNet\n        |> getPeer \"54.38.48.170\" \"4001\"\n\n",
-        "type": "String -> String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getPeerVersion",
-        "comment": " Gets the peer version\n\n    mainNet\n        |> getPeerVersion\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getPeers",
-        "comment": " Get all the peers\n\n    mainNet\n        |> getPeers\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ElmArk.Loader",
-    "comment": " Handles building requests for the loader endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs BlockStatus, SyncStatus, AutoConfigure, Network\n\n\n# Requests\n\n@docs getBlockStatus, getSyncStatus, autoconfigure\n\n\n# JSON\n\n@docs decodeBlockStatus, encodeBlockStatus, decodeSyncStatus, encodeSyncStatus, decodeAutoConfigure, encodeAutoConfigure, decodeNetwork, encodeNetwork\n\n",
-    "aliases": [
-      {
-        "name": "AutoConfigure",
-        "comment": " Response from the autoconfigure loader call\nSample JSON:\n\n    {\n        \"success\": true,\n        \"network\": {\n            \"nethash\": \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\",\n            \"token\": \"ARK\",\n            \"symbol\": \"Ѧ\",\n            \"explorer\": \"https://explorer.ark.io\",\n            \"version\": 23\n        }\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, network : ElmArk.Loader.Network }"
-      },
-      {
-        "name": "BlockStatus",
-        "comment": " Record for the block status response\nSample JSON:\n\n    {\n        \"success\": true,\n        \"loaded\": false,\n        \"now\": 2951259,\n        \"blocksCount\": 0\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, loaded : Bool, now : Int, blocksCount : Int }"
-      },
-      {
-        "name": "Network",
-        "comment": " Network portion of the autoconfigure loader respnose\n\n    {\n        \"nethash\": \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\",\n        \"token\": \"ARK\",\n        \"symbol\": \"Ѧ\",\n        \"explorer\": \"https://explorer.ark.io\",\n        \"version\": 23\n    }\n\n",
-        "args": [],
-        "type": "{ nethash : String , token : String , symbol : String , explorer : String , version : Int }"
-      },
-      {
-        "name": "SyncStatus",
-        "comment": " Record for the syncStatus response\nSample JSON:\n\n    {\n        \"success\": true,\n        \"syncing\": false,\n        \"blocks\": 0,\n        \"height\": 2955799,\n        \"id\": \"14925783039630880151\"\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool , syncing : Bool , blocks : Int , height : Int , id : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "autoconfigure",
-        "comment": " Autoconfigure the client\n\n    mainNet\n        |> autoconfigure\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "decodeAutoConfigure",
-        "comment": " Parses JSON into AutoConfigure record\n",
-        "type": "Json.Decode.Decoder ElmArk.Loader.AutoConfigure"
-      },
-      {
-        "name": "decodeBlockStatus",
-        "comment": " Parse JSON into BlockStatus record\n",
-        "type": "Json.Decode.Decoder ElmArk.Loader.BlockStatus"
-      },
-      {
-        "name": "decodeNetwork",
-        "comment": " Parses JSON into Network record\n",
-        "type": "Json.Decode.Decoder ElmArk.Loader.Network"
-      },
-      {
-        "name": "decodeSyncStatus",
-        "comment": " Parse JSON into SyncStatus\n",
-        "type": "Json.Decode.Decoder ElmArk.Loader.SyncStatus"
-      },
-      {
-        "name": "encodeAutoConfigure",
-        "comment": " Turn AutoConfigure record into JSON string\n",
-        "type": "ElmArk.Loader.AutoConfigure -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeBlockStatus",
-        "comment": " Turn BlockStatus into JSON string\n",
-        "type": "ElmArk.Loader.BlockStatus -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeNetwork",
-        "comment": " Turn Network record into JSON string\n",
-        "type": "ElmArk.Loader.Network -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeSyncStatus",
-        "comment": " Turn SyncStatus record into JSON string\n",
-        "type": "ElmArk.Loader.SyncStatus -> Json.Encode.Value"
-      },
-      {
-        "name": "getBlockStatus",
-        "comment": " Get the blockchain status\n\n    mainNet\n        |> getBlockStatus\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getSyncStatus",
-        "comment": " Get the syncronization status\n\n    mainNet\n        |> getSyncStatus\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ElmArk.Signature",
-    "comment": " Handles building requests for the signature endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs SignatureFee\n\n\n# Requests\n\n@docs getSignatureFee\n\n\n# JSON\n\n@docs decodeSignatureFee, encodeSignatureFee\n\n",
-    "aliases": [
-      {
-        "name": "SignatureFee",
-        "comment": " SignatureFee represents the JSON returned by getSignatureFee\nSample JSON:\n\n    {\n        \"success\": true,\n        \"fee\": 500000000\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, fee : Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "decodeSignatureFee",
-        "comment": " Parse JSON into SignatureFee record\n",
-        "type": "Json.Decode.Decoder ElmArk.Signature.SignatureFee"
-      },
-      {
-        "name": "encodeSignatureFee",
-        "comment": " Turn SignatureFee record into JSON\n",
-        "type": "ElmArk.Signature.SignatureFee -> Json.Encode.Value"
-      },
-      {
-        "name": "getSignatureFee",
-        "comment": " Get the current fee for generating a signature\n\n    mainNet\n        |> getPeers\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ElmArk.Delegate",
-    "comment": " Handles building requests for the delegate endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs DelegatesCount, Delegates, DelegateSearch, Voters, Voter, DelegateResponse, Delegate, GetDelegatesResponse, GetDelegates, DelegateFee, ForgedBlocks, NextForgers\n\n\n# Requests\n\n@docs getDelegatesCount, searchDelegates, getVoters, getDelegateByUsername, getDelegateByPublicKey, getDelegates, getDelegateFee, getForgedByAccount, getNextForgers\n\n\n# JSON\n\n@docs decodeDelegatesCount, encodeDelegatesCount, decodeDelegates, encodeDelegates, decodeDelegateSearch, encodeDelegateSearch, decodeVoters, encodeVoters, decodeVoter, encodeVoter, decodeDelegateResponse, encodeDelegateResponse, decodeDelegate, encodeDelegate, decodeGetDelegates, decodeGetDelegatesResponse, encodeGetDelegates, encodeGetDelegatesResponse, decodeDelegateFee, encodeDelegateFee, decodeForgedBlocks, encodeForgedBlocks, decodeNextForgers, encodeNextForgers\n\n",
-    "aliases": [
-      {
-        "name": "Delegate",
-        "comment": " A delegate object inside the delegate response\nSample JSON:\n\n    {\n        \"username\": \"bioly\",\n        \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n        \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n        \"vote\": \"178070099134995\",\n        \"producedblocks\": 57662,\n        \"missedblocks\": 254,\n        \"rate\": 2,\n        \"approval\": 1.36,\n        \"productivity\": 99.56\n    }\n\n",
-        "args": [],
-        "type": "{ username : String , address : String , publicKey : String , vote : String , producedblocks : Int , missedblocks : Int , rate : Int , approval : Float , productivity : Float }"
-      },
-      {
-        "name": "DelegateFee",
-        "comment": " Response for getting the fees for becoming a delegate\nSample JSON:\n\n    {\n        \"success\": true,\n        \"fee\": 2500000000\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, fee : Int }"
-      },
-      {
-        "name": "DelegateResponse",
-        "comment": " Information about a delegate\nSample JSON:\n\n    {\n        \"success\": true,\n        \"delegate\": {\n            \"username\": \"bioly\",\n            \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n            \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n            \"vote\": \"178070099134995\",\n            \"producedblocks\": 57662,\n            \"missedblocks\": 254,\n            \"rate\": 2,\n            \"approval\": 1.36,\n            \"productivity\": 99.56\n        }\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, delegate : ElmArk.Delegate.Delegate }"
-      },
-      {
-        "name": "DelegateSearch",
-        "comment": " Makes up the array of delegates in the delegate search\nSample JSON:\n\n    {\n      \"username\": \"bioly\",\n      \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n      \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n      \"vote\": \"178069299134995\",\n      \"producedblocks\": 57658,\n      \"missedblocks\": 254\n    }\n\n",
-        "args": [],
-        "type": "{ username : String , address : String , publicKey : String , vote : String , producedblocks : Int , missedblocks : Int }"
-      },
-      {
-        "name": "Delegates",
-        "comment": " Result of searching for delegates\nSample JSON:\n\n    {\n        \"success\": true,\n        \"delegates\": [\n            {\n                \"username\": \"bioly\",\n                \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n                \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n                \"vote\": \"178069299134995\",\n                \"producedblocks\": 57658,\n                \"missedblocks\": 254\n            }\n        ]\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, delegates : List ElmArk.Delegate.Delegate }"
-      },
-      {
-        "name": "DelegatesCount",
-        "comment": " Represents the delegates count\nSample JSON:\n\n    {\n        \"success\": true,\n        \"count\": 618\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, count : Int }"
-      },
-      {
-        "name": "ForgedBlocks",
-        "comment": " Blocks forged by an account\nSample JSON:\n\n    {\n        \"success\": true,\n        \"fees\": \"201040000000\",\n        \"rewards\": \"11258400000000\",\n        \"forged\": \"11459440000000\"\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, fees : String, rewards : String, forged : String }"
-      },
-      {
-        "name": "GetDelegates",
-        "comment": " Item in the array returned by the getDelegates request\nSample JSON:\n\n    {\n        \"username\": \"digitron\",\n        \"address\": \"APVpLtN9NxsNMyhLucP4vmFHHyyV2QKx4t\",\n        \"publicKey\": \"0339a6bb2aff249cd13b55fce2442703a1d488bae343a22fa09bbff46a6a64c5e2\",\n        \"vote\": \"135880318033725\",\n        \"producedblocks\": 57905,\n        \"missedblocks\": 146,\n        \"rate\": 45,\n        \"approval\": 1.04,\n        \"productivity\": 99.75\n    }\n\n",
-        "args": [],
-        "type": "{ username : String , address : String , publicKey : String , vote : String , producedblocks : Int , missedblocks : Int , rate : Int , approval : Float , productivity : Float }"
-      },
-      {
-        "name": "GetDelegatesResponse",
-        "comment": " Response from getting delegates\nSample JSON:\n\n    {\n        \"success\": true,\n        \"delegates\": [\n            {\n                \"username\": \"arknet\",\n                \"address\": \"AXzEMF7TC1aH3ax1Luxk6XdyKXDRxnBj4f\",\n                \"publicKey\": \"0217ff1ec656f2354a899bde097bb3131a9730fe491bb87dedb96489120be9154f\",\n                \"vote\": \"140295948126587\",\n                \"producedblocks\": 39615,\n                \"missedblocks\": 31,\n                \"rate\": 25,\n                \"approval\": 1.07,\n                \"productivity\": 99.92\n            },\n            {\n                \"username\": \"digitron\",\n                \"address\": \"APVpLtN9NxsNMyhLucP4vmFHHyyV2QKx4t\",\n                \"publicKey\": \"0339a6bb2aff249cd13b55fce2442703a1d488bae343a22fa09bbff46a6a64c5e2\",\n                \"vote\": \"135880318033725\",\n                \"producedblocks\": 57905,\n                \"missedblocks\": 146,\n                \"rate\": 45,\n                \"approval\": 1.04,\n                \"productivity\": 99.75\n            }\n        ],\n        \"totalCount\": 618\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool , delegates : List ElmArk.Delegate.GetDelegates , totalCount : Int }"
-      },
-      {
-        "name": "NextForgers",
-        "comment": " List of the next forgers as returned by getNextForgers\nSample JSON:\n\n    {\n        \"success\": true,\n        \"currentBlock\": 2955411,\n        \"currentSlot\": 2996756,\n        \"delegates\": [\n            \"020431436cf94f3c6a6ba566fe9e42678db8486590c732ca6c3803a10a86f50b92\",\n            \"03ca4edbdc4e83eb6f1b8780a532c74a3708d51f281b6bfb9a308d49c47d3ac90d\",\n            \"02c44cc9787fae3ce5c8873ff541deadb86cd8ddb56a90dba37049ca6506d022f5\",\n            \"028f9f37a1fbf95bfa5b302032806116b27fd74996df7bcd6188c982f75e894ca4\",\n            \"02a0ed5604868461a87639f58bd3a55f661774c3cbb705a735f58c50087f942c3d\",\n            \"02a6b88567f86fa22d3c958f470c1645b3f65aa555e00c5bb0eecd2886eab80d34\",\n            \"035a0302ddd571bb821f6b069450814cb29fc927f14f146491fd5c9b3ab57d8ca8\",\n            \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n            \"027acdf24b004a7b1e6be2adf746e3233ce034dbb7e83d4a900f367efc4abd0f21\",\n            \"027c550ecc71e4d9b832cf83c1c5c4d7c22dc43e3a451fea887c82a6ef55bf52fa\"\n        ]\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool , currentBlock : Int , currentSlot : Int , delegates : List String }"
-      },
-      {
-        "name": "Voter",
-        "comment": " A single item in the accounts list returned by the getVoters call\nSample JSON:\n\n    {\n        \"username\": null,\n        \"address\": \"AUT1eGmsHkRrAt2Lvfp6j4ShmBZifzvMK9\",\n        \"publicKey\": \"0358a9d50272413bcf94314ca89745a6324aed911bd949b0fb6105fdfd0e291376\",\n        \"balance\": \"0\"\n    }\n\n",
-        "args": [],
-        "type": "{ username : Maybe.Maybe String , address : String , publicKey : String , balance : String }"
-      },
-      {
-        "name": "Voters",
-        "comment": " List of voters for a delegate\nSample JSON:\n\n    {\n        \"success\": true,\n        \"accounts\": [\n            {\n                \"username\": null,\n                \"address\": \"AUT1eGmsHkRrAt2Lvfp6j4ShmBZifzvMK9\",\n                \"publicKey\": \"0358a9d50272413bcf94314ca89745a6324aed911bd949b0fb6105fdfd0e291376\",\n                \"balance\": \"0\"\n            },\n            {\n                \"username\": null,\n                \"address\": \"AcU8ARQjwn6foUwP4NG2zEL6KLHFWmHcRq\",\n                \"publicKey\": \"02819a37539757154ef83036cb7f5c6d2a1731bef39c3733d7dca6393be0add747\",\n                \"balance\": \"0\"\n            }\n        ]\n    }\n\n",
-        "args": [],
-        "type": "{ success : Bool, accounts : List ElmArk.Delegate.Voter }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "decodeDelegate",
-        "comment": " Parse JSON into a Delegate\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.Delegate"
-      },
-      {
-        "name": "decodeDelegateFee",
-        "comment": " Parse JSON into DelegateFee record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegateFee"
-      },
-      {
-        "name": "decodeDelegateResponse",
-        "comment": " Parse JSON into a DelegateResponse\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegateResponse"
-      },
-      {
-        "name": "decodeDelegateSearch",
-        "comment": " Parses JSON into Delegate record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegateSearch"
-      },
-      {
-        "name": "decodeDelegates",
-        "comment": " Parses JSON into Delegates record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.Delegates"
-      },
-      {
-        "name": "decodeDelegatesCount",
-        "comment": " Parses JSON into DelegatesCount record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegatesCount"
-      },
-      {
-        "name": "decodeForgedBlocks",
-        "comment": " Parses JSON into ForgedBlocks record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.ForgedBlocks"
-      },
-      {
-        "name": "decodeGetDelegates",
-        "comment": " Parses JSON into GetDelegates record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.GetDelegates"
-      },
-      {
-        "name": "decodeGetDelegatesResponse",
-        "comment": " Parses JSON into GetDelegatesResponse\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.GetDelegatesResponse"
-      },
-      {
-        "name": "decodeNextForgers",
-        "comment": " Parse JSON into NextForgers record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.NextForgers"
-      },
-      {
-        "name": "decodeVoter",
-        "comment": " Parses JSON into Voter record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.Voter"
-      },
-      {
-        "name": "decodeVoters",
-        "comment": " Parses JSON into Voters record\n",
-        "type": "Json.Decode.Decoder ElmArk.Delegate.Voters"
-      },
-      {
-        "name": "encodeDelegate",
-        "comment": " Turn Delegate into JSON\n",
-        "type": "ElmArk.Delegate.Delegate -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeDelegateFee",
-        "comment": " Turn DelegateFee into JSON\n",
-        "type": "ElmArk.Delegate.DelegateFee -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeDelegateResponse",
-        "comment": " Turn DelegateResponse into JSON\n",
-        "type": "ElmArk.Delegate.DelegateResponse -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeDelegateSearch",
-        "comment": " Turns Delegate record into JSON string\n",
-        "type": "ElmArk.Delegate.DelegateSearch -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeDelegates",
-        "comment": " Turns Delegates record into JSON string\n",
-        "type": "ElmArk.Delegate.Delegates -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeDelegatesCount",
-        "comment": " Turns DelegatesCount record into JSON string\n",
-        "type": "ElmArk.Delegate.DelegatesCount -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeForgedBlocks",
-        "comment": " Turns ForgedBlocks record into JSON\n",
-        "type": "ElmArk.Delegate.ForgedBlocks -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeGetDelegates",
-        "comment": " Turns GetDelegates into JSON string\n",
-        "type": "ElmArk.Delegate.GetDelegates -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeGetDelegatesResponse",
-        "comment": " Turns GetDelegatesResponse into JSON string\n",
-        "type": "ElmArk.Delegate.GetDelegatesResponse -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeNextForgers",
-        "comment": " Turn NextForgers record into JSON\n",
-        "type": "ElmArk.Delegate.NextForgers -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeVoter",
-        "comment": " Turns Voter record into JSON string\n",
-        "type": "ElmArk.Delegate.Voter -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeVoters",
-        "comment": " Turns Voters record into JSON string\n",
-        "type": "ElmArk.Delegate.Voters -> Json.Encode.Value"
-      },
-      {
-        "name": "getDelegateByPublicKey",
-        "comment": " Gets info for a delegate by their public key\n\n    mainNet\n        |> getDelegateByPublicKey \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getDelegateByUsername",
-        "comment": " Gets info for a delegate by their username\n\n    mainNet\n        |> getDelegateByUsername \"bioly\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getDelegateFee",
-        "comment": " Gets the current fee to become a delegate\n\n    mainNet\n        |> getDelegateFee\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getDelegates",
-        "comment": " Gets all delegates filtered by optoinal parameters\nAvailable params: orderBy, limit, offset\n\n    mainNet\n        |> getDelegates [(\"limit\", \"2\"), (\"orderBy\", \"productivity\")]\n\n",
-        "type": "List ( String, String ) -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getDelegatesCount",
-        "comment": " Get info about a block\n\n    mainNet\n        |> getDelegatesCount \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getForgedByAccount",
-        "comment": " Gets forged blocks by a given public key\n\n    mainNet\n        |> getForgedByAccount \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getNextForgers",
-        "comment": " Gets the next forgers\n\n    mainNet\n        |> getNextForgers\n\n",
-        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "getVoters",
-        "comment": " Gets all the voters for a given public key\n\n    mainNet\n        |> getVoters \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      },
-      {
-        "name": "searchDelegates",
-        "comment": " Search for specific delegates.\nAvailable parameters: limit\n\n    mainNet\n        |> searchDelegates \"biol\" [(\"limit\", \"10\")]\n\n",
-        "type": "String -> List ( String, String ) -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ElmArk.MultiSignature",
-    "comment": " Handles building requests for the multisignature endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs PendingMultiSignature, Transaction\n\n\n# Requests\n\n@docs getPending\n\n\n# JSON\n\n@docs decodePendingMultiSignature, encodePendingMultiSignature, decodeTransaction, encodeTransaction\n\n",
-    "aliases": [
-      {
-        "name": "PendingMultiSignature",
-        "comment": " Record for the response from getPending\n",
-        "args": [],
-        "type": "{ success : Bool , transactions : List ElmArk.MultiSignature.Transaction }"
-      },
-      {
-        "name": "Transaction",
-        "comment": " Transaction record for the list of transactions returned by getPendingMultiSignatureTransactions\n",
-        "args": [],
-        "type": "{ id : String , transactionType : String , subtype : String , timestamp : String , senderPublicKey : String , senderId : String , recipientId : String , amount : String , fee : String , signature : String , signSignature : String , companyGeneratorPublicKey : String , confirmations : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "decodePendingMultiSignature",
-        "comment": " Parse JSON into PendingMultiSignature record\n",
-        "type": "Json.Decode.Decoder ElmArk.MultiSignature.PendingMultiSignature"
-      },
-      {
-        "name": "decodeTransaction",
-        "comment": " Parse JSON into Transaction record\n",
-        "type": "Json.Decode.Decoder ElmArk.MultiSignature.Transaction"
-      },
-      {
-        "name": "encodePendingMultiSignature",
-        "comment": " Turn PendingMultiSignature into JSON string\n",
-        "type": "ElmArk.MultiSignature.PendingMultiSignature -> Json.Encode.Value"
-      },
-      {
-        "name": "encodeTransaction",
-        "comment": " Turn Tranasction record into JSON string\n",
-        "type": "ElmArk.MultiSignature.Transaction -> Json.Encode.Value"
-      },
-      {
-        "name": "getPending",
-        "comment": " Get pending multi signature transactions for an account\n\n    mainNet\n        |> getPending \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
-        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "ElmArk.Block",
     "comment": " Handles building requests for the block endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs BlockResponse, Block, BlockSearch, Epoch, BlockHeight, Nethash, Fee, FeesResponse, Fees, Milestone, Reward, Supply, Status\n\n\n# Requests\n\n@docs getBlock, searchBlocks, getEpoch, getBlockHeight, getNethash, getFee, getFees, getMilestone, getReward, getSupply, getStatus\n\n\n# JSON\n\n@docs decodeBlockResponse, encodeBlockResponse, decodeBlock, encodeBlock, decodeBlockSearch, encodeBlockSearch, decodeEpoch, encodeEpoch, decodeBlockHeight, encodeBlockHeight, decodeNethash, encodeNethash, decodeFee, encodeFee, decodeFeesResponse, encodeFeesResponse, decodeFees, encodeFees, decodeMilestone, encodeMilestone, decodeReward, encodeReward, decodeSupply, encodeSupply, decodeStatus, encodeStatus\n\n",
     "aliases": [
@@ -1128,6 +541,504 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "ElmArk.Peer",
+    "comment": " Handles building requests for the peer endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs Peer, Peers, GetPeer, PeerVersion\n\n\n# Requests\n\n@docs getPeers, getPeer, getPeerVersion\n\n\n# JSON\n\n@docs decodePeer, decodePeers, encodePeer, encodePeers, decodeGetPeer, encodeGetPeer, decodePeerVersion, encodePeerVersion\n\n",
+    "aliases": [
+      {
+        "name": "GetPeer",
+        "comment": " GetPeer is the record for the response of getPeer\nSample JSON:\n\n    {\n        \"success\": true,\n        \"peer\": {\n            \"ip\": \"54.38.48.170\",\n            \"port\": 4001,\n            \"version\": \"1.0.2\",\n            \"errors\": 6,\n            \"os\": \"linux4.4.0-104-generic\",\n            \"height\": 2953767,\n            \"status\": \"ETIMEOUT\",\n            \"delay\": 1060\n        }\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, peer : ElmArk.Peer.Peer }"
+      },
+      {
+        "name": "Peer",
+        "comment": " Peer record for making up the list of peers in getPeers response\nSample JSON:\n\n    {\n        \"ip\": \"185.183.156.115\",\n        \"port\": 4001,\n        \"version\": \"1.0.2\",\n        \"errors\": 0,\n        \"os\": \"linux4.4.0-104-generic\",\n        \"height\": 2956067,\n        \"status\": \"OK\",\n        \"delay\": 199\n    }\n\n",
+        "args": [],
+        "type": "{ ip : String , inboundPort : Int , version : String , errors : Int , os : String , height : Int , status : String , delay : Int }"
+      },
+      {
+        "name": "PeerVersion",
+        "comment": " PeerVersion is the record representing the JSON response of getPeer\nSample JSON:\n\n    {\n        \"success\": true,\n        \"version\": \"1.0.2\",\n        \"build\": \"\"\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, version : String, build : String }"
+      },
+      {
+        "name": "Peers",
+        "comment": " List of peers returned by getPeers\nSample JSON:\n\n    {\n        \"success\": true,\n        \"peers\": [\n            {\n                \"ip\": \"54.38.48.170\",\n                \"port\": 4001,\n                \"version\": \"1.0.2\",\n                \"errors\": 1,\n                \"os\": \"linux4.4.0-104-generic\",\n                \"height\": 2953767,\n                \"status\": \"OK\",\n                \"delay\": 463\n            },\n            {\n                \"ip\": \"185.183.156.115\",\n                \"port\": 4001,\n                \"version\": \"1.0.2\",\n                \"errors\": 0,\n                \"os\": \"linux4.4.0-104-generic\",\n                \"height\": 2956067,\n                \"status\": \"OK\",\n                \"delay\": 199\n            }\n        ]\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, peers : List ElmArk.Peer.Peer }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decodeGetPeer",
+        "comment": " Parse JSON into GetPeer record\n",
+        "type": "Json.Decode.Decoder ElmArk.Peer.GetPeer"
+      },
+      {
+        "name": "decodePeer",
+        "comment": " Parse JSON into Peer record\n",
+        "type": "Json.Decode.Decoder ElmArk.Peer.Peer"
+      },
+      {
+        "name": "decodePeerVersion",
+        "comment": " Parses JSON into PeerVersion record\n",
+        "type": "Json.Decode.Decoder ElmArk.Peer.PeerVersion"
+      },
+      {
+        "name": "decodePeers",
+        "comment": " Parse JSON into Peers record\n",
+        "type": "Json.Decode.Decoder ElmArk.Peer.Peers"
+      },
+      {
+        "name": "encodeGetPeer",
+        "comment": " Turn GetPeer record into JSON string\n",
+        "type": "ElmArk.Peer.GetPeer -> Json.Encode.Value"
+      },
+      {
+        "name": "encodePeer",
+        "comment": " Turn Peer record into JSON string\n",
+        "type": "ElmArk.Peer.Peer -> Json.Encode.Value"
+      },
+      {
+        "name": "encodePeerVersion",
+        "comment": " Turn PeerVersion record into JSON string\n",
+        "type": "ElmArk.Peer.PeerVersion -> Json.Encode.Value"
+      },
+      {
+        "name": "encodePeers",
+        "comment": " Turn Peers record into JSON\n",
+        "type": "ElmArk.Peer.Peers -> Json.Encode.Value"
+      },
+      {
+        "name": "getPeer",
+        "comment": " Get a single peer by IP and port\n\n    mainNet\n        |> getPeer \"54.38.48.170\" \"4001\"\n\n",
+        "type": "String -> String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getPeerVersion",
+        "comment": " Gets the peer version\n\n    mainNet\n        |> getPeerVersion\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getPeers",
+        "comment": " Get all the peers\n\n    mainNet\n        |> getPeers\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmArk.Signature",
+    "comment": " Handles building requests for the signature endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs SignatureFee\n\n\n# Requests\n\n@docs getSignatureFee\n\n\n# JSON\n\n@docs decodeSignatureFee, encodeSignatureFee\n\n",
+    "aliases": [
+      {
+        "name": "SignatureFee",
+        "comment": " SignatureFee represents the JSON returned by getSignatureFee\nSample JSON:\n\n    {\n        \"success\": true,\n        \"fee\": 500000000\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, fee : Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decodeSignatureFee",
+        "comment": " Parse JSON into SignatureFee record\n",
+        "type": "Json.Decode.Decoder ElmArk.Signature.SignatureFee"
+      },
+      {
+        "name": "encodeSignatureFee",
+        "comment": " Turn SignatureFee record into JSON\n",
+        "type": "ElmArk.Signature.SignatureFee -> Json.Encode.Value"
+      },
+      {
+        "name": "getSignatureFee",
+        "comment": " Get the current fee for generating a signature\n\n    mainNet\n        |> getPeers\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmArk.MultiSignature",
+    "comment": " Handles building requests for the multisignature endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs PendingMultiSignature, Transaction\n\n\n# Requests\n\n@docs getPending\n\n\n# JSON\n\n@docs decodePendingMultiSignature, encodePendingMultiSignature, decodeTransaction, encodeTransaction\n\n",
+    "aliases": [
+      {
+        "name": "PendingMultiSignature",
+        "comment": " Record for the response from getPending\n",
+        "args": [],
+        "type": "{ success : Bool , transactions : List ElmArk.MultiSignature.Transaction }"
+      },
+      {
+        "name": "Transaction",
+        "comment": " Transaction record for the list of transactions returned by getPendingMultiSignatureTransactions\n",
+        "args": [],
+        "type": "{ id : String , transactionType : String , subtype : String , timestamp : String , senderPublicKey : String , senderId : String , recipientId : String , amount : String , fee : String , signature : String , signSignature : String , companyGeneratorPublicKey : String , confirmations : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decodePendingMultiSignature",
+        "comment": " Parse JSON into PendingMultiSignature record\n",
+        "type": "Json.Decode.Decoder ElmArk.MultiSignature.PendingMultiSignature"
+      },
+      {
+        "name": "decodeTransaction",
+        "comment": " Parse JSON into Transaction record\n",
+        "type": "Json.Decode.Decoder ElmArk.MultiSignature.Transaction"
+      },
+      {
+        "name": "encodePendingMultiSignature",
+        "comment": " Turn PendingMultiSignature into JSON string\n",
+        "type": "ElmArk.MultiSignature.PendingMultiSignature -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeTransaction",
+        "comment": " Turn Tranasction record into JSON string\n",
+        "type": "ElmArk.MultiSignature.Transaction -> Json.Encode.Value"
+      },
+      {
+        "name": "getPending",
+        "comment": " Get pending multi signature transactions for an account\n\n    mainNet\n        |> getPending \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmArk.Delegate",
+    "comment": " Handles building requests for the delegate endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs DelegatesCount, Delegates, DelegateSearch, Voters, Voter, DelegateResponse, Delegate, GetDelegatesResponse, GetDelegates, DelegateFee, ForgedBlocks, NextForgers\n\n\n# Requests\n\n@docs getDelegatesCount, searchDelegates, getVoters, getDelegateByUsername, getDelegateByPublicKey, getDelegates, getDelegateFee, getForgedByAccount, getNextForgers\n\n\n# JSON\n\n@docs decodeDelegatesCount, encodeDelegatesCount, decodeDelegates, encodeDelegates, decodeDelegateSearch, encodeDelegateSearch, decodeVoters, encodeVoters, decodeVoter, encodeVoter, decodeDelegateResponse, encodeDelegateResponse, decodeDelegate, encodeDelegate, decodeGetDelegates, decodeGetDelegatesResponse, encodeGetDelegates, encodeGetDelegatesResponse, decodeDelegateFee, encodeDelegateFee, decodeForgedBlocks, encodeForgedBlocks, decodeNextForgers, encodeNextForgers\n\n",
+    "aliases": [
+      {
+        "name": "Delegate",
+        "comment": " A delegate object inside the delegate response\nSample JSON:\n\n    {\n        \"username\": \"bioly\",\n        \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n        \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n        \"vote\": \"178070099134995\",\n        \"producedblocks\": 57662,\n        \"missedblocks\": 254,\n        \"rate\": 2,\n        \"approval\": 1.36,\n        \"productivity\": 99.56\n    }\n\n",
+        "args": [],
+        "type": "{ username : String , address : String , publicKey : String , vote : String , producedblocks : Int , missedblocks : Int , rate : Int , approval : Float , productivity : Float }"
+      },
+      {
+        "name": "DelegateFee",
+        "comment": " Response for getting the fees for becoming a delegate\nSample JSON:\n\n    {\n        \"success\": true,\n        \"fee\": 2500000000\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, fee : Int }"
+      },
+      {
+        "name": "DelegateResponse",
+        "comment": " Information about a delegate\nSample JSON:\n\n    {\n        \"success\": true,\n        \"delegate\": {\n            \"username\": \"bioly\",\n            \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n            \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n            \"vote\": \"178070099134995\",\n            \"producedblocks\": 57662,\n            \"missedblocks\": 254,\n            \"rate\": 2,\n            \"approval\": 1.36,\n            \"productivity\": 99.56\n        }\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, delegate : ElmArk.Delegate.Delegate }"
+      },
+      {
+        "name": "DelegateSearch",
+        "comment": " Makes up the array of delegates in the delegate search\nSample JSON:\n\n    {\n      \"username\": \"bioly\",\n      \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n      \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n      \"vote\": \"178069299134995\",\n      \"producedblocks\": 57658,\n      \"missedblocks\": 254\n    }\n\n",
+        "args": [],
+        "type": "{ username : String , address : String , publicKey : String , vote : String , producedblocks : Int , missedblocks : Int }"
+      },
+      {
+        "name": "Delegates",
+        "comment": " Result of searching for delegates\nSample JSON:\n\n    {\n        \"success\": true,\n        \"delegates\": [\n            {\n                \"username\": \"bioly\",\n                \"address\": \"AbUdMhk96FbzxH7vDYAwdyqUELmLopZV5x\",\n                \"publicKey\": \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n                \"vote\": \"178069299134995\",\n                \"producedblocks\": 57658,\n                \"missedblocks\": 254\n            }\n        ]\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, delegates : List ElmArk.Delegate.Delegate }"
+      },
+      {
+        "name": "DelegatesCount",
+        "comment": " Represents the delegates count\nSample JSON:\n\n    {\n        \"success\": true,\n        \"count\": 618\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, count : Int }"
+      },
+      {
+        "name": "ForgedBlocks",
+        "comment": " Blocks forged by an account\nSample JSON:\n\n    {\n        \"success\": true,\n        \"fees\": \"201040000000\",\n        \"rewards\": \"11258400000000\",\n        \"forged\": \"11459440000000\"\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, fees : String, rewards : String, forged : String }"
+      },
+      {
+        "name": "GetDelegates",
+        "comment": " Item in the array returned by the getDelegates request\nSample JSON:\n\n    {\n        \"username\": \"digitron\",\n        \"address\": \"APVpLtN9NxsNMyhLucP4vmFHHyyV2QKx4t\",\n        \"publicKey\": \"0339a6bb2aff249cd13b55fce2442703a1d488bae343a22fa09bbff46a6a64c5e2\",\n        \"vote\": \"135880318033725\",\n        \"producedblocks\": 57905,\n        \"missedblocks\": 146,\n        \"rate\": 45,\n        \"approval\": 1.04,\n        \"productivity\": 99.75\n    }\n\n",
+        "args": [],
+        "type": "{ username : String , address : String , publicKey : String , vote : String , producedblocks : Int , missedblocks : Int , rate : Int , approval : Float , productivity : Float }"
+      },
+      {
+        "name": "GetDelegatesResponse",
+        "comment": " Response from getting delegates\nSample JSON:\n\n    {\n        \"success\": true,\n        \"delegates\": [\n            {\n                \"username\": \"arknet\",\n                \"address\": \"AXzEMF7TC1aH3ax1Luxk6XdyKXDRxnBj4f\",\n                \"publicKey\": \"0217ff1ec656f2354a899bde097bb3131a9730fe491bb87dedb96489120be9154f\",\n                \"vote\": \"140295948126587\",\n                \"producedblocks\": 39615,\n                \"missedblocks\": 31,\n                \"rate\": 25,\n                \"approval\": 1.07,\n                \"productivity\": 99.92\n            },\n            {\n                \"username\": \"digitron\",\n                \"address\": \"APVpLtN9NxsNMyhLucP4vmFHHyyV2QKx4t\",\n                \"publicKey\": \"0339a6bb2aff249cd13b55fce2442703a1d488bae343a22fa09bbff46a6a64c5e2\",\n                \"vote\": \"135880318033725\",\n                \"producedblocks\": 57905,\n                \"missedblocks\": 146,\n                \"rate\": 45,\n                \"approval\": 1.04,\n                \"productivity\": 99.75\n            }\n        ],\n        \"totalCount\": 618\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool , delegates : List ElmArk.Delegate.GetDelegates , totalCount : Int }"
+      },
+      {
+        "name": "NextForgers",
+        "comment": " List of the next forgers as returned by getNextForgers\nSample JSON:\n\n    {\n        \"success\": true,\n        \"currentBlock\": 2955411,\n        \"currentSlot\": 2996756,\n        \"delegates\": [\n            \"020431436cf94f3c6a6ba566fe9e42678db8486590c732ca6c3803a10a86f50b92\",\n            \"03ca4edbdc4e83eb6f1b8780a532c74a3708d51f281b6bfb9a308d49c47d3ac90d\",\n            \"02c44cc9787fae3ce5c8873ff541deadb86cd8ddb56a90dba37049ca6506d022f5\",\n            \"028f9f37a1fbf95bfa5b302032806116b27fd74996df7bcd6188c982f75e894ca4\",\n            \"02a0ed5604868461a87639f58bd3a55f661774c3cbb705a735f58c50087f942c3d\",\n            \"02a6b88567f86fa22d3c958f470c1645b3f65aa555e00c5bb0eecd2886eab80d34\",\n            \"035a0302ddd571bb821f6b069450814cb29fc927f14f146491fd5c9b3ab57d8ca8\",\n            \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\",\n            \"027acdf24b004a7b1e6be2adf746e3233ce034dbb7e83d4a900f367efc4abd0f21\",\n            \"027c550ecc71e4d9b832cf83c1c5c4d7c22dc43e3a451fea887c82a6ef55bf52fa\"\n        ]\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool , currentBlock : Int , currentSlot : Int , delegates : List String }"
+      },
+      {
+        "name": "Voter",
+        "comment": " A single item in the accounts list returned by the getVoters call\nSample JSON:\n\n    {\n        \"username\": null,\n        \"address\": \"AUT1eGmsHkRrAt2Lvfp6j4ShmBZifzvMK9\",\n        \"publicKey\": \"0358a9d50272413bcf94314ca89745a6324aed911bd949b0fb6105fdfd0e291376\",\n        \"balance\": \"0\"\n    }\n\n",
+        "args": [],
+        "type": "{ username : Maybe.Maybe String , address : String , publicKey : String , balance : String }"
+      },
+      {
+        "name": "Voters",
+        "comment": " List of voters for a delegate\nSample JSON:\n\n    {\n        \"success\": true,\n        \"accounts\": [\n            {\n                \"username\": null,\n                \"address\": \"AUT1eGmsHkRrAt2Lvfp6j4ShmBZifzvMK9\",\n                \"publicKey\": \"0358a9d50272413bcf94314ca89745a6324aed911bd949b0fb6105fdfd0e291376\",\n                \"balance\": \"0\"\n            },\n            {\n                \"username\": null,\n                \"address\": \"AcU8ARQjwn6foUwP4NG2zEL6KLHFWmHcRq\",\n                \"publicKey\": \"02819a37539757154ef83036cb7f5c6d2a1731bef39c3733d7dca6393be0add747\",\n                \"balance\": \"0\"\n            }\n        ]\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, accounts : List ElmArk.Delegate.Voter }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decodeDelegate",
+        "comment": " Parse JSON into a Delegate\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.Delegate"
+      },
+      {
+        "name": "decodeDelegateFee",
+        "comment": " Parse JSON into DelegateFee record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegateFee"
+      },
+      {
+        "name": "decodeDelegateResponse",
+        "comment": " Parse JSON into a DelegateResponse\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegateResponse"
+      },
+      {
+        "name": "decodeDelegateSearch",
+        "comment": " Parses JSON into Delegate record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegateSearch"
+      },
+      {
+        "name": "decodeDelegates",
+        "comment": " Parses JSON into Delegates record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.Delegates"
+      },
+      {
+        "name": "decodeDelegatesCount",
+        "comment": " Parses JSON into DelegatesCount record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.DelegatesCount"
+      },
+      {
+        "name": "decodeForgedBlocks",
+        "comment": " Parses JSON into ForgedBlocks record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.ForgedBlocks"
+      },
+      {
+        "name": "decodeGetDelegates",
+        "comment": " Parses JSON into GetDelegates record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.GetDelegates"
+      },
+      {
+        "name": "decodeGetDelegatesResponse",
+        "comment": " Parses JSON into GetDelegatesResponse\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.GetDelegatesResponse"
+      },
+      {
+        "name": "decodeNextForgers",
+        "comment": " Parse JSON into NextForgers record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.NextForgers"
+      },
+      {
+        "name": "decodeVoter",
+        "comment": " Parses JSON into Voter record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.Voter"
+      },
+      {
+        "name": "decodeVoters",
+        "comment": " Parses JSON into Voters record\n",
+        "type": "Json.Decode.Decoder ElmArk.Delegate.Voters"
+      },
+      {
+        "name": "encodeDelegate",
+        "comment": " Turn Delegate into JSON\n",
+        "type": "ElmArk.Delegate.Delegate -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeDelegateFee",
+        "comment": " Turn DelegateFee into JSON\n",
+        "type": "ElmArk.Delegate.DelegateFee -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeDelegateResponse",
+        "comment": " Turn DelegateResponse into JSON\n",
+        "type": "ElmArk.Delegate.DelegateResponse -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeDelegateSearch",
+        "comment": " Turns Delegate record into JSON string\n",
+        "type": "ElmArk.Delegate.DelegateSearch -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeDelegates",
+        "comment": " Turns Delegates record into JSON string\n",
+        "type": "ElmArk.Delegate.Delegates -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeDelegatesCount",
+        "comment": " Turns DelegatesCount record into JSON string\n",
+        "type": "ElmArk.Delegate.DelegatesCount -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeForgedBlocks",
+        "comment": " Turns ForgedBlocks record into JSON\n",
+        "type": "ElmArk.Delegate.ForgedBlocks -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeGetDelegates",
+        "comment": " Turns GetDelegates into JSON string\n",
+        "type": "ElmArk.Delegate.GetDelegates -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeGetDelegatesResponse",
+        "comment": " Turns GetDelegatesResponse into JSON string\n",
+        "type": "ElmArk.Delegate.GetDelegatesResponse -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeNextForgers",
+        "comment": " Turn NextForgers record into JSON\n",
+        "type": "ElmArk.Delegate.NextForgers -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeVoter",
+        "comment": " Turns Voter record into JSON string\n",
+        "type": "ElmArk.Delegate.Voter -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeVoters",
+        "comment": " Turns Voters record into JSON string\n",
+        "type": "ElmArk.Delegate.Voters -> Json.Encode.Value"
+      },
+      {
+        "name": "getDelegateByPublicKey",
+        "comment": " Gets info for a delegate by their public key\n\n    mainNet\n        |> getDelegateByPublicKey \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getDelegateByUsername",
+        "comment": " Gets info for a delegate by their username\n\n    mainNet\n        |> getDelegateByUsername \"bioly\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getDelegateFee",
+        "comment": " Gets the current fee to become a delegate\n\n    mainNet\n        |> getDelegateFee\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getDelegates",
+        "comment": " Gets all delegates filtered by optoinal parameters\nAvailable params: orderBy, limit, offset\n\n    mainNet\n        |> getDelegates [(\"limit\", \"2\"), (\"orderBy\", \"productivity\")]\n\n",
+        "type": "List ( String, String ) -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getDelegatesCount",
+        "comment": " Get info about a block\n\n    mainNet\n        |> getDelegatesCount \"AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getForgedByAccount",
+        "comment": " Gets forged blocks by a given public key\n\n    mainNet\n        |> getForgedByAccount \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getNextForgers",
+        "comment": " Gets the next forgers\n\n    mainNet\n        |> getNextForgers\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getVoters",
+        "comment": " Gets all the voters for a given public key\n\n    mainNet\n        |> getVoters \"02c0b645f19ab304d25aae3add139edd9f6ca9fd0d98e57a808100de0e93832181\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "searchDelegates",
+        "comment": " Search for specific delegates.\nAvailable parameters: limit\n\n    mainNet\n        |> searchDelegates \"biol\" [(\"limit\", \"10\")]\n\n",
+        "type": "String -> List ( String, String ) -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmArk.Transaction",
+    "comment": " Handles building requests for the transaction endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs GetTransaction, Transaction, Asset, Transactions\n\n\n# Requests\n\n@docs getTransaction, getTransactions, getUnconfirmedTransactions, getUnconfirmedTransaction\n\n\n# JSON\n\n@docs decodeGetTransaction, encodeGetTransaction, decodeTransaction, encodeTransaction, encodeAsset, decodeAsset\n\n",
+    "aliases": [
+      {
+        "name": "Asset",
+        "comment": " Asset portion of the transaction record\nJSON Sample:\n```\n{\n    \"votes\": [\n        \"+03d9ed6e7f29daf12ef925d4ce5753aade23c8cfd52a0427240fb30ad6ec232fed\"\n    ]\n}\n```\n",
+        "args": [],
+        "type": "{ votes : List String }"
+      },
+      {
+        "name": "GetTransaction",
+        "comment": " Record representing the getTransaction response\nSample JSON:\n\n       {\n           \"success\": true,\n           \"transaction\": {\n               \"id\": \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\",\n               \"blockid\": \"6119254423291710282\",\n               \"height\": 2411892,\n               \"type\": 0,\n               \"timestamp\": 19468149,\n               \"amount\": 1,\n               \"fee\": 10000000,\n               \"vendorField\": \"turnip\",\n               \"senderId\": \"Aasu14aTs9ipZdy1FMv7ay1Vqn3jPskA8t\",\n               \"recipientId\": \"AFuNopRKj2VwhaTWQraZgPTT5nofXskBTN\",\n               \"senderPublicKey\": \"02c7455bebeadde04728441e0f57f82f972155c088252bf7c1365eb0dc84fbf5de\",\n               \"signature\": \"3044022030ded9cd7a1cf37f6ae85b35fd478502c916d493ecb1c6df8b1a8392323559d3022040a45aac97a6d915bc19f9ad3927395e3240dacb1b81ad00d871182e4fa130b7\",\n               \"asset\": {},\n               \"confirmations\": 544505\n           }\n       }\n\n",
+        "args": [],
+        "type": "{ success : Bool, transaction : ElmArk.Transaction.Transaction }"
+      },
+      {
+        "name": "Transaction",
+        "comment": " Transaction is the transaction field of the GetTransaction record\nSample JSON:\n\n    {\n               \"id\": \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\",\n               \"blockid\": \"6119254423291710282\",\n               \"height\": 2411892,\n               \"type\": 0,\n               \"timestamp\": 19468149,\n               \"amount\": 1,\n               \"fee\": 10000000,\n               \"vendorField\": \"turnip\",\n               \"senderId\": \"Aasu14aTs9ipZdy1FMv7ay1Vqn3jPskA8t\",\n               \"recipientId\": \"AFuNopRKj2VwhaTWQraZgPTT5nofXskBTN\",\n               \"senderPublicKey\": \"02c7455bebeadde04728441e0f57f82f972155c088252bf7c1365eb0dc84fbf5de\",\n               \"signature\": \"3044022030ded9cd7a1cf37f6ae85b35fd478502c916d493ecb1c6df8b1a8392323559d3022040a45aac97a6d915bc19f9ad3927395e3240dacb1b81ad00d871182e4fa130b7\",\n               \"asset\": {},\n               \"confirmations\": 544505\n           }\n\n",
+        "args": [],
+        "type": "{ id : String , blockid : String , height : Int , transactionType : Int , timestamp : Int , amount : Int , fee : Int , vendorField : String , senderId : String , recipientId : String , senderPublicKey : String , signature : String , asset : ElmArk.Transaction.Asset , confirmations : Int }"
+      },
+      {
+        "name": "Transactions",
+        "comment": " The response returned by getTransactions call\nSample JSON:\n```\n{\n    \"success\": true,\n    \"transactions\": [\n        {\n            \"id\": \"02ae724d4192f703d8469ff9f260f7bb98bbe63f566f777fe9cd7a4c5f3908d1\",\n            \"blockid\": \"6721080189078847369\",\n            \"type\": 3,\n            \"timestamp\": 20075314,\n            \"amount\": 0,\n            \"fee\": 100000000,\n            \"senderId\": \"AKbQwaxiBAEpYKwQne9DJGoQETrYzSZ4ir\",\n            \"recipientId\": \"AKbQwaxiBAEpYKwQne9DJGoQETrYzSZ4ir\",\n            \"senderPublicKey\": \"02720f075a369d4b956fcfc2d2d712f8caeb0a1de77f6b768e6ae1c55432fd2d4d\",\n            \"signature\": \"3045022100dc3fba3d44ddb42eacbac1c9a293066cc8232d3a6eea680984f0909401fdc00b02200f250d111042621c025de49f1b1e830eb6a766964f90ef9beaf044e6554e18ff\",\n            \"asset\": {\n                \"votes\": [\n                    \"+03d9ed6e7f29daf12ef925d4ce5753aade23c8cfd52a0427240fb30ad6ec232fed\"\n                ]\n            },\n            \"confirmations\": 470431\n        }\n    ],\n    \"count\": \"475011\"\n\n}\n```\n",
+        "args": [],
+        "type": "{ success : Bool , transactions : List ElmArk.Transaction.Transaction , count : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "decodeAsset",
+        "comment": " Parse JSON into Asset record\n",
+        "type": "Json.Decode.Decoder ElmArk.Transaction.Asset"
+      },
+      {
+        "name": "decodeGetTransaction",
+        "comment": " Parse JSON into GetTransaction record\n",
+        "type": "Json.Decode.Decoder ElmArk.Transaction.GetTransaction"
+      },
+      {
+        "name": "decodeTransaction",
+        "comment": " Parse JSON into Transaction record\n",
+        "type": "Json.Decode.Decoder ElmArk.Transaction.Transaction"
+      },
+      {
+        "name": "encodeAsset",
+        "comment": " Turn Asset record into JSON\n",
+        "type": "ElmArk.Transaction.Asset -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeGetTransaction",
+        "comment": " Turn GetTransaction into JSON string\n",
+        "type": "ElmArk.Transaction.GetTransaction -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeTransaction",
+        "comment": " Turn Transaction into JSON string\n",
+        "type": "ElmArk.Transaction.Transaction -> Json.Encode.Value"
+      },
+      {
+        "name": "getTransaction",
+        "comment": " Get the current fee for generating a signature\n\n    mainNet\n        |> getTransaction \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getTransactions",
+        "comment": " Get the current fee for generating a signature\n  Available Parameters: blockId, limit, type, orderBy, offset, senderPublicKey,\n    vendorField, ownerPublicKey, ownerADdress, senderId, recipientId, amount, fee\n\n    mainNet\n        |> getTransactions [(\"limit\", \"10\"), (\"orderBy\", \"amount\")]\n\n",
+        "type": "List ( String, String ) -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getUnconfirmedTransaction",
+        "comment": " Get an unconfirmed transaction\n\n    mainNet\n        |> getUnconfirmedTransaction \"a38dc6b9e6679be706d5b39eef7dd0a7a10011e63da7623082106d90834e23e1\"\n\n",
+        "type": "String -> ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getUnconfirmedTransactions",
+        "comment": " Get all unconfirmed transactions\n\n    mainNet\n        |> getUnconfirmedTransactions\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "ElmArk.Account",
     "comment": " Handles building requests for the account endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs Balance, PublicKey, DelegateFee, Delegates, Delegate, Accounts, Account, TopAccounts, TopAccount\n\n\n# Requests\n\n@docs getBalance, getPublicKey, getDelegateFee, getDelegates, getAccount, getTopAccounts\n\n\n# JSON\n\n@docs encodeBalance, decodeBalance, encodePublicKey, decodePublicKey, encodeDelegateFee, decodeDelegateFee, encodeDelegate, decodeDelegate, encodeDelegates, decodeDelegates, encodeAccounts, decodeAccounts, encodeAccount, decodeAccount, encodeTopAccounts, decodeTopAccounts, encodeTopAccount, decodeTopAccount\n\n",
     "aliases": [
@@ -1306,6 +1217,95 @@
       {
         "name": "getTopAccounts",
         "comment": " Get a list of top accounts\n\n    mainNet\n        |> getTopAccounts\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ElmArk.Loader",
+    "comment": " Handles building requests for the loader endpoints\nand encoding/decoding their json.\n\n\n# Models\n\n@docs BlockStatus, SyncStatus, AutoConfigure, Network\n\n\n# Requests\n\n@docs getBlockStatus, getSyncStatus, autoconfigure\n\n\n# JSON\n\n@docs decodeBlockStatus, encodeBlockStatus, decodeSyncStatus, encodeSyncStatus, decodeAutoConfigure, encodeAutoConfigure, decodeNetwork, encodeNetwork\n\n",
+    "aliases": [
+      {
+        "name": "AutoConfigure",
+        "comment": " Response from the autoconfigure loader call\nSample JSON:\n\n    {\n        \"success\": true,\n        \"network\": {\n            \"nethash\": \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\",\n            \"token\": \"ARK\",\n            \"symbol\": \"Ѧ\",\n            \"explorer\": \"https://explorer.ark.io\",\n            \"version\": 23\n        }\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, network : ElmArk.Loader.Network }"
+      },
+      {
+        "name": "BlockStatus",
+        "comment": " Record for the block status response\nSample JSON:\n\n    {\n        \"success\": true,\n        \"loaded\": false,\n        \"now\": 2951259,\n        \"blocksCount\": 0\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool, loaded : Bool, now : Int, blocksCount : Int }"
+      },
+      {
+        "name": "Network",
+        "comment": " Network portion of the autoconfigure loader respnose\n\n    {\n        \"nethash\": \"6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988\",\n        \"token\": \"ARK\",\n        \"symbol\": \"Ѧ\",\n        \"explorer\": \"https://explorer.ark.io\",\n        \"version\": 23\n    }\n\n",
+        "args": [],
+        "type": "{ nethash : String , token : String , symbol : String , explorer : String , version : Int }"
+      },
+      {
+        "name": "SyncStatus",
+        "comment": " Record for the syncStatus response\nSample JSON:\n\n    {\n        \"success\": true,\n        \"syncing\": false,\n        \"blocks\": 0,\n        \"height\": 2955799,\n        \"id\": \"14925783039630880151\"\n    }\n\n",
+        "args": [],
+        "type": "{ success : Bool , syncing : Bool , blocks : Int , height : Int , id : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "autoconfigure",
+        "comment": " Autoconfigure the client\n\n    mainNet\n        |> autoconfigure\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "decodeAutoConfigure",
+        "comment": " Parses JSON into AutoConfigure record\n",
+        "type": "Json.Decode.Decoder ElmArk.Loader.AutoConfigure"
+      },
+      {
+        "name": "decodeBlockStatus",
+        "comment": " Parse JSON into BlockStatus record\n",
+        "type": "Json.Decode.Decoder ElmArk.Loader.BlockStatus"
+      },
+      {
+        "name": "decodeNetwork",
+        "comment": " Parses JSON into Network record\n",
+        "type": "Json.Decode.Decoder ElmArk.Loader.Network"
+      },
+      {
+        "name": "decodeSyncStatus",
+        "comment": " Parse JSON into SyncStatus\n",
+        "type": "Json.Decode.Decoder ElmArk.Loader.SyncStatus"
+      },
+      {
+        "name": "encodeAutoConfigure",
+        "comment": " Turn AutoConfigure record into JSON string\n",
+        "type": "ElmArk.Loader.AutoConfigure -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeBlockStatus",
+        "comment": " Turn BlockStatus into JSON string\n",
+        "type": "ElmArk.Loader.BlockStatus -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeNetwork",
+        "comment": " Turn Network record into JSON string\n",
+        "type": "ElmArk.Loader.Network -> Json.Encode.Value"
+      },
+      {
+        "name": "encodeSyncStatus",
+        "comment": " Turn SyncStatus record into JSON string\n",
+        "type": "ElmArk.Loader.SyncStatus -> Json.Encode.Value"
+      },
+      {
+        "name": "getBlockStatus",
+        "comment": " Get the blockchain status\n\n    mainNet\n        |> getBlockStatus\n\n",
+        "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
+      },
+      {
+        "name": "getSyncStatus",
+        "comment": " Get the syncronization status\n\n    mainNet\n        |> getSyncStatus\n\n",
         "type": "ElmArk.Api.Model.RequestHead -> ( ElmArk.Api.Model.RequestHead, ElmArk.Api.Model.RequestBody )"
       }
     ],

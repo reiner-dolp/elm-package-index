@@ -54,6 +54,45 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Xml.Decode",
+    "comment": "\n\n@docs decode\n\n@docs decodeInt, decodeFloat, decodeString, decodeString, decodeBool\n\n@docs decodeChildren\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "decode",
+        "comment": " Try to decode a string and turn it into an XML value\n    >>> import Xml exposing(Value(Tag, Object))\n    >>> import Xml.Encode exposing (null)\n    >>> import Dict\n    >>> decode \"<name></name>\"\n    Ok (Object [Tag \"name\" Dict.empty null])\n",
+        "type": "String -> Result.Result String Xml.Value"
+      },
+      {
+        "name": "decodeBool",
+        "comment": " Decode a bool\n",
+        "type": "String -> Result.Result String Xml.Value"
+      },
+      {
+        "name": "decodeChildren",
+        "comment": " Decode children from a string\n\n    >>> import Xml exposing (Value(Object, Tag, StrNode))\n    >>> decodeChildren \"<name>hello</name>\"\n    Ok (Object [Tag \"name\" Dict.empty (StrNode \"hello\")] )\n\n",
+        "type": "String -> Result.Result String Xml.Value"
+      },
+      {
+        "name": "decodeFloat",
+        "comment": " Decode a float\n    >>> import Xml exposing (Value(FloatNode))\n    >>> decodeFloat \"hello\"\n    Err \"could not convert string 'hello' to a Float\"\n\n    >>> decodeFloat \"5\"\n    Ok (FloatNode 5.0)\n\n    >>> decodeFloat \"5.5\"\n    Ok (FloatNode 5.5)\n\n",
+        "type": "String -> Result.Result String Xml.Value"
+      },
+      {
+        "name": "decodeInt",
+        "comment": " Decode a int\n    >>> import Xml exposing (Value(IntNode))\n    >>> decodeInt \"hello\"\n    Err \"could not convert string 'hello' to an Int\"\n\n    >>> decodeInt \"5\"\n    Ok (IntNode 5)\n",
+        "type": "String -> Result.Result String Xml.Value"
+      },
+      {
+        "name": "decodeString",
+        "comment": " Decode a string\n\n    >>> import Xml exposing (Value(StrNode))\n    >>> decodeString \"hello\"\n    Ok (StrNode \"hello\")\n",
+        "type": "String -> Result.Result String Xml.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Xml.Encode",
     "comment": "\n    Use this module for turning your Elm data into an `Xml` representation that can be either\n    queried or decoded, or turned into a string.\n\n@docs encode\n\n@docs string, int, float, bool, object, null, list\n",
     "aliases": [],
@@ -98,45 +137,6 @@
         "name": "string",
         "comment": " Encode a string\n    >>> string \"hello\" |> encode 0\n    \"hello\"\n",
         "type": "String -> Xml.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Xml.Decode",
-    "comment": "\n\n@docs decode\n\n@docs decodeInt, decodeFloat, decodeString, decodeString, decodeBool\n\n@docs decodeChildren\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "decode",
-        "comment": " Try to decode a string and turn it into an XML value\n    >>> import Xml exposing(Value(Tag, Object))\n    >>> import Xml.Encode exposing (null)\n    >>> import Dict\n    >>> decode \"<name></name>\"\n    Ok (Object [Tag \"name\" Dict.empty null])\n",
-        "type": "String -> Result.Result String Xml.Value"
-      },
-      {
-        "name": "decodeBool",
-        "comment": " Decode a bool\n",
-        "type": "String -> Result.Result String Xml.Value"
-      },
-      {
-        "name": "decodeChildren",
-        "comment": " Decode children from a string\n\n    >>> import Xml exposing (Value(Object, Tag, StrNode))\n    >>> decodeChildren \"<name>hello</name>\"\n    Ok (Object [Tag \"name\" Dict.empty (StrNode \"hello\")] )\n\n",
-        "type": "String -> Result.Result String Xml.Value"
-      },
-      {
-        "name": "decodeFloat",
-        "comment": " Decode a float\n    >>> import Xml exposing (Value(FloatNode))\n    >>> decodeFloat \"hello\"\n    Err \"could not convert string 'hello' to a Float\"\n\n    >>> decodeFloat \"5\"\n    Ok (FloatNode 5.0)\n\n    >>> decodeFloat \"5.5\"\n    Ok (FloatNode 5.5)\n\n",
-        "type": "String -> Result.Result String Xml.Value"
-      },
-      {
-        "name": "decodeInt",
-        "comment": " Decode a int\n    >>> import Xml exposing (Value(IntNode))\n    >>> decodeInt \"hello\"\n    Err \"could not convert string 'hello' to an Int\"\n\n    >>> decodeInt \"5\"\n    Ok (IntNode 5)\n",
-        "type": "String -> Result.Result String Xml.Value"
-      },
-      {
-        "name": "decodeString",
-        "comment": " Decode a string\n\n    >>> import Xml exposing (Value(StrNode))\n    >>> decodeString \"hello\"\n    Ok (StrNode \"hello\")\n",
-        "type": "String -> Result.Result String Xml.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"

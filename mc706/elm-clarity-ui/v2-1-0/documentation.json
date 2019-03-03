@@ -123,6 +123,27 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "ClarityUI.Subnav",
+    "comment": " Clarity Header Subnav\n\nFor more documenation on the clarity subnav : <https://vmware.github.io/clarity/documentation/header#subnav>\n\n\n# Usage\n\n@docs subnav\n\n\n# Data\n\n@docs NavItem\n\n",
+    "aliases": [
+      {
+        "name": "NavItem",
+        "comment": " NavItem\n\nDescribes A single nav element.\n\n",
+        "args": [],
+        "type": "{ link : String, text : String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "subnav",
+        "comment": " Main subnav entry point.\n\nTakes a list of NavItems and renders out a subnav compatible ul\n\n",
+        "type": "List ClarityUI.Subnav.NavItem -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "ClarityUI.Layout",
     "comment": " Clarity Application Layout.\n\nDefines the Page Layout and basic structure.\n\nFor more on Clarity Application Layout: <https://vmware.github.io/clarity/documentation/app-layout>\n\n\n# Usage\n\n@docs layout\n\n\n# Options\n\n@docs LayoutComponents\n\n",
     "aliases": [
@@ -178,75 +199,6 @@
         "name": "iconMd",
         "comment": " Curried Shortcut Function.\n\nCreates a medium size and default color Icon.\n\n",
         "type": "String -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ClarityUI.Subnav",
-    "comment": " Clarity Header Subnav\n\nFor more documenation on the clarity subnav : <https://vmware.github.io/clarity/documentation/header#subnav>\n\n\n# Usage\n\n@docs subnav\n\n\n# Data\n\n@docs NavItem\n\n",
-    "aliases": [
-      {
-        "name": "NavItem",
-        "comment": " NavItem\n\nDescribes A single nav element.\n\n",
-        "args": [],
-        "type": "{ link : String, text : String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "subnav",
-        "comment": " Main subnav entry point.\n\nTakes a list of NavItems and renders out a subnav compatible ul\n\n",
-        "type": "List ClarityUI.Subnav.NavItem -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ClarityUI.CDN",
-    "comment": " CDN module.\nIncludes the clarity assets from a CDN for easy use with Elm Reactor.\n\n@docs styles, icons, iconsJS\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "icons",
-        "comment": " Adds a link to an [unpkg](https://unpkg.com/#/) mirror of the clarify-icons css\n",
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "iconsJS",
-        "comment": " Adds a script to an unpkg](<https://unpkg.com/#/>) mirror of the clarify-icons js\n",
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "styles",
-        "comment": " Adds a link to an [unpkg](https://unpkg.com/#/) mirror of the clarify-ui css\n\n    import ClarityUI.CDN\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.styles -- css embedded inline\n            ]\n\n",
-        "type": "Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "ClarityUI.Card",
-    "comment": " Wrapper around Clarity Cards\n\nfor More on clarity cards: <https://vmware.github.io/clarity/documentation/cards>\n\n\n# Methods\n\n@docs baseCard, card, clickableCard\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "baseCard",
-        "comment": " Base Card Function.\nImplements clarity card.\n\nDocumentation about clarity card : <https://vmware.github.io/clarity/documentation/cards>\n\n",
-        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Bool -> Html.Html msg"
-      },
-      {
-        "name": "card",
-        "comment": " Card Function\nCurried Base Card Function.\n",
-        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "clickableCard",
-        "comment": " Clickable Card Function\nCurried Base Card Function for a clickable card.\n",
-        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -321,6 +273,54 @@
         "name": "alertWarning",
         "comment": " Alert Warning.\nCurried Shortcut for a dismissible warning alert.\n",
         "type": "ClarityUI.Alert.AlertItem -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ClarityUI.CDN",
+    "comment": " CDN module.\nIncludes the clarity assets from a CDN for easy use with Elm Reactor.\n\n@docs styles, icons, iconsJS\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "icons",
+        "comment": " Adds a link to an [unpkg](https://unpkg.com/#/) mirror of the clarify-icons css\n",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "iconsJS",
+        "comment": " Adds a script to an unpkg](<https://unpkg.com/#/>) mirror of the clarify-icons js\n",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "styles",
+        "comment": " Adds a link to an [unpkg](https://unpkg.com/#/) mirror of the clarify-ui css\n\n    import ClarityUI.CDN\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.styles -- css embedded inline\n            ]\n\n",
+        "type": "Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "ClarityUI.Card",
+    "comment": " Wrapper around Clarity Cards\n\nfor More on clarity cards: <https://vmware.github.io/clarity/documentation/cards>\n\n\n# Methods\n\n@docs baseCard, card, clickableCard\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "baseCard",
+        "comment": " Base Card Function.\nImplements clarity card.\n\nDocumentation about clarity card : <https://vmware.github.io/clarity/documentation/cards>\n\n",
+        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Bool -> Html.Html msg"
+      },
+      {
+        "name": "card",
+        "comment": " Card Function\nCurried Base Card Function.\n",
+        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "clickableCard",
+        "comment": " Clickable Card Function\nCurried Base Card Function for a clickable card.\n",
+        "type": "Maybe.Maybe String -> List (List (Html.Html msg)) -> List (Html.Html msg) -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

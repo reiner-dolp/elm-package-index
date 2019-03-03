@@ -95,70 +95,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Pylon.DB.Legacy.Group",
-    "comment": " This is being kept in a seperate legacy module where it will not clutter things. Since a lot\nof code is based on it for now, it is being kept intact. Do not use this module if you are not already\nheavily invested in an existing project that uses these.\n\n@docs bindingGroupTo, dataRebasedBinding, dataSubBinding, forwardingGroupTo, groupDataSubscriber, groupRebasedBinding, groupRebasedDataSubscriber, groupSubBinding, groupSubscriber, orderGroupBy, sendingGroupTo\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bindingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConstruct a new incomplete group binding from a ElmFire Firebase location. ",
-        "type": "ElmFire.Location -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "dataRebasedBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding uses the key of the discovered item to get a child at a diffeent location than\nthat of the group binding. A good example would be a subscription that tracks a group of users,\nbut actually pulls data from a global profiles list. ",
-        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
-      },
-      {
-        "name": "dataSubBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nconcrete data. Note that if you are using the `groupDataSubscriber` convenience function, then this\nis already invoked internally, making the task of bindin a group of concrete records even easier. ",
-        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
-      },
-      {
-        "name": "forwardingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions with a transformation function for forwarding. If\nthis is not applied to the binding, no feedback will be recieved. ",
-        "type": "(List (Pylon.DB.Group.GroupFeedback subfeedback) -> List action) -> Signal.Address (List action) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "groupDataSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
-        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "groupRebasedBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding for nested groups. ",
-        "type": "ElmFire.Location -> ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
-      },
-      {
-        "name": "groupRebasedDataSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
-        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "groupSubBinding",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nnested groups. ",
-        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
-      },
-      {
-        "name": "groupSubscriber",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nThis is the old subscription primitive, and is quite a bit more limited. For testing purposes,\nit has been implemented in terms of `groupIntegrate` and `groupSubscription`. `groupIntegrate` is\nmuch more powerful, and takes a list of \"sourcing\" functions like `groupSubscription`. ",
-        "type": "(subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (subbinding -> subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (Pylon.DB.Legacy.Group.GroupBinding subfeedback -> String -> subbinding) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Group.Group subtype -> ( Pylon.DB.Group.Group subtype, List (Pylon.DB.DBTask never) )"
-      },
-      {
-        "name": "orderGroupBy",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nGive an ordering for the group subscription's internal query. Note that this _will not order the\nresulting key-value dictionary_, but it is still useful because it will have an effect on which\nresults are produced by the Firebase API in the event that limiting is used, which is the case for\nmost practical applications. ",
-        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      },
-      {
-        "name": "sendingGroupTo",
-        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions. If this is not applied to the binding, no feedback\nwill be recieved. ",
-        "type": "Signal.Address (List (Pylon.DB.Group.GroupFeedback subfeedback)) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Pylon.DB.Mirror",
     "comment": " A binding for ElmTextSearch and Pylon.DB.Group.\n\n# Types\n@docs Mirror\n\n# Construction\n@docs mirror\n\n# Getters\n@docs refs, changedRefs, deltas\n\n# Mirroring\n@docs refresh, resynch, attach, attachSynch, attachDelta, attachFilterSynch, attachFilterDelta, forward\n\n# Control\n@docs inject, commit\n\n# Group Binding\n@docs bindMirror, groupMirror, groupMirror, groupMirrorSynch, dataGroupMirror, dataGroupMirrorSynch\n\n",
     "aliases": [],
@@ -267,6 +203,70 @@
         "name": "resynch",
         "comment": " Emit all known values as deltas. This will cause any that forwards from this mirror and any\ngroup that uses this mirror as a controller by deltas will be brought up to date. ",
         "type": "Pylon.DB.Mirror.Mirror doctype -> Pylon.DB.Mirror.Mirror doctype"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Pylon.DB.Legacy.Group",
+    "comment": " This is being kept in a seperate legacy module where it will not clutter things. Since a lot\nof code is based on it for now, it is being kept intact. Do not use this module if you are not already\nheavily invested in an existing project that uses these.\n\n@docs bindingGroupTo, dataRebasedBinding, dataSubBinding, forwardingGroupTo, groupDataSubscriber, groupRebasedBinding, groupRebasedDataSubscriber, groupSubBinding, groupSubscriber, orderGroupBy, sendingGroupTo\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bindingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConstruct a new incomplete group binding from a ElmFire Firebase location. ",
+        "type": "ElmFire.Location -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "dataRebasedBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding uses the key of the discovered item to get a child at a diffeent location than\nthat of the group binding. A good example would be a subscription that tracks a group of users,\nbut actually pulls data from a global profiles list. ",
+        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
+      },
+      {
+        "name": "dataSubBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nconcrete data. Note that if you are using the `groupDataSubscriber` convenience function, then this\nis already invoked internally, making the task of bindin a group of concrete records even easier. ",
+        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> String -> Pylon.DB.Binding v"
+      },
+      {
+        "name": "forwardingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions with a transformation function for forwarding. If\nthis is not applied to the binding, no feedback will be recieved. ",
+        "type": "(List (Pylon.DB.Group.GroupFeedback subfeedback) -> List action) -> Signal.Address (List action) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "groupDataSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
+        "type": "Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "groupRebasedBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nRebased binding for nested groups. ",
+        "type": "ElmFire.Location -> ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
+      },
+      {
+        "name": "groupRebasedDataSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nConvenience function that makes it easier to bind a `Group (DB.Data v)`. ",
+        "type": "ElmFire.Location -> Pylon.DB.Config v -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Feedback v) -> Pylon.DB.Group.Group (Pylon.DB.Data v) -> ( Pylon.DB.Group.Group (Pylon.DB.Data v) , List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "groupSubBinding",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nA convenience function which makes it a little bit easier to declare a sub-binding function for\nnested groups. ",
+        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding (Pylon.DB.Group.GroupFeedback subfeedback') -> String -> Pylon.DB.Legacy.Group.GroupBinding subfeedback'"
+      },
+      {
+        "name": "groupSubscriber",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nThis is the old subscription primitive, and is quite a bit more limited. For testing purposes,\nit has been implemented in terms of `groupIntegrate` and `groupSubscription`. `groupIntegrate` is\nmuch more powerful, and takes a list of \"sourcing\" functions like `groupSubscription`. ",
+        "type": "(subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (subbinding -> subtype -> ( subtype, List (Pylon.DB.DBTask never) )) -> (Pylon.DB.Legacy.Group.GroupBinding subfeedback -> String -> subbinding) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Group.Group subtype -> ( Pylon.DB.Group.Group subtype, List (Pylon.DB.DBTask never) )"
+      },
+      {
+        "name": "orderGroupBy",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nGive an ordering for the group subscription's internal query. Note that this _will not order the\nresulting key-value dictionary_, but it is still useful because it will have an effect on which\nresults are produced by the Firebase API in the event that limiting is used, which is the case for\nmost practical applications. ",
+        "type": "ElmFire.OrderOptions -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
+      },
+      {
+        "name": "sendingGroupTo",
+        "comment": " DEPRECIATED, removed in 6.0.0\n\nProvide an address for group feedback actions. If this is not applied to the binding, no feedback\nwill be recieved. ",
+        "type": "Signal.Address (List (Pylon.DB.Group.GroupFeedback subfeedback)) -> Pylon.DB.Legacy.Group.GroupBinding subfeedback -> Pylon.DB.Legacy.Group.GroupBinding subfeedback"
       }
     ],
     "generated-with-elm-version": "0.16.0"

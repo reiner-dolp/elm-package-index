@@ -1,5 +1,49 @@
 [
   {
+    "name": "Parser.LowLevel",
+    "comment": " You are unlikely to need any of this under normal circumstances.\n\n# Indentation\n@docs getIndentLevel, withIndentLevel\n\n# Row, Column, Offset, and Source\n@docs getPosition, getRow, getCol, getOffset, getSource\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "getCol",
+        "comment": " The `getCol` parser succeeds with your current column within\nthe string you are parsing.\n",
+        "type": "Parser.Parser Int"
+      },
+      {
+        "name": "getIndentLevel",
+        "comment": " This parser tracks “indentation level” so you can parse indentation\nsensitive languages. Indentation levels correspond to column numbers, so\nit starts at 1.\n",
+        "type": "Parser.Parser Int"
+      },
+      {
+        "name": "getOffset",
+        "comment": " Editors think of code as a grid, but behind the scenes it is just\na flat array of UTF16 characters. `getOffset` tells you your index in\nthat flat array. So if you have read `\"\\n\\n\\n\\n\"` you are on row 5,\ncolumn 1, and offset 4.\n\n**Note:** browsers use UTF16 strings, so characters may be one or two 16-bit\nwords. This means you can read 4 characters, but your offset will move by 8.\n",
+        "type": "Parser.Parser Int"
+      },
+      {
+        "name": "getPosition",
+        "comment": " Code editors treat code like a grid. There are rows and columns.\nIn most editors, rows and colums are 1-indexed. You move to a new row\nwhenever you see a `\\n` character.\n\nThe `getPosition` parser succeeds with your current row and column\nwithin the string you are parsing.\n",
+        "type": "Parser.Parser ( Int, Int )"
+      },
+      {
+        "name": "getRow",
+        "comment": " The `getRow` parser succeeds with your current row within\nthe string you are parsing.\n",
+        "type": "Parser.Parser Int"
+      },
+      {
+        "name": "getSource",
+        "comment": " Get the entire string you are parsing right now. Paired with\n`getOffset` this can let you use `String.slice` to grab substrings\nwith very little intermediate allocation.\n",
+        "type": "Parser.Parser String"
+      },
+      {
+        "name": "withIndentLevel",
+        "comment": " Run a parser with a given indentation level. So you will likely\nuse `getCol` to get the current column, `andThen` give that to\n`withIndentLevel`.\n",
+        "type": "Int -> Parser.Parser a -> Parser.Parser a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Parser.LanguageKit",
     "comment": "\n\n# Variables\n@docs variable\n\n# Lists, records, and that sort of thing\n@docs list, record, tuple, sequence, Trailing\n\n# Whitespace\n@docs whitespace, LineComment, MultiComment\n\n",
     "aliases": [],
@@ -96,50 +140,6 @@
         "name": "whitespace",
         "comment": " Create a custom whitespace parser. It will always chomp the\n`' '`, `'\\r'`, and `'\\n'` characters, but you can customize some\nother things. Here are some examples:\n\n    elm : Parser ()\n    elm =\n      whitespace\n        { allowTabs = False\n        , lineComment = LineComment \"--\"\n        , multiComment = NestableComment \"{-\" \"-}\"\n        }\n\n    js : Parser ()\n    js =\n      whitespace\n        { allowTabs = True\n        , lineComment = LineComment \"//\"\n        , multiComment = UnnestableComment \"/*\" \"*/\"\n        }\n\nIf you need further customization, please open an issue describing your\nscenario or check out the source code and write it yourself. This is all\nbuilt using stuff from the root `Parser` module.\n",
         "type": "{ allowTabs : Bool , lineComment : Parser.LanguageKit.LineComment , multiComment : Parser.LanguageKit.MultiComment } -> Parser.Parser ()"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Parser.LowLevel",
-    "comment": " You are unlikely to need any of this under normal circumstances.\n\n# Indentation\n@docs getIndentLevel, withIndentLevel\n\n# Row, Column, Offset, and Source\n@docs getPosition, getRow, getCol, getOffset, getSource\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "getCol",
-        "comment": " The `getCol` parser succeeds with your current column within\nthe string you are parsing.\n",
-        "type": "Parser.Parser Int"
-      },
-      {
-        "name": "getIndentLevel",
-        "comment": " This parser tracks “indentation level” so you can parse indentation\nsensitive languages. Indentation levels correspond to column numbers, so\nit starts at 1.\n",
-        "type": "Parser.Parser Int"
-      },
-      {
-        "name": "getOffset",
-        "comment": " Editors think of code as a grid, but behind the scenes it is just\na flat array of UTF16 characters. `getOffset` tells you your index in\nthat flat array. So if you have read `\"\\n\\n\\n\\n\"` you are on row 5,\ncolumn 1, and offset 4.\n\n**Note:** browsers use UTF16 strings, so characters may be one or two 16-bit\nwords. This means you can read 4 characters, but your offset will move by 8.\n",
-        "type": "Parser.Parser Int"
-      },
-      {
-        "name": "getPosition",
-        "comment": " Code editors treat code like a grid. There are rows and columns.\nIn most editors, rows and colums are 1-indexed. You move to a new row\nwhenever you see a `\\n` character.\n\nThe `getPosition` parser succeeds with your current row and column\nwithin the string you are parsing.\n",
-        "type": "Parser.Parser ( Int, Int )"
-      },
-      {
-        "name": "getRow",
-        "comment": " The `getRow` parser succeeds with your current row within\nthe string you are parsing.\n",
-        "type": "Parser.Parser Int"
-      },
-      {
-        "name": "getSource",
-        "comment": " Get the entire string you are parsing right now. Paired with\n`getOffset` this can let you use `String.slice` to grab substrings\nwith very little intermediate allocation.\n",
-        "type": "Parser.Parser String"
-      },
-      {
-        "name": "withIndentLevel",
-        "comment": " Run a parser with a given indentation level. So you will likely\nuse `getCol` to get the current column, `andThen` give that to\n`withIndentLevel`.\n",
-        "type": "Int -> Parser.Parser a -> Parser.Parser a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

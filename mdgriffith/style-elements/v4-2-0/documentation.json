@@ -1,5 +1,75 @@
 [
   {
+    "name": "Element.Keyed",
+    "comment": " Keyed Layouts\n\n@docs row, column, wrappedRow, wrappedColumn\n\n\n## Grids\n\n@docs Grid, grid, cell,NamedGrid, namedGrid, named\n\n",
+    "aliases": [
+      {
+        "name": "Grid",
+        "comment": " ",
+        "args": [
+          "style",
+          "variation",
+          "msg"
+        ],
+        "type": "{ rows : List Style.Internal.Model.Length , columns : List Style.Internal.Model.Length , cells : List (Element.OnGrid ( String, Element.Element style variation msg )) }"
+      },
+      {
+        "name": "NamedGrid",
+        "comment": " ",
+        "args": [
+          "style",
+          "variation",
+          "msg"
+        ],
+        "type": "{ rows : List ( Style.Internal.Model.Length , List Style.Internal.Model.NamedGridPosition ) , columns : List Style.Internal.Model.Length , cells : List (Element.NamedOnGrid ( String, Element.Element style variation msg )) }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "cell",
+        "comment": " A specific position on a `grid`.\n",
+        "type": "Element.Keyed.GridPosition style variation msg -> Element.OnGrid ( String, Element.Element style variation msg )"
+      },
+      {
+        "name": "column",
+        "comment": " ",
+        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
+      },
+      {
+        "name": "grid",
+        "comment": " ",
+        "type": "style -> List (Element.Attribute variation msg) -> Element.Keyed.Grid style variation msg -> Element.Element style variation msg"
+      },
+      {
+        "name": "named",
+        "comment": " Specify a named postion on a `namedGrid`.\n\nThe name is used as the key.\n\n",
+        "type": "String -> Element.Element style variation msg -> Element.NamedOnGrid ( String, Element.Element style variation msg )"
+      },
+      {
+        "name": "namedGrid",
+        "comment": " ",
+        "type": "style -> List (Element.Attribute variation msg) -> Element.Keyed.NamedGrid style variation msg -> Element.Element style variation msg"
+      },
+      {
+        "name": "row",
+        "comment": " ",
+        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
+      },
+      {
+        "name": "wrappedColumn",
+        "comment": " ",
+        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
+      },
+      {
+        "name": "wrappedRow",
+        "comment": " ",
+        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Element.Input",
     "comment": " Input Elements\n\n@docs checkbox, Checkbox, styledCheckbox, StyledCheckbox\n\n\n## Text Input\n\n@docs Text, text, multiline, search, email\n\nThe following text inputs give hints to the browser so they can be autofilled.\n\n@docs username, newPassword, currentPassword\n\n@docs textKey\n\n\n## 'Choose One' Inputs\n\n@docs Radio, radio, radioRow, Choice, choice, styledChoice, styledSelectChoice, radioKey, ChoiceState\n\n@docs select, Select, SelectWith, autocomplete, dropMenu, menu, menuAbove, selected, SelectMsg, updateSelection, clear\n\n\n## Labels\n\n@docs labelAbove, labelBelow, labelLeft, labelRight, placeholder, hiddenLabel\n\n\n## Options\n\n@docs Option, errorAbove, errorBelow, disabled, focusOnLoad, autofill, autofillSection, allowSpellcheck\n\n",
     "aliases": [
@@ -309,76 +379,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Element.Keyed",
-    "comment": " Keyed Layouts\n\n@docs row, column, wrappedRow, wrappedColumn\n\n\n## Grids\n\n@docs Grid, grid, cell,NamedGrid, namedGrid, named\n\n",
-    "aliases": [
-      {
-        "name": "Grid",
-        "comment": " ",
-        "args": [
-          "style",
-          "variation",
-          "msg"
-        ],
-        "type": "{ rows : List Style.Internal.Model.Length , columns : List Style.Internal.Model.Length , cells : List (Element.OnGrid ( String, Element.Element style variation msg )) }"
-      },
-      {
-        "name": "NamedGrid",
-        "comment": " ",
-        "args": [
-          "style",
-          "variation",
-          "msg"
-        ],
-        "type": "{ rows : List ( Style.Internal.Model.Length , List Style.Internal.Model.NamedGridPosition ) , columns : List Style.Internal.Model.Length , cells : List (Element.NamedOnGrid ( String, Element.Element style variation msg )) }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "cell",
-        "comment": " A specific position on a `grid`.\n",
-        "type": "Element.Keyed.GridPosition style variation msg -> Element.OnGrid ( String, Element.Element style variation msg )"
-      },
-      {
-        "name": "column",
-        "comment": " ",
-        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
-      },
-      {
-        "name": "grid",
-        "comment": " ",
-        "type": "style -> List (Element.Attribute variation msg) -> Element.Keyed.Grid style variation msg -> Element.Element style variation msg"
-      },
-      {
-        "name": "named",
-        "comment": " Specify a named postion on a `namedGrid`.\n\nThe name is used as the key.\n\n",
-        "type": "String -> Element.Element style variation msg -> Element.NamedOnGrid ( String, Element.Element style variation msg )"
-      },
-      {
-        "name": "namedGrid",
-        "comment": " ",
-        "type": "style -> List (Element.Attribute variation msg) -> Element.Keyed.NamedGrid style variation msg -> Element.Element style variation msg"
-      },
-      {
-        "name": "row",
-        "comment": " ",
-        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
-      },
-      {
-        "name": "wrappedColumn",
-        "comment": " ",
-        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
-      },
-      {
-        "name": "wrappedRow",
-        "comment": " ",
-        "type": "style -> List (Element.Attribute variation msg) -> List ( String, Element.Element style variation msg ) -> Element.Element style variation msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Style.Font",
     "comment": " Font Properties\n\nMeant to be imported as:\n\n    import Style.Font as Font\n\n\n## Typefaces\n\n@docs typeface, font, serif, sansSerif, cursive, fantasy, monospace, importUrl\n\n\n## Properties\n\n@docs size, lineHeight, letterSpacing, wordSpacing, alignLeft, alignRight, center, justify, justifyAll\n\n\n## Font Styles\n\n@docs uppercase, capitalize, lowercase, underline, strike, italic, bold, weight, light\n\n",
     "aliases": [],
@@ -518,60 +518,55 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Filter",
-    "comment": " Filters that can be applied to an element.\n\nIf multiple filters are given, they will stack.\n\n    import Style.Filter as Filter\n    import Style exposing (..)\n\n    style MyFitleredStyle\n        [ Filter.blur 0.5\n        , Filter.invert 0.5\n        ]\n\n@docs url, blur, brightness, contrast, grayscale, hueRotate, invert, opacity, saturate, sepia\n\n",
+    "name": "Style.Shadow",
+    "comment": " Shadows\n\nIf multiple shadows are set, they will stack.\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nYou can also have more control over the paraters of the shadow, such as the `Shadow.box` shown below.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.box\n            { offset = ( 0, 0 )\n            , size = 5\n            , blur = 2\n            , color = Color.blue\n            }\n\n        ]\n\n@docs box, drop, inset, text\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "blur",
+        "name": "box",
         "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Property class variation"
       },
       {
-        "name": "brightness",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "name": "deep",
+        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
+        "type": "Style.Property class variation"
       },
       {
-        "name": "contrast",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "name": "drop",
+        "comment": " A drop shadow will add a shadow to whatever shape you give it.\n\nSo, if you apply a drop shadow to an image with an alpha channel, the shadow will appear around the eges.\n\n",
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Property class variation"
       },
       {
-        "name": "grayscale",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "name": "glow",
+        "comment": " A simple glow by specifying the color and size.\n",
+        "type": "Color.Color -> Float -> Style.Property class variation"
       },
       {
-        "name": "hueRotate",
+        "name": "innerGlow",
         "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "type": "Color.Color -> Float -> Style.Property class variation"
       },
       {
-        "name": "invert",
+        "name": "inset",
         "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Property class variation"
       },
       {
-        "name": "opacity",
-        "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "name": "simple",
+        "comment": " A nice preset box shadow.\n",
+        "type": "Style.Property class variation"
       },
       {
-        "name": "saturate",
+        "name": "text",
         "comment": " ",
-        "type": "Float -> Style.Property class variation"
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Property class variation"
       },
       {
-        "name": "sepia",
+        "name": "textGlow",
         "comment": " ",
-        "type": "Float -> Style.Property class variation"
-      },
-      {
-        "name": "url",
-        "comment": " ",
-        "type": "String -> Style.Property class variation"
+        "type": "Color.Color -> Float -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -606,50 +601,6 @@
         "name": "mix",
         "comment": " ",
         "type": "List (Style.Style class variation) -> Style.Style class variation"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Style.Color",
-    "comment": " Set Colors for your style.\n\nMeant to be imported as\n\n    import Style.Color as Color\n\n@docs text, background, border, cursor, decoration, selection, placeholder\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "background",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "border",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "cursor",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "decoration",
-        "comment": " Text decoration color.\n",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "placeholder",
-        "comment": " The color of the input `placeholder` element.\n",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "selection",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "text",
-        "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -729,6 +680,50 @@
         "name": "top",
         "comment": " ",
         "type": "Float -> Style.Property class variation"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Color",
+    "comment": " Set Colors for your style.\n\nMeant to be imported as\n\n    import Style.Color as Color\n\n@docs text, background, border, cursor, decoration, selection, placeholder\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "background",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "border",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "cursor",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "decoration",
+        "comment": " Text decoration color.\n",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "placeholder",
+        "comment": " The color of the input `placeholder` element.\n",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "selection",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "text",
+        "comment": " ",
+        "type": "Color.Color -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -873,91 +868,6 @@
         "name": "width",
         "comment": " Set only the background image width, the height will be scaled autmatically.\n",
         "type": "Style.Internal.Model.Length -> Style.Background.Size"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Style.Shadow",
-    "comment": " Shadows\n\nIf multiple shadows are set, they will stack.\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nYou can also have more control over the paraters of the shadow, such as the `Shadow.box` shown below.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.box\n            { offset = ( 0, 0 )\n            , size = 5\n            , blur = 2\n            , color = Color.blue\n            }\n\n        ]\n\n@docs box, drop, inset, text\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "box",
-        "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Property class variation"
-      },
-      {
-        "name": "deep",
-        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "drop",
-        "comment": " A drop shadow will add a shadow to whatever shape you give it.\n\nSo, if you apply a drop shadow to an image with an alpha channel, the shadow will appear around the eges.\n\n",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Property class variation"
-      },
-      {
-        "name": "glow",
-        "comment": " A simple glow by specifying the color and size.\n",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      },
-      {
-        "name": "innerGlow",
-        "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      },
-      {
-        "name": "inset",
-        "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Property class variation"
-      },
-      {
-        "name": "simple",
-        "comment": " A nice preset box shadow.\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "text",
-        "comment": " ",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Property class variation"
-      },
-      {
-        "name": "textGlow",
-        "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Style.Transition",
-    "comment": " Transitions\n\n@docs all, performant, transitions, Transition\n\n",
-    "aliases": [
-      {
-        "name": "Transition",
-        "comment": " ",
-        "args": [],
-        "type": "{ delay : Time.Time , duration : Time.Time , easing : String , props : List String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "all",
-        "comment": " Sets transitions on all properties.\n\nIt defaults to:\n\n    - 130ms duration\n    - \"ease\" easing.\n\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "performant",
-        "comment": " This enables transitions on properties that will be GPU accelerated: `transform`, `filter`, and `opacity`.\n\nIt defaults to:\n\n    - 130ms duration\n    - \"ease\" easing.\n\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "transitions",
-        "comment": " Create a set of transitions manually.\n",
-        "type": "List Style.Transition.Transition -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1390,6 +1300,96 @@
         "name": "wrappedRow",
         "comment": " ",
         "type": "style -> List (Element.Attribute variation msg) -> List (Element.Element style variation msg) -> Element.Element style variation msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Transition",
+    "comment": " Transitions\n\n@docs all, performant, transitions, Transition\n\n",
+    "aliases": [
+      {
+        "name": "Transition",
+        "comment": " ",
+        "args": [],
+        "type": "{ delay : Time.Time , duration : Time.Time , easing : String , props : List String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "all",
+        "comment": " Sets transitions on all properties.\n\nIt defaults to:\n\n    - 130ms duration\n    - \"ease\" easing.\n\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "performant",
+        "comment": " This enables transitions on properties that will be GPU accelerated: `transform`, `filter`, and `opacity`.\n\nIt defaults to:\n\n    - 130ms duration\n    - \"ease\" easing.\n\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "transitions",
+        "comment": " Create a set of transitions manually.\n",
+        "type": "List Style.Transition.Transition -> Style.Property class variation"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Filter",
+    "comment": " Filters that can be applied to an element.\n\nIf multiple filters are given, they will stack.\n\n    import Style.Filter as Filter\n    import Style exposing (..)\n\n    style MyFitleredStyle\n        [ Filter.blur 0.5\n        , Filter.invert 0.5\n        ]\n\n@docs url, blur, brightness, contrast, grayscale, hueRotate, invert, opacity, saturate, sepia\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "blur",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "brightness",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "contrast",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "grayscale",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "hueRotate",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "invert",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "opacity",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "saturate",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "sepia",
+        "comment": " ",
+        "type": "Float -> Style.Property class variation"
+      },
+      {
+        "name": "url",
+        "comment": " ",
+        "type": "String -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"

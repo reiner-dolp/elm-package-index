@@ -490,6 +490,69 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Composer.Text.Font",
+    "comment": " A module for reading [font](https://en.wikipedia.org/wiki/Computer_font)\ndescriptions.\n\nComposer only need to known about some font properties in order to layout text.\n\nThis module cannot open standard font files, like TrueType (ttf), OpenType\n(otf), etc. Instead a JSON definition should be provided. The format of this\ndefinition is the same used by the\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nproject. Use the `makefont` utility provided by *gofpdf* to create this\ndefinitions.\n\n@docs Description, Font, Type\n\n\n# Loading Fonts\n\n@docs decoder, empty\n\n\n# Querying Fonts\n\n@docs glyphWidth, kerning, stringWidth\n\n",
+    "aliases": [
+      {
+        "name": "Description",
+        "comment": " A description containing information common to all font glyphs.\n\n  - `ascent`: the distance above the baseline for singled spaced text.\n  - `boundingBox`: a bounding box that can contains any glyph.\n  - `capHeight`: the height of a capital letter above the baseline\n  - `descent`: the distance below the baseline for singled spaced text.\n  - `italicAngle`: the angle of the italic version of the font.\n  - `missingWidth`: the width we should assume for a glyph not found in the\n    font.\n\n",
+        "args": [],
+        "type": "{ ascent : Float , boundingBox : Composer.Geometry.BoundingBox.BoundingBox , capHeight : Float , descent : Float , italicAngle : Float , missingWidth : Float }"
+      },
+      {
+        "name": "Font",
+        "comment": " A font record.\n\n  - `codePage`: the codePage of this font.\n  - `description`: common information for all glyphs.\n  - `kernings`: distance between character pairs.\n  - `name`: the font name, in English.\n  - `type_`: the underlying font type.\n  - `widths`: the width of each glyph, use a [CodePage] to resolve a character\n    index.\n\n",
+        "args": [],
+        "type": "{ codePage : Composer.Text.Font.CodePage.CodePage , description : Composer.Text.Font.Description , kernings : Dict.Dict ( Int, Int ) Float , name : String , type_ : Composer.Text.Font.Type , widths : Array.Array Float }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Type",
+        "comment": " The format type of type.\n",
+        "args": [],
+        "cases": [
+          [
+            "TrueType",
+            []
+          ],
+          [
+            "OpenType",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "decoder",
+        "comment": " The JSON decoder for a Font. The\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nformat is used.\n",
+        "type": "Composer.Text.Font.CodePage.CodePage -> Json.Decode.Decoder Composer.Text.Font.Font"
+      },
+      {
+        "name": "empty",
+        "comment": " An empty Font. Useful for testing.\n",
+        "type": "Composer.Text.Font.Font"
+      },
+      {
+        "name": "glyphWidth",
+        "comment": " Returns the glyph with give an character.\n",
+        "type": "Composer.Text.Font.Font -> Char -> Float"
+      },
+      {
+        "name": "kerning",
+        "comment": " Returns the [kerning](https://en.wikipedia.org/wiki/Kerning) given a pair of\nchars.\n",
+        "type": "Composer.Text.Font.Font -> Char -> Char -> Float"
+      },
+      {
+        "name": "stringWidth",
+        "comment": " Returns the with of a given string. This function is similar to glyphWidth\nbut also takes into account the glyphs kerning.\n",
+        "type": "Composer.Text.Font.Font -> String -> Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Composer.Geometry.Transform",
     "comment": " A 2D linear transform represented by 3x2 matix.\n\n@docs Transform, identity, multiply, combine, apply\n\n\n# Planar Transformations\n\n@docs translate, scale, rotation\n\n",
     "aliases": [
@@ -584,147 +647,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Composer.Text.Font",
-    "comment": " A module for reading [font](https://en.wikipedia.org/wiki/Computer_font)\ndescriptions.\n\nComposer only need to known about some font properties in order to layout text.\n\nThis module cannot open standard font files, like TrueType (ttf), OpenType\n(otf), etc. Instead a JSON definition should be provided. The format of this\ndefinition is the same used by the\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nproject. Use the `makefont` utility provided by *gofpdf* to create this\ndefinitions.\n\n@docs Description, Font, Type\n\n\n# Loading Fonts\n\n@docs decoder, empty\n\n\n# Querying Fonts\n\n@docs glyphWidth, kerning, stringWidth\n\n",
-    "aliases": [
-      {
-        "name": "Description",
-        "comment": " A description containing information common to all font glyphs.\n\n  - `ascent`: the distance above the baseline for singled spaced text.\n  - `boundingBox`: a bounding box that can contains any glyph.\n  - `capHeight`: the height of a capital letter above the baseline\n  - `descent`: the distance below the baseline for singled spaced text.\n  - `italicAngle`: the angle of the italic version of the font.\n  - `missingWidth`: the width we should assume for a glyph not found in the\n    font.\n\n",
-        "args": [],
-        "type": "{ ascent : Float , boundingBox : Composer.Geometry.BoundingBox.BoundingBox , capHeight : Float , descent : Float , italicAngle : Float , missingWidth : Float }"
-      },
-      {
-        "name": "Font",
-        "comment": " A font record.\n\n  - `codePage`: the codePage of this font.\n  - `description`: common information for all glyphs.\n  - `kernings`: distance between character pairs.\n  - `name`: the font name, in English.\n  - `type_`: the underlying font type.\n  - `widths`: the width of each glyph, use a [CodePage] to resolve a character\n    index.\n\n",
-        "args": [],
-        "type": "{ codePage : Composer.Text.Font.CodePage.CodePage , description : Composer.Text.Font.Description , kernings : Dict.Dict ( Int, Int ) Float , name : String , type_ : Composer.Text.Font.Type , widths : Array.Array Float }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Type",
-        "comment": " The format type of type.\n",
-        "args": [],
-        "cases": [
-          [
-            "TrueType",
-            []
-          ],
-          [
-            "OpenType",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "decoder",
-        "comment": " The JSON decoder for a Font. The\n[gofpdf](https://godoc.org/github.com/jung-kurt/gofpdf#hdr-Nonstandard_Fonts)\nformat is used.\n",
-        "type": "Composer.Text.Font.CodePage.CodePage -> Json.Decode.Decoder Composer.Text.Font.Font"
-      },
-      {
-        "name": "empty",
-        "comment": " An empty Font. Useful for testing.\n",
-        "type": "Composer.Text.Font.Font"
-      },
-      {
-        "name": "glyphWidth",
-        "comment": " Returns the glyph with give an character.\n",
-        "type": "Composer.Text.Font.Font -> Char -> Float"
-      },
-      {
-        "name": "kerning",
-        "comment": " Returns the [kerning](https://en.wikipedia.org/wiki/Kerning) given a pair of\nchars.\n",
-        "type": "Composer.Text.Font.Font -> Char -> Char -> Float"
-      },
-      {
-        "name": "stringWidth",
-        "comment": " Returns the with of a given string. This function is similar to glyphWidth\nbut also takes into account the glyphs kerning.\n",
-        "type": "Composer.Text.Font.Font -> String -> Float"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Geometry.Radian",
-    "comment": " A unit for measuring angles.\n\n@docs Radian\n\n",
-    "aliases": [
-      {
-        "name": "Radian",
-        "comment": " ",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Geometry.Size",
-    "comment": " A type to describe 2d sizes, containing width and height.\n\n@docs Size, zero\n\n",
-    "aliases": [
-      {
-        "name": "Size",
-        "comment": " ",
-        "args": [],
-        "type": "{ width : Float, height : Float }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "zero",
-        "comment": " A size with all the dimensions set to zero.\n",
-        "type": "Composer.Geometry.Size.Size"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Geometry.Point",
-    "comment": " A type to describe positions in the Cartesian coordinate system.\n\n@docs Point, origin\n\n",
-    "aliases": [
-      {
-        "name": "Point",
-        "comment": " ",
-        "args": [],
-        "type": "{ x : Float, y : Float }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "origin",
-        "comment": " The origin (0, 0).\n",
-        "type": "Composer.Geometry.Point.Point"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Geometry.BoundingBox",
-    "comment": " A BoundingBox is a rectangular box in 2D defined by a minimum and maximum X\nand Y values.\n\n@docs BoundingBox, zero\n\n",
-    "aliases": [
-      {
-        "name": "BoundingBox",
-        "comment": " ",
-        "args": [],
-        "type": "{ xMax : Float, xMin : Float, yMax : Float, yMin : Float }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "zero",
-        "comment": " An BoundingBox with all the dimensions set to zero.\n",
-        "type": "Composer.Geometry.BoundingBox.BoundingBox"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Composer.Text.Font.CodePage",
     "comment": " A [CodePage](https://en.wikipedia.org/wiki/Character_encoding) is an\nassociation between a set of characters to encoding system.\n\nUsually Fonts have glyph information in tables, for example, the table of\nglyph widths. To obtain to the width of a glyph we have to use a CodePage to\nget the index that contains the width in a font table.\n\n@docs CodePage\n\n\n# Quering\n\n@docs char, index\n\n\n# Creating encodings\n\n@docs empty, fromString\n\n",
     "aliases": [],
@@ -761,6 +683,63 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Composer.Geometry.Radian",
+    "comment": " A unit for measuring angles.\n\n@docs Radian\n\n",
+    "aliases": [
+      {
+        "name": "Radian",
+        "comment": " ",
+        "args": [],
+        "type": "Float"
+      }
+    ],
+    "types": [],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Composer.Geometry.BoundingBox",
+    "comment": " A BoundingBox is a rectangular box in 2D defined by a minimum and maximum X\nand Y values.\n\n@docs BoundingBox, zero\n\n",
+    "aliases": [
+      {
+        "name": "BoundingBox",
+        "comment": " ",
+        "args": [],
+        "type": "{ xMax : Float, xMin : Float, yMax : Float, yMin : Float }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "zero",
+        "comment": " An BoundingBox with all the dimensions set to zero.\n",
+        "type": "Composer.Geometry.BoundingBox.BoundingBox"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Composer.Geometry.Size",
+    "comment": " A type to describe 2d sizes, containing width and height.\n\n@docs Size, zero\n\n",
+    "aliases": [
+      {
+        "name": "Size",
+        "comment": " ",
+        "args": [],
+        "type": "{ width : Float, height : Float }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "zero",
+        "comment": " A size with all the dimensions set to zero.\n",
+        "type": "Composer.Geometry.Size.Size"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Composer.Geometry.Offset",
     "comment": " A set of four dimensions: top, left, bottom and right. Used for offsets,\npadding, margins, etc.\n\n@docs Offset, zero\n\n",
     "aliases": [
@@ -777,6 +756,27 @@
         "name": "zero",
         "comment": " An offset with all the dimensions set to zero.\n",
         "type": "Composer.Geometry.Offset.Offset"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Composer.Geometry.Point",
+    "comment": " A type to describe positions in the Cartesian coordinate system.\n\n@docs Point, origin\n\n",
+    "aliases": [
+      {
+        "name": "Point",
+        "comment": " ",
+        "args": [],
+        "type": "{ x : Float, y : Float }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "origin",
+        "comment": " The origin (0, 0).\n",
+        "type": "Composer.Geometry.Point.Point"
       }
     ],
     "generated-with-elm-version": "0.18.0"

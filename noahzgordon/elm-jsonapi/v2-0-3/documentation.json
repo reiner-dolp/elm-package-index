@@ -19,6 +19,40 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "JsonApi.Documents",
+    "comment": " Helper functions for working with a full JsonApi Document\n\n# Common Helpers\n@docs links, jsonapi, primaryResource, primaryResourceCollection, meta\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "jsonapi",
+        "comment": " Fetch information from the top-level 'jsonapi' object\n",
+        "type": "JsonApi.Data.Document -> Maybe.Maybe JsonApi.Data.JsonApiObject"
+      },
+      {
+        "name": "links",
+        "comment": " Fetch the top-level links object from the document.\n",
+        "type": "JsonApi.Data.Document -> JsonApi.Data.Links"
+      },
+      {
+        "name": "meta",
+        "comment": " Fetch the top-level meta object from the document.\n",
+        "type": "JsonApi.Data.Document -> JsonApi.Data.Meta"
+      },
+      {
+        "name": "primaryResource",
+        "comment": " Retrieve the primary resource from a decoded Document.\n    This function assumes a singular primary resource and will return an Err\n    if the document contains a collection of primary resources.\n",
+        "type": "JsonApi.Data.Document -> Result.Result String JsonApi.Data.Resource"
+      },
+      {
+        "name": "primaryResourceCollection",
+        "comment": " Retrieve a collection of primary resources from a decoded Document.\n    This function assumes a collection primary resources and will return an Err\n    if the document contains a singular primary resource.\n",
+        "type": "JsonApi.Data.Document -> Result.Result String (List JsonApi.Data.Resource)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "JsonApi.Resources",
     "comment": " Helper functions for working with a single JsonApi Resource\n\n# Common Helpers\n@docs id, attributes, attribute, links, relatedResource, relatedResourceCollection, meta, relatedLinks, relatedMeta\n\n",
     "aliases": [],
@@ -68,40 +102,6 @@
         "name": "relatedResourceCollection",
         "comment": " Find a related collection of resources.\n    Will return an Err if a single resource is found.\n",
         "type": "String -> JsonApi.Data.Resource -> Result.Result String (List JsonApi.Data.Resource)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "JsonApi.Documents",
-    "comment": " Helper functions for working with a full JsonApi Document\n\n# Common Helpers\n@docs links, jsonapi, primaryResource, primaryResourceCollection, meta\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "jsonapi",
-        "comment": " Fetch information from the top-level 'jsonapi' object\n",
-        "type": "JsonApi.Data.Document -> Maybe.Maybe JsonApi.Data.JsonApiObject"
-      },
-      {
-        "name": "links",
-        "comment": " Fetch the top-level links object from the document.\n",
-        "type": "JsonApi.Data.Document -> JsonApi.Data.Links"
-      },
-      {
-        "name": "meta",
-        "comment": " Fetch the top-level meta object from the document.\n",
-        "type": "JsonApi.Data.Document -> JsonApi.Data.Meta"
-      },
-      {
-        "name": "primaryResource",
-        "comment": " Retrieve the primary resource from a decoded Document.\n    This function assumes a singular primary resource and will return an Err\n    if the document contains a collection of primary resources.\n",
-        "type": "JsonApi.Data.Document -> Result.Result String JsonApi.Data.Resource"
-      },
-      {
-        "name": "primaryResourceCollection",
-        "comment": " Retrieve a collection of primary resources from a decoded Document.\n    This function assumes a collection primary resources and will return an Err\n    if the document contains a singular primary resource.\n",
-        "type": "JsonApi.Data.Document -> Result.Result String (List JsonApi.Data.Resource)"
       }
     ],
     "generated-with-elm-version": "0.18.0"

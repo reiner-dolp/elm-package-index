@@ -511,72 +511,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Time",
-    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
-    "aliases": [
-      {
-        "name": "Time",
-        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "every",
-        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
-        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "hour",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "inHours",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMilliseconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inMinutes",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "inSeconds",
-        "comment": "",
-        "type": "Time.Time -> Float"
-      },
-      {
-        "name": "millisecond",
-        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
-        "type": "Time.Time"
-      },
-      {
-        "name": "minute",
-        "comment": "",
-        "type": "Time.Time"
-      },
-      {
-        "name": "now",
-        "comment": " Get the `Time` at the moment when this task is run.\n",
-        "type": "Task.Task x Time.Time"
-      },
-      {
-        "name": "second",
-        "comment": "",
-        "type": "Time.Time"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Set",
     "comment": " A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time.\n\n# Sets\n@docs Set\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs isEmpty, member, size\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition\n\n",
     "aliases": [],
@@ -675,6 +609,72 @@
         "name": "union",
         "comment": " Get the union of two sets. Keep all values.\n",
         "type": "Set.Set comparable -> Set.Set comparable -> Set.Set comparable"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Time",
+    "comment": " Library for working with time.\n\n# Time\n@docs Time, now, every\n\n# Units\n@docs millisecond, second, minute, hour,\n  inMilliseconds, inSeconds, inMinutes, inHours\n\n",
+    "aliases": [
+      {
+        "name": "Time",
+        "comment": " Type alias to make it clearer when you are working with time values.\nUsing the `Time` helpers like `second` and `inSeconds` instead of raw numbers\nis very highly recommended.\n",
+        "args": [],
+        "type": "Float"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "every",
+        "comment": " Subscribe to the current time. First you provide an interval describing how\nfrequently you want updates. Second, you give a tagger that turns a time into a\nmessage for your `update` function. So if you want to hear about the current\ntime every second, you would say something like this:\n\n    type Msg = Tick Time | ...\n\n    subscriptions model =\n      every second Tick\n\nCheck out the [Elm Architecture Tutorial][arch] for more info on how\nsubscriptions work.\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n**Note:** this function is not for animation! You need to use something based\non `requestAnimationFrame` to get smooth animations. This is based on\n`setInterval` which is better for recurring tasks like “check on something\nevery 30 seconds”.\n",
+        "type": "Time.Time -> (Time.Time -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "hour",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "inHours",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMilliseconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inMinutes",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "inSeconds",
+        "comment": "",
+        "type": "Time.Time -> Float"
+      },
+      {
+        "name": "millisecond",
+        "comment": " Units of time, making it easier to specify things like a half-second\n`(500 * millisecond)` without remembering Elm&rsquo;s underlying units of time.\n",
+        "type": "Time.Time"
+      },
+      {
+        "name": "minute",
+        "comment": "",
+        "type": "Time.Time"
+      },
+      {
+        "name": "now",
+        "comment": " Get the `Time` at the moment when this task is run.\n",
+        "type": "Task.Task x Time.Time"
+      },
+      {
+        "name": "second",
+        "comment": "",
+        "type": "Time.Time"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1296,192 +1296,53 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "List",
-    "comment": " A library for manipulating lists of values. Every value in a\nlist must have the same type.\n\n# Basics\n@docs isEmpty, length, reverse, member\n\n# Sub-lists\n@docs head, tail, filter, take, drop\n\n# Putting Lists Together\n@docs repeat, (::), append, concat, intersperse\n\n# Taking Lists Apart\n@docs partition, unzip\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\nIf you can think of a legitimate use of `mapN` where `N` is 6 or more, please\nlet us know on [the list](https://groups.google.com/forum/#!forum/elm-discuss).\nThe current sentiment is that it is already quite error prone once you get to\n4 and possibly should be approached another way.\n\n# Special Maps\n@docs filterMap, concatMap, indexedMap\n\n# Folding\n@docs foldr, foldl\n\n# Special Folds\n@docs sum, product, maximum, minimum, all, any, scanl\n\n# Sorting\n@docs sort, sortBy, sortWith\n\n",
+    "name": "Platform",
+    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
     "aliases": [],
-    "types": [],
+    "types": [
+      {
+        "name": "ProcessId",
+        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Program",
+        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
+        "args": [
+          "flags"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Router",
+        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
+        "args": [
+          "appMsg",
+          "selfMsg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Task",
+        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
+        "args": [
+          "err",
+          "ok"
+        ],
+        "cases": []
+      }
+    ],
     "values": [
       {
-        "name": "::",
-        "comment": " Add an element to the front of a list. Pronounced *cons*.\n\n    1 :: [2,3] == [1,2,3]\n    1 :: [] == [1]\n",
-        "type": "a -> List a -> List a",
-        "associativity": "right",
-        "precedence": 5
+        "name": "sendToApp",
+        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
+        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
       },
       {
-        "name": "all",
-        "comment": " Determine if all elements satisfy the predicate.\n\n    all isEven [2,4] == True\n    all isEven [2,3] == False\n    all isEven [] == True\n",
-        "type": "(a -> Bool) -> List a -> Bool"
-      },
-      {
-        "name": "any",
-        "comment": " Determine if any elements satisfy the predicate.\n\n    any isEven [2,3] == True\n    any isEven [1,3] == False\n    any isEven [] == False\n",
-        "type": "(a -> Bool) -> List a -> Bool"
-      },
-      {
-        "name": "append",
-        "comment": " Put two lists together.\n\n    append [1,1,2] [3,5,8] == [1,1,2,3,5,8]\n    append ['a','b'] ['c'] == ['a','b','c']\n\nYou can also use [the `(++)` operator](Basics#++) to append lists.\n",
-        "type": "List a -> List a -> List a"
-      },
-      {
-        "name": "concat",
-        "comment": " Concatenate a bunch of lists into a single list:\n\n    concat [[1,2],[3],[4,5]] == [1,2,3,4,5]\n",
-        "type": "List (List a) -> List a"
-      },
-      {
-        "name": "concatMap",
-        "comment": " Map a given function onto a list and flatten the resulting lists.\n\n    concatMap f xs == concat (map f xs)\n",
-        "type": "(a -> List b) -> List a -> List b"
-      },
-      {
-        "name": "drop",
-        "comment": " Drop the first *n* members of a list.\n\n    drop 2 [1,2,3,4] == [3,4]\n",
-        "type": "Int -> List a -> List a"
-      },
-      {
-        "name": "filter",
-        "comment": " Keep only elements that satisfy the predicate.\n\n    filter isEven [1..6] == [2,4,6]\n",
-        "type": "(a -> Bool) -> List a -> List a"
-      },
-      {
-        "name": "filterMap",
-        "comment": " Apply a function that may succeed to all values in the list, but only keep\nthe successes.\n\n    onlyTeens =\n      filterMap isTeen [3, 15, 12, 18, 24] == [15, 18]\n\n    isTeen : Int -> Maybe Int\n    isTeen n =\n      if 13 <= n && n <= 19 then\n        Just n\n\n      else\n        Nothing\n",
-        "type": "(a -> Maybe.Maybe b) -> List a -> List b"
-      },
-      {
-        "name": "foldl",
-        "comment": " Reduce a list from the left.\n\n    foldl (::) [] [1,2,3] == [3,2,1]\n",
-        "type": "(a -> b -> b) -> b -> List a -> b"
-      },
-      {
-        "name": "foldr",
-        "comment": " Reduce a list from the right.\n\n    foldr (+) 0 [1,2,3] == 6\n",
-        "type": "(a -> b -> b) -> b -> List a -> b"
-      },
-      {
-        "name": "head",
-        "comment": " Extract the first element of a list.\n\n    head [1,2,3] == Just 1\n    head [] == Nothing\n",
-        "type": "List a -> Maybe.Maybe a"
-      },
-      {
-        "name": "indexedMap",
-        "comment": " Same as `map` but the function is also applied to the index of each\nelement (starting at zero).\n\n    indexedMap (,) [\"Tom\",\"Sue\",\"Bob\"] == [ (0,\"Tom\"), (1,\"Sue\"), (2,\"Bob\") ]\n",
-        "type": "(Int -> a -> b) -> List a -> List b"
-      },
-      {
-        "name": "intersperse",
-        "comment": " Places the given value between all members of the given list.\n\n    intersperse \"on\" [\"turtles\",\"turtles\",\"turtles\"] == [\"turtles\",\"on\",\"turtles\",\"on\",\"turtles\"]\n",
-        "type": "a -> List a -> List a"
-      },
-      {
-        "name": "isEmpty",
-        "comment": " Determine if a list is empty.\n\n    isEmpty [] == True\n",
-        "type": "List a -> Bool"
-      },
-      {
-        "name": "length",
-        "comment": " Determine the length of a list.\n\n    length [1,2,3] == 3\n",
-        "type": "List a -> Int"
-      },
-      {
-        "name": "map",
-        "comment": " Apply a function to every element of a list.\n\n    map sqrt [1,4,9] == [1,2,3]\n\n    map not [True,False,True] == [False,True,False]\n",
-        "type": "(a -> b) -> List a -> List b"
-      },
-      {
-        "name": "map2",
-        "comment": " Combine two lists, combining them with the given function.\nIf one list is longer, the extra elements are dropped.\n\n    map2 (+) [1,2,3] [1,2,3,4] == [2,4,6]\n\n    map2 (,) [1,2,3] ['a','b'] == [ (1,'a'), (2,'b') ]\n\n    pairs : List a -> List b -> List (a,b)\n    pairs lefts rights =\n        map2 (,) lefts rights\n",
-        "type": "(a -> b -> result) -> List a -> List b -> List result"
-      },
-      {
-        "name": "map3",
-        "comment": "",
-        "type": "(a -> b -> c -> result) -> List a -> List b -> List c -> List result"
-      },
-      {
-        "name": "map4",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> result) -> List a -> List b -> List c -> List d -> List result"
-      },
-      {
-        "name": "map5",
-        "comment": "",
-        "type": "(a -> b -> c -> d -> e -> result) -> List a -> List b -> List c -> List d -> List e -> List result"
-      },
-      {
-        "name": "maximum",
-        "comment": " Find the maximum element in a non-empty list.\n\n    maximum [1,4,2] == Just 4\n    maximum []      == Nothing\n",
-        "type": "List comparable -> Maybe.Maybe comparable"
-      },
-      {
-        "name": "member",
-        "comment": " Figure out whether a list contains a value.\n\n    member 9 [1,2,3,4] == False\n    member 4 [1,2,3,4] == True\n",
-        "type": "a -> List a -> Bool"
-      },
-      {
-        "name": "minimum",
-        "comment": " Find the minimum element in a non-empty list.\n\n    minimum [3,2,1] == Just 1\n    minimum []      == Nothing\n",
-        "type": "List comparable -> Maybe.Maybe comparable"
-      },
-      {
-        "name": "partition",
-        "comment": " Partition a list based on a predicate. The first list contains all values\nthat satisfy the predicate, and the second list contains all the value that do\nnot.\n\n    partition (\\x -> x < 3) [0..5] == ([0,1,2], [3,4,5])\n    partition isEven        [0..5] == ([0,2,4], [1,3,5])\n",
-        "type": "(a -> Bool) -> List a -> ( List a, List a )"
-      },
-      {
-        "name": "product",
-        "comment": " Get the product of the list elements.\n\n    product [1..4] == 24\n",
-        "type": "List number -> number"
-      },
-      {
-        "name": "repeat",
-        "comment": " Create a list with *n* copies of a value:\n\n    repeat 3 (0,0) == [(0,0),(0,0),(0,0)]\n",
-        "type": "Int -> a -> List a"
-      },
-      {
-        "name": "reverse",
-        "comment": " Reverse a list.\n\n    reverse [1..4] == [4,3,2,1]\n",
-        "type": "List a -> List a"
-      },
-      {
-        "name": "scanl",
-        "comment": " Reduce a list from the left, building up all of the intermediate results into a list.\n\n    scanl (+) 0 [1,2,3,4] == [0,1,3,6,10]\n",
-        "type": "(a -> b -> b) -> b -> List a -> List b"
-      },
-      {
-        "name": "sort",
-        "comment": " Sort values from lowest to highest\n\n    sort [3,1,5] == [1,3,5]\n",
-        "type": "List comparable -> List comparable"
-      },
-      {
-        "name": "sortBy",
-        "comment": " Sort values by a derived property.\n\n    alice = { name=\"Alice\", height=1.62 }\n    bob   = { name=\"Bob\"  , height=1.85 }\n    chuck = { name=\"Chuck\", height=1.76 }\n\n    sortBy .name   [chuck,alice,bob] == [alice,bob,chuck]\n    sortBy .height [chuck,alice,bob] == [alice,chuck,bob]\n\n    sortBy String.length [\"mouse\",\"cat\"] == [\"cat\",\"mouse\"]\n",
-        "type": "(a -> comparable) -> List a -> List a"
-      },
-      {
-        "name": "sortWith",
-        "comment": " Sort values with a custom comparison function.\n\n    sortWith flippedComparison [1..5] == [5,4,3,2,1]\n\n    flippedComparison a b =\n        case compare a b of\n          LT -> GT\n          EQ -> EQ\n          GT -> LT\n\nThis is also the most general sort function, allowing you\nto define any other: `sort == sortWith compare`\n",
-        "type": "(a -> a -> Basics.Order) -> List a -> List a"
-      },
-      {
-        "name": "sum",
-        "comment": " Get the sum of the list elements.\n\n    sum [1..4] == 10\n",
-        "type": "List number -> number"
-      },
-      {
-        "name": "tail",
-        "comment": " Extract the rest of the list.\n\n    tail [1,2,3] == Just [2,3]\n    tail [] == Nothing\n",
-        "type": "List a -> Maybe.Maybe (List a)"
-      },
-      {
-        "name": "take",
-        "comment": " Take the first *n* members of a list.\n\n    take 2 [1,2,3,4] == [1,2]\n",
-        "type": "Int -> List a -> List a"
-      },
-      {
-        "name": "unzip",
-        "comment": " Decompose a list of tuples into a tuple of lists.\n\n    unzip [(0, True), (17, False), (1337, True)] == ([0,17,1337], [True,False,True])\n",
-        "type": "List ( a, b ) -> ( List a, List b )"
+        "name": "sendToSelf",
+        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
+        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1724,53 +1585,192 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform",
-    "comment": "\n\n# Programs\n@docs Program\n\n# Platform Internals\n\n## Tasks and Processes\n@docs Task, ProcessId\n\n## Effect Manager Helpers\n\nAn extremely tiny portion of library authors should ever write effect managers.\nFundamentally, Elm needs maybe 10 of them total. I get that people are smart,\ncurious, etc. but that is not a substitute for a legitimate reason to make an\neffect manager. Do you have an *organic need* this fills? Or are you just\ncurious? Public discussions of your explorations should be framed accordingly.\n\n@docs Router, sendToApp, sendToSelf\n",
+    "name": "List",
+    "comment": " A library for manipulating lists of values. Every value in a\nlist must have the same type.\n\n# Basics\n@docs isEmpty, length, reverse, member\n\n# Sub-lists\n@docs head, tail, filter, take, drop\n\n# Putting Lists Together\n@docs repeat, (::), append, concat, intersperse\n\n# Taking Lists Apart\n@docs partition, unzip\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\nIf you can think of a legitimate use of `mapN` where `N` is 6 or more, please\nlet us know on [the list](https://groups.google.com/forum/#!forum/elm-discuss).\nThe current sentiment is that it is already quite error prone once you get to\n4 and possibly should be approached another way.\n\n# Special Maps\n@docs filterMap, concatMap, indexedMap\n\n# Folding\n@docs foldr, foldl\n\n# Special Folds\n@docs sum, product, maximum, minimum, all, any, scanl\n\n# Sorting\n@docs sort, sortBy, sortWith\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "ProcessId",
-        "comment": " Head over to the documentation for the [`Process`](Process) module for\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Program",
-        "comment": " Every Elm project will define `main` to be some sort of `Program`. A\n`Program` value captures all the details needed to manage your application,\nincluding how to initialize things, how to respond to events, etc.\n\nThe type of a `Program` includes a `flags` type variable which describes the\ndata we need to start a program. So say our program needs to be given a `userID`\nand `token` to get started:\n\n    MyApp.main : Program { userID : String, token : Int }\n\nSo when we initialize this program in JavaScript, we can give the necessary flags\nreally easily!\n\n```javascript\nElm.MyApp.fullscreen({\n    userID: \"Tom\",\n    token: 42\n});\n```\n",
-        "args": [
-          "flags"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Router",
-        "comment": " An effect manager has access to a “router” that routes messages between\nthe main app and your individual effect manager.\n",
-        "args": [
-          "appMsg",
-          "selfMsg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Task",
-        "comment": " Head over to the documentation for the [`Task`](Task) module for more\ninformation on this. It is only defined here because it is a platform\nprimitive.\n",
-        "args": [
-          "err",
-          "ok"
-        ],
-        "cases": []
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "sendToApp",
-        "comment": " Send the router a message for the main loop of your app. This message will\nbe handled by the overall `update` function, just like events from `Html`.\n",
-        "type": "Platform.Router msg a -> msg -> Platform.Task x ()"
+        "name": "::",
+        "comment": " Add an element to the front of a list. Pronounced *cons*.\n\n    1 :: [2,3] == [1,2,3]\n    1 :: [] == [1]\n",
+        "type": "a -> List a -> List a",
+        "associativity": "right",
+        "precedence": 5
       },
       {
-        "name": "sendToSelf",
-        "comment": " Send the router a message for your effect manager. This message will\nbe routed to the `onSelfMsg` function, where you can update the state of your\neffect manager as necessary.\n\nAs an example, the effect manager for web sockets\n",
-        "type": "Platform.Router a msg -> msg -> Platform.Task x ()"
+        "name": "all",
+        "comment": " Determine if all elements satisfy the predicate.\n\n    all isEven [2,4] == True\n    all isEven [2,3] == False\n    all isEven [] == True\n",
+        "type": "(a -> Bool) -> List a -> Bool"
+      },
+      {
+        "name": "any",
+        "comment": " Determine if any elements satisfy the predicate.\n\n    any isEven [2,3] == True\n    any isEven [1,3] == False\n    any isEven [] == False\n",
+        "type": "(a -> Bool) -> List a -> Bool"
+      },
+      {
+        "name": "append",
+        "comment": " Put two lists together.\n\n    append [1,1,2] [3,5,8] == [1,1,2,3,5,8]\n    append ['a','b'] ['c'] == ['a','b','c']\n\nYou can also use [the `(++)` operator](Basics#++) to append lists.\n",
+        "type": "List a -> List a -> List a"
+      },
+      {
+        "name": "concat",
+        "comment": " Concatenate a bunch of lists into a single list:\n\n    concat [[1,2],[3],[4,5]] == [1,2,3,4,5]\n",
+        "type": "List (List a) -> List a"
+      },
+      {
+        "name": "concatMap",
+        "comment": " Map a given function onto a list and flatten the resulting lists.\n\n    concatMap f xs == concat (map f xs)\n",
+        "type": "(a -> List b) -> List a -> List b"
+      },
+      {
+        "name": "drop",
+        "comment": " Drop the first *n* members of a list.\n\n    drop 2 [1,2,3,4] == [3,4]\n",
+        "type": "Int -> List a -> List a"
+      },
+      {
+        "name": "filter",
+        "comment": " Keep only elements that satisfy the predicate.\n\n    filter isEven [1..6] == [2,4,6]\n",
+        "type": "(a -> Bool) -> List a -> List a"
+      },
+      {
+        "name": "filterMap",
+        "comment": " Apply a function that may succeed to all values in the list, but only keep\nthe successes.\n\n    onlyTeens =\n      filterMap isTeen [3, 15, 12, 18, 24] == [15, 18]\n\n    isTeen : Int -> Maybe Int\n    isTeen n =\n      if 13 <= n && n <= 19 then\n        Just n\n\n      else\n        Nothing\n",
+        "type": "(a -> Maybe.Maybe b) -> List a -> List b"
+      },
+      {
+        "name": "foldl",
+        "comment": " Reduce a list from the left.\n\n    foldl (::) [] [1,2,3] == [3,2,1]\n",
+        "type": "(a -> b -> b) -> b -> List a -> b"
+      },
+      {
+        "name": "foldr",
+        "comment": " Reduce a list from the right.\n\n    foldr (+) 0 [1,2,3] == 6\n",
+        "type": "(a -> b -> b) -> b -> List a -> b"
+      },
+      {
+        "name": "head",
+        "comment": " Extract the first element of a list.\n\n    head [1,2,3] == Just 1\n    head [] == Nothing\n",
+        "type": "List a -> Maybe.Maybe a"
+      },
+      {
+        "name": "indexedMap",
+        "comment": " Same as `map` but the function is also applied to the index of each\nelement (starting at zero).\n\n    indexedMap (,) [\"Tom\",\"Sue\",\"Bob\"] == [ (0,\"Tom\"), (1,\"Sue\"), (2,\"Bob\") ]\n",
+        "type": "(Int -> a -> b) -> List a -> List b"
+      },
+      {
+        "name": "intersperse",
+        "comment": " Places the given value between all members of the given list.\n\n    intersperse \"on\" [\"turtles\",\"turtles\",\"turtles\"] == [\"turtles\",\"on\",\"turtles\",\"on\",\"turtles\"]\n",
+        "type": "a -> List a -> List a"
+      },
+      {
+        "name": "isEmpty",
+        "comment": " Determine if a list is empty.\n\n    isEmpty [] == True\n",
+        "type": "List a -> Bool"
+      },
+      {
+        "name": "length",
+        "comment": " Determine the length of a list.\n\n    length [1,2,3] == 3\n",
+        "type": "List a -> Int"
+      },
+      {
+        "name": "map",
+        "comment": " Apply a function to every element of a list.\n\n    map sqrt [1,4,9] == [1,2,3]\n\n    map not [True,False,True] == [False,True,False]\n",
+        "type": "(a -> b) -> List a -> List b"
+      },
+      {
+        "name": "map2",
+        "comment": " Combine two lists, combining them with the given function.\nIf one list is longer, the extra elements are dropped.\n\n    map2 (+) [1,2,3] [1,2,3,4] == [2,4,6]\n\n    map2 (,) [1,2,3] ['a','b'] == [ (1,'a'), (2,'b') ]\n\n    pairs : List a -> List b -> List (a,b)\n    pairs lefts rights =\n        map2 (,) lefts rights\n",
+        "type": "(a -> b -> result) -> List a -> List b -> List result"
+      },
+      {
+        "name": "map3",
+        "comment": "",
+        "type": "(a -> b -> c -> result) -> List a -> List b -> List c -> List result"
+      },
+      {
+        "name": "map4",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> result) -> List a -> List b -> List c -> List d -> List result"
+      },
+      {
+        "name": "map5",
+        "comment": "",
+        "type": "(a -> b -> c -> d -> e -> result) -> List a -> List b -> List c -> List d -> List e -> List result"
+      },
+      {
+        "name": "maximum",
+        "comment": " Find the maximum element in a non-empty list.\n\n    maximum [1,4,2] == Just 4\n    maximum []      == Nothing\n",
+        "type": "List comparable -> Maybe.Maybe comparable"
+      },
+      {
+        "name": "member",
+        "comment": " Figure out whether a list contains a value.\n\n    member 9 [1,2,3,4] == False\n    member 4 [1,2,3,4] == True\n",
+        "type": "a -> List a -> Bool"
+      },
+      {
+        "name": "minimum",
+        "comment": " Find the minimum element in a non-empty list.\n\n    minimum [3,2,1] == Just 1\n    minimum []      == Nothing\n",
+        "type": "List comparable -> Maybe.Maybe comparable"
+      },
+      {
+        "name": "partition",
+        "comment": " Partition a list based on a predicate. The first list contains all values\nthat satisfy the predicate, and the second list contains all the value that do\nnot.\n\n    partition (\\x -> x < 3) [0..5] == ([0,1,2], [3,4,5])\n    partition isEven        [0..5] == ([0,2,4], [1,3,5])\n",
+        "type": "(a -> Bool) -> List a -> ( List a, List a )"
+      },
+      {
+        "name": "product",
+        "comment": " Get the product of the list elements.\n\n    product [1..4] == 24\n",
+        "type": "List number -> number"
+      },
+      {
+        "name": "repeat",
+        "comment": " Create a list with *n* copies of a value:\n\n    repeat 3 (0,0) == [(0,0),(0,0),(0,0)]\n",
+        "type": "Int -> a -> List a"
+      },
+      {
+        "name": "reverse",
+        "comment": " Reverse a list.\n\n    reverse [1..4] == [4,3,2,1]\n",
+        "type": "List a -> List a"
+      },
+      {
+        "name": "scanl",
+        "comment": " Reduce a list from the left, building up all of the intermediate results into a list.\n\n    scanl (+) 0 [1,2,3,4] == [0,1,3,6,10]\n",
+        "type": "(a -> b -> b) -> b -> List a -> List b"
+      },
+      {
+        "name": "sort",
+        "comment": " Sort values from lowest to highest\n\n    sort [3,1,5] == [1,3,5]\n",
+        "type": "List comparable -> List comparable"
+      },
+      {
+        "name": "sortBy",
+        "comment": " Sort values by a derived property.\n\n    alice = { name=\"Alice\", height=1.62 }\n    bob   = { name=\"Bob\"  , height=1.85 }\n    chuck = { name=\"Chuck\", height=1.76 }\n\n    sortBy .name   [chuck,alice,bob] == [alice,bob,chuck]\n    sortBy .height [chuck,alice,bob] == [alice,chuck,bob]\n\n    sortBy String.length [\"mouse\",\"cat\"] == [\"cat\",\"mouse\"]\n",
+        "type": "(a -> comparable) -> List a -> List a"
+      },
+      {
+        "name": "sortWith",
+        "comment": " Sort values with a custom comparison function.\n\n    sortWith flippedComparison [1..5] == [5,4,3,2,1]\n\n    flippedComparison a b =\n        case compare a b of\n          LT -> GT\n          EQ -> EQ\n          GT -> LT\n\nThis is also the most general sort function, allowing you\nto define any other: `sort == sortWith compare`\n",
+        "type": "(a -> a -> Basics.Order) -> List a -> List a"
+      },
+      {
+        "name": "sum",
+        "comment": " Get the sum of the list elements.\n\n    sum [1..4] == 10\n",
+        "type": "List number -> number"
+      },
+      {
+        "name": "tail",
+        "comment": " Extract the rest of the list.\n\n    tail [1,2,3] == Just [2,3]\n    tail [] == Nothing\n",
+        "type": "List a -> Maybe.Maybe (List a)"
+      },
+      {
+        "name": "take",
+        "comment": " Take the first *n* members of a list.\n\n    take 2 [1,2,3,4] == [1,2]\n",
+        "type": "Int -> List a -> List a"
+      },
+      {
+        "name": "unzip",
+        "comment": " Decompose a list of tuples into a tuple of lists.\n\n    unzip [(0, True), (17, False), (1337, True)] == ([0,17,1337], [True,False,True])\n",
+        "type": "List ( a, b ) -> ( List a, List b )"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1842,81 +1842,6 @@
         "name": "toUpper",
         "comment": " Convert to upper case. ",
         "type": "Char -> Char"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Regex",
-    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
-    "aliases": [
-      {
-        "name": "Match",
-        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
-        "args": [],
-        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
-      }
-    ],
-    "types": [
-      {
-        "name": "HowMany",
-        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
-        "args": [],
-        "cases": [
-          [
-            "All",
-            []
-          ],
-          [
-            "AtMost",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "Regex",
-        "comment": " A regular expression, describing a certain set of strings.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "caseInsensitive",
-        "comment": " Make a regex case insensitive ",
-        "type": "Regex.Regex -> Regex.Regex"
-      },
-      {
-        "name": "contains",
-        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
-        "type": "Regex.Regex -> String -> Bool"
-      },
-      {
-        "name": "escape",
-        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
-        "type": "String -> String"
-      },
-      {
-        "name": "find",
-        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
-      },
-      {
-        "name": "regex",
-        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
-        "type": "String -> Regex.Regex"
-      },
-      {
-        "name": "replace",
-        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
-        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
-      },
-      {
-        "name": "split",
-        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1999,6 +1924,163 @@
         "name": "withDefault",
         "comment": " If the result is `Ok` return the value, but if the result is an `Err` then\nreturn a given default value. The following examples try to parse integers.\n\n    Result.withDefault 0 (String.toInt \"123\") == 123\n    Result.withDefault 0 (String.toInt \"abc\") == 0\n",
         "type": "a -> Result.Result x a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Regex",
+    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
+    "aliases": [
+      {
+        "name": "Match",
+        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
+        "args": [],
+        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
+      }
+    ],
+    "types": [
+      {
+        "name": "HowMany",
+        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
+        "args": [],
+        "cases": [
+          [
+            "All",
+            []
+          ],
+          [
+            "AtMost",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Regex",
+        "comment": " A regular expression, describing a certain set of strings.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "caseInsensitive",
+        "comment": " Make a regex case insensitive ",
+        "type": "Regex.Regex -> Regex.Regex"
+      },
+      {
+        "name": "contains",
+        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
+        "type": "Regex.Regex -> String -> Bool"
+      },
+      {
+        "name": "escape",
+        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
+        "type": "String -> String"
+      },
+      {
+        "name": "find",
+        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
+      },
+      {
+        "name": "regex",
+        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
+        "type": "String -> Regex.Regex"
+      },
+      {
+        "name": "replace",
+        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
+        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
+      },
+      {
+        "name": "split",
+        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Platform.Cmd",
+    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Cmd",
+        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "!",
+        "comment": "",
+        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "map",
+        "comment": "",
+        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "none",
+        "comment": "",
+        "type": "Platform.Cmd.Cmd msg"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Bitwise",
+    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "and",
+        "comment": " Bitwise AND\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "complement",
+        "comment": " Flip each bit individually, often called bitwise NOT\n",
+        "type": "Int -> Int"
+      },
+      {
+        "name": "or",
+        "comment": " Bitwise OR\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftLeft",
+        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRight",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRightLogical",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "xor",
+        "comment": " Bitwise XOR\n",
+        "type": "Int -> Int -> Int"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -2381,121 +2463,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform.Sub",
-    "comment": "\n\n@docs Sub, map, batch, none\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Sub",
-        "comment": " A subscription is a way of telling Elm, “Hey, let me know if anything\ninteresting happens over there!” So if you want listen for messages on a web\nsocket, you would tell Elm to create a subscription. If you want to get clock\nticks, you would tell Elm to subscribe to that. The cool thing here is that\nthis means *Elm* manages all the details of subscriptions instead of *you*.\nSo if a web socket goes down, *you* do not need to manually reconnect with an\nexponential backoff strategy, *Elm* does this all for you behind the scenes!\n\nEvery `Sub` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, subscriptions will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they fit\ninto a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Sub.Sub msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Sub.Sub a -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Sub.Sub msg"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Bitwise",
-    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "and",
-        "comment": " Bitwise AND\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "complement",
-        "comment": " Flip each bit individually, often called bitwise NOT\n",
-        "type": "Int -> Int"
-      },
-      {
-        "name": "or",
-        "comment": " Bitwise OR\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftLeft",
-        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftRight",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftRightLogical",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "xor",
-        "comment": " Bitwise XOR\n",
-        "type": "Int -> Int -> Int"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Platform.Cmd",
-    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Cmd",
-        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "!",
-        "comment": "",
-        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Cmd.Cmd msg"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Debug",
     "comment": " This library is for investigating bugs or performance problems. It should\n*not* be used in production code.\n\n# Debugging\n@docs log, crash\n",
     "aliases": [],
@@ -2579,6 +2546,39 @@
         "name": "withDefault",
         "comment": " Provide a default value, turning an optional value into a normal\nvalue.  This comes in handy when paired with functions like\n[`Dict.get`](Dict#get) which gives back a `Maybe`.\n\n    withDefault 100 (Just 42)   -- 42\n    withDefault 100 Nothing     -- 100\n\n    withDefault \"unknown\" (Dict.get \"Tom\" Dict.empty)   -- \"unknown\"\n\n",
         "type": "a -> Maybe.Maybe a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Platform.Sub",
+    "comment": "\n\n@docs Sub, map, batch, none\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Sub",
+        "comment": " A subscription is a way of telling Elm, “Hey, let me know if anything\ninteresting happens over there!” So if you want listen for messages on a web\nsocket, you would tell Elm to create a subscription. If you want to get clock\nticks, you would tell Elm to subscribe to that. The cool thing here is that\nthis means *Elm* manages all the details of subscriptions instead of *you*.\nSo if a web socket goes down, *you* do not need to manually reconnect with an\nexponential backoff strategy, *Elm* does this all for you behind the scenes!\n\nEvery `Sub` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, subscriptions will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they fit\ninto a real application!\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Sub.Sub msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "map",
+        "comment": "",
+        "type": "(a -> msg) -> Platform.Sub.Sub a -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "none",
+        "comment": "",
+        "type": "Platform.Sub.Sub msg"
       }
     ],
     "generated-with-elm-version": "0.17.1"

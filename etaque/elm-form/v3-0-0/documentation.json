@@ -451,6 +451,35 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Form.Init",
+    "comment": " Helpers for initial fields values\n\n@docs setBool, setString, setGroup, setList\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "setBool",
+        "comment": " Builds a tuple of field name and boolean value\n",
+        "type": "String -> Bool -> ( String, Form.Field.Field )"
+      },
+      {
+        "name": "setGroup",
+        "comment": " Build a group of values, for nested forms.\n",
+        "type": "String -> List ( String, Form.Field.Field ) -> ( String, Form.Field.Field )"
+      },
+      {
+        "name": "setList",
+        "comment": " Build a list of values, for dynamic fields setList\n",
+        "type": "String -> List Form.Field.Field -> ( String, Form.Field.Field )"
+      },
+      {
+        "name": "setString",
+        "comment": " Builds a tuple of field name and string value\n",
+        "type": "String -> String -> ( String, Form.Field.Field )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Form.Test.ValidationExpectation",
     "comment": " Test expectations for use with functions from `Form.Test`.\n\n@docs ValidationExpectation\n\n",
     "aliases": [],
@@ -492,30 +521,76 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Form.Init",
-    "comment": " Helpers for initial fields values\n\n@docs setBool, setString, setGroup, setList\n\n",
-    "aliases": [],
-    "types": [],
+    "name": "Form.Field",
+    "comment": " Read and write field values.\n\n\n# Constructors\n\n@docs Field, FieldValue, value, string, bool, group, list\n\n\n# Value readers\n\n@docs asString, asBool\n\n",
+    "aliases": [
+      {
+        "name": "Field",
+        "comment": " A field is a tree node.\n",
+        "args": [],
+        "type": "Form.Tree.Tree Form.Field.FieldValue"
+      }
+    ],
+    "types": [
+      {
+        "name": "FieldValue",
+        "comment": " Form field. Can either be a group of named fields, or a final field.\n",
+        "args": [],
+        "cases": [
+          [
+            "String",
+            [
+              "String"
+            ]
+          ],
+          [
+            "Bool",
+            [
+              "Bool"
+            ]
+          ],
+          [
+            "EmptyField",
+            []
+          ]
+        ]
+      }
+    ],
     "values": [
       {
-        "name": "setBool",
-        "comment": " Builds a tuple of field name and boolean value\n",
-        "type": "String -> Bool -> ( String, Form.Field.Field )"
+        "name": "asBool",
+        "comment": " Get field value as boolean.\n",
+        "type": "Form.Field.Field -> Maybe.Maybe Bool"
       },
       {
-        "name": "setGroup",
-        "comment": " Build a group of values, for nested forms.\n",
-        "type": "String -> List ( String, Form.Field.Field ) -> ( String, Form.Field.Field )"
+        "name": "asString",
+        "comment": " Get field value as string.\n",
+        "type": "Form.Field.Field -> Maybe.Maybe String"
       },
       {
-        "name": "setList",
-        "comment": " Build a list of values, for dynamic fields setList\n",
-        "type": "String -> List Form.Field.Field -> ( String, Form.Field.Field )"
+        "name": "bool",
+        "comment": " Build a boolean field, for checkboxes.\n",
+        "type": "Bool -> Form.Field.Field"
       },
       {
-        "name": "setString",
-        "comment": " Builds a tuple of field name and string value\n",
-        "type": "String -> String -> ( String, Form.Field.Field )"
+        "name": "group",
+        "comment": " Gather named fields as a group field.\n",
+        "type": "List ( String, Form.Field.Field ) -> Form.Field.Field"
+      },
+      {
+        "name": "list",
+        "comment": " Gather fields as a list field.\n",
+        "type": "List Form.Field.Field -> Form.Field.Field"
+      },
+      {
+        "name": "string",
+        "comment": " Build a string field, for text inputs, selects, etc.\n",
+        "type": "String -> Form.Field.Field"
+      },
+      {
+        "name": "value",
+        "comment": " Build a field from its value.\n",
+        "type": "Form.Field.FieldValue -> Form.Field.Field"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -627,81 +702,6 @@
         "name": "value",
         "comment": " Build a tree node (a leaf) for this error\n",
         "type": "Form.Error.ErrorValue a -> Form.Error.Error a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Form.Field",
-    "comment": " Read and write field values.\n\n\n# Constructors\n\n@docs Field, FieldValue, value, string, bool, group, list\n\n\n# Value readers\n\n@docs asString, asBool\n\n",
-    "aliases": [
-      {
-        "name": "Field",
-        "comment": " A field is a tree node.\n",
-        "args": [],
-        "type": "Form.Tree.Tree Form.Field.FieldValue"
-      }
-    ],
-    "types": [
-      {
-        "name": "FieldValue",
-        "comment": " Form field. Can either be a group of named fields, or a final field.\n",
-        "args": [],
-        "cases": [
-          [
-            "String",
-            [
-              "String"
-            ]
-          ],
-          [
-            "Bool",
-            [
-              "Bool"
-            ]
-          ],
-          [
-            "EmptyField",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "asBool",
-        "comment": " Get field value as boolean.\n",
-        "type": "Form.Field.Field -> Maybe.Maybe Bool"
-      },
-      {
-        "name": "asString",
-        "comment": " Get field value as string.\n",
-        "type": "Form.Field.Field -> Maybe.Maybe String"
-      },
-      {
-        "name": "bool",
-        "comment": " Build a boolean field, for checkboxes.\n",
-        "type": "Bool -> Form.Field.Field"
-      },
-      {
-        "name": "group",
-        "comment": " Gather named fields as a group field.\n",
-        "type": "List ( String, Form.Field.Field ) -> Form.Field.Field"
-      },
-      {
-        "name": "list",
-        "comment": " Gather fields as a list field.\n",
-        "type": "List Form.Field.Field -> Form.Field.Field"
-      },
-      {
-        "name": "string",
-        "comment": " Build a string field, for text inputs, selects, etc.\n",
-        "type": "String -> Form.Field.Field"
-      },
-      {
-        "name": "value",
-        "comment": " Build a field from its value.\n",
-        "type": "Form.Field.FieldValue -> Form.Field.Field"
       }
     ],
     "generated-with-elm-version": "0.18.0"

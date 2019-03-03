@@ -199,101 +199,48 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Sentry.Event",
-    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
-    "aliases": [],
-    "types": [
+    "name": "Shh",
+    "comment": " Whipser API (Use at your own risk! Work in progress)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
+    "aliases": [
       {
-        "name": "EventSentry",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "FilterKey",
-        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "Msg",
+        "name": "Post",
         "comment": " ",
         "args": [],
-        "cases": []
+        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
+      },
+      {
+        "name": "WhisperId",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Types.WhisperId"
       }
     ],
+    "types": [],
     "values": [
       {
-        "name": "changeNode",
+        "name": "newIdentity",
         "comment": " ",
-        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
       },
       {
-        "name": "init",
+        "name": "post",
         "comment": " ",
-        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
+        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
       },
       {
-        "name": "listen",
+        "name": "toWhisperId",
         "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
+        "type": "String -> Result.Result String Shh.WhisperId"
       },
       {
-        "name": "newBlocks",
+        "name": "version",
         "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
       },
       {
-        "name": "nextBlock",
+        "name": "whisperIdToString",
         "comment": " ",
-        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "pendingTxs",
-        "comment": " ",
-        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "toFilterKey",
-        "comment": " ",
-        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
-      },
-      {
-        "name": "unWatch",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchNewBlocks",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "unWatchPendingTxs",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "update",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watch",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "watchOnce",
-        "comment": " ",
-        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
-      },
-      {
-        "name": "withDebug",
-        "comment": " ",
-        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+        "type": "Shh.WhisperId -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -392,55 +339,6 @@
         "name": "uint",
         "comment": " ",
         "type": "Evm.Decode.EvmDecoder BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.Decode",
-    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Address"
-      },
-      {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
-      },
-      {
-        "name": "blockHead",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
-      },
-      {
-        "name": "event",
-        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Hex"
-      },
-      {
-        "name": "ipfsHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
-      },
-      {
-        "name": "tx",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Tx"
-      },
-      {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.TxHash"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -545,48 +443,150 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Shh",
-    "comment": " Whipser API (Use at your own risk! Work in progress)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
-    "aliases": [
+    "name": "Eth.Sentry.Event",
+    "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
+    "aliases": [],
+    "types": [
       {
-        "name": "Post",
+        "name": "EventSentry",
         "comment": " ",
-        "args": [],
-        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
+        "args": [
+          "msg"
+        ],
+        "cases": []
       },
       {
-        "name": "WhisperId",
+        "name": "FilterKey",
+        "comment": " (Contract Address, Event Topic)\n\nNeed to come up with a better Key scheme to avoid collisions\nMaybe by hashing the Filter params\n\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Msg",
         "comment": " ",
         "args": [],
-        "type": "Internal.Types.WhisperId"
+        "cases": []
       }
     ],
+    "values": [
+      {
+        "name": "changeNode",
+        "comment": " ",
+        "type": "String -> Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+      },
+      {
+        "name": "init",
+        "comment": " ",
+        "type": "(Eth.Sentry.Event.Msg -> msg) -> String -> Eth.Sentry.Event.EventSentry msg"
+      },
+      {
+        "name": "listen",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "newBlocks",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "nextBlock",
+        "comment": " ",
+        "type": "(Eth.Types.BlockHead -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "pendingTxs",
+        "comment": " ",
+        "type": "(Eth.Types.TxHash -> msg) -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "toFilterKey",
+        "comment": " ",
+        "type": "Eth.Types.LogFilter -> Eth.Sentry.Event.FilterKey"
+      },
+      {
+        "name": "unWatch",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchNewBlocks",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "unWatchPendingTxs",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "update",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.Msg -> Eth.Sentry.Event.EventSentry msg -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watch",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "watchOnce",
+        "comment": " ",
+        "type": "(Json.Decode.Value -> msg) -> Eth.Sentry.Event.EventSentry msg -> Eth.Types.LogFilter -> ( Eth.Sentry.Event.EventSentry msg, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "withDebug",
+        "comment": " ",
+        "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Decode",
+    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
+    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "newIdentity",
+        "name": "address",
         "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
+        "type": "Json.Decode.Decoder Eth.Types.Address"
       },
       {
-        "name": "post",
+        "name": "blockHash",
         "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
+        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
       },
       {
-        "name": "toWhisperId",
+        "name": "blockHead",
         "comment": " ",
-        "type": "String -> Result.Result String Shh.WhisperId"
+        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
       },
       {
-        "name": "version",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+        "name": "event",
+        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
       },
       {
-        "name": "whisperIdToString",
+        "name": "hex",
         "comment": " ",
-        "type": "Shh.WhisperId -> String"
+        "type": "Json.Decode.Decoder Eth.Types.Hex"
+      },
+      {
+        "name": "ipfsHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
+      },
+      {
+        "name": "tx",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.Tx"
+      },
+      {
+        "name": "txHash",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Eth.Types.TxHash"
       }
     ],
     "generated-with-elm-version": "0.18.0"

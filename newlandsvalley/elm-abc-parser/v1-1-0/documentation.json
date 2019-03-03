@@ -1,5 +1,36 @@
 [
   {
+    "name": "Abc",
+    "comment": " Library for parsing tunes written in ABC notation -\n     see: http://abcnotation.com/wiki/abc:standard:v2.1\n\n# Functions\n@docs parse, parseKeySignature, parseError\n\n# Types\n@docs ParseError\n\n",
+    "aliases": [
+      {
+        "name": "ParseError",
+        "comment": " A parse error with context.\n",
+        "args": [],
+        "type": "{ msgs : List String, input : String, position : Int }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "parse",
+        "comment": " Entry point - Parse an ABC tune image.\n",
+        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.AbcTune"
+      },
+      {
+        "name": "parseError",
+        "comment": " Format a parse error as a string.\n",
+        "type": "Abc.ParseError -> String"
+      },
+      {
+        "name": "parseKeySignature",
+        "comment": " Parse a key signature.\n    A utility function for applications needing to parse key signatures in isolation\n    and returning them as a ModifiedKeySignature (where the modification is empty).\n",
+        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.ModifiedKeySignature"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Music.Transposition",
     "comment": " Tune transposition\n\nYou can transpose an ABC tune (in whatever key - perhaps in C) to (say) G# using:\n\n    transposedResult = mapError (\\_ -> \"parse error\") (parse source)\n        |> andThen (\\tune -> transposeTo ({pitchClass = G, accidental = Just Sharp, mode = Major},[]) tune)\n\n\nThe mode before and after transposition must be identical (that is: you cannot transpose minor to major and so on).\nChord symbols will be lost on transposition.\n\n# Constants\n@docs defaultKey\n\n\n# Functions\n@docs keyDistance\n    , transposeNote\n    , transposeTo\n\n\n",
     "aliases": [],
@@ -48,37 +79,6 @@
         "name": "setBpm",
         "comment": " Change the tempo of the tune by altering the beats per minute (bpm)\n   in the tune's tempo header (if it exists) or by altering a newly incorporated\n   default tempo if not.\n",
         "type": "Int -> Abc.ParseTree.AbcTune -> Abc.ParseTree.AbcTune"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Abc",
-    "comment": " Library for parsing tunes written in ABC notation -\n     see: http://abcnotation.com/wiki/abc:standard:v2.1\n\n# Functions\n@docs parse, parseKeySignature, parseError\n\n# Types\n@docs ParseError\n\n",
-    "aliases": [
-      {
-        "name": "ParseError",
-        "comment": " A parse error with context.\n",
-        "args": [],
-        "type": "{ msgs : List String, input : String, position : Int }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "parse",
-        "comment": " Entry point - Parse an ABC tune image.\n",
-        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.AbcTune"
-      },
-      {
-        "name": "parseError",
-        "comment": " Format a parse error as a string.\n",
-        "type": "Abc.ParseError -> String"
-      },
-      {
-        "name": "parseKeySignature",
-        "comment": " Parse a key signature.\n    A utility function for applications needing to parse key signatures in isolation\n    and returning them as a ModifiedKeySignature (where the modification is empty).\n",
-        "type": "String -> Result.Result Abc.ParseError Abc.ParseTree.ModifiedKeySignature"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -72,50 +72,70 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Color.Convert",
-    "comment": "\n#Convert\nConvert colors to differnt string formats and hexadecimal strings to colors.\n\n@docs colorToCssRgb, colorToCssRgba, colorToCssHsl, colorToCssHsla, colorToHex, hexToColor, colorToLab, labToColor\n",
+    "name": "Color.Manipulate",
+    "comment": " A library for creating and manipulating colors.\n\n\n# Color adjustment\n@docs darken, lighten, saturate, desaturate, rotateHue, fadeIn, fadeOut, grayscale, scaleHsl, scaleRgb, mix, weightedMix\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "colorToCssHsl",
-        "comment": "\nConverts a color to an css hsl string.\n\n    colorToCssHsl (hsl 1 1 0.5) -- \"hsl(1, 1, 0.5)\"\n",
-        "type": "Color.Color -> String"
+        "name": "darken",
+        "comment": " Decrease the lightning of a color\n",
+        "type": "Float -> Color.Color -> Color.Color"
       },
       {
-        "name": "colorToCssHsla",
-        "comment": "\nConverts a color to an css hsla string.\n\n    colorToCssHsla (hsla 1 1 0.5 1) -- \"hsla(56, 100%, 50%, 1)\"\n",
-        "type": "Color.Color -> String"
+        "name": "desaturate",
+        "comment": " Decrease the saturation of a color\n",
+        "type": "Float -> Color.Color -> Color.Color"
       },
       {
-        "name": "colorToCssRgb",
-        "comment": "\nConverts a color to an css rgb string.\n\n    colorToCssRgb (rgb 255 0 0) -- \"rgb(255, 0, 0)\"\n",
-        "type": "Color.Color -> String"
+        "name": "fadeIn",
+        "comment": " Increase the opacity of a color\n",
+        "type": "Float -> Color.Color -> Color.Color"
       },
       {
-        "name": "colorToCssRgba",
-        "comment": "\nConverts a color to an css rgba string.\n\n    colorToCssRgba (rgba 255 0 0 0.5) -- \"rgba(255, 0, 0, 0.5)\"\n",
-        "type": "Color.Color -> String"
+        "name": "fadeOut",
+        "comment": " Decrease the opacity of a color\n",
+        "type": "Float -> Color.Color -> Color.Color"
       },
       {
-        "name": "colorToHex",
-        "comment": "\nConverts a color to a hexadecimal string.\n\n    colorToHex (rgb 255 0 0) -- \"#ff0000\"\n\n",
-        "type": "Color.Color -> String"
+        "name": "grayscale",
+        "comment": " Convert the color to a greyscale version, aka set saturation to 0\n",
+        "type": "Color.Color -> Color.Color"
       },
       {
-        "name": "colorToLab",
-        "comment": " Convert color to CIELAB- color space\n",
-        "type": "Color.Color -> { l : Float, a : Float, b : Float }"
+        "name": "lighten",
+        "comment": " Increase the lightning of a color\n",
+        "type": "Float -> Color.Color -> Color.Color"
       },
       {
-        "name": "hexToColor",
-        "comment": "\nConverts a string to `Maybe` of color.\n\n    hexToColor \"#ff0000\" -- \"Just RGB 255 0 0\"\n    hexToColor \"ff0000\" -- \"Just RGB 255 0 0\"\n    hexToColor \"1234\" -- \"Nothing\"\n\n",
-        "type": "String -> Maybe.Maybe Color.Color"
+        "name": "mix",
+        "comment": " Mixes two colors together.  This is the same as calling `weightedMix` with a weight of 0.5.\n",
+        "type": "Color.Color -> Color.Color -> Color.Color"
       },
       {
-        "name": "labToColor",
-        "comment": " Convert a color in CIELAB- color space to Elm `Color`\n",
-        "type": "{ l : Float, a : Float, b : Float } -> Color.Color"
+        "name": "rotateHue",
+        "comment": " Change the hue of a color. The angle value must be in degrees\n",
+        "type": "Float -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "saturate",
+        "comment": " Increase the saturation of a color\n",
+        "type": "Float -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "scaleHsl",
+        "comment": " Fluidly scale saturation, lightness and alpha channel.\n\nThat means that lightening an already-light color with `scaleHsl` won’t change the lightness much, but lightening\na dark color by the same amount will change it more dramatically.\n\nFor example, the lightness of a color can be anywhere between 0 and 1.0. If `scaleHsl (0, 0.4, 0) color` is called,\nthe resulting color’s lightness will be 40% of the way between its original lightness and 1.0. If\n`scaleHsl (0, -0.4, 0) color` is called instead, the lightness will be 40% of the way between the original\nand 0.\n\nThe values of the supplied tuple scale saturation, lightness, and opacity, respectively, and have a valid range of\n-1.0 to 1.0.\n\nThis function is inspired by the Sass function [scale-color](http://sass-lang.com/documentation/Sass/Script/Functions.html#scale_color-instance_method).\n",
+        "type": "( Float, Float, Float ) -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "scaleRgb",
+        "comment": " Fluidly scale red, green, blue, and alpha channels.\n\nThat means that reddening a already-red color with `scaleRgb` won’t change the redness much, but reddening a color\nwith little or no red by the same amount will change it more dramatically.\n\nFor example, the redness of a color can be anywhere between 0 and 255. If `scaleRgb (0.4, 0, 0, 0) color` is called,\nthe resulting color’s redness will be 40% of the way between its original redness and 255. If\n`scaleRgb (-0.4, 0, 0, 0) color` is called instead, the redness will be 40% of the way between the original\nand 0.\n\nThe values of the supplied tuple scale red, green, blue, and alpha channels, respectively, and have a valid range of\n-1.0 to 1.0.\n\nThis function is inspired by the Sass function [scale-color](http://sass-lang.com/documentation/Sass/Script/Functions.html#scale_color-instance_method).\n",
+        "type": "( Float, Float, Float, Float ) -> Color.Color -> Color.Color"
+      },
+      {
+        "name": "weightedMix",
+        "comment": " Mixes two colors together.\n\nThis function takes the average of each of the RGB components, weighted by a provided value between 0 and 1.0. The\nopacity of the colors is also considered when weighting the components.\n\nThe weight specifies the amount of the first color that should be included in the returned color. For example, a weight\nof 0.5 means that half the first color and half the second color should be used. A weight of 0.25 means that a quarter\nof the first color and three quarters of the second color should be used.\n\nThis function uses the same algorithm as the [mix](http://sass-lang.com/documentation/Sass/Script/Functions.html#mix-instance_method) function in Sass.\n",
+        "type": "Color.Color -> Color.Color -> Float -> Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -185,70 +205,50 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Color.Manipulate",
-    "comment": " A library for creating and manipulating colors.\n\n\n# Color adjustment\n@docs darken, lighten, saturate, desaturate, rotateHue, fadeIn, fadeOut, grayscale, scaleHsl, scaleRgb, mix, weightedMix\n\n",
+    "name": "Color.Convert",
+    "comment": "\n#Convert\nConvert colors to differnt string formats and hexadecimal strings to colors.\n\n@docs colorToCssRgb, colorToCssRgba, colorToCssHsl, colorToCssHsla, colorToHex, hexToColor, colorToLab, labToColor\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "darken",
-        "comment": " Decrease the lightning of a color\n",
-        "type": "Float -> Color.Color -> Color.Color"
+        "name": "colorToCssHsl",
+        "comment": "\nConverts a color to an css hsl string.\n\n    colorToCssHsl (hsl 1 1 0.5) -- \"hsl(1, 1, 0.5)\"\n",
+        "type": "Color.Color -> String"
       },
       {
-        "name": "desaturate",
-        "comment": " Decrease the saturation of a color\n",
-        "type": "Float -> Color.Color -> Color.Color"
+        "name": "colorToCssHsla",
+        "comment": "\nConverts a color to an css hsla string.\n\n    colorToCssHsla (hsla 1 1 0.5 1) -- \"hsla(56, 100%, 50%, 1)\"\n",
+        "type": "Color.Color -> String"
       },
       {
-        "name": "fadeIn",
-        "comment": " Increase the opacity of a color\n",
-        "type": "Float -> Color.Color -> Color.Color"
+        "name": "colorToCssRgb",
+        "comment": "\nConverts a color to an css rgb string.\n\n    colorToCssRgb (rgb 255 0 0) -- \"rgb(255, 0, 0)\"\n",
+        "type": "Color.Color -> String"
       },
       {
-        "name": "fadeOut",
-        "comment": " Decrease the opacity of a color\n",
-        "type": "Float -> Color.Color -> Color.Color"
+        "name": "colorToCssRgba",
+        "comment": "\nConverts a color to an css rgba string.\n\n    colorToCssRgba (rgba 255 0 0 0.5) -- \"rgba(255, 0, 0, 0.5)\"\n",
+        "type": "Color.Color -> String"
       },
       {
-        "name": "grayscale",
-        "comment": " Convert the color to a greyscale version, aka set saturation to 0\n",
-        "type": "Color.Color -> Color.Color"
+        "name": "colorToHex",
+        "comment": "\nConverts a color to a hexadecimal string.\n\n    colorToHex (rgb 255 0 0) -- \"#ff0000\"\n\n",
+        "type": "Color.Color -> String"
       },
       {
-        "name": "lighten",
-        "comment": " Increase the lightning of a color\n",
-        "type": "Float -> Color.Color -> Color.Color"
+        "name": "colorToLab",
+        "comment": " Convert color to CIELAB- color space\n",
+        "type": "Color.Color -> { l : Float, a : Float, b : Float }"
       },
       {
-        "name": "mix",
-        "comment": " Mixes two colors together.  This is the same as calling `weightedMix` with a weight of 0.5.\n",
-        "type": "Color.Color -> Color.Color -> Color.Color"
+        "name": "hexToColor",
+        "comment": "\nConverts a string to `Maybe` of color.\n\n    hexToColor \"#ff0000\" -- \"Just RGB 255 0 0\"\n    hexToColor \"ff0000\" -- \"Just RGB 255 0 0\"\n    hexToColor \"1234\" -- \"Nothing\"\n\n",
+        "type": "String -> Maybe.Maybe Color.Color"
       },
       {
-        "name": "rotateHue",
-        "comment": " Change the hue of a color. The angle value must be in degrees\n",
-        "type": "Float -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "saturate",
-        "comment": " Increase the saturation of a color\n",
-        "type": "Float -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "scaleHsl",
-        "comment": " Fluidly scale saturation, lightness and alpha channel.\n\nThat means that lightening an already-light color with `scaleHsl` won’t change the lightness much, but lightening\na dark color by the same amount will change it more dramatically.\n\nFor example, the lightness of a color can be anywhere between 0 and 1.0. If `scaleHsl (0, 0.4, 0) color` is called,\nthe resulting color’s lightness will be 40% of the way between its original lightness and 1.0. If\n`scaleHsl (0, -0.4, 0) color` is called instead, the lightness will be 40% of the way between the original\nand 0.\n\nThe values of the supplied tuple scale saturation, lightness, and opacity, respectively, and have a valid range of\n-1.0 to 1.0.\n\nThis function is inspired by the Sass function [scale-color](http://sass-lang.com/documentation/Sass/Script/Functions.html#scale_color-instance_method).\n",
-        "type": "( Float, Float, Float ) -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "scaleRgb",
-        "comment": " Fluidly scale red, green, blue, and alpha channels.\n\nThat means that reddening a already-red color with `scaleRgb` won’t change the redness much, but reddening a color\nwith little or no red by the same amount will change it more dramatically.\n\nFor example, the redness of a color can be anywhere between 0 and 255. If `scaleRgb (0.4, 0, 0, 0) color` is called,\nthe resulting color’s redness will be 40% of the way between its original redness and 255. If\n`scaleRgb (-0.4, 0, 0, 0) color` is called instead, the redness will be 40% of the way between the original\nand 0.\n\nThe values of the supplied tuple scale red, green, blue, and alpha channels, respectively, and have a valid range of\n-1.0 to 1.0.\n\nThis function is inspired by the Sass function [scale-color](http://sass-lang.com/documentation/Sass/Script/Functions.html#scale_color-instance_method).\n",
-        "type": "( Float, Float, Float, Float ) -> Color.Color -> Color.Color"
-      },
-      {
-        "name": "weightedMix",
-        "comment": " Mixes two colors together.\n\nThis function takes the average of each of the RGB components, weighted by a provided value between 0 and 1.0. The\nopacity of the colors is also considered when weighting the components.\n\nThe weight specifies the amount of the first color that should be included in the returned color. For example, a weight\nof 0.5 means that half the first color and half the second color should be used. A weight of 0.25 means that a quarter\nof the first color and three quarters of the second color should be used.\n\nThis function uses the same algorithm as the [mix](http://sass-lang.com/documentation/Sass/Script/Functions.html#mix-instance_method) function in Sass.\n",
-        "type": "Color.Color -> Color.Color -> Float -> Color.Color"
+        "name": "labToColor",
+        "comment": " Convert a color in CIELAB- color space to Elm `Color`\n",
+        "type": "{ l : Float, a : Float, b : Float } -> Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"

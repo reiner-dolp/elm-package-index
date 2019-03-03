@@ -145,6 +145,55 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Element.Region",
+    "comment": "\n\n\n# Region Annotations\n\nThis module is meant to make accessibility easy! They're sign posts that accessibility software like screen readers can use to navigate your app.\n\nAll you have to do is add them to elements in your app where you see fit.\n\nHere's an example of annotating your navigation area:\n\n    import Element.Area as Area\n\n    myNavigation =\n        Element.row [ Area.navigation ]\n            [-- ..your navigation links\n            ]\n\n@docs mainContent, navigation, heading, aside, footer\n\n@docs description\n\n@docs announce, announceUrgently\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "announce",
+        "comment": " Screen readers will announce when changes to this element are made.\n",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "announceUrgently",
+        "comment": " Screen readers will announce changes to this element and potentially interrupt any other announcement.\n",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "aside",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "description",
+        "comment": " ",
+        "type": "String -> Element.Attribute msg"
+      },
+      {
+        "name": "footer",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "heading",
+        "comment": " This will mark an element as `h1`, `h2`, etc where possible.\n\nThough it's also smart enough to not conflict with existing nodes.\n\nSo, this code\n\n    link [ Area.heading 1 ]\n        { url = \"http://fruits.com\"\n        , label = text \"Best site ever\"\n        }\n\nwill generate\n\n    <a href=\"http://fruits.com\">\n        <h1>Best site ever</h1>\n    </a>\n\n",
+        "type": "Int -> Element.Attribute msg"
+      },
+      {
+        "name": "mainContent",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      },
+      {
+        "name": "navigation",
+        "comment": " ",
+        "type": "Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Element.Font",
     "comment": "\n\n\n# Style your fonts!\n\n    import Color exposing (blue)\n    import Element\n    import Element.Font as Font\n\n    view =\n        Element.el\n            [ Font.color blue\n            , Font.size 18\n            , Font.lineHeight 1.3 -- line height is given as a ratio of Font.size.\n            , Font.family\n                [ Font.typeface \"Open Sans\"\n                , Font.sansSerif\n                ]\n            ]\n            (Element.text \"Woohoo, I'm stylish text\")\n\n**Note**: `Font.color`, `Font.size`, `Font.family`, and `Font.lineHeight` are all inherited, meaning you can set them at the top of your view and all subsequent nodes will have that value.\n\n@docs color, size, lineHeight\n\n\n## Typefaces\n\n@docs family, Font, typeface, serif, sansSerif, monospace\n\n@docs external\n\n`Font.external` can be used to import font files. Let's say you found a neat font on <http://fonts.google.com>:\n\n    import Element\n    import Element.Font as Font\n\n    view =\n        Element.el\n            [ Font.family\n                [ Font.external\n                    { name = \"Roboto\"\n                    , url = \"https://fonts.googleapis.com/css?family=Roboto\"\n                    }\n                , Font.sansSerif\n                ]\n            ]\n            (Element.text \"Woohoo, I'm stylish text\")\n\n\n## Alignment and Spacing\n\n@docs alignLeft, alignRight, center, justify, letterSpacing, wordSpacing\n\n\n## Font Styles\n\n@docs underline, strike, italic, unitalicized\n\n\n## Font Weight\n\n@docs heavy, extraBold, bold, semiBold, medium, regular, light, extraLight, hairline\n\n\n## Shadows\n\n@docs glow, shadow\n\n",
     "aliases": [
@@ -311,55 +360,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Element.Region",
-    "comment": "\n\n\n# Region Annotations\n\nThis module is meant to make accessibility easy! They're sign posts that accessibility software like screen readers can use to navigate your app.\n\nAll you have to do is add them to elements in your app where you see fit.\n\nHere's an example of annotating your navigation area:\n\n    import Element.Area as Area\n\n    myNavigation =\n        Element.row [ Area.navigation ]\n            [-- ..your navigation links\n            ]\n\n@docs mainContent, navigation, heading, aside, footer\n\n@docs description\n\n@docs announce, announceUrgently\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "announce",
-        "comment": " Screen readers will announce when changes to this element are made.\n",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "announceUrgently",
-        "comment": " Screen readers will announce changes to this element and potentially interrupt any other announcement.\n",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "aside",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "description",
-        "comment": " ",
-        "type": "String -> Element.Attribute msg"
-      },
-      {
-        "name": "footer",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "heading",
-        "comment": " This will mark an element as `h1`, `h2`, etc where possible.\n\nThough it's also smart enough to not conflict with existing nodes.\n\nSo, this code\n\n    link [ Area.heading 1 ]\n        { url = \"http://fruits.com\"\n        , label = text \"Best site ever\"\n        }\n\nwill generate\n\n    <a href=\"http://fruits.com\">\n        <h1>Best site ever</h1>\n    </a>\n\n",
-        "type": "Int -> Element.Attribute msg"
-      },
-      {
-        "name": "mainContent",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      },
-      {
-        "name": "navigation",
-        "comment": " ",
-        "type": "Element.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Element.Events",
     "comment": "\n\n\n# Mouse Events\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseMove\n\n\n# Focus Events\n\n@docs onFocus, onLoseFocus\n\n",
     "aliases": [],
@@ -409,30 +409,6 @@
         "name": "onMouseUp",
         "comment": " ",
         "type": "msg -> Element.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Element.Keyed",
-    "comment": " Notes from the `Html.Keyed` on how keyed works:\n\n    A keyed node helps optimize cases where children are getting added, moved, removed, etc. Common examples include:\n\n        - The user can delete items from a list.\n        - The user can create new items in a list.\n        - You can sort a list based on name or date or whatever.\n\n    When you use a keyed node, every child is paired with a string identifier. This makes it possible for the underlying diffing algorithm to reuse nodes more efficiently.\n\nThis means if a key is changed between renders, then the diffing step will be skipped and the node will be forced to rerender.\n\n@docs el, column, row\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "column",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
-      },
-      {
-        "name": "el",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> ( String, Element.Element msg ) -> Element.Element msg"
-      },
-      {
-        "name": "row",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -556,15 +532,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Element.Lazy",
-    "comment": " Same as `Html.lazy`. In case you're unfamiliar, here's a note from the `Html` library!\n\n    Since all Elm functions are pure we have a guarantee that the same input\n    will always result in the same output. This module gives us tools to be lazy\n    about building `Html` that utilize this fact.\n\n    Rather than immediately applying functions to their arguments, the `lazy`\n    functions just bundle the function and arguments up for later. When diffing\n    the old and new virtual DOM, it checks to see if all the arguments are equal\n    by reference. If so, it skips calling the function!\n\n    This is a really cheap test and often makes things a lot faster, but definitely\n    benchmark to be sure!\n\n@docs lazy\n\n_Note:_ For now only `lazy` that covers one argument can be provided. In `0.19` this will change!\n\n",
+    "name": "Element.Keyed",
+    "comment": " Notes from the `Html.Keyed` on how keyed works:\n\n    A keyed node helps optimize cases where children are getting added, moved, removed, etc. Common examples include:\n\n        - The user can delete items from a list.\n        - The user can create new items in a list.\n        - You can sort a list based on name or date or whatever.\n\n    When you use a keyed node, every child is paired with a string identifier. This makes it possible for the underlying diffing algorithm to reuse nodes more efficiently.\n\nThis means if a key is changed between renders, then the diffing step will be skipped and the node will be forced to rerender.\n\n@docs el, column, row\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "lazy",
+        "name": "column",
         "comment": " ",
-        "type": "(a -> Internal.Model.Element msg) -> a -> Internal.Model.Element msg"
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
+      },
+      {
+        "name": "el",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> ( String, Element.Element msg ) -> Element.Element msg"
+      },
+      {
+        "name": "row",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1029,6 +1015,20 @@
         "name": "width",
         "comment": " ",
         "type": "Element.Length -> Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Lazy",
+    "comment": " Same as `Html.lazy`. In case you're unfamiliar, here's a note from the `Html` library!\n\n    Since all Elm functions are pure we have a guarantee that the same input\n    will always result in the same output. This module gives us tools to be lazy\n    about building `Html` that utilize this fact.\n\n    Rather than immediately applying functions to their arguments, the `lazy`\n    functions just bundle the function and arguments up for later. When diffing\n    the old and new virtual DOM, it checks to see if all the arguments are equal\n    by reference. If so, it skips calling the function!\n\n    This is a really cheap test and often makes things a lot faster, but definitely\n    benchmark to be sure!\n\n@docs lazy\n\n_Note:_ For now only `lazy` that covers one argument can be provided. In `0.19` this will change!\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "lazy",
+        "comment": " ",
+        "type": "(a -> Internal.Model.Element msg) -> a -> Internal.Model.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -24,6 +24,50 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Constraint.Ord",
+    "comment": "\n@docs Ord\n@docs ordEither, ordList, ordMaybe\n@docs max, min\n",
+    "aliases": [
+      {
+        "name": "Ord",
+        "comment": "\nGeneralized ordering.\n",
+        "args": [
+          "a",
+          "r"
+        ],
+        "type": "{ r | compare : a -> a -> Basics.Order }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "max",
+        "comment": "\nFind the larger of two values.\n",
+        "type": "a -> a -> Constraint.Constraint (Constraint.Ord.Ord a r) a"
+      },
+      {
+        "name": "min",
+        "comment": "\nFind the smaller of two values.\n",
+        "type": "a -> a -> Constraint.Constraint (Constraint.Ord.Ord a r) a"
+      },
+      {
+        "name": "ordEither",
+        "comment": "\nIf we have an `Ord a r` and an `Ord b r`, then we can make an `Ord (Result a b) r`.\n",
+        "type": "Constraint.Ord.Ord a r -> Constraint.Ord.Ord b r -> Constraint.Ord.Ord (Result.Result a b) r"
+      },
+      {
+        "name": "ordList",
+        "comment": "\nIf we have an `Ord a r`, then we can make an `Ord (List a) r`.\n",
+        "type": "Constraint.Ord.Ord a r -> Constraint.Ord.Ord (List a) r"
+      },
+      {
+        "name": "ordMaybe",
+        "comment": "\nIf we have an `Ord a r`, then we can make an `Ord (Maybe a) r`.\n",
+        "type": "Constraint.Ord.Ord a r -> Constraint.Ord.Ord (Maybe.Maybe a) r"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Constraint.Semigroup",
     "comment": "\n@docs Semigroup\n@docs (++)\n",
     "aliases": [
@@ -87,50 +131,6 @@
         "name": "eqMaybe",
         "comment": "\nIf we have an `Eq a r`, then we can make an `Eq (Maybe a) r`.\n",
         "type": "Constraint.Eq.Eq a r -> Constraint.Eq.Eq (Maybe.Maybe a) r"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Constraint.Ord",
-    "comment": "\n@docs Ord\n@docs ordEither, ordList, ordMaybe\n@docs max, min\n",
-    "aliases": [
-      {
-        "name": "Ord",
-        "comment": "\nGeneralized ordering.\n",
-        "args": [
-          "a",
-          "r"
-        ],
-        "type": "{ r | compare : a -> a -> Basics.Order }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "max",
-        "comment": "\nFind the larger of two values.\n",
-        "type": "a -> a -> Constraint.Constraint (Constraint.Ord.Ord a r) a"
-      },
-      {
-        "name": "min",
-        "comment": "\nFind the smaller of two values.\n",
-        "type": "a -> a -> Constraint.Constraint (Constraint.Ord.Ord a r) a"
-      },
-      {
-        "name": "ordEither",
-        "comment": "\nIf we have an `Ord a r` and an `Ord b r`, then we can make an `Ord (Result a b) r`.\n",
-        "type": "Constraint.Ord.Ord a r -> Constraint.Ord.Ord b r -> Constraint.Ord.Ord (Result.Result a b) r"
-      },
-      {
-        "name": "ordList",
-        "comment": "\nIf we have an `Ord a r`, then we can make an `Ord (List a) r`.\n",
-        "type": "Constraint.Ord.Ord a r -> Constraint.Ord.Ord (List a) r"
-      },
-      {
-        "name": "ordMaybe",
-        "comment": "\nIf we have an `Ord a r`, then we can make an `Ord (Maybe a) r`.\n",
-        "type": "Constraint.Ord.Ord a r -> Constraint.Ord.Ord (Maybe.Maybe a) r"
       }
     ],
     "generated-with-elm-version": "0.18.0"

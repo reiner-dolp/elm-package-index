@@ -103,6 +103,44 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Testable.Cmd",
+    "comment": "\n`Testable.Cmd` is a replacement for the core `Cmd` module.  You can use it\nto create components that can be tested with `Testable.TestContext`.  You can\nconvert `Testable.Cmd` into a core `Cmd` with the `Testable` module.\n\n@docs Cmd, map, batch, none, wrap\n",
+    "aliases": [
+      {
+        "name": "Cmd",
+        "comment": " ",
+        "args": [
+          "msg"
+        ],
+        "type": "Testable.Internal.Cmd msg"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "batch",
+        "comment": " ",
+        "type": "List (Testable.Cmd.Cmd msg) -> Testable.Cmd.Cmd msg"
+      },
+      {
+        "name": "map",
+        "comment": " ",
+        "type": "(a -> b) -> Testable.Cmd.Cmd a -> Testable.Cmd.Cmd b"
+      },
+      {
+        "name": "none",
+        "comment": " ",
+        "type": "Testable.Cmd.Cmd never"
+      },
+      {
+        "name": "wrap",
+        "comment": " ",
+        "type": "Platform.Cmd.Cmd msg -> Testable.Cmd.Cmd msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Testable.Http",
     "comment": " Create and send HTTP requests.\n\n# Send Requests\n@docs Request, send, Error\n\n# GET\n@docs getString, get\n\n# POST\n@docs post\n\n# Custom Requests\n@docs request\n\n## Headers\n@docs Header, header\n\n## Request Bodies\n@docs Body, emptyBody, jsonBody, stringBody, multipartBody, Part, stringPart\n\n## Responses\n@docs Response\n\n# Low-Level\n@docs encodeUri, decodeUri, toTask\n\n# Helpers\n@docs Settings, defaultSettings, getRequest, ok, serverError\n\n",
     "aliases": [
@@ -244,44 +282,6 @@
         "name": "toTask",
         "comment": " Convert a `Request` into a `Task`. This is only really useful if you want\nto chain together a bunch of requests (or any other tasks) in a single command.\n",
         "type": "Testable.Http.Request a -> Testable.Internal.Task Testable.Http.Error a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Testable.Cmd",
-    "comment": "\n`Testable.Cmd` is a replacement for the core `Cmd` module.  You can use it\nto create components that can be tested with `Testable.TestContext`.  You can\nconvert `Testable.Cmd` into a core `Cmd` with the `Testable` module.\n\n@docs Cmd, map, batch, none, wrap\n",
-    "aliases": [
-      {
-        "name": "Cmd",
-        "comment": " ",
-        "args": [
-          "msg"
-        ],
-        "type": "Testable.Internal.Cmd msg"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "batch",
-        "comment": " ",
-        "type": "List (Testable.Cmd.Cmd msg) -> Testable.Cmd.Cmd msg"
-      },
-      {
-        "name": "map",
-        "comment": " ",
-        "type": "(a -> b) -> Testable.Cmd.Cmd a -> Testable.Cmd.Cmd b"
-      },
-      {
-        "name": "none",
-        "comment": " ",
-        "type": "Testable.Cmd.Cmd never"
-      },
-      {
-        "name": "wrap",
-        "comment": " ",
-        "type": "Platform.Cmd.Cmd msg -> Testable.Cmd.Cmd msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

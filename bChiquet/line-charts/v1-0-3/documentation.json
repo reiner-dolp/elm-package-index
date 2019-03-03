@@ -200,6 +200,52 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "LineChart.Axis.Values",
+    "comment": "\n\nUse in `Ticks.custom` for creating \"nice\" values.\n\n    ticksConfig : Ticks.Config msg\n    ticksConfig =\n      Ticks.custom <| \\dataRange axisRange ->\n        List.map Tick.int (valuesWithin dataRange)\n\n    valuesWithin : Coordinate.Range -> List Int\n    valuesWithin =\n      Values.int (Values.around 3)\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example1.elm)._\n\n** What are \"nice\" numbers/integers/datetimes? **\n\nWhen I say \"nice\", I just mean that I try to calculate intervals which begin\nwith 10, 5, 3, 2, 1 (adjusted to magnitude, of course!). For dates, I try to\nhit whole days, weeks, months or hours, minutes, and seconds.\n\n# Nice numbers\n@docs int, float, Amount, around, exactly\n\n# Nice times\n@docs time\n\n# Custom numbers\n@docs custom\n\n",
+    "aliases": [
+      {
+        "name": "Amount",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Axis.Values.Amount"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "around",
+        "comment": " Will get you around the amount of numbers you pass it, although it will\nprioritize getting \"nice\" numbers.\n",
+        "type": "Int -> LineChart.Axis.Values.Amount"
+      },
+      {
+        "name": "custom",
+        "comment": " Makes evenly spaced floats.\n\nArguments:\n\n  1. A number which must be in your resulting numbers (commonly 0).\n  2. The interval between your numbers.\n  3. The range which your numbers must be between.\n\n\n    ticksConfig : Ticks.Config msg\n    ticksConfig =\n      Ticks.custom <| \\dataRange axisRange ->\n        List.map Tick.float (Values.custom 45 10 dataRange) ++\n        -- ^ Makes [ 25, 45, 55, 65, 75, 85, 95 ]\n\n        List.map Tick.long (Values.custom 30 20 dataRange)\n        -- ^ Makes [ 30, 50, 70, 90 ]\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example3.elm)._\n\n",
+        "type": "Float -> Float -> LineChart.Coordinate.Range -> List Float"
+      },
+      {
+        "name": "exactly",
+        "comment": " Will get you _closer_ to the amount of numbers you pass it,\nalthough not actually _exactly_, since you still want decently \"nice\" numbers.\n\nP.S. If you have a better name for this function, please contact me.\n",
+        "type": "Int -> LineChart.Axis.Values.Amount"
+      },
+      {
+        "name": "float",
+        "comment": " Makes nice floats.\n\n    valuesWithin : Coordinate.Range -> List Float\n    valuesWithin =\n      -- something like [ 1, 1.5, 2, 2.5 ]\n      Values.float (Values.exactly 4)\n\n\n",
+        "type": "LineChart.Axis.Values.Amount -> LineChart.Coordinate.Range -> List Float"
+      },
+      {
+        "name": "int",
+        "comment": " Makes nice integers.\n\n    valuesWithin : Coordinate.Range -> List Int\n    valuesWithin =\n      Values.int (Values.around 3)\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example1.elm)._\n\n",
+        "type": "LineChart.Axis.Values.Amount -> LineChart.Coordinate.Range -> List Int"
+      },
+      {
+        "name": "time",
+        "comment": " Makes nice times.\n\n    valuesWithin : Coordinate.Range -> List Float\n    valuesWithin =\n      Values.time 5\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example2.elm)._\n\n",
+        "type": "Int -> LineChart.Coordinate.Range -> List LineChart.Axis.Tick.Time"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "LineChart.Legends",
     "comment": "\n\n@docs Config, default, none\n\n## Free legends\nWhere the title is hanging by its respective line.\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/legends2.png?raw=true\"></src>\n\n@docs byEnding, byBeginning\n\n## Grouped legends\nWhere the titles are gathered in one spot.\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/legends5.png?raw=true\"></src>\n\n@docs grouped, groupedCustom, Legend\n\n",
     "aliases": [
@@ -257,52 +303,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "LineChart.Axis.Values",
-    "comment": "\n\nUse in `Ticks.custom` for creating \"nice\" values.\n\n    ticksConfig : Ticks.Config msg\n    ticksConfig =\n      Ticks.custom <| \\dataRange axisRange ->\n        List.map Tick.int (valuesWithin dataRange)\n\n    valuesWithin : Coordinate.Range -> List Int\n    valuesWithin =\n      Values.int (Values.around 3)\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example1.elm)._\n\n** What are \"nice\" numbers/integers/datetimes? **\n\nWhen I say \"nice\", I just mean that I try to calculate intervals which begin\nwith 10, 5, 3, 2, 1 (adjusted to magnitude, of course!). For dates, I try to\nhit whole days, weeks, months or hours, minutes, and seconds.\n\n# Nice numbers\n@docs int, float, Amount, around, exactly\n\n# Nice times\n@docs time\n\n# Custom numbers\n@docs custom\n\n",
-    "aliases": [
-      {
-        "name": "Amount",
-        "comment": " ",
-        "args": [],
-        "type": "Internal.Axis.Values.Amount"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "around",
-        "comment": " Will get you around the amount of numbers you pass it, although it will\nprioritize getting \"nice\" numbers.\n",
-        "type": "Int -> LineChart.Axis.Values.Amount"
-      },
-      {
-        "name": "custom",
-        "comment": " Makes evenly spaced floats.\n\nArguments:\n\n  1. A number which must be in your resulting numbers (commonly 0).\n  2. The interval between your numbers.\n  3. The range which your numbers must be between.\n\n\n    ticksConfig : Ticks.Config msg\n    ticksConfig =\n      Ticks.custom <| \\dataRange axisRange ->\n        List.map Tick.float (Values.custom 45 10 dataRange) ++\n        -- ^ Makes [ 25, 45, 55, 65, 75, 85, 95 ]\n\n        List.map Tick.long (Values.custom 30 20 dataRange)\n        -- ^ Makes [ 30, 50, 70, 90 ]\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example3.elm)._\n\n",
-        "type": "Float -> Float -> LineChart.Coordinate.Range -> List Float"
-      },
-      {
-        "name": "exactly",
-        "comment": " Will get you _closer_ to the amount of numbers you pass it,\nalthough not actually _exactly_, since you still want decently \"nice\" numbers.\n\nP.S. If you have a better name for this function, please contact me.\n",
-        "type": "Int -> LineChart.Axis.Values.Amount"
-      },
-      {
-        "name": "float",
-        "comment": " Makes nice floats.\n\n    valuesWithin : Coordinate.Range -> List Float\n    valuesWithin =\n      -- something like [ 1, 1.5, 2, 2.5 ]\n      Values.float (Values.exactly 4)\n\n\n",
-        "type": "LineChart.Axis.Values.Amount -> LineChart.Coordinate.Range -> List Float"
-      },
-      {
-        "name": "int",
-        "comment": " Makes nice integers.\n\n    valuesWithin : Coordinate.Range -> List Int\n    valuesWithin =\n      Values.int (Values.around 3)\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example1.elm)._\n\n",
-        "type": "LineChart.Axis.Values.Amount -> LineChart.Coordinate.Range -> List Int"
-      },
-      {
-        "name": "time",
-        "comment": " Makes nice times.\n\n    valuesWithin : Coordinate.Range -> List Float\n    valuesWithin =\n      Values.time 5\n\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Values/Example2.elm)._\n\n",
-        "type": "Int -> LineChart.Coordinate.Range -> List LineChart.Axis.Tick.Time"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "LineChart.Line",
     "comment": "\n\n@docs Config, default, wider, hoverOne, custom\n\n## Styles\n@docs Style, style\n\n",
     "aliases": [
@@ -347,134 +347,6 @@
         "name": "wider",
         "comment": " Pass the desired width of your lines.\n\n    chartConfig : LineChart.Config Data msg\n    chartConfig =\n      { ...\n      , line = Line.wider 3\n      , ...\n      }\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Line/Example1.elm)._\n\n",
         "type": "Float -> LineChart.Line.Config data"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "LineChart.Junk",
-    "comment": "\n\nJunk is a way to draw whatever you like in the chart. The name comes from\n[Edward Tufte's concept of \"chart junk\"](https://en.wikipedia.org/wiki/Chartjunk).\nIf you want to add tooltips, sections for emphasis, or kittens on your chart,\nthis is where it's at.\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/junk.png?raw=true\"></src>\n\n@docs Config, default, hoverOne, hoverMany\n\n# Customization\n@docs custom, Layers\n\n# Helpers\n\n## On chart area\n\nA good thing to know before reading this section is what I mean by \"chart area\".\nIt is basically the rectangle which covers your entire x and y axis-range.\nBelow is an illustration.\n\n_What is an axis-range? See the `Axis.Range` module._\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/chartarea.png?raw=true\"></src>\n\n@docs withinChartArea\n\n## Lines\n@docs vertical, horizontal, verticalCustom, horizontalCustom\n\n## Shapes\n@docs rectangle, circle\n\n## Label\n@docs label, labelAt\n\n## Placing\n@docs placed, Transfrom, transform, move, offset\n\n## Hover views\nThis is just regular html views! Nothing fancy - you can also make your own!\nNotice that you can override all the styles.\n\n@docs hover, hoverAt\n\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " Use in the `LineChart.Config` passed to `LineChart.viewCustom`.\n\n    chartConfig : LineChart.Config Data msg\n    chartConfig =\n      { ...\n      , junk = Junk.default\n      , ...\n      }\n\n",
-        "args": [
-          "data",
-          "msg"
-        ],
-        "type": "Internal.Junk.Config data msg"
-      },
-      {
-        "name": "Layers",
-        "comment": " The layers where you can put your junk.\n\n  - **below** junk will be placed below your lines\n  - **above** junk will be placed above your lines\n  - **html** junk will be placed on top of the SVG chart.\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ below : List (Svg.Svg msg) , above : List (Svg.Svg msg) , html : List (Html.Html msg) }"
-      },
-      {
-        "name": "Transfrom",
-        "comment": " ",
-        "args": [],
-        "type": "Internal.Svg.Transfrom"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "circle",
-        "comment": " Draws a circle. Pass the system, radius, color and x- and y-coordinates respectively.\n\n",
-        "type": "LineChart.Coordinate.System -> Float -> Color.Color -> Float -> Float -> Svg.Svg msg"
-      },
-      {
-        "name": "custom",
-        "comment": " Draw whatever junk you'd like. You're given the `Coordinate.System` to help\nyou place your junk on the intended spot in the chart, because it allows you\nto translate from data-space into SVG-space and vice versa.\n\nTo learn more about the `Coordinate.System` and how to use it, see the\n`Coordinate` module.\n\n\n    junk : Maybe Coordinate.Point -> Coordinate.System -> Junk.Layers msg\n    junk hovered system =\n      { below =\n          case hovered of\n            Just hovered -> [ sectionBand hovered system ]\n            Nothing      -> []\n      , above = []\n      , html = []\n      }\n\n    sectionBand : Coordinate.Point -> Coordinate.System -> Svg.Svg msg\n    sectionBand hovered system =\n      Junk.rectangle system\n        [ Svg.Attributes.fill \"#b6b6b61a\" ]\n        (hovered.x - 5) (hovered.x + 5)\n        system.y.min    system.y.max\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example2.elm)._\n\n\n",
-        "type": "(LineChart.Coordinate.System -> LineChart.Junk.Layers msg) -> LineChart.Junk.Config data msg"
-      },
-      {
-        "name": "default",
-        "comment": " For the junk-free chart.\n",
-        "type": "LineChart.Junk.Config data msg"
-      },
-      {
-        "name": "horizontal",
-        "comment": " Draws a horizontal line which is the full length of the x-range.\n\nPass the y-coordinate.\n\n**Note:** The line is truncated off if outside the chart area.\n",
-        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Svg.Svg msg"
-      },
-      {
-        "name": "horizontalCustom",
-        "comment": " Draws a horizontal line.\n\nPass the  y-, x1- and x2-coordinates, respectively.\n\n**Note:** The line is truncated off if outside the chart area.\n",
-        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Float -> Float -> Svg.Svg msg"
-      },
-      {
-        "name": "hover",
-        "comment": " Make the markup for a hover placed in the middle of the y-axis and at a given x-coordinate.\n\nPass the hint x-coordinate, your styles and your internal view.\n\n    customJunk : Maybe Data -> Junk.Config Data msg\n    customJunk hovered =\n      Junk.custom <| \\system ->\n        { below = []\n        , above = []\n        , html =\n            [ Junk.hover system hovered.x\n                [ ( \"border-color\", \"red\" ) ]\n                [ Html.text (toString hovered.y) ]\n            ]\n        }\n\n ",
-        "type": "LineChart.Coordinate.System -> Float -> List ( String, String ) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "hoverAt",
-        "comment": " Make the markup for a hover placed at a given x- and y-coordinate.\n\nPass the hint x- and y-coordinate, your styles and your internal view.\n\n    customJunk : Maybe Data -> Junk.Config Data msg\n    customJunk hovered =\n      Junk.custom <| \\system ->\n        { below = []\n        , above = []\n        , html =\n            [ Junk.hoverAt system hovered.x system.y.max\n                [ ( \"border-color\", \"red\" ) ]\n                [ Html.text (toString hovered.y) ]\n            ]\n        }\n\n",
-        "type": "LineChart.Coordinate.System -> Float -> Float -> List ( String, String ) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "hoverMany",
-        "comment": " Draws the default tooltip for multiple hovered points.\n\n    customJunk : List Data -> Junk.Junk msg\n    customJunk hovered =\n      Junk.hoverMany model.hovered formatX formatY\n\n    formatX : Data -> String\n    formatX =\n      .date >> Date.fromTime >> Date.Format.format \"%e. %b, %Y\"\n\n    formatY : Data -> String\n    formatY data =\n      toString data.weight ++ \"kg\"\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example4.elm)._\n\n\n<img alt=\"Tooltip\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/tooltip2.png?raw=true\"></src>\n\n",
-        "type": "List data -> (data -> String) -> (data -> String) -> LineChart.Junk.Config data msg"
-      },
-      {
-        "name": "hoverOne",
-        "comment": " Draws the default tooltip.\n\n    customJunk : Maybe Data -> Junk.Junk msg\n    customJunk hovered =\n      Junk.hoverOne model.hovered\n        [ ( \"Age\", toString << .age )\n        , ( \"Weight\", toString << .weight )\n        ]\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example1.elm)._\n\n<img alt=\"Tooltip\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/tooltip1.png?raw=true\"></src>\n\n",
-        "type": "Maybe.Maybe data -> List ( String, data -> String ) -> LineChart.Junk.Config data msg"
-      },
-      {
-        "name": "label",
-        "comment": " Given a color, it draws the text in the second argument.\n",
-        "type": "Color.Color -> String -> Svg.Svg msg"
-      },
-      {
-        "name": "labelAt",
-        "comment": " A label, but you get to place it too.\n\nArguments:\n  1. The coordinate system.\n  2. The x-coordinate in data-space.\n  3. The y-coordinate in data-space.\n  4. The x-offset in SVG-space.\n  5. The y-offset in SVG-space.\n  6. The `text-anchor` css value.\n  7. The color of the text.\n  8. The text.\n\n\n    customJunk : Junk.Config Data msg\n    customJunk =\n      Junk.custom <| \\system ->\n        { below = []\n        , above =\n            [ Junk.labelAt system 2  1.5 0 -10 \"middle\" Colors.black \"← axis range →\"\n            , Junk.labelAt system 2 -1.5 0  18 \"middle\" Colors.black \"← data range →\"\n            -- Try changing the numbers!\n            ]\n        , html = []\n        }\n\n",
-        "type": "LineChart.Coordinate.System -> Float -> Float -> Float -> Float -> String -> Color.Color -> String -> Svg.Svg msg"
-      },
-      {
-        "name": "move",
-        "comment": " Moves in data-space.\n",
-        "type": "LineChart.Coordinate.System -> Float -> Float -> LineChart.Junk.Transfrom"
-      },
-      {
-        "name": "offset",
-        "comment": " Moves in SVG-space.\n",
-        "type": "Float -> Float -> LineChart.Junk.Transfrom"
-      },
-      {
-        "name": "placed",
-        "comment": " Place a list of elements on a given spot.\n\nArguments:\n  1. The coordinate system.\n  2. The x-coordinate in data-space.\n  3. The y-coordinate in data-space.\n  4. The x-offset in SVG-space.\n  5. The y-offset in SVG-space.\n  6. The list of elements\n\n",
-        "type": "LineChart.Coordinate.System -> Float -> Float -> Float -> Float -> List (Svg.Svg msg) -> Svg.Svg msg"
-      },
-      {
-        "name": "rectangle",
-        "comment": " Draws a rectangle. This can be used for grid bands and highlighting a\nrange e.g. for selection.\n\n    xSelectionArea : Coordinate.System -> Float -> Float -> Svg msg\n    xSelectionArea system startX endX =\n        Junk.rectangle system\n          [ Attributes.fill \"rgba(255,0,0,0.1)\" ]\n          startX endX system.y.min system.y.max\n\n**Note:** The rectangle is truncated off if outside the chart area.\n\n",
-        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Float -> Float -> Float -> Svg.Svg msg"
-      },
-      {
-        "name": "transform",
-        "comment": " Produces a SVG transform attributes. Useful to move elements around.\n\n    movedStuff : Coordinate.System -> Svg.Svg msg\n    movedStuff system =\n      Svg.g\n        [ Junk.transform\n            [ Junk.move system someDataPoint.age someDataPoint.weight\n            , Junk.offset 20 10\n            -- Try changing the offset!\n            ]\n        ]\n        [ Junk.label Colors.blue \"stuff\" ]\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example3.elm)._\n\n",
-        "type": "List LineChart.Junk.Transfrom -> Svg.Attribute msg"
-      },
-      {
-        "name": "vertical",
-        "comment": " Draws a vertical line, which is the full length of the y-range.\n\nPass the x-coordinate.\n\n**Note:** The line is truncated off if outside the chart area.\n",
-        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Svg.Svg msg"
-      },
-      {
-        "name": "verticalCustom",
-        "comment": " Draws a vertical line.\n\nPass the x-, y1- and y2-coordinates, respectively.\n\n**Note:** The line is truncated off if outside the chart area.\n",
-        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Float -> Float -> Svg.Svg msg"
-      },
-      {
-        "name": "withinChartArea",
-        "comment": " An attribute which when added, truncates the rendered element if it\nextends outside the chart area.\n",
-        "type": "LineChart.Coordinate.System -> Svg.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -657,6 +529,134 @@
         "name": "time",
         "comment": " ",
         "type": "LineChart.Axis.Tick.Time -> LineChart.Axis.Tick.Config msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "LineChart.Junk",
+    "comment": "\n\nJunk is a way to draw whatever you like in the chart. The name comes from\n[Edward Tufte's concept of \"chart junk\"](https://en.wikipedia.org/wiki/Chartjunk).\nIf you want to add tooltips, sections for emphasis, or kittens on your chart,\nthis is where it's at.\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/junk.png?raw=true\"></src>\n\n@docs Config, default, hoverOne, hoverMany\n\n# Customization\n@docs custom, Layers\n\n# Helpers\n\n## On chart area\n\nA good thing to know before reading this section is what I mean by \"chart area\".\nIt is basically the rectangle which covers your entire x and y axis-range.\nBelow is an illustration.\n\n_What is an axis-range? See the `Axis.Range` module._\n\n<img alt=\"Legends\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/chartarea.png?raw=true\"></src>\n\n@docs withinChartArea\n\n## Lines\n@docs vertical, horizontal, verticalCustom, horizontalCustom\n\n## Shapes\n@docs rectangle, circle\n\n## Label\n@docs label, labelAt\n\n## Placing\n@docs placed, Transfrom, transform, move, offset\n\n## Hover views\nThis is just regular html views! Nothing fancy - you can also make your own!\nNotice that you can override all the styles.\n\n@docs hover, hoverAt\n\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Use in the `LineChart.Config` passed to `LineChart.viewCustom`.\n\n    chartConfig : LineChart.Config Data msg\n    chartConfig =\n      { ...\n      , junk = Junk.default\n      , ...\n      }\n\n",
+        "args": [
+          "data",
+          "msg"
+        ],
+        "type": "Internal.Junk.Config data msg"
+      },
+      {
+        "name": "Layers",
+        "comment": " The layers where you can put your junk.\n\n  - **below** junk will be placed below your lines\n  - **above** junk will be placed above your lines\n  - **html** junk will be placed on top of the SVG chart.\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ below : List (Svg.Svg msg) , above : List (Svg.Svg msg) , html : List (Html.Html msg) }"
+      },
+      {
+        "name": "Transfrom",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Svg.Transfrom"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "circle",
+        "comment": " Draws a circle. Pass the system, radius, color and x- and y-coordinates respectively.\n\n",
+        "type": "LineChart.Coordinate.System -> Float -> Color.Color -> Float -> Float -> Svg.Svg msg"
+      },
+      {
+        "name": "custom",
+        "comment": " Draw whatever junk you'd like. You're given the `Coordinate.System` to help\nyou place your junk on the intended spot in the chart, because it allows you\nto translate from data-space into SVG-space and vice versa.\n\nTo learn more about the `Coordinate.System` and how to use it, see the\n`Coordinate` module.\n\n\n    junk : Maybe Coordinate.Point -> Coordinate.System -> Junk.Layers msg\n    junk hovered system =\n      { below =\n          case hovered of\n            Just hovered -> [ sectionBand hovered system ]\n            Nothing      -> []\n      , above = []\n      , html = []\n      }\n\n    sectionBand : Coordinate.Point -> Coordinate.System -> Svg.Svg msg\n    sectionBand hovered system =\n      Junk.rectangle system\n        [ Svg.Attributes.fill \"#b6b6b61a\" ]\n        (hovered.x - 5) (hovered.x + 5)\n        system.y.min    system.y.max\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example2.elm)._\n\n\n",
+        "type": "(LineChart.Coordinate.System -> LineChart.Junk.Layers msg) -> LineChart.Junk.Config data msg"
+      },
+      {
+        "name": "default",
+        "comment": " For the junk-free chart.\n",
+        "type": "LineChart.Junk.Config data msg"
+      },
+      {
+        "name": "horizontal",
+        "comment": " Draws a horizontal line which is the full length of the x-range.\n\nPass the y-coordinate.\n\n**Note:** The line is truncated off if outside the chart area.\n",
+        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Svg.Svg msg"
+      },
+      {
+        "name": "horizontalCustom",
+        "comment": " Draws a horizontal line.\n\nPass the  y-, x1- and x2-coordinates, respectively.\n\n**Note:** The line is truncated off if outside the chart area.\n",
+        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Float -> Float -> Svg.Svg msg"
+      },
+      {
+        "name": "hover",
+        "comment": " Make the markup for a hover placed in the middle of the y-axis and at a given x-coordinate.\n\nPass the hint x-coordinate, your styles and your internal view.\n\n    customJunk : Maybe Data -> Junk.Config Data msg\n    customJunk hovered =\n      Junk.custom <| \\system ->\n        { below = []\n        , above = []\n        , html =\n            [ Junk.hover system hovered.x\n                [ ( \"border-color\", \"red\" ) ]\n                [ Html.text (toString hovered.y) ]\n            ]\n        }\n\n ",
+        "type": "LineChart.Coordinate.System -> Float -> List ( String, String ) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "hoverAt",
+        "comment": " Make the markup for a hover placed at a given x- and y-coordinate.\n\nPass the hint x- and y-coordinate, your styles and your internal view.\n\n    customJunk : Maybe Data -> Junk.Config Data msg\n    customJunk hovered =\n      Junk.custom <| \\system ->\n        { below = []\n        , above = []\n        , html =\n            [ Junk.hoverAt system hovered.x system.y.max\n                [ ( \"border-color\", \"red\" ) ]\n                [ Html.text (toString hovered.y) ]\n            ]\n        }\n\n",
+        "type": "LineChart.Coordinate.System -> Float -> Float -> List ( String, String ) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "hoverMany",
+        "comment": " Draws the default tooltip for multiple hovered points.\n\n    customJunk : List Data -> Junk.Junk msg\n    customJunk hovered =\n      Junk.hoverMany model.hovered formatX formatY\n\n    formatX : Data -> String\n    formatX =\n      .date >> Date.fromTime >> Date.Format.format \"%e. %b, %Y\"\n\n    formatY : Data -> String\n    formatY data =\n      toString data.weight ++ \"kg\"\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example4.elm)._\n\n\n<img alt=\"Tooltip\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/tooltip2.png?raw=true\"></src>\n\n",
+        "type": "List data -> (data -> String) -> (data -> String) -> LineChart.Junk.Config data msg"
+      },
+      {
+        "name": "hoverOne",
+        "comment": " Draws the default tooltip.\n\n    customJunk : Maybe Data -> Junk.Junk msg\n    customJunk hovered =\n      Junk.hoverOne model.hovered\n        [ ( \"Age\", toString << .age )\n        , ( \"Weight\", toString << .weight )\n        ]\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example1.elm)._\n\n<img alt=\"Tooltip\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/tooltip1.png?raw=true\"></src>\n\n",
+        "type": "Maybe.Maybe data -> List ( String, data -> String ) -> LineChart.Junk.Config data msg"
+      },
+      {
+        "name": "label",
+        "comment": " Given a color, it draws the text in the second argument.\n",
+        "type": "Color.Color -> String -> Svg.Svg msg"
+      },
+      {
+        "name": "labelAt",
+        "comment": " A label, but you get to place it too.\n\nArguments:\n  1. The coordinate system.\n  2. The x-coordinate in data-space.\n  3. The y-coordinate in data-space.\n  4. The x-offset in SVG-space.\n  5. The y-offset in SVG-space.\n  6. The `text-anchor` css value.\n  7. The color of the text.\n  8. The text.\n\n\n    customJunk : Junk.Config Data msg\n    customJunk =\n      Junk.custom <| \\system ->\n        { below = []\n        , above =\n            [ Junk.labelAt system 2  1.5 0 -10 \"middle\" Colors.black \"← axis range →\"\n            , Junk.labelAt system 2 -1.5 0  18 \"middle\" Colors.black \"← data range →\"\n            -- Try changing the numbers!\n            ]\n        , html = []\n        }\n\n",
+        "type": "LineChart.Coordinate.System -> Float -> Float -> Float -> Float -> String -> Color.Color -> String -> Svg.Svg msg"
+      },
+      {
+        "name": "move",
+        "comment": " Moves in data-space.\n",
+        "type": "LineChart.Coordinate.System -> Float -> Float -> LineChart.Junk.Transfrom"
+      },
+      {
+        "name": "offset",
+        "comment": " Moves in SVG-space.\n",
+        "type": "Float -> Float -> LineChart.Junk.Transfrom"
+      },
+      {
+        "name": "placed",
+        "comment": " Place a list of elements on a given spot.\n\nArguments:\n  1. The coordinate system.\n  2. The x-coordinate in data-space.\n  3. The y-coordinate in data-space.\n  4. The x-offset in SVG-space.\n  5. The y-offset in SVG-space.\n  6. The list of elements\n\n",
+        "type": "LineChart.Coordinate.System -> Float -> Float -> Float -> Float -> List (Svg.Svg msg) -> Svg.Svg msg"
+      },
+      {
+        "name": "rectangle",
+        "comment": " Draws a rectangle. This can be used for grid bands and highlighting a\nrange e.g. for selection.\n\n    xSelectionArea : Coordinate.System -> Float -> Float -> Svg msg\n    xSelectionArea system startX endX =\n        Junk.rectangle system\n          [ Attributes.fill \"rgba(255,0,0,0.1)\" ]\n          startX endX system.y.min system.y.max\n\n**Note:** The rectangle is truncated off if outside the chart area.\n\n",
+        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Float -> Float -> Float -> Svg.Svg msg"
+      },
+      {
+        "name": "transform",
+        "comment": " Produces a SVG transform attributes. Useful to move elements around.\n\n    movedStuff : Coordinate.System -> Svg.Svg msg\n    movedStuff system =\n      Svg.g\n        [ Junk.transform\n            [ Junk.move system someDataPoint.age someDataPoint.weight\n            , Junk.offset 20 10\n            -- Try changing the offset!\n            ]\n        ]\n        [ Junk.label Colors.blue \"stuff\" ]\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Junk/Example3.elm)._\n\n",
+        "type": "List LineChart.Junk.Transfrom -> Svg.Attribute msg"
+      },
+      {
+        "name": "vertical",
+        "comment": " Draws a vertical line, which is the full length of the y-range.\n\nPass the x-coordinate.\n\n**Note:** The line is truncated off if outside the chart area.\n",
+        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Svg.Svg msg"
+      },
+      {
+        "name": "verticalCustom",
+        "comment": " Draws a vertical line.\n\nPass the x-, y1- and y2-coordinates, respectively.\n\n**Note:** The line is truncated off if outside the chart area.\n",
+        "type": "LineChart.Coordinate.System -> List (Svg.Attribute msg) -> Float -> Float -> Float -> Svg.Svg msg"
+      },
+      {
+        "name": "withinChartArea",
+        "comment": " An attribute which when added, truncates the rendered element if it\nextends outside the chart area.\n",
+        "type": "LineChart.Coordinate.System -> Svg.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -846,42 +846,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "LineChart.Axis.Range",
-    "comment": "\n\n## Axis ranges and data ranges\n\nConsidering the following data:\n\n    data =\n      [ { x = -1, y = -2 }\n      , { x = 5, y = 6 }\n      ]\n\nFrom this we can see that the smallest x is -1 and the largest x is 5. We\ncall this the x-data range. By default, the axis range is the same as your\ndata range, but we can make it far more complicated than that.\n\nOpposite your data range which is only calculated from  from your data,\n**your axis range can be edited** with this module. For example, you can make\nit larger than your data range, as illustrated below.\n\n<img alt=\"Ranges explained\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n_Notice how the data range begins and ends where the pink line begins and ends._\n\nThis is cool because it looks good. You can also make the axis range\nsmaller than the data range, and the result will we a \"zoomed in\" view of\none section of the data, which can also be useful.\n\nTake a look at some of these functions if these effects interests you.\n\n@docs Config, default, window, padded, custom\n\n",
-    "aliases": [
-      {
-        "name": "Config",
-        "comment": " First of all, this configuration is part of the\nconfiguration in `Axis.custom`.\n\n    axisConfig : Axis.Config Data msg\n    axisConfig =\n      Axis.custom\n        { ..\n        , range = Range.default\n        , ...\n        }\n\n",
-        "args": [],
-        "type": "Internal.Axis.Range.Config"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "custom",
-        "comment": " Given your data range, produce your desired axis range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.custom specialRange\n\n    specialRange : Coordinate.Range -> Coordinate.Range\n    specialRange { min, max } =\n      { min = min - 1, max = max + 2 }\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges4.png?raw=true\"></src>\n\n",
-        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range) -> LineChart.Axis.Range.Config"
-      },
-      {
-        "name": "default",
-        "comment": " Set the axis range to the full length of your data range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.default\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges3.png?raw=true\"></src>\n\n",
-        "type": "LineChart.Axis.Range.Config"
-      },
-      {
-        "name": "padded",
-        "comment": " Add a given amount of pixels to the minimum and maximum of your axis range,\nrespectivily.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.padded 40 40\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n",
-        "type": "Float -> Float -> LineChart.Axis.Range.Config"
-      },
-      {
-        "name": "window",
-        "comment": " Straight up set your axis range by specifying the minimum and maximum,\nrespectivily.\n\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.window -0.5 4.5\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges2.png?raw=true\"></src>\n\n",
-        "type": "Float -> Float -> LineChart.Axis.Range.Config"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "LineChart.Dots",
     "comment": "\n\n# Shapes\n@docs Shape\n\n## Selection\nHopefully, these are self-explanatory.\n<img alt=\"Legends\" width=\"610\" style=\"margin-top: 10px; margin-left: -10px\" src=\"https://github.com/terezka/line-charts/blob/master/images/shapes.png?raw=true\"></src>\n\n@docs none, circle, triangle, square, diamond, plus, cross\n\n# Styles\n@docs Config, default\n\n## Hover styles\n@docs hoverOne, hoverMany\n\n## Customization\n@docs custom, customAny\n\n### Selection\n@docs Style, full, empty, disconnected, aura\n\n\n",
     "aliases": [
@@ -992,37 +956,37 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "LineChart.Axis.Intersection",
-    "comment": "\n\n## Where is the intersection?\n\nThe intersection is where your two axis lines meet. By default this is at\nthe smallest coordinate possible (the downmost left corner), but it need\nnot be as illustated below.\n\n<img alt=\"Ranges explained\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/intersection1.png?raw=true\"></src>\n\n@docs Config, default, atOrigin, at, custom\n\n",
+    "name": "LineChart.Axis.Range",
+    "comment": "\n\n## Axis ranges and data ranges\n\nConsidering the following data:\n\n    data =\n      [ { x = -1, y = -2 }\n      , { x = 5, y = 6 }\n      ]\n\nFrom this we can see that the smallest x is -1 and the largest x is 5. We\ncall this the x-data range. By default, the axis range is the same as your\ndata range, but we can make it far more complicated than that.\n\nOpposite your data range which is only calculated from  from your data,\n**your axis range can be edited** with this module. For example, you can make\nit larger than your data range, as illustrated below.\n\n<img alt=\"Ranges explained\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n_Notice how the data range begins and ends where the pink line begins and ends._\n\nThis is cool because it looks good. You can also make the axis range\nsmaller than the data range, and the result will we a \"zoomed in\" view of\none section of the data, which can also be useful.\n\nTake a look at some of these functions if these effects interests you.\n\n@docs Config, default, window, padded, custom\n\n",
     "aliases": [
       {
         "name": "Config",
-        "comment": " Use in the `LineChart.Config` passed to `LineChart.viewCustom`.\n\n    chartConfig : LineChart.Config Data msg\n    chartConfig =\n      { ...\n      , intersection = Intersection.default\n      , ...\n      }\n\n",
+        "comment": " First of all, this configuration is part of the\nconfiguration in `Axis.custom`.\n\n    axisConfig : Axis.Config Data msg\n    axisConfig =\n      Axis.custom\n        { ..\n        , range = Range.default\n        , ...\n        }\n\n",
         "args": [],
-        "type": "Internal.Axis.Intersection.Config"
+        "type": "Internal.Axis.Range.Config"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "at",
-        "comment": " Sets the intersection to your chosen x and y respectivily.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.at 0 3\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n",
-        "type": "Float -> Float -> LineChart.Axis.Intersection.Config"
-      },
-      {
-        "name": "atOrigin",
-        "comment": " Sets the intersection as close to the origin as your range and domain allows.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.atOrigin\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n\n",
-        "type": "LineChart.Axis.Intersection.Config"
-      },
-      {
         "name": "custom",
-        "comment": " Sets the intersection to your chosen x and y, given the range and domain\nrespectivily.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.custom .min middle\n\n    middle : Coordinate.Range -> Float\n    middle { min, max } =\n      min + (max - min) / 2\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n",
-        "type": "(LineChart.Coordinate.Range -> Float) -> (LineChart.Coordinate.Range -> Float) -> LineChart.Axis.Intersection.Config"
+        "comment": " Given your data range, produce your desired axis range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.custom specialRange\n\n    specialRange : Coordinate.Range -> Coordinate.Range\n    specialRange { min, max } =\n      { min = min - 1, max = max + 2 }\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges4.png?raw=true\"></src>\n\n",
+        "type": "(LineChart.Coordinate.Range -> LineChart.Coordinate.Range) -> LineChart.Axis.Range.Config"
       },
       {
         "name": "default",
-        "comment": " Sets the intersection at the minimum on both the range and domain.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.default\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n",
-        "type": "LineChart.Axis.Intersection.Config"
+        "comment": " Set the axis range to the full length of your data range.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.default\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges3.png?raw=true\"></src>\n\n",
+        "type": "LineChart.Axis.Range.Config"
+      },
+      {
+        "name": "padded",
+        "comment": " Add a given amount of pixels to the minimum and maximum of your axis range,\nrespectivily.\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.padded 40 40\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges.png?raw=true\"></src>\n\n",
+        "type": "Float -> Float -> LineChart.Axis.Range.Config"
+      },
+      {
+        "name": "window",
+        "comment": " Straight up set your axis range by specifying the minimum and maximum,\nrespectivily.\n\n\n    rangeConfig : Range.Config\n    rangeConfig =\n      Range.window -0.5 4.5\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Range/Example1.elm)._\n\n<img alt=\"Ranges explained\" width=\"540\" src=\"https://github.com/terezka/line-charts/blob/master/images/ranges2.png?raw=true\"></src>\n\n",
+        "type": "Float -> Float -> LineChart.Axis.Range.Config"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1074,6 +1038,42 @@
         "name": "rangeFrame",
         "comment": " Draws the full length of your data range in your given color.\n\n    axisLineConfig : AxisLine.Config msg\n    axisLineConfig =\n      AxisLine.rangeFrame Color.red\n\n_See full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/AxisLine/Example1.elm)._\n\n",
         "type": "Color.Color -> LineChart.Axis.Line.Config msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "LineChart.Axis.Intersection",
+    "comment": "\n\n## Where is the intersection?\n\nThe intersection is where your two axis lines meet. By default this is at\nthe smallest coordinate possible (the downmost left corner), but it need\nnot be as illustated below.\n\n<img alt=\"Ranges explained\" width=\"610\" src=\"https://github.com/terezka/line-charts/blob/master/images/intersection1.png?raw=true\"></src>\n\n@docs Config, default, atOrigin, at, custom\n\n",
+    "aliases": [
+      {
+        "name": "Config",
+        "comment": " Use in the `LineChart.Config` passed to `LineChart.viewCustom`.\n\n    chartConfig : LineChart.Config Data msg\n    chartConfig =\n      { ...\n      , intersection = Intersection.default\n      , ...\n      }\n\n",
+        "args": [],
+        "type": "Internal.Axis.Intersection.Config"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "at",
+        "comment": " Sets the intersection to your chosen x and y respectivily.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.at 0 3\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n",
+        "type": "Float -> Float -> LineChart.Axis.Intersection.Config"
+      },
+      {
+        "name": "atOrigin",
+        "comment": " Sets the intersection as close to the origin as your range and domain allows.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.atOrigin\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n\n",
+        "type": "LineChart.Axis.Intersection.Config"
+      },
+      {
+        "name": "custom",
+        "comment": " Sets the intersection to your chosen x and y, given the range and domain\nrespectivily.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.custom .min middle\n\n    middle : Coordinate.Range -> Float\n    middle { min, max } =\n      min + (max - min) / 2\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n",
+        "type": "(LineChart.Coordinate.Range -> Float) -> (LineChart.Coordinate.Range -> Float) -> LineChart.Axis.Intersection.Config"
+      },
+      {
+        "name": "default",
+        "comment": " Sets the intersection at the minimum on both the range and domain.\n\n    intersectionConfig : Intersection.Config\n    intersectionConfig =\n      Intersection.default\n\n\n_See the full example [here](https://github.com/terezka/line-charts/blob/master/examples/Docs/Intersection/Example1.elm)._\n\n",
+        "type": "LineChart.Axis.Intersection.Config"
       }
     ],
     "generated-with-elm-version": "0.18.0"

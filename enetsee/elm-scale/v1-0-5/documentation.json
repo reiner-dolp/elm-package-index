@@ -68,75 +68,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Sequential.RGBBasis",
-    "comment": "\n@docs RGBBasis , rgbBasis\n",
-    "aliases": [
-      {
-        "name": "RGBBasis",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ a | domain : ( Float, Float ), range : List Color.Color, closed : Bool, outsideDomain : Scale.Config.OutsideDomain }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "rgbBasis",
-        "comment": " ",
-        "type": "Scale.Sequential.RGBBasis.RGBBasis a -> Scale.Sequential.Sequential Float Color.Color"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Scale.Sequential.RGB",
-    "comment": "\n@docs RGB , rgb\n",
-    "aliases": [
-      {
-        "name": "RGB",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ a | domain : ( Float, Float ), range : ( Color.Color, Color.Color ), gamma : Maybe.Maybe Float, outsideDomain : Scale.Config.OutsideDomain }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "rgb",
-        "comment": " ",
-        "type": "Scale.Sequential.RGB.RGB a -> Scale.Sequential.Sequential Float Color.Color"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Scale.Sequential.HSL",
-    "comment": "\n@docs HSL, hsl\n",
-    "aliases": [
-      {
-        "name": "HSL",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ a | domain : ( Float, Float ), range : ( Color.Color, Color.Color ), long : Bool, outsideDomain : Scale.Config.OutsideDomain }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "hsl",
-        "comment": " ",
-        "type": "Scale.Sequential.HSL.HSL a -> Scale.Sequential.Sequential Float Color.Color"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Scale.Continuous.Log",
     "comment": "\n@docs Log, log, niceDomain\n",
     "aliases": [
@@ -193,26 +124,70 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Ordinal.Custom",
-    "comment": "\n@docs Custom, custom\n",
+    "name": "Scale.Sequential.RGB",
+    "comment": "\n@docs RGB , rgb\n",
     "aliases": [
       {
-        "name": "Custom",
+        "name": "RGB",
         "comment": " ",
         "args": [
-          "a",
-          "domain",
-          "range"
+          "a"
         ],
-        "type": "{ a | domain : List domain, range : List range }"
+        "type": "{ a | domain : ( Float, Float ), range : ( Color.Color, Color.Color ), gamma : Maybe.Maybe Float, outsideDomain : Scale.Config.OutsideDomain }"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "custom",
+        "name": "rgb",
         "comment": " ",
-        "type": "Scale.Ordinal.Custom.Custom a domain range -> Scale.Ordinal.Ordinal domain range"
+        "type": "Scale.Sequential.RGB.RGB a -> Scale.Sequential.Sequential Float Color.Color"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Sequential.RGBBasis",
+    "comment": "\n@docs RGBBasis , rgbBasis\n",
+    "aliases": [
+      {
+        "name": "RGBBasis",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ a | domain : ( Float, Float ), range : List Color.Color, closed : Bool, outsideDomain : Scale.Config.OutsideDomain }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "rgbBasis",
+        "comment": " ",
+        "type": "Scale.Sequential.RGBBasis.RGBBasis a -> Scale.Sequential.Sequential Float Color.Color"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Sequential.HSL",
+    "comment": "\n@docs HSL, hsl\n",
+    "aliases": [
+      {
+        "name": "HSL",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ a | domain : ( Float, Float ), range : ( Color.Color, Color.Color ), long : Bool, outsideDomain : Scale.Config.OutsideDomain }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "hsl",
+        "comment": " ",
+        "type": "Scale.Sequential.HSL.HSL a -> Scale.Sequential.Sequential Float Color.Color"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -243,35 +218,26 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Scale.Sequential",
-    "comment": "\n@docs Sequential, sequential, scale, ticks\n",
-    "aliases": [],
-    "types": [
+    "name": "Scale.Ordinal.Custom",
+    "comment": "\n@docs Custom, custom\n",
+    "aliases": [
       {
-        "name": "Sequential",
+        "name": "Custom",
         "comment": " ",
         "args": [
+          "a",
           "domain",
           "range"
         ],
-        "cases": []
+        "type": "{ a | domain : List domain, range : List range }"
       }
     ],
+    "types": [],
     "values": [
       {
-        "name": "scale",
+        "name": "custom",
         "comment": " ",
-        "type": "Scale.Sequential.Sequential domain range -> domain -> Maybe.Maybe range"
-      },
-      {
-        "name": "sequential",
-        "comment": " ",
-        "type": "{ a | compareDomain : domain -> domain -> Basics.Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolator : Float -> range, outsideDomain : Scale.Config.OutsideDomain, ticks : ( domain, domain ) -> Int -> List domain } -> Scale.Sequential.Sequential domain range"
-      },
-      {
-        "name": "ticks",
-        "comment": " ",
-        "type": "Scale.Sequential.Sequential domain range -> Int -> List domain"
+        "type": "Scale.Ordinal.Custom.Custom a domain range -> Scale.Ordinal.Ordinal domain range"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -311,6 +277,40 @@
         "name": "unscale",
         "comment": " ",
         "type": "Scale.Continuous.Continuous domain Float -> Float -> Maybe.Maybe domain"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Scale.Sequential",
+    "comment": "\n@docs Sequential, sequential, scale, ticks\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Sequential",
+        "comment": " ",
+        "args": [
+          "domain",
+          "range"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "scale",
+        "comment": " ",
+        "type": "Scale.Sequential.Sequential domain range -> domain -> Maybe.Maybe range"
+      },
+      {
+        "name": "sequential",
+        "comment": " ",
+        "type": "{ a | compareDomain : domain -> domain -> Basics.Order, deinterpolateDomain : ( domain, domain ) -> domain -> Float, domain : ( domain, domain ), interpolator : Float -> range, outsideDomain : Scale.Config.OutsideDomain, ticks : ( domain, domain ) -> Int -> List domain } -> Scale.Sequential.Sequential domain range"
+      },
+      {
+        "name": "ticks",
+        "comment": " ",
+        "type": "Scale.Sequential.Sequential domain range -> Int -> List domain"
       }
     ],
     "generated-with-elm-version": "0.18.0"

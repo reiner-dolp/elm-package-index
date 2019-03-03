@@ -190,65 +190,34 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bubblegum.Edge",
-    "comment": " Edge helps to represent the relationship between two nodes.\n\n# Build\n@docs create, Edge\n\n# Conversion\n@docs toTuple, fromTuple\n\n",
+    "name": "Bubblegum.Node",
+    "comment": " Node helps to represent the data about a node or vertex.\n\n# Build\n@docs create, Node\n\n# Conversion\n@docs toTuple, fromTuple\n\n",
     "aliases": [
       {
-        "name": "Edge",
-        "comment": " The representation of an edge between two nodes.\n  \n    {\n      source = \"London\"\n      , destination= \"Paris\"\n      , value = \"344 km\"\n    }\n\n",
+        "name": "Node",
+        "comment": " The core representation of a node or vertex.\n\n    {id = \"London\", value = \"8,787,892 inhabitants\"}\n",
         "args": [
-          "eData"
+          "nData"
         ],
-        "type": "{ source : String, destination : String, value : eData }"
+        "type": "{ id : String, value : nData }"
       }
     ],
     "types": [],
     "values": [
       {
         "name": "create",
-        "comment": " Create an edge providing the source, the destination and the value.\n\n    ldnParis = create \"London\" \"Paris\" \"344 km\"\n\n",
-        "type": "String -> String -> eData -> Bubblegum.Edge.Edge eData"
+        "comment": " Creates a node or vertex providing the id and value.\n\n    create \"London\" \"8,787,892 inhabitants\"\n",
+        "type": "String -> nData -> Bubblegum.Node.Node nData"
       },
       {
         "name": "fromTuple",
-        "comment": " Convert a tuple to an edge.\n\n    fromTuple ((\"London\", \"Paris\"), \"344 km\") == { source = \"London\", destination = \"Paris\", value = \"344 km\"}\n\n",
-        "type": "( ( String, String ), Bubblegum.Edge.Edge eData ) -> Bubblegum.Edge.Edge eData"
+        "comment": " Convert a tuple to a node.\n\n    fromTuple (\"London\", \"8,787,892 inhabitants\") == {id = \"London\", value = \"8,787,892 inhabitants\"}\n\n",
+        "type": "( String, Bubblegum.Node.Node nData ) -> Bubblegum.Node.Node nData"
       },
       {
         "name": "toTuple",
-        "comment": " Convert an edge to a tuple.\n\n    toTuple ldnParis == ((\"London\", \"Paris\"), \"344 km\")\n\n",
-        "type": "Bubblegum.Edge.Edge eData -> ( ( String, String ), Bubblegum.Edge.Edge eData )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bubblegum.Relations",
-    "comment": " Relations helps to describe the inbound and outbound relationships to a node.\n\n# Build\n@docs create, Relations\n\n# Test\n@docs isLeaf, isRoot\n\n",
-    "aliases": [
-      {
-        "name": "Relations",
-        "comment": " The representation of the inbound and outbound relationships to a node.\n  \n    { inbound = [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")], outbound = [(\"Paris\", \"New York\")] }\n\n",
-        "args": [],
-        "type": "{ inbound : List ( String, String ) , outbound : List ( String, String ) }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "create",
-        "comment": " Create the relations against a node providing the inbound and outbound values.\n\n    create [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")] [(\"Paris\", \"New York\")]\n \n",
-        "type": "List ( String, String ) -> List ( String, String ) -> Bubblegum.Relations.Relations"
-      },
-      {
-        "name": "isLeaf",
-        "comment": " Test whether the relations represents a leaf in the graph. No more children.\n\n    isLeaf { inbound = [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")], outbound = [] } == True\n\n",
-        "type": "Bubblegum.Relations.Relations -> Bool"
-      },
-      {
-        "name": "isRoot",
-        "comment": " Test whether the relations represents a root in the graph. No more parents.\n\n    isRoot { inbound = [], outbound = [(\"Paris\", \"New York\")] } == True\n\n",
-        "type": "Bubblegum.Relations.Relations -> Bool"
+        "comment": " Convert a node to a tuple.\n\n    toTuple {id = \"London\", value = \"8,787,892 inhabitants\"} == (\"London\", \"8,787,892 inhabitants\")\n\n",
+        "type": "Bubblegum.Node.Node nData -> ( String, Bubblegum.Node.Node nData )"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -318,34 +287,65 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bubblegum.Node",
-    "comment": " Node helps to represent the data about a node or vertex.\n\n# Build\n@docs create, Node\n\n# Conversion\n@docs toTuple, fromTuple\n\n",
+    "name": "Bubblegum.Edge",
+    "comment": " Edge helps to represent the relationship between two nodes.\n\n# Build\n@docs create, Edge\n\n# Conversion\n@docs toTuple, fromTuple\n\n",
     "aliases": [
       {
-        "name": "Node",
-        "comment": " The core representation of a node or vertex.\n\n    {id = \"London\", value = \"8,787,892 inhabitants\"}\n",
+        "name": "Edge",
+        "comment": " The representation of an edge between two nodes.\n  \n    {\n      source = \"London\"\n      , destination= \"Paris\"\n      , value = \"344 km\"\n    }\n\n",
         "args": [
-          "nData"
+          "eData"
         ],
-        "type": "{ id : String, value : nData }"
+        "type": "{ source : String, destination : String, value : eData }"
       }
     ],
     "types": [],
     "values": [
       {
         "name": "create",
-        "comment": " Creates a node or vertex providing the id and value.\n\n    create \"London\" \"8,787,892 inhabitants\"\n",
-        "type": "String -> nData -> Bubblegum.Node.Node nData"
+        "comment": " Create an edge providing the source, the destination and the value.\n\n    ldnParis = create \"London\" \"Paris\" \"344 km\"\n\n",
+        "type": "String -> String -> eData -> Bubblegum.Edge.Edge eData"
       },
       {
         "name": "fromTuple",
-        "comment": " Convert a tuple to a node.\n\n    fromTuple (\"London\", \"8,787,892 inhabitants\") == {id = \"London\", value = \"8,787,892 inhabitants\"}\n\n",
-        "type": "( String, Bubblegum.Node.Node nData ) -> Bubblegum.Node.Node nData"
+        "comment": " Convert a tuple to an edge.\n\n    fromTuple ((\"London\", \"Paris\"), \"344 km\") == { source = \"London\", destination = \"Paris\", value = \"344 km\"}\n\n",
+        "type": "( ( String, String ), Bubblegum.Edge.Edge eData ) -> Bubblegum.Edge.Edge eData"
       },
       {
         "name": "toTuple",
-        "comment": " Convert a node to a tuple.\n\n    toTuple {id = \"London\", value = \"8,787,892 inhabitants\"} == (\"London\", \"8,787,892 inhabitants\")\n\n",
-        "type": "Bubblegum.Node.Node nData -> ( String, Bubblegum.Node.Node nData )"
+        "comment": " Convert an edge to a tuple.\n\n    toTuple ldnParis == ((\"London\", \"Paris\"), \"344 km\")\n\n",
+        "type": "Bubblegum.Edge.Edge eData -> ( ( String, String ), Bubblegum.Edge.Edge eData )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bubblegum.Relations",
+    "comment": " Relations helps to describe the inbound and outbound relationships to a node.\n\n# Build\n@docs create, Relations\n\n# Test\n@docs isLeaf, isRoot\n\n",
+    "aliases": [
+      {
+        "name": "Relations",
+        "comment": " The representation of the inbound and outbound relationships to a node.\n  \n    { inbound = [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")], outbound = [(\"Paris\", \"New York\")] }\n\n",
+        "args": [],
+        "type": "{ inbound : List ( String, String ) , outbound : List ( String, String ) }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "create",
+        "comment": " Create the relations against a node providing the inbound and outbound values.\n\n    create [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")] [(\"Paris\", \"New York\")]\n \n",
+        "type": "List ( String, String ) -> List ( String, String ) -> Bubblegum.Relations.Relations"
+      },
+      {
+        "name": "isLeaf",
+        "comment": " Test whether the relations represents a leaf in the graph. No more children.\n\n    isLeaf { inbound = [(\"London\", \"Paris\"), (\"Amsterdam\", \"Paris\")], outbound = [] } == True\n\n",
+        "type": "Bubblegum.Relations.Relations -> Bool"
+      },
+      {
+        "name": "isRoot",
+        "comment": " Test whether the relations represents a root in the graph. No more parents.\n\n    isRoot { inbound = [], outbound = [(\"Paris\", \"New York\")] } == True\n\n",
+        "type": "Bubblegum.Relations.Relations -> Bool"
       }
     ],
     "generated-with-elm-version": "0.18.0"

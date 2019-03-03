@@ -128,55 +128,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Monocle.Prism",
-    "comment": " A Prism is a tool which optionally converts elements of type A into elements of type B and back.\n\n# Definition\n@docs Prism\n\n# Example\n\n    string2IntPrism : Prism String Int\n    string2IntPrism =\n        Prism (String.toInt >> Result.toMaybe) toString\n\n    string2IntPrism.getOption \"17896\" == Just 17896\n    string2IntPrism.getOption \"1a896\" == Nothing\n    string2IntPrism.reverseGet 1626767 = \"1626767\"\n\n# Derived methods\n@docs isMatching, modify, modifyOption, compose, composeIso\n\n# Conversion\n@docs fromIso\n\n",
-    "aliases": [
-      {
-        "name": "Prism",
-        "comment": " In order to create a `Prism` we need to supply two functions: `getOption` and `reverseGet`\n",
-        "args": [
-          "a",
-          "b"
-        ],
-        "type": "{ getOption : a -> Maybe.Maybe b, reverseGet : b -> a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "compose",
-        "comment": " Composes `Prism a b` with `Prism b c` and returns `Prism a c`\n\n        prism = Monocle.Prism.compose string2FloatPrism float2IntPrism\n        prism.getOption \"22\" == Just 22\n        prism.getOption \"22.2\" == Nothing\n        prism.getOption \"22a\" == Nothing\n        prism.getOption \"abc\" == Nothing\n\n",
-        "type": "Monocle.Prism.Prism a b -> Monocle.Prism.Prism b c -> Monocle.Prism.Prism a c"
-      },
-      {
-        "name": "composeIso",
-        "comment": " Composes `Prism a b` with `Iso b c` and returns `Prism a c`\n\n        iso = Iso ((*) 10) ((//) 10)\n        prism = Monocle.Prism.composeIso string2IntPrism iso\n        prism.getOption \"22\" == Just 220\n        prism.getOption \"22.2\" == Nothing\n        prism.getOption \"22a\" == Nothing\n        prism.getOption \"abc\" == Nothing\n",
-        "type": "Monocle.Prism.Prism a b -> Monocle.Iso.Iso b c -> Monocle.Prism.Prism a c"
-      },
-      {
-        "name": "fromIso",
-        "comment": " Casts `Iso a b` to `Prism a b`\n",
-        "type": "Monocle.Iso.Iso a b -> Monocle.Prism.Prism a b"
-      },
-      {
-        "name": "isMatching",
-        "comment": " Checks if value of type `A` has matching element of type 'B'\n\n        Monocle.Prism.isMatching string2IntPrism \"abc\" == False\n        Monocle.Prism.isMatching string2IntPrism \"123\" == True\n",
-        "type": "Monocle.Prism.Prism a b -> a -> Bool"
-      },
-      {
-        "name": "modify",
-        "comment": " Modifies given function `(b -> b)` to be `(a -> a)` using `Prism a b`\n\n        fx i = i * 2\n        modified = Monocle.Prism.modify string2IntPrism fx\n        modified \"22\" == \"44\"\n        modified \"abc\" == \"abc\"\n",
-        "type": "Monocle.Prism.Prism a b -> (b -> b) -> a -> a"
-      },
-      {
-        "name": "modifyOption",
-        "comment": " Modifies given function `(b -> b)` to be `(a -> Maybe a)` using `Prism a b`\n\n        fx i = i * 2\n        modified = Monocle.Prism.modify string2IntPrism fx\n        modified \"22\" == Just \"44\"\n        modified \"abc\" == Nothing\n",
-        "type": "Monocle.Prism.Prism a b -> (b -> b) -> a -> Maybe.Maybe a"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Monocle.Lens",
     "comment": " A Lens is a functional concept which solves a very common problem:\n    how to easily update a complex immutable structure,\n    for this purpose Lens acts as a zoom into a record.\n\n# Definition\n@docs Lens\n\n# Example\n    addressStreetNameLens : Lens Address String\n    addressStreetNameLens =\n        let\n            get a = a.streetName\n\n            set sn a = { a | streetName = sn }\n        in\n            Lens get set\n\n    placeAddressLens : Lens Place Address\n    placeAddressLens =\n        let\n            get p = p.address\n\n            set a p = { p | address = a }\n        in\n            Lens get set\n\n    placeStreetName: Lens Place String\n    placeStreetName = compose placeAddressLens addressStreetNameLens\n\n# Derived methods\n@docs compose, modify, modify2, modify3, modifyAndMerge, zip, tuple, tuple3\n\n# Conversion\n@docs fromIso\n\n",
     "aliases": [
@@ -236,6 +187,55 @@
         "name": "zip",
         "comment": " Zips `Lens a c` with `Lens b d` to form Lens ( a, b ) ( c, d )\n",
         "type": "Monocle.Lens.Lens a c -> Monocle.Lens.Lens b d -> Monocle.Lens.Lens ( a, b ) ( c, d )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Monocle.Prism",
+    "comment": " A Prism is a tool which optionally converts elements of type A into elements of type B and back.\n\n# Definition\n@docs Prism\n\n# Example\n\n    string2IntPrism : Prism String Int\n    string2IntPrism =\n        Prism (String.toInt >> Result.toMaybe) toString\n\n    string2IntPrism.getOption \"17896\" == Just 17896\n    string2IntPrism.getOption \"1a896\" == Nothing\n    string2IntPrism.reverseGet 1626767 = \"1626767\"\n\n# Derived methods\n@docs isMatching, modify, modifyOption, compose, composeIso\n\n# Conversion\n@docs fromIso\n\n",
+    "aliases": [
+      {
+        "name": "Prism",
+        "comment": " In order to create a `Prism` we need to supply two functions: `getOption` and `reverseGet`\n",
+        "args": [
+          "a",
+          "b"
+        ],
+        "type": "{ getOption : a -> Maybe.Maybe b, reverseGet : b -> a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "compose",
+        "comment": " Composes `Prism a b` with `Prism b c` and returns `Prism a c`\n\n        prism = Monocle.Prism.compose string2FloatPrism float2IntPrism\n        prism.getOption \"22\" == Just 22\n        prism.getOption \"22.2\" == Nothing\n        prism.getOption \"22a\" == Nothing\n        prism.getOption \"abc\" == Nothing\n\n",
+        "type": "Monocle.Prism.Prism a b -> Monocle.Prism.Prism b c -> Monocle.Prism.Prism a c"
+      },
+      {
+        "name": "composeIso",
+        "comment": " Composes `Prism a b` with `Iso b c` and returns `Prism a c`\n\n        iso = Iso ((*) 10) ((//) 10)\n        prism = Monocle.Prism.composeIso string2IntPrism iso\n        prism.getOption \"22\" == Just 220\n        prism.getOption \"22.2\" == Nothing\n        prism.getOption \"22a\" == Nothing\n        prism.getOption \"abc\" == Nothing\n",
+        "type": "Monocle.Prism.Prism a b -> Monocle.Iso.Iso b c -> Monocle.Prism.Prism a c"
+      },
+      {
+        "name": "fromIso",
+        "comment": " Casts `Iso a b` to `Prism a b`\n",
+        "type": "Monocle.Iso.Iso a b -> Monocle.Prism.Prism a b"
+      },
+      {
+        "name": "isMatching",
+        "comment": " Checks if value of type `A` has matching element of type 'B'\n\n        Monocle.Prism.isMatching string2IntPrism \"abc\" == False\n        Monocle.Prism.isMatching string2IntPrism \"123\" == True\n",
+        "type": "Monocle.Prism.Prism a b -> a -> Bool"
+      },
+      {
+        "name": "modify",
+        "comment": " Modifies given function `(b -> b)` to be `(a -> a)` using `Prism a b`\n\n        fx i = i * 2\n        modified = Monocle.Prism.modify string2IntPrism fx\n        modified \"22\" == \"44\"\n        modified \"abc\" == \"abc\"\n",
+        "type": "Monocle.Prism.Prism a b -> (b -> b) -> a -> a"
+      },
+      {
+        "name": "modifyOption",
+        "comment": " Modifies given function `(b -> b)` to be `(a -> Maybe a)` using `Prism a b`\n\n        fx i = i * 2\n        modified = Monocle.Prism.modify string2IntPrism fx\n        modified \"22\" == Just \"44\"\n        modified \"abc\" == Nothing\n",
+        "type": "Monocle.Prism.Prism a b -> (b -> b) -> a -> Maybe.Maybe a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

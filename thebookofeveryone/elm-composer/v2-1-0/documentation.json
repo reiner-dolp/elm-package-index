@@ -165,6 +165,20 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Composer.Backend.Immediate",
+    "comment": " Converts a list of primitives into a list of immediate commands. Immediate\ncommands are sort of an imperative graphic interface, used by 2D canvas for\nexample.\n\n@docs render\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "render",
+        "comment": " ",
+        "type": "List Composer.Primitive.Primitive -> List Composer.Backend.Immediate.Command.Command"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Composer.Text",
     "comment": " A set of utilities to layout text\n\n\n# Layout Options\n\n@docs LayoutOptions, defaultOptions, LineHeight, LineHeightMode, HorizontalAlign, VerticalAlign\n\n\n# Text Layout\n\n@docs layout, shrink, trim, wrap\n\n",
     "aliases": [
@@ -291,17 +305,80 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Composer.Backend.Immediate",
-    "comment": " Converts a list of primitives into a list of immediate commands. Immediate\ncommands are sort of an imperative graphic interface, used by 2D canvas for\nexample.\n\n@docs render\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
+    "name": "Composer.Primitive",
+    "comment": " A primitive set of geometry atoms. Scenes are reduce to a flat list of\nprimitives by composer. Then, some backends are feed with these primitives to\ncreate pdf, svg, webgl scenes, etc.\n\n@docs Primitive\n\n\n## Type Aliases\n\n@docs Opacity, Id, ImageUri, FontName, FontSize\n\n",
+    "aliases": [
       {
-        "name": "render",
-        "comment": " ",
-        "type": "List Composer.Primitive.Primitive -> List Composer.Backend.Immediate.Command.Command"
+        "name": "FontName",
+        "comment": " The font name of a text.\n",
+        "args": [],
+        "type": "String"
+      },
+      {
+        "name": "FontSize",
+        "comment": " The font size of a text.\n",
+        "args": [],
+        "type": "Float"
+      },
+      {
+        "name": "Id",
+        "comment": " A string identifier.\n",
+        "args": [],
+        "type": "String"
+      },
+      {
+        "name": "ImageUri",
+        "comment": " A URI pointing to an image.\n",
+        "args": [],
+        "type": "String"
+      },
+      {
+        "name": "Opacity",
+        "comment": " A float value, 0 means transparent, 1 opaque.\n",
+        "args": [],
+        "type": "Float"
       }
     ],
+    "types": [
+      {
+        "name": "Primitive",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Rectangle",
+            [
+              "Composer.Primitive.Id",
+              "Composer.Geometry.Transform.Transform",
+              "Composer.Geometry.Size.Size",
+              "Color.Color"
+            ]
+          ],
+          [
+            "Text",
+            [
+              "Composer.Primitive.Id",
+              "Composer.Geometry.Transform.Transform",
+              "Composer.Primitive.FontSize",
+              "Color.Color",
+              "Composer.Primitive.FontName",
+              "String"
+            ]
+          ],
+          [
+            "Texture",
+            [
+              "Composer.Primitive.Id",
+              "Composer.Geometry.Transform.Transform",
+              "Composer.Primitive.Opacity",
+              "Composer.Geometry.Size.Size",
+              "Composer.Primitive.ImageUri"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -424,83 +501,6 @@
         "type": "Composer.Text.Unit.Unit any -> String"
       }
     ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Composer.Primitive",
-    "comment": " A primitive set of geometry atoms. Scenes are reduce to a flat list of\nprimitives by composer. Then, some backends are feed with these primitives to\ncreate pdf, svg, webgl scenes, etc.\n\n@docs Primitive\n\n\n## Type Aliases\n\n@docs Opacity, Id, ImageUri, FontName, FontSize\n\n",
-    "aliases": [
-      {
-        "name": "FontName",
-        "comment": " The font name of a text.\n",
-        "args": [],
-        "type": "String"
-      },
-      {
-        "name": "FontSize",
-        "comment": " The font size of a text.\n",
-        "args": [],
-        "type": "Float"
-      },
-      {
-        "name": "Id",
-        "comment": " A string identifier.\n",
-        "args": [],
-        "type": "String"
-      },
-      {
-        "name": "ImageUri",
-        "comment": " A URI pointing to an image.\n",
-        "args": [],
-        "type": "String"
-      },
-      {
-        "name": "Opacity",
-        "comment": " A float value, 0 means transparent, 1 opaque.\n",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [
-      {
-        "name": "Primitive",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Rectangle",
-            [
-              "Composer.Primitive.Id",
-              "Composer.Geometry.Transform.Transform",
-              "Composer.Geometry.Size.Size",
-              "Color.Color"
-            ]
-          ],
-          [
-            "Text",
-            [
-              "Composer.Primitive.Id",
-              "Composer.Geometry.Transform.Transform",
-              "Composer.Primitive.FontSize",
-              "Color.Color",
-              "Composer.Primitive.FontName",
-              "String"
-            ]
-          ],
-          [
-            "Texture",
-            [
-              "Composer.Primitive.Id",
-              "Composer.Geometry.Transform.Transform",
-              "Composer.Primitive.Opacity",
-              "Composer.Geometry.Size.Size",
-              "Composer.Primitive.ImageUri"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -793,24 +793,18 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Composer.Geometry.Offset",
-    "comment": " A set of four dimensions: top, left, bottom and right. Used for offsets,\npadding, margins, etc.\n\n@docs Offset, zero\n\n",
+    "name": "Composer.Geometry.Radian",
+    "comment": " A unit for measuring angles.\n\n@docs Radian\n\n",
     "aliases": [
       {
-        "name": "Offset",
+        "name": "Radian",
         "comment": " ",
         "args": [],
-        "type": "{ top : Float, left : Float, bottom : Float, right : Float }"
+        "type": "Float"
       }
     ],
     "types": [],
-    "values": [
-      {
-        "name": "zero",
-        "comment": " An offset with all the dimensions set to zero.\n",
-        "type": "Composer.Geometry.Offset.Offset"
-      }
-    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {
@@ -835,21 +829,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Composer.Geometry.Radian",
-    "comment": " A unit for measuring angles.\n\n@docs Radian\n\n",
-    "aliases": [
-      {
-        "name": "Radian",
-        "comment": " ",
-        "args": [],
-        "type": "Float"
-      }
-    ],
-    "types": [],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Composer.Geometry.BoundingBox",
     "comment": " A BoundingBox is a rectangular box in 2D defined by a minimum and maximum X\nand Y values.\n\n@docs BoundingBox, zero\n\n",
     "aliases": [
@@ -866,6 +845,27 @@
         "name": "zero",
         "comment": " An BoundingBox with all the dimensions set to zero.\n",
         "type": "Composer.Geometry.BoundingBox.BoundingBox"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Composer.Geometry.Offset",
+    "comment": " A set of four dimensions: top, left, bottom and right. Used for offsets,\npadding, margins, etc.\n\n@docs Offset, zero\n\n",
+    "aliases": [
+      {
+        "name": "Offset",
+        "comment": " ",
+        "args": [],
+        "type": "{ top : Float, left : Float, bottom : Float, right : Float }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "zero",
+        "comment": " An offset with all the dimensions set to zero.\n",
+        "type": "Composer.Geometry.Offset.Offset"
       }
     ],
     "generated-with-elm-version": "0.18.0"

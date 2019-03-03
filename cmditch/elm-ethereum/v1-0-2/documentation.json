@@ -199,53 +199,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Shh",
-    "comment": " Whipser API (Use at your own risk! Work in progress)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
-    "aliases": [
-      {
-        "name": "Post",
-        "comment": " ",
-        "args": [],
-        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
-      },
-      {
-        "name": "WhisperId",
-        "comment": " ",
-        "args": [],
-        "type": "Internal.Types.WhisperId"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "newIdentity",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
-      },
-      {
-        "name": "post",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
-      },
-      {
-        "name": "toWhisperId",
-        "comment": " ",
-        "type": "String -> Result.Result String Shh.WhisperId"
-      },
-      {
-        "name": "version",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
-      },
-      {
-        "name": "whisperIdToString",
-        "comment": " ",
-        "type": "Shh.WhisperId -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Sentry.Event",
     "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, toFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
     "aliases": [],
@@ -341,6 +294,156 @@
         "name": "withDebug",
         "comment": " ",
         "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Shh",
+    "comment": " Whipser API (Use at your own risk! Work in progress)\n\n\n# Whisper messaging\n\n@docs Post, post\n\n\n# Whisper Id's\n\n@docs WhisperId, newIdentity, whisperIdToString, toWhisperId, version\n\n",
+    "aliases": [
+      {
+        "name": "Post",
+        "comment": " ",
+        "args": [],
+        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
+      },
+      {
+        "name": "WhisperId",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Types.WhisperId"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "newIdentity",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
+      },
+      {
+        "name": "post",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
+      },
+      {
+        "name": "toWhisperId",
+        "comment": " ",
+        "type": "String -> Result.Result String Shh.WhisperId"
+      },
+      {
+        "name": "version",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+      },
+      {
+        "name": "whisperIdToString",
+        "comment": " ",
+        "type": "Shh.WhisperId -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Abi.Decode",
+    "comment": " Decode RPC Responses\n\n)\n\n\n# Primitives\n\n@docs AbiDecoder, uint, int, bool, address, string\n\n\n# Bytes\n\n@docs staticBytes, dynamicBytes\n\n\n# Arrays\n\n@docs staticArray, dynamicArray\n\n\n# Special\n\n@docs ipfsHash\n\n\n# Run Decoders\n\n@docs abiDecode, andMap, toElmDecoder, toElmDecoderWithDebug, fromString\n\n\n# Events/Logs\n\n@docs topic, data\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "AbiDecoder",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "abiDecode",
+        "comment": " Similar to Json.Decode.Pipeline.decode\nalso a synonym for Json.Decode.succeed\n",
+        "type": "a -> Abi.Decode.AbiDecoder a"
+      },
+      {
+        "name": "address",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder Eth.Types.Address"
+      },
+      {
+        "name": "andMap",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder a -> Abi.Decode.AbiDecoder (a -> b) -> Abi.Decode.AbiDecoder b"
+      },
+      {
+        "name": "bool",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder Bool"
+      },
+      {
+        "name": "data",
+        "comment": " Useful for decoding data withing events/logs.\n",
+        "type": "Int -> Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "dynamicArray",
+        "comment": " Decode Dynamically Sized Arrays\n\n    dynamicArray address == address[]\n\n",
+        "type": "Abi.Decode.AbiDecoder a -> Abi.Decode.AbiDecoder (List a)"
+      },
+      {
+        "name": "dynamicBytes",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder String"
+      },
+      {
+        "name": "fromString",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder a -> String -> Result.Result String a"
+      },
+      {
+        "name": "int",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder BigInt.BigInt"
+      },
+      {
+        "name": "ipfsHash",
+        "comment": " Decodes bytes32 into IPFS Hash (assuming use of 32 byte sha256)\nNot IPFS future proof. See <https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes>\n",
+        "type": "Abi.Decode.AbiDecoder Eth.Types.IPFSHash"
+      },
+      {
+        "name": "staticArray",
+        "comment": " Decode Statically Sized Arrays\n\n    staticArray 10 uint == uint256[10]\n\n",
+        "type": "Int -> Abi.Decode.AbiDecoder a -> Abi.Decode.AbiDecoder (List a)"
+      },
+      {
+        "name": "staticBytes",
+        "comment": " ",
+        "type": "Int -> Abi.Decode.AbiDecoder String"
+      },
+      {
+        "name": "string",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder String"
+      },
+      {
+        "name": "toElmDecoder",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "toElmDecoderWithDebug",
+        "comment": " ",
+        "type": "String -> Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "topic",
+        "comment": " Useful for decoding data withing events/logs.\n",
+        "type": "Int -> Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "uint",
+        "comment": " ",
+        "type": "Abi.Decode.AbiDecoder BigInt.BigInt"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -580,55 +683,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Decode",
-    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Address"
-      },
-      {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
-      },
-      {
-        "name": "blockHead",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
-      },
-      {
-        "name": "event",
-        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Hex"
-      },
-      {
-        "name": "ipfsHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
-      },
-      {
-        "name": "tx",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.Tx"
-      },
-      {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Eth.Types.TxHash"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Eth.Net",
     "comment": " NetworkId and RPC Methods\n\n@docs NetworkId, version, clientVersion, listening, peerCount, toNetworkId, networkIdToInt, networkIdToString, networkIdDecoder\n\n",
     "aliases": [],
@@ -728,104 +782,50 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Abi.Decode",
-    "comment": " Decode RPC Responses\n\n)\n\n\n# Primitives\n\n@docs AbiDecoder, uint, int, bool, address, string\n\n\n# Bytes\n\n@docs staticBytes, dynamicBytes\n\n\n# Arrays\n\n@docs staticArray, dynamicArray\n\n\n# Special\n\n@docs ipfsHash\n\n\n# Run Decoders\n\n@docs abiDecode, andMap, toElmDecoder, toElmDecoderWithDebug, fromString\n\n\n# Events/Logs\n\n@docs topic, data\n\n",
+    "name": "Eth.Decode",
+    "comment": " Eth Decoders\n\n@docs address, hex, txHash, blockHash, ipfsHash, event, blockHead, tx\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "AbiDecoder",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      }
-    ],
+    "types": [],
     "values": [
-      {
-        "name": "abiDecode",
-        "comment": " Similar to Json.Decode.Pipeline.decode\nalso a synonym for Json.Decode.succeed\n",
-        "type": "a -> Abi.Decode.AbiDecoder a"
-      },
       {
         "name": "address",
         "comment": " ",
-        "type": "Abi.Decode.AbiDecoder Eth.Types.Address"
+        "type": "Json.Decode.Decoder Eth.Types.Address"
       },
       {
-        "name": "andMap",
+        "name": "blockHash",
         "comment": " ",
-        "type": "Abi.Decode.AbiDecoder a -> Abi.Decode.AbiDecoder (a -> b) -> Abi.Decode.AbiDecoder b"
+        "type": "Json.Decode.Decoder Eth.Types.BlockHash"
       },
       {
-        "name": "bool",
+        "name": "blockHead",
         "comment": " ",
-        "type": "Abi.Decode.AbiDecoder Bool"
+        "type": "Json.Decode.Decoder Eth.Types.BlockHead"
       },
       {
-        "name": "data",
-        "comment": " Useful for decoding data withing events/logs.\n",
-        "type": "Int -> Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
+        "name": "event",
+        "comment": " Used by [elm-ethereum-generator](https://github.com/cmditch/elm-ethereum-generator)\n\nUseful with `Eth.Sentry.Event` and `LogFilter` related functions in `Eth` module.\n\n",
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Eth.Types.Event a)"
       },
       {
-        "name": "dynamicArray",
-        "comment": " Decode Dynamically Sized Arrays\n\n    dynamicArray address == address[]\n\n",
-        "type": "Abi.Decode.AbiDecoder a -> Abi.Decode.AbiDecoder (List a)"
-      },
-      {
-        "name": "dynamicBytes",
+        "name": "hex",
         "comment": " ",
-        "type": "Abi.Decode.AbiDecoder String"
-      },
-      {
-        "name": "fromString",
-        "comment": " ",
-        "type": "Abi.Decode.AbiDecoder a -> String -> Result.Result String a"
-      },
-      {
-        "name": "int",
-        "comment": " ",
-        "type": "Abi.Decode.AbiDecoder BigInt.BigInt"
+        "type": "Json.Decode.Decoder Eth.Types.Hex"
       },
       {
         "name": "ipfsHash",
-        "comment": " Decodes bytes32 into IPFS Hash (assuming use of 32 byte sha256)\nNot IPFS future proof. See <https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes>\n",
-        "type": "Abi.Decode.AbiDecoder Eth.Types.IPFSHash"
-      },
-      {
-        "name": "staticArray",
-        "comment": " Decode Statically Sized Arrays\n\n    staticArray 10 uint == uint256[10]\n\n",
-        "type": "Int -> Abi.Decode.AbiDecoder a -> Abi.Decode.AbiDecoder (List a)"
-      },
-      {
-        "name": "staticBytes",
         "comment": " ",
-        "type": "Int -> Abi.Decode.AbiDecoder String"
+        "type": "Json.Decode.Decoder Eth.Types.IPFSHash"
       },
       {
-        "name": "string",
+        "name": "tx",
         "comment": " ",
-        "type": "Abi.Decode.AbiDecoder String"
+        "type": "Json.Decode.Decoder Eth.Types.Tx"
       },
       {
-        "name": "toElmDecoder",
+        "name": "txHash",
         "comment": " ",
-        "type": "Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "toElmDecoderWithDebug",
-        "comment": " ",
-        "type": "String -> Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "topic",
-        "comment": " Useful for decoding data withing events/logs.\n",
-        "type": "Int -> Abi.Decode.AbiDecoder a -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "uint",
-        "comment": " ",
-        "type": "Abi.Decode.AbiDecoder BigInt.BigInt"
+        "type": "Json.Decode.Decoder Eth.Types.TxHash"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1267,6 +1267,39 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Eth.RPC",
+    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
+    "aliases": [
+      {
+        "name": "RpcRequest",
+        "comment": " ",
+        "args": [
+          "a"
+        ],
+        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "encode",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
+      },
+      {
+        "name": "toHttpBody",
+        "comment": " ",
+        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
+      },
+      {
+        "name": "toTask",
+        "comment": " ",
+        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Eth.Units",
     "comment": " Conversions and Helpers\n\n\n# Concise Units\n\nUseful helpers for concise value declarations.\n\n    txParams : Send\n    txParams =\n        { to = Just myContract\n        , from = Nothing\n        , gas = Nothing\n        , gasPrice = Just (gwei 3)\n        , value = Just (eth 3)\n        , data = Just data\n        , nonce = Nothing\n        }\n\n@docs gwei, eth\n\n\n# Precise Units\n\nHelpers for dealing with floats.\n\n@docs EthUnit, toWei, fromWei, bigIntToWei\n\n",
     "aliases": [],
@@ -1348,39 +1381,6 @@
         "name": "toWei",
         "comment": " Convert a given stringy EthUnit to it's Wei equivalent\n\n    toWei Gwei \"50\" == Ok (BigInt.fromInt 50000000000)\n    toWei Wei \"40.9123\" == Ok (BigInt.fromInt 40)\n    toWei Kwei \"40.9123\" == Ok (BigInt.fromInt 40912)\n    toWei Gwei \"ten\" == Err\n\n",
         "type": "Eth.Units.EthUnit -> String -> Result.Result String BigInt.BigInt"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Eth.RPC",
-    "comment": " Json RPC Helpers\n@docs RpcRequest, toTask\n\n\n# Low Level\n\n@docs encode, toHttpBody\n\n",
-    "aliases": [
-      {
-        "name": "RpcRequest",
-        "comment": " ",
-        "args": [
-          "a"
-        ],
-        "type": "{ url : String , method : String , params : List Json.Encode.Value , decoder : Json.Decode.Decoder a }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "encode",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Json.Encode.Value"
-      },
-      {
-        "name": "toHttpBody",
-        "comment": " ",
-        "type": "Int -> String -> List Json.Encode.Value -> Http.Body"
-      },
-      {
-        "name": "toTask",
-        "comment": " ",
-        "type": "Eth.RPC.RpcRequest a -> Task.Task Http.Error a"
       }
     ],
     "generated-with-elm-version": "0.18.0"

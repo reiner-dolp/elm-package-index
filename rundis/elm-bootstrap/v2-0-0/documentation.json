@@ -452,121 +452,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Dropdown",
-    "comment": " Dropdowns are toggleable, contextual overlays for displaying lists of links and more. They’re toggled by clicking, not by hovering; this is an intentional design decision.\n\n\n\n**Wiring needed**\n\n    import Bootstrap.Dropdown as Dropdown\n    import Bootstrap.Button as Button\n    -- .. etc\n\n\n    -- Model\n    type alias Model =\n        { myDrop1State : Dropdown.State\n        , myDrop1State : Dropdown.State\n        }\n\n    -- Msg\n    type Msg\n        = MyDrop1Msg Dropdown.State\n        | MyDrop2Msg Dropdown.State\n\n    -- init\n    init : (Model, Cmd Msg )\n    init =\n        ( { myDrop1State = Dropdown.initialState\n          , myDrop2State = Dropdown.initialState\n          }\n        , Cmd.none\n        )\n\n    -- update\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            MyDrop1Msg state ->\n                ( { model | myDrop1State = state }\n                , Cmd.none\n                )\n\n            MyDrop2Msg state ->\n                ( { model | myDrop2State = state }\n                , Cmd.none\n                )\n\n            -- ... and cases for the drop down actions\n\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Dropdown.subscriptions model.myDrop1State MyDrop1Msg\n            , Dropdown.subscriptions model.myDrop2State MyDrop2Msg\n            ]\n\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ Dropdown.dropdown\n                model.myDrop1State\n                { options = [ Dropdown.alignMenuRight ]\n                , toggleMsg = MyDrop1Msg\n                , toggleButton =\n                    Dropdown.toggle [ Button.roleWarning ] [ text \"MyDropdown1\" ]\n                , items =\n                    [ Dropdown.buttonItem [ onClick Item1Msg ] [ text \"Item 1\" ]\n                    , Dropdown.buttonItem [ onClick Item2Msg ] [ text \"Item 2\" ]\n                    , Dropdown.divider\n                    , Dropdown.header [ text \"Silly items\" ]\n                    , Dropdown.buttonItem [ class \"disabled\" ] [ text \"DoNothing1\" ]\n                    , Dropdown.buttonItem [] [ text \"DoNothing2\" ]\n                    ]\n                }\n\n            -- etc\n            ]\n\n\nBootstrap dropdowns are made interactive in Elm by using state and subscription, so there is a little\nbit of wiring involved when using them in your Elm Application.\n\n\n\n# Dropdown\n@docs dropdown, toggle, DropdownToggle\n\n\n## Options\n@docs dropUp, alignMenuRight, DropdownOption\n\n# Dropdown items\n@docs anchorItem, buttonItem, divider, header, DropdownItem\n\n\n# Split dropdown\n@docs splitDropdown, splitToggle, SplitToggleConfig, SplitDropdownToggle\n\n\n\n# Required wiring\n@docs subscriptions, initialState, State\n\n\n",
-    "aliases": [
-      {
-        "name": "SplitToggleConfig",
-        "comment": " The configuration options available for the toggle in a Split Dropdown.\n\n\n* `options` List of Button options for the main button\n* `togglerOptions` List of Button options for the menu toogle\n* `children` List of child elements for the main button\n\n**Important**\nYou mustn't define an onClick handler as an option in `options`. That will mess up the toggle feature !\n\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ options : List (Bootstrap.Button.Option msg) , togglerOptions : List (Bootstrap.Button.Option msg) , children : List (Html.Html msg) }"
-      }
-    ],
-    "types": [
-      {
-        "name": "DropdownItem",
-        "comment": " Opaque type representing an item in the menu of a Dropdown\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "DropdownOption",
-        "comment": " Opaque type representing configuration options for a Dropdown\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "DropdownToggle",
-        "comment": " Opaque type representing a toggle button item for a Dropdown\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "SplitDropdownToggle",
-        "comment": " Opaque type representing a split toggle button item for a Split Dropdown\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "State",
-        "comment": " Opaque type representing the view state of a Dropdown. You need to store this state\nin your model and it's initialized by [`initialState`](#initialState)\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "alignMenuRight",
-        "comment": " Option to align the dropdown menu to the right of the dropdown button.\n\n**NOTE!** Dropdowns are positioned only with CSS and may need some additional styles for exact alignment.\n",
-        "type": "Bootstrap.Dropdown.DropdownOption"
-      },
-      {
-        "name": "anchorItem",
-        "comment": " Creates an `a` element appropriate for use in dropdowns\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Dropdown.DropdownItem msg"
-      },
-      {
-        "name": "buttonItem",
-        "comment": " Creates a `button` element appropriate for use in dropdowns\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Dropdown.DropdownItem msg"
-      },
-      {
-        "name": "divider",
-        "comment": " Creates divider element appropriate for use in dropdowns.\nHandy when you want to visually separate groups of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "Bootstrap.Dropdown.DropdownItem msg"
-      },
-      {
-        "name": "dropUp",
-        "comment": " Option to show the dropdown menu above the dropdown rather than the default which is below\n",
-        "type": "Bootstrap.Dropdown.DropdownOption"
-      },
-      {
-        "name": "dropdown",
-        "comment": " Creates a Dropdown button. You can think of this as the view function.\nIt takes the current (view) state and a configuration record as parameters.\n\n    Dropdown.dropdown\n        model.myDropdownState\n        { toggleMsg = MyDropdownMsg\n        , toggleButton = Dropdown.toggle [ Button.primary ] [ text \"MyDropdown\" ]\n        , options = [ Dropdown.alignMenuRight ]\n        , items =\n            [ Dropdown.buttonItem [ onClick Item1Msg ] [ text \"Item1\" ]\n            , Dropdown.buttonItem [ onClick Item2Msg ] [ text \"Item1\" ]\n            ]\n        }\n\n* `state` The current view state of the dropdown\n* Configuration\n  * `toggleMsg` A `msg` function that takes a state and returns a msg\n  * `toggleButton` The actual button for the dropdown\n  * `options` General display [`options`](#options) for Dropdown widget\n  * `items` List of menu items for the dropdown\n\n",
-        "type": "Bootstrap.Dropdown.State -> { toggleMsg : Bootstrap.Dropdown.State -> msg , toggleButton : Bootstrap.Dropdown.DropdownToggle msg , options : List Bootstrap.Dropdown.DropdownOption , items : List (Bootstrap.Dropdown.DropdownItem msg) } -> Html.Html msg"
-      },
-      {
-        "name": "header",
-        "comment": " Creates an header element appropriate for use in dropdowns.\nHandy when you want to provide a heading for a group of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Html msg) -> Bootstrap.Dropdown.DropdownItem msg"
-      },
-      {
-        "name": "initialState",
-        "comment": " Initializes the view state for a dropdown. Typically you would call this from\nyour main init function\n",
-        "type": "Bootstrap.Dropdown.State"
-      },
-      {
-        "name": "splitDropdown",
-        "comment": " Creates a split dropdown. Contains a normal button and a toggle button that are placed next to each other.\n\n* `state` The current view state of the split dropdown\n* Configuration\n  * `toggleMsg` A `msg` function that takes a state and returns a msg\n  * `toggleButton` The actual split button for the dropdown\n  * `options` General display [`options`](#options) for Split dropdown widget\n  * `items` List of menu items for the dropdown\n",
-        "type": "Bootstrap.Dropdown.State -> { toggleMsg : Bootstrap.Dropdown.State -> msg , toggleButton : Bootstrap.Dropdown.SplitDropdownToggle msg , options : List Bootstrap.Dropdown.DropdownOption , items : List (Bootstrap.Dropdown.DropdownItem msg) } -> Html.Html msg"
-      },
-      {
-        "name": "splitToggle",
-        "comment": " Function to construct a split button toggle for a  [`splitDropdown`](#splitDropdown)\n\n    Dropdown.splitToggle\n        { options =\n            [ Button.primary\n            , Button.small\n            , Button.attr <| onClick SplitMainMsg\n            ]\n        -- It makes sense to keep the styling related options in sync for the two buttons !\n        , togglerOptions =\n            [ Button.primary\n            , Button.small\n            ]\n        , [ text \"My Dropdown\"]\n        }\n\n\n* `config` Configuration for the split toggle as described in [`SplitToggleConfig`](#SplitToggleConfig)\n\n",
-        "type": "Bootstrap.Dropdown.SplitToggleConfig msg -> Bootstrap.Dropdown.SplitDropdownToggle msg"
-      },
-      {
-        "name": "subscriptions",
-        "comment": " The dropdowns makes use of subscriptions to ensure that opened dropdowns are\nautomatically closed when you click outside them.\n\n    -- In your Main.elm or something similar\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Dropdown.subscriptions model.myDrop1State MyDrop1Msg\n            , Dropdown.subscriptions model.myDrop2State MyDrop2Msg\n            -- etc one for each dropdown (dropdown, navDropdown or splitDropdown)\n            ]\n\n",
-        "type": "Bootstrap.Dropdown.State -> (Bootstrap.Dropdown.State -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "toggle",
-        "comment": " Function to construct a toggle for a [`dropdown`](#dropdown)\n\n* buttonOptions List of button options for styling the button\n* children List of child elements\n",
-        "type": "List (Bootstrap.Button.Option msg) -> List (Html.Html msg) -> Bootstrap.Dropdown.DropdownToggle msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Bootstrap.Form.InputGroup",
     "comment": " Easily extend form input controls by adding text and buttons.\n\n    import Bootstrap.Form.InputGroup as InputGroup\n    import Bootstrap.Form.Input as Input\n    import Bootstrap.Button as Button\n\n\n    InputGroup.config\n        ( InputGroup.text [] )\n        |> InputGroup.large\n        |> InputGroup.predecessors\n            [ InputGroup.span [] [ text \"Stuff\" ] ]\n        |> InputGroup.successors\n            [ InputGroup.button [] [ text \"DoIt!\"] ]\n        |> InputGroup.view\n\n\n# General\n@docs view, config, predecessors, successors, text, button, span, Config, Input, Addon\n\n# Additional input flavors\n@docs password, datetimeLocal, date, month, time, week, number, email, url, search, tel\n\n\n# Sizing\n@docs large, small\n\n# Further customization\n@docs attrs\n\n",
     "aliases": [],
@@ -701,6 +586,121 @@
         "name": "week",
         "comment": " Create an input add-on with type=\"week\"\n",
         "type": "List (Bootstrap.Form.Input.Option msg) -> Bootstrap.Form.InputGroup.Input msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bootstrap.Dropdown",
+    "comment": " Dropdowns are toggleable, contextual overlays for displaying lists of links and more. They’re toggled by clicking, not by hovering; this is an intentional design decision.\n\n\n\n**Wiring needed**\n\n    import Bootstrap.Dropdown as Dropdown\n    import Bootstrap.Button as Button\n    -- .. etc\n\n\n    -- Model\n    type alias Model =\n        { myDrop1State : Dropdown.State\n        , myDrop1State : Dropdown.State\n        }\n\n    -- Msg\n    type Msg\n        = MyDrop1Msg Dropdown.State\n        | MyDrop2Msg Dropdown.State\n\n    -- init\n    init : (Model, Cmd Msg )\n    init =\n        ( { myDrop1State = Dropdown.initialState\n          , myDrop2State = Dropdown.initialState\n          }\n        , Cmd.none\n        )\n\n    -- update\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            MyDrop1Msg state ->\n                ( { model | myDrop1State = state }\n                , Cmd.none\n                )\n\n            MyDrop2Msg state ->\n                ( { model | myDrop2State = state }\n                , Cmd.none\n                )\n\n            -- ... and cases for the drop down actions\n\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Dropdown.subscriptions model.myDrop1State MyDrop1Msg\n            , Dropdown.subscriptions model.myDrop2State MyDrop2Msg\n            ]\n\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ Dropdown.dropdown\n                model.myDrop1State\n                { options = [ Dropdown.alignMenuRight ]\n                , toggleMsg = MyDrop1Msg\n                , toggleButton =\n                    Dropdown.toggle [ Button.roleWarning ] [ text \"MyDropdown1\" ]\n                , items =\n                    [ Dropdown.buttonItem [ onClick Item1Msg ] [ text \"Item 1\" ]\n                    , Dropdown.buttonItem [ onClick Item2Msg ] [ text \"Item 2\" ]\n                    , Dropdown.divider\n                    , Dropdown.header [ text \"Silly items\" ]\n                    , Dropdown.buttonItem [ class \"disabled\" ] [ text \"DoNothing1\" ]\n                    , Dropdown.buttonItem [] [ text \"DoNothing2\" ]\n                    ]\n                }\n\n            -- etc\n            ]\n\n\nBootstrap dropdowns are made interactive in Elm by using state and subscription, so there is a little\nbit of wiring involved when using them in your Elm Application.\n\n\n\n# Dropdown\n@docs dropdown, toggle, DropdownToggle\n\n\n## Options\n@docs dropUp, alignMenuRight, DropdownOption\n\n# Dropdown items\n@docs anchorItem, buttonItem, divider, header, DropdownItem\n\n\n# Split dropdown\n@docs splitDropdown, splitToggle, SplitToggleConfig, SplitDropdownToggle\n\n\n\n# Required wiring\n@docs subscriptions, initialState, State\n\n\n",
+    "aliases": [
+      {
+        "name": "SplitToggleConfig",
+        "comment": " The configuration options available for the toggle in a Split Dropdown.\n\n\n* `options` List of Button options for the main button\n* `togglerOptions` List of Button options for the menu toogle\n* `children` List of child elements for the main button\n\n**Important**\nYou mustn't define an onClick handler as an option in `options`. That will mess up the toggle feature !\n\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ options : List (Bootstrap.Button.Option msg) , togglerOptions : List (Bootstrap.Button.Option msg) , children : List (Html.Html msg) }"
+      }
+    ],
+    "types": [
+      {
+        "name": "DropdownItem",
+        "comment": " Opaque type representing an item in the menu of a Dropdown\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "DropdownOption",
+        "comment": " Opaque type representing configuration options for a Dropdown\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "DropdownToggle",
+        "comment": " Opaque type representing a toggle button item for a Dropdown\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "SplitDropdownToggle",
+        "comment": " Opaque type representing a split toggle button item for a Split Dropdown\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "State",
+        "comment": " Opaque type representing the view state of a Dropdown. You need to store this state\nin your model and it's initialized by [`initialState`](#initialState)\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "alignMenuRight",
+        "comment": " Option to align the dropdown menu to the right of the dropdown button.\n\n**NOTE!** Dropdowns are positioned only with CSS and may need some additional styles for exact alignment.\n",
+        "type": "Bootstrap.Dropdown.DropdownOption"
+      },
+      {
+        "name": "anchorItem",
+        "comment": " Creates an `a` element appropriate for use in dropdowns\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Dropdown.DropdownItem msg"
+      },
+      {
+        "name": "buttonItem",
+        "comment": " Creates a `button` element appropriate for use in dropdowns\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Dropdown.DropdownItem msg"
+      },
+      {
+        "name": "divider",
+        "comment": " Creates divider element appropriate for use in dropdowns.\nHandy when you want to visually separate groups of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "Bootstrap.Dropdown.DropdownItem msg"
+      },
+      {
+        "name": "dropUp",
+        "comment": " Option to show the dropdown menu above the dropdown rather than the default which is below\n",
+        "type": "Bootstrap.Dropdown.DropdownOption"
+      },
+      {
+        "name": "dropdown",
+        "comment": " Creates a Dropdown button. You can think of this as the view function.\nIt takes the current (view) state and a configuration record as parameters.\n\n    Dropdown.dropdown\n        model.myDropdownState\n        { toggleMsg = MyDropdownMsg\n        , toggleButton = Dropdown.toggle [ Button.primary ] [ text \"MyDropdown\" ]\n        , options = [ Dropdown.alignMenuRight ]\n        , items =\n            [ Dropdown.buttonItem [ onClick Item1Msg ] [ text \"Item1\" ]\n            , Dropdown.buttonItem [ onClick Item2Msg ] [ text \"Item1\" ]\n            ]\n        }\n\n* `state` The current view state of the dropdown\n* Configuration\n  * `toggleMsg` A `msg` function that takes a state and returns a msg\n  * `toggleButton` The actual button for the dropdown\n  * `options` General display [`options`](#options) for Dropdown widget\n  * `items` List of menu items for the dropdown\n\n",
+        "type": "Bootstrap.Dropdown.State -> { toggleMsg : Bootstrap.Dropdown.State -> msg , toggleButton : Bootstrap.Dropdown.DropdownToggle msg , options : List Bootstrap.Dropdown.DropdownOption , items : List (Bootstrap.Dropdown.DropdownItem msg) } -> Html.Html msg"
+      },
+      {
+        "name": "header",
+        "comment": " Creates an header element appropriate for use in dropdowns.\nHandy when you want to provide a heading for a group of menu items in a dropdown menu\n\n* `attributes` List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Html msg) -> Bootstrap.Dropdown.DropdownItem msg"
+      },
+      {
+        "name": "initialState",
+        "comment": " Initializes the view state for a dropdown. Typically you would call this from\nyour main init function\n",
+        "type": "Bootstrap.Dropdown.State"
+      },
+      {
+        "name": "splitDropdown",
+        "comment": " Creates a split dropdown. Contains a normal button and a toggle button that are placed next to each other.\n\n* `state` The current view state of the split dropdown\n* Configuration\n  * `toggleMsg` A `msg` function that takes a state and returns a msg\n  * `toggleButton` The actual split button for the dropdown\n  * `options` General display [`options`](#options) for Split dropdown widget\n  * `items` List of menu items for the dropdown\n",
+        "type": "Bootstrap.Dropdown.State -> { toggleMsg : Bootstrap.Dropdown.State -> msg , toggleButton : Bootstrap.Dropdown.SplitDropdownToggle msg , options : List Bootstrap.Dropdown.DropdownOption , items : List (Bootstrap.Dropdown.DropdownItem msg) } -> Html.Html msg"
+      },
+      {
+        "name": "splitToggle",
+        "comment": " Function to construct a split button toggle for a  [`splitDropdown`](#splitDropdown)\n\n    Dropdown.splitToggle\n        { options =\n            [ Button.primary\n            , Button.small\n            , Button.attr <| onClick SplitMainMsg\n            ]\n        -- It makes sense to keep the styling related options in sync for the two buttons !\n        , togglerOptions =\n            [ Button.primary\n            , Button.small\n            ]\n        , [ text \"My Dropdown\"]\n        }\n\n\n* `config` Configuration for the split toggle as described in [`SplitToggleConfig`](#SplitToggleConfig)\n\n",
+        "type": "Bootstrap.Dropdown.SplitToggleConfig msg -> Bootstrap.Dropdown.SplitDropdownToggle msg"
+      },
+      {
+        "name": "subscriptions",
+        "comment": " The dropdowns makes use of subscriptions to ensure that opened dropdowns are\nautomatically closed when you click outside them.\n\n    -- In your Main.elm or something similar\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Dropdown.subscriptions model.myDrop1State MyDrop1Msg\n            , Dropdown.subscriptions model.myDrop2State MyDrop2Msg\n            -- etc one for each dropdown (dropdown, navDropdown or splitDropdown)\n            ]\n\n",
+        "type": "Bootstrap.Dropdown.State -> (Bootstrap.Dropdown.State -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "toggle",
+        "comment": " Function to construct a toggle for a [`dropdown`](#dropdown)\n\n* buttonOptions List of button options for styling the button\n* children List of child elements\n",
+        "type": "List (Bootstrap.Button.Option msg) -> List (Html.Html msg) -> Bootstrap.Dropdown.DropdownToggle msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -844,97 +844,6 @@
         "name": "vertical",
         "comment": " Option to make all buttons stack vertically for a button group\n",
         "type": "Bootstrap.ButtonGroup.Option msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bootstrap.Text",
-    "comment": " Utilities for text options. Currently only exposing helpers used by Bootstrap.Card for horizontal alignment\n\n\n@docs alignXsLeft, alignXsCenter, alignXsRight, alignSmLeft, alignSmCenter, alignSmRight, alignMdLeft, alignMdCenter, alignMdRight, alignLgLeft, alignLgCenter, alignLgRight, alignXlLeft, alignXlCenter, alignXlRight, HAlign\n\n",
-    "aliases": [
-      {
-        "name": "HAlign",
-        "comment": " Opaque type representing a horizontal alignment option\n",
-        "args": [],
-        "type": "Bootstrap.Internal.Text.HAlign"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "alignLgCenter",
-        "comment": " Align center at large responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignLgLeft",
-        "comment": " Align left at large responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignLgRight",
-        "comment": " Align right at large responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignMdCenter",
-        "comment": " Align center at medium responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignMdLeft",
-        "comment": " Align left at medium responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignMdRight",
-        "comment": " Align right at medium responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignSmCenter",
-        "comment": " Align center at small responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignSmLeft",
-        "comment": " Align left at small responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignSmRight",
-        "comment": " Align right at small responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignXlCenter",
-        "comment": " Align center at extra large responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignXlLeft",
-        "comment": " Align left at extra large responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignXlRight",
-        "comment": " Align right at extra large responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignXsCenter",
-        "comment": " Align center at smallest responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignXsLeft",
-        "comment": " Align left at smallest responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
-      },
-      {
-        "name": "alignXsRight",
-        "comment": " Align right at smallest responsive breakpoint\n",
-        "type": "Bootstrap.Text.HAlign"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1106,6 +1015,97 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Bootstrap.Text",
+    "comment": " Utilities for text options. Currently only exposing helpers used by Bootstrap.Card for horizontal alignment\n\n\n@docs alignXsLeft, alignXsCenter, alignXsRight, alignSmLeft, alignSmCenter, alignSmRight, alignMdLeft, alignMdCenter, alignMdRight, alignLgLeft, alignLgCenter, alignLgRight, alignXlLeft, alignXlCenter, alignXlRight, HAlign\n\n",
+    "aliases": [
+      {
+        "name": "HAlign",
+        "comment": " Opaque type representing a horizontal alignment option\n",
+        "args": [],
+        "type": "Bootstrap.Internal.Text.HAlign"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "alignLgCenter",
+        "comment": " Align center at large responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignLgLeft",
+        "comment": " Align left at large responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignLgRight",
+        "comment": " Align right at large responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignMdCenter",
+        "comment": " Align center at medium responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignMdLeft",
+        "comment": " Align left at medium responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignMdRight",
+        "comment": " Align right at medium responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignSmCenter",
+        "comment": " Align center at small responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignSmLeft",
+        "comment": " Align left at small responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignSmRight",
+        "comment": " Align right at small responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignXlCenter",
+        "comment": " Align center at extra large responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignXlLeft",
+        "comment": " Align left at extra large responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignXlRight",
+        "comment": " Align right at extra large responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignXsCenter",
+        "comment": " Align center at smallest responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignXsLeft",
+        "comment": " Align left at smallest responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      },
+      {
+        "name": "alignXsRight",
+        "comment": " Align right at smallest responsive breakpoint\n",
+        "type": "Bootstrap.Text.HAlign"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Bootstrap.Button",
     "comment": " Use Bootstrap’s custom button styles for actions in forms, dialogs, and more. Includes support for a handful of contextual variations and sizes.\nYou can also group a series of buttons together on a single line with the button group.\n\n\n# Buttons\n@docs button, linkButton, radioButton, checkboxButton\n\n# Button options\n\n@docs attrs, onClick, disabled, Option\n\n## Roled\n@docs primary, secondary, success, info, warning, danger, roleLink\n\n## Outlined\n@docs outlinePrimary, outlineSecondary, outlineSuccess, outlineInfo, outlineWarning, outlineDanger\n\n## Size\n@docs small, large\n\n## Block\n@docs block\n\n\n",
     "aliases": [
@@ -1239,105 +1239,224 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.ListGroup",
-    "comment": " List groups are a flexible and powerful component for displaying a series of content. List group items can be modified and extended to support just about any content within. They can also be used as navigation with the right modifier class\n\n# Simple lists\n@docs ul, li, keyedUl, Item\n\n\n# Custom lists\n@docs custom, keyedCustom, anchor, button, CustomItem\n\n\n# Options\n@docs success, info, warning, danger, active, disabled, attrs, ItemOption\n\n\n",
+    "name": "Bootstrap.Grid.Row",
+    "comment": " Functions for creating grid row options.\n\n\n# Vertical alignment\n@docs topXs, topSm, topMd, topLg, topXl, middleXs, middleSm, middleMd, middleLg, middleXl, bottomXs, bottomSm, bottomMd, bottomLg, bottomXl\n\n\n# Horizontal alignment\n@docs leftXs, leftSm, leftMd, leftLg, leftXl, centerXs, centerSm, centerMd, centerLg, centerXl, rightXs, rightSm, rightMd, rightLg, rightXl, aroundXs, aroundSm, aroundMd, aroundLg, aroundXl, betweenXs, betweenSm, betweenMd, betweenLg, betweenXl\n\n\n# Misc\n@docs attrs, Option\n\n",
     "aliases": [
       {
-        "name": "CustomItem",
-        "comment": " Opaque type representing an item in a custom list group\n",
+        "name": "Option",
+        "comment": " Opaque type representing valid row options\n",
         "args": [
           "msg"
         ],
-        "type": "Bootstrap.Internal.ListGroup.CustomItem msg"
-      },
-      {
-        "name": "Item",
-        "comment": " Opaque type representing a list item in a ul based list group\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Bootstrap.Internal.ListGroup.Item msg"
-      },
-      {
-        "name": "ItemOption",
-        "comment": " Opaque type representing configuration options for a list item\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Bootstrap.Internal.ListGroup.ItemOption msg"
+        "type": "Bootstrap.Grid.Internal.RowOption msg"
       }
     ],
     "types": [],
     "values": [
       {
-        "name": "active",
-        "comment": " Option to mark a list item as active\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
+        "name": "aroundLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "anchor",
-        "comment": " Create a composable anchor list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
-        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
+        "name": "aroundMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "aroundSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "aroundXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "aroundXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
         "name": "attrs",
-        "comment": " Use this function to supply any additional Hmtl.Attribute you need for your list items\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.ListGroup.ItemOption msg"
+        "comment": " Use this function when you need to add custom Html attributes to the row container element.\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "button",
-        "comment": " Create a composable button list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
-        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
+        "name": "betweenLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "custom",
-        "comment": " Create a custom List group\n\n    ListGroup.custom\n        [ ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem1Msg\"\n            , ListGroup.info\n            ]\n            [ text \"List item 1\" ]\n        , ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem2Msg\"\n            , ListGroup.warning\n            ]\n            [ text \"List item 2\" ]\n        ]\n\n",
-        "type": "List (Bootstrap.ListGroup.CustomItem msg) -> Html.Html msg"
+        "name": "betweenMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "danger",
-        "comment": " Option to style a list item with danger colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
+        "name": "betweenSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "disabled",
-        "comment": " Option to disable a list item\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
+        "name": "betweenXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "info",
-        "comment": " Option to style a list item with info colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
+        "name": "betweenXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "keyedCustom",
-        "comment": " Create a custom list group with keyed children.\n",
-        "type": "List ( String, Bootstrap.ListGroup.CustomItem msg ) -> Html.Html msg"
+        "name": "bottomLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "keyedUl",
-        "comment": " Create a ul list group with keyed children.\n",
-        "type": "List ( String, Bootstrap.ListGroup.Item msg ) -> Html.Html msg"
+        "name": "bottomMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "li",
-        "comment": " Composable li element for a ul based list group\n",
-        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.Item msg"
+        "name": "bottomSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "success",
-        "comment": " Option to style a list item with success colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
+        "name": "bottomXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "ul",
-        "comment": " A simple list group based on a ul element\n\n    ListGroup.ul\n        [ ListGroup.li [ ListGroup.active ] [ text \"Item 1\"]\n        , ListGroup.li [ ] [ text \"Item 2\" ]\n        ]\n",
-        "type": "List (Bootstrap.ListGroup.Item msg) -> Html.Html msg"
+        "name": "bottomXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       },
       {
-        "name": "warning",
-        "comment": " Option to style a list item with warning colors\n",
-        "type": "Bootstrap.ListGroup.ItemOption msg"
+        "name": "centerLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "centerMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "centerSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "centerXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "centerXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "leftLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "leftMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "leftSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "leftXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "leftXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "middleLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "middleMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "middleSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "middleXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "middleXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "rightLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "rightMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "rightSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "rightXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "rightXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "topLg",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "topMd",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "topSm",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "topXl",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
+      },
+      {
+        "name": "topXs",
+        "comment": " ",
+        "type": "Bootstrap.Grid.Row.Option msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1587,6 +1706,135 @@
         "name": "withAnimation",
         "comment": " Use a slide up/down animation for toggling the navbar menu when collapsed.\n\n**NOTE: ** Do remember to set up the subscriptions function when using this option.\n",
         "type": "Bootstrap.Navbar.Config msg -> Bootstrap.Navbar.Config msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bootstrap.Modal",
+    "comment": " Modals are streamlined, but flexible dialog prompts. They support a number of use cases from user notifications to completely custom content and feature a handful of helpful subcomponents, sizes, and more.\n\n\n\n    type alias Model =\n        { modalState : Modal.State }\n\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { modalState : Modal.initalState }, Cmd.none )\n\n\n    type Msg\n        = ModalMsg Modal.State\n\n\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            ModelMsg state ->\n                ( { model | modalState = state }\n                , Cmd.none\n                )\n\n    view : Model -> Html msg\n    view model =\n        Grid.container []\n            [ Button.button\n                [ Button.attrs [ onClick ModalMsg Modal.visibleState ] ]\n                [ text \"Show modal\" ]\n\n            , Modal.config ModalMsg\n                |> Modal.small\n                |> Modal.h5 [] [ text \"Modal header\" ]\n                |> Modal.body []\n                    [ Grid.containerFluid []\n                        [ Grid.row\n                            [ Grid.col\n                                [ Col.xs6 ]\n                                [ text \"Col 1\" ]\n                            , Grid.col\n                                [ Col.xs6 ]\n                                [ text \"Col 2\" ]\n                            ]\n                        ]\n                    ]\n                |> Modal.footer []\n                    [ Button.button\n                        [ Button.outlinePrimary\n                        , Button.attrs [ onClick <| ModalMsg Modal.hiddenState ]\n                        ]\n                        [ text \"Close\" ]\n                    ]\n                |> Modal.view\n            ]\n\n\n**NOTE:** Don't try to open several modals at the same time. It probably won't end well.\n\n\n\n# Modal\n@docs view, config, Config\n\n\n## State\n@docs hiddenState, visibleState, State\n\n\n## Modal options\n@docs small, large, Option\n\n\n## Header\n@docs header, h1, h2, h3, h4, h5, h6, Header\n\n\n## Body\n@docs body, Body\n\n## Footer\n@docs footer, Footer\n\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Body",
+        "comment": " Opaque type represetning a modal body\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Config",
+        "comment": " Opaque type representing the view config for a model. Use the [`config`](#config) function to create an inital config.\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Footer",
+        "comment": " Opaque type represetning a modal body\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Header",
+        "comment": " Opaque type represetning a modal header\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Option",
+        "comment": " Opaque type representing configuration options\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "State",
+        "comment": " Opaque representation of the view state of a modal\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "body",
+        "comment": " Create a body for a modal, you would typically always create a body for a modal\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure body for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "config",
+        "comment": " Create an initial modal config. You can enrich the config by using the header, body, footer and option related functions.\n",
+        "type": "(Bootstrap.Modal.State -> msg) -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "footer",
+        "comment": " Create a footer for a modal. Normally used for action buttons, but you might be creative\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "h1",
+        "comment": " Creates a modal header with a h1 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "h2",
+        "comment": " Creates a modal header with a h2 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "h3",
+        "comment": " Creates a modal header with a h3 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "h4",
+        "comment": " Creates a modal header with a h4 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "h5",
+        "comment": " Creates a modal header with a h5 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "h6",
+        "comment": " Creates a modal header with a h6 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "header",
+        "comment": " Create a header for a modal, typically for titles, but you can be imaginative\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "hiddenState",
+        "comment": " Ensures the modal is not displayed (it's still in the DOM though !)\n",
+        "type": "Bootstrap.Modal.State"
+      },
+      {
+        "name": "large",
+        "comment": " Option to make a modal larger than the default\n",
+        "type": "Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "small",
+        "comment": " Option to make a modal smaller than the default\n",
+        "type": "Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+      },
+      {
+        "name": "view",
+        "comment": " Create a modal for your application\n\n* `state` The current view state of the modal. You need to keep track of this state in your model\n* `config` View configuration\n\n",
+        "type": "Bootstrap.Modal.State -> Bootstrap.Modal.Config msg -> Html.Html msg"
+      },
+      {
+        "name": "visibleState",
+        "comment": " In this state the modal will be displayed\n",
+        "type": "Bootstrap.Modal.State"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2985,37 +3233,13 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Modal",
-    "comment": " Modals are streamlined, but flexible dialog prompts. They support a number of use cases from user notifications to completely custom content and feature a handful of helpful subcomponents, sizes, and more.\n\n\n\n    type alias Model =\n        { modalState : Modal.State }\n\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { modalState : Modal.initalState }, Cmd.none )\n\n\n    type Msg\n        = ModalMsg Modal.State\n\n\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            ModelMsg state ->\n                ( { model | modalState = state }\n                , Cmd.none\n                )\n\n    view : Model -> Html msg\n    view model =\n        Grid.container []\n            [ Button.button\n                [ Button.attrs [ onClick ModalMsg Modal.visibleState ] ]\n                [ text \"Show modal\" ]\n\n            , Modal.config ModalMsg\n                |> Modal.small\n                |> Modal.h5 [] [ text \"Modal header\" ]\n                |> Modal.body []\n                    [ Grid.containerFluid []\n                        [ Grid.row\n                            [ Grid.col\n                                [ Col.xs6 ]\n                                [ text \"Col 1\" ]\n                            , Grid.col\n                                [ Col.xs6 ]\n                                [ text \"Col 2\" ]\n                            ]\n                        ]\n                    ]\n                |> Modal.footer []\n                    [ Button.button\n                        [ Button.outlinePrimary\n                        , Button.attrs [ onClick <| ModalMsg Modal.hiddenState ]\n                        ]\n                        [ text \"Close\" ]\n                    ]\n                |> Modal.view\n            ]\n\n\n**NOTE:** Don't try to open several modals at the same time. It probably won't end well.\n\n\n\n# Modal\n@docs view, config, Config\n\n\n## State\n@docs hiddenState, visibleState, State\n\n\n## Modal options\n@docs small, large, Option\n\n\n## Header\n@docs header, h1, h2, h3, h4, h5, h6, Header\n\n\n## Body\n@docs body, Body\n\n## Footer\n@docs footer, Footer\n\n\n",
+    "name": "Bootstrap.Form.Select",
+    "comment": " This module allows you to create Bootstrap styled `select` elements.\n\n\n# Creating\n@docs select, custom, item, Item\n\n# Options\n@docs id, small, large, id, disabled, onInput, attrs, Option\n\n",
     "aliases": [],
     "types": [
       {
-        "name": "Body",
-        "comment": " Opaque type represetning a modal body\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Config",
-        "comment": " Opaque type representing the view config for a model. Use the [`config`](#config) function to create an inital config.\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Footer",
-        "comment": " Opaque type represetning a modal body\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Header",
-        "comment": " Opaque type represetning a modal header\n",
+        "name": "Item",
+        "comment": " Opaque type representing a select option element\n",
         "args": [
           "msg"
         ],
@@ -3023,315 +3247,58 @@
       },
       {
         "name": "Option",
-        "comment": " Opaque type representing configuration options\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "State",
-        "comment": " Opaque representation of the view state of a modal\n",
-        "args": [],
+        "comment": " Opaque type representing legal select options\n",
+        "args": [
+          "msg"
+        ],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "body",
-        "comment": " Create a body for a modal, you would typically always create a body for a modal\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure body for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+        "name": "attrs",
+        "comment": " Use this function to handle any Html.Attribute option you wish for your select\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Form.Select.Option msg"
       },
       {
-        "name": "config",
-        "comment": " Create an initial modal config. You can enrich the config by using the header, body, footer and option related functions.\n",
-        "type": "(Bootstrap.Modal.State -> msg) -> Bootstrap.Modal.Config msg"
+        "name": "custom",
+        "comment": " Create a select with custom Bootstrap styling to make it look a little bit nicer than the default browser select element\n",
+        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
       },
       {
-        "name": "footer",
-        "comment": " Create a footer for a modal. Normally used for action buttons, but you might be creative\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+        "name": "disabled",
+        "comment": " Shorthand for setting the disabled attribute of a select\n",
+        "type": "Bool -> Bootstrap.Form.Select.Option msg"
       },
       {
-        "name": "h1",
-        "comment": " Creates a modal header with a h1 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+        "name": "id",
+        "comment": " Options/shorthand for setting the id of a select\n",
+        "type": "String -> Bootstrap.Form.Select.Option msg"
       },
       {
-        "name": "h2",
-        "comment": " Creates a modal header with a h2 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
-      },
-      {
-        "name": "h3",
-        "comment": " Creates a modal header with a h3 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
-      },
-      {
-        "name": "h4",
-        "comment": " Creates a modal header with a h4 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
-      },
-      {
-        "name": "h5",
-        "comment": " Creates a modal header with a h5 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
-      },
-      {
-        "name": "h6",
-        "comment": " Creates a modal header with a h6 title child element\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
-      },
-      {
-        "name": "header",
-        "comment": " Create a header for a modal, typically for titles, but you can be imaginative\n\n* `attributes` List of attributes\n* `children` List of child elements\n* `config` configuration settings to configure header for\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
-      },
-      {
-        "name": "hiddenState",
-        "comment": " Ensures the modal is not displayed (it's still in the DOM though !)\n",
-        "type": "Bootstrap.Modal.State"
+        "name": "item",
+        "comment": " Create a select option element to be passed to a [`select`](#select)\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Form.Select.Item msg"
       },
       {
         "name": "large",
-        "comment": " Option to make a modal larger than the default\n",
-        "type": "Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
+        "comment": " Option to make a select taller (height)\n",
+        "type": "Bootstrap.Form.Select.Option msg"
+      },
+      {
+        "name": "onInput",
+        "comment": " Shorthand for assigning an onInput handler for a select\n",
+        "type": "(String -> msg) -> Bootstrap.Form.Select.Option msg"
+      },
+      {
+        "name": "select",
+        "comment": " Create a select\n\n    Select.select\n        [ Select.id \"myselect\"\n        , Select.value \"1\"\n        , Select.onInput MySelectMsg\n        ]\n        [ Select.item [ id \"1\"] [ text \"Item 1\" ]\n        , Select.item [ id \"2\"] [ text \"Item 2\" ]\n        ]\n\n",
+        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
       },
       {
         "name": "small",
-        "comment": " Option to make a modal smaller than the default\n",
-        "type": "Bootstrap.Modal.Config msg -> Bootstrap.Modal.Config msg"
-      },
-      {
-        "name": "view",
-        "comment": " Create a modal for your application\n\n* `state` The current view state of the modal. You need to keep track of this state in your model\n* `config` View configuration\n\n",
-        "type": "Bootstrap.Modal.State -> Bootstrap.Modal.Config msg -> Html.Html msg"
-      },
-      {
-        "name": "visibleState",
-        "comment": " In this state the modal will be displayed\n",
-        "type": "Bootstrap.Modal.State"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bootstrap.Grid.Row",
-    "comment": " Functions for creating grid row options.\n\n\n# Vertical alignment\n@docs topXs, topSm, topMd, topLg, topXl, middleXs, middleSm, middleMd, middleLg, middleXl, bottomXs, bottomSm, bottomMd, bottomLg, bottomXl\n\n\n# Horizontal alignment\n@docs leftXs, leftSm, leftMd, leftLg, leftXl, centerXs, centerSm, centerMd, centerLg, centerXl, rightXs, rightSm, rightMd, rightLg, rightXl, aroundXs, aroundSm, aroundMd, aroundLg, aroundXl, betweenXs, betweenSm, betweenMd, betweenLg, betweenXl\n\n\n# Misc\n@docs attrs, Option\n\n",
-    "aliases": [
-      {
-        "name": "Option",
-        "comment": " Opaque type representing valid row options\n",
-        "args": [
-          "msg"
-        ],
-        "type": "Bootstrap.Grid.Internal.RowOption msg"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "aroundLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "aroundMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "aroundSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "aroundXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "aroundXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "attrs",
-        "comment": " Use this function when you need to add custom Html attributes to the row container element.\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "betweenLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "betweenMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "betweenSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "betweenXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "betweenXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "bottomLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "bottomMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "bottomSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "bottomXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "bottomXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "centerLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "centerMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "centerSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "centerXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "centerXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "leftLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "leftMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "leftSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "leftXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "leftXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "middleLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "middleMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "middleSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "middleXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "middleXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "rightLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "rightMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "rightSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "rightXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "rightXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "topLg",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "topMd",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "topSm",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "topXl",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
-      },
-      {
-        "name": "topXs",
-        "comment": " ",
-        "type": "Bootstrap.Grid.Row.Option msg"
+        "comment": " Option to make a select shorter (height)\n",
+        "type": "Bootstrap.Form.Select.Option msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -3480,72 +3447,105 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Form.Select",
-    "comment": " This module allows you to create Bootstrap styled `select` elements.\n\n\n# Creating\n@docs select, custom, item, Item\n\n# Options\n@docs id, small, large, id, disabled, onInput, attrs, Option\n\n",
-    "aliases": [],
-    "types": [
+    "name": "Bootstrap.ListGroup",
+    "comment": " List groups are a flexible and powerful component for displaying a series of content. List group items can be modified and extended to support just about any content within. They can also be used as navigation with the right modifier class\n\n# Simple lists\n@docs ul, li, keyedUl, Item\n\n\n# Custom lists\n@docs custom, keyedCustom, anchor, button, CustomItem\n\n\n# Options\n@docs success, info, warning, danger, active, disabled, attrs, ItemOption\n\n\n",
+    "aliases": [
       {
-        "name": "Item",
-        "comment": " Opaque type representing a select option element\n",
+        "name": "CustomItem",
+        "comment": " Opaque type representing an item in a custom list group\n",
         "args": [
           "msg"
         ],
-        "cases": []
+        "type": "Bootstrap.Internal.ListGroup.CustomItem msg"
       },
       {
-        "name": "Option",
-        "comment": " Opaque type representing legal select options\n",
+        "name": "Item",
+        "comment": " Opaque type representing a list item in a ul based list group\n",
         "args": [
           "msg"
         ],
-        "cases": []
+        "type": "Bootstrap.Internal.ListGroup.Item msg"
+      },
+      {
+        "name": "ItemOption",
+        "comment": " Opaque type representing configuration options for a list item\n",
+        "args": [
+          "msg"
+        ],
+        "type": "Bootstrap.Internal.ListGroup.ItemOption msg"
       }
     ],
+    "types": [],
     "values": [
       {
+        "name": "active",
+        "comment": " Option to mark a list item as active\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
+      },
+      {
+        "name": "anchor",
+        "comment": " Create a composable anchor list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
+        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
+      },
+      {
         "name": "attrs",
-        "comment": " Use this function to handle any Html.Attribute option you wish for your select\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Form.Select.Option msg"
+        "comment": " Use this function to supply any additional Hmtl.Attribute you need for your list items\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.ListGroup.ItemOption msg"
+      },
+      {
+        "name": "button",
+        "comment": " Create a composable button list item for use in a custom list\n\n* `options` List of options to configure the list item\n* `children` List of child elements\n",
+        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.CustomItem msg"
       },
       {
         "name": "custom",
-        "comment": " Create a select with custom Bootstrap styling to make it look a little bit nicer than the default browser select element\n",
-        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
+        "comment": " Create a custom List group\n\n    ListGroup.custom\n        [ ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem1Msg\"\n            , ListGroup.info\n            ]\n            [ text \"List item 1\" ]\n        , ListGroup.button\n            [ ListGroup.attr <| onClick \"MyItem2Msg\"\n            , ListGroup.warning\n            ]\n            [ text \"List item 2\" ]\n        ]\n\n",
+        "type": "List (Bootstrap.ListGroup.CustomItem msg) -> Html.Html msg"
+      },
+      {
+        "name": "danger",
+        "comment": " Option to style a list item with danger colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       },
       {
         "name": "disabled",
-        "comment": " Shorthand for setting the disabled attribute of a select\n",
-        "type": "Bool -> Bootstrap.Form.Select.Option msg"
+        "comment": " Option to disable a list item\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       },
       {
-        "name": "id",
-        "comment": " Options/shorthand for setting the id of a select\n",
-        "type": "String -> Bootstrap.Form.Select.Option msg"
+        "name": "info",
+        "comment": " Option to style a list item with info colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       },
       {
-        "name": "item",
-        "comment": " Create a select option element to be passed to a [`select`](#select)\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Form.Select.Item msg"
+        "name": "keyedCustom",
+        "comment": " Create a custom list group with keyed children.\n",
+        "type": "List ( String, Bootstrap.ListGroup.CustomItem msg ) -> Html.Html msg"
       },
       {
-        "name": "large",
-        "comment": " Option to make a select taller (height)\n",
-        "type": "Bootstrap.Form.Select.Option msg"
+        "name": "keyedUl",
+        "comment": " Create a ul list group with keyed children.\n",
+        "type": "List ( String, Bootstrap.ListGroup.Item msg ) -> Html.Html msg"
       },
       {
-        "name": "onInput",
-        "comment": " Shorthand for assigning an onInput handler for a select\n",
-        "type": "(String -> msg) -> Bootstrap.Form.Select.Option msg"
+        "name": "li",
+        "comment": " Composable li element for a ul based list group\n",
+        "type": "List (Bootstrap.ListGroup.ItemOption msg) -> List (Html.Html msg) -> Bootstrap.ListGroup.Item msg"
       },
       {
-        "name": "select",
-        "comment": " Create a select\n\n    Select.select\n        [ Select.id \"myselect\"\n        , Select.value \"1\"\n        , Select.onInput MySelectMsg\n        ]\n        [ Select.item [ id \"1\"] [ text \"Item 1\" ]\n        , Select.item [ id \"2\"] [ text \"Item 2\" ]\n        ]\n\n",
-        "type": "List (Bootstrap.Form.Select.Option msg) -> List (Bootstrap.Form.Select.Item msg) -> Html.Html msg"
+        "name": "success",
+        "comment": " Option to style a list item with success colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       },
       {
-        "name": "small",
-        "comment": " Option to make a select shorter (height)\n",
-        "type": "Bootstrap.Form.Select.Option msg"
+        "name": "ul",
+        "comment": " A simple list group based on a ul element\n\n    ListGroup.ul\n        [ ListGroup.li [ ListGroup.active ] [ text \"Item 1\"]\n        , ListGroup.li [ ] [ text \"Item 2\" ]\n        ]\n",
+        "type": "List (Bootstrap.ListGroup.Item msg) -> Html.Html msg"
+      },
+      {
+        "name": "warning",
+        "comment": " Option to style a list item with warning colors\n",
+        "type": "Bootstrap.ListGroup.ItemOption msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -3778,84 +3778,201 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Progress",
-    "comment": " You can use the custom progress elment for displaying simple or complex progress bars.\nIt doesn't use the HTML5 `<progress>` element, ensuring you can stack progress bars, animate them, and place text labels over them.\n\n\n# Progress bar\n@docs progress\n\n\n## Options\n@docs value, height, label, customLabel, success, info, warning, danger, striped, animated, attr, Option\n\n\n# Stacking multiple\n@docs progressMulti\n\n",
+    "name": "Bootstrap.Tab",
+    "comment": " Use tabs to create tabbable regions. Tabs uses view state, so there is a little bit of wiring needed to use them.\n\n    -- example with animation, you can drop the subscription part when not using animations\n\n    type alias Model =\n        { tabState : Tab.State }\n\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { tabState : Tab.initalState}, Cmd.none )\n\n\n    type Msg\n        = TabMsg Tab.State\n\n\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            TabMsg state ->\n                ( { model | tabState = state }\n                , Cmd.none\n                )\n\n    view : Model -> Html msg\n    view model =\n        Tab.config TabMsg\n            |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n            |> Tab.right\n            |> Tab.items\n                [ Tab.item\n                    { link = Tab.link [] [ text \"Tab 1\" ]\n                    , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                    }\n                , Tab.item\n                    { link = Tab.link [] [ text \"Tab 2\" ]\n                    , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                    }\n                ]\n            |> Tab.view model.tabState\n\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Tab.subscriptions model.tabState TabMsg\n\n\n\n\n# Tabs\n@docs view, config, items, initialState, customInitialState, Config, State\n\n# Options\n@docs pills, withAnimation, justified, fill, center, right, attrs, Option\n\n# Tab items\n@docs item, link, pane, Item, Link, Pane\n\n\n\n# With animations\n@docs subscriptions\n\n",
     "aliases": [],
     "types": [
       {
-        "name": "Option",
-        "comment": " Opaque type representing available display options for the progress bar\n",
+        "name": "Config",
+        "comment": " Configuration for a tabs control\n\n* `toMsg` Message constructor function used for transitioning view state\n* `options` Customization options for the tabs control\n* `withAnimation` Option to enable a simple fade in animation for tabs.\n* `items` List of tab items\n\n**NOTE** When using animations you must also remember to set up [`subscriptions`](#subscriptions)\n\n",
         "args": [
           "msg"
         ],
+        "cases": []
+      },
+      {
+        "name": "Item",
+        "comment": " Opaque type representing a tab item\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Link",
+        "comment": " Opaque type representing a tab item link\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Option",
+        "comment": " Opaque type representing customization options for a tabs control\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Pane",
+        "comment": " Opaque type representing a tab item pane\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "State",
+        "comment": " Opaque type representing the view state of the tabs control\n",
+        "args": [],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "animated",
-        "comment": " Option to make the progress bar animated\n\n**NOTE: ** Giving this option will automatically also make the background [`striped`](#striped)\n",
-        "type": "Bootstrap.Progress.Option msg"
+        "name": "attrs",
+        "comment": " Use this function when you need additional customization with Html.Attribute attributes for the tabs control\n",
+        "type": "List (Html.Attribute msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
       },
       {
-        "name": "attr",
-        "comment": " Option to specify a custom Html.Attribute for the progress bar\n",
-        "type": "Html.Attribute msg -> Bootstrap.Progress.Option msg"
+        "name": "center",
+        "comment": " Option to center the tab menu items\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
       },
       {
-        "name": "customLabel",
-        "comment": " Option to specify a funky custom label for a progress bar\n",
-        "type": "List (Html.Html msg) -> Bootstrap.Progress.Option msg"
+        "name": "config",
+        "comment": " Create an initial/default view configuration for a Tab.\n",
+        "type": "(Bootstrap.Tab.State -> msg) -> Bootstrap.Tab.Config msg"
       },
+      {
+        "name": "customInitialState",
+        "comment": " Use this function if you want to initialize your tabs control with a specific tab selected.\n\n**NOTE: ** Should you specify an index out of range, the first tab item will be displayd by default\n",
+        "type": "Int -> Bootstrap.Tab.State"
+      },
+      {
+        "name": "fill",
+        "comment": " Space out tab menu items to use the entire tabs control width, as opposed to [`justified`](#justified) items will not get equal widths\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "initialState",
+        "comment": " Use this function to create the inital state for the tabs control\n",
+        "type": "Bootstrap.Tab.State"
+      },
+      {
+        "name": "item",
+        "comment": " Create a composable tab item\n\n* `link` The link/menu for the tab item\n* `pane` The content part of a tab item\n",
+        "type": "{ link : Bootstrap.Tab.Link msg, pane : Bootstrap.Tab.Pane msg } -> Bootstrap.Tab.Item msg"
+      },
+      {
+        "name": "items",
+        "comment": " Define the tab items for a Tab.\n",
+        "type": "List (Bootstrap.Tab.Item msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "justified",
+        "comment": " Space out tab menu items evenly accross the the whole tabs control width\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "link",
+        "comment": " Creates a composable tab menu item\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Link msg"
+      },
+      {
+        "name": "pane",
+        "comment": " Creates a composable tab menu pane\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Pane msg"
+      },
+      {
+        "name": "pills",
+        "comment": " Option to make the tab menu items display with a pilled/buttonish look\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "right",
+        "comment": " Option to place tab menu items to the right\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      },
+      {
+        "name": "subscriptions",
+        "comment": " When using animations you **must** remember to wire up this function to your main subscriptions\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Tab.subscriptions model.tabState TabMsg\n            --  ...other subscriptions you might have\n            ]\n",
+        "type": "Bootstrap.Tab.State -> (Bootstrap.Tab.State -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "view",
+        "comment": " Creates a tab control which keeps track of the selected tab item and displays the corresponding tab pane for you\n\n    Tab.config TabMsg\n        |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n        |> Tab.right\n        |> Tab.items\n            [ Tab.item\n                { link = Tab.link [] [ text \"Tab 1\" ]\n                , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                }\n            , Tab.item\n                { link = Tab.link [] [ text \"Tab 2\" ]\n                , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                }\n            ]\n        |> Tab.view model.tabState\n",
+        "type": "Bootstrap.Tab.State -> Bootstrap.Tab.Config msg -> Html.Html msg"
+      },
+      {
+        "name": "withAnimation",
+        "comment": " Option to add a fade in/out animation effect when switching tabs\n",
+        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bootstrap.Alert",
+    "comment": " Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.\n\n\n    Alert.info\n        [ Alert.h4 \"For your information\"\n        , p [] [ text \"An information message of sorts\"]\n        , Alert.link [ href \"/somelink\" ] [ text \"link\"]\n        ]\n\n# Contextual alerts\n@docs success, info, warning, danger\n\n\n## Styled content\n@docs link, h1, h2, h3, h4, h5, h6\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
       {
         "name": "danger",
-        "comment": " Option to give a progress bar a danger background color\n",
-        "type": "Bootstrap.Progress.Option msg"
+        "comment": " Alert signaling an error\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
       },
       {
-        "name": "height",
-        "comment": " Option to specify the height (in pixels) for the progress bar\n",
-        "type": "Int -> Bootstrap.Progress.Option msg"
+        "name": "h1",
+        "comment": " Alert h1 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h2",
+        "comment": " Alert h2 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h3",
+        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h4",
+        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h5",
+        "comment": " Alert h5 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      },
+      {
+        "name": "h6",
+        "comment": " Alert h6 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       },
       {
         "name": "info",
-        "comment": " Option to give a progress bar an info background color\n",
-        "type": "Bootstrap.Progress.Option msg"
+        "comment": " Alert information\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
       },
       {
-        "name": "label",
-        "comment": " Option to specify a text label for a progress bar\n\nThe label will only display when you have set a [`value`](#value)\n",
-        "type": "String -> Bootstrap.Progress.Option msg"
-      },
-      {
-        "name": "progress",
-        "comment": " Create a progress bar with various customization options\n\n    Progress.progress\n        [ Progress.primary\n        , Progress.value 30\n        ]\n\n* `options` List of options\n\n**NOTE: ** If you have duplicate options, the last one \"wins\"\n",
-        "type": "List (Bootstrap.Progress.Option msg) -> Html.Html msg"
-      },
-      {
-        "name": "progressMulti",
-        "comment": " Create a progress containing multiple progress bars next to each other\n\n    Progress.progressMulti\n        [ [ Progress.info, Progress.value 25 ]\n        , [ Progress.success, Progress.value 30 ]\n        ]\n\n",
-        "type": "List (List (Bootstrap.Progress.Option msg)) -> Html.Html msg"
-      },
-      {
-        "name": "striped",
-        "comment": " Option to make the progress bar background striped\n",
-        "type": "Bootstrap.Progress.Option msg"
+        "name": "link",
+        "comment": " To get proper link colors for `a` elements use this function\n\n* `attributes` List of attributes for the link element\n* `children` List of child elements\n\n",
+        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
       },
       {
         "name": "success",
-        "comment": " Option to give a progress bar a success background color\n",
-        "type": "Bootstrap.Progress.Option msg"
-      },
-      {
-        "name": "value",
-        "comment": " Option to specify the progress amount for a bar in percent. Should be a value between 0 and 100\n",
-        "type": "Int -> Bootstrap.Progress.Option msg"
+        "comment": " Alert signaling success\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
       },
       {
         "name": "warning",
-        "comment": " Option to give a progress bar a warning background color\n",
-        "type": "Bootstrap.Progress.Option msg"
+        "comment": " Alert signaling a warning of sorts\n\n* `children` List of child elements\n\n",
+        "type": "List (Html.Html msg) -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -4100,89 +4217,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.CDN",
-    "comment": " Helper module for easily embedding css when you want to work with the library using the Elm Reactor\n\n\n@docs stylesheet, fontAwesome\n\n\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "fontAwesome",
-        "comment": " For your convenience you can also include font-awesome as an inline node. Worth knowing that this `Bootstrap for Elm` has no dependencies on font awesome\n",
-        "type": "Html.Html msg"
-      },
-      {
-        "name": "stylesheet",
-        "comment": " Allows you to embed the bootstrap css as a node in your view\n\n    import Bootstrap.CDN\n\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.stylesheet -- css embedded inline.\n            , yourContentHere\n            , navbar model\n            , mainContent model\n            ]\n",
-        "type": "Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Bootstrap.Alert",
-    "comment": " Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.\n\n\n    Alert.info\n        [ Alert.h4 \"For your information\"\n        , p [] [ text \"An information message of sorts\"]\n        , Alert.link [ href \"/somelink\" ] [ text \"link\"]\n        ]\n\n# Contextual alerts\n@docs success, info, warning, danger\n\n\n## Styled content\n@docs link, h1, h2, h3, h4, h5, h6\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "danger",
-        "comment": " Alert signaling an error\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h1",
-        "comment": " Alert h1 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h2",
-        "comment": " Alert h2 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h3",
-        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h4",
-        "comment": " Alert h3 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h5",
-        "comment": " Alert h5 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "h6",
-        "comment": " Alert h6 header with appropriate color styling\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "info",
-        "comment": " Alert information\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "link",
-        "comment": " To get proper link colors for `a` elements use this function\n\n* `attributes` List of attributes for the link element\n* `children` List of child elements\n\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "success",
-        "comment": " Alert signaling success\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      },
-      {
-        "name": "warning",
-        "comment": " Alert signaling a warning of sorts\n\n* `children` List of child elements\n\n",
-        "type": "List (Html.Html msg) -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Bootstrap.Popover",
     "comment": " Add small overlay content, like those found in iOS, to any element for housing secondary information.\n\n    -- You need to keep track of the view state for a popover\n    type alias Model =\n        { popoverState = Popover.State }\n\n    -- Define a message to handle popover state changes\n    type Msg\n        = PopoverMsg Popover.State\n\n\n    -- Initialize the popover state\n    initialState : ( Model, Cmd Msg )\n    initialState =\n        ( { popoverState = Popover.initialState}, Cmd.none )\n\n\n    -- Step the popover state forward in your update function\n    update : Msg -> Model -> ( Model, Cmd Msg)\n    update msg model =\n        case msg of\n            PopoverMsg state ->\n                ( { model | popoverState = state }, Cmd.none )\n\n\n    -- Compose a popover in your view (or a view helper function)\n    view : Model -> Html Msg\n    view model =\n         Popover.config\n             ( Button.button\n                -- Here configure the popover to be shown when the mouse is above the button ( tooltip basically !)\n                [ Button.attrs <| Popover.onHover model.popoverState PopoverMsg ]\n                [ text \"Toggle tooltip\" ]\n             )\n             |> Popover.right\n             |> Popover.titleH4 [] [ text \"My title\" ]\n             |> Popover.content []\n                 [ text \"Some content for my popover.\"\n                 , p [] [ text \"Different elements ok...\"]\n                 ]\n             |> Popover.view model.popoverState\n\n\n\n_You should be aware that the triggering element is wrapped by an `inline-block` div with relative positioning and that\nthe popover is added as a sibling of the triggering element. This will limit it's usage and there are bound to be\ncases where they don't work as you'd expect. So make sure you test your views when using them !_\n\n\n\n# Setup\n@docs config, initialState, view, Config, State\n\n# Triggering\n@docs onClick, onHover\n\n# View composition\n@docs title, content, titleH1, titleH2, titleH3, titleH4, titleH5, titleH6\n\n# Positioning\n@docs left, right, top, bottom\n\n\n",
     "aliases": [],
@@ -4292,137 +4326,84 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Bootstrap.Tab",
-    "comment": " Use tabs to create tabbable regions. Tabs uses view state, so there is a little bit of wiring needed to use them.\n\n    -- example with animation, you can drop the subscription part when not using animations\n\n    type alias Model =\n        { tabState : Tab.State }\n\n\n    init : ( Model, Cmd Msg )\n    init =\n        ( { tabState : Tab.initalState}, Cmd.none )\n\n\n    type Msg\n        = TabMsg Tab.State\n\n\n    update : Msg -> Model -> ( Model, Cmd msg )\n    update msg model =\n        case msg of\n            TabMsg state ->\n                ( { model | tabState = state }\n                , Cmd.none\n                )\n\n    view : Model -> Html msg\n    view model =\n        Tab.config TabMsg\n            |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n            |> Tab.right\n            |> Tab.items\n                [ Tab.item\n                    { link = Tab.link [] [ text \"Tab 1\" ]\n                    , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                    }\n                , Tab.item\n                    { link = Tab.link [] [ text \"Tab 2\" ]\n                    , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                    }\n                ]\n            |> Tab.view model.tabState\n\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Tab.subscriptions model.tabState TabMsg\n\n\n\n\n# Tabs\n@docs view, config, items, initialState, customInitialState, Config, State\n\n# Options\n@docs pills, withAnimation, justified, fill, center, right, attrs, Option\n\n# Tab items\n@docs item, link, pane, Item, Link, Pane\n\n\n\n# With animations\n@docs subscriptions\n\n",
+    "name": "Bootstrap.Progress",
+    "comment": " You can use the custom progress elment for displaying simple or complex progress bars.\nIt doesn't use the HTML5 `<progress>` element, ensuring you can stack progress bars, animate them, and place text labels over them.\n\n\n# Progress bar\n@docs progress\n\n\n## Options\n@docs value, height, label, customLabel, success, info, warning, danger, striped, animated, attr, Option\n\n\n# Stacking multiple\n@docs progressMulti\n\n",
     "aliases": [],
     "types": [
       {
-        "name": "Config",
-        "comment": " Configuration for a tabs control\n\n* `toMsg` Message constructor function used for transitioning view state\n* `options` Customization options for the tabs control\n* `withAnimation` Option to enable a simple fade in animation for tabs.\n* `items` List of tab items\n\n**NOTE** When using animations you must also remember to set up [`subscriptions`](#subscriptions)\n\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Item",
-        "comment": " Opaque type representing a tab item\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Link",
-        "comment": " Opaque type representing a tab item link\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
         "name": "Option",
-        "comment": " Opaque type representing customization options for a tabs control\n",
+        "comment": " Opaque type representing available display options for the progress bar\n",
         "args": [
           "msg"
         ],
-        "cases": []
-      },
-      {
-        "name": "Pane",
-        "comment": " Opaque type representing a tab item pane\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      },
-      {
-        "name": "State",
-        "comment": " Opaque type representing the view state of the tabs control\n",
-        "args": [],
         "cases": []
       }
     ],
     "values": [
       {
-        "name": "attrs",
-        "comment": " Use this function when you need additional customization with Html.Attribute attributes for the tabs control\n",
-        "type": "List (Html.Attribute msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+        "name": "animated",
+        "comment": " Option to make the progress bar animated\n\n**NOTE: ** Giving this option will automatically also make the background [`striped`](#striped)\n",
+        "type": "Bootstrap.Progress.Option msg"
       },
       {
-        "name": "center",
-        "comment": " Option to center the tab menu items\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+        "name": "attr",
+        "comment": " Option to specify a custom Html.Attribute for the progress bar\n",
+        "type": "Html.Attribute msg -> Bootstrap.Progress.Option msg"
       },
       {
-        "name": "config",
-        "comment": " Create an initial/default view configuration for a Tab.\n",
-        "type": "(Bootstrap.Tab.State -> msg) -> Bootstrap.Tab.Config msg"
+        "name": "customLabel",
+        "comment": " Option to specify a funky custom label for a progress bar\n",
+        "type": "List (Html.Html msg) -> Bootstrap.Progress.Option msg"
       },
       {
-        "name": "customInitialState",
-        "comment": " Use this function if you want to initialize your tabs control with a specific tab selected.\n\n**NOTE: ** Should you specify an index out of range, the first tab item will be displayd by default\n",
-        "type": "Int -> Bootstrap.Tab.State"
+        "name": "danger",
+        "comment": " Option to give a progress bar a danger background color\n",
+        "type": "Bootstrap.Progress.Option msg"
       },
       {
-        "name": "fill",
-        "comment": " Space out tab menu items to use the entire tabs control width, as opposed to [`justified`](#justified) items will not get equal widths\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+        "name": "height",
+        "comment": " Option to specify the height (in pixels) for the progress bar\n",
+        "type": "Int -> Bootstrap.Progress.Option msg"
       },
       {
-        "name": "initialState",
-        "comment": " Use this function to create the inital state for the tabs control\n",
-        "type": "Bootstrap.Tab.State"
+        "name": "info",
+        "comment": " Option to give a progress bar an info background color\n",
+        "type": "Bootstrap.Progress.Option msg"
       },
       {
-        "name": "item",
-        "comment": " Create a composable tab item\n\n* `link` The link/menu for the tab item\n* `pane` The content part of a tab item\n",
-        "type": "{ link : Bootstrap.Tab.Link msg, pane : Bootstrap.Tab.Pane msg } -> Bootstrap.Tab.Item msg"
+        "name": "label",
+        "comment": " Option to specify a text label for a progress bar\n\nThe label will only display when you have set a [`value`](#value)\n",
+        "type": "String -> Bootstrap.Progress.Option msg"
       },
       {
-        "name": "items",
-        "comment": " Define the tab items for a Tab.\n",
-        "type": "List (Bootstrap.Tab.Item msg) -> Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+        "name": "progress",
+        "comment": " Create a progress bar with various customization options\n\n    Progress.progress\n        [ Progress.primary\n        , Progress.value 30\n        ]\n\n* `options` List of options\n\n**NOTE: ** If you have duplicate options, the last one \"wins\"\n",
+        "type": "List (Bootstrap.Progress.Option msg) -> Html.Html msg"
       },
       {
-        "name": "justified",
-        "comment": " Space out tab menu items evenly accross the the whole tabs control width\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+        "name": "progressMulti",
+        "comment": " Create a progress containing multiple progress bars next to each other\n\n    Progress.progressMulti\n        [ [ Progress.info, Progress.value 25 ]\n        , [ Progress.success, Progress.value 30 ]\n        ]\n\n",
+        "type": "List (List (Bootstrap.Progress.Option msg)) -> Html.Html msg"
       },
       {
-        "name": "link",
-        "comment": " Creates a composable tab menu item\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Link msg"
+        "name": "striped",
+        "comment": " Option to make the progress bar background striped\n",
+        "type": "Bootstrap.Progress.Option msg"
       },
       {
-        "name": "pane",
-        "comment": " Creates a composable tab menu pane\n\n* `attributes`  List of attributes\n* `children` List of child elements\n",
-        "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Bootstrap.Tab.Pane msg"
+        "name": "success",
+        "comment": " Option to give a progress bar a success background color\n",
+        "type": "Bootstrap.Progress.Option msg"
       },
       {
-        "name": "pills",
-        "comment": " Option to make the tab menu items display with a pilled/buttonish look\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+        "name": "value",
+        "comment": " Option to specify the progress amount for a bar in percent. Should be a value between 0 and 100\n",
+        "type": "Int -> Bootstrap.Progress.Option msg"
       },
       {
-        "name": "right",
-        "comment": " Option to place tab menu items to the right\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
-      },
-      {
-        "name": "subscriptions",
-        "comment": " When using animations you **must** remember to wire up this function to your main subscriptions\n\n    subscriptions : Model -> Sub Msg\n    subscriptions model =\n        Sub.batch\n            [ Tab.subscriptions model.tabState TabMsg\n            --  ...other subscriptions you might have\n            ]\n",
-        "type": "Bootstrap.Tab.State -> (Bootstrap.Tab.State -> msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "view",
-        "comment": " Creates a tab control which keeps track of the selected tab item and displays the corresponding tab pane for you\n\n    Tab.config TabMsg\n        |> Tab.withAnimation -- remember to wire up subscriptions when using this option\n        |> Tab.right\n        |> Tab.items\n            [ Tab.item\n                { link = Tab.link [] [ text \"Tab 1\" ]\n                , pane = Tab.pane [] [ text \"Tab 1 Content\" ]\n                }\n            , Tab.item\n                { link = Tab.link [] [ text \"Tab 2\" ]\n                , pane = Tab.pane [] [ text \"Tab 2 Content\" ]\n                }\n            ]\n        |> Tab.view model.tabState\n",
-        "type": "Bootstrap.Tab.State -> Bootstrap.Tab.Config msg -> Html.Html msg"
-      },
-      {
-        "name": "withAnimation",
-        "comment": " Option to add a fade in/out animation effect when switching tabs\n",
-        "type": "Bootstrap.Tab.Config msg -> Bootstrap.Tab.Config msg"
+        "name": "warning",
+        "comment": " Option to give a progress bar a warning background color\n",
+        "type": "Bootstrap.Progress.Option msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -4492,6 +4473,25 @@
         "name": "pillWarning",
         "comment": " Create a pill with warning colors\n\n* `attributes` List of attributes\n* `children` List of child elements\n\n",
         "type": "List (Html.Attribute msg) -> List (Html.Html msg) -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Bootstrap.CDN",
+    "comment": " Helper module for easily embedding css when you want to work with the library using the Elm Reactor\n\n\n@docs stylesheet, fontAwesome\n\n\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "fontAwesome",
+        "comment": " For your convenience you can also include font-awesome as an inline node. Worth knowing that this `Bootstrap for Elm` has no dependencies on font awesome\n",
+        "type": "Html.Html msg"
+      },
+      {
+        "name": "stylesheet",
+        "comment": " Allows you to embed the bootstrap css as a node in your view\n\n    import Bootstrap.CDN\n\n\n    view : Model -> Html Msg\n    view model =\n        div []\n            [ CDN.stylesheet -- css embedded inline.\n            , yourContentHere\n            , navbar model\n            , mainContent model\n            ]\n",
+        "type": "Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

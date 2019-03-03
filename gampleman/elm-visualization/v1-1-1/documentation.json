@@ -261,6 +261,40 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Visualization.List",
+    "comment": " This module exposes functions on list which are useful for the domain of data\nvisualization. Most of these work with Lists of numbers.\n\n# Statistics\n\n@docs extent, extentWith\n\n\n# Transformations\n\nMethods for transforming list and for generating new lists.\n\n@docs ticks, tickStep, range\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "extent",
+        "comment": " Returns the minimum and maximum value in the list.\n",
+        "type": "List comparable -> Maybe.Maybe ( comparable, comparable )"
+      },
+      {
+        "name": "extentWith",
+        "comment": " Returns the minimum and maximum value in the given array using comparisons\nfrom values passed by the accessor function.\n\n    data =\n      [ {name = \"John Smith\", age = 32 }\n      , {name = \"Mark Luther\", age = 45 }\n      , {name = \"Cory Jones\", age = 26 }\n      ]\n\n    extentWith .age data == Just ({name = \"Cory Jones\", age = 26 }\n                                , {name = \"Mark Luther\", age = 45 })\n\n",
+        "type": "(a -> comparable) -> List a -> Maybe.Maybe ( a, a )"
+      },
+      {
+        "name": "range",
+        "comment": " Returns a List containing an arithmetic progression, similar to the Python\nbuilt-in range. This method is often used to iterate over a sequence of\nuniformly-spaced numeric values, such as the indexes of an array or the ticks of\na linear scale. (See also [ticks](#ticks) for nicely-rounded values.)\n\nTakes a `start`, `stop` and `step` argument. The stop value is exclusive; it is not\nincluded in the result. If `step` is positive, the last element is the largest\n`start + i * step` less than `stop`; if `step` is negative, the last element is\nthe smallest `start + i * step` greater than `stop`. If the returned list would\ncontain an infinite number of values, an empty range is returned.\n\nThe arguments are not required to be integers; however, the results are more\npredictable if they are.\n",
+        "type": "number -> number -> number -> List number"
+      },
+      {
+        "name": "tickStep",
+        "comment": " Returns the difference between adjacent tick values if the same arguments\nwere passed to `ticks`: a nicely-rounded value that is a power of ten multiplied\nby 1, 2 or 5. Note that due to the limited precision of IEEE 754 floating point,\nthe returned value may not be exact decimals.\n\n    tickStep 1.9 6.4 10 == 0.5\n\n    tickStep 1.9 6 5 == 1\n",
+        "type": "Float -> Float -> Int -> Float"
+      },
+      {
+        "name": "ticks",
+        "comment": " Returns a list of approximately n + 1 uniformly-spaced, nicely-rounded\nvalues between a start and stop value (inclusive). Each value is a power of ten\nmultiplied by 1, 2 or 5. Note that due to the limited precision of IEEE 754\nfloating point, the returned values may not be exact decimals.\n\nTicks are inclusive in the sense that they may include the specified start and\nstop values if (and only if) they are exact, nicely-rounded values consistent\nwith the inferred step. More formally, each returned tick t satisfies\nstart ≤ t and t ≤ stop.\n\n    ticks 1.9 6.4 10 == [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6]\n\n    ticks 1.9 6 5 == [2, 3, 4, 5, 6]\n",
+        "type": "Float -> Float -> Int -> List Float"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Visualization.Path",
     "comment": " This module provides an abstraction over drawing complex paths. Currently it\ncontains a function to convert this representation into a string suitable for the\n`d` attribute of the `path` SVG element. However, the ADT that powers this is\npublicly exposed and alternative renderers can be built in e.g. Canvas or WebGL.\n\nThe functions here are modeled after the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D#Paths).\n\n# Datatype\n\n@docs PathSegment, Path\n\n# Converting\n\n@docs toAttrString\n\n# DSL\n\nThe DSL can be used interchangebly with directly writing the datatype above.\n\n    begin\n      |> moveTo 30 50\n      |> lineTo 20 70\n      |> lineTo 40 23\n      |> close\n\nIs equivalent to:\n\n    [Move (30, 50), Line (20, 70), Line (40, 23), Close]\n\n@docs begin, moveTo, lineTo, close, quadraticCurveTo, bezierCurveTo, arcTo, arc, rect\n\n",
     "aliases": [
@@ -386,40 +420,6 @@
         "name": "toAttrString",
         "comment": " Transforms a path to a string that can be passed into the `d` attribute of the\n`path` SVG element.\n\n    path\n        |> moveTo 100 100\n        |> arcTo 200 100 200 200 50\n        |> arc 150 150 50 0 pi False\n        |> toAttrString\n        -- \"M100,100L150,100A50,50,0,0,1,200,150A50,50,0,1,1,100,150\"\n",
         "type": "Visualization.Path.Path -> String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Visualization.List",
-    "comment": " This module exposes functions on list which are useful for the domain of data\nvisualization. Most of these work with Lists of numbers.\n\n# Statistics\n\n@docs extent, extentWith\n\n\n# Transformations\n\nMethods for transforming list and for generating new lists.\n\n@docs ticks, tickStep, range\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "extent",
-        "comment": " Returns the minimum and maximum value in the list.\n",
-        "type": "List comparable -> Maybe.Maybe ( comparable, comparable )"
-      },
-      {
-        "name": "extentWith",
-        "comment": " Returns the minimum and maximum value in the given array using comparisons\nfrom values passed by the accessor function.\n\n    data =\n      [ {name = \"John Smith\", age = 32 }\n      , {name = \"Mark Luther\", age = 45 }\n      , {name = \"Cory Jones\", age = 26 }\n      ]\n\n    extentWith .age data == Just ({name = \"Cory Jones\", age = 26 }\n                                , {name = \"Mark Luther\", age = 45 })\n\n",
-        "type": "(a -> comparable) -> List a -> Maybe.Maybe ( a, a )"
-      },
-      {
-        "name": "range",
-        "comment": " Returns a List containing an arithmetic progression, similar to the Python\nbuilt-in range. This method is often used to iterate over a sequence of\nuniformly-spaced numeric values, such as the indexes of an array or the ticks of\na linear scale. (See also [ticks](#ticks) for nicely-rounded values.)\n\nTakes a `start`, `stop` and `step` argument. The stop value is exclusive; it is not\nincluded in the result. If `step` is positive, the last element is the largest\n`start + i * step` less than `stop`; if `step` is negative, the last element is\nthe smallest `start + i * step` greater than `stop`. If the returned list would\ncontain an infinite number of values, an empty range is returned.\n\nThe arguments are not required to be integers; however, the results are more\npredictable if they are.\n",
-        "type": "number -> number -> number -> List number"
-      },
-      {
-        "name": "tickStep",
-        "comment": " Returns the difference between adjacent tick values if the same arguments\nwere passed to `ticks`: a nicely-rounded value that is a power of ten multiplied\nby 1, 2 or 5. Note that due to the limited precision of IEEE 754 floating point,\nthe returned value may not be exact decimals.\n\n    tickStep 1.9 6.4 10 == 0.5\n\n    tickStep 1.9 6 5 == 1\n",
-        "type": "Float -> Float -> Int -> Float"
-      },
-      {
-        "name": "ticks",
-        "comment": " Returns a list of approximately n + 1 uniformly-spaced, nicely-rounded\nvalues between a start and stop value (inclusive). Each value is a power of ten\nmultiplied by 1, 2 or 5. Note that due to the limited precision of IEEE 754\nfloating point, the returned values may not be exact decimals.\n\nTicks are inclusive in the sense that they may include the specified start and\nstop values if (and only if) they are exact, nicely-rounded values consistent\nwith the inferred step. More formally, each returned tick t satisfies\nstart ≤ t and t ≤ stop.\n\n    ticks 1.9 6.4 10 == [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6]\n\n    ticks 1.9 6 5 == [2, 3, 4, 5, 6]\n",
-        "type": "Float -> Float -> Int -> List Float"
       }
     ],
     "generated-with-elm-version": "0.18.0"

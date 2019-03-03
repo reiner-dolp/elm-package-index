@@ -156,6 +156,53 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Shh",
+    "comment": " Whipser API\n\n@docs Post\n\n@docs version, post, newIdentity\n\n@docs WhisperId, whisperIdToString, toWhisperId\n\n",
+    "aliases": [
+      {
+        "name": "Post",
+        "comment": " ",
+        "args": [],
+        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
+      },
+      {
+        "name": "WhisperId",
+        "comment": " ",
+        "args": [],
+        "type": "Internal.Types.WhisperId"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "newIdentity",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
+      },
+      {
+        "name": "post",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
+      },
+      {
+        "name": "toWhisperId",
+        "comment": " ",
+        "type": "String -> Result.Result String Shh.WhisperId"
+      },
+      {
+        "name": "version",
+        "comment": " ",
+        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
+      },
+      {
+        "name": "whisperIdToString",
+        "comment": " ",
+        "type": "Shh.WhisperId -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Eth.Sentry.Event",
     "comment": " Listen to contract events, and other chain activity\n\n\n# Types\n\n@docs EventSentry, Msg, FilterKey\n\n\n# Core\n\n@docs init, update, changeNode, listen, withDebug\n\n\n# Contract Events/Logs\n\n@docs watch, watchOnce, unWatch, logFilterKey\n\n\n# Blocks\n\n@docs newBlocks, unWatchNewBlocks, nextBlock\n\n\n# Pending Transactions\n\n@docs pendingTxs, unWatchPendingTxs\n\n",
     "aliases": [
@@ -252,53 +299,6 @@
         "name": "withDebug",
         "comment": " ",
         "type": "Eth.Sentry.Event.EventSentry msg -> Eth.Sentry.Event.EventSentry msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Shh",
-    "comment": " Whipser API\n\n@docs Post\n\n@docs version, post, newIdentity\n\n@docs WhisperId, whisperIdToString, toWhisperId\n\n",
-    "aliases": [
-      {
-        "name": "Post",
-        "comment": " ",
-        "args": [],
-        "type": "{ from : Maybe.Maybe String , to : Maybe.Maybe String , topics : List String , payload : String , priority : Int , ttl : Int }"
-      },
-      {
-        "name": "WhisperId",
-        "comment": " ",
-        "args": [],
-        "type": "Internal.Types.WhisperId"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "newIdentity",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Shh.WhisperId"
-      },
-      {
-        "name": "post",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Shh.Post -> Task.Task Http.Error Bool"
-      },
-      {
-        "name": "toWhisperId",
-        "comment": " ",
-        "type": "String -> Result.Result String Shh.WhisperId"
-      },
-      {
-        "name": "version",
-        "comment": " ",
-        "type": "Eth.Types.HttpProvider -> Task.Task Http.Error Int"
-      },
-      {
-        "name": "whisperIdToString",
-        "comment": " ",
-        "type": "Shh.WhisperId -> String"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -725,65 +725,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Eth.Encode",
-    "comment": " Eth Encoders\n\n\n# Simple\n\n@docs address, txHash, blockHash\n\n\n# Complex\n\n@docs txCall, txSend, blockId, logFilter\n\n\n# Rudiments\n\n@docs bigInt, hex, hexInt\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "address",
-        "comment": " ",
-        "type": "Eth.Types.Address -> Json.Encode.Value"
-      },
-      {
-        "name": "bigInt",
-        "comment": " ",
-        "type": "BigInt.BigInt -> Json.Encode.Value"
-      },
-      {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Eth.Types.BlockHash -> Json.Encode.Value"
-      },
-      {
-        "name": "blockId",
-        "comment": " ",
-        "type": "Eth.Types.BlockId -> Json.Encode.Value"
-      },
-      {
-        "name": "hex",
-        "comment": " ",
-        "type": "Eth.Types.Hex -> Json.Encode.Value"
-      },
-      {
-        "name": "hexInt",
-        "comment": " ",
-        "type": "Int -> Json.Encode.Value"
-      },
-      {
-        "name": "logFilter",
-        "comment": " ",
-        "type": "Eth.Types.LogFilter -> Json.Encode.Value"
-      },
-      {
-        "name": "txCall",
-        "comment": " ",
-        "type": "Eth.Types.Call a -> Json.Encode.Value"
-      },
-      {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Eth.Types.TxHash -> Json.Encode.Value"
-      },
-      {
-        "name": "txSend",
-        "comment": " ",
-        "type": "Eth.Types.Send -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Evm.Encode",
     "comment": " Encode before sending RPC Calls\n\n@docs Encoding, encodeData, encodeDataWithDebug\n\n",
     "aliases": [],
@@ -860,6 +801,65 @@
         "name": "encodeDataWithDebug",
         "comment": " ",
         "type": "String -> List Evm.Encode.Encoding -> Eth.Types.Hex"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Eth.Encode",
+    "comment": " Eth Encoders\n\n\n# Simple\n\n@docs address, txHash, blockHash\n\n\n# Complex\n\n@docs txCall, txSend, blockId, logFilter\n\n\n# Rudiments\n\n@docs bigInt, hex, hexInt\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "address",
+        "comment": " ",
+        "type": "Eth.Types.Address -> Json.Encode.Value"
+      },
+      {
+        "name": "bigInt",
+        "comment": " ",
+        "type": "BigInt.BigInt -> Json.Encode.Value"
+      },
+      {
+        "name": "blockHash",
+        "comment": " ",
+        "type": "Eth.Types.BlockHash -> Json.Encode.Value"
+      },
+      {
+        "name": "blockId",
+        "comment": " ",
+        "type": "Eth.Types.BlockId -> Json.Encode.Value"
+      },
+      {
+        "name": "hex",
+        "comment": " ",
+        "type": "Eth.Types.Hex -> Json.Encode.Value"
+      },
+      {
+        "name": "hexInt",
+        "comment": " ",
+        "type": "Int -> Json.Encode.Value"
+      },
+      {
+        "name": "logFilter",
+        "comment": " ",
+        "type": "Eth.Types.LogFilter -> Json.Encode.Value"
+      },
+      {
+        "name": "txCall",
+        "comment": " ",
+        "type": "Eth.Types.Call a -> Json.Encode.Value"
+      },
+      {
+        "name": "txHash",
+        "comment": " ",
+        "type": "Eth.Types.TxHash -> Json.Encode.Value"
+      },
+      {
+        "name": "txSend",
+        "comment": " ",
+        "type": "Eth.Types.Send -> Json.Encode.Value"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -14,64 +14,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Widgets.ListBox",
-    "comment": " A [listbox][wai-lb] widget presents a list of options and allows a user to\nselect one or more of them. The widget is similar to Form.select, but this\nwidget allows custom styles. Also known as Dropdown or Select.\n\n@docs listBox\n\n[wai-lb]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#Listbox\n[wai-ex]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/listbox/listbox-collapsible.html\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "listBox",
-        "comment": " A ListBox element. A id is always required to set ARIA relationships. A\ncustom set of attributes are available in its own module. Also, a custom set\nof children nodes are allowed in order to fill the widget with options or\nfurther personalization.\n\n    Widgets.listBox { id = \"listbox\" } []\n        [ ListBox.textOption \"one\"\n        , ListBox.textOption \"two\"\n        , ListBox.textOption \"three\"\n        , ListBox.textOption \"over 9000\"\n        ]\n\n",
-        "type": "{ id : String, description : String } -> List (Widgets.ListBox.Attributes.Attribute msg) -> List ( Widgets.ListBox.Internal.Elements.Element, Html.Styled.Html msg ) -> Html.Styled.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Widgets.Themes.Mint",
-    "comment": " A basic theme for the whole Widgets library. The purpose of this theme\nis to be an example on how to build themes, but it can also be use for\nprototyping.\n\nYou can also use this theme as a base style, and then apply your own styles.\n\nThis theme requires a css normalization base. See global for more information.\n\n\n# Initialization\n\n@docs global\n\n\n# Theming Widgets\n\n@docs button, dialog, input, select, listBox\n\n\n# Theming Html Nodes\n\n@docs text\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "button",
-        "comment": " Apply Mint theme to Widgets.Form button.\n\n    Form.button [ Widgets.Themes.Mint.button ] [ Html.text \"Title\" ]\n\n",
-        "type": "Widgets.Form.Attributes.Attribute msg"
-      },
-      {
-        "name": "dialog",
-        "comment": " Apply Mint theme to Widgets.Dialog.\n\n    Widgets.dialog { id = \"id\" , title = \"title\"}\n      [ Widgets.Themes.Mint.dialog ] []\n\n",
-        "type": "Widgets.Dialog.Attributes.Attribute msg"
-      },
-      {
-        "name": "global",
-        "comment": " Common styles needed by other parts of this theme. Use this to initialize\nthe theme together with Widgets.Normalize.snippets.\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Widgets.Themes.Mint.global\n            , Html.text \"My Content\"\n            ]\n\n",
-        "type": "Html.Styled.Html msg"
-      },
-      {
-        "name": "input",
-        "comment": " Apply Mint theme to Widgets.Form input controls.\n\n    Form.input { id = \"id\" , description = \"desc\" , type_ = \"text\" }\n      [ Widgets.Themes.Mint.input ] []\n\n",
-        "type": "Widgets.Form.Attributes.Attribute msg"
-      },
-      {
-        "name": "listBox",
-        "comment": " Apply Mint theme to ListBox Widgets. Note that a listBox icon is also used.\n\n    Widgets.listBox { id = \"my-id\", description = \"a listbox example\" }\n        [ Widgets.Theme.Mint.listbox ]\n        [ Widgets.Theme.Mint.listboxIcon ]\n\n",
-        "type": "Widgets.ListBox.Attributes.Attribute msg"
-      },
-      {
-        "name": "select",
-        "comment": " Apply Mint theme to Widgets.Form select control.\n\n    Form.select { id = \"id\" , description = \"desc\" }\n        [ Widgets.Themes.Mint.input ] []\n\n",
-        "type": "Widgets.Form.Attributes.Attribute msg"
-      },
-      {
-        "name": "text",
-        "comment": " Apply a simple text styling to an Html node.\n\n    Html.h1 [ Html.css [ Widgets.Themes.text ] ] [ H.text \"My Header\" ]\n\n",
-        "type": "Css.Style"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Widgets.ListBox.State",
     "comment": " A module to manage the state of a ListBox. It implements the recommended ARIA\nbehaviour of a ListBox widget.\n\n\n# State Management (TEA)\n\n@docs Model, Msg, update\n\n\n# Creating, updating and quering the model\n\n@docs empty, insertOption, isExpanded, selected, setPlaceholder\n\n\n# Wiring the view\n\n@docs attributes\n\n",
     "aliases": [],
@@ -124,6 +66,64 @@
         "name": "update",
         "comment": " Update a ListBox state given a model and a message. Wire it up into your\nupdate using `Cmd.map`.\n",
         "type": "Widgets.ListBox.State.Msg -> Widgets.ListBox.State.Model -> ( Widgets.ListBox.State.Model , Platform.Cmd.Cmd Widgets.ListBox.State.Msg )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Widgets.Themes.Mint",
+    "comment": " A basic theme for the whole Widgets library. The purpose of this theme\nis to be an example on how to build themes, but it can also be use for\nprototyping.\n\nYou can also use this theme as a base style, and then apply your own styles.\n\nThis theme requires a css normalization base. See global for more information.\n\n\n# Initialization\n\n@docs global\n\n\n# Theming Widgets\n\n@docs button, dialog, input, select, listBox\n\n\n# Theming Html Nodes\n\n@docs text\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "button",
+        "comment": " Apply Mint theme to Widgets.Form button.\n\n    Form.button [ Widgets.Themes.Mint.button ] [ Html.text \"Title\" ]\n\n",
+        "type": "Widgets.Form.Attributes.Attribute msg"
+      },
+      {
+        "name": "dialog",
+        "comment": " Apply Mint theme to Widgets.Dialog.\n\n    Widgets.dialog { id = \"id\" , title = \"title\"}\n      [ Widgets.Themes.Mint.dialog ] []\n\n",
+        "type": "Widgets.Dialog.Attributes.Attribute msg"
+      },
+      {
+        "name": "global",
+        "comment": " Common styles needed by other parts of this theme. Use this to initialize\nthe theme together with Widgets.Normalize.snippets.\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Widgets.Themes.Mint.global\n            , Html.text \"My Content\"\n            ]\n\n",
+        "type": "Html.Styled.Html msg"
+      },
+      {
+        "name": "input",
+        "comment": " Apply Mint theme to Widgets.Form input controls.\n\n    Form.input { id = \"id\" , description = \"desc\" , type_ = \"text\" }\n      [ Widgets.Themes.Mint.input ] []\n\n",
+        "type": "Widgets.Form.Attributes.Attribute msg"
+      },
+      {
+        "name": "listBox",
+        "comment": " Apply Mint theme to ListBox Widgets. Note that a listBox icon is also used.\n\n    Widgets.listBox { id = \"my-id\", description = \"a listbox example\" }\n        [ Widgets.Theme.Mint.listbox ]\n        [ Widgets.Theme.Mint.listboxIcon ]\n\n",
+        "type": "Widgets.ListBox.Attributes.Attribute msg"
+      },
+      {
+        "name": "select",
+        "comment": " Apply Mint theme to Widgets.Form select control.\n\n    Form.select { id = \"id\" , description = \"desc\" }\n        [ Widgets.Themes.Mint.input ] []\n\n",
+        "type": "Widgets.Form.Attributes.Attribute msg"
+      },
+      {
+        "name": "text",
+        "comment": " Apply a simple text styling to an Html node.\n\n    Html.h1 [ Html.css [ Widgets.Themes.text ] ] [ H.text \"My Header\" ]\n\n",
+        "type": "Css.Style"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Widgets.ListBox",
+    "comment": " A [listbox][wai-lb] widget presents a list of options and allows a user to\nselect one or more of them. The widget is similar to Form.select, but this\nwidget allows custom styles. Also known as Dropdown or Select.\n\n@docs listBox\n\n[wai-lb]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#Listbox\n[wai-ex]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/listbox/listbox-collapsible.html\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "listBox",
+        "comment": " A ListBox element. A id is always required to set ARIA relationships. A\ncustom set of attributes are available in its own module. Also, a custom set\nof children nodes are allowed in order to fill the widget with options or\nfurther personalization.\n\n    Widgets.listBox { id = \"listbox\" } []\n        [ ListBox.textOption \"one\"\n        , ListBox.textOption \"two\"\n        , ListBox.textOption \"three\"\n        , ListBox.textOption \"over 9000\"\n        ]\n\n",
+        "type": "{ id : String, description : String } -> List (Widgets.ListBox.Attributes.Attribute msg) -> List ( Widgets.ListBox.Internal.Elements.Element, Html.Styled.Html msg ) -> Html.Styled.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -480,20 +480,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Widgets.Normalize",
-    "comment": " Snippets for normalize browser styling. You should use this snippets with\nCss.Foreign at the beginning of your content. Here is an example:\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Html.text \"My Content\"\n            ]\n\nThe styles are based on [Normalize](https://necolas.github.io/normalize.css/)\n8.0.0. Notable changes:\n\n  - Use of `border-box` and `box-sizing` everywhere.\n  - Make images not selectable by default.\n  - Disable focus outline everywhere.\n  - Disable forced focus outline in select for Firefox.\n\n@docs snippets\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "snippets",
-        "comment": " Browser normalization snippets. Use this with Css.Foreign functions.\n",
-        "type": "List Css.Foreign.Snippet"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Widgets.Form.Elements",
     "comment": " This module expose functions to create references to the elements of the\ncontrols. This allows us to insert custom html elements into the controls or\nadd custom css to them.\n\nFor adding custom style to some parts (elements) of a control we use the\nattribute `css`:\n\n    Form.email { id = \"my-email-input\", description = \"your email\" }\n        [ Attributes.css Elements.label\n            [ Css.backgroundColor Color.green\n            ]\n        ]\n        []\n\nTo insert custom html elements into a control we add them to the last parameter\nof a control:\n\n    Form.email { id = \"my-email-input\", description = \"A description\" }\n        []\n        [ ( Elements.description\n          , Html.text \"My custom description\"\n          )\n        , ( Elements.icon\n          , Html.img [] []\n          )\n        ]\n\n@docs Element, control, description, error, icon, label, option\n\n",
     "aliases": [
@@ -535,6 +521,20 @@
         "name": "option",
         "comment": " A helper useful for creating simple options for select controls.\n\n    Form.select { id = \"my-select\", description = \"A description\" }\n        []\n        [ Elements.option { selected = True, text = \"One\", value = \"1\" }\n        , Elements.option { selected = True, text = \"Two\", value = \"2\" }\n        , Elements.option { selected = True, text = \"Three\", value = \"1\" }\n        , Elements.option { selected = True, text = \"Over 9000\", value = \"9001\" }\n        ]\n\n",
         "type": "{ selected : Bool, text : String, value : String } -> ( Widgets.Form.Elements.Element, Html.Styled.Html msg )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Widgets.Normalize",
+    "comment": " Snippets for normalize browser styling. You should use this snippets with\nCss.Foreign at the beginning of your content. Here is an example:\n\n    view : Model -> Html Msg\n    view model =\n        Html.main_ []\n            [ Css.Foreign.global Widgets.Normalize.snippets\n            , Html.text \"My Content\"\n            ]\n\nThe styles are based on [Normalize](https://necolas.github.io/normalize.css/)\n8.0.0. Notable changes:\n\n  - Use of `border-box` and `box-sizing` everywhere.\n  - Make images not selectable by default.\n  - Disable focus outline everywhere.\n  - Disable forced focus outline in select for Firefox.\n\n@docs snippets\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "snippets",
+        "comment": " Browser normalization snippets. Use this with Css.Foreign functions.\n",
+        "type": "List Css.Foreign.Snippet"
       }
     ],
     "generated-with-elm-version": "0.18.0"

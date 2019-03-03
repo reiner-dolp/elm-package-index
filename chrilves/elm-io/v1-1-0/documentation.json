@@ -29,20 +29,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Select.Infix",
-    "comment": "Infix notation for *Select*\n@docs (<°>)\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "<°>",
-        "comment": "Infix notation for *Select.compose*.",
-        "type": "Select.Select a b -> Select.Select b c -> Select.Select a c"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "IO",
     "comment": "This module provides a monadic interface for *The Elm Architecture*.\n\nBasically *IO* is a monad enabing two kinds of effects :\n- model modification (it is a state monad)\n- *Cmd* commands\n@docs IO\n\n# Runing an Elm application with *IO*\nThis module port the four main way of running an Elm application to *IO*.\n@docs Program, program, vDomProgram, programWithFlags, vDomProgramWithFlags\n\n# Lifting values and commands into *IO*\n@docs pure, lift, liftM, liftUpdate, none\n\n# The model as a state\n@docs get, set, modify\n\n# Classic monadic operations\n@docs map, bind, join, ap, traverse, mapM\n\n# Passing from a model to another\n@docs lens, select\n\n# Transform IO into regular Elm\n@docs transform, transformWithFlags\n\n# Unsafe operations (You've been warned!)\n@docs batch, combine\n",
     "aliases": [
@@ -193,30 +179,15 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "CmdM.Infix",
-    "comment": "Infix notation for `CmdM`\n@docs (<$>), (>>=), (<*>), (<+>)\n",
+    "name": "Select.Infix",
+    "comment": "Infix notation for *Select*\n@docs (<°>)\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "<$>",
-        "comment": "Infix notation for *CmdM.map*.",
-        "type": "CmdM.CmdM a -> (a -> b) -> CmdM.CmdM b"
-      },
-      {
-        "name": "<*>",
-        "comment": "Infix notation for *CmdM.ap*.",
-        "type": "CmdM.CmdM (a -> b) -> CmdM.CmdM a -> CmdM.CmdM b"
-      },
-      {
-        "name": "<+>",
-        "comment": "Infix notation for *CmdM.combineù.",
-        "type": "CmdM.CmdM a -> CmdM.CmdM a -> CmdM.CmdM a"
-      },
-      {
-        "name": ">>=",
-        "comment": "Infix notation for *CmdM.bind*.",
-        "type": "CmdM.CmdM a -> (a -> CmdM.CmdM b) -> CmdM.CmdM b"
+        "name": "<°>",
+        "comment": "Infix notation for *Select.compose*.",
+        "type": "Select.Select a b -> Select.Select b c -> Select.Select a c"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -270,6 +241,69 @@
         "name": "<°>",
         "comment": "Infix notation for *Lens.compose*.",
         "type": "Lens.Lens a b -> Lens.Lens b c -> Lens.Lens a c"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "CmdM.Infix",
+    "comment": "Infix notation for `CmdM`\n@docs (<$>), (>>=), (<*>), (<+>)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "<$>",
+        "comment": "Infix notation for *CmdM.map*.",
+        "type": "CmdM.CmdM a -> (a -> b) -> CmdM.CmdM b"
+      },
+      {
+        "name": "<*>",
+        "comment": "Infix notation for *CmdM.ap*.",
+        "type": "CmdM.CmdM (a -> b) -> CmdM.CmdM a -> CmdM.CmdM b"
+      },
+      {
+        "name": "<+>",
+        "comment": "Infix notation for *CmdM.combineù.",
+        "type": "CmdM.CmdM a -> CmdM.CmdM a -> CmdM.CmdM a"
+      },
+      {
+        "name": ">>=",
+        "comment": "Infix notation for *CmdM.bind*.",
+        "type": "CmdM.CmdM a -> (a -> CmdM.CmdM b) -> CmdM.CmdM b"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lens",
+    "comment": " Imagine the type `a = {name: String, age : Int}`.\nIf you want to access the *age* part of this type\nor modify only the *age* this is simple you would use\n**Elm** syntax like `x.age` or `{x | age = 7 }` to ease\nthe process.\n\nNow imagine that the *a* is much much more complex, like\na record whose fields are also records and so on for 10 levels.\nElm does not have buitin syntax to ease this case. That's\nwhere lenses comes in.\n\nA lens is like zooming on a part of a type, enabling to access\nor modify this part with ease. It is strongly related to Huet's\nzipper.\n\nTake the a lens of type `Lens a b`. It enable to access the *a*\npart of *b* and modify it simply. The benefits of lenses is they\ncompose naturally.\n\n@docs Lens, lift, compose, congruence\n",
+    "aliases": [
+      {
+        "name": "Lens",
+        "comment": " The type of a lens ",
+        "args": [
+          "a",
+          "b"
+        ],
+        "type": "b -> ( a, a -> b )"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "compose",
+        "comment": " Compose two lenses.",
+        "type": "Lens.Lens a b -> Lens.Lens b c -> Lens.Lens a c"
+      },
+      {
+        "name": "congruence",
+        "comment": " If you have a lens from *a* to *b* and a function on *a*\nthen you get a function on *b*.\n",
+        "type": "Lens.Lens a b -> (a -> a) -> b -> b"
+      },
+      {
+        "name": "lift",
+        "comment": " Build a lens from an equivalence between types *a* and *b*.",
+        "type": "(a -> b) -> (b -> a) -> Lens.Lens a b"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -394,40 +428,6 @@
         "name": "vDomProgramWithFlags",
         "comment": "Port of *VirtualDom.programWithFlags* with *CmdM* (also works with *Html*).",
         "type": "{ init : flags -> ( model, CmdM.CmdM msg ) , update : msg -> model -> ( model, CmdM.CmdM msg ) , subscriptions : model -> Platform.Sub.Sub (CmdM.CmdM msg) , view : model -> VirtualDom.Node (CmdM.CmdM msg) } -> CmdM.Program flags model msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lens",
-    "comment": " Imagine the type `a = {name: String, age : Int}`.\nIf you want to access the *age* part of this type\nor modify only the *age* this is simple you would use\n**Elm** syntax like `x.age` or `{x | age = 7 }` to ease\nthe process.\n\nNow imagine that the *a* is much much more complex, like\na record whose fields are also records and so on for 10 levels.\nElm does not have buitin syntax to ease this case. That's\nwhere lenses comes in.\n\nA lens is like zooming on a part of a type, enabling to access\nor modify this part with ease. It is strongly related to Huet's\nzipper.\n\nTake the a lens of type `Lens a b`. It enable to access the *a*\npart of *b* and modify it simply. The benefits of lenses is they\ncompose naturally.\n\n@docs Lens, lift, compose, congruence\n",
-    "aliases": [
-      {
-        "name": "Lens",
-        "comment": " The type of a lens ",
-        "args": [
-          "a",
-          "b"
-        ],
-        "type": "b -> ( a, a -> b )"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "compose",
-        "comment": " Compose two lenses.",
-        "type": "Lens.Lens a b -> Lens.Lens b c -> Lens.Lens a c"
-      },
-      {
-        "name": "congruence",
-        "comment": " If you have a lens from *a* to *b* and a function on *a*\nthen you get a function on *b*.\n",
-        "type": "Lens.Lens a b -> (a -> a) -> b -> b"
-      },
-      {
-        "name": "lift",
-        "comment": " Build a lens from an equivalence between types *a* and *b*.",
-        "type": "(a -> b) -> (b -> a) -> Lens.Lens a b"
       }
     ],
     "generated-with-elm-version": "0.18.0"

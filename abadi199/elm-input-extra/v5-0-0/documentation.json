@@ -1,45 +1,5 @@
 [
   {
-    "name": "MaskedInput.Number",
-    "comment": " Masked Number input, similar to Masked Text input, but only accepting numeric input\n\n# State\n@docs State, initialState\n\n# View\n@docs input, Options, defaultOptions\n",
-    "aliases": [
-      {
-        "name": "Options",
-        "comment": " Options of the input component.\n\n * `pattern` is the pattern used to format the input value. e.g.: (###) ###-####\n * `inputCharacter`: is the special character used to represent user input. Default value: `#`\n * `toMsg`: is the Msg for updating internal `State` of the element.\n * `onInput` is the Msg tagger for the onInput event.\n * `hasFocus` is an optional Msg tagger for onFocus/onBlur event.\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ pattern : String , inputCharacter : Char , onInput : Maybe.Maybe Int -> msg , toMsg : MaskedInput.Number.State -> msg , hasFocus : Maybe.Maybe (Bool -> msg) }"
-      }
-    ],
-    "types": [
-      {
-        "name": "State",
-        "comment": " Opaque type for storing local State\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Default value for `Options`.\n * `onInput` (type: `Maybe Int -> msg`) : The onInput Msg tagger\n * `toMsg` (type: `String -> msg`) : The Msg for updating internal `State` of the element.\n\nValue:\n\n    { pattern = \"\"\n    , inputCharacter = '#'\n    , onInput = onInput\n    , toMsg = toMsg\n    , hasFocus = Nothing\n    }\n\n",
-        "type": "(Maybe.Maybe Int -> msg) -> (MaskedInput.Number.State -> msg) -> MaskedInput.Number.Options msg"
-      },
-      {
-        "name": "initialState",
-        "comment": " Initial state\n",
-        "type": "MaskedInput.Number.State"
-      },
-      {
-        "name": "input",
-        "comment": " Masked Number input element\n\nExample:\n\n    type Msg = InputUpdated (Maybe Int) | StateUpdated MaskedInput.State | FocusUpdated Bool\n\n    MaskedInput.Number.input\n        { pattern = \"(###) ###-####\"\n        , inputCharacter = '#'\n        , onInput = InputUpdated\n        , toMsg = StateUpdated\n        , hasFocus = Just FocusUpdated\n        }\n        [ class \"masked-input\"\n        ...\n        ]\n        model.currentState\n        model.currentValue\n\n",
-        "type": "MaskedInput.Number.Options msg -> List (Html.Attribute msg) -> MaskedInput.Number.State -> Maybe.Maybe Int -> Html.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "MaskedInput.Text",
     "comment": " Masked Text input\n\n# State\n@docs State, initialState\n\n# View\n@docs input, Options, defaultOptions\n",
     "aliases": [
@@ -75,6 +35,46 @@
         "name": "input",
         "comment": " Text input element\n\nExample:\n\n    type Msg = InputUpdated String | StateUpdated MaskedInput.State | FocusUpdated Bool\n\n    MaskedInput.Text.input\n        { pattern = \"(###) ###-####\"\n        , inputCharacter = '#'\n        , onInput = InputUpdated\n        , toMsg = StateUpdated\n        , hasFocus = Just FocusUpdated\n        }\n        [ class \"masked-input\"\n        ...\n        ]\n        model.currentState\n        model.currentValue\n\n",
         "type": "MaskedInput.Text.Options msg -> List (Html.Attribute msg) -> MaskedInput.Text.State -> String -> Html.Html msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "MaskedInput.Number",
+    "comment": " Masked Number input, similar to Masked Text input, but only accepting numeric input\n\n# State\n@docs State, initialState\n\n# View\n@docs input, Options, defaultOptions\n",
+    "aliases": [
+      {
+        "name": "Options",
+        "comment": " Options of the input component.\n\n * `pattern` is the pattern used to format the input value. e.g.: (###) ###-####\n * `inputCharacter`: is the special character used to represent user input. Default value: `#`\n * `toMsg`: is the Msg for updating internal `State` of the element.\n * `onInput` is the Msg tagger for the onInput event.\n * `hasFocus` is an optional Msg tagger for onFocus/onBlur event.\n",
+        "args": [
+          "msg"
+        ],
+        "type": "{ pattern : String , inputCharacter : Char , onInput : Maybe.Maybe Int -> msg , toMsg : MaskedInput.Number.State -> msg , hasFocus : Maybe.Maybe (Bool -> msg) }"
+      }
+    ],
+    "types": [
+      {
+        "name": "State",
+        "comment": " Opaque type for storing local State\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "defaultOptions",
+        "comment": " Default value for `Options`.\n * `onInput` (type: `Maybe Int -> msg`) : The onInput Msg tagger\n * `toMsg` (type: `String -> msg`) : The Msg for updating internal `State` of the element.\n\nValue:\n\n    { pattern = \"\"\n    , inputCharacter = '#'\n    , onInput = onInput\n    , toMsg = toMsg\n    , hasFocus = Nothing\n    }\n\n",
+        "type": "(Maybe.Maybe Int -> msg) -> (MaskedInput.Number.State -> msg) -> MaskedInput.Number.Options msg"
+      },
+      {
+        "name": "initialState",
+        "comment": " Initial state\n",
+        "type": "MaskedInput.Number.State"
+      },
+      {
+        "name": "input",
+        "comment": " Masked Number input element\n\nExample:\n\n    type Msg = InputUpdated (Maybe Int) | StateUpdated MaskedInput.State | FocusUpdated Bool\n\n    MaskedInput.Number.input\n        { pattern = \"(###) ###-####\"\n        , inputCharacter = '#'\n        , onInput = InputUpdated\n        , toMsg = StateUpdated\n        , hasFocus = Just FocusUpdated\n        }\n        [ class \"masked-input\"\n        ...\n        ]\n        model.currentState\n        model.currentValue\n\n",
+        "type": "MaskedInput.Number.Options msg -> List (Html.Attribute msg) -> MaskedInput.Number.State -> Maybe.Maybe Int -> Html.Html msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

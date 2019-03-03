@@ -1,5 +1,109 @@
 [
   {
+    "name": "Random",
+    "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nIt may be helpful to [read about JSON decoders][json] because they work very\nsimilarly.\n\n[json]: https://evancz.gitbooks.io/an-introduction-to-elm/content/interop/json.html\n\n> *Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Generate Values\n@docs generate\n\n# Generate Values Manually\n@docs step, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Generator",
+        "comment": " A `Generator` is like a recipe for generating certain random values. So a\n`Generator Int` describes how to generate integers and a `Generator String`\ndescribes how to generate strings.\n\nTo actually *run* a generator and produce the random values, you need to use\nfunctions like [`generate`](#generate) and [`initialSeed`](#initialSeed).\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Seed",
+        "comment": " A `Seed` is the source of randomness in this whole system. Whenever\nyou want to use a generator, you need to pair it with a seed.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain random operations, threading through the seed. In the following\nexample, we will generate a random letter by putting together uppercase and\nlowercase letters.\n\n    letter : Generator Char\n    letter =\n      bool `andThen` \\b ->\n        if b then uppercaseLetter else lowercaseLetter\n\n    -- bool : Generator Bool\n    -- uppercaseLetter : Generator Char\n    -- lowercaseLetter : Generator Char\n",
+        "type": "Random.Generator a -> (a -> Random.Generator b) -> Random.Generator b"
+      },
+      {
+        "name": "bool",
+        "comment": " Create a generator that produces boolean values. The following example\nsimulates a coin flip that may land heads or tails.\n\n    type Flip = Heads | Tails\n\n    coinFlip : Generator Flip\n    coinFlip =\n        map (\\b -> if b then Heads else Tails) bool\n",
+        "type": "Random.Generator Bool"
+      },
+      {
+        "name": "float",
+        "comment": " Generate floats in a given range. The following example is a generator\nthat produces decimals between 0 and 1.\n\n    probability : Generator Float\n    probability =\n        float 0 1\n",
+        "type": "Float -> Float -> Random.Generator Float"
+      },
+      {
+        "name": "generate",
+        "comment": " Create a command that will generate random values.\n\nRead more about how to use this in your programs in [The Elm Architecture\ntutorial][arch] which has a section specifically [about random values][rand].\n\n[arch]: https://evancz.gitbooks.io/an-introduction-to-elm/content/architecture/index.html\n[rand]: https://evancz.gitbooks.io/an-introduction-to-elm/content/architecture/effects/random.html\n",
+        "type": "(a -> msg) -> Random.Generator a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "initialSeed",
+        "comment": " Create a &ldquo;seed&rdquo; of randomness which makes it possible to\ngenerate random values. If you use the same seed many times, it will result\nin the same thing every time! A good way to get an unexpected seed is to use\nthe current time.\n",
+        "type": "Int -> Random.Seed"
+      },
+      {
+        "name": "int",
+        "comment": " Generate 32-bit integers in a given range.\n\n    int 0 10   -- an integer between zero and ten\n    int -5 5   -- an integer between -5 and 5\n\n    int minInt maxInt  -- an integer in the widest range feasible\n\nThis function *can* produce values outside of the range [[`minInt`](#minInt),\n[`maxInt`](#maxInt)] but sufficient randomness is not guaranteed.\n",
+        "type": "Int -> Int -> Random.Generator Int"
+      },
+      {
+        "name": "list",
+        "comment": " Create a list of random values.\n\n    floatList : Generator (List Float)\n    floatList =\n        list 10 (float 0 1)\n\n    intList : Generator (List Int)\n    intList =\n        list 5 (int 0 100)\n\n    intPairs : Generator (List (Int, Int))\n    intPairs =\n        list 10 <| pair (int 0 100) (int 0 100)\n",
+        "type": "Int -> Random.Generator a -> Random.Generator (List a)"
+      },
+      {
+        "name": "map",
+        "comment": " Transform the values produced by a generator. The following examples show\nhow to generate booleans and letters based on a basic integer generator.\n\n    bool : Generator Bool\n    bool =\n      map ((==) 1) (int 0 1)\n\n    lowercaseLetter : Generator Char\n    lowercaseLetter =\n      map (\\n -> Char.fromCode (n + 97)) (int 0 25)\n\n    uppercaseLetter : Generator Char\n    uppercaseLetter =\n      map (\\n -> Char.fromCode (n + 65)) (int 0 25)\n\n",
+        "type": "(a -> b) -> Random.Generator a -> Random.Generator b"
+      },
+      {
+        "name": "map2",
+        "comment": " Combine two generators.\n\nThis function is used to define things like [`pair`](#pair) where you want to\nput two generators together.\n\n    pair : Generator a -> Generator b -> Generator (a,b)\n    pair genA genB =\n      map2 (,) genA genB\n\n",
+        "type": "(a -> b -> c) -> Random.Generator a -> Random.Generator b -> Random.Generator c"
+      },
+      {
+        "name": "map3",
+        "comment": " Combine three generators. This could be used to produce random colors.\n\n    import Color\n\n    rgb : Generator Color.Color\n    rgb =\n      map3 Color.rgb (int 0 255) (int 0 255) (int 0 255)\n\n    hsl : Generator Color.Color\n    hsl =\n      map3 Color.hsl (map degrees (int 0 360)) (float 0 1) (float 0 1)\n",
+        "type": "(a -> b -> c -> d) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d"
+      },
+      {
+        "name": "map4",
+        "comment": " Combine four generators.\n",
+        "type": "(a -> b -> c -> d -> e) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e"
+      },
+      {
+        "name": "map5",
+        "comment": " Combine five generators.\n",
+        "type": "(a -> b -> c -> d -> e -> f) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e -> Random.Generator f"
+      },
+      {
+        "name": "maxInt",
+        "comment": " The maximum value for randomly generated 32-bit ints: 2147483647 ",
+        "type": "Int"
+      },
+      {
+        "name": "minInt",
+        "comment": " The minimum value for randomly generated 32-bit ints: -2147483648 ",
+        "type": "Int"
+      },
+      {
+        "name": "pair",
+        "comment": " Create a pair of random values. A common use of this might be to generate\na point in a certain 2D space. Imagine we have a collage that is 400 pixels\nwide and 200 pixels tall.\n\n    randomPoint : Generator (Int,Int)\n    randomPoint =\n        pair (int -200 200) (int -100 100)\n\n",
+        "type": "Random.Generator a -> Random.Generator b -> Random.Generator ( a, b )"
+      },
+      {
+        "name": "step",
+        "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `step` we need to provide a\nseed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `step` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed1 ==> (31, seed2)\n    -- step (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n",
+        "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Process",
     "comment": "\n\n# Processes\n@docs Id, spawn, sleep, kill\n\n## Future Plans\n\nRight now, this library is pretty sparse. For example, there is no public API\nfor processes to communicate with each other. This is a really important\nability, but it is also something that is extraordinarily easy to get wrong!\n\nI think the trend will be towards an Erlang style of concurrency, where every\nprocess has an “event queue” that anyone can send messages to. I currently\nthink the API will be extended to be more like this:\n\n    type Id exit msg\n\n    spawn : Task exit a -> Task x (Id exit Never)\n\n    kill : Id exit msg -> Task x ()\n\n    send : Id exit msg -> msg -> Task x ()\n\nA process `Id` will have two type variables to make sure all communication is\nvalid. The `exit` type describes the messages that are produced if the process\nfails because of user code. So if processes are linked and trapping errors,\nthey will need to handle this. The `msg` type just describes what kind of\nmessages this process can be sent by strangers.\n\nWe shall see though! This is just a draft that does not cover nearly everything\nit needs to, so the long-term vision for concurrency in Elm will be rolling out\nslowly as I get more data and experience.\n\nI ask that people bullish on compiling to node.js keep this in mind. I think we\ncan do better than the hopelessly bad concurrency model of node.js, and I hope\nthe Elm community will be supportive of being more ambitious, even if it takes\nlonger. That’s kind of what Elm is all about.\n",
     "aliases": [
@@ -192,110 +296,6 @@
         "name": "year",
         "comment": " Extract the year of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `1990`.\n",
         "type": "Date.Date -> Int"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Random",
-    "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nIt may be helpful to [read about JSON decoders][json] because they work very\nsimilarly.\n\n[json]: https://evancz.gitbooks.io/an-introduction-to-elm/content/interop/json.html\n\n> *Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Generate Values\n@docs generate\n\n# Generate Values Manually\n@docs step, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Generator",
-        "comment": " A `Generator` is like a recipe for generating certain random values. So a\n`Generator Int` describes how to generate integers and a `Generator String`\ndescribes how to generate strings.\n\nTo actually *run* a generator and produce the random values, you need to use\nfunctions like [`generate`](#generate) and [`initialSeed`](#initialSeed).\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Seed",
-        "comment": " A `Seed` is the source of randomness in this whole system. Whenever\nyou want to use a generator, you need to pair it with a seed.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "andThen",
-        "comment": " Chain random operations, threading through the seed. In the following\nexample, we will generate a random letter by putting together uppercase and\nlowercase letters.\n\n    letter : Generator Char\n    letter =\n      bool `andThen` \\b ->\n        if b then uppercaseLetter else lowercaseLetter\n\n    -- bool : Generator Bool\n    -- uppercaseLetter : Generator Char\n    -- lowercaseLetter : Generator Char\n",
-        "type": "Random.Generator a -> (a -> Random.Generator b) -> Random.Generator b"
-      },
-      {
-        "name": "bool",
-        "comment": " Create a generator that produces boolean values. The following example\nsimulates a coin flip that may land heads or tails.\n\n    type Flip = Heads | Tails\n\n    coinFlip : Generator Flip\n    coinFlip =\n        map (\\b -> if b then Heads else Tails) bool\n",
-        "type": "Random.Generator Bool"
-      },
-      {
-        "name": "float",
-        "comment": " Generate floats in a given range. The following example is a generator\nthat produces decimals between 0 and 1.\n\n    probability : Generator Float\n    probability =\n        float 0 1\n",
-        "type": "Float -> Float -> Random.Generator Float"
-      },
-      {
-        "name": "generate",
-        "comment": " Create a command that will generate random values.\n\nRead more about how to use this in your programs in [The Elm Architecture\ntutorial][arch] which has a section specifically [about random values][rand].\n\n[arch]: https://evancz.gitbooks.io/an-introduction-to-elm/content/architecture/index.html\n[rand]: https://evancz.gitbooks.io/an-introduction-to-elm/content/architecture/effects/random.html\n",
-        "type": "(a -> msg) -> Random.Generator a -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "initialSeed",
-        "comment": " Create a &ldquo;seed&rdquo; of randomness which makes it possible to\ngenerate random values. If you use the same seed many times, it will result\nin the same thing every time! A good way to get an unexpected seed is to use\nthe current time.\n",
-        "type": "Int -> Random.Seed"
-      },
-      {
-        "name": "int",
-        "comment": " Generate 32-bit integers in a given range.\n\n    int 0 10   -- an integer between zero and ten\n    int -5 5   -- an integer between -5 and 5\n\n    int minInt maxInt  -- an integer in the widest range feasible\n\nThis function *can* produce values outside of the range [[`minInt`](#minInt),\n[`maxInt`](#maxInt)] but sufficient randomness is not guaranteed.\n",
-        "type": "Int -> Int -> Random.Generator Int"
-      },
-      {
-        "name": "list",
-        "comment": " Create a list of random values.\n\n    floatList : Generator (List Float)\n    floatList =\n        list 10 (float 0 1)\n\n    intList : Generator (List Int)\n    intList =\n        list 5 (int 0 100)\n\n    intPairs : Generator (List (Int, Int))\n    intPairs =\n        list 10 <| pair (int 0 100) (int 0 100)\n",
-        "type": "Int -> Random.Generator a -> Random.Generator (List a)"
-      },
-      {
-        "name": "map",
-        "comment": " Transform the values produced by a generator. The following examples show\nhow to generate booleans and letters based on a basic integer generator.\n\n    bool : Generator Bool\n    bool =\n      map ((==) 1) (int 0 1)\n\n    lowercaseLetter : Generator Char\n    lowercaseLetter =\n      map (\\n -> Char.fromCode (n + 97)) (int 0 25)\n\n    uppercaseLetter : Generator Char\n    uppercaseLetter =\n      map (\\n -> Char.fromCode (n + 65)) (int 0 25)\n\n",
-        "type": "(a -> b) -> Random.Generator a -> Random.Generator b"
-      },
-      {
-        "name": "map2",
-        "comment": " Combine two generators.\n\nThis function is used to define things like [`pair`](#pair) where you want to\nput two generators together.\n\n    pair : Generator a -> Generator b -> Generator (a,b)\n    pair genA genB =\n      map2 (,) genA genB\n\n",
-        "type": "(a -> b -> c) -> Random.Generator a -> Random.Generator b -> Random.Generator c"
-      },
-      {
-        "name": "map3",
-        "comment": " Combine three generators. This could be used to produce random colors.\n\n    import Color\n\n    rgb : Generator Color.Color\n    rgb =\n      map3 Color.rgb (int 0 255) (int 0 255) (int 0 255)\n\n    hsl : Generator Color.Color\n    hsl =\n      map3 Color.hsl (map degrees (int 0 360)) (float 0 1) (float 0 1)\n",
-        "type": "(a -> b -> c -> d) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d"
-      },
-      {
-        "name": "map4",
-        "comment": " Combine four generators.\n",
-        "type": "(a -> b -> c -> d -> e) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e"
-      },
-      {
-        "name": "map5",
-        "comment": " Combine five generators.\n",
-        "type": "(a -> b -> c -> d -> e -> f) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e -> Random.Generator f"
-      },
-      {
-        "name": "maxInt",
-        "comment": " The maximum value for randomly generated 32-bit ints: 2147483647 ",
-        "type": "Int"
-      },
-      {
-        "name": "minInt",
-        "comment": " The minimum value for randomly generated 32-bit ints: -2147483648 ",
-        "type": "Int"
-      },
-      {
-        "name": "pair",
-        "comment": " Create a pair of random values. A common use of this might be to generate\na point in a certain 2D space. Imagine we have a collage that is 400 pixels\nwide and 200 pixels tall.\n\n    randomPoint : Generator (Int,Int)\n    randomPoint =\n        pair (int -200 200) (int -100 100)\n\n",
-        "type": "Random.Generator a -> Random.Generator b -> Random.Generator ( a, b )"
-      },
-      {
-        "name": "step",
-        "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `step` we need to provide a\nseed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `step` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed1 ==> (31, seed2)\n    -- step (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n    -- step (int 0 100) seed0 ==> (42, seed1)\n",
-        "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1296,81 +1296,6 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Regex",
-    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
-    "aliases": [
-      {
-        "name": "Match",
-        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
-        "args": [],
-        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
-      }
-    ],
-    "types": [
-      {
-        "name": "HowMany",
-        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
-        "args": [],
-        "cases": [
-          [
-            "All",
-            []
-          ],
-          [
-            "AtMost",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "Regex",
-        "comment": " A regular expression, describing a certain set of strings.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "caseInsensitive",
-        "comment": " Make a regex case insensitive ",
-        "type": "Regex.Regex -> Regex.Regex"
-      },
-      {
-        "name": "contains",
-        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
-        "type": "Regex.Regex -> String -> Bool"
-      },
-      {
-        "name": "escape",
-        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
-        "type": "String -> String"
-      },
-      {
-        "name": "find",
-        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
-      },
-      {
-        "name": "regex",
-        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
-        "type": "String -> Regex.Regex"
-      },
-      {
-        "name": "replace",
-        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
-        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
-      },
-      {
-        "name": "split",
-        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
     "name": "Result",
     "comment": " A `Result` is the result of a computation that may fail. This is a great\nway to manage errors in Elm.\n\n# Type and Constructors\n@docs Result\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Chaining\n@docs andThen\n\n# Handling Errors\n@docs withDefault, toMaybe, fromMaybe, formatError\n",
     "aliases": [],
@@ -1448,6 +1373,81 @@
         "name": "withDefault",
         "comment": " If the result is `Ok` return the value, but if the result is an `Err` then\nreturn a given default value. The following examples try to parse integers.\n\n    Result.withDefault 0 (String.toInt \"123\") == 123\n    Result.withDefault 0 (String.toInt \"abc\") == 0\n",
         "type": "a -> Result.Result x a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Regex",
+    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
+    "aliases": [
+      {
+        "name": "Match",
+        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
+        "args": [],
+        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
+      }
+    ],
+    "types": [
+      {
+        "name": "HowMany",
+        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
+        "args": [],
+        "cases": [
+          [
+            "All",
+            []
+          ],
+          [
+            "AtMost",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Regex",
+        "comment": " A regular expression, describing a certain set of strings.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "caseInsensitive",
+        "comment": " Make a regex case insensitive ",
+        "type": "Regex.Regex -> Regex.Regex"
+      },
+      {
+        "name": "contains",
+        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
+        "type": "Regex.Regex -> String -> Bool"
+      },
+      {
+        "name": "escape",
+        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
+        "type": "String -> String"
+      },
+      {
+        "name": "find",
+        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
+      },
+      {
+        "name": "regex",
+        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
+        "type": "String -> Regex.Regex"
+      },
+      {
+        "name": "replace",
+        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
+        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
+      },
+      {
+        "name": "split",
+        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -2004,6 +2004,88 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
+    "name": "Platform.Cmd",
+    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Cmd",
+        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
+        "args": [
+          "msg"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "!",
+        "comment": "",
+        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
+      },
+      {
+        "name": "batch",
+        "comment": "",
+        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "map",
+        "comment": "",
+        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "none",
+        "comment": "",
+        "type": "Platform.Cmd.Cmd msg"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Bitwise",
+    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "and",
+        "comment": " Bitwise AND\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "complement",
+        "comment": " Flip each bit individually, often called bitwise NOT\n",
+        "type": "Int -> Int"
+      },
+      {
+        "name": "or",
+        "comment": " Bitwise OR\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftLeft",
+        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRight",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "shiftRightLogical",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
+        "type": "Int -> Int -> Int"
+      },
+      {
+        "name": "xor",
+        "comment": " Bitwise XOR\n",
+        "type": "Int -> Int -> Int"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Maybe",
     "comment": " This library fills a bunch of important niches in Elm. A `Maybe` can help\nyou with optional arguments, error handling, and records with optional fields.\n\n# Definition\n@docs Maybe\n\n# Common Helpers\n@docs withDefault, oneOf, map, map2, map3, map4, map5\n\n# Chaining Maybes\n@docs andThen\n\n",
     "aliases": [],
@@ -2092,13 +2174,13 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Platform.Cmd",
-    "comment": "\n\n# Effects\n\nElm has **managed effects**, meaning that things like HTTP requests or writing\nto disk are all treated as *data* in Elm. When this data is given to the Elm\nruntime system, it can do some “query optimization” before actually performing\nthe effect. Perhaps unexpectedly, this managed effects idea is the heart of why\nElm is so nice for testing, reuse, reproducibility, etc.\n\nThere are two kinds of managed effects you will use in your programs: commands\nand subscriptions.\n\n@docs Cmd, map, batch, none, (!)\n\n",
+    "name": "Platform.Sub",
+    "comment": "\n\n@docs Sub, map, batch, none\n",
     "aliases": [],
     "types": [
       {
-        "name": "Cmd",
-        "comment": " A command is a way of telling Elm, “Hey, I want you to do this thing!”\nSo if you want to send an HTTP request, you would need to command Elm to do it.\nOr if you wanted to ask for geolocation, you would need to command Elm to go\nget it.\n\nEvery `Cmd` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, commands will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they\nfit into a real application!\n",
+        "name": "Sub",
+        "comment": " A subscription is a way of telling Elm, “Hey, let me know if anything\ninteresting happens over there!” So if you want listen for messages on a web\nsocket, you would tell Elm to create a subscription. If you want to get clock\nticks, you would tell Elm to subscribe to that. The cool thing here is that\nthis means *Elm* manages all the details of subscriptions instead of *you*.\nSo if a web socket goes down, *you* do not need to manually reconnect with an\nexponential backoff strategy, *Elm* does this all for you behind the scenes!\n\nEvery `Sub` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, subscriptions will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they fit\ninto a real application!\n",
         "args": [
           "msg"
         ],
@@ -2107,24 +2189,19 @@
     ],
     "values": [
       {
-        "name": "!",
-        "comment": "",
-        "type": "model -> List (Platform.Cmd.Cmd msg) -> ( model, Platform.Cmd.Cmd msg )"
-      },
-      {
         "name": "batch",
         "comment": "",
-        "type": "List (Platform.Cmd.Cmd msg) -> Platform.Cmd.Cmd msg"
+        "type": "List (Platform.Sub.Sub msg) -> Platform.Sub.Sub msg"
       },
       {
         "name": "map",
         "comment": "",
-        "type": "(a -> msg) -> Platform.Cmd.Cmd a -> Platform.Cmd.Cmd msg"
+        "type": "(a -> msg) -> Platform.Sub.Sub a -> Platform.Sub.Sub msg"
       },
       {
         "name": "none",
         "comment": "",
-        "type": "Platform.Cmd.Cmd msg"
+        "type": "Platform.Sub.Sub msg"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -2502,83 +2579,6 @@
         "type": "Bool -> Bool -> Bool",
         "associativity": "right",
         "precedence": 2
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Platform.Sub",
-    "comment": "\n\n@docs Sub, map, batch, none\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Sub",
-        "comment": " A subscription is a way of telling Elm, “Hey, let me know if anything\ninteresting happens over there!” So if you want listen for messages on a web\nsocket, you would tell Elm to create a subscription. If you want to get clock\nticks, you would tell Elm to subscribe to that. The cool thing here is that\nthis means *Elm* manages all the details of subscriptions instead of *you*.\nSo if a web socket goes down, *you* do not need to manually reconnect with an\nexponential backoff strategy, *Elm* does this all for you behind the scenes!\n\nEvery `Sub` specifies (1) which effects you need access to and (2) the type of\nmessages that will come back into your application.\n\n**Note:** Do not worry if this seems confusing at first! As with every Elm user\never, subscriptions will make more sense as you work through [the Elm Architecture\nTutorial](http://guide.elm-lang.org/architecture/index.html) and see how they fit\ninto a real application!\n",
-        "args": [
-          "msg"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "batch",
-        "comment": "",
-        "type": "List (Platform.Sub.Sub msg) -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "map",
-        "comment": "",
-        "type": "(a -> msg) -> Platform.Sub.Sub a -> Platform.Sub.Sub msg"
-      },
-      {
-        "name": "none",
-        "comment": "",
-        "type": "Platform.Sub.Sub msg"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Bitwise",
-    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "and",
-        "comment": " Bitwise AND\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "complement",
-        "comment": " Flip each bit individually, often called bitwise NOT\n",
-        "type": "Int -> Int"
-      },
-      {
-        "name": "or",
-        "comment": " Bitwise OR\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftLeft",
-        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftRight",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "shiftRightLogical",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
-        "type": "Int -> Int -> Int"
-      },
-      {
-        "name": "xor",
-        "comment": " Bitwise XOR\n",
-        "type": "Int -> Int -> Int"
       }
     ],
     "generated-with-elm-version": "0.17.1"

@@ -1,5 +1,58 @@
 [
   {
+    "name": "FormattedText.Fuzz",
+    "comment": " Fuzzers of FormattedText types\n\nThis can be used to test code that makes use of FormattedText.\n\n@docs Markup\n@docs formattedText\n@docs customFormattedText\n@docs markup\n@docs equals\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Markup",
+        "comment": " A arbitrary Markup type used by the formattedText fuzzer.\n\nIf this isn't the right markup type for you, use `customFormattedText`.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Red",
+            []
+          ],
+          [
+            "Blue",
+            []
+          ],
+          [
+            "Green",
+            []
+          ],
+          [
+            "Yellow",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "customFormattedText",
+        "comment": " Customizable fuzzer of FormattedText types.\n\nYou can use your own text and markup fuzzers or use the standard `string` fuzzer\nand the markup fuzzer provided by this module.\n\n",
+        "type": "Fuzz.Fuzzer String -> Fuzz.Fuzzer markup -> Fuzz.Fuzzer (FormattedText.FormattedText markup)"
+      },
+      {
+        "name": "equals",
+        "comment": " Expect to formatted texts to be equal.\n\nUse this in tests for running assertions against your formatted text.\n\n",
+        "type": "EqualCheck.EqualCheck (FormattedText.FormattedText markup)"
+      },
+      {
+        "name": "formattedText",
+        "comment": " Fuzzer of FormattedText types.\n",
+        "type": "Fuzz.Fuzzer (FormattedText.FormattedText FormattedText.Fuzz.Markup)"
+      },
+      {
+        "name": "markup",
+        "comment": " Fuzzer of FormattedText markups.\n\nBecause any type can be used as a markup this is just a suggestion provided for the lazy developer ;).\n\n",
+        "type": "Fuzz.Fuzzer FormattedText.Fuzz.Markup"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "FormattedText.Markdown",
     "comment": " A specific FormattedText type for inline markdown.\n\nThis intentionally does not support block-level markdown elements,\nas FormattedText is not suitable for that.\nIf you have formatted inline strings embeded in a semantic structure\nyou might want to create a custom type for that structure.\n\n@docs Markdown\n@docs Block\n@docs parse\n@docs parseInline\n@docs view\n@docs viewInline\n\n",
     "aliases": [],
@@ -104,59 +157,6 @@
         "name": "viewInline",
         "comment": " If you have your own logic for rendering the markdown block elements, you\ncan call this function to render the inline portions of the Markdown.\n\nIf you want to render your markdown in a different way take a look at the implementation of this function\nto see how you can use `FormattedText.chunks` to do so in a simple way.\n\n",
         "type": "FormattedText.FormattedText FormattedText.Markdown.Markdown -> List (Html.Html msg)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "FormattedText.Fuzz",
-    "comment": " Fuzzers of FormattedText types\n\nThis can be used to test code that makes use of FormattedText.\n\n@docs Markup\n@docs formattedText\n@docs customFormattedText\n@docs markup\n@docs equals\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Markup",
-        "comment": " A arbitrary Markup type used by the formattedText fuzzer.\n\nIf this isn't the right markup type for you, use `customFormattedText`.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "Red",
-            []
-          ],
-          [
-            "Blue",
-            []
-          ],
-          [
-            "Green",
-            []
-          ],
-          [
-            "Yellow",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "customFormattedText",
-        "comment": " Customizable fuzzer of FormattedText types.\n\nYou can use your own text and markup fuzzers or use the standard `string` fuzzer\nand the markup fuzzer provided by this module.\n\n",
-        "type": "Fuzz.Fuzzer String -> Fuzz.Fuzzer markup -> Fuzz.Fuzzer (FormattedText.FormattedText markup)"
-      },
-      {
-        "name": "equals",
-        "comment": " Expect to formatted texts to be equal.\n\nUse this in tests for running assertions against your formatted text.\n\n",
-        "type": "EqualCheck.EqualCheck (FormattedText.FormattedText markup)"
-      },
-      {
-        "name": "formattedText",
-        "comment": " Fuzzer of FormattedText types.\n",
-        "type": "Fuzz.Fuzzer (FormattedText.FormattedText FormattedText.Fuzz.Markup)"
-      },
-      {
-        "name": "markup",
-        "comment": " Fuzzer of FormattedText markups.\n\nBecause any type can be used as a markup this is just a suggestion provided for the lazy developer ;).\n\n",
-        "type": "Fuzz.Fuzzer FormattedText.Fuzz.Markup"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -738,90 +738,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Plane3d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/plane3d.svg\" alt=\"Plane3d\" width=\"160\">\n\nA `Plane3d` is an infinite flat plane in 3D. It is defined by an origin point\nand normal direction and is useful for several operations including:\n\n  - Mirroring across the plane\n  - Projecting onto the plane\n  - Measuring distance from the plane\n\nPlanes can by constructed by passing a record with `originPoint` and\n`normalDirection` fields to the `Plane3d` constructor, for example:\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 2, 1, 3 )\n            , normalDirection = Direction3d.y\n            }\n\n# Predefined planes\n\n@docs xy, yz, zx\n\n# Accessors\n\n@docs originPoint, normalDirection\n\n# Conversions\n\n@docs normalAxis, sketchPlane\n\n# Transformations\n\n@docs offsetBy, flip, rotateAround, translateBy, moveTo, mirrorAcross\n\n# Coordinate frames\n\n@docs relativeTo, placeIn\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "flip",
-        "comment": " Reverse a plane's normal direction while leaving its origin point unchanged.\n\n    Plane3d.flip Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d ( 0, 0, -1 )\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror one plane across another. The plane to mirror across is given first\nand the plane to mirror is given second.\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 1, 2, 3 )\n            , normalDirection = Direction3d.z\n            }\n\n    Plane3d.mirrorAcross Plane3d.xy plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( 1, 2, -3 )\n    -->     , normalDirection = Direction3d ( 0, 0, -1 )\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "moveTo",
-        "comment": " Move a plane so that it has the given origin point but unchanged normal\ndirection.\n\n    newOrigin =\n        Point3d ( 1, 2, 3 )\n\n    Plane3d.moveTo newOrigin Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d ( 1, 2, 3 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "normalAxis",
-        "comment": " Construct an axis from the origin point and normal direction of a plane.\n\n    Plane3d.normalAxis Plane3d.zx\n    --> Axis3d.y\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Axis3d"
-      },
-      {
-        "name": "normalDirection",
-        "comment": " Get the normal direction of a plane.\n\n    Plane3d.normalDirection Plane3d.xy\n    --> Direction3d.z\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Direction3d"
-      },
-      {
-        "name": "offsetBy",
-        "comment": " Shift a plane in its own normal direction by the given (signed) distance.\n\n    Plane3d.offsetBy 1.0 Plane3d.zx\n    --> Plane3d\n    -->     { originPoint = Point3d ( 0, 1, 0 )\n    -->     , normalDirection = Direction3d.y\n    -->     }\n\n    Plane3d.offsetBy -2.0 Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d ( 0, 0, -2 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
-        "type": "Float -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "originPoint",
-        "comment": " Get the origin point of a plane.\n\n    Plane3d.originPoint Plane3d.xy\n    --> Point3d.origin\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a plane defined in local coordinates relative to a given reference\nframe, and return that plane expressed in global coordinates.\n\n    referenceFrame =\n        Frame3d.at (Point3d ( 1, 1, 1 ))\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 1, 2, 3 )\n            , normalDirection = Direction3d.z\n            }\n\n    Plane3d.placeIn referenceFrame plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( 2, 3, 4 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a plane defined in global coordinates, and return it expressed in local\ncoordinates relative to a given reference frame.\n\n    referenceFrame =\n        Frame3d.at (Point3d ( 1, 1, 1 ))\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 0, 0, 2 )\n            , normalDirection = Direction3d.z\n            }\n\n    Plane3d.relativeTo referenceFrame plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( -1, -1, 1 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a plane around an axis by a given angle.\n\n    Plane3d.rotateAround Axis3d.y (degrees 90) Plane3d.xy\n    --> Plane3d.yz\n",
-        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "sketchPlane",
-        "comment": " Construct a SketchPlane3d from the given plane. The origin of the sketch\nplane will be the origin point of the given plane. The X and Y basis directions\nof the sketch plane\n\n  - will be perpendicular to each other,\n  - will both be perpendicular to the normal direction of the given plane, and\n  - will have a cross product equal to the normal direction of the given plane\n\nbut are otherwise arbitrary. For example, in the current implementation,\n\n    Plane3d.sketchPlane Plane3d.xy\n    --> SketchPlane3d\n    -->     { originPoint = Point3d.origin\n    -->     , xDirection = Direction3d ( 0, -1, 0 )\n    -->     , yDirection = Direction3d ( 1, 0, 0 )\n    -->     }\n\nwhich is coplanar with and has the same origin point as [`SketchPlane3d.xy`](OpenSolid-SketchPlane3d#xy),\nbut is not equal to it as might be expected.\n\nAs a result, this function is only useful if the exact X and Y basis directions\nof the resulting sketch plane are not important; if they are, you will need to\nconstruct those directions explicitly and directly construct a new\n`SketchPlane3d` from them.\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.SketchPlane3d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a plane by a given displacement. Applies the given displacement to\nthe plane's origin point and leaves its normal direction unchanged.\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 1, 1, 1 )\n            , normalDirection = Direction3d.z\n            }\n\n    displacement =\n        Vector3d ( 1, 2, 3 )\n\n    Plane3d.translateBy displacement plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( 2, 3, 4 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "xy",
-        "comment": " The global XY plane, centered at the origin with a normal in the positive Z\ndirection.\n\n    Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "yz",
-        "comment": " The global YZ plane, centered at the origin with a normal in the positive X\ndirection.\n\n    Plane3d.yz\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.x\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d"
-      },
-      {
-        "name": "zx",
-        "comment": " The global ZX plane, centered at the origin with a normal in the positive Y\ndirection.\n\n    Plane3d.zx\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.y\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OpenSolid.LineSegment3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/lineSegment3d.svg\" alt=\"LineSegment3d\" width=\"160\">\n\nA `LineSegment3d` is a line between two points in 3D. This module contains\nfunctionality such as:\n\n  - Interpolating within a line segment or measuring its length\n  - Scaling, rotating, translating, mirroring or projecting a line segment\n  - Converting a line segment between local and global coordinates in different\n    reference frames\n\nLine segments can be constructed by passing a tuple of start and end points to\nthe `LineSegment3d` constructor, for example\n\n    exampleLineSegment =\n        LineSegment3d\n            ( Point3d ( 1, 2, 3 )\n            , Point3d ( 4, 5, 6 )\n            )\n\n# Endpoints\n\n@docs startPoint, endPoint, endpoints, reverse\n\n# Interpolation\n\n@docs midpoint, interpolate\n\n# Length and direction\n\n@docs length, squaredLength, direction, normalDirection, vector\n\n# Transformations\n\nTransforming a line segment is equivalent to transforming its start and end\npoints and forming a new line segment between the resulting points.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming line segments between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n\n# Bounds\n\n@docs boundingBox\n",
     "aliases": [],
@@ -936,80 +852,85 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Triangle3d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle3d.svg\" alt=\"Triangle3d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle3d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle3d` constructor, for example\n\n    exampleTriangle =\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, area\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n\n# Bounds\n\n@docs boundingBox\n",
+    "name": "OpenSolid.Plane3d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/plane3d.svg\" alt=\"Plane3d\" width=\"160\">\n\nA `Plane3d` is an infinite flat plane in 3D. It is defined by an origin point\nand normal direction and is useful for several operations including:\n\n  - Mirroring across the plane\n  - Projecting onto the plane\n  - Measuring distance from the plane\n\nPlanes can by constructed by passing a record with `originPoint` and\n`normalDirection` fields to the `Plane3d` constructor, for example:\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 2, 1, 3 )\n            , normalDirection = Direction3d.y\n            }\n\n# Predefined planes\n\n@docs xy, yz, zx\n\n# Accessors\n\n@docs originPoint, normalDirection\n\n# Conversions\n\n@docs normalAxis, sketchPlane\n\n# Transformations\n\n@docs offsetBy, flip, rotateAround, translateBy, moveTo, mirrorAcross\n\n# Coordinate frames\n\n@docs relativeTo, placeIn\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "area",
-        "comment": " Get the area of a triangle. This value is always positive.\n\n    Triangle3d.area exampleTriangle ==\n        1.5811\n\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle3d.boundingBox exampleTriangle ==\n        BoundingBox3d\n            { minX = 1\n            , maxX = 2\n            , minY = 0\n            , maxY = 1\n            , minZ = 0\n            , maxZ = 3\n            }\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.BoundingBox3d"
-      },
-      {
-        "name": "centroid",
-        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle3d.centroid exampleTriangle ==\n        Point3d ( 1.6667, 0.6667, 1 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Point3d"
-      },
-      {
-        "name": "edges",
-        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle3d.edges exampleTriangle\n\n    e1 ==\n        LineSegment3d ( Point3d ( 1, 0, 0 ), Point3d ( 2, 0, 0 ) )\n\n    e2 ==\n        LineSegment3d ( Point3d ( 2, 0, 0 ), Point3d ( 2, 1, 3 ) )\n\n    e3 ==\n        LineSegment3d ( Point3d ( 2, 1, 3 ), Point3d ( 1, 0, 0 ) )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d )"
-      },
-      {
-        "name": "map",
-        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle.map (Point3d.projectOnto Plane3d.xz) exampleTriangle\n",
-        "type": "(OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Point3d) -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+        "name": "flip",
+        "comment": " Reverse a plane's normal direction while leaving its origin point unchanged.\n\n    Plane3d.flip Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d ( 0, 0, -1 )\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
       },
       {
         "name": "mirrorAcross",
-        "comment": " Mirror a triangle across a given plane.\n\n    Triangle3d.mirrorAcross Plane3d.yz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, 0, 0 )\n            ( Point3d ( -2, 0, 0 )\n            ( Point3d ( -2, 1, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+        "comment": " Mirror one plane across another. The plane to mirror across is given first\nand the plane to mirror is given second.\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 1, 2, 3 )\n            , normalDirection = Direction3d.z\n            }\n\n    Plane3d.mirrorAcross Plane3d.xy plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( 1, 2, -3 )\n    -->     , normalDirection = Direction3d ( 0, 0, -1 )\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
+      },
+      {
+        "name": "moveTo",
+        "comment": " Move a plane so that it has the given origin point but unchanged normal\ndirection.\n\n    newOrigin =\n        Point3d ( 1, 2, 3 )\n\n    Plane3d.moveTo newOrigin Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d ( 1, 2, 3 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
+      },
+      {
+        "name": "normalAxis",
+        "comment": " Construct an axis from the origin point and normal direction of a plane.\n\n    Plane3d.normalAxis Plane3d.zx\n    --> Axis3d.y\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Axis3d"
+      },
+      {
+        "name": "normalDirection",
+        "comment": " Get the normal direction of a plane.\n\n    Plane3d.normalDirection Plane3d.xy\n    --> Direction3d.z\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Direction3d"
+      },
+      {
+        "name": "offsetBy",
+        "comment": " Shift a plane in its own normal direction by the given (signed) distance.\n\n    Plane3d.offsetBy 1.0 Plane3d.zx\n    --> Plane3d\n    -->     { originPoint = Point3d ( 0, 1, 0 )\n    -->     , normalDirection = Direction3d.y\n    -->     }\n\n    Plane3d.offsetBy -2.0 Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d ( 0, 0, -2 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
+        "type": "Float -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
+      },
+      {
+        "name": "originPoint",
+        "comment": " Get the origin point of a plane.\n\n    Plane3d.originPoint Plane3d.xy\n    --> Point3d.origin\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Point3d"
       },
       {
         "name": "placeIn",
-        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.placeIn localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, 1, 3 )\n            , Point3d ( 4, 1, 3 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "projectInto",
-        "comment": " Project a triangle into a given sketch plane. Conceptually, this projects\nthe triangle onto the plane and then expresses the projected triangle in 2D\nsketch coordinates.\n\n    Triangle3d.projectInto SketchPlane3d.xy exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 1, 0 )\n            , Point2d ( 2, 0 )\n            , Point2d ( 2, 1 )\n            )\n\n    Triangle3d.projectInto SketchPlane3d.zx exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, 1 )\n            , Point2d ( 0, 2 )\n            , Point2d ( 3, 2 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "projectOnto",
-        "comment": " Project a triangle onto a given plane.\n\n    Triangle3d.projectOnto Plane3d.xy exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 0 )\n            )\n\n    Triangle3d.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 0, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+        "comment": " Take a plane defined in local coordinates relative to a given reference\nframe, and return that plane expressed in global coordinates.\n\n    referenceFrame =\n        Frame3d.at (Point3d ( 1, 1, 1 ))\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 1, 2, 3 )\n            , normalDirection = Direction3d.z\n            }\n\n    Plane3d.placeIn referenceFrame plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( 2, 3, 4 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
       },
       {
         "name": "relativeTo",
-        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.relativeTo localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, -1, -3 )\n            , Point3d ( 0, -1, -3 )\n            , Point3d ( 0, 0, 0 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+        "comment": " Take a plane defined in global coordinates, and return it expressed in local\ncoordinates relative to a given reference frame.\n\n    referenceFrame =\n        Frame3d.at (Point3d ( 1, 1, 1 ))\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 0, 0, 2 )\n            , normalDirection = Direction3d.z\n            }\n\n    Plane3d.relativeTo referenceFrame plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( -1, -1, 1 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
       },
       {
         "name": "rotateAround",
-        "comment": " Rotate a triangle around a given axis by a given angle (in radians).\n\n    Triangle3d.rotateAround Axis3d.z (degrees 90) exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 0, 1, 0 )\n            , Point3d ( 0, 2, 0 )\n            , Point3d ( -1, 2, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+        "comment": " Rotate a plane around an axis by a given angle.\n\n    Plane3d.rotateAround Axis3d.y (degrees 90) Plane3d.xy\n    --> Plane3d.yz\n",
+        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
       },
       {
-        "name": "scaleAbout",
-        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle3d.scaleAbout Point3d.origin 2 exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 2, 0, 0 )\n            , Point3d ( 4, 0, 0 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Point3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+        "name": "sketchPlane",
+        "comment": " Construct a SketchPlane3d from the given plane. The origin of the sketch\nplane will be the origin point of the given plane. The X and Y basis directions\nof the sketch plane\n\n  - will be perpendicular to each other,\n  - will both be perpendicular to the normal direction of the given plane, and\n  - will have a cross product equal to the normal direction of the given plane\n\nbut are otherwise arbitrary. For example, in the current implementation,\n\n    Plane3d.sketchPlane Plane3d.xy\n    --> SketchPlane3d\n    -->     { originPoint = Point3d.origin\n    -->     , xDirection = Direction3d ( 0, -1, 0 )\n    -->     , yDirection = Direction3d ( 1, 0, 0 )\n    -->     }\n\nwhich is coplanar with and has the same origin point as [`SketchPlane3d.xy`](OpenSolid-SketchPlane3d#xy),\nbut is not equal to it as might be expected.\n\nAs a result, this function is only useful if the exact X and Y basis directions\nof the resulting sketch plane are not important; if they are, you will need to\nconstruct those directions explicitly and directly construct a new\n`SketchPlane3d` from them.\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.SketchPlane3d"
       },
       {
         "name": "translateBy",
-        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector3d ( 2, -1, 3 )\n\n    Triangle3d.translateBy displacement exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, -1, 3 )\n            , Point3d ( 4, -1, 3 )\n            , Point3d ( 4, 0, 6 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+        "comment": " Translate a plane by a given displacement. Applies the given displacement to\nthe plane's origin point and leaves its normal direction unchanged.\n\n    plane =\n        Plane3d\n            { originPoint = Point3d ( 1, 1, 1 )\n            , normalDirection = Direction3d.z\n            }\n\n    displacement =\n        Vector3d ( 1, 2, 3 )\n\n    Plane3d.translateBy displacement plane\n    --> Plane3d\n    -->     { originPoint = Point3d ( 2, 3, 4 )\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Plane3d"
       },
       {
-        "name": "vertices",
-        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices exampleTriangle\n\n    p1 ==\n        Point3d ( 1, 0, 0 )\n\n    p2 ==\n        Point3d ( 2, 0, 0 )\n\n    p3 ==\n        Point3d ( 2, 1, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d )"
+        "name": "xy",
+        "comment": " The global XY plane, centered at the origin with a normal in the positive Z\ndirection.\n\n    Plane3d.xy\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.z\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d"
+      },
+      {
+        "name": "yz",
+        "comment": " The global YZ plane, centered at the origin with a normal in the positive X\ndirection.\n\n    Plane3d.yz\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.x\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d"
+      },
+      {
+        "name": "zx",
+        "comment": " The global ZX plane, centered at the origin with a normal in the positive Y\ndirection.\n\n    Plane3d.zx\n    --> Plane3d\n    -->     { originPoint = Point3d.origin\n    -->     , normalDirection = Direction3d.y\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1119,6 +1040,85 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "OpenSolid.Triangle3d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle3d.svg\" alt=\"Triangle3d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle3d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle3d` constructor, for example\n\n    exampleTriangle =\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, area\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, projectOnto, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a triangle. This value is always positive.\n\n    Triangle3d.area exampleTriangle ==\n        1.5811\n\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle3d.boundingBox exampleTriangle ==\n        BoundingBox3d\n            { minX = 1\n            , maxX = 2\n            , minY = 0\n            , maxY = 1\n            , minZ = 0\n            , maxZ = 3\n            }\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.BoundingBox3d"
+      },
+      {
+        "name": "centroid",
+        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle3d.centroid exampleTriangle ==\n        Point3d ( 1.6667, 0.6667, 1 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Point3d"
+      },
+      {
+        "name": "edges",
+        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle3d.edges exampleTriangle\n\n    e1 ==\n        LineSegment3d ( Point3d ( 1, 0, 0 ), Point3d ( 2, 0, 0 ) )\n\n    e2 ==\n        LineSegment3d ( Point3d ( 2, 0, 0 ), Point3d ( 2, 1, 3 ) )\n\n    e3 ==\n        LineSegment3d ( Point3d ( 2, 1, 3 ), Point3d ( 1, 0, 0 ) )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d , OpenSolid.Geometry.Types.LineSegment3d )"
+      },
+      {
+        "name": "map",
+        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle.map (Point3d.projectOnto Plane3d.xz) exampleTriangle\n",
+        "type": "(OpenSolid.Geometry.Types.Point3d -> OpenSolid.Geometry.Types.Point3d) -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a triangle across a given plane.\n\n    Triangle3d.mirrorAcross Plane3d.yz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, 0, 0 )\n            ( Point3d ( -2, 0, 0 )\n            ( Point3d ( -2, 1, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.placeIn localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, 1, 3 )\n            , Point3d ( 4, 1, 3 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "projectInto",
+        "comment": " Project a triangle into a given sketch plane. Conceptually, this projects\nthe triangle onto the plane and then expresses the projected triangle in 2D\nsketch coordinates.\n\n    Triangle3d.projectInto SketchPlane3d.xy exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 1, 0 )\n            , Point2d ( 2, 0 )\n            , Point2d ( 2, 1 )\n            )\n\n    Triangle3d.projectInto SketchPlane3d.zx exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, 1 )\n            , Point2d ( 0, 2 )\n            , Point2d ( 3, 2 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "projectOnto",
+        "comment": " Project a triangle onto a given plane.\n\n    Triangle3d.projectOnto Plane3d.xy exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 1, 0 )\n            )\n\n    Triangle3d.projectOnto Plane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 0 )\n            , Point3d ( 2, 0, 0 )\n            , Point3d ( 2, 0, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Plane3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame3d.at (Point3d ( 2, 1, 3 ))\n\n    Triangle3d.relativeTo localFrame exampleTriangle ==\n        Triangle3d\n            ( Point3d ( -1, -1, -3 )\n            , Point3d ( 0, -1, -3 )\n            , Point3d ( 0, 0, 0 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a triangle around a given axis by a given angle (in radians).\n\n    Triangle3d.rotateAround Axis3d.z (degrees 90) exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 0, 1, 0 )\n            , Point3d ( 0, 2, 0 )\n            , Point3d ( -1, 2, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Axis3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle3d.scaleAbout Point3d.origin 2 exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 2, 0, 0 )\n            , Point3d ( 4, 0, 0 )\n            , Point3d ( 4, 2, 6 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Point3d -> Float -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector3d ( 2, -1, 3 )\n\n    Triangle3d.translateBy displacement exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 3, -1, 3 )\n            , Point3d ( 4, -1, 3 )\n            , Point3d ( 4, 0, 6 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Vector3d -> OpenSolid.Geometry.Types.Triangle3d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle3d.vertices exampleTriangle\n\n    p1 ==\n        Point3d ( 1, 0, 0 )\n\n    p2 ==\n        Point3d ( 2, 0, 0 )\n\n    p3 ==\n        Point3d ( 2, 1, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle3d -> ( OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d , OpenSolid.Geometry.Types.Point3d )"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "OpenSolid.Axis3d",
     "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/axis3d.svg\" alt=\"Axis3d\" width=\"160\">\n\nAn `Axis3d` represents an infinitely long straight line in 3D and is defined by\nan origin point and direction. Axes have several uses, such as:\n\n  - Rotating around the axis\n  - Projecting onto the axis\n  - Measuring distance along the axis\n\nAxes can by constructed by passing a record with `originPoint` and `direction`\nfields to the `Axis3d` constructor, for example:\n\n    exampleAxis =\n        Axis3d\n            { originPoint = Point3d ( -2, 1, 3 )\n            , direction = Direction3d ( 0, 0.8, -0.6 )\n            }\n\n# Predefined axes\n\n@docs x, y, z\n\n# Accessors\n\n@docs originPoint, direction\n\n# Transformations\n\n@docs flip, moveTo, rotateAround, translateBy, mirrorAcross, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming axes between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs projectInto\n",
     "aliases": [],
@@ -1193,6 +1193,95 @@
         "name": "z",
         "comment": " The global Z axis.\n\n    Axis3d.z\n    --> Axis3d\n    -->     { originPoint = Point3d.origin\n    -->     , direction = Direction3d.z\n    -->     }\n",
         "type": "OpenSolid.Geometry.Types.Axis3d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.Triangle2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle2d.svg\" alt=\"Triangle2d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle2d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle2d` constructor, for example\n\n    exampleTriangle =\n        Triangle2d\n            ( Point2d ( 1, 1 )\n            , Point2d ( 2, 1 )\n            , Point2d ( 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, contains\n\n# Area\n\n@docs area, counterclockwiseArea, clockwiseArea\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle ==\n        1.0\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle ==\n        BoundingBox2d\n            { minX = 1\n            , maxX = 2\n            , minY = 1\n            , maxY = 3\n            }\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "centroid",
+        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle ==\n        Point2d ( 1.3333, 1.6667 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "clockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle ==\n        -1.0\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
+      },
+      {
+        "name": "contains",
+        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle ==\n        True\n\n    Triangle2d.contains Point2d.origin exampleTriangle ==\n        False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Triangle2d -> Bool"
+      },
+      {
+        "name": "counterclockwiseArea",
+        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle ==\n        1.0\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
+      },
+      {
+        "name": "edges",
+        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n    e1 ==\n        LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 2, 1 ) )\n\n    e2 ==\n        LineSegment2d ( Point2d ( 2, 1 ), Point2d ( 1, 3 ) )\n\n    e3 ==\n        LineSegment2d ( Point2d ( 1, 3 ), Point2d ( 1, 1 ) )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d )"
+      },
+      {
+        "name": "map",
+        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.mirrorAcross Axis2d.x lineSegment ==\n        Triangle.map (Point2d.mirrorAcross Axis2d.x) lineSegment\n",
+        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -2, 1 )\n            , Point2d ( -1, 3 )\n            )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 3 )\n            , Point2d ( 3, 3 )\n            , Point2d ( 2, 5 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "placeOnto",
+        "comment": " Take a triangle defined in 2D coordinates within a particular sketch\nplane and return the corresponding triangle in 3D.\n\n    Triangle2d.placeOnto SketchPlane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 1 )\n            , Point3d ( 2, 0, 1 )\n            , Point3d ( 1, 0, 3 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle3d"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, -1 )\n            , Point2d ( 1, -1 )\n            , Point2d ( 0, 1 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    Triangle2d.rotateAround Point2d.origin (degrees 90) exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -1, 2 )\n            , Point2d ( -3, 1 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 2 )\n            , Point2d ( 4, 2 )\n            , Point2d ( 2, 6 )\n            )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 3, -2 )\n            , Point2d ( 4, -2 )\n            , Point2d ( 3, 0 )\n            )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
+      },
+      {
+        "name": "vertices",
+        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n    p1 ==\n        Point2d ( 1, 1 )\n\n    p2 ==\n        Point2d ( 2, 1 )\n\n    p3 ==\n        Point2d ( 1, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d )"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1307,6 +1396,80 @@
         "name": "vector",
         "comment": " Get the vector from a given line segment's start point to its end point.\n\n    LineSegment2d.vector exampleLineSegment\n    --> Vector2d ( 2, 2 )\n",
         "type": "OpenSolid.Geometry.Types.LineSegment2d -> OpenSolid.Geometry.Types.Vector2d"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.Circle2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/circle2d.svg\" alt=\"Circle2d\" width=\"160\">\n\nA `Circle2d` is defined by its center point and radius. Currently you can only\ndo a few basic things with circles, such as measuring the area or checking if a\nparticular point is contained, but this should increase in the future.\n\nCircles can be constructed by passing a record with `centerPoint` and `radius`\nfields to the `Circle2d` constructor, for example\n\n    exampleCircle =\n        Circle2d\n            { centerPoint = Point2d ( 1, 2 )\n            , radius = 3\n            }\n\n**You must ensure the provided radius is positive** (or zero, but that's not a\nvery useful circle).\n\n# Accessors\n\n@docs centerPoint, radius, diameter, area, circumference\n\n# Queries\n\n@docs contains\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross\n\n# Coordinate transformations\n\n@docs relativeTo, placeIn\n\n# Bounds\n\n@docs boundingBox\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "area",
+        "comment": " Get the area of a circle.\n\n    Circle2d.area exampleCircle\n    --> 28.2743\n",
+        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
+      },
+      {
+        "name": "boundingBox",
+        "comment": " Get the minimal bounding box containing a given circle.\n\n    Circle2d.boundingBox exampleCircle\n    --> BoundingBox2d\n    -->     { minX = -2\n    -->     , maxX = 4\n    -->     , minY = -1\n    -->     , maxY = 5\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.BoundingBox2d"
+      },
+      {
+        "name": "centerPoint",
+        "comment": " Get the center point of a circle.\n\n    Circle2d.centerPoint exampleCircle\n    --> Point2d ( 1, 2 )\n",
+        "type": "OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Point2d"
+      },
+      {
+        "name": "circumference",
+        "comment": " Get the circumference of a circle.\n\n    Circle2d.circumference exampleCircle\n    --> 18.8496\n\n",
+        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
+      },
+      {
+        "name": "contains",
+        "comment": " Check if a circle contains a given point.\n\n    Circle2d.contains Point2d.origin exampleCircle\n    --> True\n\n    Circle2d.contains (Point2d ( 10, 10 )) exampleCircle\n    --> False\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Circle2d -> Bool"
+      },
+      {
+        "name": "diameter",
+        "comment": " Get the diameter of a circle.\n\n    Circle2d.diameter exampleCircle\n    --> 6\n",
+        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
+      },
+      {
+        "name": "mirrorAcross",
+        "comment": " Mirror a circle across a given axis.\n\n    Circle2d.mirrorAcross Axis2d.x exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 1, -2 )\n    -->     , radius = 3\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
+      },
+      {
+        "name": "placeIn",
+        "comment": " Take a circle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that circle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 2, 3 ))\n\n    Circle2d.placeIn localFrame exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 3, 5 )\n    -->     , radius = 3\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
+      },
+      {
+        "name": "radius",
+        "comment": " Get the radius of a circle.\n\n    Circle2d.radius exampleCircle\n    --> 3\n",
+        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
+      },
+      {
+        "name": "relativeTo",
+        "comment": " Take a circle defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 2, 3 ))\n\n    Circle2d.relativeTo localFrame exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( -1, -1 )\n    -->     , radius = 3\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
+      },
+      {
+        "name": "rotateAround",
+        "comment": " Rotate a circle around a given point by a given angle (in radians).\n\n    Circle2d.rotateAround Point2d.origin (degrees 90) exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( -2, 1 )\n    -->     , radius = 3\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
+      },
+      {
+        "name": "scaleAbout",
+        "comment": " Scale a circle about a given point by a given scale.\n\n    Circle2d.scaleAbout Point2d.origin 2 exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 2, 4 )\n    -->     , radius = 6\n    -->     }\n\n    Circle2d.scaleAbout (Point2d ( 1, 2 )) 0.5 exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 1, 2 )\n    -->     , radius = 1.5\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
+      },
+      {
+        "name": "translateBy",
+        "comment": " Translate a circle by a given displacement.\n\n    Circle2d.translateBy (Vector2d ( 2, 2 )) exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 3, 4 )\n    -->     , radius = 3\n    -->     }\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1465,169 +1628,6 @@
         "name": "y",
         "comment": " The global Y axis.\n\n    Axis2d.y\n    --> Axis2d\n    -->     { originPoint = Point2d.origin\n    -->     , direction = Direction2d.y\n    -->     }\n",
         "type": "OpenSolid.Geometry.Types.Axis2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.Triangle2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/triangle2d.svg\" alt=\"Triangle2d\" width=\"160\">\n\nVarious functions for creating and working with `Triangle2d` values. Triangles\nare defined by their three vertices and can be constructed by passing a tuple of\nvertices to the `Triangle2d` constructor, for example\n\n    exampleTriangle =\n        Triangle2d\n            ( Point2d ( 1, 1 )\n            , Point2d ( 2, 1 )\n            , Point2d ( 1, 3 )\n            )\n\n# Accessors\n\n@docs vertices, edges\n\n# Basics\n\n@docs centroid, contains\n\n# Area\n\n@docs area, counterclockwiseArea, clockwiseArea\n\n# Transformations\n\nTransforming a triangle is equivalent to transforming its vertices.\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross, map\n\n# Coordinate frames\n\nFunctions for transforming triangles between local and global coordinates in\ndifferent coordinate frames.\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n\n# Bounds\n\n@docs boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of a triangle. The result will always be positive regardless of\nwhether the triangle's vertices are in clockwise or counterclockwise order.\n\n    Triangle2d.area exampleTriangle ==\n        1.0\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given triangle.\n\n    Triangle2d.boundingBox exampleTriangle ==\n        BoundingBox2d\n            { minX = 1\n            , maxX = 2\n            , minY = 1\n            , maxY = 3\n            }\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "centroid",
-        "comment": " Get the centroid (center of mass) of a triangle.\n\n    Triangle2d.centroid exampleTriangle ==\n        Point2d ( 1.3333, 1.6667 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "clockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in clockwise order and a negative value otherwise.\n\n    Triangle2d.clockwiseArea exampleTriangle ==\n        -1.0\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
-      },
-      {
-        "name": "contains",
-        "comment": " Check whether a given point is inside a given triangle.\n\n    interiorPoint =\n        Point2d ( 1.5, 1.5 )\n\n    Triangle2d.contains interiorPoint exampleTriangle ==\n        True\n\n    Triangle2d.contains Point2d.origin exampleTriangle ==\n        False\n\nIt does not matter whether the triangle's vertices are in clockwise or\ncounterclockwise order.\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Triangle2d -> Bool"
-      },
-      {
-        "name": "counterclockwiseArea",
-        "comment": " Get the signed area of a triangle, returning a positive value if the\ntriangle's vertices are in counterclockwise order and a negative value\notherwise.\n\n    Triangle2d.counterclockwiseArea exampleTriangle ==\n        1.0\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> Float"
-      },
-      {
-        "name": "edges",
-        "comment": " Get the edges of a triangle: from the first vertex to the second, from the\nsecond to the third, and from the third back to the first.\n\n    ( e1, e2, e3 ) =\n        Triangle2d.edges exampleTriangle\n\n    e1 ==\n        LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 2, 1 ) )\n\n    e2 ==\n        LineSegment2d ( Point2d ( 2, 1 ), Point2d ( 1, 3 ) )\n\n    e3 ==\n        LineSegment2d ( Point2d ( 1, 3 ), Point2d ( 1, 1 ) )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d , OpenSolid.Geometry.Types.LineSegment2d )"
-      },
-      {
-        "name": "map",
-        "comment": " Transform each vertex of a triangle by a given function and create a new\ntriangle from the resulting points. Most other transformation functions can be\ndefined in terms of `map`; for example,\n\n    Triangle.mirrorAcross Axis2d.x lineSegment ==\n        Triangle.map (Point2d.mirrorAcross Axis2d.x) lineSegment\n",
-        "type": "(OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Point2d) -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a triangle across a given axis.\n\n    Triangle2d.mirrorAcross Axis2d.y exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -2, 1 )\n            , Point2d ( -1, 3 )\n            )\n\nNote that mirroring a triangle will result in its 'winding direction' being\nflipped - if the triangle's vertices were in counterclockwise order before\nmirroring, they will be in clockwise order afterwards and vice versa.\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a triangle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that triangle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.placeIn localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 3 )\n            , Point2d ( 3, 3 )\n            , Point2d ( 2, 5 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "placeOnto",
-        "comment": " Take a triangle defined in 2D coordinates within a particular sketch\nplane and return the corresponding triangle in 3D.\n\n    Triangle2d.placeOnto SketchPlane3d.xz exampleTriangle ==\n        Triangle3d\n            ( Point3d ( 1, 0, 1 )\n            , Point3d ( 2, 0, 1 )\n            , Point3d ( 1, 0, 3 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle3d"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a triangle defined in global coordinates, and return it expressed\nin local coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 1, 2 ))\n\n    Triangle2d.relativeTo localFrame exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 0, -1 )\n            , Point2d ( 1, -1 )\n            , Point2d ( 0, 1 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a triangle around a given point by a given angle (in radians).\n\n    Triangle2d.rotateAround Point2d.origin (degrees 90) exampleTriangle ==\n        Triangle2d\n            ( Point2d ( -1, 1 )\n            , Point2d ( -1, 2 )\n            , Point2d ( -3, 1 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a triangle about a given point by a given scale.\n\n    Triangle2d.scaleAbout Point2d.origin 2 exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 2, 2 )\n            , Point2d ( 4, 2 )\n            , Point2d ( 2, 6 )\n            )\n\nNote that scaling by a negative value will result in the 'winding direction' of\nthe triangle being flipped - if the triangle's vertices were in counterclockwise\norder before the negative scaling, they will be in clockwise order afterwards\nand vice versa.\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a triangle by a given displacement.\n\n    displacement =\n        Vector2d ( 2, -3 )\n\n    Triangle2d.translateBy displacement exampleTriangle ==\n        Triangle2d\n            ( Point2d ( 3, -2 )\n            , Point2d ( 4, -2 )\n            , Point2d ( 3, 0 )\n            )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Triangle2d -> OpenSolid.Geometry.Types.Triangle2d"
-      },
-      {
-        "name": "vertices",
-        "comment": " Get the vertices of a triangle.\n\n    ( p1, p2, p3 ) =\n        Triangle2d.vertices exampleTriangle\n\n    p1 ==\n        Point2d ( 1, 1 )\n\n    p2 ==\n        Point2d ( 2, 1 )\n\n    p3 ==\n        Point2d ( 1, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Triangle2d -> ( OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d , OpenSolid.Geometry.Types.Point2d )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.Circle2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/circle2d.svg\" alt=\"Circle2d\" width=\"160\">\n\nA `Circle2d` is defined by its center point and radius. Currently you can only\ndo a few basic things with circles, such as measuring the area or checking if a\nparticular point is contained, but this should increase in the future.\n\nCircles can be constructed by passing a record with `centerPoint` and `radius`\nfields to the `Circle2d` constructor, for example\n\n    exampleCircle =\n        Circle2d\n            { centerPoint = Point2d ( 1, 2 )\n            , radius = 3\n            }\n\n**You must ensure the provided radius is positive** (or zero, but that's not a\nvery useful circle).\n\n# Accessors\n\n@docs centerPoint, radius, diameter, area, circumference\n\n# Queries\n\n@docs contains\n\n# Transformations\n\n@docs scaleAbout, rotateAround, translateBy, mirrorAcross\n\n# Coordinate transformations\n\n@docs relativeTo, placeIn\n\n# Bounds\n\n@docs boundingBox\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "area",
-        "comment": " Get the area of a circle.\n\n    Circle2d.area exampleCircle\n    --> 28.2743\n",
-        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
-      },
-      {
-        "name": "boundingBox",
-        "comment": " Get the minimal bounding box containing a given circle.\n\n    Circle2d.boundingBox exampleCircle\n    --> BoundingBox2d\n    -->     { minX = -2\n    -->     , maxX = 4\n    -->     , minY = -1\n    -->     , maxY = 5\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.BoundingBox2d"
-      },
-      {
-        "name": "centerPoint",
-        "comment": " Get the center point of a circle.\n\n    Circle2d.centerPoint exampleCircle\n    --> Point2d ( 1, 2 )\n",
-        "type": "OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Point2d"
-      },
-      {
-        "name": "circumference",
-        "comment": " Get the circumference of a circle.\n\n    Circle2d.circumference exampleCircle\n    --> 18.8496\n\n",
-        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
-      },
-      {
-        "name": "contains",
-        "comment": " Check if a circle contains a given point.\n\n    Circle2d.contains Point2d.origin exampleCircle\n    --> True\n\n    Circle2d.contains (Point2d ( 10, 10 )) exampleCircle\n    --> False\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> OpenSolid.Geometry.Types.Circle2d -> Bool"
-      },
-      {
-        "name": "diameter",
-        "comment": " Get the diameter of a circle.\n\n    Circle2d.diameter exampleCircle\n    --> 6\n",
-        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
-      },
-      {
-        "name": "mirrorAcross",
-        "comment": " Mirror a circle across a given axis.\n\n    Circle2d.mirrorAcross Axis2d.x exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 1, -2 )\n    -->     , radius = 3\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
-      },
-      {
-        "name": "placeIn",
-        "comment": " Take a circle considered to be defined in local coordinates relative to a\ngiven reference frame, and return that circle expressed in global coordinates.\n\n    localFrame =\n        Frame2d.at (Point2d ( 2, 3 ))\n\n    Circle2d.placeIn localFrame exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 3, 5 )\n    -->     , radius = 3\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
-      },
-      {
-        "name": "radius",
-        "comment": " Get the radius of a circle.\n\n    Circle2d.radius exampleCircle\n    --> 3\n",
-        "type": "OpenSolid.Geometry.Types.Circle2d -> Float"
-      },
-      {
-        "name": "relativeTo",
-        "comment": " Take a circle defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    localFrame =\n        Frame2d.at (Point2d ( 2, 3 ))\n\n    Circle2d.relativeTo localFrame exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( -1, -1 )\n    -->     , radius = 3\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
-      },
-      {
-        "name": "rotateAround",
-        "comment": " Rotate a circle around a given point by a given angle (in radians).\n\n    Circle2d.rotateAround Point2d.origin (degrees 90) exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( -2, 1 )\n    -->     , radius = 3\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
-      },
-      {
-        "name": "scaleAbout",
-        "comment": " Scale a circle about a given point by a given scale.\n\n    Circle2d.scaleAbout Point2d.origin 2 exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 2, 4 )\n    -->     , radius = 6\n    -->     }\n\n    Circle2d.scaleAbout (Point2d ( 1, 2 )) 0.5 exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 1, 2 )\n    -->     , radius = 1.5\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Point2d -> Float -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
-      },
-      {
-        "name": "translateBy",
-        "comment": " Translate a circle by a given displacement.\n\n    Circle2d.translateBy (Vector2d ( 2, 2 )) exampleCircle\n    --> Circle2d\n    -->     { centerPoint = Point2d ( 3, 4 )\n    -->     , radius = 3\n    -->     }\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Circle2d -> OpenSolid.Geometry.Types.Circle2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2104,120 +2104,130 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Geometry.Decode",
-    "comment": " JSON decoders for the core OpenSolid types.\n\n@docs vector2d, vector3d, direction2d, direction3d, point2d, point3d\n@docs axis2d, axis3d, plane3d, frame2d, frame3d, sketchPlane3d\n@docs lineSegment2d, lineSegment3d, triangle2d, triangle3d\n@docs boundingBox2d, boundingBox3d\n@docs polyline2d, polyline3d, polygon2d\n@docs circle2d\n",
+    "name": "OpenSolid.Vector2d",
+    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector2d.svg\" alt=\"Vector2d\" width=\"160\">\n\nA `Vector2d` represents a quantity such as a displacement or velocity in 2D, and\nis defined by its X and Y components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point2d`\nand `Direction2d` than `Vector2d`, and much code can avoid working directly with\n`Vector2d` values at all!\n\nThe simplest way to create a `Vector2d` is  by passing a tuple of X and Y\ncomponents to the `Vector2d` constructor, for example\n\n    vector =\n        Vector2d ( 2, 3 )\n\nThere are no specific functions to create vectors from polar components, but you\ncan use Elm's built-in [`fromPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#fromPolar)\nfunction:\n\n    vector =\n        Vector2d (fromPolar ( radius, angle ))\n\n# Predefined vectors\n\n@docs zero\n\nAlthough there are no predefined constants for\n<code>Vector2d&nbsp;(&nbsp;1,&nbsp;0&nbsp;)</code> and\n<code>Vector2d&nbsp;(&nbsp;0,&nbsp;1&nbsp;)</code>, in most cases you will\nactually want their `Direction2d` versions [`Direction2d.x`](OpenSolid-Direction2d#x)\nand [`Direction2d.y`](OpenSolid-Direction2d#y).\n\n# Constructors\n\n@docs perpendicularTo\n\n# Components\n\n@docs components, xComponent, yComponent, componentIn\n\n# Comparison\n\n@docs equalWithin\n\n# Length and direction\n\n@docs length, squaredLength, direction, lengthAndDirection\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n# Transformations\n\nNote that for `mirrorAcross` and `projectOnto`, only the direction of the axis\naffects the result, since vectors are position-independent. Think of\nmirroring/projecting a vector across/onto an axis as moving the vector so its\ntail is on the axis, then mirroring/projecting its tip across/onto the axis.\n\n@docs flip, scaleBy, rotateBy, mirrorAcross, projectionIn, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate conversions\nof vectors depend only on the orientations of the relevant frames, not the\npositions of their origin points.\n\nFor the examples, assume the following frame has been defined:\n\n    rotatedFrame =\n        Frame2d.rotateBy (degrees 30) Frame2d.xy\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "axis2d",
-        "comment": " Decodes an Axis2d from an object with `originPoint` and `direction` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis2d"
+        "name": "componentIn",
+        "comment": " Find the component of a vector in an arbitrary direction, for example\n\n    forwardSpeed =\n        Vector2d.componentIn forwardDirection velocity\n\nThis is more general and flexible than using `xComponent` or `yComponent`, both\nof which can be expressed in terms of `componentIn`:\n\n    Vector2d.xComponent vector\n\nis equivalent to\n\n    Vector2d.componentIn Direction2d.x vector\n",
+        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
       },
       {
-        "name": "axis3d",
-        "comment": " Decodes an Axis3d from an object with `originPoint` and `direction` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis3d"
+        "name": "components",
+        "comment": " Extract the components of a vector.\n\n    Vector2d.components (Vector2d ( 2, 3 ))\n    --> ( 2, 3 )\n\nThis combined with Elm's built-in tuple destructuring provides a convenient way\nto extract both the X and Y components of a vector in one line of code:\n\n    ( x, y ) =\n        Vector2d.components vector\n\nTo get the polar components of a vector, you can use Elm's built-in [`toPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#toPolar)\nfunction:\n\n    ( radius, angle ) =\n        toPolar (Vector2d.components vector)\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> ( Float, Float )"
       },
       {
-        "name": "boundingBox2d",
-        "comment": " Decodes a BoundingBox2d from an object with `minX`, `maxX`, `minY` and\n`maxY` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox2d"
+        "name": "crossProduct",
+        "comment": " Find the scalar 'cross product' of two vectors in 2D. This is defined as\n\n    crossProduct firstVector secondVector =\n        let\n            ( x1, y1 ) =\n                components firstVector\n\n            ( x2, y2 ) =\n                components secondVector\n        in\n            x1 * y2 - y1 * x2\n\nand is useful in many of the same ways as the 3D cross product:\n\n  - Its magnitude is equal to the product of the lengths of the two given\n    vectors and the sine of the angle between them, so it can be used as a\n    metric to determine if two vectors are nearly parallel.\n  - The sign of the result indicates the direction of rotation from the first\n    vector to the second (positive indicates a counterclockwise rotation and\n    negative indicates a clockwise rotation), similar to how the direction of\n    the 3D cross product indicates the direction of rotation.\n\nSome examples:\n\n    firstVector =\n        Vector2d ( 2, 0 )\n\n    secondVector =\n        Vector2d ( 0, 3 )\n\n    Vector2d.crossProduct firstVector secondVector\n    --> 6\n\n    Vector2d.crossProduct secondVector firstVector\n    --> -6\n\n    Vector2d.crossProduct firstVector firstVector\n    --> 0\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
       },
       {
-        "name": "boundingBox3d",
-        "comment": " Decodes a BoundingBox3d from an object with `minX`, `maxX`, `minY`, `maxY`,\n`minZ` and `maxZ` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox3d"
+        "name": "difference",
+        "comment": " Find the difference between two vectors (the first vector minus the second).\n\n    firstVector =\n        Vector2d ( 5, 6 )\n\n    secondVector =\n        Vector2d ( 1, 3 )\n\n    Vector2d.difference firstVector secondVector\n    --> Vector2d ( 4, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "circle2d",
-        "comment": " Decodes a Circle2d from an object with `centerPoint` and `radius` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Circle2d"
+        "name": "direction",
+        "comment": " Attempt to find the direction of a vector. In the case of a zero vector,\nreturn `Nothing`.\n\n    Vector2d.direction (Vector2d ( 3, 4 ))\n    --> Just (Direction2d ( 0.6, 0.8 ))\n\n    Vector2d.direction (Vector2d ( 0, 0 ))\n    --> Nothing\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
       },
       {
-        "name": "direction2d",
-        "comment": " Decodes a Direction2d from a list of two floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction2d"
+        "name": "dotProduct",
+        "comment": " Find the dot product of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.dotProduct firstVector secondVector\n    --> 11\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
       },
       {
-        "name": "direction3d",
-        "comment": " Decodes a Direction3d from a list of three floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction3d"
+        "name": "equalWithin",
+        "comment": " Compare two vectors within a tolerance. Returns true if the difference\nbetween the two given vectors has magnitude less than the given tolerance.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 0.9999, 2.0002 )\n\n    Vector2d.equalWithin 1e-3 firstVector secondVector\n    --> True\n\n    Vector2d.equalWithin 1e-6 firstVector secondVector\n    --> False\n",
+        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Bool"
       },
       {
-        "name": "frame2d",
-        "comment": " Decodes a Frame2d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame2d"
+        "name": "flip",
+        "comment": " Reverse the direction of a vector, negating its components.\n\n    Vector2d.flip (Vector2d ( -1, 2 ))\n    --> Vector2d ( 1, -2 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "frame3d",
-        "comment": " Decodes a Frame3d from an object with `originPoint`, `xDirection`,\n`yDirection` and `zDirection` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame3d"
+        "name": "length",
+        "comment": " Get the length (magnitude) of a vector.\n\n    Vector2d.length (Vector2d ( 3, 4 ))\n    --> 5\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
       },
       {
-        "name": "lineSegment2d",
-        "comment": " Decodes a LineSegment2d from a list of two endpoints.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment2d"
+        "name": "lengthAndDirection",
+        "comment": " Attempt to find the length and direction of a vector. In the case of a zero\nvector, returns `Nothing`.\n\n    vector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.lengthAndDirection vector\n    --> Just ( 5, Direction2d ( 0.6, 0.8 ) )\n\n    Vector2d.lengthAndDirection Vector2d.zero\n    --> Nothing\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe ( Float, OpenSolid.Geometry.Types.Direction2d )"
       },
       {
-        "name": "lineSegment3d",
-        "comment": " Decodes a LineSegment3d from a list of two endpoints.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment3d"
+        "name": "mirrorAcross",
+        "comment": " Mirror a vector across a given axis.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.mirrorAcross Axis2d.y vector\n    --> Vector2d ( -2, 3 )\n\n    horizontalAxis =\n        Axis2d\n            { originPoint = Point2d ( 100, 200 )\n            , direction = Direction2d.x\n            }\n\n    Vector2d.mirrorAcross horizontalAxis vector\n    --> Vector2d ( 2, -3 )\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "plane3d",
-        "comment": " Decodes a Plane3d from an object with `originPoint` and `normalDirection`\nfields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Plane3d"
+        "name": "perpendicularTo",
+        "comment": " Construct a vector perpendicular to the given vector, by rotating the given\nvector 90 degrees counterclockwise. The constructed vector will have the same\nlength as the given vector.\n\n    Vector2d.perpendicularTo (Vector2d ( 1, 0 ))\n    --> Vector2d ( 0, 1 )\n\n    Vector2d.perpendicularTo (Vector2d ( 0, 2 ))\n    --> Vector2d ( -2, 0 )\n\n    Vector2d.perpendicularTo (Vector2d ( 3, 1 ))\n    --> Vector2d ( -1, 3 )\n\n    Vector2d.perpendicularTo Vector2d.zero\n    --> Vector2d.zero\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "point2d",
-        "comment": " Decodes a Point2d from a list of two floating-point coordinates.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point2d"
+        "name": "placeIn",
+        "comment": " Take a vector defined in local coordinates relative to a given reference\nframe, and return that vector expressed in global coordinates.\n\n    Vector2d.placeIn rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, 1 )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "point3d",
-        "comment": " Decodes a Point3d from a list of three floating-point coordinates.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point3d"
+        "name": "placeOnto",
+        "comment": " Take a vector defined in 2D coordinates within a particular sketch plane and\nreturn the corresponding vector in 3D.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.xy vector\n    --> Vector3d ( 2, 3, 0 )\n\n    Vector2d.placeOnto SketchPlane3d.yz vector\n    --> Vector3d ( 0, 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.zx vector\n    --> Vector3d ( 3, 0, 2 )\n\nA slightly more complex example:\n\n    tiltedSketchPlane =\n        SketchPlane3d.xy\n            |> SketchPlane3d.rotateAround Axis3d.x (degrees 45)\n\n    Vector2d.placeOnto tiltedSketchPlane (Vector2d ( 1, 1 ))\n    --> Vector3d ( 1, 0.7071, 0.7071 )\n",
+        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector3d"
       },
       {
-        "name": "polygon2d",
-        "comment": " Decodes a Polygon2d from a list of vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polygon2d"
+        "name": "projectOnto",
+        "comment": " Project a vector onto an axis.\n\n    Vector2d.projectOnto Axis2d.y (Vector2d ( 3, 4 ))\n    --> Vector2d ( 0, 4 )\n\n    Vector2d.projectOnto Axis2d.x (Vector2d ( -1, 2 ))\n    --> Vector2d ( -1, 0 )\n\nThis is equivalent to finding the projection in the axis' direction.\n",
+        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "polyline2d",
-        "comment": " Decodes a Polyline2d from a list of vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline2d"
+        "name": "projectionIn",
+        "comment": " Find the projection of a vector in a particular direction. Conceptually,\nthis means splitting the original vector into a portion parallel to the given\ndirection and a portion perpendicular to it, then returning the parallel\nportion.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.projectionIn Direction2d.x vector\n    --> Vector2d ( 2, 0 )\n\n    Vector2d.projectionIn Direction2d.y vector\n    --> Vector2d ( 0, 3 )\n",
+        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "polyline3d",
-        "comment": " Decodes a Polyline3d from a list of vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline3d"
+        "name": "relativeTo",
+        "comment": " Take a vector defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    Vector2d.relativeTo rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, -1 )\n",
+        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "sketchPlane3d",
-        "comment": " Decodes a SketchPlane3d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.SketchPlane3d"
+        "name": "rotateBy",
+        "comment": " Rotate a vector counterclockwise by a given angle (in radians).\n\n    Vector2d.rotateBy (degrees 45) (Vector2d ( 1, 1 ))\n    --> Vector2d ( 0, 1.4142 )\n\n    Vector2d.rotateBy pi (Vector2d ( 1, 0 ))\n    --> Vector2d ( -1, 0 )\n",
+        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "triangle2d",
-        "comment": " Decodes a Triangle2d from a list of three vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle2d"
+        "name": "scaleBy",
+        "comment": " Scale the length of a vector by a given scale.\n\n    Vector2d.scaleBy 3 (Vector2d ( 1, 2 ))\n    --> Vector2d ( 3, 6 )\n",
+        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "triangle3d",
-        "comment": " Decodes a Triangle3d from a list of three vertices.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle3d"
+        "name": "squaredLength",
+        "comment": " Get the squared length of a vector. `squaredLength` is slightly faster than\n`length`, so for example\n\n    Vector2d.squaredLength vector > tolerance * tolerance\n\nis equivalent to but slightly more efficient than\n\n    Vector2d.length vector > tolerance\n\nsince the latter requires a square root under the hood. In many cases, however,\nthe speed difference will be negligible and using `length` is much more\nreadable!\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
       },
       {
-        "name": "vector2d",
-        "comment": " Decodes a Vector2d from a list of two floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector2d"
+        "name": "sum",
+        "comment": " Find the sum of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.sum firstVector secondVector\n    --> Vector2d ( 4, 6 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "vector3d",
-        "comment": " Decodes a Vector3d from a list of three floating-point components.\n",
-        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector3d"
+        "name": "xComponent",
+        "comment": " Get the X component of a vector.\n\n    Vector2d.xComponent (Vector2d ( 2, 3 ))\n    --> 2\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "yComponent",
+        "comment": " Get the Y component of a vector.\n\n    Vector2d.yComponent (Vector2d ( 2, 3 ))\n    --> 3\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+      },
+      {
+        "name": "zero",
+        "comment": " The zero vector.\n\n    Vector2d.zero\n    --> Vector2d ( 0, 0 )\n",
+        "type": "OpenSolid.Geometry.Types.Vector2d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2357,144 +2367,120 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OpenSolid.Vector2d",
-    "comment": " <img src=\"https://opensolid.github.io/images/geometry/icons/vector2d.svg\" alt=\"Vector2d\" width=\"160\">\n\nA `Vector2d` represents a quantity such as a displacement or velocity in 2D, and\nis defined by its X and Y components. This module contains a variety of\nvector-related functionality, such as\n\n  - Adding or subtracting vectors\n  - Finding the lengths of vectors\n  - Rotating vectors\n  - Converting vectors between different coordinate systems\n\nNote that unlike in many other geometry packages where vectors are used as a\ngeneral-purpose data type, OpenSolid has separate data types for vectors,\ndirections and points. In most code it is actually more common to use `Point2d`\nand `Direction2d` than `Vector2d`, and much code can avoid working directly with\n`Vector2d` values at all!\n\nThe simplest way to create a `Vector2d` is  by passing a tuple of X and Y\ncomponents to the `Vector2d` constructor, for example\n\n    vector =\n        Vector2d ( 2, 3 )\n\nThere are no specific functions to create vectors from polar components, but you\ncan use Elm's built-in [`fromPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#fromPolar)\nfunction:\n\n    vector =\n        Vector2d (fromPolar ( radius, angle ))\n\n# Predefined vectors\n\n@docs zero\n\nAlthough there are no predefined constants for\n<code>Vector2d&nbsp;(&nbsp;1,&nbsp;0&nbsp;)</code> and\n<code>Vector2d&nbsp;(&nbsp;0,&nbsp;1&nbsp;)</code>, in most cases you will\nactually want their `Direction2d` versions [`Direction2d.x`](OpenSolid-Direction2d#x)\nand [`Direction2d.y`](OpenSolid-Direction2d#y).\n\n# Constructors\n\n@docs perpendicularTo\n\n# Components\n\n@docs components, xComponent, yComponent, componentIn\n\n# Comparison\n\n@docs equalWithin\n\n# Length and direction\n\n@docs length, squaredLength, direction, lengthAndDirection\n\n# Arithmetic\n\n@docs sum, difference, dotProduct, crossProduct\n\n# Transformations\n\nNote that for `mirrorAcross` and `projectOnto`, only the direction of the axis\naffects the result, since vectors are position-independent. Think of\nmirroring/projecting a vector across/onto an axis as moving the vector so its\ntail is on the axis, then mirroring/projecting its tip across/onto the axis.\n\n@docs flip, scaleBy, rotateBy, mirrorAcross, projectionIn, projectOnto\n\n# Coordinate frames\n\nFunctions for transforming vectors between local and global coordinates in\ndifferent coordinate frames. Like other transformations, coordinate conversions\nof vectors depend only on the orientations of the relevant frames, not the\npositions of their origin points.\n\nFor the examples, assume the following frame has been defined:\n\n    rotatedFrame =\n        Frame2d.rotateBy (degrees 30) Frame2d.xy\n\n@docs relativeTo, placeIn\n\n# Sketch planes\n\n@docs placeOnto\n",
+    "name": "OpenSolid.Geometry.Decode",
+    "comment": " JSON decoders for the core OpenSolid types.\n\n@docs vector2d, vector3d, direction2d, direction3d, point2d, point3d\n@docs axis2d, axis3d, plane3d, frame2d, frame3d, sketchPlane3d\n@docs lineSegment2d, lineSegment3d, triangle2d, triangle3d\n@docs boundingBox2d, boundingBox3d\n@docs polyline2d, polyline3d, polygon2d\n@docs circle2d\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "componentIn",
-        "comment": " Find the component of a vector in an arbitrary direction, for example\n\n    forwardSpeed =\n        Vector2d.componentIn forwardDirection velocity\n\nThis is more general and flexible than using `xComponent` or `yComponent`, both\nof which can be expressed in terms of `componentIn`:\n\n    Vector2d.xComponent vector\n\nis equivalent to\n\n    Vector2d.componentIn Direction2d.x vector\n",
-        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
+        "name": "axis2d",
+        "comment": " Decodes an Axis2d from an object with `originPoint` and `direction` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis2d"
       },
       {
-        "name": "components",
-        "comment": " Extract the components of a vector.\n\n    Vector2d.components (Vector2d ( 2, 3 ))\n    --> ( 2, 3 )\n\nThis combined with Elm's built-in tuple destructuring provides a convenient way\nto extract both the X and Y components of a vector in one line of code:\n\n    ( x, y ) =\n        Vector2d.components vector\n\nTo get the polar components of a vector, you can use Elm's built-in [`toPolar`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#toPolar)\nfunction:\n\n    ( radius, angle ) =\n        toPolar (Vector2d.components vector)\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> ( Float, Float )"
+        "name": "axis3d",
+        "comment": " Decodes an Axis3d from an object with `originPoint` and `direction` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Axis3d"
       },
       {
-        "name": "crossProduct",
-        "comment": " Find the scalar 'cross product' of two vectors in 2D. This is defined as\n\n    crossProduct firstVector secondVector =\n        let\n            ( x1, y1 ) =\n                components firstVector\n\n            ( x2, y2 ) =\n                components secondVector\n        in\n            x1 * y2 - y1 * x2\n\nand is useful in many of the same ways as the 3D cross product:\n\n  - Its magnitude is equal to the product of the lengths of the two given\n    vectors and the sine of the angle between them, so it can be used as a\n    metric to determine if two vectors are nearly parallel.\n  - The sign of the result indicates the direction of rotation from the first\n    vector to the second (positive indicates a counterclockwise rotation and\n    negative indicates a clockwise rotation), similar to how the direction of\n    the 3D cross product indicates the direction of rotation.\n\nSome examples:\n\n    firstVector =\n        Vector2d ( 2, 0 )\n\n    secondVector =\n        Vector2d ( 0, 3 )\n\n    Vector2d.crossProduct firstVector secondVector\n    --> 6\n\n    Vector2d.crossProduct secondVector firstVector\n    --> -6\n\n    Vector2d.crossProduct firstVector firstVector\n    --> 0\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
+        "name": "boundingBox2d",
+        "comment": " Decodes a BoundingBox2d from an object with `minX`, `maxX`, `minY` and\n`maxY` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox2d"
       },
       {
-        "name": "difference",
-        "comment": " Find the difference between two vectors (the first vector minus the second).\n\n    firstVector =\n        Vector2d ( 5, 6 )\n\n    secondVector =\n        Vector2d ( 1, 3 )\n\n    Vector2d.difference firstVector secondVector\n    --> Vector2d ( 4, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "boundingBox3d",
+        "comment": " Decodes a BoundingBox3d from an object with `minX`, `maxX`, `minY`, `maxY`,\n`minZ` and `maxZ` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.BoundingBox3d"
       },
       {
-        "name": "direction",
-        "comment": " Attempt to find the direction of a vector. In the case of a zero vector,\nreturn `Nothing`.\n\n    Vector2d.direction (Vector2d ( 3, 4 ))\n    --> Just (Direction2d ( 0.6, 0.8 ))\n\n    Vector2d.direction (Vector2d ( 0, 0 ))\n    --> Nothing\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe OpenSolid.Geometry.Types.Direction2d"
+        "name": "circle2d",
+        "comment": " Decodes a Circle2d from an object with `centerPoint` and `radius` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Circle2d"
       },
       {
-        "name": "dotProduct",
-        "comment": " Find the dot product of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.dotProduct firstVector secondVector\n    --> 11\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Float"
+        "name": "direction2d",
+        "comment": " Decodes a Direction2d from a list of two floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction2d"
       },
       {
-        "name": "equalWithin",
-        "comment": " Compare two vectors within a tolerance. Returns true if the difference\nbetween the two given vectors has magnitude less than the given tolerance.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 0.9999, 2.0002 )\n\n    Vector2d.equalWithin 1e-3 firstVector secondVector\n    --> True\n\n    Vector2d.equalWithin 1e-6 firstVector secondVector\n    --> False\n",
-        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> Bool"
+        "name": "direction3d",
+        "comment": " Decodes a Direction3d from a list of three floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Direction3d"
       },
       {
-        "name": "flip",
-        "comment": " Reverse the direction of a vector, negating its components.\n\n    Vector2d.flip (Vector2d ( -1, 2 ))\n    --> Vector2d ( 1, -2 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "frame2d",
+        "comment": " Decodes a Frame2d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame2d"
       },
       {
-        "name": "length",
-        "comment": " Get the length (magnitude) of a vector.\n\n    Vector2d.length (Vector2d ( 3, 4 ))\n    --> 5\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+        "name": "frame3d",
+        "comment": " Decodes a Frame3d from an object with `originPoint`, `xDirection`,\n`yDirection` and `zDirection` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Frame3d"
       },
       {
-        "name": "lengthAndDirection",
-        "comment": " Attempt to find the length and direction of a vector. In the case of a zero\nvector, returns `Nothing`.\n\n    vector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.lengthAndDirection vector\n    --> Just ( 5, Direction2d ( 0.6, 0.8 ) )\n\n    Vector2d.lengthAndDirection Vector2d.zero\n    --> Nothing\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Maybe.Maybe ( Float, OpenSolid.Geometry.Types.Direction2d )"
+        "name": "lineSegment2d",
+        "comment": " Decodes a LineSegment2d from a list of two endpoints.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment2d"
       },
       {
-        "name": "mirrorAcross",
-        "comment": " Mirror a vector across a given axis.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.mirrorAcross Axis2d.y vector\n    --> Vector2d ( -2, 3 )\n\n    horizontalAxis =\n        Axis2d\n            { originPoint = Point2d ( 100, 200 )\n            , direction = Direction2d.x\n            }\n\n    Vector2d.mirrorAcross horizontalAxis vector\n    --> Vector2d ( 2, -3 )\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "lineSegment3d",
+        "comment": " Decodes a LineSegment3d from a list of two endpoints.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.LineSegment3d"
       },
       {
-        "name": "perpendicularTo",
-        "comment": " Construct a vector perpendicular to the given vector, by rotating the given\nvector 90 degrees counterclockwise. The constructed vector will have the same\nlength as the given vector.\n\n    Vector2d.perpendicularTo (Vector2d ( 1, 0 ))\n    --> Vector2d ( 0, 1 )\n\n    Vector2d.perpendicularTo (Vector2d ( 0, 2 ))\n    --> Vector2d ( -2, 0 )\n\n    Vector2d.perpendicularTo (Vector2d ( 3, 1 ))\n    --> Vector2d ( -1, 3 )\n\n    Vector2d.perpendicularTo Vector2d.zero\n    --> Vector2d.zero\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "plane3d",
+        "comment": " Decodes a Plane3d from an object with `originPoint` and `normalDirection`\nfields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Plane3d"
       },
       {
-        "name": "placeIn",
-        "comment": " Take a vector defined in local coordinates relative to a given reference\nframe, and return that vector expressed in global coordinates.\n\n    Vector2d.placeIn rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, 1 )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "point2d",
+        "comment": " Decodes a Point2d from a list of two floating-point coordinates.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point2d"
       },
       {
-        "name": "placeOnto",
-        "comment": " Take a vector defined in 2D coordinates within a particular sketch plane and\nreturn the corresponding vector in 3D.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.xy vector\n    --> Vector3d ( 2, 3, 0 )\n\n    Vector2d.placeOnto SketchPlane3d.yz vector\n    --> Vector3d ( 0, 2, 3 )\n\n    Vector2d.placeOnto SketchPlane3d.zx vector\n    --> Vector3d ( 3, 0, 2 )\n\nA slightly more complex example:\n\n    tiltedSketchPlane =\n        SketchPlane3d.xy\n            |> SketchPlane3d.rotateAround Axis3d.x (degrees 45)\n\n    Vector2d.placeOnto tiltedSketchPlane (Vector2d ( 1, 1 ))\n    --> Vector3d ( 1, 0.7071, 0.7071 )\n",
-        "type": "OpenSolid.Geometry.Types.SketchPlane3d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector3d"
+        "name": "point3d",
+        "comment": " Decodes a Point3d from a list of three floating-point coordinates.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Point3d"
       },
       {
-        "name": "projectOnto",
-        "comment": " Project a vector onto an axis.\n\n    Vector2d.projectOnto Axis2d.y (Vector2d ( 3, 4 ))\n    --> Vector2d ( 0, 4 )\n\n    Vector2d.projectOnto Axis2d.x (Vector2d ( -1, 2 ))\n    --> Vector2d ( -1, 0 )\n\nThis is equivalent to finding the projection in the axis' direction.\n",
-        "type": "OpenSolid.Geometry.Types.Axis2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "polygon2d",
+        "comment": " Decodes a Polygon2d from a list of vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polygon2d"
       },
       {
-        "name": "projectionIn",
-        "comment": " Find the projection of a vector in a particular direction. Conceptually,\nthis means splitting the original vector into a portion parallel to the given\ndirection and a portion perpendicular to it, then returning the parallel\nportion.\n\n    vector =\n        Vector2d ( 2, 3 )\n\n    Vector2d.projectionIn Direction2d.x vector\n    --> Vector2d ( 2, 0 )\n\n    Vector2d.projectionIn Direction2d.y vector\n    --> Vector2d ( 0, 3 )\n",
-        "type": "OpenSolid.Geometry.Types.Direction2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "polyline2d",
+        "comment": " Decodes a Polyline2d from a list of vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline2d"
       },
       {
-        "name": "relativeTo",
-        "comment": " Take a vector defined in global coordinates, and return it expressed in\nlocal coordinates relative to a given reference frame.\n\n    Vector2d.relativeTo rotatedFrame (Vector2d ( 2, 0 ))\n    --> Vector2d ( 1.732, -1 )\n",
-        "type": "OpenSolid.Geometry.Types.Frame2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "polyline3d",
+        "comment": " Decodes a Polyline3d from a list of vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Polyline3d"
       },
       {
-        "name": "rotateBy",
-        "comment": " Rotate a vector counterclockwise by a given angle (in radians).\n\n    Vector2d.rotateBy (degrees 45) (Vector2d ( 1, 1 ))\n    --> Vector2d ( 0, 1.4142 )\n\n    Vector2d.rotateBy pi (Vector2d ( 1, 0 ))\n    --> Vector2d ( -1, 0 )\n",
-        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "sketchPlane3d",
+        "comment": " Decodes a SketchPlane3d from an object with `originPoint`, `xDirection` and\n`yDirection` fields.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.SketchPlane3d"
       },
       {
-        "name": "scaleBy",
-        "comment": " Scale the length of a vector by a given scale.\n\n    Vector2d.scaleBy 3 (Vector2d ( 1, 2 ))\n    --> Vector2d ( 3, 6 )\n",
-        "type": "Float -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "triangle2d",
+        "comment": " Decodes a Triangle2d from a list of three vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle2d"
       },
       {
-        "name": "squaredLength",
-        "comment": " Get the squared length of a vector. `squaredLength` is slightly faster than\n`length`, so for example\n\n    Vector2d.squaredLength vector > tolerance * tolerance\n\nis equivalent to but slightly more efficient than\n\n    Vector2d.length vector > tolerance\n\nsince the latter requires a square root under the hood. In many cases, however,\nthe speed difference will be negligible and using `length` is much more\nreadable!\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
+        "name": "triangle3d",
+        "comment": " Decodes a Triangle3d from a list of three vertices.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Triangle3d"
       },
       {
-        "name": "sum",
-        "comment": " Find the sum of two vectors.\n\n    firstVector =\n        Vector2d ( 1, 2 )\n\n    secondVector =\n        Vector2d ( 3, 4 )\n\n    Vector2d.sum firstVector secondVector\n    --> Vector2d ( 4, 6 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d -> OpenSolid.Geometry.Types.Vector2d"
+        "name": "vector2d",
+        "comment": " Decodes a Vector2d from a list of two floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector2d"
       },
       {
-        "name": "xComponent",
-        "comment": " Get the X component of a vector.\n\n    Vector2d.xComponent (Vector2d ( 2, 3 ))\n    --> 2\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "yComponent",
-        "comment": " Get the Y component of a vector.\n\n    Vector2d.yComponent (Vector2d ( 2, 3 ))\n    --> 3\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d -> Float"
-      },
-      {
-        "name": "zero",
-        "comment": " The zero vector.\n\n    Vector2d.zero\n    --> Vector2d ( 0, 0 )\n",
-        "type": "OpenSolid.Geometry.Types.Vector2d"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "OpenSolid.Scalar",
-    "comment": " Convenience functions for working with scalar (floating-point) values.\n\n@docs equalWithin\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "equalWithin",
-        "comment": " Check if two values are equal within a given tolerance.\n\n    Scalar.equalWithin 1e-6 1.9999 2.0001 ==\n        False\n\n    Scalar.equalWithin 1e-3 1.9999 2.0001 ==\n        True\n",
-        "type": "Float -> Float -> Float -> Bool"
+        "name": "vector3d",
+        "comment": " Decodes a Vector3d from a list of three floating-point components.\n",
+        "type": "Json.Decode.Decoder OpenSolid.Geometry.Types.Vector3d"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -2792,6 +2778,20 @@
       }
     ],
     "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OpenSolid.Scalar",
+    "comment": " Convenience functions for working with scalar (floating-point) values.\n\n@docs equalWithin\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "equalWithin",
+        "comment": " Check if two values are equal within a given tolerance.\n\n    Scalar.equalWithin 1e-6 1.9999 2.0001 ==\n        False\n\n    Scalar.equalWithin 1e-3 1.9999 2.0001 ==\n        True\n",
+        "type": "Float -> Float -> Float -> Bool"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]

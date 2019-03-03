@@ -64,6 +64,45 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "EverySetDict",
+    "comment": "\nA Many-to-One relationship using an EveryDict of Sets.\nThis is a specialization of EveryDict so all EveryDict functions are available.\n\n# Definition\n@docs EverySetDict\n\n# Operations\n@docs insert, get, removeOne, removeMany\n",
+    "aliases": [
+      {
+        "name": "EverySetDict",
+        "comment": " An EveryDict mapping keys to sets of values\n",
+        "args": [
+          "m",
+          "n"
+        ],
+        "type": "EveryDict.EveryDict m (EveryDict.EveryDict n ())"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "get",
+        "comment": " Return the set of values associated with a key. It may be empty.\n",
+        "type": "m -> EverySetDict.EverySetDict m n -> EveryDict.EveryDict n ()"
+      },
+      {
+        "name": "insert",
+        "comment": " Given a key and value, Insert a value into the set of values associated with the key\n",
+        "type": "m -> n -> EverySetDict.EverySetDict m n -> EverySetDict.EverySetDict m n"
+      },
+      {
+        "name": "removeMany",
+        "comment": " Remove all values associated with a key\n",
+        "type": "m -> EverySetDict.EverySetDict m n -> EverySetDict.EverySetDict m n"
+      },
+      {
+        "name": "removeOne",
+        "comment": " Given a key and value, remove the value from the set of values associated with the keys\n",
+        "type": "m -> n -> EverySetDict.EverySetDict m n -> EverySetDict.EverySetDict m n"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "BiDict",
     "comment": " Many to Many Relationship using a pair of Dicts\n\n# Definition\n@docs BiDict\n\n# Build\n@docs empty, insert\n\n# Query\n@docs getByFirst, getBySecond\n\n# Remove\n@docs removeOne, removeByFirst, removeBySecond\n\n# Lists\n@docs fromList, toList\n",
     "aliases": [
@@ -123,45 +162,6 @@
         "name": "toList",
         "comment": " Return the list of pairs of first and second values\n",
         "type": "BiDict.BiDict comparable1 comparable2 -> List ( comparable1, comparable2 )"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "EverySetDict",
-    "comment": "\nA Many-to-One relationship using an EveryDict of Sets.\nThis is a specialization of EveryDict so all EveryDict functions are available.\n\n# Definition\n@docs EverySetDict\n\n# Operations\n@docs insert, get, removeOne, removeMany\n",
-    "aliases": [
-      {
-        "name": "EverySetDict",
-        "comment": " An EveryDict mapping keys to sets of values\n",
-        "args": [
-          "m",
-          "n"
-        ],
-        "type": "EveryDict.EveryDict m (EveryDict.EveryDict n ())"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "get",
-        "comment": " Return the set of values associated with a key. It may be empty.\n",
-        "type": "m -> EverySetDict.EverySetDict m n -> EveryDict.EveryDict n ()"
-      },
-      {
-        "name": "insert",
-        "comment": " Given a key and value, Insert a value into the set of values associated with the key\n",
-        "type": "m -> n -> EverySetDict.EverySetDict m n -> EverySetDict.EverySetDict m n"
-      },
-      {
-        "name": "removeMany",
-        "comment": " Remove all values associated with a key\n",
-        "type": "m -> EverySetDict.EverySetDict m n -> EverySetDict.EverySetDict m n"
-      },
-      {
-        "name": "removeOne",
-        "comment": " Given a key and value, remove the value from the set of values associated with the keys\n",
-        "type": "m -> n -> EverySetDict.EverySetDict m n -> EverySetDict.EverySetDict m n"
       }
     ],
     "generated-with-elm-version": "0.18.0"

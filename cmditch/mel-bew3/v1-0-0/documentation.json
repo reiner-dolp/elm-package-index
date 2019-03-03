@@ -506,59 +506,114 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Web3.Shh.Encode",
-    "comment": " Whisper Encoders\n\n@docs post\n\n",
+    "name": "Web3.Shh.Decode",
+    "comment": " Whisper Decoders\n\n@docs whisperId, toWhisperId\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "post",
+        "name": "toWhisperId",
         "comment": " ",
-        "type": "Web3.Shh.Types.Post -> Json.Encode.Value"
+        "type": "String -> Result.Result String Web3.Shh.Types.WhisperId"
+      },
+      {
+        "name": "whisperId",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Web3.Shh.Types.WhisperId"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Web3.Eth.Encode",
-    "comment": " Eth Encoders\n\n\n# Simple\n\n@docs address, txHash, blockHash\n\n\n# Complex\n\n@docs callParams, sendParams, blockId, logFilter\n\n",
+    "name": "Web3.Net",
+    "comment": " Net RPC methods\n@docs version, clientVersion, listening, peerCount, networkId, name, networkIdDecoder, NetworkId\n",
     "aliases": [],
-    "types": [],
+    "types": [
+      {
+        "name": "NetworkId",
+        "comment": " ",
+        "args": [],
+        "cases": [
+          [
+            "Mainnet",
+            []
+          ],
+          [
+            "Expanse",
+            []
+          ],
+          [
+            "Ropsten",
+            []
+          ],
+          [
+            "Rinkeby",
+            []
+          ],
+          [
+            "RskMain",
+            []
+          ],
+          [
+            "RskTest",
+            []
+          ],
+          [
+            "Kovan",
+            []
+          ],
+          [
+            "ETCMain",
+            []
+          ],
+          [
+            "ETCTest",
+            []
+          ],
+          [
+            "Private",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      }
+    ],
     "values": [
       {
-        "name": "address",
-        "comment": " ",
-        "type": "Web3.Eth.Types.Address -> Json.Encode.Value"
+        "name": "clientVersion",
+        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error String"
       },
       {
-        "name": "blockHash",
-        "comment": " ",
-        "type": "Web3.Eth.Types.BlockHash -> Json.Encode.Value"
+        "name": "listening",
+        "comment": " Returns true if the node is actively listening for network connections.\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Bool"
       },
       {
-        "name": "blockId",
-        "comment": " ",
-        "type": "Web3.Eth.Types.BlockId -> Json.Encode.Value"
+        "name": "name",
+        "comment": " Get a NetworkId's name\n",
+        "type": "Web3.Net.NetworkId -> String"
       },
       {
-        "name": "callParams",
-        "comment": " ",
-        "type": "Web3.Eth.Types.Call a -> Json.Encode.Value"
+        "name": "networkId",
+        "comment": " Convert an int into it's NetworkId\n",
+        "type": "Int -> Web3.Net.NetworkId"
       },
       {
-        "name": "logFilter",
-        "comment": " ",
-        "type": "Web3.Eth.Types.LogFilter -> Json.Encode.Value"
+        "name": "networkIdDecoder",
+        "comment": " Decode a stringy int into it's NetworkId\n",
+        "type": "Json.Decode.Decoder Web3.Net.NetworkId"
       },
       {
-        "name": "sendParams",
-        "comment": " ",
-        "type": "Web3.Eth.Types.Send -> Json.Encode.Value"
+        "name": "peerCount",
+        "comment": " Get the number of peers currently connected to the client.\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Int"
       },
       {
-        "name": "txHash",
-        "comment": " ",
-        "type": "Web3.Eth.Types.TxHash -> Json.Encode.Value"
+        "name": "version",
+        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
+        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Web3.Net.NetworkId"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -662,25 +717,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Web3.Shh.Decode",
-    "comment": " Whisper Decoders\n\n@docs whisperId, toWhisperId\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "toWhisperId",
-        "comment": " ",
-        "type": "String -> Result.Result String Web3.Shh.Types.WhisperId"
-      },
-      {
-        "name": "whisperId",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Web3.Shh.Types.WhisperId"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Web3.Eth.Decode",
     "comment": " Eth Decoders\n\n\n# Simple\n\n@docs address, txHash, blockHash, hex\n\n\n# Complex\n\n@docs block, uncle, blockHead, tx, txReceipt, log, event, syncStatus\n\n",
     "aliases": [],
@@ -750,95 +786,103 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Web3.Net",
-    "comment": " Net RPC methods\n@docs version, clientVersion, listening, peerCount, networkId, name, networkIdDecoder, NetworkId\n",
+    "name": "Web3.Shh.Encode",
+    "comment": " Whisper Encoders\n\n@docs post\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "NetworkId",
-        "comment": " ",
-        "args": [],
-        "cases": [
-          [
-            "Mainnet",
-            []
-          ],
-          [
-            "Expanse",
-            []
-          ],
-          [
-            "Ropsten",
-            []
-          ],
-          [
-            "Rinkeby",
-            []
-          ],
-          [
-            "RskMain",
-            []
-          ],
-          [
-            "RskTest",
-            []
-          ],
-          [
-            "Kovan",
-            []
-          ],
-          [
-            "ETCMain",
-            []
-          ],
-          [
-            "ETCTest",
-            []
-          ],
-          [
-            "Private",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "clientVersion",
-        "comment": " Get the current client version.\n\n    Ok \"Mist/v0.9.3/darwin/go1.4.1\"\n\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error String"
+        "name": "post",
+        "comment": " ",
+        "type": "Web3.Shh.Types.Post -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Web3.Eth.Encode",
+    "comment": " Eth Encoders\n\n\n# Simple\n\n@docs address, txHash, blockHash\n\n\n# Complex\n\n@docs callParams, sendParams, blockId, logFilter\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "address",
+        "comment": " ",
+        "type": "Web3.Eth.Types.Address -> Json.Encode.Value"
       },
       {
-        "name": "listening",
-        "comment": " Returns true if the node is actively listening for network connections.\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Bool"
+        "name": "blockHash",
+        "comment": " ",
+        "type": "Web3.Eth.Types.BlockHash -> Json.Encode.Value"
       },
       {
-        "name": "name",
-        "comment": " Get a NetworkId's name\n",
-        "type": "Web3.Net.NetworkId -> String"
+        "name": "blockId",
+        "comment": " ",
+        "type": "Web3.Eth.Types.BlockId -> Json.Encode.Value"
       },
       {
-        "name": "networkId",
-        "comment": " Convert an int into it's NetworkId\n",
-        "type": "Int -> Web3.Net.NetworkId"
+        "name": "callParams",
+        "comment": " ",
+        "type": "Web3.Eth.Types.Call a -> Json.Encode.Value"
       },
       {
-        "name": "networkIdDecoder",
-        "comment": " Decode a stringy int into it's NetworkId\n",
-        "type": "Json.Decode.Decoder Web3.Net.NetworkId"
+        "name": "logFilter",
+        "comment": " ",
+        "type": "Web3.Eth.Types.LogFilter -> Json.Encode.Value"
       },
       {
-        "name": "peerCount",
-        "comment": " Get the number of peers currently connected to the client.\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Int"
+        "name": "sendParams",
+        "comment": " ",
+        "type": "Web3.Eth.Types.Send -> Json.Encode.Value"
       },
       {
-        "name": "version",
-        "comment": " Get the current network id.\n\n    Ok Mainnet\n\n",
-        "type": "Web3.Types.HttpProvider -> Task.Task Http.Error Web3.Net.NetworkId"
+        "name": "txHash",
+        "comment": " ",
+        "type": "Web3.Eth.Types.TxHash -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Web3.Decode",
+    "comment": " Decode things\n\n@docs stringInt, hexInt, bigInt, hexTime, hexBool, resultToDecoder, nonZero\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "bigInt",
+        "comment": " ",
+        "type": "Json.Decode.Decoder BigInt.BigInt"
+      },
+      {
+        "name": "hexBool",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Bool"
+      },
+      {
+        "name": "hexInt",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Int"
+      },
+      {
+        "name": "hexTime",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Time.Time"
+      },
+      {
+        "name": "nonZero",
+        "comment": " ",
+        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Maybe.Maybe a)"
+      },
+      {
+        "name": "resultToDecoder",
+        "comment": " ",
+        "type": "(String -> Result.Result String a) -> Json.Decode.Decoder a"
+      },
+      {
+        "name": "stringInt",
+        "comment": " ",
+        "type": "Json.Decode.Decoder Int"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -944,50 +988,6 @@
         "name": "encodeData",
         "comment": " ",
         "type": "String -> List Web3.Evm.Encode.Encoding -> Web3.Types.Hex"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Web3.Decode",
-    "comment": " Decode things\n\n@docs stringInt, hexInt, bigInt, hexTime, hexBool, resultToDecoder, nonZero\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "bigInt",
-        "comment": " ",
-        "type": "Json.Decode.Decoder BigInt.BigInt"
-      },
-      {
-        "name": "hexBool",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Bool"
-      },
-      {
-        "name": "hexInt",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Int"
-      },
-      {
-        "name": "hexTime",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Time.Time"
-      },
-      {
-        "name": "nonZero",
-        "comment": " ",
-        "type": "Json.Decode.Decoder a -> Json.Decode.Decoder (Maybe.Maybe a)"
-      },
-      {
-        "name": "resultToDecoder",
-        "comment": " ",
-        "type": "(String -> Result.Result String a) -> Json.Decode.Decoder a"
-      },
-      {
-        "name": "stringInt",
-        "comment": " ",
-        "type": "Json.Decode.Decoder Int"
       }
     ],
     "generated-with-elm-version": "0.18.0"

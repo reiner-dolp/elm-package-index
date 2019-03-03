@@ -1,5 +1,19 @@
 [
   {
+    "name": "Components.Svg.Keyed",
+    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "node",
+        "comment": " Works just like `Components.Svg.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
+        "type": "String -> List (Components.Svg.Attribute msg parts) -> List ( String, Components.Svg.Svg msg parts ) -> Components.Svg.Svg msg parts"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Components.Svg.Events",
     "comment": " The only difference from the `elm-lang/html` package is that the functions\naccept [`Signal`s](Components#Signal) instead of raw messages.\n\n\n# Animation event attributes\n\n@docs onBegin, onEnd, onRepeat\n\n\n# Document event attributes\n\n@docs onAbort, onError, onResize, onScroll, onLoad, onUnload, onZoom\n\n\n# Graphical event attributes\n\n@docs onActivate, onClick, onFocusIn, onFocusOut, onMouseDown, onMouseMove, onMouseOut, onMouseOver, onMouseUp\n\n\n# Custom Events\n\n@docs on, onWithOptions, Options, defaultOptions\n\n",
     "aliases": [
@@ -121,20 +135,6 @@
         "name": "onZoom",
         "comment": " ",
         "type": "Components.Signal msg parts -> Components.Svg.Attribute msg parts"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Components.Svg.Keyed",
-    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "node",
-        "comment": " Works just like `Components.Svg.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
-        "type": "String -> List (Components.Svg.Attribute msg parts) -> List ( String, Components.Svg.Svg msg parts ) -> Components.Svg.Svg msg parts"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1444,6 +1444,146 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Components.Html.Keyed",
+    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs div, ol, ul\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "div",
+        "comment": " ",
+        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
+      },
+      {
+        "name": "node",
+        "comment": " Works just like `Components.Html.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
+        "type": "String -> List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
+      },
+      {
+        "name": "ol",
+        "comment": " ",
+        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
+      },
+      {
+        "name": "ul",
+        "comment": " ",
+        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Components.Html.Events",
+    "comment": " The only difference from the `elm-lang/html` package is that the functions\naccept [`Signal`s](Components#Signal) instead of raw messages.\n\n\n# Mouse Helpers\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseOver, onMouseOut\n\n\n# Form Helpers\n\n@docs onInput, onCheck, onSubmit\n\n\n# Focus Helpers\n\n@docs onBlur, onFocus\n\n\n# Custom Event Handlers\n\n@docs on, onWithOptions, Options, defaultOptions\n\n\n# Custom Decoders\n\n@docs targetValue, targetChecked, keyCode\n\n",
+    "aliases": [
+      {
+        "name": "Options",
+        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
+        "args": [],
+        "type": "VirtualDom.Options"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultOptions",
+        "comment": " Everything is `False` by default.\n\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n\n",
+        "type": "Components.Html.Events.Options"
+      },
+      {
+        "name": "keyCode",
+        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n\n    import Json.Decode as Json\n\n    onKeyUp : (Int -> Signal msg parts) -> Attribute msg parts\n    onKeyUp tagger =\n        on \"keyup\" (Json.map tagger keyCode)\n\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n\n",
+        "type": "Json.Decode.Decoder Int"
+      },
+      {
+        "name": "on",
+        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n\n    import Json.Decode as Json\n\n    onClick : Signal msg parts -> Attribute msg parts\n    onClick signal =\n        on \"click\" (Json.succeed signal)\n\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\n\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `signal`.\n\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n\n[aEL]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener\n[decoder]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\n[tutorial]: https://github.com/evancz/elm-architecture-tutorial/\n\n",
+        "type": "String -> Json.Decode.Decoder (Components.Signal msg parts) -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onBlur",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onCheck",
+        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\n\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n\n",
+        "type": "(Bool -> Components.Signal msg parts) -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onClick",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onDoubleClick",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onFocus",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onInput",
+        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\n\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\n\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n\n",
+        "type": "(String -> Components.Signal msg parts) -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onMouseDown",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onMouseEnter",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onMouseLeave",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onMouseOut",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onMouseOver",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onMouseUp",
+        "comment": " ",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onSubmit",
+        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
+        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "onWithOptions",
+        "comment": " Same as `on` but you can set a few options.\n",
+        "type": "String -> Components.Html.Events.Options -> Json.Decode.Decoder (Components.Signal msg parts) -> Components.Html.Attribute msg parts"
+      },
+      {
+        "name": "targetChecked",
+        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n\n    import Json.Decode as Json\n\n    onCheck : (Bool -> Signal msg parts) -> Attribute msg parts\n    onCheck tagger =\n        on \"input\" (Json.map tagger targetChecked)\n\n",
+        "type": "Json.Decode.Decoder Bool"
+      },
+      {
+        "name": "targetValue",
+        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n\n    import Json.Decode as Json\n\n    onInput : (String -> Signal msg parts) -> Attribute msg parts\n    onInput tagger =\n        on \"input\" (Json.map tagger targetValue)\n\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n\n",
+        "type": "Json.Decode.Decoder String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Components.Svg",
     "comment": " Build SVG views, just like with the `elm-lang/svg` package.\n\nDifferences from `elm-lang/svg`:\n\n  - New functions: [`none`](#none) and [`plain`](#plain).\n  - No [`map`](http://package.elm-lang.org/packages/elm-lang/svg/latest/Svg#map).\n  - It supports [adding dynamic styles](Components-Svg-Attributes#css)\n    via the\n    [`elm-css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest)\n    package.\n\n\n# SVG Nodes\n\n@docs Svg, Attribute, node, text, none, plain\n\n\n# HTML Embedding\n\n@docs svg, foreignObject\n\n\n# Graphics elements\n\n@docs circle, ellipse, image, line, path, polygon, polyline, rect, use\n\n\n# Animation elements\n\n@docs animate, animateColor, animateMotion, animateTransform, mpath, set\n\n\n# Descriptive elements\n\n@docs desc, metadata, title\n\n\n# Containers\n\n@docs a, defs, g, marker, mask, pattern, switch, symbol\n\n\n# Text\n\n@docs altGlyph, altGlyphDef, altGlyphItem, glyph, glyphRef, textPath, text_, tref, tspan\n\n\n# Fonts\n\n@docs font\n\n\n# Gradients\n\n@docs linearGradient, radialGradient, stop\n\n\n# Filters\n\n@docs feBlend, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting, feDisplacementMap, feFlood, feFuncA, feFuncB, feFuncG, feFuncR, feGaussianBlur, feImage, feMerge, feMergeNode, feMorphology, feOffset, feSpecularLighting, feTile, feTurbulence\n\n\n# Light source elements\n\n@docs feDistantLight, fePointLight, feSpotLight\n\n\n# Miscellaneous\n\n@docs clipPath, colorProfile, cursor, filter, script, style, view\n\n",
     "aliases": [
@@ -2366,146 +2506,6 @@
         "name": "wrap",
         "comment": " Indicates whether the text should be wrapped in a `textarea`. Possible\nvalues are \"hard\" and \"soft\".\n",
         "type": "String -> Components.Html.Attribute msg parts"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Components.Html.Events",
-    "comment": " The only difference from the `elm-lang/html` package is that the functions\naccept [`Signal`s](Components#Signal) instead of raw messages.\n\n\n# Mouse Helpers\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseOver, onMouseOut\n\n\n# Form Helpers\n\n@docs onInput, onCheck, onSubmit\n\n\n# Focus Helpers\n\n@docs onBlur, onFocus\n\n\n# Custom Event Handlers\n\n@docs on, onWithOptions, Options, defaultOptions\n\n\n# Custom Decoders\n\n@docs targetValue, targetChecked, keyCode\n\n",
-    "aliases": [
-      {
-        "name": "Options",
-        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
-        "args": [],
-        "type": "VirtualDom.Options"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Everything is `False` by default.\n\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n\n",
-        "type": "Components.Html.Events.Options"
-      },
-      {
-        "name": "keyCode",
-        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n\n    import Json.Decode as Json\n\n    onKeyUp : (Int -> Signal msg parts) -> Attribute msg parts\n    onKeyUp tagger =\n        on \"keyup\" (Json.map tagger keyCode)\n\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n\n",
-        "type": "Json.Decode.Decoder Int"
-      },
-      {
-        "name": "on",
-        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n\n    import Json.Decode as Json\n\n    onClick : Signal msg parts -> Attribute msg parts\n    onClick signal =\n        on \"click\" (Json.succeed signal)\n\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\n\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `signal`.\n\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n\n[aEL]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener\n[decoder]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\n[tutorial]: https://github.com/evancz/elm-architecture-tutorial/\n\n",
-        "type": "String -> Json.Decode.Decoder (Components.Signal msg parts) -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onBlur",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onCheck",
-        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\n\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n\n",
-        "type": "(Bool -> Components.Signal msg parts) -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onClick",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onDoubleClick",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onFocus",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onInput",
-        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\n\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\n\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n\n",
-        "type": "(String -> Components.Signal msg parts) -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onMouseDown",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onMouseEnter",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onMouseLeave",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onMouseOut",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onMouseOver",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onMouseUp",
-        "comment": " ",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onSubmit",
-        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
-        "type": "Components.Signal msg parts -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "onWithOptions",
-        "comment": " Same as `on` but you can set a few options.\n",
-        "type": "String -> Components.Html.Events.Options -> Json.Decode.Decoder (Components.Signal msg parts) -> Components.Html.Attribute msg parts"
-      },
-      {
-        "name": "targetChecked",
-        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n\n    import Json.Decode as Json\n\n    onCheck : (Bool -> Signal msg parts) -> Attribute msg parts\n    onCheck tagger =\n        on \"input\" (Json.map tagger targetChecked)\n\n",
-        "type": "Json.Decode.Decoder Bool"
-      },
-      {
-        "name": "targetValue",
-        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n\n    import Json.Decode as Json\n\n    onInput : (String -> Signal msg parts) -> Attribute msg parts\n    onInput tagger =\n        on \"input\" (Json.map tagger targetValue)\n\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n\n",
-        "type": "Json.Decode.Decoder String"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Components.Html.Keyed",
-    "comment": " A keyed node helps optimize cases where children are getting added, moved,\nremoved, etc. Common examples include:\n\n  - The user can delete items from a list.\n  - The user can create new items in a list.\n  - You can sort a list based on name or date or whatever.\n    When you use a keyed node, every child is paired with a string identifier.\n    This makes it possible for the underlying diffing algorithm to reuse nodes\n    more efficiently.\n\n\n# Keyed Nodes\n\n@docs node\n\n\n# Commonly Keyed Nodes\n\n@docs div, ol, ul\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "div",
-        "comment": " ",
-        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
-      },
-      {
-        "name": "node",
-        "comment": " Works just like `Components.Html.node`, but you add a unique identifier to\neach child node. You want this when you have a list of nodes that is changing:\nadding nodes, removing nodes, etc. In these cases, the unique identifiers help\nmake the DOM modifications more efficient.\n",
-        "type": "String -> List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
-      },
-      {
-        "name": "ol",
-        "comment": " ",
-        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
-      },
-      {
-        "name": "ul",
-        "comment": " ",
-        "type": "List (Components.Html.Attribute msg parts) -> List ( String, Components.Html.Html msg parts ) -> Components.Html.Html msg parts"
       }
     ],
     "generated-with-elm-version": "0.18.0"

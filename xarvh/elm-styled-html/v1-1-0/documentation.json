@@ -535,6 +535,117 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "StyledHtml.Events",
+    "comment": " This module is pretty much the same as [Html.Events](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events)\n\n# Mouse Helpers\n@docs onClick, onDoubleClick,\n      onMouseDown, onMouseUp,\n      onMouseEnter, onMouseLeave,\n      onMouseOver, onMouseOut\n# Form Helpers\n@docs onInput, onCheck, onSubmit\n# Focus Helpers\n@docs onBlur, onFocus\n# Custom Event Handlers\n@docs on, onWithOptions, Options, defaultOptions\n# Custom Decoders\n@docs targetValue, targetChecked, keyCode\n",
+    "aliases": [
+      {
+        "name": "Options",
+        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
+        "args": [],
+        "type": "{ stopPropagation : Bool, preventDefault : Bool }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "defaultOptions",
+        "comment": " Everything is `False` by default.\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n",
+        "type": "StyledHtml.Events.Options"
+      },
+      {
+        "name": "keyCode",
+        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n    import Json.Decode as Json\n    onKeyUp : (Int -> msg) -> Attribute msg\n    onKeyUp tagger =\n      on \"keyup\" (Json.map tagger keyCode)\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n",
+        "type": "Json.Decode.Decoder Int"
+      },
+      {
+        "name": "on",
+        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n    import Json.Decode as Json\n    onClick : msg -> Attribute msg\n    onClick message =\n      on \"click\" (Json.succeed message)\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `message`.\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n[aEL]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener\n[decoder]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\n[tutorial]: https://github.com/evancz/elm-architecture-tutorial/\n",
+        "type": "String -> Json.Decode.Decoder msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onBlur",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onCheck",
+        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n",
+        "type": "(Bool -> msg) -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onClick",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onDoubleClick",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onFocus",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onInput",
+        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n",
+        "type": "(String -> msg) -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onMouseDown",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onMouseEnter",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onMouseLeave",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onMouseOut",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onMouseOver",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onMouseUp",
+        "comment": " ",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onSubmit",
+        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
+        "type": "msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "onWithOptions",
+        "comment": " Same as `on` but you can set a few options.\n",
+        "type": "String -> StyledHtml.Events.Options -> Json.Decode.Decoder msg -> StyledHtml.Private.Attribute msg"
+      },
+      {
+        "name": "targetChecked",
+        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n    import Json.Decode as Json\n    onCheck : (Bool -> msg) -> Attribute msg\n    onCheck tagger =\n      on \"input\" (Json.map tagger targetChecked)\n",
+        "type": "Json.Decode.Decoder Bool"
+      },
+      {
+        "name": "targetValue",
+        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n    import Json.Decode as Json\n    onInput : (String -> msg) -> Attribute msg\n    onInput tagger =\n      on \"input\" (Json.map tagger targetValue)\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n",
+        "type": "Json.Decode.Decoder String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "StyledHtml",
     "comment": "\n\nThis module contains everything you find in [elm-lang/html.Html](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html),\nincluding [Program](http://package.elm-lang.org/packages/elm-lang/core/5.1.1/Platform#Program)\nconstructors and a handful other functions specific to Styled Html.\n\nPlease note that any reference to the `Html` type inside this module, refers to `StyledHtml.Html` NOT to `Html.Html`.\n\n# Styled Html specific stuff\n@docs renderStyleAndHtml, fromHtml, toHtml\n\n# Primitives\n@docs Html, Attribute, text, node, map\n# Programs\n@docs beginnerProgram, program, programWithFlags\n# Tags\n## Headers\n@docs h1, h2, h3, h4, h5, h6\n## Grouping Content\n@docs div, p, hr, pre, blockquote\n## Text\n@docs span, a, code, em, strong, i, b, u, sub, sup, br\n## Lists\n@docs ol, ul, li, dl, dt, dd\n## Emdedded Content\n@docs img, iframe, canvas, math\n## Inputs\n@docs form, input, textarea, button, select, option\n## Sections\n@docs section, nav, article, aside, header, footer, address, main_, body\n## Figures\n@docs figure, figcaption\n## Tables\n@docs table, caption, colgroup, col, tbody, thead, tfoot, tr, td, th\n## Less Common Elements\n### Less Common Inputs\n@docs fieldset, legend, label, datalist, optgroup, keygen, output, progress, meter\n### Audio and Video\n@docs audio, video, source, track\n### Embedded Objects\n@docs embed, object, param\n### Text Edits\n@docs ins, del\n### Semantic Text\n@docs small, cite, dfn, abbr, time, var, samp, kbd, s, q\n### Less Common Text Tags\n@docs mark, ruby, rt, rp, bdi, bdo, wbr\n## Interactive Elements\n@docs details, summary, menuitem, menu\n\n",
     "aliases": [
@@ -1091,117 +1202,6 @@
         "name": "wbr",
         "comment": " Represents a line break opportunity, that is a suggested point for\nwrapping text in order to improve readability of text split on several lines.\n",
         "type": "List (StyledHtml.Attribute msg) -> List (StyledHtml.Html msg) -> StyledHtml.Html msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "StyledHtml.Events",
-    "comment": " This module is pretty much the same as [Html.Events](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html-Events)\n\n# Mouse Helpers\n@docs onClick, onDoubleClick,\n      onMouseDown, onMouseUp,\n      onMouseEnter, onMouseLeave,\n      onMouseOver, onMouseOut\n# Form Helpers\n@docs onInput, onCheck, onSubmit\n# Focus Helpers\n@docs onBlur, onFocus\n# Custom Event Handlers\n@docs on, onWithOptions, Options, defaultOptions\n# Custom Decoders\n@docs targetValue, targetChecked, keyCode\n",
-    "aliases": [
-      {
-        "name": "Options",
-        "comment": " Options for an event listener. If `stopPropagation` is true, it means the\nevent stops traveling through the DOM so it will not trigger any other event\nlisteners. If `preventDefault` is true, any built-in browser behavior related\nto the event is prevented. For example, this is used with touch events when you\nwant to treat them as gestures of your own, not as scrolls.\n",
-        "args": [],
-        "type": "{ stopPropagation : Bool, preventDefault : Bool }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "defaultOptions",
-        "comment": " Everything is `False` by default.\n    defaultOptions =\n        { stopPropagation = False\n        , preventDefault = False\n        }\n",
-        "type": "StyledHtml.Events.Options"
-      },
-      {
-        "name": "keyCode",
-        "comment": " A `Json.Decoder` for grabbing `event.keyCode`. This helps you define\nkeyboard listeners like this:\n    import Json.Decode as Json\n    onKeyUp : (Int -> msg) -> Attribute msg\n    onKeyUp tagger =\n      on \"keyup\" (Json.map tagger keyCode)\n**Note:** It looks like the spec is moving away from `event.keyCode` and\ntowards `event.key`. Once this is supported in more browsers, we may add\nhelpers here for `onKeyUp`, `onKeyDown`, `onKeyPress`, etc.\n",
-        "type": "Json.Decode.Decoder Int"
-      },
-      {
-        "name": "on",
-        "comment": " Create a custom event listener. Normally this will not be necessary, but\nyou have the power! Here is how `onClick` is defined for example:\n    import Json.Decode as Json\n    onClick : msg -> Attribute msg\n    onClick message =\n      on \"click\" (Json.succeed message)\nThe first argument is the event name in the same format as with JavaScript's\n[`addEventListener`][aEL] function.\nThe second argument is a JSON decoder. Read more about these [here][decoder].\nWhen an event occurs, the decoder tries to turn the event object into an Elm\nvalue. If successful, the value is routed to your `update` function. In the\ncase of `onClick` we always just succeed with the given `message`.\nIf this is confusing, work through the [Elm Architecture Tutorial][tutorial].\nIt really does help!\n[aEL]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener\n[decoder]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode\n[tutorial]: https://github.com/evancz/elm-architecture-tutorial/\n",
-        "type": "String -> Json.Decode.Decoder msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onBlur",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onCheck",
-        "comment": " Capture [change](https://developer.mozilla.org/en-US/docs/Web/Events/change)\nevents on checkboxes. It will grab the boolean value from `event.target.checked`\non any input event.\nCheck out [targetChecked](#targetChecked) for more details on how this works.\n",
-        "type": "(Bool -> msg) -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onClick",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onDoubleClick",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onFocus",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onInput",
-        "comment": " Capture [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)\nevents for things like text fields or text areas.\nIt grabs the **string** value at `event.target.value`, so it will not work if\nyou need some other type of information. For example, if you want to track\ninputs on a range slider, make a custom handler with [`on`](#on).\nFor more details on how `onInput` works, check out [targetValue](#targetValue).\n",
-        "type": "(String -> msg) -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onMouseDown",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onMouseEnter",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onMouseLeave",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onMouseOut",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onMouseOver",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onMouseUp",
-        "comment": " ",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onSubmit",
-        "comment": " Capture a [submit](https://developer.mozilla.org/en-US/docs/Web/Events/submit)\nevent with [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)\nin order to prevent the form from changing the page’s location. If you need\ndifferent behavior, use `onWithOptions` to create a customized version of\n`onSubmit`.\n",
-        "type": "msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "onWithOptions",
-        "comment": " Same as `on` but you can set a few options.\n",
-        "type": "String -> StyledHtml.Events.Options -> Json.Decode.Decoder msg -> StyledHtml.Private.Attribute msg"
-      },
-      {
-        "name": "targetChecked",
-        "comment": " A `Json.Decoder` for grabbing `event.target.checked`. We use this to define\n`onCheck` as follows:\n    import Json.Decode as Json\n    onCheck : (Bool -> msg) -> Attribute msg\n    onCheck tagger =\n      on \"input\" (Json.map tagger targetChecked)\n",
-        "type": "Json.Decode.Decoder Bool"
-      },
-      {
-        "name": "targetValue",
-        "comment": " A `Json.Decoder` for grabbing `event.target.value`. We use this to define\n`onInput` as follows:\n    import Json.Decode as Json\n    onInput : (String -> msg) -> Attribute msg\n    onInput tagger =\n      on \"input\" (Json.map tagger targetValue)\nYou probably will never need this, but hopefully it gives some insights into\nhow to make custom event handlers.\n",
-        "type": "Json.Decode.Decoder String"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -213,84 +213,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Element.Keyed",
-    "comment": " Notes from the `Html.Keyed` on how keyed works:\n\n    A keyed node helps optimize cases where children are getting added, moved, removed, etc. Common examples include:\n\n        - The user can delete items from a list.\n        - The user can create new items in a list.\n        - You can sort a list based on name or date or whatever.\n\n    When you use a keyed node, every child is paired with a string identifier. This makes it possible for the underlying diffing algorithm to reuse nodes more efficiently.\n\nThis means if a key is changed between renders, then the diffing step will be skipped and the node will be forced to rerender.\n\n@docs el, column, row\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "column",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
-      },
-      {
-        "name": "el",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> ( String, Element.Element msg ) -> Element.Element msg"
-      },
-      {
-        "name": "row",
-        "comment": " ",
-        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Element.Events",
-    "comment": "\n\n\n# Mouse Events\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseMove\n\n\n# Focus Events\n\n@docs onFocus, onLoseFocus\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "onClick",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onDoubleClick",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onFocus",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onLoseFocus",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onMouseDown",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onMouseEnter",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onMouseLeave",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onMouseMove",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      },
-      {
-        "name": "onMouseUp",
-        "comment": " ",
-        "type": "msg -> Element.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Element.Font",
     "comment": "\n\n\n# Style your fonts!\n\n    import Color exposing (blue)\n    import Element\n    import Element.Font as Font\n\n    view =\n        Element.el\n            [ Font.color blue\n            , Font.size 18\n            , Font.family\n                [ Font.typeface \"Open Sans\"\n                , Font.sansSerif\n                ]\n            ]\n            (Element.text \"Woohoo, I'm stylish text\")\n\n**Note**: `Font.color`, `Font.size`, and `Font.family` are inherited, meaning you can set them at the top of your view and all subsequent nodes will have that value.\n\n@docs color, size\n\n\n## Typefaces\n\n@docs family, Font, typeface, serif, sansSerif, monospace\n\n@docs external\n\n`Font.external` can be used to import font files. Let's say you found a neat font on <http://fonts.google.com>:\n\n    import Element\n    import Element.Font as Font\n\n    view =\n        Element.el\n            [ Font.family\n                [ Font.external\n                    { name = \"Roboto\"\n                    , url = \"https://fonts.googleapis.com/css?family=Roboto\"\n                    }\n                , Font.sansSerif\n                ]\n            ]\n            (Element.text \"Woohoo, I'm stylish text\")\n\n\n## Alignment and Spacing\n\n@docs alignLeft, alignRight, center, justify, letterSpacing, wordSpacing\n\n\n## Font Styles\n\n@docs underline, strike, italic, unitalicized\n\n\n## Font Weight\n\n@docs heavy, extraBold, bold, semiBold, medium, regular, light, extraLight, hairline\n\n\n## Shadows\n\n@docs glow, shadow\n\n",
     "aliases": [
@@ -452,45 +374,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Element.Background",
-    "comment": "\n\n@docs color, gradient\n\n\n# Images\n\n@docs image, uncropped, tiled, tiledX, tiledY\n\n**Note** if you want more control over a background image than is provided here, you should try just using a normal `Element.image` with something like `Element.behind`.\n\n",
+    "name": "Element.Keyed",
+    "comment": " Notes from the `Html.Keyed` on how keyed works:\n\n    A keyed node helps optimize cases where children are getting added, moved, removed, etc. Common examples include:\n\n        - The user can delete items from a list.\n        - The user can create new items in a list.\n        - You can sort a list based on name or date or whatever.\n\n    When you use a keyed node, every child is paired with a string identifier. This makes it possible for the underlying diffing algorithm to reuse nodes more efficiently.\n\nThis means if a key is changed between renders, then the diffing step will be skipped and the node will be forced to rerender.\n\n@docs el, column, row\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "color",
+        "name": "column",
         "comment": " ",
-        "type": "Color.Color -> Element.Attr decorative msg"
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
       },
       {
-        "name": "gradient",
-        "comment": " A linear gradient.\n\nFirst you need to specify what direction the gradient is going by providing an angle in radians. `0` is up and `pi` is down.\n\nThe colors will be evenly spaced.\n\n",
-        "type": "Float -> List Color.Color -> Element.Attribute msg"
+        "name": "el",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> ( String, Element.Element msg ) -> Element.Element msg"
       },
       {
-        "name": "image",
-        "comment": " Resize the image to fit the containing element while maintaining proportions and cropping the overflow.\n",
-        "type": "String -> Element.Attribute msg"
-      },
-      {
-        "name": "tiled",
-        "comment": " Tile an image in the x and y axes.\n",
-        "type": "String -> Element.Attribute msg"
-      },
-      {
-        "name": "tiledX",
-        "comment": " Tile an image in the x axis.\n",
-        "type": "String -> Element.Attribute msg"
-      },
-      {
-        "name": "tiledY",
-        "comment": " Tile an image in the y axis.\n",
-        "type": "String -> Element.Attribute msg"
-      },
-      {
-        "name": "uncropped",
-        "comment": " A centered background image that keeps it's natural propostions, but scales to fit the space.\n",
-        "type": "String -> Element.Attribute msg"
+        "name": "row",
+        "comment": " ",
+        "type": "List (Element.Attribute msg) -> List ( String, Element.Element msg ) -> Element.Element msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -565,6 +467,104 @@
         "name": "widthXY",
         "comment": " Set horizontal and vertical borders.\n",
         "type": "Int -> Int -> Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Events",
+    "comment": "\n\n\n# Mouse Events\n\n@docs onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseMove\n\n\n# Focus Events\n\n@docs onFocus, onLoseFocus\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "onClick",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onDoubleClick",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onFocus",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onLoseFocus",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseDown",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseEnter",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseLeave",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseMove",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      },
+      {
+        "name": "onMouseUp",
+        "comment": " ",
+        "type": "msg -> Element.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Element.Background",
+    "comment": "\n\n@docs color, gradient\n\n\n# Images\n\n@docs image, uncropped, tiled, tiledX, tiledY\n\n**Note** if you want more control over a background image than is provided here, you should try just using a normal `Element.image` with something like `Element.behind`.\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "color",
+        "comment": " ",
+        "type": "Color.Color -> Element.Attr decorative msg"
+      },
+      {
+        "name": "gradient",
+        "comment": " A linear gradient.\n\nFirst you need to specify what direction the gradient is going by providing an angle in radians. `0` is up and `pi` is down.\n\nThe colors will be evenly spaced.\n\n",
+        "type": "Float -> List Color.Color -> Element.Attribute msg"
+      },
+      {
+        "name": "image",
+        "comment": " Resize the image to fit the containing element while maintaining proportions and cropping the overflow.\n",
+        "type": "String -> Element.Attribute msg"
+      },
+      {
+        "name": "tiled",
+        "comment": " Tile an image in the x and y axes.\n",
+        "type": "String -> Element.Attribute msg"
+      },
+      {
+        "name": "tiledX",
+        "comment": " Tile an image in the x axis.\n",
+        "type": "String -> Element.Attribute msg"
+      },
+      {
+        "name": "tiledY",
+        "comment": " Tile an image in the y axis.\n",
+        "type": "String -> Element.Attribute msg"
+      },
+      {
+        "name": "uncropped",
+        "comment": " A centered background image that keeps it's natural propostions, but scales to fit the space.\n",
+        "type": "String -> Element.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

@@ -448,55 +448,45 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Shadow",
-    "comment": " Shadows\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nThese are for when you want to specify shadows manually. They're meant to be specified in a shadow stack using `Style.shadows`:\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Style.shadows\n            [ Shadow.inset\n                { offset = ( 0, 0 )\n                , size = 5\n                , blur = 2\n                , color = Color.blue\n                }\n            ]\n        ]\n\n@docs box, drop, inset, text\n\n",
+    "name": "Style.Color",
+    "comment": " Set Colors for your style.\n\nMeant to be imported as\n\n    import Style.Color as Color\n\n@docs text, background, border, cursor, decoration, selection, placeholder\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "box",
+        "name": "background",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+        "type": "Color.Color -> Style.Property class variation"
       },
       {
-        "name": "deep",
-        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
-        "type": "Style.Property class variation"
-      },
-      {
-        "name": "drop",
+        "name": "border",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
+        "type": "Color.Color -> Style.Property class variation"
       },
       {
-        "name": "glow",
-        "comment": " A simple glow by specifying the color and size.\n",
-        "type": "Color.Color -> Float -> Style.Property class variation"
-      },
-      {
-        "name": "innerGlow",
+        "name": "cursor",
         "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
+        "type": "Color.Color -> Style.Property class variation"
       },
       {
-        "name": "inset",
+        "name": "decoration",
+        "comment": " Text decoration color.\n",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "placeholder",
+        "comment": " The color of the input `placeholder` element.\n",
+        "type": "Color.Color -> Style.Property class variation"
+      },
+      {
+        "name": "selection",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
-      },
-      {
-        "name": "simple",
-        "comment": " A nice preset box shadow.\n",
-        "type": "Style.Property class variation"
+        "type": "Color.Color -> Style.Property class variation"
       },
       {
         "name": "text",
         "comment": " ",
-        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
-      },
-      {
-        "name": "textGlow",
-        "comment": " ",
-        "type": "Color.Color -> Float -> Style.Property class variation"
+        "type": "Color.Color -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -576,6 +566,99 @@
         "name": "top",
         "comment": " ",
         "type": "Float -> Style.Property class variation"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Filter",
+    "comment": " CSS filters.\n\nApply a stack of filters.\n\n    import Style.Filter as Filter\n    import Style exposing (..)\n\n    style MyFitleredStyle\n        [ filters\n            [ Filter.blur 0.5\n            , Filter.invert 0.5\n            ]\n\n        ]\n\n@docs url, blur, brightness, contrast, grayscale, hueRotate, invert, opacity, saturate, sepia\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "blur",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "brightness",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "contrast",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "grayscale",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "hueRotate",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "invert",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "opacity",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "saturate",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "sepia",
+        "comment": " ",
+        "type": "Float -> Style.Filter"
+      },
+      {
+        "name": "url",
+        "comment": " ",
+        "type": "String -> Style.Filter"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Style.Sheet",
+    "comment": " Combine and mix child stylesheets.\n\n@docs ChildSheet, merge, map, mix\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "ChildSheet",
+        "comment": " ",
+        "args": [
+          "class",
+          "variation"
+        ],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "map",
+        "comment": " ",
+        "type": "(class -> parent) -> (variation -> parentVariation) -> List (Style.Style class variation) -> Style.Sheet.ChildSheet parent parentVariation"
+      },
+      {
+        "name": "merge",
+        "comment": " Merge a child stylesheet into a parent.\n",
+        "type": "Style.Sheet.ChildSheet class variation -> Style.Style class variation"
+      },
+      {
+        "name": "mix",
+        "comment": " ",
+        "type": "List (Style.Style class variation) -> Style.Style class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -1399,65 +1482,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Filter",
-    "comment": " CSS filters.\n\nApply a stack of filters.\n\n    import Style.Filter as Filter\n    import Style exposing (..)\n\n    style MyFitleredStyle\n        [ filters\n            [ Filter.blur 0.5\n            , Filter.invert 0.5\n            ]\n\n        ]\n\n@docs url, blur, brightness, contrast, grayscale, hueRotate, invert, opacity, saturate, sepia\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "blur",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "brightness",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "contrast",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "grayscale",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "hueRotate",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "invert",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "opacity",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "saturate",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "sepia",
-        "comment": " ",
-        "type": "Float -> Style.Filter"
-      },
-      {
-        "name": "url",
-        "comment": " ",
-        "type": "String -> Style.Filter"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Style.Background",
     "comment": "\n\n\n## Background Image\n\n@docs image, imageWith, repeatX, repeatY, repeat, space, round, noRepeat\n\n\n## Background Gradient\n\n@docs gradient, step, percent, px\n\n\n## Directed Gradients\n\n@docs gradientRight, gradientLeft, gradientUp, gradientDown, gradientTopRight, gradientBottomRight, gradientTopLeft, gradientBottomLeft\n\n",
     "aliases": [],
@@ -1567,79 +1591,55 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Style.Color",
-    "comment": " Set Colors for your style.\n\nMeant to be imported as\n\n    import Style.Color as Color\n\n@docs text, background, border, cursor, decoration, selection, placeholder\n\n",
+    "name": "Style.Shadow",
+    "comment": " Shadows\n\n\n# Easy Presets\n\nThese can be used directly as properties.\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Shadow.glow Color.red 5\n        ]\n\n@docs simple, deep, glow, innerGlow, textGlow\n\n\n# Advanced Shadows\n\nThese are for when you want to specify shadows manually. They're meant to be specified in a shadow stack using `Style.shadows`:\n\n    import Color\n    import Style exposing (..)\n    import Style.Shadow as Shadow\n\n    style MyStyleWithShadow\n        [ Style.shadows\n            [ Shadow.inset\n                { offset = ( 0, 0 )\n                , size = 5\n                , blur = 2\n                , color = Color.blue\n                }\n            ]\n        ]\n\n@docs box, drop, inset, text\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "background",
+        "name": "box",
         "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
       },
       {
-        "name": "border",
+        "name": "deep",
+        "comment": " A nice preset box shadow that's deeper than `simple`.\n",
+        "type": "Style.Property class variation"
+      },
+      {
+        "name": "drop",
         "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
       },
       {
-        "name": "cursor",
+        "name": "glow",
+        "comment": " A simple glow by specifying the color and size.\n",
+        "type": "Color.Color -> Float -> Style.Property class variation"
+      },
+      {
+        "name": "innerGlow",
         "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
+        "type": "Color.Color -> Float -> Style.Property class variation"
       },
       {
-        "name": "decoration",
-        "comment": " Text decoration color.\n",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "placeholder",
-        "comment": " The color of the input `placeholder` element.\n",
-        "type": "Color.Color -> Style.Property class variation"
-      },
-      {
-        "name": "selection",
+        "name": "inset",
         "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
+        "type": "{ offset : ( Float, Float ) , size : Float , blur : Float , color : Color.Color } -> Style.Shadow"
+      },
+      {
+        "name": "simple",
+        "comment": " A nice preset box shadow.\n",
+        "type": "Style.Property class variation"
       },
       {
         "name": "text",
         "comment": " ",
-        "type": "Color.Color -> Style.Property class variation"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Style.Sheet",
-    "comment": " Combine and mix child stylesheets.\n\n@docs ChildSheet, merge, map, mix\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "ChildSheet",
-        "comment": " ",
-        "args": [
-          "class",
-          "variation"
-        ],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "map",
-        "comment": " ",
-        "type": "(class -> parent) -> (variation -> parentVariation) -> List (Style.Style class variation) -> Style.Sheet.ChildSheet parent parentVariation"
+        "type": "{ offset : ( Float, Float ), blur : Float, color : Color.Color } -> Style.Shadow"
       },
       {
-        "name": "merge",
-        "comment": " Merge a child stylesheet into a parent.\n",
-        "type": "Style.Sheet.ChildSheet class variation -> Style.Style class variation"
-      },
-      {
-        "name": "mix",
+        "name": "textGlow",
         "comment": " ",
-        "type": "List (Style.Style class variation) -> Style.Style class variation"
+        "type": "Color.Color -> Float -> Style.Property class variation"
       }
     ],
     "generated-with-elm-version": "0.18.0"

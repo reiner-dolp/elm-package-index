@@ -24,6 +24,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Random.Pcg.List",
+    "comment": " Extra randomized functions on lists.\n\n# Work with a List\n@docs choose, shuffle\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "choose",
+        "comment": " Sample without replacement: produce a randomly selected element of the\nlist, and the list with that element omitted. If the list is empty, the\nselected element will be `Nothing`.\n",
+        "type": "List a -> Random.Pcg.Generator ( Maybe.Maybe a, List a )"
+      },
+      {
+        "name": "shuffle",
+        "comment": " Shuffle the list using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
+        "type": "List a -> Random.Pcg.Generator (List a)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Random.Pcg.Order",
     "comment": " An extra random generator for the `Order` type.\n\n@docs order\n",
     "aliases": [],
@@ -1236,25 +1255,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.List",
-    "comment": " Extra randomized functions on lists.\n\n# Work with a List\n@docs choose, shuffle\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "choose",
-        "comment": " Sample without replacement: produce a randomly selected element of the\nlist, and the list with that element omitted. If the list is empty, the\nselected element will be `Nothing`.\n",
-        "type": "List a -> Random.Pcg.Generator ( Maybe.Maybe a, List a )"
-      },
-      {
-        "name": "shuffle",
-        "comment": " Shuffle the list using the Fisher-Yates algorithm. Takes O(_n_ log _n_)\ntime and O(_n_) additional space.\n",
-        "type": "List a -> Random.Pcg.Generator (List a)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Random.Pcg.Array",
     "comment": " Extra randomized functions on arrays.\n\n# Create an Array\n@docs array, rangeLengthArray\n\n# Work with an Array\n@docs sample, choose, shuffle\n\n",
     "aliases": [],
@@ -1505,25 +1505,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Random.Pcg.Dict",
-    "comment": " Extra randomized functions on dicts.\n\n# Generators\n@docs dict, rangeLengthDict\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "dict",
-        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
-        "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
-      },
-      {
-        "name": "rangeLengthDict",
-        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Random.Pcg.Int",
     "comment": " Extra randomized functions on ints.\n\n# Generators\n@docs anyInt, positiveInt, negativeInt, intGreaterThan, intLessThan\n",
     "aliases": [],
@@ -1553,6 +1534,25 @@
         "name": "positiveInt",
         "comment": " A generator that generates a positive int\n",
         "type": "Random.Pcg.Generator Int"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Random.Pcg.Dict",
+    "comment": " Extra randomized functions on dicts.\n\n# Generators\n@docs dict, rangeLengthDict\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
+        "type": "Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
+      },
+      {
+        "name": "rangeLengthDict",
+        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Pcg.Generator comparable -> Random.Pcg.Generator value -> Random.Pcg.Generator (Dict.Dict comparable value)"
       }
     ],
     "generated-with-elm-version": "0.18.0"

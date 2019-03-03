@@ -19,25 +19,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "OAuth.Implicit",
-    "comment": " The implicit grant type is used to obtain access tokens (it does not\nsupport the issuance of refresh tokens) and is optimized for public clients known to operate a\nparticular redirection URI. These clients are typically implemented in a browser using a\nscripting language such as JavaScript.\n\nThis is a 2-step process:\n\n  - The client asks for an authorization and implicit authentication to the OAuth provider: the user is redirected.\n  - The provider redirects the user back and the client parses the request query parameters from the url.\n\nAfter those steps, the client owns an `access_token` that can be used to authorize any subsequent\nrequest.\n\n\n## Authorize\n\n@docs authorize, parse\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "authorize",
-        "comment": " Redirects the resource owner (user) to the resource provider server using the specified\nauthorization flow.\n\nIn this case, use `Token` as a `responseType`\n\n",
-        "type": "OAuth.Authorization -> Platform.Cmd.Cmd msg"
-      },
-      {
-        "name": "parse",
-        "comment": " Parse the location looking for a parameters set by the resource provider server after\nredirecting the resource owner (user).\n\nFails with `ParseErr Empty` when there's nothing\n\n",
-        "type": "Navigation.Location -> Result.Result OAuth.ParseErr OAuth.ResponseToken"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "OAuth.ClientCredentials",
     "comment": " The client can request an access token using only its client\ncredentials (or other supported means of authentication) when the client is requesting access to\nthe protected resources under its control, or those of another resource owner that have been\npreviously arranged with the authorization server (the method of which is beyond the scope of\nthis specification).\n\nThere's only one step in this process:\n\n  - The client authenticates itself directly using credentials it owns.\n\nAfter this step, the client owns an `access_token` that can be used to authorize any subsequent\nrequest.\n\n\n## Authenticate\n\n@docs authenticate, authenticateWithOpts\n\n",
     "aliases": [],
@@ -52,6 +33,25 @@
         "name": "authenticateWithOpts",
         "comment": " Authenticate the client using the authorization code obtained from the authorization, passing\nadditional custom options. Use with care.\n\nIn this case, use the `ClientCredentials` constructor.\n\n",
         "type": "OAuth.Decode.AdjustRequest OAuth.ResponseToken -> OAuth.Authentication -> Http.Request OAuth.ResponseToken"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "OAuth.Implicit",
+    "comment": " The implicit grant type is used to obtain access tokens (it does not\nsupport the issuance of refresh tokens) and is optimized for public clients known to operate a\nparticular redirection URI. These clients are typically implemented in a browser using a\nscripting language such as JavaScript.\n\nThis is a 2-step process:\n\n  - The client asks for an authorization and implicit authentication to the OAuth provider: the user is redirected.\n  - The provider redirects the user back and the client parses the request query parameters from the url.\n\nAfter those steps, the client owns an `access_token` that can be used to authorize any subsequent\nrequest.\n\n\n## Authorize\n\n@docs authorize, parse\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "authorize",
+        "comment": " Redirects the resource owner (user) to the resource provider server using the specified\nauthorization flow.\n\nIn this case, use `Token` as a `responseType`\n\n",
+        "type": "OAuth.Authorization -> Platform.Cmd.Cmd msg"
+      },
+      {
+        "name": "parse",
+        "comment": " Parse the location looking for a parameters set by the resource provider server after\nredirecting the resource owner (user).\n\nFails with `ParseErr Empty` when there's nothing\n\n",
+        "type": "Navigation.Location -> Result.Result OAuth.ParseErr OAuth.ResponseToken"
       }
     ],
     "generated-with-elm-version": "0.18.0"

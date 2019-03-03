@@ -24,6 +24,30 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
+    "name": "Constraint.Semigroup",
+    "comment": "\n@docs Semigroup\n@docs (++)\n",
+    "aliases": [
+      {
+        "name": "Semigroup",
+        "comment": "\nGeneralized concatenation.\n",
+        "args": [
+          "a",
+          "r"
+        ],
+        "type": "{ r | concat : a -> a -> a }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "++",
+        "comment": "\nOperator alias for `concat`.\n",
+        "type": "a -> a -> Constraint.Constraint (Constraint.Semigroup.Semigroup a r) a"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
     "name": "Constraint.Eq",
     "comment": "\n@docs Eq\n@docs (===), (=/=)\n",
     "aliases": [
@@ -53,27 +77,21 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Constraint.Semigroup",
-    "comment": "\n@docs Semigroup\n@docs (++)\n",
+    "name": "Constraint.Ord",
+    "comment": "\n@docs Ord\n",
     "aliases": [
       {
-        "name": "Semigroup",
-        "comment": "\nGeneralized concatenation.\n",
+        "name": "Ord",
+        "comment": "\nGeneralized ordering.\n",
         "args": [
           "a",
           "r"
         ],
-        "type": "{ r | concat : a -> a -> a }"
+        "type": "{ r | compare : a -> a -> Basics.Order }"
       }
     ],
     "types": [],
-    "values": [
-      {
-        "name": "++",
-        "comment": "\nOperator alias for `concat`.\n",
-        "type": "a -> a -> Constraint.Constraint (Constraint.Semigroup.Semigroup a r) a"
-      }
-    ],
+    "values": [],
     "generated-with-elm-version": "0.17.1"
   },
   {
@@ -160,24 +178,6 @@
         "type": "r -> Constraint.Constraint r a -> a"
       }
     ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Constraint.Ord",
-    "comment": "\n@docs Ord\n",
-    "aliases": [
-      {
-        "name": "Ord",
-        "comment": "\nGeneralized ordering.\n",
-        "args": [
-          "a",
-          "r"
-        ],
-        "type": "{ r | compare : a -> a -> Basics.Order }"
-      }
-    ],
-    "types": [],
-    "values": [],
     "generated-with-elm-version": "0.17.1"
   }
 ]

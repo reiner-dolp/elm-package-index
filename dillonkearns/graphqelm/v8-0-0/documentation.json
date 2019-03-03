@@ -429,38 +429,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Graphqelm.OptionalArgument",
-    "comment": "\n\n@docs OptionalArgument\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "OptionalArgument",
-        "comment": " This type is used to create values to pass in optional arguments.\n\n      import Api.Enum.Episode as Episode exposing (Episode)\n      import Api.Query as Query\n      import Graphqelm.Operation exposing (RootQuery)\n      import Graphqelm.OptionalArgument exposing (OptionalArgument(Null, Present))\n      import Graphqelm.SelectionSet exposing (SelectionSet, with)\n\n\n      query : SelectionSet Response RootQuery\n      query =\n          Query.selection Response\n              |> with (Query.human { id = \"1004\" } human)\n              |> with (Query.human { id = \"1001\" } human)\n              |> with\n                  (Query.hero\n                      (\\optionals ->\n                          { optionals\n                              | episode = Present Episode.EMPIRE\n                          }\n                      )\n                      hero\n                  )\n\nAn optional argument can be either present, absent, or null, so using a Maybe does not\nfully capture the GraphQL concept of an optional argument. For example, you could have\na mutation that deletes an entry if a null argument is provided, or does nothing if\nthe argument is absent. See\n[The official GraphQL spec section on null](http://facebook.github.io/graphql/October2016/#sec-Null-Value)\nfor details.\n\n",
-        "args": [
-          "a"
-        ],
-        "cases": [
-          [
-            "Present",
-            [
-              "a"
-            ]
-          ],
-          [
-            "Absent",
-            []
-          ],
-          [
-            "Null",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Graphqelm.Subscription.Protocol",
     "comment": " You will need a Protocol data structure that fills in the low-level details about\nyour server's GraphQL Subscription protocol. Ideally these will be published here,\nor in an external package by community members so that the protocols for each framework\nis easily accessible, less error-prone, and more stable.\n\n@docs Protocol, phoenixAbsinthe, rails, Response\n\n",
     "aliases": [
@@ -539,6 +507,38 @@
         "type": "Json.Decode.Decoder (List Graphqelm.Http.GraphqlError.GraphqlError)"
       }
     ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Graphqelm.OptionalArgument",
+    "comment": "\n\n@docs OptionalArgument\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "OptionalArgument",
+        "comment": " This type is used to create values to pass in optional arguments.\n\n      import Api.Enum.Episode as Episode exposing (Episode)\n      import Api.Query as Query\n      import Graphqelm.Operation exposing (RootQuery)\n      import Graphqelm.OptionalArgument exposing (OptionalArgument(Null, Present))\n      import Graphqelm.SelectionSet exposing (SelectionSet, with)\n\n\n      query : SelectionSet Response RootQuery\n      query =\n          Query.selection Response\n              |> with (Query.human { id = \"1004\" } human)\n              |> with (Query.human { id = \"1001\" } human)\n              |> with\n                  (Query.hero\n                      (\\optionals ->\n                          { optionals\n                              | episode = Present Episode.EMPIRE\n                          }\n                      )\n                      hero\n                  )\n\nAn optional argument can be either present, absent, or null, so using a Maybe does not\nfully capture the GraphQL concept of an optional argument. For example, you could have\na mutation that deletes an entry if a null argument is provided, or does nothing if\nthe argument is absent. See\n[The official GraphQL spec section on null](http://facebook.github.io/graphql/October2016/#sec-Null-Value)\nfor details.\n\n",
+        "args": [
+          "a"
+        ],
+        "cases": [
+          [
+            "Present",
+            [
+              "a"
+            ]
+          ],
+          [
+            "Absent",
+            []
+          ],
+          [
+            "Null",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   },
   {

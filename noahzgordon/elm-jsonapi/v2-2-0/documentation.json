@@ -19,6 +19,54 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "JsonApi.Encode",
+    "comment": " Functions for encoding JSON API resources to Json\n\n@docs clientResource\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "clientResource",
+        "comment": " Encode a resource constructed on the client to a JSON API-compliant value\n    see: http://jsonapi.org/format/#crud-creating\n",
+        "type": "JsonApi.Data.ClientResource -> Json.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "JsonApi.Documents",
+    "comment": " Helper functions for working with a full JsonApi Document\n\n# Common Helpers\n@docs links, jsonapi, primaryResource, primaryResourceCollection, meta\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "jsonapi",
+        "comment": " Fetch information from the top-level 'jsonapi' object\n",
+        "type": "JsonApi.Data.Document -> Maybe.Maybe JsonApi.Data.JsonApiObject"
+      },
+      {
+        "name": "links",
+        "comment": " Fetch the top-level links object from the document.\n",
+        "type": "JsonApi.Data.Document -> JsonApi.Data.Links"
+      },
+      {
+        "name": "meta",
+        "comment": " Fetch the top-level meta object from the document.\n",
+        "type": "JsonApi.Data.Document -> JsonApi.Data.Meta"
+      },
+      {
+        "name": "primaryResource",
+        "comment": " Retrieve the primary resource from a decoded Document.\n    This function assumes a singular primary resource and will return an Err\n    if the document contains a collection of primary resources.\n",
+        "type": "JsonApi.Data.Document -> Result.Result String JsonApi.Data.Resource"
+      },
+      {
+        "name": "primaryResourceCollection",
+        "comment": " Retrieve a collection of primary resources from a decoded Document.\n    This function assumes a collection primary resources and will return an Err\n    if the document contains a singular primary resource.\n",
+        "type": "JsonApi.Data.Document -> Result.Result String (List JsonApi.Data.Resource)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "JsonApi.Resources",
     "comment": " Helper functions for working with a single JsonApi Resource\n\n# Common Helpers\n@docs id, attributes, attribute, links, relatedResource, relatedResourceCollection,\n      meta, relatedLinks, relatedMeta, build, withAttributes, withRelationship, withRelationships, withUuid\n",
     "aliases": [],
@@ -93,54 +141,6 @@
         "name": "withUuid",
         "comment": " Add a client-generated UUID to the resource. MUST be a valid Uuid in the\n    canonical representation xxxxxxxx-xxxx-Axxx-Yxxx-xxxxxxxxxxxx where A is\n    the version number between [1-5] and Y is in the range [8-B].\n\n    I recommend using http://package.elm-lang.org/packages/danyx23/elm-uuid/2.0.2/Uuid\n    to general a valid UUID.\n",
         "type": "String -> JsonApi.Data.ClientResource -> Result.Result String JsonApi.Data.ClientResource"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "JsonApi.Encode",
-    "comment": " Functions for encoding JSON API resources to Json\n\n@docs clientResource\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "clientResource",
-        "comment": " Encode a resource constructed on the client to a JSON API-compliant value\n    see: http://jsonapi.org/format/#crud-creating\n",
-        "type": "JsonApi.Data.ClientResource -> Json.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "JsonApi.Documents",
-    "comment": " Helper functions for working with a full JsonApi Document\n\n# Common Helpers\n@docs links, jsonapi, primaryResource, primaryResourceCollection, meta\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "jsonapi",
-        "comment": " Fetch information from the top-level 'jsonapi' object\n",
-        "type": "JsonApi.Data.Document -> Maybe.Maybe JsonApi.Data.JsonApiObject"
-      },
-      {
-        "name": "links",
-        "comment": " Fetch the top-level links object from the document.\n",
-        "type": "JsonApi.Data.Document -> JsonApi.Data.Links"
-      },
-      {
-        "name": "meta",
-        "comment": " Fetch the top-level meta object from the document.\n",
-        "type": "JsonApi.Data.Document -> JsonApi.Data.Meta"
-      },
-      {
-        "name": "primaryResource",
-        "comment": " Retrieve the primary resource from a decoded Document.\n    This function assumes a singular primary resource and will return an Err\n    if the document contains a collection of primary resources.\n",
-        "type": "JsonApi.Data.Document -> Result.Result String JsonApi.Data.Resource"
-      },
-      {
-        "name": "primaryResourceCollection",
-        "comment": " Retrieve a collection of primary resources from a decoded Document.\n    This function assumes a collection primary resources and will return an Err\n    if the document contains a singular primary resource.\n",
-        "type": "JsonApi.Data.Document -> Result.Result String (List JsonApi.Data.Resource)"
       }
     ],
     "generated-with-elm-version": "0.18.0"

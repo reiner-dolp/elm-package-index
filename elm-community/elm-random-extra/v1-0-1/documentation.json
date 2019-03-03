@@ -49,59 +49,73 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.List",
-    "comment": " List of List Generators\n\n# Generators\n@docs emptyList, rangeLengthList\n\n",
+    "name": "Random.Maybe",
+    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "emptyList",
-        "comment": " Generator that always returns the empty list.\n",
-        "type": "Random.Generator (List a)"
+        "name": "maybe",
+        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
       },
       {
-        "name": "rangeLengthList",
-        "comment": " Generate a random list of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Generator a -> Random.Generator (List a)"
+        "name": "withDefault",
+        "comment": " Generate values from a maybe generator or a default value.\n",
+        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+      },
+      {
+        "name": "withDefaultGenerator",
+        "comment": " Generate values from a maybe generator or a default generator.\n",
+        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
       }
     ],
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Set",
-    "comment": " List of Random Set Generators\n\n# Generators\n@docs empty, singleton, set, notInSet\n\n# Combinators\n@docs select, selectWithDefault\n\n",
+    "name": "Random.Result",
+    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "empty",
-        "comment": " Generator that always returns the empty set\n",
-        "type": "Random.Generator (Set.Set comparable)"
+        "name": "error",
+        "comment": " Generate an error result from a random generator of errors\n",
+        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
       },
       {
-        "name": "notInSet",
-        "comment": " Filter a generator of all values not in a given set.\n",
-        "type": "Set.Set comparable -> Random.Generator comparable -> Random.Generator comparable"
+        "name": "ok",
+        "comment": " Generate an ok result from a random generator of values\n",
+        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
       },
       {
-        "name": "select",
-        "comment": " Select a value from a set uniformly at random, or `Nothing` for an empty set.\nAnalogous to `Random.Extra.select` but with sets.\n",
-        "type": "Set.Set comparable -> Random.Generator (Maybe.Maybe comparable)"
+        "name": "result",
+        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
+        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Random.Dict",
+    "comment": " List of Dict Generators\n\n# Generators\n@docs dict, emptyDict, rangeLengthDict\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dict",
+        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
+        "type": "Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
       },
       {
-        "name": "selectWithDefault",
-        "comment": " Select a value from a set uniformly at random, with a default.\nAnalogous to `Random.Extra.selectWithDefault` but with sets.\n",
-        "type": "comparable -> Set.Set comparable -> Random.Generator comparable"
+        "name": "emptyDict",
+        "comment": " Generator that always generates the empty dict\n",
+        "type": "Random.Generator (Dict.Dict comparable value)"
       },
       {
-        "name": "set",
-        "comment": " Generate a set of at most the given size from a generator.\n\nThe size of a generated set is limited both by the integer provided and the\nnumber of unique values the generator can produce. It is very likely, but not\nguaranteed, that generated sets will be as big as the smaller of these two limits.\n",
-        "type": "Int -> Random.Generator comparable -> Random.Generator (Set.Set comparable)"
-      },
-      {
-        "name": "singleton",
-        "comment": " Generator that creates a singleton set from a generator\n",
-        "type": "Random.Generator comparable -> Random.Generator (Set.Set comparable)"
+        "name": "rangeLengthDict",
+        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -146,25 +160,88 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Dict",
-    "comment": " List of Dict Generators\n\n# Generators\n@docs dict, emptyDict, rangeLengthDict\n\n",
+    "name": "Random.List",
+    "comment": " List of List Generators\n\n# Generators\n@docs emptyList, rangeLengthList\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "dict",
-        "comment": " Generate a random dict with given length, key generator, and value generator\n\n    randomLength10StringIntDict = dict 10 (englishWord 10) (int 0 100)\n",
-        "type": "Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
+        "name": "emptyList",
+        "comment": " Generator that always returns the empty list.\n",
+        "type": "Random.Generator (List a)"
       },
       {
-        "name": "emptyDict",
-        "comment": " Generator that always generates the empty dict\n",
-        "type": "Random.Generator (Dict.Dict comparable value)"
+        "name": "rangeLengthList",
+        "comment": " Generate a random list of random length given a minimum length and\na maximum length.\n",
+        "type": "Int -> Int -> Random.Generator a -> Random.Generator (List a)"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Random.Order",
+    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "order",
+        "comment": " Generate a random order with equal probability.\n",
+        "type": "Random.Generator Basics.Order"
+      }
+    ],
+    "generated-with-elm-version": "0.17.1"
+  },
+  {
+    "name": "Random.Date",
+    "comment": " List of date Generators\n\n# Generators\n@docs date, day, month, year, hour, hour24, hour12, minute, second\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "date",
+        "comment": " Generate a random date given a start date and an end date.\n",
+        "type": "Date.Date -> Date.Date -> Random.Generator Date.Date"
       },
       {
-        "name": "rangeLengthDict",
-        "comment": " Generate a random dict of random length given a minimum length and\na maximum length.\n",
-        "type": "Int -> Int -> Random.Generator comparable -> Random.Generator value -> Random.Generator (Dict.Dict comparable value)"
+        "name": "day",
+        "comment": " Generate a random day of the week.\n",
+        "type": "Random.Generator Date.Day"
+      },
+      {
+        "name": "hour",
+        "comment": " Generate a random hour (random int between 0 and 23 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "hour12",
+        "comment": " Generate a random 12-hour day hour (random int between 0 and 11 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "hour24",
+        "comment": " Generate a random 24-hour day hour (random int between 0 and 23 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "minute",
+        "comment": " Generate a random minute (random int between 0 and 59 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "month",
+        "comment": " Generate a random month of the year.\n",
+        "type": "Random.Generator Date.Month"
+      },
+      {
+        "name": "second",
+        "comment": " Generate a random second (random int between 0 and 59 inclusive)\n",
+        "type": "Random.Generator Int"
+      },
+      {
+        "name": "year",
+        "comment": " Generate a random year given a start year and end year (alias for `int`)\n",
+        "type": "Int -> Int -> Random.Generator Int"
       }
     ],
     "generated-with-elm-version": "0.17.1"
@@ -1314,117 +1391,40 @@
     "generated-with-elm-version": "0.17.1"
   },
   {
-    "name": "Random.Order",
-    "comment": " List of Order Generators\n\n# Generators\n@docs order\n",
+    "name": "Random.Set",
+    "comment": " List of Random Set Generators\n\n# Generators\n@docs empty, singleton, set, notInSet\n\n# Combinators\n@docs select, selectWithDefault\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "order",
-        "comment": " Generate a random order with equal probability.\n",
-        "type": "Random.Generator Basics.Order"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Random.Maybe",
-    "comment": " List of Maybe Generators\n\n# Generators\n@docs maybe, withDefault, withDefaultGenerator\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "maybe",
-        "comment": " Generate a Maybe from a generator. Will generate Nothings 50% of the time.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a)"
+        "name": "empty",
+        "comment": " Generator that always returns the empty set\n",
+        "type": "Random.Generator (Set.Set comparable)"
       },
       {
-        "name": "withDefault",
-        "comment": " Generate values from a maybe generator or a default value.\n",
-        "type": "a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
+        "name": "notInSet",
+        "comment": " Filter a generator of all values not in a given set.\n",
+        "type": "Set.Set comparable -> Random.Generator comparable -> Random.Generator comparable"
       },
       {
-        "name": "withDefaultGenerator",
-        "comment": " Generate values from a maybe generator or a default generator.\n",
-        "type": "Random.Generator a -> Random.Generator (Maybe.Maybe a) -> Random.Generator a"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Random.Result",
-    "comment": " List of Result Generators\n\n# Generators\n@docs ok, error, result\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "error",
-        "comment": " Generate an error result from a random generator of errors\n",
-        "type": "Random.Generator error -> Random.Generator (Result.Result error value)"
+        "name": "select",
+        "comment": " Select a value from a set uniformly at random, or `Nothing` for an empty set.\nAnalogous to `Random.Extra.select` but with sets.\n",
+        "type": "Set.Set comparable -> Random.Generator (Maybe.Maybe comparable)"
       },
       {
-        "name": "ok",
-        "comment": " Generate an ok result from a random generator of values\n",
-        "type": "Random.Generator value -> Random.Generator (Result.Result error value)"
+        "name": "selectWithDefault",
+        "comment": " Select a value from a set uniformly at random, with a default.\nAnalogous to `Random.Extra.selectWithDefault` but with sets.\n",
+        "type": "comparable -> Set.Set comparable -> Random.Generator comparable"
       },
       {
-        "name": "result",
-        "comment": " Generate an ok result or an error result with 50-50 chance\n\nThis is simply implemented as follows:\n\n    result errorGenerator okGenerator =\n      frequency\n        [ (1, error errorGenerator)\n        , (1, ok okGenerator)\n        ] (ok okGenerator)\n\nIf you want to generate results with a different frequency, tweak those\nnumbers to your bidding in your own custom generators.\n",
-        "type": "Random.Generator error -> Random.Generator value -> Random.Generator (Result.Result error value)"
-      }
-    ],
-    "generated-with-elm-version": "0.17.1"
-  },
-  {
-    "name": "Random.Date",
-    "comment": " List of date Generators\n\n# Generators\n@docs date, day, month, year, hour, hour24, hour12, minute, second\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "date",
-        "comment": " Generate a random date given a start date and an end date.\n",
-        "type": "Date.Date -> Date.Date -> Random.Generator Date.Date"
+        "name": "set",
+        "comment": " Generate a set of at most the given size from a generator.\n\nThe size of a generated set is limited both by the integer provided and the\nnumber of unique values the generator can produce. It is very likely, but not\nguaranteed, that generated sets will be as big as the smaller of these two limits.\n",
+        "type": "Int -> Random.Generator comparable -> Random.Generator (Set.Set comparable)"
       },
       {
-        "name": "day",
-        "comment": " Generate a random day of the week.\n",
-        "type": "Random.Generator Date.Day"
-      },
-      {
-        "name": "hour",
-        "comment": " Generate a random hour (random int between 0 and 23 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "hour12",
-        "comment": " Generate a random 12-hour day hour (random int between 0 and 11 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "hour24",
-        "comment": " Generate a random 24-hour day hour (random int between 0 and 23 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "minute",
-        "comment": " Generate a random minute (random int between 0 and 59 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "month",
-        "comment": " Generate a random month of the year.\n",
-        "type": "Random.Generator Date.Month"
-      },
-      {
-        "name": "second",
-        "comment": " Generate a random second (random int between 0 and 59 inclusive)\n",
-        "type": "Random.Generator Int"
-      },
-      {
-        "name": "year",
-        "comment": " Generate a random year given a start year and end year (alias for `int`)\n",
-        "type": "Int -> Int -> Random.Generator Int"
+        "name": "singleton",
+        "comment": " Generator that creates a singleton set from a generator\n",
+        "type": "Random.Generator comparable -> Random.Generator (Set.Set comparable)"
       }
     ],
     "generated-with-elm-version": "0.17.1"

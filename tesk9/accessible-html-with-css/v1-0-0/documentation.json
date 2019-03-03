@@ -586,190 +586,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Accessibility.Styled.Widget",
-    "comment": "\n\n\n## Widget States and Properties\n\nSome of these are also globally available, including: `busy`, `disabled`, `grabbed`, `hidden`, `invalid`.\n\n\n### Inputs\n\n@docs required, label\n\n\n### Button\n\n@docs pressed\n\n\n### TextBox\n\n@docs multiLine\n\n\n#### Auto-complete behavior:\n\nSee [the autocomplete spec](https://www.w3.org/TR/wai-aria-1.1/#aria-autocomplete).\n@docs autoCompleteInline, autoCompleteList, autoCompleteBoth\n\n\n### Selection\n\n@docs checked, selected, indeterminate\n\n\n### Validity\n\n@docs invalid, invalidGrammar, invalidSpelling\n\n\n### Interactability\n\n@docs expanded, hidden, readOnly, disabled\n\n\n### Pop-Ups\n\n@docs modal\n\nPop-ups are supported for all elements (but not meant for use on tooltips).\n\nThe pop-up itself needs to have a containing element with one of these roles:\n`menu`, `listbox`, `tree`, `grid`, or `dialog`, and the pop-up value must match.\nThat is, use `hasMenuPopUp` if the pop-up container has a role of `menu`.\n\nSee [the spec](https://www.w3.org/TR/wai-aria-1.1/#aria-haspopup).\n\n@docs hasMenuPopUp, hasListBoxPopUp, hasTreePopUp, hasGridPopUp, hasDialogPopUp\n\n\n### Orientation and Range Widgets\n\n@docs orientationHorizontal, orientationVertical, valueMin, valueMax, valueNow, valueText\n\n\n### Table Sort-by-column\n\n@docs sortAscending, sortDescending, sortCustom, sortNone\n\n\n### Misc\n\n@docs multiSelectable\n\n\n### Page Hierarchy\n\n@docs level\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "autoCompleteBoth",
-        "comment": " Available on `comboBox` or `textbox`.\nUse when there's a suggestion for completing the field when there's both\ninline autocomplete and list autocomplete occurring at once.\n\nBe sure to indicate that the auto-completed text is selected.\n\nSee [the autocomplete spec](https://www.w3.org/TR/wai-aria-1.1/#aria-autocomplete).\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "autoCompleteInline",
-        "comment": " Available on `comboBox` or `textbox`.\nUse when there's a suggestion for completing the field that shows up\nin the line that the user is completing.\n\nBe sure to indicate that the auto-completed text is selected.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "autoCompleteList",
-        "comment": " Available on `comboBox` or `textbox`.\nUse when there's a suggestion for completing the field that shows up as a list\nof options from which the user can pick.\n\nBe sure to indicate that the auto-completed text is selected.\n\nSee [the autocomplete spec](https://www.w3.org/TR/wai-aria-1.1/#aria-autocomplete).\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "checked",
-        "comment": " Available on `checkbox`, `option`, `radio`, `switch`\n\nCheck boxes can be checked (`Just True`), unchecked (`Just False`), or indeterminate (`Nothing`).\nOther elements won't support tri-state checkedness.\n\nSee [the checked spec](https://www.w3.org/TR/wai-aria-1.1/#aria-checked).\n\n",
-        "type": "Maybe.Maybe Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "disabled",
-        "comment": " Supported for all elements. Elements are not disabled (are enabled) by default.\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "expanded",
-        "comment": " Available on `button`, `comboBox`, `document`, `link`, `section`, `sectionHead`, and `window`.\n\nTrickily, this attribute can be applied to either an element that is itself\nexpanded/collapsed, OR to an elment it controls that is either expanded/collapsed.\nIn the latter case, throw on a `controls` attribute as well to clarify the relationship.\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "hasDialogPopUp",
-        "comment": " Indicate that interaction with this element can trigger a `dialog` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "hasGridPopUp",
-        "comment": " Indicate that interaction with this element can trigger a `grid` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "hasListBoxPopUp",
-        "comment": " Indicate that interaction with this element can trigger a `listBox` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "hasMenuPopUp",
-        "comment": " Indicate that interaction with this element can trigger a `menu` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "hasTreePopUp",
-        "comment": " Indicate that interaction with this element can trigger a `tree` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "hidden",
-        "comment": " ",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "indeterminate",
-        "comment": " Sets the indeterminate value to be true.\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "invalid",
-        "comment": " Supported for all elements.\n\nFor invalid grammar or spelling, please see `invalidGrammar` and `invalidSpelling` respectively.\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "invalidGrammar",
-        "comment": " Supported for all elements.\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "invalidSpelling",
-        "comment": " Supported for all elements.\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "label",
-        "comment": " Supported for all elements.\n",
-        "type": "String -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "level",
-        "comment": " Supported for `grid`, `heading`, `listItem`, `row`, and `tabList`.\n\nThis attribute is about hierarchy--how many \"levels\" deep is an element? Please\nrefer to the [documentation](https://www.w3.org/TR/wai-aria-1.1/#aria-level) to get a better sense of when to use.\n\n    h7 attributes =\n        div (heading :: level 7 :: attributes)\n\n",
-        "type": "Int -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "modal",
-        "comment": " Indicate that a modal is showing and the rest of the page contents are not\ninteractable.\n\n    import Accessibility.Styled exposing (div, h2, p, text)\n    import Accessibility.Styled.Aria exposing (labelledBy)\n    import Accessibility.Styled.Role exposing (dialog)\n    import Accessibility.Styled.Widget exposing (modal)\n    import Html.Styled.Attributes exposing (id)\n\n    modal : Html msg\n    modal =\n        div [ dialog, modal, labelledBy \"header-id\" ]\n            [ h2 [ id \"header-id\" ] [ text \"Modal Header\" ]\n            , p [] [ text \"Wow, such modal contents!\" ]\n            ]\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "multiLine",
-        "comment": " Supported for `textbox` only.\n\nIndicate whether the `textbox` is for multi-line inputs or single-line inputs.\n\nCareful of default keyboard behavior when coupling this property with text inputs,\nwhich by default submit their form group on enter.\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "multiSelectable",
-        "comment": " Supported on `grid`, `listBox`, `tabList`, `tree`. (However, what would it mean\nfor a `tabList`, say, to have multiple selectable descendants?)\n\nWhen true, users are not restricted to selecting only one selectable descendant at a time.\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "orientationHorizontal",
-        "comment": " Supported on roles with some sense of inherent orientation:\n`progressBar`, `scrollbar`, `select`, `separator`, `slider`, `tabList`, `toolBar`\n\nCareful: default behavior is inconsistent across those roles.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "orientationVertical",
-        "comment": " Supported on roles with some sense of inherent orientation:\n`progressBar`, `scrollbar`, `select`, `separator`, `slider`, `tabList`, `toolBar`\n\nCareful: default behavior is inconsistent across those roles.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "pressed",
-        "comment": " Supported on `button`.\n\nUse `pressed` when describing a toggle button--a button that can be \"toggled\" between\nan on state and an off state (or an on state, an indeterminate state, and an off state).\n\nPlease check out these [examples](https://www.w3.org/TR/2016/WD-wai-aria-practices-1.1-20160317/examples/button/button.html)\nas well.\n\n    button\n        [ pressed <| Just True ]\n        [ text \"This button should be styled for site viewers such that it's clear it's pressed!\" ]\n\n",
-        "type": "Maybe.Maybe Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "readOnly",
-        "comment": " Supported on `checkBox`, `comboBox`, `grid`, `gridCell`, `listBox`,\n`radioGroup`, `slider`, `spinButton`, and `textBox`.\n\nIndicates read-only status of a widget, although normal navigation rules and\ncopying behavior should apply. (Read: `readOnly` elements are navigable but\nunchangeable, and `disabled` elements are neither navigable nor unchangebale).\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "required",
-        "comment": " Supported by `comboBox`, `gridCell`, `listBox`, `radioGroup`, `spinButton`, `textBox`, `tree`\n\nIndicate whether user input is or is not required on a field for valid form submission.\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "selected",
-        "comment": " Supported by `gridCell`, `option`, `row`, `tab`.\n\nIndicate whether an element (in a single- or multi-selectable widget) is or is not selected.\n\n",
-        "type": "Bool -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "sortAscending",
-        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nThis should only be applied to one header at a time.\n\nTable is sorted by this column's values in ascending order.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "sortCustom",
-        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nOnly one column in a table should be sorting the values in table.\n\nTable is sorted by this column's values, but the algorithm for that sorting\nis custom (not ascending or descending).\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "sortDescending",
-        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nOnly one column in a table should be sorting the values in table.\n\nTable is sorted by this column's values in descending order.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "sortNone",
-        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nTable is not sorted by this column's values.\n\n",
-        "type": "Html.Styled.Attribute msg"
-      },
-      {
-        "name": "valueMax",
-        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nSet the max allowed value for a range widget.\n\n",
-        "type": "number -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "valueMin",
-        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nSet the min allowed value for a range widget.\n\n",
-        "type": "number -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "valueNow",
-        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nSet the current value for a range widget. Don't use this property for indeterminate states.\n\n",
-        "type": "number -> Html.Styled.Attribute msg"
-      },
-      {
-        "name": "valueText",
-        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nThis property takes precedence over `valueNow`, and should show a human-readable\nversion of the current value. However, `valueNow` should always be used.\n\n",
-        "type": "String -> Html.Styled.Attribute msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Accessibility.Styled.Role",
     "comment": "\n\n\n### General\n\n@docs article, comboBox, definition, directory, document, img, link, math, note\n\n\n### Dialogs\n\n@docs alertDialog, dialog\n\n\n### Grids\n\n@docs columnHeader, grid, gridCell, row, rowGroup, rowHeader\n\n\n### Grouping\n\n@docs group, radioGroup\n\n\n### Heading\n\n@docs heading\n\n\n### Inputs\n\n@docs button, checkBox, option, radio, textBox\n\n\n### Lists\n\n@docs list, listBox, listItem\n\n\n### Live Regions\n\n@docs alert, log, marquee, timer, status\n\n\n### Menus\n\n@docs menu, menuBar, menuItem, menuItemCheckBox, menuItemRadio\n\n\n### Range-y widgets\n\n@docs progressBar, scrollBar, separator, slider, spinButton\n\n\n### Tabs\n\n@docs tab, tabList, tabPanel\n\n\n### Tools\n\n@docs toolBar, toolTip\n\n\n### Trees\n\n@docs tree, treeGrid, treeItem\n\n\n## Other\n\n@docs presentation\n\n",
     "aliases": [],
@@ -1034,6 +850,190 @@
         "name": "treeItem",
         "comment": " Add `role=\"treeitem\"` to the attributes of an element.\n",
         "type": "Html.Styled.Attribute msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Accessibility.Styled.Widget",
+    "comment": "\n\n\n## Widget States and Properties\n\nSome of these are also globally available, including: `busy`, `disabled`, `grabbed`, `hidden`, `invalid`.\n\n\n### Inputs\n\n@docs required, label\n\n\n### Button\n\n@docs pressed\n\n\n### TextBox\n\n@docs multiLine\n\n\n#### Auto-complete behavior:\n\nSee [the autocomplete spec](https://www.w3.org/TR/wai-aria-1.1/#aria-autocomplete).\n@docs autoCompleteInline, autoCompleteList, autoCompleteBoth\n\n\n### Selection\n\n@docs checked, selected, indeterminate\n\n\n### Validity\n\n@docs invalid, invalidGrammar, invalidSpelling\n\n\n### Interactability\n\n@docs expanded, hidden, readOnly, disabled\n\n\n### Pop-Ups\n\n@docs modal\n\nPop-ups are supported for all elements (but not meant for use on tooltips).\n\nThe pop-up itself needs to have a containing element with one of these roles:\n`menu`, `listbox`, `tree`, `grid`, or `dialog`, and the pop-up value must match.\nThat is, use `hasMenuPopUp` if the pop-up container has a role of `menu`.\n\nSee [the spec](https://www.w3.org/TR/wai-aria-1.1/#aria-haspopup).\n\n@docs hasMenuPopUp, hasListBoxPopUp, hasTreePopUp, hasGridPopUp, hasDialogPopUp\n\n\n### Orientation and Range Widgets\n\n@docs orientationHorizontal, orientationVertical, valueMin, valueMax, valueNow, valueText\n\n\n### Table Sort-by-column\n\n@docs sortAscending, sortDescending, sortCustom, sortNone\n\n\n### Misc\n\n@docs multiSelectable\n\n\n### Page Hierarchy\n\n@docs level\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "autoCompleteBoth",
+        "comment": " Available on `comboBox` or `textbox`.\nUse when there's a suggestion for completing the field when there's both\ninline autocomplete and list autocomplete occurring at once.\n\nBe sure to indicate that the auto-completed text is selected.\n\nSee [the autocomplete spec](https://www.w3.org/TR/wai-aria-1.1/#aria-autocomplete).\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "autoCompleteInline",
+        "comment": " Available on `comboBox` or `textbox`.\nUse when there's a suggestion for completing the field that shows up\nin the line that the user is completing.\n\nBe sure to indicate that the auto-completed text is selected.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "autoCompleteList",
+        "comment": " Available on `comboBox` or `textbox`.\nUse when there's a suggestion for completing the field that shows up as a list\nof options from which the user can pick.\n\nBe sure to indicate that the auto-completed text is selected.\n\nSee [the autocomplete spec](https://www.w3.org/TR/wai-aria-1.1/#aria-autocomplete).\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "checked",
+        "comment": " Available on `checkbox`, `option`, `radio`, `switch`\n\nCheck boxes can be checked (`Just True`), unchecked (`Just False`), or indeterminate (`Nothing`).\nOther elements won't support tri-state checkedness.\n\nSee [the checked spec](https://www.w3.org/TR/wai-aria-1.1/#aria-checked).\n\n",
+        "type": "Maybe.Maybe Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "disabled",
+        "comment": " Supported for all elements. Elements are not disabled (are enabled) by default.\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "expanded",
+        "comment": " Available on `button`, `comboBox`, `document`, `link`, `section`, `sectionHead`, and `window`.\n\nTrickily, this attribute can be applied to either an element that is itself\nexpanded/collapsed, OR to an elment it controls that is either expanded/collapsed.\nIn the latter case, throw on a `controls` attribute as well to clarify the relationship.\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "hasDialogPopUp",
+        "comment": " Indicate that interaction with this element can trigger a `dialog` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "hasGridPopUp",
+        "comment": " Indicate that interaction with this element can trigger a `grid` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "hasListBoxPopUp",
+        "comment": " Indicate that interaction with this element can trigger a `listBox` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "hasMenuPopUp",
+        "comment": " Indicate that interaction with this element can trigger a `menu` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "hasTreePopUp",
+        "comment": " Indicate that interaction with this element can trigger a `tree` pop-up.\n\nBe careful while managing focus and triggering.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "hidden",
+        "comment": " ",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "indeterminate",
+        "comment": " Sets the indeterminate value to be true.\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "invalid",
+        "comment": " Supported for all elements.\n\nFor invalid grammar or spelling, please see `invalidGrammar` and `invalidSpelling` respectively.\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "invalidGrammar",
+        "comment": " Supported for all elements.\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "invalidSpelling",
+        "comment": " Supported for all elements.\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "label",
+        "comment": " Supported for all elements.\n",
+        "type": "String -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "level",
+        "comment": " Supported for `grid`, `heading`, `listItem`, `row`, and `tabList`.\n\nThis attribute is about hierarchy--how many \"levels\" deep is an element? Please\nrefer to the [documentation](https://www.w3.org/TR/wai-aria-1.1/#aria-level) to get a better sense of when to use.\n\n    h7 attributes =\n        div (heading :: level 7 :: attributes)\n\n",
+        "type": "Int -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "modal",
+        "comment": " Indicate that a modal is showing and the rest of the page contents are not\ninteractable.\n\n    import Accessibility.Styled exposing (div, h2, p, text)\n    import Accessibility.Styled.Aria exposing (labelledBy)\n    import Accessibility.Styled.Role exposing (dialog)\n    import Accessibility.Styled.Widget exposing (modal)\n    import Html.Styled.Attributes exposing (id)\n\n    modal : Html msg\n    modal =\n        div [ dialog, modal, labelledBy \"header-id\" ]\n            [ h2 [ id \"header-id\" ] [ text \"Modal Header\" ]\n            , p [] [ text \"Wow, such modal contents!\" ]\n            ]\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "multiLine",
+        "comment": " Supported for `textbox` only.\n\nIndicate whether the `textbox` is for multi-line inputs or single-line inputs.\n\nCareful of default keyboard behavior when coupling this property with text inputs,\nwhich by default submit their form group on enter.\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "multiSelectable",
+        "comment": " Supported on `grid`, `listBox`, `tabList`, `tree`. (However, what would it mean\nfor a `tabList`, say, to have multiple selectable descendants?)\n\nWhen true, users are not restricted to selecting only one selectable descendant at a time.\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "orientationHorizontal",
+        "comment": " Supported on roles with some sense of inherent orientation:\n`progressBar`, `scrollbar`, `select`, `separator`, `slider`, `tabList`, `toolBar`\n\nCareful: default behavior is inconsistent across those roles.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "orientationVertical",
+        "comment": " Supported on roles with some sense of inherent orientation:\n`progressBar`, `scrollbar`, `select`, `separator`, `slider`, `tabList`, `toolBar`\n\nCareful: default behavior is inconsistent across those roles.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "pressed",
+        "comment": " Supported on `button`.\n\nUse `pressed` when describing a toggle button--a button that can be \"toggled\" between\nan on state and an off state (or an on state, an indeterminate state, and an off state).\n\nPlease check out these [examples](https://www.w3.org/TR/2016/WD-wai-aria-practices-1.1-20160317/examples/button/button.html)\nas well.\n\n    button\n        [ pressed <| Just True ]\n        [ text \"This button should be styled for site viewers such that it's clear it's pressed!\" ]\n\n",
+        "type": "Maybe.Maybe Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "readOnly",
+        "comment": " Supported on `checkBox`, `comboBox`, `grid`, `gridCell`, `listBox`,\n`radioGroup`, `slider`, `spinButton`, and `textBox`.\n\nIndicates read-only status of a widget, although normal navigation rules and\ncopying behavior should apply. (Read: `readOnly` elements are navigable but\nunchangeable, and `disabled` elements are neither navigable nor unchangebale).\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "required",
+        "comment": " Supported by `comboBox`, `gridCell`, `listBox`, `radioGroup`, `spinButton`, `textBox`, `tree`\n\nIndicate whether user input is or is not required on a field for valid form submission.\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "selected",
+        "comment": " Supported by `gridCell`, `option`, `row`, `tab`.\n\nIndicate whether an element (in a single- or multi-selectable widget) is or is not selected.\n\n",
+        "type": "Bool -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "sortAscending",
+        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nThis should only be applied to one header at a time.\n\nTable is sorted by this column's values in ascending order.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "sortCustom",
+        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nOnly one column in a table should be sorting the values in table.\n\nTable is sorted by this column's values, but the algorithm for that sorting\nis custom (not ascending or descending).\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "sortDescending",
+        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nOnly one column in a table should be sorting the values in table.\n\nTable is sorted by this column's values in descending order.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "sortNone",
+        "comment": " Supported by `columnHeader` and `rowHeader`, but only where those roles are\nused on table or grid headers.\n\nTable is not sorted by this column's values.\n\n",
+        "type": "Html.Styled.Attribute msg"
+      },
+      {
+        "name": "valueMax",
+        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nSet the max allowed value for a range widget.\n\n",
+        "type": "number -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "valueMin",
+        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nSet the min allowed value for a range widget.\n\n",
+        "type": "number -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "valueNow",
+        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nSet the current value for a range widget. Don't use this property for indeterminate states.\n\n",
+        "type": "number -> Html.Styled.Attribute msg"
+      },
+      {
+        "name": "valueText",
+        "comment": " Supported by `progressBar`, `scrollbar`, `separator`, `slider`, and `spinButton`.\n\nThis property takes precedence over `valueNow`, and should show a human-readable\nversion of the current value. However, `valueNow` should always be used.\n\n",
+        "type": "String -> Html.Styled.Attribute msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

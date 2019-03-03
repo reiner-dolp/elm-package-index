@@ -1,31 +1,5 @@
 [
   {
-    "name": "Touch",
-    "comment": " This is an early version of the touch library. It will likely grow to\ninclude gestures that would be useful for both games and web-pages.\n\n# Touches\n@docs Touch, touches\n\n# Gestures\n@docs taps\n",
-    "aliases": [
-      {
-        "name": "Touch",
-        "comment": " Every `Touch` has `xy` coordinates. It also has an identifier\n`id` to distinguish one touch from another.\n\nA touch also keeps info about the initial point and time of contact:\n`x0`, `y0`, and `t0`. This helps compute more complicated gestures\nlike taps, drags, and swipes which need to know about timing or direction.\n",
-        "args": [],
-        "type": "{ x : Int, y : Int, id : Int, x0 : Int, y0 : Int, t0 : Time.Time }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "taps",
-        "comment": " The last position that was tapped. Default value is `{x=0,y=0}`.\nUpdates whenever the user taps the screen.\n",
-        "type": "Signal.Signal { x : Int, y : Int }"
-      },
-      {
-        "name": "touches",
-        "comment": " A list of ongoing touches. ",
-        "type": "Signal.Signal (List Touch.Touch)"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Date",
     "comment": " Library for working with dates. Email the mailing list if you encounter\nissues with internationalization or locale formatting.\n\n# Dates\n@docs Date\n\n# Conversions\n@docs fromString, toTime, fromTime\n\n# Extractions\n@docs year, month, Month, day, dayOfWeek, Day, hour, minute, second, millisecond\n\n",
     "aliases": [],
@@ -187,25 +161,91 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Window",
-    "comment": " Provides information about the container that your Elm program lives in.\nWhen you embed Elm in a `<div>` it gives the dimensions of the container, not\nthe whole window.\n\n# Dimensions\n@docs dimensions, width, height\n\n",
+    "name": "Touch",
+    "comment": " This is an early version of the touch library. It will likely grow to\ninclude gestures that would be useful for both games and web-pages.\n\n# Touches\n@docs Touch, touches\n\n# Gestures\n@docs taps\n",
+    "aliases": [
+      {
+        "name": "Touch",
+        "comment": " Every `Touch` has `xy` coordinates. It also has an identifier\n`id` to distinguish one touch from another.\n\nA touch also keeps info about the initial point and time of contact:\n`x0`, `y0`, and `t0`. This helps compute more complicated gestures\nlike taps, drags, and swipes which need to know about timing or direction.\n",
+        "args": [],
+        "type": "{ x : Int, y : Int, id : Int, x0 : Int, y0 : Int, t0 : Time.Time }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "taps",
+        "comment": " The last position that was tapped. Default value is `{x=0,y=0}`.\nUpdates whenever the user taps the screen.\n",
+        "type": "Signal.Signal { x : Int, y : Int }"
+      },
+      {
+        "name": "touches",
+        "comment": " A list of ongoing touches. ",
+        "type": "Signal.Signal (List Touch.Touch)"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Keyboard",
+    "comment": " Library for working with keyboard input.\n\n# Directions\n@docs arrows, wasd\n\n# Specific Keys\nThe following signals are `True` when the particular key is pressed and `False`\notherwise.\n\n@docs enter, space, ctrl, shift, alt, meta\n\n# General Keypresses\n@docs isDown, keysDown, presses\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "dimensions",
-        "comment": " The current width and height of the window (i.e. the area viewable to the\nuser, not including scroll bars). ",
-        "type": "Signal.Signal ( Int, Int )"
+        "name": "alt",
+        "comment": "",
+        "type": "Signal.Signal Bool"
       },
       {
-        "name": "height",
-        "comment": " The current height of the window. ",
-        "type": "Signal.Signal Int"
+        "name": "arrows",
+        "comment": " A signal of records indicating which arrow keys are pressed.\n\n  * `{ x = 0, y = 0 }` when pressing no arrows.\n  * `{ x =-1, y = 0 }` when pressing the left arrow.\n  * `{ x = 1, y = 1 }` when pressing the up and right arrows.\n  * `{ x = 0, y =-1 }` when pressing the down, left, and right arrows.\n",
+        "type": "Signal.Signal { x : Int, y : Int }"
       },
       {
-        "name": "width",
-        "comment": " The current width of the window. ",
-        "type": "Signal.Signal Int"
+        "name": "ctrl",
+        "comment": "",
+        "type": "Signal.Signal Bool"
+      },
+      {
+        "name": "enter",
+        "comment": "",
+        "type": "Signal.Signal Bool"
+      },
+      {
+        "name": "isDown",
+        "comment": " Whether an arbitrary key is pressed. ",
+        "type": "Char.KeyCode -> Signal.Signal Bool"
+      },
+      {
+        "name": "keysDown",
+        "comment": " Set of keys that are currently down. ",
+        "type": "Signal.Signal (Set.Set Char.KeyCode)"
+      },
+      {
+        "name": "meta",
+        "comment": " The meta key is the Windows key on Windows and the Command key on Mac.\n",
+        "type": "Signal.Signal Bool"
+      },
+      {
+        "name": "presses",
+        "comment": " The latest key that has been pressed. ",
+        "type": "Signal.Signal Char.KeyCode"
+      },
+      {
+        "name": "shift",
+        "comment": "",
+        "type": "Signal.Signal Bool"
+      },
+      {
+        "name": "space",
+        "comment": "",
+        "type": "Signal.Signal Bool"
+      },
+      {
+        "name": "wasd",
+        "comment": " Just like the arrows signal, but this uses keys w, a, s, and d,\nwhich are common controls for many computer games.\n",
+        "type": "Signal.Signal { x : Int, y : Int }"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -292,6 +332,45 @@
         "name": "timestamp",
         "comment": " Add a timestamp to any signal. Timestamps increase monotonically. When you\ncreate `(timestamp Mouse.x)`, an initial timestamp is produced. The timestamp\nupdates whenever `Mouse.x` updates.\n\nTimestamp updates are tied to individual events, so `(timestamp Mouse.x)` and\n`(timestamp Mouse.y)` will always have the same timestamp because they rely on\nthe same underlying event (`Mouse.position`).\n",
         "type": "Signal.Signal a -> Signal.Signal ( Time.Time, a )"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Graphics.Input",
+    "comment": " This module is for creating input widgets such as buttons and text fields.\nAll functions in this library report to a [`Signal.Mailbox`](Signal#message).\n\n# Basic Input Elements\n\nTo learn about text fields, see the\n[`Graphics.Input.Field`](Graphics-Input-Field) library.\n\n@docs button, customButton, checkbox, dropDown\n\n# Clicks and Hovers\n@docs clickable, hoverable\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "button",
+        "comment": " Create a standard button. The following example begins making a basic\ncalculator:\n\n    type Keys = Number Int | Plus | Minus | Clear\n\n    keys : Signal.Mailbox Keys\n    keys = Signal.mailbox Clear\n\n    calculator : Element\n    calculator =\n        flow right\n          [ button (Signal.message keys.address (Number 1)) \"1\"\n          , button (Signal.message keys.address (Number 2)) \"2\"\n          , button (Signal.message keys.address    Plus   ) \"+\"\n          ]\n\nIf the user presses the \"+\" button, `keys.signal` will update to `Plus`. If the\nusers presses \"2\", `keys.signal` will update to `(Number 2)`.\n",
+        "type": "Signal.Message -> String -> Graphics.Element.Element"
+      },
+      {
+        "name": "checkbox",
+        "comment": " Create a checkbox. The following example creates three synced checkboxes:\n\n    check : Signal.Mailbox Bool\n    check = Signal.mailbox False\n\n    boxes : Bool -> Element\n    boxes checked =\n        let box = container 40 40 middle (checkbox (Signal.message check.address) checked)\n        in\n            flow right [ box, box, box ]\n\n    main : Signal Element\n    main = boxes <~ check.signal\n",
+        "type": "(Bool -> Signal.Message) -> Bool -> Graphics.Element.Element"
+      },
+      {
+        "name": "clickable",
+        "comment": " Detect mouse clicks on a specific `Element`. In the following example,\nwe will create a clickable picture called `cat`.\n\n    type Picture = Cat | Hat\n\n    picture : Signal.Mailbox Picture\n    picture = Signal.mailbox Cat\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |> clickable (Signal.message picture.address Cat)\n\n    hat : Element\n    hat =\n      image 30 30 \"/hat.jpg\"\n        |> clickable (Signal.message picture.address Hat)\n\nWhen the user clicks on the `cat` element, `picture.signal` receives\nan update containing the value `Cat`. When the user clicks on the `hat` element,\n`picture.signal` receives an update containing the value `Hat`. This lets you\ndistinguish which element was clicked. In a more complex example, they could be\ndistinguished with IDs or more complex data structures.\n",
+        "type": "Signal.Message -> Graphics.Element.Element -> Graphics.Element.Element"
+      },
+      {
+        "name": "customButton",
+        "comment": " Same as `button` but lets you customize buttons to look however you want.\n\n    click : Signal.Mailbox ()\n    click = Signal.mailbox ()\n\n    prettyButton : Element\n    prettyButton =\n        customButton (Signal.message click.address ())\n            (image 100 40 \"/button_up.jpg\")\n            (image 100 40 \"/button_hover.jpg\")\n            (image 100 40 \"/button_down.jpg\")\n",
+        "type": "Signal.Message -> Graphics.Element.Element -> Graphics.Element.Element -> Graphics.Element.Element -> Graphics.Element.Element"
+      },
+      {
+        "name": "dropDown",
+        "comment": " Create a drop-down menu.  The following drop-down lets you choose your\nfavorite British sport:\n\n    type Sport = Football | Cricket | Snooker\n\n    sport : Signal.Mailbox (Maybe Sport)\n    sport = Signal.mailbox Nothing\n\n    sportDropDown : Element\n    sportDropDown =\n        dropDown (Signal.message sport.address)\n          [ (\"\"        , Nothing)\n          , (\"Football\", Just Football)\n          , (\"Cricket\" , Just Cricket)\n          , (\"Snooker\" , Just Snooker)\n          ]\n\nIf the user selects \"Football\" from the drop down menu, `sport.signal`\nwill update to `Just Football`.\n",
+        "type": "(a -> Signal.Message) -> List ( String, a ) -> Graphics.Element.Element"
+      },
+      {
+        "name": "hoverable",
+        "comment": " Detect mouse hovers over a specific `Element`. In the following example,\nwe will create a hoverable picture called `cat`.\n\n    hover : Signal.Mailbox Bool\n    hover = Signal.mailbox False\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |> hoverable (Signal.message hover.address)\n\nWhen the mouse hovers above the `cat` element, `hover.signal` will become\n`True`. When the mouse leaves it, `hover.signal` will become `False`.\n",
+        "type": "(Bool -> Signal.Message) -> Graphics.Element.Element -> Graphics.Element.Element"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -399,6 +478,30 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Window",
+    "comment": " Provides information about the container that your Elm program lives in.\nWhen you embed Elm in a `<div>` it gives the dimensions of the container, not\nthe whole window.\n\n# Dimensions\n@docs dimensions, width, height\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "dimensions",
+        "comment": " The current width and height of the window (i.e. the area viewable to the\nuser, not including scroll bars). ",
+        "type": "Signal.Signal ( Int, Int )"
+      },
+      {
+        "name": "height",
+        "comment": " The current height of the window. ",
+        "type": "Signal.Signal Int"
+      },
+      {
+        "name": "width",
+        "comment": " The current width of the window. ",
+        "type": "Signal.Signal Int"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Mouse",
     "comment": " Library for working with mouse input.\n\n# Position\n@docs position, x, y\n\n# Button Status\n@docs isDown, clicks\n\n",
     "aliases": [],
@@ -428,109 +531,6 @@
         "name": "y",
         "comment": " The current y-coordinate of the mouse. ",
         "type": "Signal.Signal Int"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Keyboard",
-    "comment": " Library for working with keyboard input.\n\n# Directions\n@docs arrows, wasd\n\n# Specific Keys\nThe following signals are `True` when the particular key is pressed and `False`\notherwise.\n\n@docs enter, space, ctrl, shift, alt, meta\n\n# General Keypresses\n@docs isDown, keysDown, presses\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "alt",
-        "comment": "",
-        "type": "Signal.Signal Bool"
-      },
-      {
-        "name": "arrows",
-        "comment": " A signal of records indicating which arrow keys are pressed.\n\n  * `{ x = 0, y = 0 }` when pressing no arrows.\n  * `{ x =-1, y = 0 }` when pressing the left arrow.\n  * `{ x = 1, y = 1 }` when pressing the up and right arrows.\n  * `{ x = 0, y =-1 }` when pressing the down, left, and right arrows.\n",
-        "type": "Signal.Signal { x : Int, y : Int }"
-      },
-      {
-        "name": "ctrl",
-        "comment": "",
-        "type": "Signal.Signal Bool"
-      },
-      {
-        "name": "enter",
-        "comment": "",
-        "type": "Signal.Signal Bool"
-      },
-      {
-        "name": "isDown",
-        "comment": " Whether an arbitrary key is pressed. ",
-        "type": "Char.KeyCode -> Signal.Signal Bool"
-      },
-      {
-        "name": "keysDown",
-        "comment": " Set of keys that are currently down. ",
-        "type": "Signal.Signal (Set.Set Char.KeyCode)"
-      },
-      {
-        "name": "meta",
-        "comment": " The meta key is the Windows key on Windows and the Command key on Mac.\n",
-        "type": "Signal.Signal Bool"
-      },
-      {
-        "name": "presses",
-        "comment": " The latest key that has been pressed. ",
-        "type": "Signal.Signal Char.KeyCode"
-      },
-      {
-        "name": "shift",
-        "comment": "",
-        "type": "Signal.Signal Bool"
-      },
-      {
-        "name": "space",
-        "comment": "",
-        "type": "Signal.Signal Bool"
-      },
-      {
-        "name": "wasd",
-        "comment": " Just like the arrows signal, but this uses keys w, a, s, and d,\nwhich are common controls for many computer games.\n",
-        "type": "Signal.Signal { x : Int, y : Int }"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Graphics.Input",
-    "comment": " This module is for creating input widgets such as buttons and text fields.\nAll functions in this library report to a [`Signal.Mailbox`](Signal#message).\n\n# Basic Input Elements\n\nTo learn about text fields, see the\n[`Graphics.Input.Field`](Graphics-Input-Field) library.\n\n@docs button, customButton, checkbox, dropDown\n\n# Clicks and Hovers\n@docs clickable, hoverable\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "button",
-        "comment": " Create a standard button. The following example begins making a basic\ncalculator:\n\n    type Keys = Number Int | Plus | Minus | Clear\n\n    keys : Signal.Mailbox Keys\n    keys = Signal.mailbox Clear\n\n    calculator : Element\n    calculator =\n        flow right\n          [ button (Signal.message keys.address (Number 1)) \"1\"\n          , button (Signal.message keys.address (Number 2)) \"2\"\n          , button (Signal.message keys.address    Plus   ) \"+\"\n          ]\n\nIf the user presses the \"+\" button, `keys.signal` will update to `Plus`. If the\nusers presses \"2\", `keys.signal` will update to `(Number 2)`.\n",
-        "type": "Signal.Message -> String -> Graphics.Element.Element"
-      },
-      {
-        "name": "checkbox",
-        "comment": " Create a checkbox. The following example creates three synced checkboxes:\n\n    check : Signal.Mailbox Bool\n    check = Signal.mailbox False\n\n    boxes : Bool -> Element\n    boxes checked =\n        let box = container 40 40 middle (checkbox (Signal.message check.address) checked)\n        in\n            flow right [ box, box, box ]\n\n    main : Signal Element\n    main = boxes <~ check.signal\n",
-        "type": "(Bool -> Signal.Message) -> Bool -> Graphics.Element.Element"
-      },
-      {
-        "name": "clickable",
-        "comment": " Detect mouse clicks on a specific `Element`. In the following example,\nwe will create a clickable picture called `cat`.\n\n    type Picture = Cat | Hat\n\n    picture : Signal.Mailbox Picture\n    picture = Signal.mailbox Cat\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |> clickable (Signal.message picture.address Cat)\n\n    hat : Element\n    hat =\n      image 30 30 \"/hat.jpg\"\n        |> clickable (Signal.message picture.address Hat)\n\nWhen the user clicks on the `cat` element, `picture.signal` receives\nan update containing the value `Cat`. When the user clicks on the `hat` element,\n`picture.signal` receives an update containing the value `Hat`. This lets you\ndistinguish which element was clicked. In a more complex example, they could be\ndistinguished with IDs or more complex data structures.\n",
-        "type": "Signal.Message -> Graphics.Element.Element -> Graphics.Element.Element"
-      },
-      {
-        "name": "customButton",
-        "comment": " Same as `button` but lets you customize buttons to look however you want.\n\n    click : Signal.Mailbox ()\n    click = Signal.mailbox ()\n\n    prettyButton : Element\n    prettyButton =\n        customButton (Signal.message click.address ())\n            (image 100 40 \"/button_up.jpg\")\n            (image 100 40 \"/button_hover.jpg\")\n            (image 100 40 \"/button_down.jpg\")\n",
-        "type": "Signal.Message -> Graphics.Element.Element -> Graphics.Element.Element -> Graphics.Element.Element -> Graphics.Element.Element"
-      },
-      {
-        "name": "dropDown",
-        "comment": " Create a drop-down menu.  The following drop-down lets you choose your\nfavorite British sport:\n\n    type Sport = Football | Cricket | Snooker\n\n    sport : Signal.Mailbox (Maybe Sport)\n    sport = Signal.mailbox Nothing\n\n    sportDropDown : Element\n    sportDropDown =\n        dropDown (Signal.message sport.address)\n          [ (\"\"        , Nothing)\n          , (\"Football\", Just Football)\n          , (\"Cricket\" , Just Cricket)\n          , (\"Snooker\" , Just Snooker)\n          ]\n\nIf the user selects \"Football\" from the drop down menu, `sport.signal`\nwill update to `Just Football`.\n",
-        "type": "(a -> Signal.Message) -> List ( String, a ) -> Graphics.Element.Element"
-      },
-      {
-        "name": "hoverable",
-        "comment": " Detect mouse hovers over a specific `Element`. In the following example,\nwe will create a hoverable picture called `cat`.\n\n    hover : Signal.Mailbox Bool\n    hover = Signal.mailbox False\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |> hoverable (Signal.message hover.address)\n\nWhen the mouse hovers above the `cat` element, `hover.signal` will become\n`True`. When the mouse leaves it, `hover.signal` will become `False`.\n",
-        "type": "(Bool -> Signal.Message) -> Graphics.Element.Element -> Graphics.Element.Element"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -2042,6 +2042,105 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Random",
+    "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nYou use a `Generator` by running the [`generate`](#generate) function. If you\nneed random values across many frames, you will probably want to store the\nmost recent seed in your application state.\n\n*Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Run a Generator\n@docs generate, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Generator",
+        "comment": " A `Generator` is like a recipe for generating certain random values. So a\n`Generator Int` describes how to generate integers and a `Generator String`\ndescribes how to generate strings.\n\nTo actually *run* a generator and produce the random values, you need to use\nfunctions like [`generate`](#generate) and [`initialSeed`](#initialSeed).\n",
+        "args": [
+          "a"
+        ],
+        "cases": []
+      },
+      {
+        "name": "Seed",
+        "comment": " A `Seed` is the source of randomness in this whole system. Whenever\nyou want to use a generator, you need to pair it with a seed.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "andThen",
+        "comment": " Chain random operations, threading through the seed. In the following\nexample, we will generate a random letter by putting together uppercase and\nlowercase letters.\n\n    letter : Generator Char\n    letter =\n      bool `andThen` \\b ->\n        if b then uppercaseLetter else lowercaseLetter\n\n    -- bool : Generator Bool\n    -- uppercaseLetter : Generator Char\n    -- lowercaseLetter : Generator Char\n",
+        "type": "Random.Generator a -> (a -> Random.Generator b) -> Random.Generator b"
+      },
+      {
+        "name": "bool",
+        "comment": " Create a generator that produces boolean values. The following example\nsimulates a coin flip that may land heads or tails.\n\n    type Flip = Heads | Tails\n\n    coinFlip : Generator Flip\n    coinFlip =\n        map (\\b -> if b then Heads else Tails) bool\n",
+        "type": "Random.Generator Bool"
+      },
+      {
+        "name": "float",
+        "comment": " Generate floats in a given range. The following example is a generator\nthat produces decimals between 0 and 1.\n\n    probability : Generator Float\n    probability =\n        float 0 1\n",
+        "type": "Float -> Float -> Random.Generator Float"
+      },
+      {
+        "name": "generate",
+        "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `generate` we need to provide\na seed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `generate` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n    -- generate (int 0 100) seed1 ==> (31, seed2)\n    -- generate (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n",
+        "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
+      },
+      {
+        "name": "initialSeed",
+        "comment": " Create a &ldquo;seed&rdquo; of randomness which makes it possible to\ngenerate random values. If you use the same seed many times, it will result\nin the same thing every time! A good way to get an unexpected seed is to use\nthe current time.\n",
+        "type": "Int -> Random.Seed"
+      },
+      {
+        "name": "int",
+        "comment": " Generate 32-bit integers in a given range.\n\n    int 0 10   -- an integer between zero and ten\n    int -5 5   -- an integer between -5 and 5\n\n    int minInt maxInt  -- an integer in the widest range feasible\n\nThis function *can* produce values outside of the range [[`minInt`](#minInt),\n[`maxInt`](#maxInt)] but sufficient randomness is not guaranteed.\n",
+        "type": "Int -> Int -> Random.Generator Int"
+      },
+      {
+        "name": "list",
+        "comment": " Create a list of random values.\n\n    floatList : Generator (List Float)\n    floatList =\n        list 10 (float 0 1)\n\n    intList : Generator (List Int)\n    intList =\n        list 5 (int 0 100)\n\n    intPairs : Generator (List (Int, Int))\n    intPairs =\n        list 10 <| pair (int 0 100) (int 0 100)\n",
+        "type": "Int -> Random.Generator a -> Random.Generator (List a)"
+      },
+      {
+        "name": "map",
+        "comment": " Transform the values produced by a generator. The following examples show\nhow to generate booleans and letters based on a basic integer generator.\n\n    bool : Generator Bool\n    bool =\n      map ((==) 1) (int 0 1)\n\n    lowercaseLetter : Generator Char\n    lowercaseLetter =\n      map (\\n -> Char.fromCode (n + 97)) (int 0 25)\n\n    uppercaseLetter : Generator Char\n    uppercaseLetter =\n      map (\\n -> Char.fromCode (n + 65)) (int 0 25)\n\n",
+        "type": "(a -> b) -> Random.Generator a -> Random.Generator b"
+      },
+      {
+        "name": "map2",
+        "comment": " Combine two generators.\n\nThis function is used to define things like [`pair`](#pair) where you want to\nput two generators together.\n\n    pair : Generator a -> Generator b -> Generator (a,b)\n    pair genA genB =\n      map2 (,) genA genB\n\n",
+        "type": "(a -> b -> c) -> Random.Generator a -> Random.Generator b -> Random.Generator c"
+      },
+      {
+        "name": "map3",
+        "comment": " Combine three generators. This could be used to produce random colors.\n\n    import Color\n\n    rgb : Generator Color.Color\n    rgb =\n      map3 Color.rgb (int 0 255) (int 0 255) (int 0 255)\n\n    hsl : Generator Color.Color\n    hsl =\n      map3 Color.hsl (map degrees (int 0 360)) (float 0 1) (float 0 1)\n",
+        "type": "(a -> b -> c -> d) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d"
+      },
+      {
+        "name": "map4",
+        "comment": " Combine four generators.\n",
+        "type": "(a -> b -> c -> d -> e) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e"
+      },
+      {
+        "name": "map5",
+        "comment": " Combine five generators.\n",
+        "type": "(a -> b -> c -> d -> e -> f) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e -> Random.Generator f"
+      },
+      {
+        "name": "maxInt",
+        "comment": " The maximum value for randomly generated 32-bit ints. ",
+        "type": "Int"
+      },
+      {
+        "name": "minInt",
+        "comment": " The minimum value for randomly generated 32-bit ints. ",
+        "type": "Int"
+      },
+      {
+        "name": "pair",
+        "comment": " Create a pair of random values. A common use of this might be to generate\na point in a certain 2D space. Imagine we have a collage that is 400 pixels\nwide and 200 pixels tall.\n\n    randomPoint : Generator (Int,Int)\n    randomPoint =\n        pair (int -200 200) (int -100 100)\n\n",
+        "type": "Random.Generator a -> Random.Generator b -> Random.Generator ( a, b )"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Text",
     "comment": " A library for styling and displaying text. While the\n[`String`](String) library focuses on representing and manipulating\nstrings of character strings, the `Text` library focuses on how those\nstrings should look on screen. It lets you make text bold or italic,\nset the typeface, set the text size, etc.\n\n# Text\n@docs Text\n\n# Creating Text\n@docs fromString, empty, append, concat, join\n\n# Links and Style\n@docs link, typeface, monospace, height, color, bold, italic, line, Line,\n    style, Style, defaultStyle\n\n",
     "aliases": [
@@ -2159,105 +2258,6 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Random",
-    "comment": " This library helps you generate pseudo-random values.\n\nThis library is all about building [`generators`](#Generator) for whatever\ntype of values you need. There are a bunch of primitive generators like\n[`bool`](#bool) and [`int`](#int) that you can build up into fancier\ngenerators with functions like [`list`](#list) and [`map`](#map).\n\nYou use a `Generator` by running the [`generate`](#generate) function. If you\nneed random values across many frames, you will probably want to store the\nmost recent seed in your application state.\n\n*Note:* This is an implementation of the Portable Combined Generator of\nL'Ecuyer for 32-bit computers. It is almost a direct translation from the\n[System.Random](http://hackage.haskell.org/package/random-1.0.1.1/docs/System-Random.html)\nmodule. It has a period of roughly 2.30584e18.\n\n# Generators\n@docs Generator\n\n# Primitive Generators\n@docs bool, int, float\n\n# Data Structure Generators\n@docs pair, list\n\n# Custom Generators\n@docs map, map2, map3, map4, map5, andThen\n\n# Run a Generator\n@docs generate, Seed, initialSeed\n\n# Constants\n@docs maxInt, minInt\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Generator",
-        "comment": " A `Generator` is like a recipe for generating certain random values. So a\n`Generator Int` describes how to generate integers and a `Generator String`\ndescribes how to generate strings.\n\nTo actually *run* a generator and produce the random values, you need to use\nfunctions like [`generate`](#generate) and [`initialSeed`](#initialSeed).\n",
-        "args": [
-          "a"
-        ],
-        "cases": []
-      },
-      {
-        "name": "Seed",
-        "comment": " A `Seed` is the source of randomness in this whole system. Whenever\nyou want to use a generator, you need to pair it with a seed.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "andThen",
-        "comment": " Chain random operations, threading through the seed. In the following\nexample, we will generate a random letter by putting together uppercase and\nlowercase letters.\n\n    letter : Generator Char\n    letter =\n      bool `andThen` \\b ->\n        if b then uppercaseLetter else lowercaseLetter\n\n    -- bool : Generator Bool\n    -- uppercaseLetter : Generator Char\n    -- lowercaseLetter : Generator Char\n",
-        "type": "Random.Generator a -> (a -> Random.Generator b) -> Random.Generator b"
-      },
-      {
-        "name": "bool",
-        "comment": " Create a generator that produces boolean values. The following example\nsimulates a coin flip that may land heads or tails.\n\n    type Flip = Heads | Tails\n\n    coinFlip : Generator Flip\n    coinFlip =\n        map (\\b -> if b then Heads else Tails) bool\n",
-        "type": "Random.Generator Bool"
-      },
-      {
-        "name": "float",
-        "comment": " Generate floats in a given range. The following example is a generator\nthat produces decimals between 0 and 1.\n\n    probability : Generator Float\n    probability =\n        float 0 1\n",
-        "type": "Float -> Float -> Random.Generator Float"
-      },
-      {
-        "name": "generate",
-        "comment": " Generate a random value as specified by a given `Generator`.\n\nIn the following example, we are trying to generate a number between 0 and 100\nwith the `int 0 100` generator. Each time we call `generate` we need to provide\na seed. This will produce a random number and a *new* seed to use if we want to\nrun other generators later.\n\nSo here it is done right, where we get a new seed from each `generate` call and\nthread that through.\n\n    seed0 = initialSeed 31415\n\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n    -- generate (int 0 100) seed1 ==> (31, seed2)\n    -- generate (int 0 100) seed2 ==> (99, seed3)\n\nNotice that we use different seeds on each line. This is important! If you use\nthe same seed, you get the same results.\n\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n    -- generate (int 0 100) seed0 ==> (42, seed1)\n",
-        "type": "Random.Generator a -> Random.Seed -> ( a, Random.Seed )"
-      },
-      {
-        "name": "initialSeed",
-        "comment": " Create a &ldquo;seed&rdquo; of randomness which makes it possible to\ngenerate random values. If you use the same seed many times, it will result\nin the same thing every time! A good way to get an unexpected seed is to use\nthe current time.\n",
-        "type": "Int -> Random.Seed"
-      },
-      {
-        "name": "int",
-        "comment": " Generate 32-bit integers in a given range.\n\n    int 0 10   -- an integer between zero and ten\n    int -5 5   -- an integer between -5 and 5\n\n    int minInt maxInt  -- an integer in the widest range feasible\n\nThis function *can* produce values outside of the range [[`minInt`](#minInt),\n[`maxInt`](#maxInt)] but sufficient randomness is not guaranteed.\n",
-        "type": "Int -> Int -> Random.Generator Int"
-      },
-      {
-        "name": "list",
-        "comment": " Create a list of random values.\n\n    floatList : Generator (List Float)\n    floatList =\n        list 10 (float 0 1)\n\n    intList : Generator (List Int)\n    intList =\n        list 5 (int 0 100)\n\n    intPairs : Generator (List (Int, Int))\n    intPairs =\n        list 10 <| pair (int 0 100) (int 0 100)\n",
-        "type": "Int -> Random.Generator a -> Random.Generator (List a)"
-      },
-      {
-        "name": "map",
-        "comment": " Transform the values produced by a generator. The following examples show\nhow to generate booleans and letters based on a basic integer generator.\n\n    bool : Generator Bool\n    bool =\n      map ((==) 1) (int 0 1)\n\n    lowercaseLetter : Generator Char\n    lowercaseLetter =\n      map (\\n -> Char.fromCode (n + 97)) (int 0 25)\n\n    uppercaseLetter : Generator Char\n    uppercaseLetter =\n      map (\\n -> Char.fromCode (n + 65)) (int 0 25)\n\n",
-        "type": "(a -> b) -> Random.Generator a -> Random.Generator b"
-      },
-      {
-        "name": "map2",
-        "comment": " Combine two generators.\n\nThis function is used to define things like [`pair`](#pair) where you want to\nput two generators together.\n\n    pair : Generator a -> Generator b -> Generator (a,b)\n    pair genA genB =\n      map2 (,) genA genB\n\n",
-        "type": "(a -> b -> c) -> Random.Generator a -> Random.Generator b -> Random.Generator c"
-      },
-      {
-        "name": "map3",
-        "comment": " Combine three generators. This could be used to produce random colors.\n\n    import Color\n\n    rgb : Generator Color.Color\n    rgb =\n      map3 Color.rgb (int 0 255) (int 0 255) (int 0 255)\n\n    hsl : Generator Color.Color\n    hsl =\n      map3 Color.hsl (map degrees (int 0 360)) (float 0 1) (float 0 1)\n",
-        "type": "(a -> b -> c -> d) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d"
-      },
-      {
-        "name": "map4",
-        "comment": " Combine four generators.\n",
-        "type": "(a -> b -> c -> d -> e) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e"
-      },
-      {
-        "name": "map5",
-        "comment": " Combine five generators.\n",
-        "type": "(a -> b -> c -> d -> e -> f) -> Random.Generator a -> Random.Generator b -> Random.Generator c -> Random.Generator d -> Random.Generator e -> Random.Generator f"
-      },
-      {
-        "name": "maxInt",
-        "comment": " The maximum value for randomly generated 32-bit ints. ",
-        "type": "Int"
-      },
-      {
-        "name": "minInt",
-        "comment": " The minimum value for randomly generated 32-bit ints. ",
-        "type": "Int"
-      },
-      {
-        "name": "pair",
-        "comment": " Create a pair of random values. A common use of this might be to generate\na point in a certain 2D space. Imagine we have a collage that is 400 pixels\nwide and 200 pixels tall.\n\n    randomPoint : Generator (Int,Int)\n    randomPoint =\n        pair (int -200 200) (int -100 100)\n\n",
-        "type": "Random.Generator a -> Random.Generator b -> Random.Generator ( a, b )"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
     "name": "Array",
     "comment": " A library for fast immutable arrays. The elements in an array must have the\nsame type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast\nreads, updates, and appends.\n\n# Arrays\n@docs Array\n\n# Creating Arrays\n@docs empty, repeat, initialize, fromList\n\n# Basics\n@docs isEmpty, length, push, append\n\n# Get and Set\n@docs get, set\n\n# Taking Arrays Apart\n@docs slice, toList, toIndexedList\n\n# Mapping, Filtering, and Folding\n@docs map, indexedMap, filter, foldl, foldr\n",
     "aliases": [],
@@ -2366,6 +2366,81 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
+    "name": "Regex",
+    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
+    "aliases": [
+      {
+        "name": "Match",
+        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
+        "args": [],
+        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
+      }
+    ],
+    "types": [
+      {
+        "name": "HowMany",
+        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
+        "args": [],
+        "cases": [
+          [
+            "All",
+            []
+          ],
+          [
+            "AtMost",
+            [
+              "Int"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "Regex",
+        "comment": " A regular expression, describing a certain set of strings.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "caseInsensitive",
+        "comment": " Make a regex case insensitive ",
+        "type": "Regex.Regex -> Regex.Regex"
+      },
+      {
+        "name": "contains",
+        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
+        "type": "Regex.Regex -> String -> Bool"
+      },
+      {
+        "name": "escape",
+        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
+        "type": "String -> String"
+      },
+      {
+        "name": "find",
+        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
+      },
+      {
+        "name": "regex",
+        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
+        "type": "String -> Regex.Regex"
+      },
+      {
+        "name": "replace",
+        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
+        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
+      },
+      {
+        "name": "split",
+        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
+        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
     "name": "Result",
     "comment": " A `Result` is the result of a computation that may fail. This is a great\nway to manage errors in Elm.\n\n# Type and Constructors\n@docs Result\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Chaining\n@docs andThen\n\n# Handling Errors\n@docs withDefault, toMaybe, fromMaybe, formatError\n",
     "aliases": [],
@@ -2443,81 +2518,6 @@
         "name": "withDefault",
         "comment": " If the result is `Ok` return the value, but if the result is an `Err` then\nreturn a given default value. The following examples try to parse integers.\n\n    Result.withDefault 0 (String.toInt \"123\") == 123\n    Result.withDefault 0 (String.toInt \"abc\") == 0\n",
         "type": "a -> Result.Result x a -> a"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Regex",
-    "comment": " A library for working with regular expressions. It uses [the\nsame kind of regular expressions accepted by JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).\n\n# Create\n@docs Regex, regex, escape, caseInsensitive\n\n# Helpful Data Structures\n\nThese data structures are needed to help define functions like [`find`](#find)\nand [`replace`](#replace).\n\n@docs HowMany, Match\n\n# Use\n@docs contains, find, replace, split\n\n",
-    "aliases": [
-      {
-        "name": "Match",
-        "comment": " A `Match` represents all of the details about a particular match in a string.\nHere are details on each field:\n\n  * `match` &mdash; the full string of the match.\n  * `submatches` &mdash; a regex might have [subpatterns, surrounded by\n    parentheses](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Parenthesized_Substring_Matches).\n    If there are N subpatterns, there will be N elements in the `submatches` list.\n    Each submatch in this list is a `Maybe` because not all subpatterns may trigger.\n    For example, `(regex \"(a+)|(b+)\")` will either match many `a`&rsquo;s or\n    many `b`&rsquo;s, but never both.\n  * `index` &mdash; the index of the match in the original string.\n  * `number` &mdash; if you find many matches, you can think of each one\n    as being labeled with a `number` starting at one. So the first time you\n    find a match, that is match `number` one. Second time is match `number` two.\n    This is useful when paired with `replace All` if replacement is dependent on how\n    many times a pattern has appeared before.\n",
-        "args": [],
-        "type": "{ match : String , submatches : List (Maybe.Maybe String) , index : Int , number : Int }"
-      }
-    ],
-    "types": [
-      {
-        "name": "HowMany",
-        "comment": " `HowMany` is used to specify how many matches you want to make. So\n`replace All` would replace every match, but `replace (AtMost 2)` would\nreplace at most two matches (i.e. zero, one, two, but never three or more).\n",
-        "args": [],
-        "cases": [
-          [
-            "All",
-            []
-          ],
-          [
-            "AtMost",
-            [
-              "Int"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "Regex",
-        "comment": " A regular expression, describing a certain set of strings.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "caseInsensitive",
-        "comment": " Make a regex case insensitive ",
-        "type": "Regex.Regex -> Regex.Regex"
-      },
-      {
-        "name": "contains",
-        "comment": " Check to see if a Regex is contained in a string.\n\n    contains (regex \"123\") \"12345\" == True\n    contains (regex \"b+\") \"aabbcc\" == True\n\n    contains (regex \"789\") \"12345\" == False\n    contains (regex \"z+\") \"aabbcc\" == False\n",
-        "type": "Regex.Regex -> String -> Bool"
-      },
-      {
-        "name": "escape",
-        "comment": " Escape strings to be regular expressions, making all special characters\nsafe. So `regex (escape \"^a+\")` will match exactly `\"^a+\"` instead of a series\nof `a`&rsquo;s that start at the beginning of the line.\n",
-        "type": "String -> String"
-      },
-      {
-        "name": "find",
-        "comment": " Find matches in a string:\n\n    findTwoCommas = find (AtMost 2) (regex \",\")\n\n      -- map .index (findTwoCommas \"a,b,c,d,e\") == [1,3]\n      -- map .index (findTwoCommas \"a b c d e\") == []\n\n    places = find All (regex \"[oi]n a (\\\\w+)\") \"I am on a boat in a lake.\"\n\n      -- map .match places == [\"on a boat\", \"in a lake\"]\n      -- map .submatches places == [ [Just \"boat\"], [Just \"lake\"] ]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List Regex.Match"
-      },
-      {
-        "name": "regex",
-        "comment": " Create a Regex that matches patterns [as specified in JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_Regular_Expression_Pattern).\n\nBe careful to escape backslashes properly! For example, `\"\\w\"` is escaping the\nletter `w` which is probably not what you want. You probably want `\"\\\\w\"`\ninstead, which escapes the backslash.\n",
-        "type": "String -> Regex.Regex"
-      },
-      {
-        "name": "replace",
-        "comment": " Replace matches. The function from `Match` to `String` lets\nyou use the details of a specific match when making replacements.\n\n    devowel = replace All (regex \"[aeiou]\") (\\_ -> \"\")\n\n      -- devowel \"The quick brown fox\" == \"Th qck brwn fx\"\n\n    reverseWords = replace All (regex \"\\\\w+\") (\\{match} -> String.reverse match)\n\n      -- reverseWords \"deliver mined parts\" == \"reviled denim strap\"\n",
-        "type": "Regex.HowMany -> Regex.Regex -> (Regex.Match -> String) -> String -> String"
-      },
-      {
-        "name": "split",
-        "comment": " Split a string, using the regex as the separator.\n\n    split (AtMost 1) (regex \",\") \"tom,99,90,85\" == [\"tom\",\"99,90,85\"]\n\n    split All (regex \",\") \"a,b,c,d\" == [\"a\",\"b\",\"c\",\"d\"]\n",
-        "type": "Regex.HowMany -> Regex.Regex -> String -> List String"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -2709,6 +2709,77 @@
         "name": "unzip",
         "comment": " Decompose a list of tuples into a tuple of lists.\n\n    unzip [(0, True), (17, False), (1337, True)] == ([0,17,1337], [True,False,True])\n",
         "type": "List ( a, b ) -> ( List a, List b )"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Char",
+    "comment": " Functions for working with characters. Character literals are enclosed in\n`'a'` pair of single quotes.\n\n# Classification\n@docs isUpper, isLower, isDigit, isOctDigit, isHexDigit\n\n# Conversion\n@docs toUpper, toLower, toLocaleUpper, toLocaleLower\n\n# Key Codes\n@docs KeyCode, toCode, fromCode\n\n",
+    "aliases": [
+      {
+        "name": "KeyCode",
+        "comment": " In this library, we use integers to represent the key codes coming from the\nkeyboard. You can use [`toCode`](#toCode) and [`fromCode`](#fromCode)\nto convert between key codes and characters.\n",
+        "args": [],
+        "type": "Int"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "fromCode",
+        "comment": " Convert from unicode. ",
+        "type": "Char.KeyCode -> Char"
+      },
+      {
+        "name": "isDigit",
+        "comment": " True for ASCII digits `[0-9]`. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isHexDigit",
+        "comment": " True for ASCII hexadecimal digits `[0-9a-fA-F]`. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isLower",
+        "comment": " True for lower case letters. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isOctDigit",
+        "comment": " True for ASCII octal digits `[0-7]`. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "isUpper",
+        "comment": " True for upper case letters. ",
+        "type": "Char -> Bool"
+      },
+      {
+        "name": "toCode",
+        "comment": " Convert to unicode. Used with the [`Keyboard`](Keyboard) library,\nwhich expects the input to be uppercase.\n",
+        "type": "Char -> Char.KeyCode"
+      },
+      {
+        "name": "toLocaleLower",
+        "comment": " Convert to lower case, according to any locale-specific case mappings. ",
+        "type": "Char -> Char"
+      },
+      {
+        "name": "toLocaleUpper",
+        "comment": " Convert to upper case, according to any locale-specific case mappings. ",
+        "type": "Char -> Char"
+      },
+      {
+        "name": "toLower",
+        "comment": " Convert to lower case. ",
+        "type": "Char -> Char"
+      },
+      {
+        "name": "toUpper",
+        "comment": " Convert to upper case. ",
+        "type": "Char -> Char"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -2951,72 +3022,81 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Char",
-    "comment": " Functions for working with characters. Character literals are enclosed in\n`'a'` pair of single quotes.\n\n# Classification\n@docs isUpper, isLower, isDigit, isOctDigit, isHexDigit\n\n# Conversion\n@docs toUpper, toLower, toLocaleUpper, toLocaleLower\n\n# Key Codes\n@docs KeyCode, toCode, fromCode\n\n",
-    "aliases": [
+    "name": "Trampoline",
+    "comment": " A [trampoline](http://en.wikipedia.org/wiki/Tail-recursive_function#Through_trampolining)\nmakes it possible to recursively call a function without growing the stack.\n\nPopular JavaScript implementations do not perform any tail-call elimination, so\nrecursive functions can cause a stack overflow if they go too deep. Trampolines\npermit unbounded recursion despite limitations in JavaScript.\n\nThis strategy may create many intermediate closures, which is very expensive in\nJavaScript, so use this library only when it is essential that you recurse deeply.\n\n# Trampolines\n@docs trampoline, Trampoline\n",
+    "aliases": [],
+    "types": [
       {
-        "name": "KeyCode",
-        "comment": " In this library, we use integers to represent the key codes coming from the\nkeyboard. You can use [`toCode`](#toCode) and [`fromCode`](#fromCode)\nto convert between key codes and characters.\n",
-        "args": [],
-        "type": "Int"
+        "name": "Trampoline",
+        "comment": " A way to build computations that may be deeply recursive. We will take an\nexample of a tail-recursive function and rewrite it in a way that lets us use\na trampoline:\n\n    length : List a -> Int\n    length list = length' 0 list\n\n    length' : Int -> List a -> Int\n    length' accum list =\n        case list of\n          []     -> accum\n          hd::tl -> length' (accum+1) tl\n\nThis finds the length of a list, but if the list is too long, it may cause a\nstack overflow. We can rewrite it as follows:\n\n    length : List a -> Int\n    length list = trampoline (length' 0 list)\n\n    length' : Int -> List a -> Trampoline Int\n    length' accum list =\n        case list of\n          []     -> Done accum\n          hd::tl -> Continue (\\() -> length' (accum+1) tl)\n\nNow it uses a trampoline and can recurse without growing the stack!\n",
+        "args": [
+          "a"
+        ],
+        "cases": [
+          [
+            "Done",
+            [
+              "a"
+            ]
+          ],
+          [
+            "Continue",
+            [
+              "() -> Trampoline.Trampoline a"
+            ]
+          ]
+        ]
       }
     ],
+    "values": [
+      {
+        "name": "trampoline",
+        "comment": " Evaluate a trampolined value in constant space. ",
+        "type": "Trampoline.Trampoline a -> a"
+      }
+    ],
+    "generated-with-elm-version": "0.16.0"
+  },
+  {
+    "name": "Bitwise",
+    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
+    "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "fromCode",
-        "comment": " Convert from unicode. ",
-        "type": "Char.KeyCode -> Char"
+        "name": "and",
+        "comment": " Bitwise AND\n",
+        "type": "Int -> Int -> Int"
       },
       {
-        "name": "isDigit",
-        "comment": " True for ASCII digits `[0-9]`. ",
-        "type": "Char -> Bool"
+        "name": "complement",
+        "comment": " Flip each bit individually, often called bitwise NOT\n",
+        "type": "Int -> Int"
       },
       {
-        "name": "isHexDigit",
-        "comment": " True for ASCII hexadecimal digits `[0-9a-fA-F]`. ",
-        "type": "Char -> Bool"
+        "name": "or",
+        "comment": " Bitwise OR\n",
+        "type": "Int -> Int -> Int"
       },
       {
-        "name": "isLower",
-        "comment": " True for lower case letters. ",
-        "type": "Char -> Bool"
+        "name": "shiftLeft",
+        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
+        "type": "Int -> Int -> Int"
       },
       {
-        "name": "isOctDigit",
-        "comment": " True for ASCII octal digits `[0-7]`. ",
-        "type": "Char -> Bool"
+        "name": "shiftRight",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
+        "type": "Int -> Int -> Int"
       },
       {
-        "name": "isUpper",
-        "comment": " True for upper case letters. ",
-        "type": "Char -> Bool"
+        "name": "shiftRightLogical",
+        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
+        "type": "Int -> Int -> Int"
       },
       {
-        "name": "toCode",
-        "comment": " Convert to unicode. Used with the [`Keyboard`](Keyboard) library,\nwhich expects the input to be uppercase.\n",
-        "type": "Char -> Char.KeyCode"
-      },
-      {
-        "name": "toLocaleLower",
-        "comment": " Convert to lower case, according to any locale-specific case mappings. ",
-        "type": "Char -> Char"
-      },
-      {
-        "name": "toLocaleUpper",
-        "comment": " Convert to upper case, according to any locale-specific case mappings. ",
-        "type": "Char -> Char"
-      },
-      {
-        "name": "toLower",
-        "comment": " Convert to lower case. ",
-        "type": "Char -> Char"
-      },
-      {
-        "name": "toUpper",
-        "comment": " Convert to upper case. ",
-        "type": "Char -> Char"
+        "name": "xor",
+        "comment": " Bitwise XOR\n",
+        "type": "Int -> Int -> Int"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -3086,98 +3166,6 @@
         "name": "withDefault",
         "comment": " Provide a default value, turning an optional value into a normal\nvalue.  This comes in handy when paired with functions like\n[`Dict.get`](Dict#get) which gives back a `Maybe`.\n\n    withDefault 100 (Just 42)   -- 42\n    withDefault 100 Nothing     -- 100\n\n    withDefault \"unknown\" (Dict.get \"Tom\" Dict.empty)   -- \"unknown\"\n\n",
         "type": "a -> Maybe.Maybe a -> a"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Trampoline",
-    "comment": " A [trampoline](http://en.wikipedia.org/wiki/Tail-recursive_function#Through_trampolining)\nmakes it possible to recursively call a function without growing the stack.\n\nPopular JavaScript implementations do not perform any tail-call elimination, so\nrecursive functions can cause a stack overflow if they go too deep. Trampolines\npermit unbounded recursion despite limitations in JavaScript.\n\nThis strategy may create many intermediate closures, which is very expensive in\nJavaScript, so use this library only when it is essential that you recurse deeply.\n\n# Trampolines\n@docs trampoline, Trampoline\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Trampoline",
-        "comment": " A way to build computations that may be deeply recursive. We will take an\nexample of a tail-recursive function and rewrite it in a way that lets us use\na trampoline:\n\n    length : List a -> Int\n    length list = length' 0 list\n\n    length' : Int -> List a -> Int\n    length' accum list =\n        case list of\n          []     -> accum\n          hd::tl -> length' (accum+1) tl\n\nThis finds the length of a list, but if the list is too long, it may cause a\nstack overflow. We can rewrite it as follows:\n\n    length : List a -> Int\n    length list = trampoline (length' 0 list)\n\n    length' : Int -> List a -> Trampoline Int\n    length' accum list =\n        case list of\n          []     -> Done accum\n          hd::tl -> Continue (\\() -> length' (accum+1) tl)\n\nNow it uses a trampoline and can recurse without growing the stack!\n",
-        "args": [
-          "a"
-        ],
-        "cases": [
-          [
-            "Done",
-            [
-              "a"
-            ]
-          ],
-          [
-            "Continue",
-            [
-              "() -> Trampoline.Trampoline a"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [
-      {
-        "name": "trampoline",
-        "comment": " Evaluate a trampolined value in constant space. ",
-        "type": "Trampoline.Trampoline a -> a"
-      }
-    ],
-    "generated-with-elm-version": "0.16.0"
-  },
-  {
-    "name": "Transform2D",
-    "comment": " A library for performing [2D matrix transformations][affine].  It\nis used primarily with the `groupTransform` function from\n[`Graphics.Collage`](Graphics-Collage) and allows you to do things\nlike rotation, scaling, translation, shearing, and reflection.\n\nNote that all the matrices in this library are 3x3 matrices of homogeneous\ncoordinates, used for [affine transformations][affine]. Since the bottom row as\nalways `0 0 1` in these matrices, it is omitted in the diagrams below.\n\n [affine]: http://en.wikipedia.org/wiki/Transformation_matrix#Affine_transformations\n\n# Transforms\n@docs Transform2D, identity, matrix, rotation, translation, scale, scaleX, scaleY\n\n# Multiplication\n@docs multiply\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Transform2D",
-        "comment": " A matrix representing a 2D transformation.\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [
-      {
-        "name": "identity",
-        "comment": " Create an identity transform. Transforming by the identity does\nnot change anything, but it can come in handy as a default or\nbase case.\n\n        / 1 0 0 \\\n        \\ 0 1 0 /\n",
-        "type": "Transform2D.Transform2D"
-      },
-      {
-        "name": "matrix",
-        "comment": " Create a transformation matrix. This lets you create transforms\nsuch as scales, shears, reflections, and translations.\n\n    matrix a b c d x y\n\n        / a b x \\\n        \\ c d y /\n\nNote that `x` and `y` are the translation values.\n",
-        "type": "Float -> Float -> Float -> Float -> Float -> Float -> Transform2D.Transform2D"
-      },
-      {
-        "name": "multiply",
-        "comment": " Multiply two transforms together.\n\n    multiply m n\n\n        / ma mb mx \\     / na nb nx \\\n        | mc md my |  .  | nc nd ny |\n        \\  0  0  1 /     \\  0  0  1 /\n",
-        "type": "Transform2D.Transform2D -> Transform2D.Transform2D -> Transform2D.Transform2D"
-      },
-      {
-        "name": "rotation",
-        "comment": " Create a [rotation matrix](http://en.wikipedia.org/wiki/Rotation_matrix).\nGiven an angle t, it creates a counterclockwise rotation matrix:\n\n    rotation t\n\n        / cos t  -sin t  0 \\\n        \\ sin t   cos t  0 /\n",
-        "type": "Float -> Transform2D.Transform2D"
-      },
-      {
-        "name": "scale",
-        "comment": " Creates a transformation matrix for scaling by a all directions.\n\n    scale s\n\n      / s 0 0 \\\n      \\ 0 s 0 /\n",
-        "type": "Float -> Transform2D.Transform2D"
-      },
-      {
-        "name": "scaleX",
-        "comment": " Create a transformation for horizontal scaling. ",
-        "type": "Float -> Transform2D.Transform2D"
-      },
-      {
-        "name": "scaleY",
-        "comment": " Create a transformation for vertical scaling. ",
-        "type": "Float -> Transform2D.Transform2D"
-      },
-      {
-        "name": "translation",
-        "comment": " Create a transformation matrix for translation.\n\n    translation x y\n\n        / 1 0 x \\\n        \\ 0 1 y /\n",
-        "type": "Float -> Float -> Transform2D.Transform2D"
       }
     ],
     "generated-with-elm-version": "0.16.0"
@@ -3554,45 +3542,57 @@
     "generated-with-elm-version": "0.16.0"
   },
   {
-    "name": "Bitwise",
-    "comment": " Library for [bitwise operations](http://en.wikipedia.org/wiki/Bitwise_operation).\n\n# Basic Operations\n\n@docs and, or, xor, complement\n\n# Bit Shifts\n\n@docs shiftLeft, shiftRight, shiftRightLogical\n",
+    "name": "Transform2D",
+    "comment": " A library for performing [2D matrix transformations][affine].  It\nis used primarily with the `groupTransform` function from\n[`Graphics.Collage`](Graphics-Collage) and allows you to do things\nlike rotation, scaling, translation, shearing, and reflection.\n\nNote that all the matrices in this library are 3x3 matrices of homogeneous\ncoordinates, used for [affine transformations][affine]. Since the bottom row as\nalways `0 0 1` in these matrices, it is omitted in the diagrams below.\n\n [affine]: http://en.wikipedia.org/wiki/Transformation_matrix#Affine_transformations\n\n# Transforms\n@docs Transform2D, identity, matrix, rotation, translation, scale, scaleX, scaleY\n\n# Multiplication\n@docs multiply\n",
     "aliases": [],
-    "types": [],
+    "types": [
+      {
+        "name": "Transform2D",
+        "comment": " A matrix representing a 2D transformation.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
     "values": [
       {
-        "name": "and",
-        "comment": " Bitwise AND\n",
-        "type": "Int -> Int -> Int"
+        "name": "identity",
+        "comment": " Create an identity transform. Transforming by the identity does\nnot change anything, but it can come in handy as a default or\nbase case.\n\n        / 1 0 0 \\\n        \\ 0 1 0 /\n",
+        "type": "Transform2D.Transform2D"
       },
       {
-        "name": "complement",
-        "comment": " Flip each bit individually, often called bitwise NOT\n",
-        "type": "Int -> Int"
+        "name": "matrix",
+        "comment": " Create a transformation matrix. This lets you create transforms\nsuch as scales, shears, reflections, and translations.\n\n    matrix a b c d x y\n\n        / a b x \\\n        \\ c d y /\n\nNote that `x` and `y` are the translation values.\n",
+        "type": "Float -> Float -> Float -> Float -> Float -> Float -> Transform2D.Transform2D"
       },
       {
-        "name": "or",
-        "comment": " Bitwise OR\n",
-        "type": "Int -> Int -> Int"
+        "name": "multiply",
+        "comment": " Multiply two transforms together.\n\n    multiply m n\n\n        / ma mb mx \\     / na nb nx \\\n        | mc md my |  .  | nc nd ny |\n        \\  0  0  1 /     \\  0  0  1 /\n",
+        "type": "Transform2D.Transform2D -> Transform2D.Transform2D -> Transform2D.Transform2D"
       },
       {
-        "name": "shiftLeft",
-        "comment": " Shift bits to the left by a given offset, filling new bits with zeros.\nThis can be used to multiply numbers by powers of two.\n\n    8 `shiftLeft` 1 == 16\n    8 `shiftLeft` 2 == 32\n",
-        "type": "Int -> Int -> Int"
+        "name": "rotation",
+        "comment": " Create a [rotation matrix](http://en.wikipedia.org/wiki/Rotation_matrix).\nGiven an angle t, it creates a counterclockwise rotation matrix:\n\n    rotation t\n\n        / cos t  -sin t  0 \\\n        \\ sin t   cos t  0 /\n",
+        "type": "Float -> Transform2D.Transform2D"
       },
       {
-        "name": "shiftRight",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nwhatever is the topmost bit. This can be used to divide numbers by powers of two.\n\n     32 `shiftRight` 1 == 16\n     32 `shiftRight` 2 == 8\n    -32 `shiftRight` 1 == -16\n\nThis is called an [arithmetic right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Arithmetic_shift),\noften written (>>), and sometimes called a sign-propagating\nright shift because it fills empty spots with copies of the highest bit.\n",
-        "type": "Int -> Int -> Int"
+        "name": "scale",
+        "comment": " Creates a transformation matrix for scaling by a all directions.\n\n    scale s\n\n      / s 0 0 \\\n      \\ 0 s 0 /\n",
+        "type": "Float -> Transform2D.Transform2D"
       },
       {
-        "name": "shiftRightLogical",
-        "comment": " Shift bits to the right by a given offset, filling new bits with\nzeros.\n\n     32 `shiftRightLogical` 1 == 16\n     32 `shiftRightLogical` 2 == 8\n    -32 `shiftRightLogical` 1 == 2147483632\n\nThis is called an [logical right\nshift](http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift), often written (>>>),\nand sometimes called a zero-fill right shift because it fills empty spots\nwith zeros.\n",
-        "type": "Int -> Int -> Int"
+        "name": "scaleX",
+        "comment": " Create a transformation for horizontal scaling. ",
+        "type": "Float -> Transform2D.Transform2D"
       },
       {
-        "name": "xor",
-        "comment": " Bitwise XOR\n",
-        "type": "Int -> Int -> Int"
+        "name": "scaleY",
+        "comment": " Create a transformation for vertical scaling. ",
+        "type": "Float -> Transform2D.Transform2D"
+      },
+      {
+        "name": "translation",
+        "comment": " Create a transformation matrix for translation.\n\n    translation x y\n\n        / 1 0 x \\\n        \\ 0 1 y /\n",
+        "type": "Float -> Float -> Transform2D.Transform2D"
       }
     ],
     "generated-with-elm-version": "0.16.0"

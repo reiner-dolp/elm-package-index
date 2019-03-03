@@ -1,5 +1,54 @@
 [
   {
+    "name": "Lint.Rules.SimplifyPropertyAccess",
+    "comment": "\n@docs rule\n\n# Fail\n\n    a = List.map (\\x -> x.foo) values\n\n# Success\n\n    a = List.map .foo values\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Simplify functions that return the property of a record by using an access function\n\n    rules =\n        [ SimplifyPropertyAccess.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoImportingEverything",
+    "comment": "\n@docs rule, Configuration\n\n# Fail\n\n    import Html exposing (..)\n\n# Success\n\n    import Html exposing (div, p, textarea)\n",
+    "aliases": [
+      {
+        "name": "Configuration",
+        "comment": " Configuration for the rule.\n",
+        "args": [],
+        "type": "{ exceptions : List String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid importing everything from your module. This can especially be confusing to newcomers when the exposed\nfunctions and types are unknown to them.\n\n    rules =\n        [ NoImportingEverything.rule { exceptions = [\"Html\"]}\n        ]\n",
+        "type": "Lint.Rules.NoImportingEverything.Configuration -> Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.SimplifyPiping",
+    "comment": "\n@docs rule\n\n# Fail\n\n    a = values\n        |> List.map foo\n        |> List.map bar\n\n# Success\n\n    a = values\n        |> List.map (foo >> bar)\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Simplify piped functions like `List.map f >> List.map g` to `List.map (f >> g)`\n\n    rules =\n        [ SimplifyPiping.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Lint.Rules.NoUnusedVariables",
     "comment": "\n@docs rule\n\n# Fail\n\n    module Main exposing (a)\n    a n =\n        n + 1\n    b = a 2\n\n# Success\n\n    module Main exposing (a)\n    a n =\n        n + 1\n",
     "aliases": [],
@@ -42,28 +91,14 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Lint.Rules.SimplifyPiping",
-    "comment": "\n@docs rule\n\n# Fail\n\n    a = values\n        |> List.map foo\n        |> List.map bar\n\n# Success\n\n    a = values\n        |> List.map (foo >> bar)\n",
+    "name": "Lint.Rules.NoExposingEverything",
+    "comment": "\n@docs rule\n\n# Fail\n\n    module Main exposing (..)\n\n# Success\n\n    module Main exposing (a, b, C)\n",
     "aliases": [],
     "types": [],
     "values": [
       {
         "name": "rule",
-        "comment": " Simplify piped functions like `List.map f >> List.map g` to `List.map (f >> g)`\n\n    rules =\n        [ SimplifyPiping.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoNestedLet",
-    "comment": "\n@docs rule\n\n# Fail\n\n    a = let b = 1\n        in  let c = 2\n            in b + c\n\n# Success\n\n    a = let\n          b = 1\n          c = 2\n        in\n          b + c\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid nesting let expressions directly.\n\n    rules =\n        [ NoNestedLet.rule\n        ]\n",
+        "comment": " Forbid exporting everything in your modules `module Main exposing (..)`, to make your module explicit in what it exposes.\n\n    rules =\n        [ NoExposingEverything.rule\n        ]\n",
         "type": "Lint.Types.LintRule"
       }
     ],
@@ -84,20 +119,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Lint.Rules.NoUselessIf",
-    "comment": "\n@docs rule\n\n# Fail\n\n    if condition then\n        value\n    else\n        value\n\n# Success\n\n    if condition then\n        value1\n    else\n        value2\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Reports when both paths of an If expression result will lead to the same value.\n\n    rules =\n        [ NoUselessIf.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Lint.Rules.NoDebug",
     "comment": "\n@docs rule\n\n# Fail\n\n    if Debug.log \"condition\" condition then a else b\n    if condition then\n        Debug.crash \"Nooo!\"\n    else\n        value\n\n# Success\n\n    if condition then\n        a\n    else\n        b\n",
     "aliases": [],
@@ -112,14 +133,14 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Lint.Rules.NoExposingEverything",
-    "comment": "\n@docs rule\n\n# Fail\n\n    module Main exposing (..)\n\n# Success\n\n    module Main exposing (a, b, C)\n",
+    "name": "Lint.Rules.NoUnannotatedFunction",
+    "comment": "\n@docs rule\n\n# Fail\n\n    a n =\n        n + 1\n\n# Success\n\n    a : Int -> Int\n    a n =\n        n + 1\n",
     "aliases": [],
     "types": [],
     "values": [
       {
         "name": "rule",
-        "comment": " Forbid exporting everything in your modules `module Main exposing (..)`, to make your module explicit in what it exposes.\n\n    rules =\n        [ NoExposingEverything.rule\n        ]\n",
+        "comment": " Ensure every top-level function declaration has a type annotation.\n\n    rules =\n        [ NoUnannotatedFunction.rule\n        ]\n",
         "type": "Lint.Types.LintRule"
       }
     ],
@@ -140,49 +161,14 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Lint.Rules.SimplifyPropertyAccess",
-    "comment": "\n@docs rule\n\n# Fail\n\n    a = List.map (\\x -> x.foo) values\n\n# Success\n\n    a = List.map .foo values\n",
+    "name": "Lint.Rules.NoUselessIf",
+    "comment": "\n@docs rule\n\n# Fail\n\n    if condition then\n        value\n    else\n        value\n\n# Success\n\n    if condition then\n        value1\n    else\n        value2\n",
     "aliases": [],
     "types": [],
     "values": [
       {
         "name": "rule",
-        "comment": " Simplify functions that return the property of a record by using an access function\n\n    rules =\n        [ SimplifyPropertyAccess.rule\n        ]\n",
-        "type": "Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoImportingEverything",
-    "comment": "\n@docs rule, Configuration\n\n# Fail\n\n    import Html exposing (..)\n\n# Success\n\n    import Html exposing (div, p, textarea)\n",
-    "aliases": [
-      {
-        "name": "Configuration",
-        "comment": " Configuration for the rule.\n",
-        "args": [],
-        "type": "{ exceptions : List String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid importing everything from your module. This can especially be confusing to newcomers when the exposed\nfunctions and types are unknown to them.\n\n    rules =\n        [ NoImportingEverything.rule { exceptions = [\"Html\"]}\n        ]\n",
-        "type": "Lint.Rules.NoImportingEverything.Configuration -> Lint.Types.LintRule"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Lint.Rules.NoConstantCondition",
-    "comment": "\n@docs rule\n\n# Fail\n\n    if True then a else b\n    if False then a else b\n    if foo == foo then a else b\n\n# Success\n\n    if foo == bar then a else b\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "rule",
-        "comment": " Forbid the use of expressions in an If condition whose value are always the same.\n\n    rules =\n        [ NoConstantCondition.rule\n        ]\n",
+        "comment": " Reports when both paths of an If expression result will lead to the same value.\n\n    rules =\n        [ NoUselessIf.rule\n        ]\n",
         "type": "Lint.Types.LintRule"
       }
     ],
@@ -226,14 +212,28 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Lint.Rules.NoUnannotatedFunction",
-    "comment": "\n@docs rule\n\n# Fail\n\n    a n =\n        n + 1\n\n# Success\n\n    a : Int -> Int\n    a n =\n        n + 1\n",
+    "name": "Lint.Rules.NoConstantCondition",
+    "comment": "\n@docs rule\n\n# Fail\n\n    if True then a else b\n    if False then a else b\n    if foo == foo then a else b\n\n# Success\n\n    if foo == bar then a else b\n",
     "aliases": [],
     "types": [],
     "values": [
       {
         "name": "rule",
-        "comment": " Ensure every top-level function declaration has a type annotation.\n\n    rules =\n        [ NoUnannotatedFunction.rule\n        ]\n",
+        "comment": " Forbid the use of expressions in an If condition whose value are always the same.\n\n    rules =\n        [ NoConstantCondition.rule\n        ]\n",
+        "type": "Lint.Types.LintRule"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Lint.Rules.NoNestedLet",
+    "comment": "\n@docs rule\n\n# Fail\n\n    a = let b = 1\n        in  let c = 2\n            in b + c\n\n# Success\n\n    a = let\n          b = 1\n          c = 2\n        in\n          b + c\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "rule",
+        "comment": " Forbid nesting let expressions directly.\n\n    rules =\n        [ NoNestedLet.rule\n        ]\n",
         "type": "Lint.Types.LintRule"
       }
     ],

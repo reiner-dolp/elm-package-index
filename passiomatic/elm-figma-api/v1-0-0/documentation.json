@@ -417,6 +417,174 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Figma.Geometry",
+    "comment": " \n \n@docs BoundingBox, Point, Position\n \n",
+    "aliases": [
+      {
+        "name": "BoundingBox",
+        "comment": " A rectangle expressing a bounding box in absolute coordinates.\n",
+        "args": [],
+        "type": "{ x : Float, y : Float, width : Float, height : Float }"
+      },
+      {
+        "name": "Point",
+        "comment": " A 2D point.  \n",
+        "args": [],
+        "type": "{ x : Float, y : Float }"
+      }
+    ],
+    "types": [
+      {
+        "name": "Position",
+        "comment": " Specify a position: either the absolute coordinates on the canvas\nor a relative offset within a frame.\n\nCurently used only for comments.\n",
+        "args": [],
+        "cases": [
+          [
+            "AbsolutePosition",
+            [
+              "Figma.Geometry.Point"
+            ]
+          ],
+          [
+            "RelativePositionTo",
+            [
+              "Figma.Geometry.NodeId",
+              "Figma.Geometry.Point"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Figma.Layout",
+    "comment": "\n\n\n# Layout constraints\n\n@docs LayoutHorizontalConstraint, LayoutVerticalConstraint\n\n\n# Grids\n\n@docs LayoutGrid, Columns, Rows, Grid, GridAlign\n\n",
+    "aliases": [
+      {
+        "name": "Columns",
+        "comment": " A vertical grid made of columns. \n",
+        "args": [],
+        "type": "{ width : Float , isVisible : Bool , color : Color.Color , gutter : Float , margin : Float , count : Int , align : Figma.Layout.GridAlign }"
+      },
+      {
+        "name": "Grid",
+        "comment": " A square grid. \n",
+        "args": [],
+        "type": "{ width : Float, isVisible : Bool, color : Color.Color }"
+      },
+      {
+        "name": "Rows",
+        "comment": " A horizontal grid made of rows. \n",
+        "args": [],
+        "type": "{ height : Float , isVisible : Bool , color : Color.Color , gutter : Float , margin : Float , count : Int , align : Figma.Layout.GridAlign }"
+      }
+    ],
+    "types": [
+      {
+        "name": "GridAlign",
+        "comment": " Positioning of grid within the parent container.\n\n  - `MinAlign`: grid starts at the top (or left) of the container, filling the minimun space possible. The margin is applied before the grid.\n  - `CenterAlign`: grid is center aligned. Margin value is ignored.\n  - `MaxAlign`: grid stretches from the top (or left) to the bottom (or right) of the container, filling the maximun space possible. The margin is applied before and after the grid.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "MinAlign",
+            []
+          ],
+          [
+            "CenterAlign",
+            []
+          ],
+          [
+            "MaxAlign",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "LayoutGrid",
+        "comment": " Guides to align and place objects within a parent container. \n",
+        "args": [],
+        "cases": [
+          [
+            "ColumnsGrid",
+            [
+              "Figma.Layout.Columns"
+            ]
+          ],
+          [
+            "RowsGrid",
+            [
+              "Figma.Layout.Rows"
+            ]
+          ],
+          [
+            "SquareGrid",
+            [
+              "Figma.Layout.Grid"
+            ]
+          ]
+        ]
+      },
+      {
+        "name": "LayoutHorizontalConstraint",
+        "comment": " Horizontal constraint relative to containing frame.\n",
+        "args": [],
+        "cases": [
+          [
+            "LeftConstraint",
+            []
+          ],
+          [
+            "RightConstraint",
+            []
+          ],
+          [
+            "LeftRightConstraint",
+            []
+          ],
+          [
+            "CenterHorizontalConstraint",
+            []
+          ],
+          [
+            "ScaleHorizontalConstraint",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "LayoutVerticalConstraint",
+        "comment": " Vertical constraint relative to containing frame.\n",
+        "args": [],
+        "cases": [
+          [
+            "TopConstraint",
+            []
+          ],
+          [
+            "BottomConstraint",
+            []
+          ],
+          [
+            "TopBottomConstraint",
+            []
+          ],
+          [
+            "CenterVerticalConstraint",
+            []
+          ],
+          [
+            "ScaleVerticalConstraint",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Figma.Appearance",
     "comment": "\n\n\n# Fills and strokes\n\n@docs StrokeAlign, Paint, SolidColor, Image, ScaleMode, Gradient, ColorStop\n\n\n# Text styling\n\n@docs TextStyle, TextStyleOverride, TextHorizontalAlign, TextVerticalAlign\n\n\n# Blending modes and effetcs\n\n@docs BlendMode, Effect, Blur, Shadow\n\n",
     "aliases": [
@@ -712,174 +880,6 @@
           [
             "BottomAlign",
             []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Figma.Layout",
-    "comment": "\n\n\n# Layout constraints\n\n@docs LayoutHorizontalConstraint, LayoutVerticalConstraint\n\n\n# Grids\n\n@docs LayoutGrid, Columns, Rows, Grid, GridAlign\n\n",
-    "aliases": [
-      {
-        "name": "Columns",
-        "comment": " A vertical grid made of columns. \n",
-        "args": [],
-        "type": "{ width : Float , isVisible : Bool , color : Color.Color , gutter : Float , margin : Float , count : Int , align : Figma.Layout.GridAlign }"
-      },
-      {
-        "name": "Grid",
-        "comment": " A square grid. \n",
-        "args": [],
-        "type": "{ width : Float, isVisible : Bool, color : Color.Color }"
-      },
-      {
-        "name": "Rows",
-        "comment": " A horizontal grid made of rows. \n",
-        "args": [],
-        "type": "{ height : Float , isVisible : Bool , color : Color.Color , gutter : Float , margin : Float , count : Int , align : Figma.Layout.GridAlign }"
-      }
-    ],
-    "types": [
-      {
-        "name": "GridAlign",
-        "comment": " Positioning of grid within the parent container.\n\n  - `MinAlign`: grid starts at the top (or left) of the container, filling the minimun space possible. The margin is applied before the grid.\n  - `CenterAlign`: grid is center aligned. Margin value is ignored.\n  - `MaxAlign`: grid stretches from the top (or left) to the bottom (or right) of the container, filling the maximun space possible. The margin is applied before and after the grid.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "MinAlign",
-            []
-          ],
-          [
-            "CenterAlign",
-            []
-          ],
-          [
-            "MaxAlign",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "LayoutGrid",
-        "comment": " Guides to align and place objects within a parent container. \n",
-        "args": [],
-        "cases": [
-          [
-            "ColumnsGrid",
-            [
-              "Figma.Layout.Columns"
-            ]
-          ],
-          [
-            "RowsGrid",
-            [
-              "Figma.Layout.Rows"
-            ]
-          ],
-          [
-            "SquareGrid",
-            [
-              "Figma.Layout.Grid"
-            ]
-          ]
-        ]
-      },
-      {
-        "name": "LayoutHorizontalConstraint",
-        "comment": " Horizontal constraint relative to containing frame.\n",
-        "args": [],
-        "cases": [
-          [
-            "LeftConstraint",
-            []
-          ],
-          [
-            "RightConstraint",
-            []
-          ],
-          [
-            "LeftRightConstraint",
-            []
-          ],
-          [
-            "CenterHorizontalConstraint",
-            []
-          ],
-          [
-            "ScaleHorizontalConstraint",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "LayoutVerticalConstraint",
-        "comment": " Vertical constraint relative to containing frame.\n",
-        "args": [],
-        "cases": [
-          [
-            "TopConstraint",
-            []
-          ],
-          [
-            "BottomConstraint",
-            []
-          ],
-          [
-            "TopBottomConstraint",
-            []
-          ],
-          [
-            "CenterVerticalConstraint",
-            []
-          ],
-          [
-            "ScaleVerticalConstraint",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Figma.Geometry",
-    "comment": " \n \n@docs BoundingBox, Point, Position\n \n",
-    "aliases": [
-      {
-        "name": "BoundingBox",
-        "comment": " A rectangle expressing a bounding box in absolute coordinates.\n",
-        "args": [],
-        "type": "{ x : Float, y : Float, width : Float, height : Float }"
-      },
-      {
-        "name": "Point",
-        "comment": " A 2D point.  \n",
-        "args": [],
-        "type": "{ x : Float, y : Float }"
-      }
-    ],
-    "types": [
-      {
-        "name": "Position",
-        "comment": " Specify a position: either the absolute coordinates on the canvas\nor a relative offset within a frame.\n\nCurently used only for comments.\n",
-        "args": [],
-        "cases": [
-          [
-            "AbsolutePosition",
-            [
-              "Figma.Geometry.Point"
-            ]
-          ],
-          [
-            "RelativePositionTo",
-            [
-              "Figma.Geometry.NodeId",
-              "Figma.Geometry.Point"
-            ]
           ]
         ]
       }

@@ -276,33 +276,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Cli.OptionsParser.BuilderState",
-    "comment": " A BuilderState is used to ensure that no ambiguous OptionsParsers are built.\nFor example, if you were to build an OptionsParser that had optional positional\narguments after required positional arguments, it would be amgiguous.\n\ngreet <greeting1> [name1][name2] <greeting2> [farewell]\n\ngreet Hi Hello Goodbye\n\nShould `\"Goodbye\"` be set as `[name1]` or `[farewell]`? You could certainly come\nup with some rules, but they're not obvious, and you'd have to think really hard!\nSo we just completely eliminate those confusing corner cases by making it impossible\nto express!\n\nThe `BuilderState` guarantees that nothing will come after rest args (i.e. `[args]...`,\nor 0 or more args that you get as a `List` of values).\nAnd it also guarantees that Optional Positional Arguments will come after everything\nbut rest args.\n\nIf you're interested in the low-level details of how this Elm type trick is done,\ntake a look at\n[this article on Phantom Types](https://medium.com/@ckoster22/advanced-types-in-elm-phantom-types-808044c5946d).\n\n@docs AnyOptions, NoBeginningOptions, NoMoreOptions\n\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "AnyOptions",
-        "comment": " A state where you can add any options (beginning, middle, or terminal)\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "NoBeginningOptions",
-        "comment": " A state where you can add anything but beginning options (i.e. middle or terminal)\n",
-        "args": [],
-        "cases": []
-      },
-      {
-        "name": "NoMoreOptions",
-        "comment": " A state where you can no longer add any options\n",
-        "args": [],
-        "cases": []
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Cli.Validate",
     "comment": " This module contains helper functions for performing validations (see the\n\"validate...\" functions in `Cli.Option`).\n\n@docs predicate, ValidationResult, regex\n\n",
     "aliases": [],
@@ -337,6 +310,33 @@
         "type": "String -> String -> Cli.Validate.ValidationResult"
       }
     ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Cli.OptionsParser.BuilderState",
+    "comment": " A BuilderState is used to ensure that no ambiguous OptionsParsers are built.\nFor example, if you were to build an OptionsParser that had optional positional\narguments after required positional arguments, it would be amgiguous.\n\ngreet <greeting1> [name1][name2] <greeting2> [farewell]\n\ngreet Hi Hello Goodbye\n\nShould `\"Goodbye\"` be set as `[name1]` or `[farewell]`? You could certainly come\nup with some rules, but they're not obvious, and you'd have to think really hard!\nSo we just completely eliminate those confusing corner cases by making it impossible\nto express!\n\nThe `BuilderState` guarantees that nothing will come after rest args (i.e. `[args]...`,\nor 0 or more args that you get as a `List` of values).\nAnd it also guarantees that Optional Positional Arguments will come after everything\nbut rest args.\n\nIf you're interested in the low-level details of how this Elm type trick is done,\ntake a look at\n[this article on Phantom Types](https://medium.com/@ckoster22/advanced-types-in-elm-phantom-types-808044c5946d).\n\n@docs AnyOptions, NoBeginningOptions, NoMoreOptions\n\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "AnyOptions",
+        "comment": " A state where you can add any options (beginning, middle, or terminal)\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "NoBeginningOptions",
+        "comment": " A state where you can add anything but beginning options (i.e. middle or terminal)\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "NoMoreOptions",
+        "comment": " A state where you can no longer add any options\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [],
     "generated-with-elm-version": "0.18.0"
   }
 ]
